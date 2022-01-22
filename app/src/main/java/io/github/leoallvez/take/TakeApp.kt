@@ -3,10 +3,12 @@ package io.github.leoallvez.take
 import android.app.Application
 import android.util.Log
 import com.google.firebase.remoteconfig.*
+import dagger.hilt.android.HiltAndroidApp
 import io.github.leoallvez.firebase.RemoteConfigWrapper
 
+@HiltAndroidApp
 class TakeApp : Application() {
-
+    /**
     override fun onCreate() {
         super.onCreate()
         val remote = RemoteConfigWrapper(FirebaseRemoteConfig.getInstance())
@@ -15,4 +17,5 @@ class TakeApp : Application() {
             Log.i("my_name", name)
         }
     }
+    */
 }
