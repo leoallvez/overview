@@ -16,18 +16,19 @@ class RemoteConfigWrapper(
         return _remoteConfig.getBoolean(key)
     }
 
-    fun start() {
+    fun start(action: () -> Unit = {}) {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = TIME_INTERVAL
         }
         _remoteConfig.setConfigSettingsAsync(configSettings)
-        onCompleteListener()
+        onCompleteListener(action)
     }
 
-    private fun onCompleteListener() = with(_remoteConfig) {
+    private fun onCompleteListener(action: () -> Unit) = with(_remoteConfig) {
         fetch().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 activate()
+                action.invoke()
                 Timber.i("Remote Config started")
             } else {
                 Timber.i("Remote Config not started")
