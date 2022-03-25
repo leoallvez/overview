@@ -8,6 +8,10 @@ class RemoteConfigWrapper(
     private val _remoteConfig: FirebaseRemoteConfig
 ) : RemoteSource {
 
+    init {
+        start()
+    }
+
     override fun getString(key: RemoteConfigKey): String {
         return _remoteConfig.getString(key.value)
     }
@@ -16,7 +20,7 @@ class RemoteConfigWrapper(
         return _remoteConfig.getBoolean(key.value)
     }
 
-    fun start() {
+    private fun start() {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = TIME_INTERVAL
         }
@@ -36,6 +40,7 @@ class RemoteConfigWrapper(
     }
 
     companion object {
-        private val TIME_INTERVAL = if (BuildConfig.DEBUG) 0L else 3600L
+        private const val EMPTY = ""
+        private const val TIME_INTERVAL = 3600L
     }
 }
