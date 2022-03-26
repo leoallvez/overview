@@ -8,35 +8,41 @@ class RemoteConfigWrapper(
     private val _remoteConfig: FirebaseRemoteConfig
 ) : RemoteSource {
 
-    override fun getString(key: String): String {
-        return _remoteConfig.getString(key)
+    override fun getString(key: RemoteConfigKey): String {
+        return _remoteConfig.getString(key.value)
     }
 
-    override fun getBoolean(key: String): Boolean {
-        return _remoteConfig.getBoolean(key)
+    override fun getBoolean(key: RemoteConfigKey): Boolean {
+        return _remoteConfig.getBoolean(key.value)
     }
 
-    fun start(action: () -> Unit = {}) {
+    fun start() {
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = TIME_INTERVAL
+            minimumFetchIntervalInSeconds = getTimeInterval()
         }
         _remoteConfig.setConfigSettingsAsync(configSettings)
-        onCompleteListener(action)
+        onCompleteListener()
     }
 
-    private fun onCompleteListener(action: () -> Unit) = with(_remoteConfig) {
+    private fun getTimeInterval(): Long = if(BuildConfig.DEBUG)
+        MIN_TIME_INTERVAL
+    else
+        MAX_TIME_INTERVAL
+
+
+    private fun onCompleteListener() = with(_remoteConfig) {
         fetch().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 activate()
-                action.invoke()
                 Timber.i("Remote Config started")
             } else {
-                Timber.i("Remote Config not started")
+                Timber.d("Remote Config not started")
             }
         }
     }
 
     companion object {
-        private val TIME_INTERVAL = if (BuildConfig.DEBUG) 0L else 3600L
+        private const val MIN_TIME_INTERVAL = 0L
+        private const val MAX_TIME_INTERVAL = 3600L
     }
 }

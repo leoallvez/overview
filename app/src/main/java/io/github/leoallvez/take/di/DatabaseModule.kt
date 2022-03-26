@@ -11,8 +11,8 @@ import io.github.leoallvez.take.db.MovieDao
 import io.github.leoallvez.take.db.TakeDatabase
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 class DatabaseModule {
 
     @Singleton
