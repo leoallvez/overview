@@ -7,6 +7,10 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+def apiPropertiesFile = rootProject.file("api.properties")
+def apiProperties = new Properties()
+apiProperties.load(new FileInputStream(apiPropertiesFile))
+
 android {
     compileSdk 31
 
@@ -21,6 +25,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField("String", "API_KEY", apiProperties['API_KEY'])
+        buildConfigField("String", "API_URL", apiProperties['API_URL'])
+        buildConfigField("String", "URL_IMG", apiProperties['URL_IMG'])
     }
 
     buildTypes {
