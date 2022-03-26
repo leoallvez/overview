@@ -1,7 +1,6 @@
 package io.github.leoallvez.take.di
 
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dagger.Module
 import dagger.Provides
@@ -20,5 +19,7 @@ class FirebaseModule {
     fun provideRemoteSource(): RemoteSource {
         val remote = Firebase.remoteConfig
         return RemoteConfigWrapper(remote)
+            .apply { start() }
     }
+
 }
