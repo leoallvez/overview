@@ -4,7 +4,7 @@ Android application to know where to watch a movie or series on streaming servic
 
 ## Configuration
 It is crucial for the application to work the creation of the 'api.properties' in the project root,
-this file should to contain **The Movie Database API** values:
+this file should to contain [**The Movie Database API**](https://developers.themoviedb.org/3/getting-started/introduction) values:
 
 ```
 API_KEY = "Your The movie Database API KEY"
