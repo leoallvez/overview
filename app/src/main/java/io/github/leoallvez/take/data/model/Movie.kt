@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.model
+package io.github.leoallvez.take.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
