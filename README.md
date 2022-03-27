@@ -2,7 +2,7 @@
 
 Android application to know where to watch a movie or series on streaming services.
 
-##Configurations
+## Configuration
 It is crucial for the application to work the creation of the 'api.properties' in the project root,
 this file should to contain **The Movie Database API** values:
 
