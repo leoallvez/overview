@@ -1,7 +1,7 @@
 package io.github.leoallvez.take.db
 
 import androidx.room.*
-import io.github.leoallvez.take.model.Movie
+import io.github.leoallvez.take.data.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 @Dao
