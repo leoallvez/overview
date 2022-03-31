@@ -17,8 +17,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.leoallvez.take.R
+import io.github.leoallvez.take.ui.AdsBanner
 
-@Preview
 @Composable
 fun HomeScreen() {
     val movies: List<String> = (0..99).map { "movie $it" }
@@ -33,48 +34,41 @@ fun HomeScreen() {
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            HorizontalList(
-                categoryTitle = "Os mais populares",
-                movies
-            )
-            HorizontalList(
-                categoryTitle = "Grátis para assistir",
-                movies
-            )
-            HorizontalList(
-                categoryTitle = "Documentários",
-                movies
-            )
-            HorizontalList(
-                categoryTitle = "Aventura",
-                movies
-            )
-            HorizontalList(
-                categoryTitle = "Clássicos",
-                movies
-            )
+            AdsBanner(bannerId = R.string.banner_sample_id)
+            HorizontalList(title = "Os mais populares", movies)
+            HorizontalList(title = "Grátis para assistir", movies)
+            HorizontalList(title = "Documentários", movies)
+            HorizontalList(title = "Aventura", movies)
+            HorizontalList(title = "Clássicos", movies)
         }
     }
 }
 
 @Composable
 fun HorizontalList(
-    categoryTitle: String,
+    title: String,
     movies: List<String>
 ) {
-    //Add Loading
+    //TODO: Add Loading;
+    ListTitle(title)
+    LazyRow {
+        items(movies) { movie ->
+            MovieCard(movie)
+        }
+    }
+}
+
+@Composable
+fun ListTitle(title: String) {
     Text(
-        text = categoryTitle,
+        //TODO: Change title param to @StringRes;
+        text = title,
         color = Color.White,
-        modifier = Modifier.padding(5.dp, bottom = 10.dp),
+        modifier = Modifier
+            .padding(5.dp, bottom = 10.dp),
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold
     )
-    LazyRow {
-        items(movies) { movie ->
-            MovieCard(movie = movie)
-        }
-    }
 }
 
 @Composable
@@ -93,4 +87,10 @@ fun MovieCard(movie: String) {
                 .padding(10.dp),
         )
     }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen()
 }
