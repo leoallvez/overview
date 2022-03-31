@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.ui.main
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -17,6 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import io.github.leoallvez.take.R
 
 @Preview
 @Composable
@@ -33,6 +39,7 @@ fun HomeScreen() {
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
         ) {
+            AdsBanner(bannerId = R.string.banner_sample_id)
             HorizontalList(
                 categoryTitle = "Os mais populares",
                 movies
@@ -56,13 +63,30 @@ fun HomeScreen() {
         }
     }
 }
+//TODO: On and Off with remote config.
+//TODO: Create composable file.
+@Composable
+fun AdsBanner(@StringRes bannerId: Int) {
+    Box(modifier = Modifier.padding(10.dp)) {
+        AndroidView(
+            modifier = Modifier.fillMaxWidth(),
+            factory = { context ->
+                AdView(context).apply {
+                    adSize = AdSize.BANNER
+                    adUnitId = context.getString(bannerId)
+                    loadAd(AdRequest.Builder().build())
+                }
+            }
+        )
+    }
+}
 
 @Composable
 fun HorizontalList(
     categoryTitle: String,
     movies: List<String>
 ) {
-    //Add Loading
+    //TODO: Add Loading
     Text(
         text = categoryTitle,
         color = Color.White,
