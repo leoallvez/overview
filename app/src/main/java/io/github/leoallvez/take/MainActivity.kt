@@ -10,8 +10,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.ui.main.HomeScreen
+import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.ui.theme.TakeTheme
 
 @AndroidEntryPoint

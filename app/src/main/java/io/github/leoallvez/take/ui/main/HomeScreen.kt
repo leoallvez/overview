@@ -46,6 +46,7 @@ fun HomeScreen() {
 
 @Composable
 fun HorizontalList(
+    //TODO: Change title param to @StringRes;
     title: String,
     movies: List<String>
 ) {
@@ -61,7 +62,6 @@ fun HorizontalList(
 @Composable
 fun ListTitle(title: String) {
     Text(
-        //TODO: Change title param to @StringRes;
         text = title,
         color = Color.White,
         modifier = Modifier
