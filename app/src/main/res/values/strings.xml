@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Take</string>
+     <string name="app_global_name">Take</string>
     <string name="banner_sample_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

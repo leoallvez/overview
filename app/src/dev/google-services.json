@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "873834745107",
+    "project_id": "take-dev-331c7",
+    "storage_bucket": "take-dev-331c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873834745107:android:3cea54a08bc322e5f41ee6",
+        "android_client_info": {
+          "package_name": "io.github.leoallvez.take.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873834745107-ojslt4s644r1itk7t1h7j515tkpevt4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY-LfVu2hsT0GubjSXc6wqznhyH7U1jDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873834745107-ojslt4s644r1itk7t1h7j515tkpevt4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
