@@ -40,15 +40,26 @@ android {
 
     flavorDimensions "version"
     productFlavors {
+        dev {
+            dimension "version"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            buildConfigField 'boolean', 'ADS_ENABLED', 'true'
+            resValue 'string', 'app_name', 'Take - Dev'
+        }
         demo {
             dimension "version"
             applicationIdSuffix ".demo"
             versionNameSuffix "-demo"
+            buildConfigField 'boolean', 'ADS_ENABLED', 'true'
+            resValue 'string', 'app_name', 'Take'
         }
         full {
             dimension "version"
             applicationIdSuffix ".full"
             versionNameSuffix "-full"
+            buildConfigField 'boolean', 'ADS_ENABLED', 'false'
+            resValue 'string', 'app_name', 'Take'
         }
     }
 
