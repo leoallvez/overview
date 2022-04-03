@@ -26,9 +26,9 @@ android {
             useSupportLibrary true
         }
 
-        buildConfigField("String", "API_KEY", apiProperties['API_KEY'])
-        buildConfigField("String", "API_URL", apiProperties['API_URL'])
-        buildConfigField("String", "URL_IMG", apiProperties['URL_IMG'])
+        buildConfigField 'String', 'API_KEY', apiProperties['API_KEY']
+        buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
+        buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w500/"'
     }
 
     buildTypes {
