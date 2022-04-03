@@ -4,12 +4,11 @@ Android application to know where to watch a movie or series on streaming servic
 
 ## Configuration
 It is crucial for the application to work the creation of the 'api.properties' in the project root,
-this file should to contain [**The Movie Database API**](https://developers.themoviedb.org/3/getting-started/introduction) values:
+this file should [**The Movie Database API**](https://developers.themoviedb.org/3/getting-started/introduction) 
+API key:
 
 ```
 API_KEY = "Your The movie Database API KEY"
-API_URL = "https://api.themoviedb.org/3/"
-URL_IMG = "https://image.tmdb.org/t/p/w500/"
 ```
 
 learn more about the development process [here](https://tree.taiga.io/project/leoallvez-take/timeline).
