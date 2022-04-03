@@ -12,20 +12,20 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
-//TODO: On on Off with remote config;
 @Composable
 fun AdsBanner(@StringRes bannerId: Int, isDisplayed: Boolean) {
-
-    Box(modifier = Modifier.padding(10.dp)) {
-        AndroidView(
-            modifier = Modifier.fillMaxWidth(),
-            factory = { context ->
-                AdView(context).apply {
-                    adSize = AdSize.BANNER
-                    adUnitId = context.getString(bannerId)
-                    loadAd(AdRequest.Builder().build())
+    if(isDisplayed) { //TODO: <= find a better solution that "if"
+        Box(modifier = Modifier.padding(10.dp)) {
+            AndroidView(
+                modifier = Modifier.fillMaxWidth(),
+                factory = { context ->
+                    AdView(context).apply {
+                        adSize = AdSize.BANNER
+                        adUnitId = context.getString(bannerId)
+                        loadAd(AdRequest.Builder().build())
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
