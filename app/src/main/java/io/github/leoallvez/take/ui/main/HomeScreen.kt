@@ -35,7 +35,7 @@ fun HomeScreen() {
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            val showAd = BuildConfig.ADS_ENABLED
+            val showAd = false
             //TODO: create a a/b test on viewModel to shows on not ads
             AdsBanner(bannerId = R.string.banner_sample_id, isDisplayed = showAd)
             HorizontalList(title = "Os mais populares", movies)
