@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.AdsBanner
 
@@ -37,7 +36,7 @@ fun HomeScreen() {
         ) {
             val showAd = true
             //TODO: create a a/b test on viewModel to shows on not ads
-            AdsBanner(bannerId = R.string.banner_sample_id, isDisplayed = showAd)
+            AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAd)
             HorizontalList(title = "Os mais populares", movies)
             HorizontalList(title = "Grátis para assistir", movies)
             HorizontalList(title = "Documentários", movies)
