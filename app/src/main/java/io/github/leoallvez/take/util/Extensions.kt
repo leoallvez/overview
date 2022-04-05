@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.helper
+package io.github.leoallvez.take.util
 
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException

@@ -1,4 +1,4 @@
-package io.github.leoallvez.take
+package io.github.leoallvez.take.ui
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

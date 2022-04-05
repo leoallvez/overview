@@ -1,4 +1,4 @@
-package io.github.leoallvez.take
+package io.github.leoallvez.take.ui
 
 sealed class Screen(val route: String) {
     object Splash: Screen(route = "splash_screen")
