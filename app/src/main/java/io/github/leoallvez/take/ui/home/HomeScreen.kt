@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.ui.main
+package io.github.leoallvez.take.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,9 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.AdsBanner
+import androidx.compose.runtime.livedata.observeAsState
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: HomeViewModel) {
     val movies: List<String> = (0..99).map { "movie $it" }
     Box(
         contentAlignment = Alignment.Center,
@@ -34,9 +35,9 @@ fun HomeScreen() {
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            val showAd = true
+            val showAd = viewModel.adsAreVisible().observeAsState(initial = false)
             //TODO: create a a/b test on viewModel to shows on not ads
-            AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAd)
+            AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAd.value)
             HorizontalList(title = "Os mais populares", movies)
             HorizontalList(title = "Grátis para assistir", movies)
             HorizontalList(title = "Documentários", movies)
@@ -94,5 +95,5 @@ fun MovieCard(movie: String) {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    //HomeScreen(viewModel = null)
 }

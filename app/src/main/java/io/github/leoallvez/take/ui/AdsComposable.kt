@@ -26,7 +26,19 @@ import androidx.compose.runtime.setValue
 
 @Composable
 fun AdsBanner(@StringRes bannerId: Int, isVisible: Boolean) {
-
+    if(isVisible) {
+        AndroidView(
+            modifier = Modifier.fillMaxWidth(),
+            factory = { context ->
+                AdView(context).apply {
+                    adSize = AdSize.BANNER
+                    adUnitId = context.getString(bannerId)
+                    loadAd(AdRequest.Builder().build())
+                }
+            }
+        )
+    }
+    /**
     var visible by remember { mutableStateOf(isVisible) }
     Column (modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -39,7 +51,6 @@ fun AdsBanner(@StringRes bannerId: Int, isVisible: Boolean) {
 
         ) {
 
-            //Box(modifier = Modifier.padding(10.dp)) {
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
                 factory = { context ->
@@ -50,11 +61,11 @@ fun AdsBanner(@StringRes bannerId: Int, isVisible: Boolean) {
                     }
                 }
             )
-            //}
         }
 
         Button(onClick = { visible = !visible }) {
             Text("Click Me")
         }
     }
+    */
 }

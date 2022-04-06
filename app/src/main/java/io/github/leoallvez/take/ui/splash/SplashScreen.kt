@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.Screen
+import io.github.leoallvez.take.ui.Screen
 import kotlinx.coroutines.delay
 
 @Composable
