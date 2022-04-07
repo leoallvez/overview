@@ -5,16 +5,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
-@Entity(tableName = "movies")
-data class Movie(
+@Entity(tableName = "tv_shows")
+class TvShow (
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "movie_id")
+    @ColumnInfo(name = "tv_show_id")
     @Transient
-    var movieId: Long = 0,
+    var tvShowId: Long = 0,
 
     val id: Long,
-    val title: String,
+    val name: String,
 
     @Json(name = "poster_path")
     val posterPath: String,

@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.db
+package io.github.leoallvez.take.data.db.dao
 
 import androidx.room.*
 import io.github.leoallvez.take.data.model.Movie
@@ -8,16 +8,16 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDao {
 
     @Insert
-    suspend fun insert(task: Movie)
+    suspend fun insert(model: Movie)
 
     @Query("SELECT * FROM movies order by id desc;")
     fun getAll(): Flow<List<Movie>>
 
     @Update
-    suspend fun update(task: Movie)
+    suspend fun update(model: Movie)
 
     @Delete
-    suspend fun delete(task: Movie)
+    suspend fun delete(model: Movie)
 
     @Query("SELECT * FROM movies WHERE id = :id;")
     fun getById(id: Int): Flow<Movie>

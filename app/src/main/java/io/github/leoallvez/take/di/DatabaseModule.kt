@@ -7,8 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.leoallvez.take.db.MovieDao
-import io.github.leoallvez.take.db.TakeDatabase
+import io.github.leoallvez.take.data.db.TakeDatabase
+import io.github.leoallvez.take.data.db.dao.MovieDao
+import io.github.leoallvez.take.data.db.dao.TvShowDao
 import javax.inject.Singleton
 
 @Module
@@ -21,14 +22,23 @@ class DatabaseModule {
         return Room.databaseBuilder(
             context,
             TakeDatabase::class.java,
-            "take_database"
+            DATABASE_NAME
         ).build()
     }
 
     @Singleton
     @Provides
-    fun provideTaskDao(db: TakeDatabase): MovieDao {
+    fun provideMovieDao(db: TakeDatabase): MovieDao {
         return db.movieDao()
     }
-}
 
+    @Singleton
+    @Provides
+    fun provideTvShowDao(db: TakeDatabase): TvShowDao {
+        return db.tvShowDao()
+    }
+
+    companion object {
+        private const val DATABASE_NAME = "take_database"
+    }
+}
