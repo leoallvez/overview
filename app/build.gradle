@@ -120,8 +120,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$room"
 
     implementation "com.google.accompanist:accompanist-swiperefresh:0.21.4-beta"
-    implementation 'com.google.code.gson:gson:2.9.0'
-
     //Google Ads
     implementation 'com.google.android.gms:play-services-ads:20.6.0'
 

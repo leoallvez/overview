@@ -36,7 +36,6 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 .verticalScroll(rememberScrollState())
         ) {
             val showAd = viewModel.adsAreVisible().observeAsState(initial = false)
-            //TODO: create a a/b test on viewModel to shows on not ads
             AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAd.value)
             HorizontalList(title = "Os mais populares", movies)
             HorizontalList(title = "Grátis para assistir", movies)

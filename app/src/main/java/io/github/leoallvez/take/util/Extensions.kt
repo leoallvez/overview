@@ -1,13 +1,14 @@
 package io.github.leoallvez.take.util
 
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
+import com.squareup.moshi.Moshi
 import timber.log.Timber
+import java.lang.Exception
 
-inline fun <reified T : Any> String.fromJsonOrNull(): T? =
-    try {
-        Gson().fromJson(this, T::class.java)
-    } catch (e: JsonSyntaxException) {
-        Timber.e("Error to deserialize json: $e")
-        null
-    }
+inline fun <reified T> String.fromJson(): T? = try {
+    val moshi = Moshi.Builder().build()
+    moshi.adapter(T::class.java).fromJson(this)
+} catch (e: Exception) {
+    Timber.e(message = "deserialization exception: ${e.stackTrace}")
+    null
+}
+
