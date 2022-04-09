@@ -15,20 +15,23 @@ class ListSetupExperiment @Inject constructor(
 ) : AbExperiment<List<ListSetup>> {
 
     //TODO: refactor all class
-    var json: String = ""
+    var json: String? = ""
         private set
 
     override fun execute(): List<ListSetup> {
-        json = remoteSource.getString(LIST_SETUP_KEY)
-        //return json.fromJson() ?: getListsFromJsonFile()
-        return parseJson() ?: getListsFromJsonFile()
+        return getLocalListsSetup() ?: getRemoteListsSetup()
     }
 
-    private fun getListsFromJsonFile(): List<ListSetup> {
+    private fun getLocalListsSetup(): List<ListSetup>? {
         json = jsonFileReader.read(LISTS_SETUP_FILE)
-        //return json.fromJson() ?: listOf()
+        return parseJson()
+    }
+
+    private fun getRemoteListsSetup(): List<ListSetup> {
+        json = remoteSource.getString(LIST_SETUP_KEY)
         return parseJson() ?: listOf()
     }
+
     // Work with generics???
     private fun parseJson() : List<ListSetup>? {
         return try {
@@ -36,7 +39,7 @@ class ListSetupExperiment @Inject constructor(
             val listPersonType = object : TypeToken<List<ListSetup>>() {}.type
             gson.fromJson(json, listPersonType)
         } catch (io: IOException) {
-            listOf()
+            null
         }
     }
 

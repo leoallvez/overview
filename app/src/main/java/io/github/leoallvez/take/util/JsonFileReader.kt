@@ -11,7 +11,6 @@ class JsonFileReader @Inject constructor(
 ) : IJsonFileReader {
 
     override fun read(filePath: String): String {
-
         return try {
             context.assets.open(filePath)
                 .bufferedReader()
