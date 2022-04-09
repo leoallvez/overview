@@ -32,8 +32,8 @@ class DisplayAdsExperimentTest  {
             localPermission = true,
             remoteSource
         )
-        //Act
         every { remoteConfig.getBoolean(any()) } returns true
+        //Act
         val result = experiment.execute()
         //Assert
         assertEquals(true, result)
