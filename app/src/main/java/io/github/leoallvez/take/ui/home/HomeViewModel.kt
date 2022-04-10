@@ -13,8 +13,15 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor (
     private val experiment: AbExperiment<Boolean>,
-    private val discoveryRepository: DiscoveryRepository
+    private val repository: DiscoveryRepository
 ) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            val setupList = repository.getListsSetup()
+            val result = setupList
+        }
+    }
 
     fun adsAreVisible(): LiveData<Boolean> = liveData {
         emit(value = experiment.execute())

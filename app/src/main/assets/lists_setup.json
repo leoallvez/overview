@@ -1,11 +1,27 @@
 [
   {
-    "list_name": "Action"
+    "order": 1,
+    "title_resource_id": "list_1",
+    "api_path": "api/path1"
   },
   {
-    "list_name": "Comedian"
+    "order": 2,
+    "title_resource_id": "list_2",
+    "api_path": "api/path2"
   },
   {
-    "list_name": "Love"
+    "order": 3,
+    "title_resource_id": "list_3",
+    "api_path": "api/path3"
+  },
+  {
+    "order": 2,
+    "title_resource_id": "list_4",
+    "api_path": "api/path1"
+  },
+  {
+    "order": 1,
+    "title_resource_id": "list_5",
+    "api_path": "api/path1"
   }
 ]

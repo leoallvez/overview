@@ -73,7 +73,15 @@ class ListSetupExperimentTest {
     }
 
     companion object {
-        const val JSON = """[{"list_name": "comedy"}]"""
+        const val JSON = """
+            [
+                {
+                    "order": 1, 
+                    "title_resource_id": "comedy_title",
+                    "api_path": "api/path"
+                }
+            ]
+        """
         const val EMPTY = ""
     }
 }

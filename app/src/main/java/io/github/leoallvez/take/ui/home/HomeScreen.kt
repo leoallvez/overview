@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,10 +21,16 @@ import androidx.compose.ui.unit.sp
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.AdsBanner
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
+import io.github.leoallvez.take.util.getStringByName
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
     val movies: List<String> = (0..99).map { "movie $it" }
+    val context = LocalContext.current
+    val value = context.getStringByName("banner_sample_id")
+    Log.i("dynamic_resources", value)
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
