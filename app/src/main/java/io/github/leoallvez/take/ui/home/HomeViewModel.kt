@@ -6,7 +6,6 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.data.api.repository.discovery.DiscoveryRepository
-import io.github.leoallvez.take.data.model.ListSetup
 import io.github.leoallvez.take.di.AbDisplayAds
 import io.github.leoallvez.take.experiment.AbExperiment
 import kotlinx.coroutines.launch

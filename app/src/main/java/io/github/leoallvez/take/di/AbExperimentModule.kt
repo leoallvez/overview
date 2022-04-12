@@ -32,7 +32,7 @@ class AbExperimentModule {
     fun providerListSetupExperiment(
         jsonFileReader: IJsonFileReader,
         remote: RemoteSource
-    ): AbExperiment<List<ListSetup>> {
+    ): AbExperiment<List<Suggestions>> {
         return ListSetupExperiment(
             jsonFileReader = jsonFileReader,
             remoteSource = remote

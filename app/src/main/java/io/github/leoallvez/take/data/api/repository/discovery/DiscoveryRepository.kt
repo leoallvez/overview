@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.api.repository.discovery
 
-import io.github.leoallvez.take.data.model.ListSetup
+import io.github.leoallvez.take.data.model.Suggestions
 import io.github.leoallvez.take.di.AbListSetup
 import io.github.leoallvez.take.di.IoDispatcher
 import io.github.leoallvez.take.experiment.AbExperiment
@@ -11,14 +11,18 @@ import javax.inject.Inject
 class DiscoveryRepository @Inject constructor(
     private val dataSource: DiscoveryDataSource,
     @AbListSetup
-    private val experiment: AbExperiment<List<ListSetup>>,
+    val experiment: AbExperiment<List<Suggestions>>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun getListsSetup(): List<ListSetup> {
+    private var setups: List<Suggestions> = experiment.execute()
+
+    suspend fun getListsSetup(): List<Suggestions> {
         return withContext(ioDispatcher) {
-            val setups = experiment.execute()
             setups.forEach { setup ->
+                setup.apiPath
+                setup.order
+                setup.titleResourceId
                 /**
                 HOME
                 1 - Verificar se tem cache.

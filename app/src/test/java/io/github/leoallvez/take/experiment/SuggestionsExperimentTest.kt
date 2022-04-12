@@ -1,7 +1,7 @@
 package io.github.leoallvez.take.experiment
 
 import io.github.leoallvez.firebase.RemoteSource
-import io.github.leoallvez.take.data.model.ListSetup
+import io.github.leoallvez.take.data.model.Suggestions
 import io.github.leoallvez.take.util.IJsonFileReader
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -10,7 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class ListSetupExperimentTest {
+class SuggestionsExperimentTest {
 
     @MockK(relaxed = true)
     private lateinit var remoteSource: RemoteSource
@@ -18,7 +18,7 @@ class ListSetupExperimentTest {
     @MockK
     private lateinit var jsonFileReader: IJsonFileReader
 
-    private lateinit var experiment: AbExperiment<List<ListSetup>>
+    private lateinit var experiment: AbExperiment<List<Suggestions>>
 
     @Before
     fun setup() {
@@ -31,7 +31,7 @@ class ListSetupExperimentTest {
         //Arrange
         every { jsonFileReader.read(any()) } returns JSON
         //Act
-        val list: List<ListSetup> = experiment.execute()
+        val list: List<Suggestions> = experiment.execute()
         val result = list.filter { it == null }
         //Assert
         assertTrue(result.isEmpty())
@@ -42,7 +42,7 @@ class ListSetupExperimentTest {
         //Arrange
         every { jsonFileReader.read(any()) } returns JSON
         //Act
-        val result: List<ListSetup> = experiment.execute()
+        val result: List<Suggestions> = experiment.execute()
         //Assert
         assertTrue(result.isNotEmpty())
     }
@@ -52,7 +52,7 @@ class ListSetupExperimentTest {
         //Arrange
         everyLocalAndRemote(local = EMPTY, remote = JSON)
         //Act
-        val result: List<ListSetup> = experiment.execute()
+        val result: List<Suggestions> = experiment.execute()
         //Assert
         assertTrue(result.isNotEmpty())
     }
@@ -62,7 +62,7 @@ class ListSetupExperimentTest {
         //Arrange
         everyLocalAndRemote(local = EMPTY, remote = EMPTY)
         //Act
-        val result: List<ListSetup> = experiment.execute()
+        val result: List<Suggestions> = experiment.execute()
         //Assert
         assertTrue(result.isEmpty())
     }
