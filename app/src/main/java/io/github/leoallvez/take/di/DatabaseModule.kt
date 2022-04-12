@@ -26,13 +26,11 @@ class DatabaseModule {
         ).build()
     }
 
-    @Singleton
     @Provides
     fun provideMovieDao(db: TakeDatabase): MovieDao {
         return db.movieDao()
     }
 
-    @Singleton
     @Provides
     fun provideTvShowDao(db: TakeDatabase): TvShowDao {
         return db.tvShowDao()
