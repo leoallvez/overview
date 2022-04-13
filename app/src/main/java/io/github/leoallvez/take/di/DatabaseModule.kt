@@ -9,7 +9,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.leoallvez.take.data.db.TakeDatabase
 import io.github.leoallvez.take.data.db.dao.MovieDao
+import io.github.leoallvez.take.data.db.dao.SuggestionsDao
 import io.github.leoallvez.take.data.db.dao.TvShowDao
+import io.github.leoallvez.take.data.model.Suggestions
 import javax.inject.Singleton
 
 @Module
@@ -34,6 +36,11 @@ class DatabaseModule {
     @Provides
     fun provideTvShowDao(db: TakeDatabase): TvShowDao {
         return db.tvShowDao()
+    }
+
+    @Provides
+    fun provideSuggestions(db: TakeDatabase): SuggestionsDao {
+        return db.suggestionDao()
     }
 
     companion object {

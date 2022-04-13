@@ -1,8 +1,19 @@
 package io.github.leoallvez.take.ui.splash
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import io.github.leoallvez.take.data.api.repository.loading.LoadingRepository
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LoadingViewModel @Inject constructor() : ViewModel() {
+class LoadingViewModel @Inject constructor(
+    private val repository: LoadingRepository
 
+) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            repository.loadingSuggestion()
+        }
+    }
 }

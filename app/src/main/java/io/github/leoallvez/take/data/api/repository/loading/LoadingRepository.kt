@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LoadingRepository @Inject constructor(
-    private val dataSource: DiscoveryDataSource,
+    private val dataSource: LoadingDataSource,
     @AbListSetup
     val experiment: AbExperiment<List<Suggestions>>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
@@ -22,13 +22,24 @@ class LoadingRepository @Inject constructor(
         return withContext(ioDispatcher) {
 
             val suggestions = experiment.execute()
-            suggestions.forEach { s ->
-                //TODO: load on api;
-            }
+
+            //TODO: load movies and tv show of API
+
+            dataSource.refreshSuggestions(suggestions)
 
             MutableLiveData(true)
         }
     }
+
+    /**
+    sealed class RequestSongResult {
+    object Loading : RequestSongResult()
+    object Success : RequestSongResult()
+    class ApiError(val code: Int, val message: String?) : RequestSongResult()
+    class UnknownError(val message: String?) : RequestSongResult()
+    }
+     */
+
 
 
 
