@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.api.repository.discovery
 
-import io.github.leoallvez.take.data.model.Suggestions
+import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.di.AbListSetup
 import io.github.leoallvez.take.di.IoDispatcher
 import io.github.leoallvez.take.experiment.AbExperiment
@@ -11,13 +11,13 @@ import javax.inject.Inject
 class DiscoveryRepository @Inject constructor(
     private val dataSource: DiscoveryDataSource,
     @AbListSetup
-    val experiment: AbExperiment<List<Suggestions>>,
+    val experiment: AbExperiment<List<Suggestion>>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    private var setups: List<Suggestions> = experiment.execute()
+    private var setups: List<Suggestion> = experiment.execute()
 
-    suspend fun getListsSetup(): List<Suggestions> {
+    suspend fun getListsSetup(): List<Suggestion> {
         return withContext(ioDispatcher) {
             setups.forEach { setup ->
                 setup.apiPath

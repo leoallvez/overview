@@ -6,11 +6,11 @@ import io.github.leoallvez.take.data.db.dao.MovieDao
 import io.github.leoallvez.take.data.db.dao.SuggestionsDao
 import io.github.leoallvez.take.data.db.dao.TvShowDao
 import io.github.leoallvez.take.data.model.Movie
-import io.github.leoallvez.take.data.model.Suggestions
+import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.TvShow
 
 @Database(
-    entities = [Movie::class, TvShow::class, Suggestions::class],
+    entities = [Movie::class, TvShow::class, Suggestion::class],
     version = 1,
     exportSchema = false
 )

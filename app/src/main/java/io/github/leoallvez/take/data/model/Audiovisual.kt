@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.model
 
-interface EntertainmentContent {
+interface Audiovisual {
 
     val apiId: Long
     val posterPath: String

@@ -12,15 +12,10 @@ class MovieTest : EntertainmentContentTest() {
         val json = MOVIE_JSON
         //Act
         val model = json.fromJson<Movie?>()
+        val jsonExpected = model?.toJson(FIELD_NAME)
         //Assert
         assert(model is Movie)
-        assertEquals(MOVIE_JSON, model?.toJson())
-    }
-
-    private fun Movie.toJson(): String = with(receiver = this) {
-        return makeContentJson(
-            apiId, FIELD_NAME, title, posterPath, voteAverage
-        )
+        assertEquals(MOVIE_JSON, jsonExpected)
     }
 
     companion object {

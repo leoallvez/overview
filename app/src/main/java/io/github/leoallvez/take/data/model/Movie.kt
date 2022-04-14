@@ -20,6 +20,6 @@ data class Movie(
     @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
     override val voteAverage: Double
-): EntertainmentContent {
+): Audiovisual {
     override fun getTitleDescription(): String = title
 }

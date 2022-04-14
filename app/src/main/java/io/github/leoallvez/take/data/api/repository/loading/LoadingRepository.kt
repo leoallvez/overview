@@ -1,9 +1,9 @@
 package io.github.leoallvez.take.data.api.repository.loading
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.github.leoallvez.take.data.api.repository.discovery.DiscoveryDataSource
-import io.github.leoallvez.take.data.model.Suggestions
+import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.di.AbListSetup
 import io.github.leoallvez.take.di.IoDispatcher
 import io.github.leoallvez.take.experiment.AbExperiment
@@ -12,35 +12,33 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LoadingRepository @Inject constructor(
-    private val dataSource: LoadingDataSource,
+    private val dbDataSource: LoadingDbDataSource,
     @AbListSetup
-    val experiment: AbExperiment<List<Suggestions>>,
+    val experiment: AbExperiment<List<Suggestion>>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
     suspend fun loadingSuggestion(): LiveData<Boolean> {
         return withContext(ioDispatcher) {
-
+            //TODO: check cache time
             val suggestions = experiment.execute()
 
-            //TODO: load movies and tv show of API
+            suggestions.forEach { s ->
+                val suggestionId = dbDataSource.saveSuggestion(s)
+                Log.i("suggestion_tag", "id: $suggestionId")
+            }
 
-            dataSource.refreshSuggestions(suggestions)
+            //TODO: load movies and tv show of API
 
             MutableLiveData(true)
         }
     }
 
-    /**
-    sealed class RequestSongResult {
-    object Loading : RequestSongResult()
-    object Success : RequestSongResult()
-    class ApiError(val code: Int, val message: String?) : RequestSongResult()
-    class UnknownError(val message: String?) : RequestSongResult()
+    private suspend fun lab(action: () -> Unit) {
+        experiment.execute().forEach { suggestion ->
+            val suggestionId = dbDataSource.saveSuggestion(suggestion)
+        }
+
     }
-     */
-
-
-
 
 }
