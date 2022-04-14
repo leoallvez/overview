@@ -19,15 +19,15 @@ class TvShowTest : EntertainmentContentTest()  {
 
     private fun TvShow.toJson(): String = with(receiver = this) {
         return makeContentJson(
-            apiId, fieldContentName = FIELD_CONTENT_NAME, name, posterPath, voteAverage
+            apiId, fieldName = FIELD_NAME, name, posterPath, voteAverage
         )
     }
 
     companion object {
-        private const val NAME = "MOVIE"
-        private const val FIELD_CONTENT_NAME = "name"
+        private const val NAME = "TV SHOW"
+        private const val FIELD_NAME = "name"
         private val TV_SHOW_JSON = makeContentJson(
-            API_ID, fieldContentName = FIELD_CONTENT_NAME, NAME, POSTER_PATH, VOTE_AVERAGE
+            API_ID, fieldName = FIELD_NAME, NAME, POSTER_PATH, VOTE_AVERAGE
         )
     }
 }
