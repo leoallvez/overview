@@ -14,13 +14,7 @@ class TvShowTest : EntertainmentContentTest()  {
         val model = json.fromJson<TvShow?>()
         //Assert
         assert(model is TvShow)
-        assertEquals(TV_SHOW_JSON, model?.toJson())
-    }
-
-    private fun TvShow.toJson(): String = with(receiver = this) {
-        return makeContentJson(
-            apiId, fieldName = FIELD_NAME, name, posterPath, voteAverage
-        )
+        assertEquals(TV_SHOW_JSON, model?.toJson(FIELD_NAME))
     }
 
     companion object {
