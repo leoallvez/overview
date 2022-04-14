@@ -10,12 +10,14 @@ data class Movie(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "movie_id")
     var movieId: Long,
-    @Json(name = "id")
+    @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
     override val apiId: Long,
     val title: String,
+    @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
     override val posterPath: String,
+    @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
     override val voteAverage: Double
 ): EntertainmentContent {
