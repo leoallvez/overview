@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.home.HomeViewModel
+import io.github.leoallvez.take.ui.splash.LoadingViewModel
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.ui.theme.TakeTheme
 
@@ -40,6 +41,7 @@ fun TakeApp() {
         startDestination = Screen.Splash.route
     ) {
         composable(route = Screen.Splash.route) {
+            val viewModel: LoadingViewModel = hiltViewModel()
             SplashScreen(navController)
         }
         composable(route = Screen.Home.route) {

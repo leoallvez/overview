@@ -6,19 +6,18 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 @Entity(tableName = "tv_shows")
-class TvShow (
-
+data class TvShow(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tv_show_id")
-    @Transient
-    var tvShowId: Long = 0,
-
-    val id: Long,
+    var tvShowId: Long,
+    @Json(name = "id")
+    @ColumnInfo(name = "api_id")
+    override val apiId: Long,
     val name: String,
-
-    @Json(name = "poster_path")
-    val posterPath: String,
-
-    @Json(name = "vote_average")
-    val voteAverage: Double,
-)
+    @ColumnInfo(name = "poster_path")
+    override val posterPath: String,
+    @ColumnInfo(name = "vote_average")
+    override val voteAverage: Double
+) : EntertainmentContent {
+    override fun getTitleDescription(): String = name
+}

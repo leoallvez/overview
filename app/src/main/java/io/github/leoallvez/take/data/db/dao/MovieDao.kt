@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDao {
 
     @Insert
-    suspend fun insert(model: Movie)
+    suspend fun insert(vararg model: Movie)
 
-    @Query("SELECT * FROM movies order by id desc;")
+    @Query("SELECT * FROM movies order by movie_id desc;")
     fun getAll(): Flow<List<Movie>>
 
     @Update
@@ -19,6 +19,6 @@ interface MovieDao {
     @Delete
     suspend fun delete(model: Movie)
 
-    @Query("SELECT * FROM movies WHERE id = :id;")
+    @Query("SELECT * FROM movies WHERE movie_id = :id;")
     fun getById(id: Int): Flow<Movie>
 }
