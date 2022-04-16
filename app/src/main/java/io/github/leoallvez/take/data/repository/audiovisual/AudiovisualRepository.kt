@@ -13,14 +13,13 @@ class AudiovisualRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun refresh(): LiveData<Boolean> {
+    suspend fun refresh() {
         return withContext(ioDispatcher) {
             val suggestion = suggestionLocalDataSource.getAll()
 
 
             //TODO: load movies and tv show of API
 
-            MutableLiveData(true)
         }
     }
 

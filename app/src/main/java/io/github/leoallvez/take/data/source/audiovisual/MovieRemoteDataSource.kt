@@ -29,5 +29,4 @@ class MovieRemoteDataSource @Inject constructor(
             }
         }
     }
-
 }

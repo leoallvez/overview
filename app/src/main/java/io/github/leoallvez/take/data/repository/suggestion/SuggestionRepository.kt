@@ -14,10 +14,10 @@ class SuggestionRepository @Inject constructor(
 ) {
 
     suspend fun refresh() = withContext (ioDispatcher) {
-        val suggestions = remoteDataSource.get()
+        val suggestions = remoteDataSource.get().toTypedArray()
         //TODO: delete tv show and movie too
         localDataSource.deleteAll()
-        localDataSource.save(*suggestions.toTypedArray())
+        localDataSource.save(*suggestions)
     }
 
 }
