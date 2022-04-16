@@ -4,7 +4,7 @@ open class EntertainmentContentTest {
 
     fun Audiovisual.toJson(fieldName: String): String = with(receiver = this) {
         return makeContentJson(
-            apiId, fieldName, getTitleDescription(), posterPath, voteAverage
+            apiId, fieldName, getContentTitle(), posterPath, voteAverage
         )
     }
 

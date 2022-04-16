@@ -1,7 +1,7 @@
 package io.github.leoallvez.take.data.api.repository.loading
 
 import com.haroldadmin.cnradapter.NetworkResponse.*
-import io.github.leoallvez.take.data.api.ApiClient
+import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.repository.loading.LoadingApiDataSource.ContentResult.*
 import io.github.leoallvez.take.data.model.Audiovisual
 import io.github.leoallvez.take.di.IoDispatcher
@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LoadingApiDataSource @Inject constructor(
-    private val api: ApiClient,
+    private val api: ApiService,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 

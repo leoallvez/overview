@@ -21,5 +21,5 @@ data class TvShow(
     @ColumnInfo(name = "vote_average")
     override val voteAverage: Double
 ) : Audiovisual {
-    override fun getTitleDescription(): String = name
+    override fun getContentTitle(): String = name
 }

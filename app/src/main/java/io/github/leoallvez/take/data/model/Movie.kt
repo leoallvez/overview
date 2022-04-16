@@ -21,5 +21,5 @@ data class Movie(
     @ColumnInfo(name = "vote_average")
     override val voteAverage: Double
 ): Audiovisual {
-    override fun getTitleDescription(): String = title
+    override fun getContentTitle(): String = title
 }

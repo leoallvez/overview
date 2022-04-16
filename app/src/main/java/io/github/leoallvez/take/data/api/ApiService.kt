@@ -10,7 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiClient {
+interface ApiService {
 
     @GET(value = "{url}")
     suspend fun getTvShows(

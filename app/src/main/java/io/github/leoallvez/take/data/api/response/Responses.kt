@@ -1,8 +1,6 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
-import io.github.leoallvez.take.data.model.Movie
-import io.github.leoallvez.take.data.model.TvShow
 
 data class ContentResponse<T>(
     val page: Long,
