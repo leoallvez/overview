@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LoadingDbDataSource @Inject constructor(
+class LoadingLocalDataSource @Inject constructor(
     private val database: TakeDatabase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ){

@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LoadingRepository @Inject constructor(
-    private val dbDataSource: LoadingDbDataSource,
+    private val localDataSource: LoadingLocalDataSource,
     @AbListSetup
     val experiment: AbExperiment<List<Suggestion>>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
@@ -24,7 +24,7 @@ class LoadingRepository @Inject constructor(
             val suggestions = experiment.execute()
 
             suggestions.forEach { s ->
-                val suggestionId = dbDataSource.saveSuggestion(s)
+                val suggestionId = localDataSource.saveSuggestion(s)
                 Log.i("suggestion_tag", "id: $suggestionId")
             }
 
@@ -36,7 +36,7 @@ class LoadingRepository @Inject constructor(
 
     private suspend fun lab(action: () -> Unit) {
         experiment.execute().forEach { suggestion ->
-            val suggestionId = dbDataSource.saveSuggestion(suggestion)
+            val suggestionId = localDataSource.saveSuggestion(suggestion)
         }
 
     }

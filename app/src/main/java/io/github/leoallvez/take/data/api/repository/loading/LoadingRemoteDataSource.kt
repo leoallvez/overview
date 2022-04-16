@@ -2,14 +2,14 @@ package io.github.leoallvez.take.data.api.repository.loading
 
 import com.haroldadmin.cnradapter.NetworkResponse.*
 import io.github.leoallvez.take.data.api.ApiService
-import io.github.leoallvez.take.data.api.repository.loading.LoadingApiDataSource.ContentResult.*
+import io.github.leoallvez.take.data.api.repository.loading.LoadingRemoteDataSource.ContentResult.*
 import io.github.leoallvez.take.data.model.Audiovisual
 import io.github.leoallvez.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LoadingApiDataSource @Inject constructor(
+class LoadingRemoteDataSource @Inject constructor(
     private val api: ApiService,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
