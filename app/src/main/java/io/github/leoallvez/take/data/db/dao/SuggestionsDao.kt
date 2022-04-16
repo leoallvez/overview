@@ -10,9 +10,6 @@ import kotlinx.coroutines.flow.Flow
 interface SuggestionsDao {
 
     @Insert
-    suspend fun insert(suggestion: Suggestion): Long
-
-    @Insert
     suspend fun insert(vararg suggestions: Suggestion)
 
     @Query("SELECT * FROM suggestions ORDER BY `order`")

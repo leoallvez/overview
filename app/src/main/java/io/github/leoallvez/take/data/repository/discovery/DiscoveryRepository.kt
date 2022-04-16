@@ -1,7 +1,8 @@
 package io.github.leoallvez.take.data.api.repository.discovery
 
 import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.di.AbListSetup
+import io.github.leoallvez.take.data.repository.discovery.DiscoveryDataSource
+import io.github.leoallvez.take.di.AbSuggestions
 import io.github.leoallvez.take.di.IoDispatcher
 import io.github.leoallvez.take.experiment.AbExperiment
 import kotlinx.coroutines.CoroutineDispatcher
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 class DiscoveryRepository @Inject constructor(
     private val dataSource: DiscoveryDataSource,
-    @AbListSetup
+    @AbSuggestions
     val experiment: AbExperiment<List<Suggestion>>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {

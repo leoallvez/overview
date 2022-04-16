@@ -6,4 +6,4 @@ import javax.inject.Qualifier
 annotation class AbDisplayAds
 
 @Qualifier
-annotation class AbListSetup
+annotation class AbSuggestions

@@ -27,7 +27,7 @@ class AbExperimentModule {
         )
     }
 
-    @AbListSetup
+    @AbSuggestions
     @Provides
     fun providerListSetupExperiment(
         jsonFileReader: IJsonFileReader,
