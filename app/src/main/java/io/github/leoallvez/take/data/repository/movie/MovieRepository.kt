@@ -1,6 +1,5 @@
 package io.github.leoallvez.take.data.repository.movie
 
-import android.util.Log
 import io.github.leoallvez.take.data.model.Movie
 import io.github.leoallvez.take.data.model.MovieSuggestion
 import io.github.leoallvez.take.data.model.Suggestion
@@ -25,19 +24,18 @@ class MovieRepository @Inject constructor(
 
     suspend fun getData(): Flow<List<MovieSuggestion>> {
         return withContext(ioDispatcher) {
-            val onCacheTime = suggestionLocalDataSource.getByTypeWithMovies(MOVIE_TYPE)
-                .any { it.movies.isNotEmpty() }
-            Log.i("db_request", "onCacheTime: $onCacheTime")
+            val onCacheTime = hasCache()
             var results = if (onCacheTime) getLocalData() else getRemoteData()
             flow { emit(results) }
         }
     }
 
+    private fun hasCache(): Boolean {
+        return suggestionLocalDataSource.hasMovieCache(MOVIE_TYPE)
+    }
+
     private fun getLocalData(): List<MovieSuggestion> {
-        val results =  suggestionLocalDataSource.getByTypeWithMovies(MOVIE_TYPE)
-        //return suggestionLocalDataSource.getByTypeWithMovies(MOVIE_TYPE)
-        Log.i("db_request", "path: ${ results[0].suggestion.apiPath}, movies size: ${ results[0].movies.size}")
-        return results
+        return suggestionLocalDataSource.getByTypeWithMovies(MOVIE_TYPE)
     }
 
     private suspend fun getRemoteData(): List<MovieSuggestion> {
@@ -47,16 +45,14 @@ class MovieRepository @Inject constructor(
             val result = remoteDataSource.get(suggestion.apiPath)
             if(result is ApiSuccess) {
                 val movies = result.content as List<Movie>
-                Log.i("api_request", "path: ${suggestion.apiPath}, movies size: ${movies.size}")
                 saveCache(movies, suggestion.suggestionId)
                 results.add(MovieSuggestion(suggestion, movies))
             }
-
         }
         return results
     }
 
-    private suspend fun getMovieSuggestion(): List<Suggestion> {
+    private fun getMovieSuggestion(): List<Suggestion> {
         return suggestionLocalDataSource.getByType(MOVIE_TYPE)
     }
 

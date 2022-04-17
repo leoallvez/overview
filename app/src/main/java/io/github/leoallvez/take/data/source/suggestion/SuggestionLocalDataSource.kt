@@ -14,4 +14,8 @@ class SuggestionLocalDataSource @Inject constructor(
     suspend fun deleteAll() = dao.deleteAll()
 
     fun getByTypeWithMovies(type: String) = dao.getByTypeWithMovies(type)
+
+    fun hasMovieCache(type: String): Boolean {
+        return dao.getByTypeWithMovies(type).any { it.movies.isNotEmpty() }
+    }
 }
