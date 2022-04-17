@@ -9,7 +9,9 @@ class SuggestionLocalDataSource @Inject constructor(
 ){
     suspend fun save(vararg entities: Suggestion) = dao.insert(*entities)
 
-    suspend fun getByType(type: String): List<Suggestion> = dao.getByType(type)
+    fun getByType(type: String): List<Suggestion> = dao.getByType(type)
 
     suspend fun deleteAll() = dao.deleteAll()
+
+    fun getByTypeWithMovies(type: String) = dao.getByTypeWithMovies(type)
 }

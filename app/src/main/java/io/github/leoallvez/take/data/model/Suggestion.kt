@@ -27,8 +27,8 @@ class MovieSuggestion(
     @Embedded
     val suggestion: Suggestion,
     @Relation(
-        parentColumn = "suggestionId",
-        entityColumn = "suggestionId"
+        parentColumn = "suggestion_id",
+        entityColumn = "suggestion_id"
     )
     val movies: List<Movie>
 )

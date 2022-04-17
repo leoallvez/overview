@@ -3,30 +3,24 @@
     "order": 1,
     "type": "movie",
     "title_resource_id": "list_1",
-    "api_path": "discover/movie"
+    "api_path": "movie/popular"
   },
   {
     "order": 2,
-    "type": "tv_show",
-    "title_resource_id": "list_2",
-    "api_path": "discover/movie"
+    "type": "movie",
+    "title_resource_id": "list_3",
+    "api_path": "movie/top_rated"
   },
   {
     "order": 3,
     "type": "movie",
-    "title_resource_id": "list_3",
-    "api_path": "discover/movie"
-  },
-  {
-    "order": 2,
-    "type": "tv_show",
     "title_resource_id": "list_4",
     "api_path": "discover/movie"
   },
   {
-    "order": 1,
+    "order": 4,
     "type": "movie",
     "title_resource_id": "list_5",
-    "api_path": "discover/movie"
+    "api_path": "trending/movies/day"
   }
 ]

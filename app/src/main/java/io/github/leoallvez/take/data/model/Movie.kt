@@ -13,14 +13,15 @@ data class Movie(
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
     override val apiId: Long,
-    val title: String,
+    val title: String?,
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
     override val posterPath: String?,
     @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
     override val voteAverage: Double,
+    @ColumnInfo(name = "suggestion_id")
     override var suggestionId: Long = 0,
 ) : Audiovisual {
-    override fun getContentTitle(): String = title
+    override fun getContentTitle(): String = title ?: ""
 }
