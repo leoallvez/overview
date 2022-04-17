@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoadingViewModel @Inject constructor(
+class SplashViewModel @Inject constructor(
     private val repository: SuggestionRepository,
 ) : ViewModel() {
 

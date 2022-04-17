@@ -26,6 +26,7 @@ import io.github.leoallvez.take.util.getStringByName
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
+    val suggestions = viewModel.getSuggestions().observeAsState(listOf()).value
     val movies: List<String> = (0..99).map { "movie $it" }
     val context = LocalContext.current
     val value = context.getStringByName("banner_sample_id")

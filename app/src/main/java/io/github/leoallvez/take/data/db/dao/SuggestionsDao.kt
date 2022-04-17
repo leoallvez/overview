@@ -12,10 +12,9 @@ interface SuggestionsDao {
     @Insert
     suspend fun insert(vararg suggestions: Suggestion)
 
-    @Query("SELECT * FROM suggestions ORDER BY `order`")
-    fun getAll(): Flow<List<Suggestion>>
+    @Query("SELECT * FROM suggestions WHERE type = :type")
+    fun getByType(type: String): List<Suggestion>
 
     @Query("DELETE FROM suggestions")
     suspend fun deleteAll()
-
 }

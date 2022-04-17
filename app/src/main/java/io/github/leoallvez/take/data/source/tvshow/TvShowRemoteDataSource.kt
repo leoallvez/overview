@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.data.source.audiovisual
+package io.github.leoallvez.take.data.source.tvshow
 
 import com.haroldadmin.cnradapter.NetworkResponse.*
 import io.github.leoallvez.take.data.api.ApiService
@@ -9,16 +9,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MovieRemoteDataSource @Inject constructor(
+class TvShowRemoteDataSource @Inject constructor(
     private val api: ApiService,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
     suspend fun get(url: String): AudiovisualResult {
         return withContext(ioDispatcher) {
-            when (val response = api.getMovies(url)) {
+            when (val response = api.getTvShows(url)) {
                 is Success -> ApiSuccess(
-                    result = response.body.results
+                    content = response.body.results
                 )
                 is ServerError -> ApiError(
                     code = response.code,

@@ -9,7 +9,7 @@ class SuggestionLocalDataSource @Inject constructor(
 ){
     suspend fun save(vararg entities: Suggestion) = dao.insert(*entities)
 
-    suspend fun getAll() = dao.getAll()
+    suspend fun getByType(type: String): List<Suggestion> = dao.getByType(type)
 
     suspend fun deleteAll() = dao.deleteAll()
 }
