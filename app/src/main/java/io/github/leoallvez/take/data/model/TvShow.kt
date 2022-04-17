@@ -20,6 +20,7 @@ data class TvShow(
     @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
     override val voteAverage: Double,
+    @ColumnInfo(name = "suggestion_id")
     override var suggestionId: Long = 0,
 ) : Audiovisual {
     override fun getContentTitle(): String = name

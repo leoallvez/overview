@@ -3,7 +3,6 @@ package io.github.leoallvez.take.data.source.suggestion
 import io.github.leoallvez.take.data.db.dao.SuggestionsDao
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
-import io.github.leoallvez.take.data.model.Suggestion.Companion.MOVIE_TYPE
 import javax.inject.Inject
 
 class SuggestionLocalDataSource @Inject constructor(
@@ -15,14 +14,25 @@ class SuggestionLocalDataSource @Inject constructor(
 
     suspend fun deleteAll() = dao.deleteAll()
 
-    fun getByTypeWithMovie(): List<SuggestionResult> {
-        return dao.getByTypeWithMovie(MOVIE_TYPE)
+    fun getWithMovies(): List<SuggestionResult> {
+        return dao.getWithMovies()
             .sortedBy { it.suggestion.order }
             .map { it.toSuggestionResult() }
     }
 
     fun hasMoviesCache(): Boolean {
-        return dao.getByTypeWithMovie(MOVIE_TYPE)
+        return dao.getWithMovies()
             .any { it.movies.isNotEmpty() }
+    }
+
+    fun getWithTvShows(): List<SuggestionResult> {
+        return dao.getWithTvShows()
+            .sortedBy { it.suggestion.order }
+            .map { it.toSuggestionResult() }
+    }
+
+    fun hasTvShowsCache(): Boolean {
+        return dao.getWithTvShows()
+            .any { it.tvShows.isNotEmpty() }
     }
 }

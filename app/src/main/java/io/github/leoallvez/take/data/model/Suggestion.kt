@@ -44,8 +44,8 @@ class TvShowSuggestion(
     @Embedded
     val suggestion: Suggestion,
     @Relation(
-        parentColumn = "suggestionId",
-        entityColumn = "suggestionId"
+        parentColumn = "suggestion_id",
+        entityColumn = "suggestion_id"
     )
     val tvShows: List<TvShow>
 ) {

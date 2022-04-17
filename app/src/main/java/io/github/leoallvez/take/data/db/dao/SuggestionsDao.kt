@@ -6,6 +6,9 @@ import androidx.room.Query
 import androidx.room.Transaction
 import io.github.leoallvez.take.data.model.MovieSuggestion
 import io.github.leoallvez.take.data.model.Suggestion
+import io.github.leoallvez.take.data.model.Suggestion.Companion.MOVIE_TYPE
+import io.github.leoallvez.take.data.model.Suggestion.Companion.TV_SHOW_TYPE
+import io.github.leoallvez.take.data.model.TvShowSuggestion
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,5 +25,9 @@ interface SuggestionsDao {
 
     @Transaction
     @Query("SELECT * FROM suggestions WHERE type = :type")
-    fun getByTypeWithMovie(type: String): List<MovieSuggestion>
+    fun getWithMovies(type: String = MOVIE_TYPE): List<MovieSuggestion>
+
+    @Transaction
+    @Query("SELECT * FROM suggestions WHERE type = :type")
+    fun getWithTvShows(type: String = TV_SHOW_TYPE): List<TvShowSuggestion>
 }

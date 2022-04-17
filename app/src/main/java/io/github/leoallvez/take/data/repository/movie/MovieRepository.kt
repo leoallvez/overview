@@ -25,8 +25,8 @@ class MovieRepository @Inject constructor(
 
     suspend fun getData(): Flow<List<SuggestionResult>> {
         return withContext(ioDispatcher) {
-            val onCacheTime = hasCache()
-            val results = if (onCacheTime) getLocalData() else getRemoteData()
+            val hasCache = hasCache()
+            val results = if (hasCache) getLocalData() else getRemoteData()
             flow { emit(results) }
         }
     }
@@ -37,7 +37,7 @@ class MovieRepository @Inject constructor(
 
     private fun getLocalData(): List<SuggestionResult> {
         return suggestionLocalDataSource
-            .getByTypeWithMovie()
+            .getWithMovies()
     }
 
     private suspend fun getRemoteData(): List<SuggestionResult> {
