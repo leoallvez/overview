@@ -22,5 +22,5 @@ interface SuggestionsDao {
 
     @Transaction
     @Query("SELECT * FROM suggestions WHERE type = :type")
-    fun getByTypeWithMovies(type: String): List<MovieSuggestion>
+    fun getByTypeWithMovie(type: String): List<MovieSuggestion>
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.leoallvez.take.data.model.MovieSuggestion
+import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.data.repository.movie.MovieRepository
 import io.github.leoallvez.take.di.AbDisplayAds
 import io.github.leoallvez.take.experiment.AbExperiment
@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor (
     private val repository: MovieRepository
 ) : ViewModel() {
 
-    fun getSuggestions(): LiveData<List<MovieSuggestion>> = liveData {
+    fun getSuggestions(): LiveData<List<SuggestionResult>> = liveData {
         emitSource(repository.getData().asLiveData())
     }
 

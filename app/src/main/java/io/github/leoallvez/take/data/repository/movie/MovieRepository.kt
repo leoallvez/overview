@@ -1,9 +1,10 @@
 package io.github.leoallvez.take.data.repository.movie
 
+import io.github.leoallvez.take.data.model.Audiovisual
 import io.github.leoallvez.take.data.model.Movie
-import io.github.leoallvez.take.data.model.MovieSuggestion
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.Suggestion.Companion.MOVIE_TYPE
+import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.data.source.AudiovisualResult.ApiSuccess
 import io.github.leoallvez.take.data.source.movie.MovieLocalDataSource
 import io.github.leoallvez.take.data.source.movie.MovieRemoteDataSource
@@ -22,41 +23,47 @@ class MovieRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun getData(): Flow<List<MovieSuggestion>> {
+    suspend fun getData(): Flow<List<SuggestionResult>> {
         return withContext(ioDispatcher) {
             val onCacheTime = hasCache()
-            var results = if (onCacheTime) getLocalData() else getRemoteData()
+            val results = if (onCacheTime) getLocalData() else getRemoteData()
             flow { emit(results) }
         }
     }
 
     private fun hasCache(): Boolean {
-        return suggestionLocalDataSource.hasMovieCache(MOVIE_TYPE)
+        return suggestionLocalDataSource.hasMoviesCache()
     }
 
-    private fun getLocalData(): List<MovieSuggestion> {
-        return suggestionLocalDataSource.getByTypeWithMovies(MOVIE_TYPE)
+    private fun getLocalData(): List<SuggestionResult> {
+        return suggestionLocalDataSource
+            .getByTypeWithMovie()
     }
 
-    private suspend fun getRemoteData(): List<MovieSuggestion> {
-        val results = mutableListOf<MovieSuggestion>()
-        val suggestions = getMovieSuggestion()
+    private suspend fun getRemoteData(): List<SuggestionResult> {
+        val results = mutableListOf<SuggestionResult>()
+        val suggestions = getSuggestion()
         suggestions.forEach { suggestion ->
             val result = remoteDataSource.get(suggestion.apiPath)
             if(result is ApiSuccess) {
-                val movies = result.content as List<Movie>
-                saveCache(movies, suggestion.suggestionId)
-                results.add(MovieSuggestion(suggestion, movies))
+                saveCache(audiovisuals = result.content, suggestion.suggestionId)
+                results.add(
+                    SuggestionResult(suggestion.titleResourceId, result.content)
+                )
             }
         }
         return results
     }
 
-    private fun getMovieSuggestion(): List<Suggestion> {
+    private fun getSuggestion(): List<Suggestion> {
         return suggestionLocalDataSource.getByType(MOVIE_TYPE)
     }
 
-    private suspend fun saveCache(movies: List<Movie>, suggestionId: Long) {
+    private suspend fun saveCache(
+        audiovisuals: List<Audiovisual>,
+        suggestionId: Long
+    ) {
+        val movies = audiovisuals as List<Movie>
         movies.forEach { it.suggestionId = suggestionId}
         localDataSource.save(*movies.toTypedArray())
     }

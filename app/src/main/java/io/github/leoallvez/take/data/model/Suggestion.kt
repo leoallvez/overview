@@ -31,7 +31,14 @@ class MovieSuggestion(
         entityColumn = "suggestion_id"
     )
     val movies: List<Movie>
-)
+) {
+    fun toSuggestionResult(): SuggestionResult {
+        return SuggestionResult(
+            titleResourceId = suggestion.titleResourceId,
+            audiovisuals = movies
+        )
+    }
+}
 
 class TvShowSuggestion(
     @Embedded
@@ -41,4 +48,16 @@ class TvShowSuggestion(
         entityColumn = "suggestionId"
     )
     val tvShows: List<TvShow>
+) {
+    fun toSuggestionResult(): SuggestionResult {
+        return SuggestionResult(
+            titleResourceId = suggestion.titleResourceId,
+            audiovisuals = tvShows
+        )
+    }
+}
+
+class SuggestionResult(
+    val titleResourceId: String,
+    val audiovisuals: List<Audiovisual>
 )

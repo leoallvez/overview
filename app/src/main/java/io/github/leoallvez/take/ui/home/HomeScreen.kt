@@ -21,7 +21,7 @@ import io.github.leoallvez.take.ui.AdsBanner
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import io.github.leoallvez.take.data.model.Audiovisual
-import io.github.leoallvez.take.data.model.MovieSuggestion
+import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.util.getStringByName
 
 @Composable
@@ -50,14 +50,14 @@ fun HomeScreen(viewModel: HomeViewModel) {
 
 @Composable
 fun MovieSuggestionVerticalList(
-    moviesSuggestions: List<MovieSuggestion>
+    moviesSuggestions: List<SuggestionResult>
 ) {
     val context = LocalContext.current
     LazyColumn {
-        items(moviesSuggestions) { ms ->
+        items(moviesSuggestions) {
             AudiovisualHorizontalList(
-                title = context.getStringByName(ms.suggestion.titleResourceId),
-                contents = ms.movies
+                title = context.getStringByName(it.titleResourceId),
+                contents = it.audiovisuals
             )
         }
     }
