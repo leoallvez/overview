@@ -1,13 +1,11 @@
 package io.github.leoallvez.take.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,15 +20,14 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.AdsBanner
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
+import io.github.leoallvez.take.data.model.Audiovisual
+import io.github.leoallvez.take.data.model.MovieSuggestion
 import io.github.leoallvez.take.util.getStringByName
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
     val suggestions = viewModel.getSuggestions().observeAsState(listOf()).value
-    val movies: List<String> = (0..99).map { "movie $it" }
-    val context = LocalContext.current
-    val value = context.getStringByName("banner_sample_id")
-    Log.i("dynamic_resources", value)
+    val showAd = viewModel.adsAreVisible().observeAsState(initial = false)
 
     Box(
         contentAlignment = Alignment.Center,
@@ -39,32 +36,42 @@ fun HomeScreen(viewModel: HomeViewModel) {
             .background(color = Color.DarkGray)
             .padding(10.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-        ) {
-            val showAd = viewModel.adsAreVisible().observeAsState(initial = false)
-            AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAd.value)
-            HorizontalList(title = "Os mais populares", movies)
-            HorizontalList(title = "Grátis para assistir", movies)
-            HorizontalList(title = "Documentários", movies)
-            HorizontalList(title = "Aventura", movies)
-            HorizontalList(title = "Clássicos", movies)
+        Column {
+            AdsBanner(
+                bannerId = R.string.banner_sample_id,
+                isVisible = showAd.value
+            )
+            MovieSuggestionVerticalList(
+                moviesSuggestions = suggestions
+            )
         }
     }
 }
 
 @Composable
-fun HorizontalList(
-    //TODO: Change title param to @StringRes;
-    title: String,
-    movies: List<String>
+fun MovieSuggestionVerticalList(
+    moviesSuggestions: List<MovieSuggestion>
 ) {
-    //TODO: Add Loading;
+    val context = LocalContext.current
+    LazyColumn {
+        items(moviesSuggestions) { ms ->
+            AudiovisualHorizontalList(
+                title = context.getStringByName(ms.suggestion.titleResourceId),
+                contents = ms.movies
+            )
+        }
+    }
+}
+
+@Composable
+fun AudiovisualHorizontalList(
+    title: String,
+    contents: List<Audiovisual>
+) {
     ListTitle(title)
     LazyRow {
-        items(movies) { movie ->
-            MovieCard(movie)
+        items(contents) { content ->
+            MovieCard(content.getContentTitle())
         }
     }
 }
@@ -74,8 +81,7 @@ fun ListTitle(title: String) {
     Text(
         text = title,
         color = Color.White,
-        modifier = Modifier
-            .padding(5.dp, bottom = 10.dp),
+        modifier = Modifier.padding(5.dp, bottom = 10.dp),
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold
     )
