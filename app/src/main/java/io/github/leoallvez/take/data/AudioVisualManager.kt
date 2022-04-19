@@ -11,27 +11,16 @@ class AudioVisualManager @Inject constructor(
     private val tvShowRepository: TvShowRepository
 ) {
 
-    private val suggestionResultList: Flow<List<SuggestionResult>> = flow {
-        val moviesResult = movieRepository.getData()
-        val tvShowsResult = tvShowRepository.getData()
-
-        val mergeResult = combine(suggestionOne, suggestionTwo) {
-                elements -> elements.flatMap { it }
-            }.first().sortedBy { it.order }
-        
-        emit(mergeResult)
-    }
-
     fun getData(): Flow<List<SuggestionResult>> = flow {
         
-        val moviesResult = movieRepository.getData()
-        val tvShowsResult = tvShowRepository.getData()
+        val movies = movieRepository.getData()
+        val tvShows = tvShowRepository.getData()
 
-        val mergeResult = combine(suggestionOne, suggestionTwo) { elements -> 
-                elements.flatMap { it }
-            }.first().sortedBy { it.order }
+        val merged = combine(movies, tvShows) { e -> e.flatMap { it } }
+            .first()
+            .sortedBy { it.order }
         
-        emit(mergeResult)
-    
+        emit(merged)
     }
+
 }
