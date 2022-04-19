@@ -13,7 +13,7 @@ data class TvShow(
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
     override val apiId: Long,
-    val name: String,
+    val name: String?,
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
     override val posterPath: String?,
@@ -23,5 +23,5 @@ data class TvShow(
     @ColumnInfo(name = "suggestion_id")
     override var suggestionId: Long = 0,
 ) : Audiovisual {
-    override fun getContentTitle(): String = name
+    override fun getContentTitle(): String = name ?: ""
 }

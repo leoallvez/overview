@@ -1,14 +1,11 @@
-package io.github.leoallvez.take.data.repository.movie
+package io.github.leoallvez.take.data.repository.tvshow
 
-import io.github.leoallvez.take.data.model.Audiovisual
-import io.github.leoallvez.take.data.model.Movie
-import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.data.model.Suggestion.Companion.MOVIE_TYPE
-import io.github.leoallvez.take.data.model.SuggestionResult
+import io.github.leoallvez.take.data.model.*
+import io.github.leoallvez.take.data.model.Suggestion.Companion.TV_SHOW_TYPE
 import io.github.leoallvez.take.data.source.AudiovisualResult.ApiSuccess
-import io.github.leoallvez.take.data.source.movie.MovieLocalDataSource
-import io.github.leoallvez.take.data.source.movie.MovieRemoteDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
+import io.github.leoallvez.take.data.source.tvshow.TvShowLocalDataSource
+import io.github.leoallvez.take.data.source.tvshow.TvShowRemoteDataSource
 import io.github.leoallvez.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -16,9 +13,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(
-    private val localDataSource: MovieLocalDataSource,
-    private val remoteDataSource: MovieRemoteDataSource,
+class TvShowRepository @Inject constructor(
+    private val localDataSource: TvShowLocalDataSource,
+    private val remoteDataSource: TvShowRemoteDataSource,
     private val suggestionLocalDataSource: SuggestionLocalDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
@@ -32,12 +29,12 @@ class MovieRepository @Inject constructor(
     }
 
     private fun hasCache(): Boolean {
-        return suggestionLocalDataSource.hasMoviesCache()
+        return suggestionLocalDataSource.hasTvShowsCache()
     }
 
     private fun getLocalData(): List<SuggestionResult> {
         return suggestionLocalDataSource
-            .getWithMovies()
+            .getWithTvShows()
     }
 
     private suspend fun getRemoteData(): List<SuggestionResult> {
@@ -56,15 +53,15 @@ class MovieRepository @Inject constructor(
     }
 
     private fun getSuggestions(): List<Suggestion> {
-        return suggestionLocalDataSource.getByType(MOVIE_TYPE)
+        return suggestionLocalDataSource.getByType(TV_SHOW_TYPE)
     }
 
     private suspend fun saveCache(
         audiovisuals: List<Audiovisual>,
         suggestionId: Long
     ) {
-        val movies = audiovisuals as List<Movie>
-        movies.forEach { it.suggestionId = suggestionId}
-        localDataSource.save(*movies.toTypedArray())
+        val tvShows = audiovisuals as List<TvShow>
+        tvShows.forEach { it.suggestionId = suggestionId }
+        localDataSource.save(* tvShows.toTypedArray())
     }
 }

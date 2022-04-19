@@ -21,6 +21,16 @@ data class Suggestion (
         const val MOVIE_TYPE   = "movie"
         const val TV_SHOW_TYPE = "tv_show"
     }
+
+    fun toSuggestionResult(
+        audiovisuals: List<Audiovisual>
+    ): SuggestionResult {
+        return SuggestionResult(
+            order = order,
+            titleResourceId = titleResourceId,
+            audiovisuals = audiovisuals
+        )
+    }
 }
 
 class MovieSuggestion(
@@ -34,6 +44,7 @@ class MovieSuggestion(
 ) {
     fun toSuggestionResult(): SuggestionResult {
         return SuggestionResult(
+            order = suggestion.order,
             titleResourceId = suggestion.titleResourceId,
             audiovisuals = movies
         )
@@ -51,6 +62,7 @@ class TvShowSuggestion(
 ) {
     fun toSuggestionResult(): SuggestionResult {
         return SuggestionResult(
+            order = suggestion.order,
             titleResourceId = suggestion.titleResourceId,
             audiovisuals = tvShows
         )
@@ -58,6 +70,7 @@ class TvShowSuggestion(
 }
 
 class SuggestionResult(
+    val order: Int,
     val titleResourceId: String,
     val audiovisuals: List<Audiovisual>
 )
