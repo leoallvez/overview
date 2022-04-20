@@ -1,6 +1,5 @@
-package io.github.leoallvez.take.data.repository.suggestion
+package io.github.leoallvez.take.data.repository
 
-import android.util.Log
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionRemoteDataSource
 import io.github.leoallvez.take.di.IoDispatcher
