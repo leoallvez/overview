@@ -23,5 +23,5 @@ data class Movie(
     @ColumnInfo(name = "suggestion_id")
     override var suggestionId: Long = 0,
 ) : Audiovisual {
-    override fun getContentTitle(): String = title ?: ""
+    override fun getContentTitle(): String = title ?: "Title is null"
 }

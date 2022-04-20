@@ -14,11 +14,12 @@ class MovieRepository @Inject constructor(
     private val localDataSource: MovieLocalDataSource,
     private val remoteDataSource: MovieRemoteDataSource,
     private val suggestionLocalDataSource: SuggestionLocalDataSource,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher ioDispatcher: CoroutineDispatcher
 ) : AudioVisualRepository(ioDispatcher) {
 
     override fun hasCache(): Boolean {
-        return suggestionLocalDataSource.hasMoviesCache()
+        return suggestionLocalDataSource
+            .hasMoviesCache()
     }
 
     override fun getLocalData(): List<SuggestionResult> {
@@ -27,11 +28,13 @@ class MovieRepository @Inject constructor(
     }
 
     override suspend fun doRequest(apiPath: String): AudiovisualResult {
-        return remoteDataSource.get(apiPath)
+        return remoteDataSource
+            .get(apiPath)
     }
 
     override fun getSuggestions(): List<Suggestion> {
-        return suggestionLocalDataSource.getByType(MOVIE_TYPE)
+        return suggestionLocalDataSource
+            .getByType(MOVIE_TYPE)
     }
 
     override suspend fun saveCache(
@@ -39,7 +42,7 @@ class MovieRepository @Inject constructor(
         suggestionId: Long
     ) {
         val movies = audiovisuals as List<Movie>
-        movies.forEach { it.suggestionId = suggestionId}
+        movies.forEach { it.suggestionId = suggestionId }
         localDataSource.save(*movies.toTypedArray())
     }
 }

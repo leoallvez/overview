@@ -23,5 +23,5 @@ data class TvShow(
     @ColumnInfo(name = "suggestion_id")
     override var suggestionId: Long = 0,
 ) : Audiovisual {
-    override fun getContentTitle(): String = name ?: ""
+    override fun getContentTitle(): String = name ?: "Name is null"
 }
