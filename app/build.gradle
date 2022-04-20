@@ -26,9 +26,9 @@ android {
             useSupportLibrary true
         }
 
-        buildConfigField("String", "API_KEY", apiProperties['API_KEY'])
-        buildConfigField("String", "API_URL", apiProperties['API_URL'])
-        buildConfigField("String", "URL_IMG", apiProperties['URL_IMG'])
+        buildConfigField 'String', 'API_KEY', apiProperties['API_KEY']
+        buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
+        buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w500/"'
     }
 
     buildTypes {
@@ -37,6 +37,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        dev {
+            dimension "version"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue 'string', 'app_name', 'Take - Dev'
+            buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
+        }
+        free {
+            dimension "version"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+            resValue 'string', 'app_name', 'Take'
+            buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'false'
+        }
+        paid {
+            dimension "version"
+            applicationIdSuffix ".paid"
+            versionNameSuffix "-paid"
+            resValue 'string', 'app_name', 'Take'
+            buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'false'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -67,6 +93,7 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.3.0-alpha06'
 
@@ -93,16 +120,19 @@ dependencies {
     kapt "androidx.room:room-compiler:$room"
 
     implementation "com.google.accompanist:accompanist-swiperefresh:0.21.4-beta"
-    implementation 'com.google.code.gson:gson:2.9.0'
+    //Google Ads
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
 
     // Third party library
     implementation 'com.jakewharton.timber:timber:5.0.1'
     def retrofit = '2.6.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
+    implementation 'com.google.code.gson:gson:2.9.0'
     implementation "com.github.haroldadmin:NetworkResponseAdapter:4.0.1"
 
     testImplementation 'junit:junit:4.+'
+    testImplementation 'io.mockk:mockk:1.12.3'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"

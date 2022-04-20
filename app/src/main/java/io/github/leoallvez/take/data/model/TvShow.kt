@@ -5,15 +5,15 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
-@Entity(tableName = "movies")
-data class Movie(
+@Entity(tableName = "tv_shows")
+data class TvShow(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "movie_id")
-    var movieId: Long,
+    @ColumnInfo(name = "tv_show_id")
+    var tvShowId: Long,
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
     override val apiId: Long,
-    val title: String?,
+    val name: String?,
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
     override val posterPath: String?,
@@ -23,5 +23,5 @@ data class Movie(
     @ColumnInfo(name = "suggestion_id")
     override var suggestionId: Long = 0,
 ) : Audiovisual {
-    override fun getContentTitle(): String = title ?: "Title is null"
+    override fun getContentTitle(): String = name ?: "Name is null"
 }

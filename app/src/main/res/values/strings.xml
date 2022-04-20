@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Take</string>
+     <string name="app_global_name">Take</string>
+    <string name="banner_sample_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="movie_popular">Mais Populares</string>
+    <string name="movie_top_rated">Os mais Votados</string>
+    <string name="discover_movie">Descubra</string>
+    <string name="movie_trending">Tendência</string>
 </resources>

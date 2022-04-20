@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import io.github.leoallvez.take.R
+import io.github.leoallvez.take.ui.Screen
 import kotlinx.coroutines.delay
 
 @Composable
@@ -35,8 +36,8 @@ fun SplashScreen(navController: NavController) {
                 })
         )
         delay(1500L)
-        navController.navigate("home_screen") {
-            popUpTo("splash_screen") {
+        navController.navigate(route = Screen.Home.route) {
+            popUpTo(Screen.Splash.route) {
                 inclusive = true
             }
         }
@@ -52,7 +53,7 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = stringResource(id = R.string.app_name),
+            text = stringResource(id = R.string.app_global_name),
             style = MaterialTheme.typography.overline,
             fontSize = 100.sp,
             modifier = Modifier
