@@ -16,11 +16,12 @@ class TvShowRepository @Inject constructor(
     private val localDataSource: TvShowLocalDataSource,
     private val remoteDataSource: TvShowRemoteDataSource,
     private val suggestionLocalDataSource: SuggestionLocalDataSource,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-): AudioVisualRepository(ioDispatcher) {
+    @IoDispatcher ioDispatcher: CoroutineDispatcher
+) : AudioVisualRepository(ioDispatcher) {
 
     override fun hasCache(): Boolean {
-        return suggestionLocalDataSource.hasTvShowsCache()
+        return suggestionLocalDataSource
+            .hasTvShowsCache()
     }
 
     override fun getLocalData(): List<SuggestionResult> {
@@ -29,11 +30,13 @@ class TvShowRepository @Inject constructor(
     }
 
     override suspend fun doRequest(apiPath: String): AudiovisualResult {
-        return remoteDataSource.get(apiPath)
+        return remoteDataSource
+            .get(apiPath)
     }
 
     override fun getSuggestions(): List<Suggestion> {
-        return suggestionLocalDataSource.getByType(Suggestion.MOVIE_TYPE)
+        return suggestionLocalDataSource
+            .getByType(Suggestion.MOVIE_TYPE)
     }
 
     override suspend fun saveCache(
@@ -41,7 +44,7 @@ class TvShowRepository @Inject constructor(
         suggestionId: Long
     ) {
         val tvShows = audiovisuals as List<TvShow>
-        tvShows.forEach { it.suggestionId = suggestionId}
+        tvShows.forEach { it.suggestionId = suggestionId }
         localDataSource.save(*tvShows.toTypedArray())
     }
 }
