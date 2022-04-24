@@ -1,6 +1,9 @@
 package io.github.leoallvez.take.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -15,7 +18,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DatabaseModule {
+class StorageModule {
 
     @Singleton
     @Provides
@@ -42,7 +45,15 @@ class DatabaseModule {
         return db.suggestionDao()
     }
 
+    @Provides
+    fun provideDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> {
+        return context.dataStore
+    }
+
     companion object {
+        private val Context.dataStore by preferencesDataStore("app_setting")
         private const val DATABASE_NAME = "take_database"
     }
 }
