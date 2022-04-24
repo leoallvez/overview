@@ -1,6 +1,5 @@
 package io.github.leoallvez.take.data.repository
 
-import android.util.Log
 import io.github.leoallvez.take.data.source.CacheDataSource
 import io.github.leoallvez.take.data.source.CacheDataSource.Companion.LAST_CACHE_TIME
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
@@ -37,26 +36,28 @@ class SuggestionRepository @Inject constructor(
 
     private suspend fun saveLastCacheTime() {
         val nowDateString = formatter.format(Date())
-        Log.i("refresh_cache_debug", "salve date: $nowDateString")
         cacheDataSource.setValue(LAST_CACHE_TIME, nowDateString)
     }
 
     private suspend fun isTimeToRefreshCache(): Boolean {
-        val lastCacheDateString: String? = cacheDataSource.getValue(LAST_CACHE_TIME).first()
-        return if(lastCacheDateString.isNullOrBlank().not()) {
-            val nowDate = Date()
-            val lastCacheDate = formatter.parse(lastCacheDateString)
-            val diffInMilliseconds: Long = abs(lastCacheDate.time - nowDate.time)
-            val diff: Long = TimeUnit.HOURS.convert(diffInMilliseconds, TimeUnit.MILLISECONDS)
-            Log.i("refresh_cache_debug", "diff: $diff")
-            return diff > 23
+        val lastCacheDateFormatted = cacheDataSource.getValue(LAST_CACHE_TIME).first()
+        val hasLastCacheFormatted = lastCacheDateFormatted.isNullOrBlank().not()
+        return if(hasLastCacheFormatted) {
+            val lastCacheDate = formatter.parse(lastCacheDateFormatted)
+            return hasMoreThan24Hours(lastCacheDate)
         } else {
             true
         }
     }
 
-    companion object {
-        private const val TIME_PATTERN = "MM/dd/yyyy HH:mm:ss"
+    private fun hasMoreThan24Hours(lastCacheDate: Date): Boolean {
+        val diffInMilliseconds = abs(lastCacheDate.time - Date().time)
+        val diffInHours = TimeUnit.HOURS.convert(diffInMilliseconds, TimeUnit.MILLISECONDS)
+        return diffInHours > MAXIMUM_CACHE_HOURS
     }
 
+    companion object {
+        private const val TIME_PATTERN = "MM/dd/yyyy HH:mm:ss"
+        private const val MAXIMUM_CACHE_HOURS = 24
+    }
 }
