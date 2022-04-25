@@ -35,21 +35,27 @@ class SuggestionRepository @Inject constructor(
     }
 
     private suspend fun saveLastCacheTime() {
-        val nowDateString = formatter.format(Date())
-        cacheDataSource.setValue(LAST_CACHE_TIME, nowDateString)
+        val nowDateFormatted = formatter.format(Date())
+        cacheDataSource.setValue(LAST_CACHE_TIME, nowDateFormatted)
     }
 
     private suspend fun isTimeToRefreshCache(): Boolean {
-        val lastCacheDateFormatted = cacheDataSource.getValue(LAST_CACHE_TIME).first() ?: ""
+        val lastCacheDateFormatted = getLastCacheDateFormatted()
         return if(lastCacheDateFormatted.isNotBlank()) {
-            val lastCacheDate = formatter.parse(lastCacheDateFormatted)
+            val lastCacheDate = formatter.parse(lastCacheDateFormatted) as Date
             return maximumCacheTimeHasPassed(lastCacheDate)
         } else {
             true
         }
     }
 
-    private fun maximumCacheTimeHasPassed(lastCacheDate: Date): Boolean {
+    private suspend fun getLastCacheDateFormatted(): String {
+        return cacheDataSource.getValue(LAST_CACHE_TIME).first() ?: ""
+    }
+
+    private fun maximumCacheTimeHasPassed(
+        lastCacheDate: Date
+    ): Boolean {
         val diffInMilliseconds = abs(lastCacheDate.time - Date().time)
         val diffInHours = TimeUnit.HOURS.convert(diffInMilliseconds, TimeUnit.MILLISECONDS)
         return diffInHours > MAXIMUM_CACHE_HOURS
