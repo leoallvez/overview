@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.data.model
 
+import androidx.compose.runtime.Immutable
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
@@ -33,6 +34,7 @@ data class Suggestion (
     }
 }
 
+@Immutable
 class SuggestionResult(
     val order: Int,
     val titleResourceId: String,
