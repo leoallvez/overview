@@ -9,14 +9,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val repository: SuggestionRepository,
+    private val repository: SuggestionRepository
 ) : ViewModel() {
 
-    init {
-        loadingData()
-    }
-
-    private fun loadingData() = viewModelScope.launch {
+    fun loadingData() = viewModelScope.launch {
         repository.refresh()
     }
 }

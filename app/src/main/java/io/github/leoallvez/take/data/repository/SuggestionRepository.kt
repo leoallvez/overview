@@ -1,11 +1,15 @@
 package io.github.leoallvez.take.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asFlow
 import io.github.leoallvez.take.data.source.CacheDataSource
 import io.github.leoallvez.take.data.source.CacheDataSource.Companion.LAST_CACHE_TIME
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionRemoteDataSource
 import io.github.leoallvez.take.di.IoDispatcher
+import io.github.leoallvez.take.di.IsOnline
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.text.DateFormat
@@ -17,6 +21,7 @@ import kotlin.math.abs
 
 class SuggestionRepository @Inject constructor(
     private var cacheDataSource: CacheDataSource,
+    @IsOnline private val isOnline: LiveData<Boolean>,
     private val localDataSource: SuggestionLocalDataSource,
     private val remoteDataSource: SuggestionRemoteDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
@@ -26,11 +31,13 @@ class SuggestionRepository @Inject constructor(
     }
 
     suspend fun refresh() = withContext (ioDispatcher) {
-        if(isTimeToRefreshCache()) {
-            val suggestions = remoteDataSource.get().toTypedArray()
-            localDataSource.deleteAll()
-            localDataSource.save(*suggestions)
-            saveLastCacheTime()
+        isOnline.asFlow().collect { isOnline ->
+            if(isOnline && isTimeToRefreshCache()) {
+                val suggestions = remoteDataSource.get().toTypedArray()
+                localDataSource.deleteAll()
+                localDataSource.save(*suggestions)
+                saveLastCacheTime()
+            }
         }
     }
 

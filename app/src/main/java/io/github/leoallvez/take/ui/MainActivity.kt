@@ -42,7 +42,7 @@ fun TakeApp() {
     ) {
         composable(route = Screen.Splash.route) {
             val viewModel: SplashViewModel = hiltViewModel()
-            SplashScreen(navController)
+            SplashScreen(viewModel, navController)
         }
         composable(route = Screen.Home.route) {
             val viewModel: HomeViewModel = hiltViewModel()
