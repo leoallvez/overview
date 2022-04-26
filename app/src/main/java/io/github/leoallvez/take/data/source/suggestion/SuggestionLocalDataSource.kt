@@ -1,6 +1,7 @@
 package io.github.leoallvez.take.data.source.suggestion
 
 import io.github.leoallvez.take.data.db.dao.SuggestionsDao
+import io.github.leoallvez.take.data.model.Audiovisual
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
 import javax.inject.Inject
@@ -16,23 +17,36 @@ class SuggestionLocalDataSource @Inject constructor(
 
     fun getWithMovies(): List<SuggestionResult> {
         return dao.getWithMovies()
-            .sortedBy { it.suggestion.order }
-            .map { it.toSuggestionResult() }
+            .map { (s, movies) ->
+                toSuggestionResult(suggestion = s, audiovisuals = movies)
+            }
     }
 
     fun hasMoviesCache(): Boolean {
         return dao.getWithMovies()
-            .any { it.movies.isNotEmpty() }
+            .any { map -> map.value.isNotEmpty() }
     }
 
     fun getWithTvShows(): List<SuggestionResult> {
         return dao.getWithTvShows()
-            .sortedBy { it.suggestion.order }
-            .map { it.toSuggestionResult() }
+            .map { (s, tvShows) ->
+                toSuggestionResult(suggestion = s, audiovisuals = tvShows)
+            }
+    }
+
+    private fun toSuggestionResult(
+        suggestion: Suggestion,
+        audiovisuals: List<Audiovisual>
+    ): SuggestionResult {
+        return SuggestionResult(
+            order = suggestion.order,
+            titleResourceId = suggestion.titleResourceId,
+            audiovisuals = audiovisuals
+        )
     }
 
     fun hasTvShowsCache(): Boolean {
         return dao.getWithTvShows()
-            .any { it.tvShows.isNotEmpty() }
+            .any { map -> map.value.isNotEmpty() }
     }
 }

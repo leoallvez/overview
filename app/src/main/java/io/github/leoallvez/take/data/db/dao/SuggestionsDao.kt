@@ -3,13 +3,9 @@ package io.github.leoallvez.take.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Transaction
-import io.github.leoallvez.take.data.model.MovieSuggestion
+import io.github.leoallvez.take.data.model.Movie
 import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.data.model.Suggestion.Companion.MOVIE_TYPE
-import io.github.leoallvez.take.data.model.Suggestion.Companion.TV_SHOW_TYPE
-import io.github.leoallvez.take.data.model.TvShowSuggestion
-import kotlinx.coroutines.flow.Flow
+import io.github.leoallvez.take.data.model.TvShow
 
 @Dao
 interface SuggestionsDao {
@@ -23,11 +19,13 @@ interface SuggestionsDao {
     @Query("DELETE FROM suggestions")
     suspend fun deleteAll()
 
-    @Transaction
-    @Query("SELECT * FROM suggestions WHERE type = :type")
-    fun getWithMovies(type: String = MOVIE_TYPE): List<MovieSuggestion>
+    @Query(
+        """SELECT * FROM suggestions AS s
+                 JOIN movies AS m ON s.suggestion_id = m.suggestion_id""")
+    fun getWithMovies(): Map<Suggestion, List<Movie>>
 
-    @Transaction
-    @Query("SELECT * FROM suggestions WHERE type = :type")
-    fun getWithTvShows(type: String = TV_SHOW_TYPE): List<TvShowSuggestion>
+    @Query(
+        """SELECT * FROM suggestions AS s
+                 JOIN tv_shows AS t ON s.suggestion_id = t.suggestion_id""")
+    fun getWithTvShows(): Map<Suggestion, List<TvShow>>
 }

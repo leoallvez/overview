@@ -33,42 +33,6 @@ data class Suggestion (
     }
 }
 
-class MovieSuggestion(
-    @Embedded
-    val suggestion: Suggestion,
-    @Relation(
-        parentColumn = "suggestion_id",
-        entityColumn = "suggestion_id"
-    )
-    val movies: List<Movie>
-) {
-    fun toSuggestionResult(): SuggestionResult {
-        return SuggestionResult(
-            order = suggestion.order,
-            titleResourceId = suggestion.titleResourceId,
-            audiovisuals = movies
-        )
-    }
-}
-
-class TvShowSuggestion(
-    @Embedded
-    val suggestion: Suggestion,
-    @Relation(
-        parentColumn = "suggestion_id",
-        entityColumn = "suggestion_id"
-    )
-    val tvShows: List<TvShow>
-) {
-    fun toSuggestionResult(): SuggestionResult {
-        return SuggestionResult(
-            order = suggestion.order,
-            titleResourceId = suggestion.titleResourceId,
-            audiovisuals = tvShows
-        )
-    }
-}
-
 class SuggestionResult(
     val order: Int,
     val titleResourceId: String,
