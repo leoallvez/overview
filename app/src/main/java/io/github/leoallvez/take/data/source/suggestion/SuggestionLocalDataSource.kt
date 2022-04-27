@@ -24,7 +24,7 @@ class SuggestionLocalDataSource @Inject constructor(
             }
     }
 
-    fun getWithTvShows(): Map<Suggestion, List<TvShow>>{
+    fun getWithTvShows(): Map<Suggestion, List<TvShow>> {
         return dao.getWithTvShows()
     }
 
