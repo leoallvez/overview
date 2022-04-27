@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SuggestionLocalDataSource @Inject constructor(
     private val dao: SuggestionsDao,
-){
+) {
     suspend fun save(vararg entities: Suggestion) = dao.insert(*entities)
 
     fun getByType(type: String): List<Suggestion> = dao.getByType(type)
