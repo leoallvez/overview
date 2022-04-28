@@ -1,7 +1,5 @@
 package io.github.leoallvez.take.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import io.github.leoallvez.take.data.model.*
 import io.github.leoallvez.take.data.model.Suggestion.Companion.MOVIE_TYPE
 import io.github.leoallvez.take.data.source.AudiovisualResult

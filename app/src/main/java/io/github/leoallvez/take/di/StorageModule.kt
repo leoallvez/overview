@@ -11,9 +11,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.leoallvez.take.data.db.TakeDatabase
-import io.github.leoallvez.take.data.db.dao.MovieDao
-import io.github.leoallvez.take.data.db.dao.SuggestionsDao
-import io.github.leoallvez.take.data.db.dao.TvShowDao
 import javax.inject.Singleton
 
 @Module
@@ -22,35 +19,27 @@ class StorageModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): TakeDatabase {
-        return Room.databaseBuilder(
+    fun provideDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(
             context,
             TakeDatabase::class.java,
             DATABASE_NAME
         ).build()
-    }
 
     @Provides
-    fun provideMovieDao(db: TakeDatabase): MovieDao {
-        return db.movieDao()
-    }
+    fun provideMovieDao(db: TakeDatabase) = db.movieDao()
 
     @Provides
-    fun provideTvShowDao(db: TakeDatabase): TvShowDao {
-        return db.tvShowDao()
-    }
+    fun provideTvShowDao(db: TakeDatabase) = db.tvShowDao()
 
     @Provides
-    fun provideSuggestions(db: TakeDatabase): SuggestionsDao {
-        return db.suggestionDao()
-    }
+    fun provideSuggestions(db: TakeDatabase) = db.suggestionDao()
 
     @Provides
     fun provideDataStore(
         @ApplicationContext context: Context
-    ): DataStore<Preferences> {
-        return context.dataStore
-    }
+    ): DataStore<Preferences> = context.dataStore
 
     companion object {
         private val Context.dataStore by preferencesDataStore("app_setting")

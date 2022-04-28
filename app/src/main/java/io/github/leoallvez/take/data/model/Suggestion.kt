@@ -5,7 +5,7 @@ import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "suggestions")
-data class Suggestion (
+data class Suggestion(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "suggestion_id")
     var suggestionId: Long = 0,

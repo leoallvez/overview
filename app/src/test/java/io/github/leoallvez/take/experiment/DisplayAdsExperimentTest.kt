@@ -95,5 +95,4 @@ class DisplayAdsExperimentTest  {
         //Assert
         verify { remoteSource.getBoolean(any()) }
     }
-
 }

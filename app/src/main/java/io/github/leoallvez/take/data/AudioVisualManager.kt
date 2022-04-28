@@ -22,5 +22,4 @@ class AudioVisualManager @Inject constructor(
         
         emit(merged)
     }
-
 }

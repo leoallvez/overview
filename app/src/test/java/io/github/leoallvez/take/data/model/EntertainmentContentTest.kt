@@ -13,7 +13,7 @@ open class EntertainmentContentTest {
             apiId: Long,
             fieldName: String,
             fieldValue: String,
-            posterPath: String,
+            posterPath: String?,
             voteAverage: Double
         ): String {
             return """{

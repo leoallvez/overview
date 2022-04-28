@@ -6,7 +6,6 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
-
 @Entity(
     tableName = "tv_shows",
     foreignKeys = [
@@ -18,6 +17,7 @@ import com.squareup.moshi.Json
         )
     ]
 )
+
 data class TvShow(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tv_show_id")

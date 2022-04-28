@@ -45,7 +45,6 @@ fun SplashScreen(
             }
         }
     }
-
     SplashScreenContent(scale)
 }
 
