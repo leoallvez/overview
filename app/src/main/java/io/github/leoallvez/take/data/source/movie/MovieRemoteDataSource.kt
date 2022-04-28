@@ -2,7 +2,6 @@ package io.github.leoallvez.take.data.source.movie
 
 import com.haroldadmin.cnradapter.NetworkResponse.*
 import io.github.leoallvez.take.data.api.ApiService
-import io.github.leoallvez.take.data.model.Movie
 import io.github.leoallvez.take.data.source.AudiovisualResult
 import io.github.leoallvez.take.data.source.AudiovisualResult.*
 import io.github.leoallvez.take.di.IoDispatcher

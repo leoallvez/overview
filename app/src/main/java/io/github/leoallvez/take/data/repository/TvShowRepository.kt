@@ -10,6 +10,7 @@ import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.data.source.tvshow.TvShowLocalDataSource
 import io.github.leoallvez.take.data.source.tvshow.TvShowRemoteDataSource
 import io.github.leoallvez.take.di.IoDispatcher
+import io.github.leoallvez.take.util.toSuggestionResult
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class TvShowRepository @Inject constructor(
     override fun getLocalData(): List<SuggestionResult> {
         return suggestionLocalDataSource
             .getWithTvShows()
+            .map { it.toSuggestionResult() }
     }
 
     override suspend fun doRequest(apiPath: String): AudiovisualResult {

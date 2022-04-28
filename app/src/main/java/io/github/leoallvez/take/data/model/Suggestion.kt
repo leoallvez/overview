@@ -1,10 +1,11 @@
 package io.github.leoallvez.take.data.model
 
+import androidx.compose.runtime.Immutable
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "suggestions")
-data class Suggestion (
+data class Suggestion(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "suggestion_id")
     var suggestionId: Long = 0,
@@ -33,42 +34,7 @@ data class Suggestion (
     }
 }
 
-class MovieSuggestion(
-    @Embedded
-    val suggestion: Suggestion,
-    @Relation(
-        parentColumn = "suggestion_id",
-        entityColumn = "suggestion_id"
-    )
-    val movies: List<Movie>
-) {
-    fun toSuggestionResult(): SuggestionResult {
-        return SuggestionResult(
-            order = suggestion.order,
-            titleResourceId = suggestion.titleResourceId,
-            audiovisuals = movies
-        )
-    }
-}
-
-class TvShowSuggestion(
-    @Embedded
-    val suggestion: Suggestion,
-    @Relation(
-        parentColumn = "suggestion_id",
-        entityColumn = "suggestion_id"
-    )
-    val tvShows: List<TvShow>
-) {
-    fun toSuggestionResult(): SuggestionResult {
-        return SuggestionResult(
-            order = suggestion.order,
-            titleResourceId = suggestion.titleResourceId,
-            audiovisuals = tvShows
-        )
-    }
-}
-
+@Immutable
 class SuggestionResult(
     val order: Int,
     val titleResourceId: String,

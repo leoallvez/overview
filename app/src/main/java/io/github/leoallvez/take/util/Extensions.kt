@@ -4,6 +4,9 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
+import io.github.leoallvez.take.data.model.Audiovisual
+import io.github.leoallvez.take.data.model.Suggestion
+import io.github.leoallvez.take.data.model.SuggestionResult
 import timber.log.Timber
 import java.io.IOException
 import java.lang.reflect.Type
@@ -29,6 +32,16 @@ fun Context.getStringByName(resource: String): String {
     val resourceId = this.resources
         .getIdentifier(resource, "string", this.packageName)
     return this.getString(resourceId)
+}
+
+fun Map.Entry<Suggestion, List<Audiovisual>>.toSuggestionResult(): SuggestionResult {
+    val suggestion = this.key
+    val audiovisuals = this.value
+    return SuggestionResult(
+        order = suggestion.order,
+        titleResourceId = suggestion.titleResourceId,
+        audiovisuals = audiovisuals
+    )
 }
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

@@ -22,8 +22,11 @@ import io.github.leoallvez.take.ui.Screen
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavController) {
-
+fun SplashScreen(
+    viewModel: SplashViewModel,
+    navController: NavController
+) {
+    viewModel.loadingData()
     val scale = remember { Animatable(0f) }
 
     LaunchedEffect(key1 = true) {
@@ -42,7 +45,6 @@ fun SplashScreen(navController: NavController) {
             }
         }
     }
-
     SplashScreenContent(scale)
 }
 

@@ -7,6 +7,7 @@ import io.github.leoallvez.take.data.source.movie.MovieLocalDataSource
 import io.github.leoallvez.take.data.source.movie.MovieRemoteDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.di.IoDispatcher
+import io.github.leoallvez.take.util.toSuggestionResult
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -25,6 +26,7 @@ class MovieRepository @Inject constructor(
     override fun getLocalData(): List<SuggestionResult> {
         return suggestionLocalDataSource
             .getWithMovies()
+            .map { it.toSuggestionResult() }
     }
 
     override suspend fun doRequest(apiPath: String): AudiovisualResult {
