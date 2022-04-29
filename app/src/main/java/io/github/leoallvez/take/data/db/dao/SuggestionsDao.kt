@@ -3,12 +3,19 @@ package io.github.leoallvez.take.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import io.github.leoallvez.take.data.model.Movie
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.TvShow
 
 @Dao
 interface SuggestionsDao {
+
+    @Transaction
+    suspend fun update(vararg suggestions: Suggestion) {
+        deleteAll()
+        insert(*suggestions)
+    }
 
     @Insert
     suspend fun insert(vararg suggestions: Suggestion)
