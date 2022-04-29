@@ -7,11 +7,9 @@ import javax.inject.Inject
 class SuggestionLocalDataSource @Inject constructor(
     private val dao: SuggestionsDao
 ) {
-    suspend fun save(vararg entities: Suggestion) = dao.insert(*entities)
+    suspend fun update(vararg entities: Suggestion) = dao.update(*entities)
 
     fun getByType(type: String): List<Suggestion> = dao.getByType(type)
-
-    suspend fun deleteAll() = dao.deleteAll()
 
     fun getWithMovies(): Map<Suggestion, List<Movie>> {
         return dao.getWithMovies()

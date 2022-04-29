@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.data.repository.SuggestionRepository
 import io.github.leoallvez.take.di.IsOnline
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,9 +16,12 @@ class SplashViewModel @Inject constructor(
     @IsOnline private val isOnline: LiveData<Boolean>
 ) : ViewModel() {
 
+    private var isNotRefreshed = true
+
     fun loadingData() = viewModelScope.launch {
         isOnline.asFlow().collect { isOnline ->
-            if(isOnline) {
+            if(isOnline && isNotRefreshed) {
+                isNotRefreshed = false
                 repository.refresh()
             }
         }

@@ -28,8 +28,7 @@ class SuggestionRepository @Inject constructor(
     suspend fun refresh() = withContext (ioDispatcher) {
         if(isTimeToRefreshCache()) {
             val suggestions = remoteDataSource.get().toTypedArray()
-            localDataSource.deleteAll()
-            localDataSource.save(*suggestions)
+            localDataSource.update(*suggestions)
             saveLastCacheTime()
         }
     }
