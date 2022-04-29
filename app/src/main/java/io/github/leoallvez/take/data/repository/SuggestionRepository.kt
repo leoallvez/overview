@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.data.repository
 
+import android.util.Log
 import io.github.leoallvez.take.data.source.CacheDataSource
 import io.github.leoallvez.take.data.source.CacheDataSource.Companion.LAST_CACHE_TIME
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
