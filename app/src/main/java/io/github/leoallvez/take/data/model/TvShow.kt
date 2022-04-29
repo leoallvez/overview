@@ -34,6 +34,6 @@ data class TvShow(
     override val voteAverage: Double,
     @ColumnInfo(name = "suggestion_id", index = true)
     override var suggestionId: Long = 0,
-) : Audiovisual {
+) : AudioVisual {
     override fun getContentTitle(): String = name ?: "Name is null"
 }

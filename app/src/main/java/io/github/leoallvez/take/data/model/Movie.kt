@@ -33,6 +33,6 @@ data class Movie(
     override val voteAverage: Double,
     @ColumnInfo(name = "suggestion_id", index = true)
     override var suggestionId: Long = 0,
-) : Audiovisual {
+) : AudioVisual {
     override fun getContentTitle(): String = title ?: "Title is null"
 }

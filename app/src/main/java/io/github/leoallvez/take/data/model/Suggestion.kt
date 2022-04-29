@@ -24,12 +24,12 @@ data class Suggestion(
     }
 
     fun toSuggestionResult(
-        audiovisuals: List<Audiovisual>
+        audioVisuals: List<AudioVisual>
     ): SuggestionResult {
         return SuggestionResult(
             order = order,
             titleResourceId = titleResourceId,
-            audiovisuals = audiovisuals
+            audioVisuals = audioVisuals
         )
     }
 }
@@ -38,5 +38,5 @@ data class Suggestion(
 class SuggestionResult(
     val order: Int,
     val titleResourceId: String,
-    val audiovisuals: List<Audiovisual>
+    val audioVisuals: List<AudioVisual>
 )

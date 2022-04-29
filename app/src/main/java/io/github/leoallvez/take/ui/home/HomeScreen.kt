@@ -13,14 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.AdsBanner
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
-import io.github.leoallvez.take.data.model.Audiovisual
+import coil.compose.AsyncImage
+import io.github.leoallvez.take.data.model.AudioVisual
 import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.util.getStringByName
 
@@ -39,9 +39,10 @@ fun HomeScreen(viewModel: HomeViewModel) {
         Column {
             AdsBanner(
                 bannerId = R.string.banner_sample_id,
-                isVisible = showAd.value
+                isVisible = false //showAd.value
             )
-            MovieSuggestionVerticalList(
+            Spacer(modifier = Modifier.padding(end = 10.dp))
+            SuggestionVerticalList(
                 moviesSuggestions = suggestions
             )
         }
@@ -49,29 +50,29 @@ fun HomeScreen(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun MovieSuggestionVerticalList(
+fun SuggestionVerticalList(
     moviesSuggestions: List<SuggestionResult>
 ) {
     val context = LocalContext.current
     LazyColumn {
         items(moviesSuggestions) {
-            AudiovisualHorizontalList(
+            AudioVisualHorizontalList(
                 title = context.getStringByName(it.titleResourceId),
-                contents = it.audiovisuals
+                audioVisuals = it.audioVisuals
             )
         }
     }
 }
 
 @Composable
-fun AudiovisualHorizontalList(
+fun AudioVisualHorizontalList(
     title: String,
-    contents: List<Audiovisual>
+    audioVisuals: List<AudioVisual>
 ) {
     ListTitle(title)
     LazyRow {
-        items(contents) { content ->
-            MovieCard(content.getContentTitle())
+        items(audioVisuals) { audiovisual ->
+            AudioVisualCard(audiovisual)
         }
     }
 }
@@ -81,32 +82,37 @@ fun ListTitle(title: String) {
     Text(
         text = title,
         color = Color.White,
-        modifier = Modifier.padding(5.dp, bottom = 10.dp),
+        modifier = Modifier
+            .padding(start = 5.dp, bottom = 5.dp, top = 20.dp),
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold
     )
 }
 
 @Composable
-fun MovieCard(movie: String) {
-    Card(
-        shape = RoundedCornerShape(5.dp),
-        contentColor = Color.Black,
-        elevation = 12.dp,
+fun AudioVisualCard(audioVisual: AudioVisual) {
+    Column(
         modifier = Modifier
-            .size(width = 125.dp, height = 175.dp)
-            .padding(5.dp, bottom = 30.dp)
+            .size(width = 150.dp, height = 260.dp)
     ) {
-        Text(
-            text = movie,
+        Card(
+            shape = RoundedCornerShape(6.dp),
+            contentColor = Color.Black,
+            elevation = 7.dp,
             modifier = Modifier
-                .padding(10.dp),
+                .padding(5.dp)
+        ) {
+            AsyncImage(
+                model = audioVisual.getImageUrl(),
+                contentDescription = audioVisual.getContentTitle(),
+            )
+        }
+        Text(
+            text = audioVisual.getContentTitle(),
+            modifier = Modifier.padding(4.dp),
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Bold
         )
     }
 }
 
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    //HomeScreen(viewModel = null)
-}

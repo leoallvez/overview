@@ -40,10 +40,10 @@ class MovieRepository @Inject constructor(
     }
 
     override suspend fun saveCache(
-        audiovisuals: List<Audiovisual>,
+        audioVisuals: List<AudioVisual>,
         suggestionId: Long
     ) {
-        val movies = audiovisuals as List<Movie>
+        val movies = audioVisuals as List<Movie>
         movies.forEach { it.suggestionId = suggestionId }
         localDataSource.save(*movies.toTypedArray())
     }
