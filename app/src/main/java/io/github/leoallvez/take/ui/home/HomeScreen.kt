@@ -86,12 +86,12 @@ fun AudioVisualHorizontalList(
 fun ListTitle(title: String) {
     Text(
         text = title,
-        color = Color.White,
+        color = Color(0xFFFFB400),
         modifier = Modifier
             .padding(start = 5.dp, bottom = 5.dp, top = 20.dp),
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        style = MaterialTheme.typography.body1,
+        //style = MaterialTheme.typography.body1,
     )
 }
 
@@ -147,8 +147,8 @@ fun AudioVisualTitle(title: String) {
         color = Color.White,
         text = title,
         modifier = Modifier.padding(4.dp),
-        fontSize = 13.sp,
-        fontWeight = FontWeight.Bold,
-        style = MaterialTheme.typography.body1,
+        fontSize = 14.sp,
+        //fontWeight = FontWeight.Bold,
+        //style = MaterialTheme.typography.body1,
     )
 }

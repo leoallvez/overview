@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -55,9 +56,10 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
+            color = Color(0xFFFFB400),
             text = stringResource(id = R.string.app_global_name),
             style = MaterialTheme.typography.overline,
-            fontSize = 100.sp,
+            fontSize = 150.sp,
             modifier = Modifier
                 .align(Alignment.Center)
                 .scale(scale.value)
