@@ -1,5 +1,7 @@
 package io.github.leoallvez.take.ui
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -68,6 +70,9 @@ fun AudioVisualCard(
                 width = columnWith,
                 height = imageHeight + titleHeight
             ).padding(5.dp)
+            .clickable {
+                Log.i("click_audio", "click on: ${audioVisual.getContentTitle()}")
+            }
     ) {
         AudioVisualImage(
             imageUrl = audioVisual.getImageUrl(),
@@ -118,7 +123,7 @@ fun AudioVisualTitle(
     title: String,
     width: Dp,
     height: Dp,
-    fontSize: TextUnit = 13.sp,
+    fontSize: TextUnit,
     maxLines: Int
 ) {
     Text(
