@@ -5,27 +5,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import io.github.leoallvez.take.R
-import io.github.leoallvez.take.ui.AdsBanner
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
-import io.github.leoallvez.take.data.model.Audiovisual
+import androidx.compose.ui.unit.dp
+import io.github.leoallvez.take.R
+import io.github.leoallvez.take.data.model.AudioVisual
 import io.github.leoallvez.take.data.model.SuggestionResult
+import io.github.leoallvez.take.ui.AdsBanner
+import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
+import io.github.leoallvez.take.ui.ListTitle
 import io.github.leoallvez.take.util.getStringByName
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
+
     val suggestions = viewModel.getSuggestions().observeAsState(listOf()).value
     val showAd = viewModel.adsAreVisible().observeAsState(initial = false)
 
@@ -34,6 +31,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.DarkGray)
+            .background(Color.Black)
             .padding(10.dp),
     ) {
         Column {
@@ -41,7 +39,8 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 bannerId = R.string.banner_sample_id,
                 isVisible = showAd.value
             )
-            MovieSuggestionVerticalList(
+            Spacer(modifier = Modifier.padding(bottom = 10.dp))
+            SuggestionVerticalList(
                 moviesSuggestions = suggestions
             )
         }
@@ -49,64 +48,29 @@ fun HomeScreen(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun MovieSuggestionVerticalList(
+fun SuggestionVerticalList(
     moviesSuggestions: List<SuggestionResult>
 ) {
     val context = LocalContext.current
     LazyColumn {
         items(moviesSuggestions) {
-            AudiovisualHorizontalList(
+            AudioVisualHorizontalList(
                 title = context.getStringByName(it.titleResourceId),
-                contents = it.audiovisuals
+                audioVisuals = it.audioVisuals
             )
         }
     }
 }
 
 @Composable
-fun AudiovisualHorizontalList(
+fun AudioVisualHorizontalList(
     title: String,
-    contents: List<Audiovisual>
+    audioVisuals: List<AudioVisual>
 ) {
     ListTitle(title)
     LazyRow {
-        items(contents) { content ->
-            MovieCard(content.getContentTitle())
+        items(audioVisuals) { audiovisual ->
+            HorizontalAudioVisualCard(audiovisual)
         }
     }
-}
-
-@Composable
-fun ListTitle(title: String) {
-    Text(
-        text = title,
-        color = Color.White,
-        modifier = Modifier.padding(5.dp, bottom = 10.dp),
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold
-    )
-}
-
-@Composable
-fun MovieCard(movie: String) {
-    Card(
-        shape = RoundedCornerShape(5.dp),
-        contentColor = Color.Black,
-        elevation = 12.dp,
-        modifier = Modifier
-            .size(width = 125.dp, height = 175.dp)
-            .padding(5.dp, bottom = 30.dp)
-    ) {
-        Text(
-            text = movie,
-            modifier = Modifier
-                .padding(10.dp),
-        )
-    }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    //HomeScreen(viewModel = null)
 }

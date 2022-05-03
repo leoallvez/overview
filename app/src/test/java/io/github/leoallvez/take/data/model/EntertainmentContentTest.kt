@@ -2,7 +2,7 @@ package io.github.leoallvez.take.data.model
 
 open class EntertainmentContentTest {
 
-    fun Audiovisual.toJson(fieldName: String): String = with(receiver = this) {
+    fun AudioVisual.toJson(fieldName: String): String = with(receiver = this) {
         return makeContentJson(
             apiId, fieldName, getContentTitle(), posterPath, voteAverage
         )

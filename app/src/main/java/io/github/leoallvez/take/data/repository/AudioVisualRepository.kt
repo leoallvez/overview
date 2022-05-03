@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.repository
 
-import io.github.leoallvez.take.data.model.Audiovisual
+import io.github.leoallvez.take.data.model.AudioVisual
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.data.source.AudiovisualResult
@@ -46,7 +46,7 @@ abstract class AudioVisualRepository(
     abstract fun getSuggestions(): List<Suggestion>
 
     abstract suspend fun saveCache(
-        audiovisuals: List<Audiovisual>,
+        audioVisuals: List<AudioVisual>,
         suggestionId: Long
     )
 }

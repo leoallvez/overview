@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
-import io.github.leoallvez.take.data.model.Audiovisual
+import io.github.leoallvez.take.data.model.AudioVisual
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
 import timber.log.Timber
@@ -34,13 +34,13 @@ fun Context.getStringByName(resource: String): String {
     return this.getString(resourceId)
 }
 
-fun Map.Entry<Suggestion, List<Audiovisual>>.toSuggestionResult(): SuggestionResult {
+fun Map.Entry<Suggestion, List<AudioVisual>>.toSuggestionResult(): SuggestionResult {
     val suggestion = this.key
     val audiovisuals = this.value
     return SuggestionResult(
         order = suggestion.order,
         titleResourceId = suggestion.titleResourceId,
-        audiovisuals = audiovisuals
+        audioVisuals = audiovisuals
     )
 }
 

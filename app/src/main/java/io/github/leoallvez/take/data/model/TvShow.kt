@@ -17,7 +17,6 @@ import com.squareup.moshi.Json
         )
     ]
 )
-
 data class TvShow(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tv_show_id")
@@ -34,6 +33,6 @@ data class TvShow(
     override val voteAverage: Double,
     @ColumnInfo(name = "suggestion_id", index = true)
     override var suggestionId: Long = 0,
-) : Audiovisual {
+) : AudioVisual {
     override fun getContentTitle(): String = name ?: "Name is null"
 }
