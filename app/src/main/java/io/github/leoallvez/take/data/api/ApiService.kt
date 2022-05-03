@@ -14,16 +14,26 @@ interface ApiService {
 
     @GET(value = "{url}")
     suspend fun getTvShows(
-        @Path(value = "url", encoded = true) url: String,
-        @Query(value ="api_key") apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language") language: String = "pt-BR"
+        @Path(value = "url", encoded = true)
+        url: String,
+        @Query(value ="api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "pt-BR",
+        @Query(value = "region")
+        region: String = "BR"
     ): NetworkResponse<ContentResponse<TvShow>, ErrorResponse>
 
     @GET(value = "{url}")
     suspend fun getMovies(
-        @Path(value = "url", encoded = true) url: String,
-        @Query(value ="api_key") apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language") language: String = "pt-BR"
+        @Path(value = "url", encoded = true)
+        url: String,
+        @Query(value ="api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "pt-BR",
+        @Query(value = "region")
+        region: String = "BR"
     ): NetworkResponse<ContentResponse<Movie>, ErrorResponse>
 
 }
