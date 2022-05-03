@@ -17,7 +17,6 @@ import com.squareup.moshi.Json
         )
     ]
 )
-
 data class TvShow(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tv_show_id")
