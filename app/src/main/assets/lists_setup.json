@@ -21,18 +21,18 @@
     "order": 4,
     "type": "movie",
     "title_resource_id": "movie_trending",
-    "api_path": "trending/movies/day"
+    "api_path": "trending/movie/day"
   },
   {
     "order": 5,
     "type": "tv_show",
-    "title_resource_id": "movie_trending",
-    "api_path": "discover/tv"
+    "title_resource_id": "tv_trending",
+    "api_path": "trending/tv/day"
   },
   {
     "order": 6,
     "type": "tv_show",
-    "title_resource_id": "movie_trending",
+    "title_resource_id": "tv_popular",
     "api_path": "tv/top_rated"
   }
 ]
