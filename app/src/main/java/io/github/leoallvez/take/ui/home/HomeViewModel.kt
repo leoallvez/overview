@@ -15,15 +15,8 @@ class HomeViewModel @Inject constructor (
     private val audioVisualManager: AudioVisualManager
 ) : ViewModel() {
 
-    private var isNotLoaded = true
-
-    fun getSuggestions(): LiveData<List<SuggestionResult>> {
-        if(isNotLoaded) {
-            isNotLoaded = false
-            return audioVisualManager.getData().asLiveData()
-        }
-        return MutableLiveData(listOf())
-    }
+    fun getSuggestions(): LiveData<List<SuggestionResult>> =
+        audioVisualManager.getData().asLiveData()
 
     fun adsAreVisible(): LiveData<Boolean> = liveData {
         emit(value = experiment.execute())
