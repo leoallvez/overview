@@ -48,6 +48,6 @@ class TvShowRepository @Inject constructor(
     ) {
         val tvShows = audioVisuals as List<TvShow>
         tvShows.forEach { it.suggestionId = suggestionId }
-        localDataSource.save(*tvShows.toTypedArray())
+        localDataSource.update(*tvShows.toTypedArray())
     }
 }

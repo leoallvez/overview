@@ -44,5 +44,13 @@ fun Map.Entry<Suggestion, List<AudioVisual>>.toSuggestionResult(): SuggestionRes
     )
 }
 
+fun <T: AudioVisual> Array<T>.removeRepeated(
+    listToCompare: List<AudioVisual>
+): List<T> {
+    return this.filterNot { a ->
+        listToCompare.any { b -> b.apiId == a.apiId && b.suggestionId == a.suggestionId }
+    }
+}
+
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"
 

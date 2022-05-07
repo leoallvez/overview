@@ -8,6 +8,6 @@ class TvShowLocalDataSource @Inject constructor(
     private val dao: TvShowDao
 ) {
 
-    suspend fun save(vararg entities: TvShow) = dao.insert(*entities)
+    suspend fun update(vararg entities: TvShow) = dao.update(*entities)
 
 }
