@@ -1,9 +1,6 @@
 package io.github.leoallvez.take.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.data.AudioVisualManager
 import io.github.leoallvez.take.data.model.SuggestionResult
@@ -18,8 +15,15 @@ class HomeViewModel @Inject constructor (
     private val audioVisualManager: AudioVisualManager
 ) : ViewModel() {
 
-    fun getSuggestions(): LiveData<List<SuggestionResult>> =
-        audioVisualManager.getData().asLiveData()
+    private var isNotLoaded = true
+
+    fun getSuggestions(): LiveData<List<SuggestionResult>> {
+        if(isNotLoaded) {
+            isNotLoaded = false
+            return audioVisualManager.getData().asLiveData()
+        }
+        return MutableLiveData(listOf())
+    }
 
     fun adsAreVisible(): LiveData<Boolean> = liveData {
         emit(value = experiment.execute())
