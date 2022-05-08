@@ -10,7 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class SuggestionExperimentTest {
+class ListSetupExperimentTest {
 
     @MockK(relaxed = true)
     private lateinit var remoteSource: RemoteSource
