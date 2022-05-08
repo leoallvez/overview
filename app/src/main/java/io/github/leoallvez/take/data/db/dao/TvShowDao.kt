@@ -13,7 +13,7 @@ interface TvShowDao {
     @Transaction
     suspend fun update(vararg models: TvShow) {
         val result = models
-            .removeRepeated(listToCompare = getAllAsList())
+            .removeRepeated(itemsToRemove = getAllAsList())
             .toTypedArray()
 
         insert(*result)

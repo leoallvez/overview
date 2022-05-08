@@ -13,7 +13,7 @@ interface MovieDao {
     @Transaction
     suspend fun update(vararg models: Movie) {
         val result = models
-                .removeRepeated(listToCompare = getAllAsList())
+                .removeRepeated(itemsToRemove = getAllAsList())
                 .toTypedArray()
 
         insert(*result)
