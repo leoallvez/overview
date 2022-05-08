@@ -12,4 +12,8 @@ interface AudioVisual {
     fun getContentTitle(): String
 
     fun getImageUrl() = "${BuildConfig.IMG_URL}$posterPath"
+
+    companion object {
+        const val EMPTY_TITLE = ""
+    }
 }

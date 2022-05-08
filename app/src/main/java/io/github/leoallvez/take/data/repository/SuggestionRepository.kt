@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.data.repository
 
+import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.source.CacheDataSource
 import io.github.leoallvez.take.data.source.CacheDataSource.Companion.LAST_CACHE_TIME
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
@@ -57,7 +58,7 @@ class SuggestionRepository @Inject constructor(
     ): Boolean {
         val diffInMilliseconds = abs(lastCacheDate.time - Date().time)
         val diffInHours = TimeUnit.HOURS.convert(diffInMilliseconds, TimeUnit.MILLISECONDS)
-        return diffInHours > MAXIMUM_CACHE_HOURS
+        return diffInHours > MAXIMUM_CACHE_HOURS || BuildConfig.DEBUG
     }
 
     companion object {

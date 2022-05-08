@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import io.github.leoallvez.take.data.model.AudioVisual.Companion.EMPTY_TITLE
 
 @Entity(
     tableName = "movies",
@@ -34,5 +35,5 @@ data class Movie(
     @ColumnInfo(name = "suggestion_id", index = true)
     override var suggestionId: Long = 0,
 ) : AudioVisual {
-    override fun getContentTitle(): String = title ?: "Title is null"
+    override fun getContentTitle(): String = title ?: EMPTY_TITLE
 }

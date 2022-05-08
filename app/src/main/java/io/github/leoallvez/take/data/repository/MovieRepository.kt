@@ -45,6 +45,7 @@ class MovieRepository @Inject constructor(
     ) {
         val movies = audioVisuals as List<Movie>
         movies.forEach { it.suggestionId = suggestionId }
-        localDataSource.save(*movies.toTypedArray())
+
+        localDataSource.update(*movies.toTypedArray())
     }
 }
