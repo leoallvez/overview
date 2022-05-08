@@ -7,7 +7,7 @@ import org.junit.Test
 class MovieTest : EntertainmentContentTest() {
 
     @Test
-    fun `performs correct deserialization from a JSON to MOVIE object`() {
+    fun deserializationJson_correctMovieParse() {
         //Arrange
         val json = MOVIE_JSON
         //Act
