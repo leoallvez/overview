@@ -15,7 +15,7 @@ class ListSetupExperimentTest {
     @MockK(relaxed = true)
     private lateinit var remoteSource: RemoteSource
 
-    @MockK
+    @MockK(relaxed = true)
     private lateinit var jsonFileReader: IJsonFileReader
 
     private lateinit var experiment: AbExperiment<List<Suggestion>>
@@ -27,60 +27,73 @@ class ListSetupExperimentTest {
     }
 
     @Test
-    fun `when LOCAL returns a JSON the ELEMENTS of LIST are not NULL`() {
+    fun onExecute_parseValidJsonToList_listHasNoNullElement() {
+        //Arrange
+        every { jsonFileReader.read(any()) } returns JSON
+        //Act
+        val list: List<Suggestion?> = experiment.execute()
+        val hasNoNullElement = list.any { it == null }.not()
+        //Assert
+        assertTrue(hasNoNullElement)
+    }
+
+    @Test
+    fun onExecute_parseValidJsonToList_listIsNotEmpty() {
         //Arrange
         every { jsonFileReader.read(any()) } returns JSON
         //Act
         val list: List<Suggestion> = experiment.execute()
-        val result = list.filter { it == null }
         //Assert
-        assertTrue(result.isEmpty())
+        assertTrue(list.isNotEmpty())
     }
 
     @Test
-    fun `when LOCAL returns a JSON the return is a NOT EMPTY LIST`() {
-        //Arrange
-        every { jsonFileReader.read(any()) } returns JSON
-        //Act
-        val result: List<Suggestion> = experiment.execute()
-        //Assert
-        assertTrue(result.isNotEmpty())
-    }
-
-    @Test
-    fun `when LOCAL returns EMPTY String and REMOTE returns a JSON the return is a NOT EMPTY LIST`() {
+    fun onExecute_localReturnsEmptyStringRemoteReturnsJson_listIsNotEmpty() {
         //Arrange
         everyLocalAndRemote(local = EMPTY, remote = JSON)
         //Act
-        val result: List<Suggestion> = experiment.execute()
+        val list: List<Suggestion> = experiment.execute()
         //Assert
-        assertTrue(result.isNotEmpty())
+        assertTrue(list.isNotEmpty())
     }
 
     @Test
-    fun `when LOCAL returns EMPTY String and REMOTE returns EMPTY String the return is an EMPTY LIST`() {
+    fun onExecute_localReturnsEmptyStringRemoteReturnsEmptyString_listIsEmpty() {
         //Arrange
         everyLocalAndRemote(local = EMPTY, remote = EMPTY)
         //Act
-        val result: List<Suggestion> = experiment.execute()
+        val list: List<Suggestion> = experiment.execute()
         //Assert
-        assertTrue(result.isEmpty())
+        assertTrue(list.isEmpty())
     }
 
-    private fun everyLocalAndRemote(local: String, remote: String) {
+    @Test
+    fun onExecute_localReturnsJsonRemoteReturnsEmptyString_listIsNotEmpty() {
+        //Arrange
+        everyLocalAndRemote(local = JSON, remote = EMPTY)
+        //Act
+        val list: List<Suggestion> = experiment.execute()
+        //Assert
+        assertTrue(list.isNotEmpty())
+    }
+
+    private fun everyLocalAndRemote(
+        local: String,
+        remote: String
+    ) {
         every { jsonFileReader.read(any()) } returns local
         every { remoteSource.getString(any()) } returns remote
     }
 
     companion object {
         const val JSON = """
-            [
-                {
-                    "order": 1, 
-                    "title_resource_id": "comedy_title",
-                    "api_path": "api/path"
-                }
-            ]
+        [
+            {
+                "order": 1, 
+                "title_resource_id": "comedy_title",
+                "api_path": "api/path"
+            }
+        ]
         """
         const val EMPTY = ""
     }
