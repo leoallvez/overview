@@ -7,7 +7,7 @@ import org.junit.Test
 
 class TvShowTest : EntertainmentContentTest()  {
     @Test
-    fun `performs correct deserialization from a JSON to TVSHOW object`() {
+    fun deserializationJson_correctTvShowParse() {
         //Arrange
         val json = TV_SHOW_JSON
         //Act

@@ -12,7 +12,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class DisplayAdsExperimentTest  {
+class DisplayAdsExperimentTest {
 
     private lateinit var remoteSource: RemoteSource
 
@@ -26,7 +26,7 @@ class DisplayAdsExperimentTest  {
     }
 
     @Test
-    fun `when local permission is TRUE and remote permission is TRUE execute returns TRUE`() {
+    fun onExecute_localIsTrueRemoteIsTrue_isTrue() {
         //Arrange
         val experiment = DisplayAdsExperiment(
             localPermission = true,
@@ -40,7 +40,7 @@ class DisplayAdsExperimentTest  {
     }
 
     @Test
-    fun `when local permission is TRUE and remote permission is FALSE execute returns FALSE`() {
+    fun onExecute_localIsTrueRemoteIsFalse_isTrue() {
         //Arrange
         val experiment = DisplayAdsExperiment(
             localPermission = true,
@@ -54,7 +54,7 @@ class DisplayAdsExperimentTest  {
     }
 
     @Test
-    fun `when local permission is FALSE and remote permission is FALSE execute returns FALSE`() {
+    fun onExecute_localIsFalseRemoteIsFalse_isFalse() {
         //Arrange
         val experiment = DisplayAdsExperiment(
             localPermission = false,
@@ -68,7 +68,7 @@ class DisplayAdsExperimentTest  {
     }
 
     @Test
-    fun `when local permission is FALSE and remote permission is TRUE execute returns FALSE`() {
+    fun onExecute_localIsFalseRemoteIsTrue_isFalse() {
         //Arrange
         val experiment = DisplayAdsExperiment(
             localPermission = false,
@@ -82,7 +82,7 @@ class DisplayAdsExperimentTest  {
     }
 
     @Test
-    fun `when the execute method is called getBoolean is also called`() {
+    fun onExecute_getBooleanIsCalled() {
         //Arrange
         remoteSource = mockk()
         val experiment = DisplayAdsExperiment(
