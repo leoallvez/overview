@@ -14,12 +14,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.Screen
+import io.github.leoallvez.take.ui.theme.Teal200
 import kotlinx.coroutines.delay
 
 @Composable
@@ -56,7 +56,7 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            color = Color(0xFFFFB400),
+            color = Teal200,
             text = stringResource(id = R.string.app_global_name),
             style = MaterialTheme.typography.overline,
             fontSize = 150.sp,
