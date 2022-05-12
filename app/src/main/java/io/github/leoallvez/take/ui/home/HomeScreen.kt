@@ -23,9 +23,7 @@ import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
 import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
 import io.github.leoallvez.take.ui.ListTitle
 import io.github.leoallvez.take.util.getStringByName
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import me.onebone.toolbar.*
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
@@ -39,27 +37,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
         scrollStrategy = ScrollStrategy.EnterAlways,
         state = rememberCollapsingToolbarScaffoldState(),
         toolbar = {
-            val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
-
-            Image(
-                modifier = Modifier
-                    .parallax(ratio = 0.2f)
-                    .background(Color.Black)
-                    .fillMaxWidth()
-                    .height(245.dp)
-                    .pin(),
-                painter = painterResource(id = R.drawable.aranha),
-                contentDescription = null
-            )
-
-            Text(
-                text = "Take",
-                modifier = Modifier
-                    .road(Alignment.CenterStart, Alignment.BottomEnd)
-                    .padding(10.dp, 16.dp, 16.dp, 16.dp),
-                color = Color.White,
-                fontSize = textSize
-            )
+            HomeToolBar(state)
         },
     ) {
         HomeScreenContent(
@@ -67,6 +45,32 @@ fun HomeScreen(viewModel: HomeViewModel) {
             adsBannerIsVisible = showAd.value
         )
     }
+}
+
+@Composable
+private fun CollapsingToolbarScope.HomeToolBar(
+    state: CollapsingToolbarScaffoldState
+) {
+    val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
+    Image(
+        modifier = Modifier
+            .parallax(ratio = 0.2f)
+            .background(Color.Black)
+            .fillMaxWidth()
+            .height(245.dp)
+            .pin(),
+        painter = painterResource(id = R.drawable.aranha),
+        contentDescription = null
+    )
+
+    Text(
+        text = "Take",
+        modifier = Modifier
+            .road(Alignment.CenterStart, Alignment.BottomEnd)
+            .padding(16.dp),
+        color = Color.White,
+        fontSize = textSize
+    )
 }
 
 @Composable
