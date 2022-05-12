@@ -133,6 +133,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "com.github.haroldadmin:NetworkResponseAdapter:4.0.1"
     implementation 'io.coil-kt:coil-compose:2.0.0-rc03'
+    implementation "me.onebone:toolbar-compose:2.3.3"
 
     testImplementation 'junit:junit:4.+'
     testImplementation 'io.mockk:mockk:1.12.3'
