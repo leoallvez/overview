@@ -5,13 +5,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.data.AudioVisualManager
 import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.di.AbDisplayAds
-import io.github.leoallvez.take.experiment.AbExperiment
+import io.github.leoallvez.take.abtest.AbTest
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor (
     @AbDisplayAds
-    private val experiment: AbExperiment<Boolean>,
+    private val experiment: AbTest<Boolean>,
     private val audioVisualManager: AudioVisualManager
 ) : ViewModel() {
 
