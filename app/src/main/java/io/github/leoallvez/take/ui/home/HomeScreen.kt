@@ -2,6 +2,7 @@ package io.github.leoallvez.take.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,17 +15,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.pager.*
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.AudioVisual
 import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
 import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
 import io.github.leoallvez.take.ui.ListTitle
+import io.github.leoallvez.take.ui.theme.Teal200
 import io.github.leoallvez.take.util.getStringByName
 import me.onebone.toolbar.*
 
+@ExperimentalPagerApi
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
 
@@ -47,30 +53,68 @@ fun HomeScreen(viewModel: HomeViewModel) {
     }
 }
 
+@ExperimentalPagerApi
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
     state: CollapsingToolbarScaffoldState
 ) {
-    val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
-    Image(
-        modifier = Modifier
-            .parallax(ratio = 0.2f)
-            .background(Color.Black)
-            .fillMaxWidth()
-            .height(245.dp)
-            .pin(),
-        painter = painterResource(id = R.drawable.aranha),
-        contentDescription = null
-    )
+    //val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
+    val pagerState = rememberPagerState(pageCount = 10)
+
+    HorizontalCardSlider(pagerState)
 
     Text(
         text = "Take",
         modifier = Modifier
-            .road(Alignment.CenterStart, Alignment.BottomEnd)
-            .padding(16.dp),
+            .road(Alignment.TopEnd, Alignment.TopEnd)
+            .padding(10.dp),
         color = Color.White,
-        fontSize = textSize
+        fontSize = 30.sp
     )
+}
+
+@ExperimentalPagerApi
+@Composable
+private fun CollapsingToolbarScope.HorizontalCardSlider(pagerState: PagerState) {
+
+    Box {
+        HorizontalPager(state = pagerState) { page ->
+            Column {
+                Image(
+                    modifier = Modifier
+                        .parallax(ratio = 0.2f)
+                        .background(Color.Black)
+                        .fillMaxWidth()
+                        .height(235.dp)
+                        .pin(),
+                    painter = painterResource(id = R.drawable.aranha),
+                    contentDescription = null
+                )
+                Text(
+                    color = Color.White,
+                    text = "Sample of title with pager: $page",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Black)
+                        .padding(10.dp, bottom = 10.dp),
+                        //.border(1.dp, color = Color.Yellow),
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    //textAlign = TextAlign.Center,
+                )
+            }
+        }
+
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(16.dp),
+            inactiveColor = Color.Gray,
+            activeColor = Color.White,
+        )
+    }
 }
 
 @Composable
