@@ -6,12 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.home.HomeViewModel
 import io.github.leoallvez.take.ui.splash.SplashViewModel

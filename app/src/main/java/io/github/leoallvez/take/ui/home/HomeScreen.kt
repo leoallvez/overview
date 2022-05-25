@@ -26,7 +26,6 @@ import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
 import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
 import io.github.leoallvez.take.ui.ListTitle
-import io.github.leoallvez.take.ui.theme.Teal200
 import io.github.leoallvez.take.util.getStringByName
 import me.onebone.toolbar.*
 
