@@ -6,6 +6,7 @@ interface AudioVisual {
 
     val apiId: Long
     val posterPath: String?
+    val backdropPath: String?
     val voteAverage: Double
     var suggestionId: Long
 

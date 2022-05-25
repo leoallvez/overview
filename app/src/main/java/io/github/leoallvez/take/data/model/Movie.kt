@@ -29,6 +29,9 @@ data class Movie(
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
     override val posterPath: String?,
+    @field:Json(name = "backdrop_path")
+    @ColumnInfo(name = "backdrop_path")
+    override val backdropPath: String?,
     @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
     override val voteAverage: Double,
