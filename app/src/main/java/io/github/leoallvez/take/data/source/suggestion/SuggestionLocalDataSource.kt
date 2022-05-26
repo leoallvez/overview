@@ -7,18 +7,16 @@ import javax.inject.Inject
 class SuggestionLocalDataSource @Inject constructor(
     private val dao: SuggestionsDao
 ) {
+
     fun getAll(): List<Suggestion> = dao.getAll()
 
     suspend fun update(vararg entities: Suggestion) = dao.update(*entities)
 
-    fun getWithAudioVisualItem(): Map<Suggestion, List<AudioVisualItem>> {
-        return dao.getWithAudioVisualItem()
+    fun getWithAudioVisualItems(): Map<Suggestion, List<AudioVisualItem>> {
+        return dao.getWithAudioVisualItems()
     }
 
     fun hasCache(): Boolean {
-        return dao.getWithAudioVisualItem()
-            .any { (_, items) ->
-                items.isNotEmpty()
-            }
+        return dao.getWithAudioVisualItems().isNotEmpty()
     }
 }

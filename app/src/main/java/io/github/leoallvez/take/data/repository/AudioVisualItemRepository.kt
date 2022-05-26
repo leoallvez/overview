@@ -55,7 +55,7 @@ class AudioVisualItemRepository @Inject constructor(
 
     private fun getLocalData(): List<SuggestionResult> {
         return suggestionLocalDataSource
-            .getWithAudioVisualItem()
+            .getWithAudioVisualItems()
             .map { it.toSuggestionResult() }
     }
 

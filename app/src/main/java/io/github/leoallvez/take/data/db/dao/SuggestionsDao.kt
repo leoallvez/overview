@@ -25,8 +25,8 @@ interface SuggestionsDao {
     @Query("DELETE FROM suggestions")
     suspend fun deleteAll()
 
-    @Query(
-        """SELECT * FROM suggestions AS s
-                 JOIN audio_visual_items AS m ON s.db_id = m.suggestion_id""")
-    fun getWithAudioVisualItem(): Map<Suggestion, List<AudioVisualItem>>
+    @Query("""SELECT * 
+              FROM suggestions AS s
+              JOIN audio_visual_items AS a ON a.suggestion_id = s.db_id""")
+    fun getWithAudioVisualItems(): Map<Suggestion, List<AudioVisualItem>>
 }
