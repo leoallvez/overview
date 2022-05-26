@@ -15,8 +15,4 @@ class SuggestionLocalDataSource @Inject constructor(
     fun getWithAudioVisualItems(): Map<Suggestion, List<AudioVisualItem>> {
         return dao.getWithAudioVisualItems()
     }
-
-    fun hasCache(): Boolean {
-        return dao.getWithAudioVisualItems().isNotEmpty()
-    }
 }

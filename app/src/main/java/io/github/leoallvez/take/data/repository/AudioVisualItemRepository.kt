@@ -19,24 +19,31 @@ class AudioVisualItemRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val localDataSource: AudioVisualItemLocalDataSource,
     private val remoteDataSource: AudioVisualItemRemoteDataSource,
-    private val suggestionLocalDataSource: SuggestionLocalDataSource,
+    suggestionLocalDataSource: SuggestionLocalDataSource,
 ) {
+
+    private val suggestionsList: List<Suggestion> by lazy {
+        suggestionLocalDataSource.getAll()
+    }
+
+    private val suggestionsWithItems: Map<Suggestion, List<AudioVisualItem>> by lazy {
+        suggestionLocalDataSource.getWithAudioVisualItems()
+    }
 
     suspend fun getData(): Flow<List<SuggestionResult>> {
         return withContext(ioDispatcher) {
-            val results = if (hasCache()) getLocalData() else getRemoteData()
+            val results = if(suggestionsWithItems.isNotEmpty()) {
+                getLocalData()
+            } else {
+                getRemoteData()
+            }
             flow { emit(results) }
         }
     }
 
-    private fun hasCache(): Boolean {
-        return suggestionLocalDataSource
-            .hasCache()
-    }
-
     private suspend fun getRemoteData(): List<SuggestionResult> {
         val results = mutableListOf<SuggestionResult>()
-        getSuggestions().forEach { suggestion ->
+        suggestionsList.forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
             if(response is AudiovisualResult.ApiSuccess) {
                 val audiovisual = response.content
@@ -49,13 +56,8 @@ class AudioVisualItemRepository @Inject constructor(
         return results
     }
 
-    private fun getSuggestions(): List<Suggestion> {
-        return suggestionLocalDataSource.getAll()
-    }
-
     private fun getLocalData(): List<SuggestionResult> {
-        return suggestionLocalDataSource
-            .getWithAudioVisualItems()
+        return suggestionsWithItems
             .map { it.toSuggestionResult() }
     }
 
