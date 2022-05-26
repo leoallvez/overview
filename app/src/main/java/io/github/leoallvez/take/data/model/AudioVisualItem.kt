@@ -25,8 +25,8 @@ class AudioVisualItem (
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
     val apiId: Long,
-    //val name: String?,
-    //val title: String?,
+    val name: String?,
+    val title: String?,
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
     val posterPath: String,
@@ -39,7 +39,7 @@ class AudioVisualItem (
     @ColumnInfo(name = "suggestion_id", index = true)
     var suggestionId: Long = 0,
 ) {
-    fun getItemTitle() = EMPTY_TITLE
+    fun getItemTitle() = name ?: title ?: EMPTY_TITLE
 
     fun getImageUrl() = "${BuildConfig.IMG_URL}$posterPath"
 
