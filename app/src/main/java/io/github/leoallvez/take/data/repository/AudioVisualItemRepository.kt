@@ -24,8 +24,7 @@ class AudioVisualItemRepository @Inject constructor(
 
     suspend fun getData(): Flow<List<SuggestionResult>> {
         return withContext(ioDispatcher) {
-            val hasCache = hasCache()
-            val results = if (hasCache) getLocalData() else getRemoteData()
+            val results = if (hasCache()) getLocalData() else getRemoteData()
             flow { emit(results) }
         }
     }
@@ -37,12 +36,12 @@ class AudioVisualItemRepository @Inject constructor(
 
     private suspend fun getRemoteData(): List<SuggestionResult> {
         val results = mutableListOf<SuggestionResult>()
-        val suggestions = getSuggestions()
-        suggestions.forEach { suggestion ->
+        getSuggestions().forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
             if(response is AudiovisualResult.ApiSuccess) {
                 val audiovisual = response.content
-                saveCache(audiovisual, suggestion)
+                setForeignKeyOnItems(audiovisual, suggestion.dbId)
+                saveItems(audiovisual)
                 val suggestionResult = suggestion.toSuggestionResult(audiovisual)
                 results.add(suggestionResult)
             }
@@ -64,13 +63,18 @@ class AudioVisualItemRepository @Inject constructor(
         return remoteDataSource.get(apiPath)
     }
 
-    private suspend fun saveCache(
-        audioVisualItems: List<AudioVisualItem>,
-        suggestion: Suggestion
+    private fun setForeignKeyOnItems(
+        items: List<AudioVisualItem>,
+        suggestionId: Long
     ) {
-        audioVisualItems.forEach {
-            it.suggestionId = suggestion.dbId
+        items.forEach {
+            it.suggestionId = suggestionId
         }
-        localDataSource.update(*audioVisualItems.toTypedArray())
+    }
+
+    private suspend fun saveItems(
+        items: List<AudioVisualItem>
+    ) {
+        localDataSource.update(*items.toTypedArray())
     }
 }
