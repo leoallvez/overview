@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.experiment
+package io.github.leoallvez.take.abtest
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.github.leoallvez.firebase.RemoteConfigWrapper
@@ -12,7 +12,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class DisplayAdsExperimentTest {
+class DisplayAdsAbTestTest {
 
     private lateinit var remoteSource: RemoteSource
 
@@ -28,7 +28,7 @@ class DisplayAdsExperimentTest {
     @Test
     fun onExecute_localIsTrueRemoteIsTrue_isTrue() {
         //Arrange
-        val experiment = DisplayAdsExperiment(
+        val experiment = DisplayAdsAbTest(
             localPermission = true,
             remoteSource
         )
@@ -42,7 +42,7 @@ class DisplayAdsExperimentTest {
     @Test
     fun onExecute_localIsTrueRemoteIsFalse_isTrue() {
         //Arrange
-        val experiment = DisplayAdsExperiment(
+        val experiment = DisplayAdsAbTest(
             localPermission = true,
             remoteSource
         )
@@ -56,7 +56,7 @@ class DisplayAdsExperimentTest {
     @Test
     fun onExecute_localIsFalseRemoteIsFalse_isFalse() {
         //Arrange
-        val experiment = DisplayAdsExperiment(
+        val experiment = DisplayAdsAbTest(
             localPermission = false,
             remoteSource
         )
@@ -70,7 +70,7 @@ class DisplayAdsExperimentTest {
     @Test
     fun onExecute_localIsFalseRemoteIsTrue_isFalse() {
         //Arrange
-        val experiment = DisplayAdsExperiment(
+        val experiment = DisplayAdsAbTest(
             localPermission = false,
             remoteSource
         )
@@ -85,7 +85,7 @@ class DisplayAdsExperimentTest {
     fun onExecute_getBooleanIsCalled() {
         //Arrange
         remoteSource = mockk()
-        val experiment = DisplayAdsExperiment(
+        val experiment = DisplayAdsAbTest(
             localPermission = false,
             remoteSource
         )

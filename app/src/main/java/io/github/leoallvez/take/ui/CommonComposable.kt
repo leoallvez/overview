@@ -31,7 +31,7 @@ import io.github.leoallvez.take.data.model.AudioVisual
 fun ListTitle(title: String) {
     Text(
         text = title,
-        color = Color(0xFFFFB400),
+        color = Color.White,
         modifier = Modifier
             .padding(
                 start = 5.dp,

@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.experiment
+package io.github.leoallvez.take.abtest
 
 import io.github.leoallvez.firebase.RemoteConfigKey.LIST_SETUP_KEY
 import io.github.leoallvez.firebase.RemoteSource
@@ -7,10 +7,10 @@ import io.github.leoallvez.take.util.IJsonFileReader
 import io.github.leoallvez.take.util.getList
 import javax.inject.Inject
 
-class ListSetupExperiment @Inject constructor(
+class ListSetupAbTest @Inject constructor(
     private val jsonFileReader: IJsonFileReader,
     private val remoteSource: RemoteSource
-) : AbExperiment<List<Suggestion>> {
+) : AbTest<List<Suggestion>> {
 
     override fun execute(): List<Suggestion> {
         return getLocalListsSetup() ?: getRemoteListsSetup()

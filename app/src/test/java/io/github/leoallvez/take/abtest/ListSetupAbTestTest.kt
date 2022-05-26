@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.experiment
+package io.github.leoallvez.take.abtest
 
 import io.github.leoallvez.firebase.RemoteSource
 import io.github.leoallvez.take.data.model.Suggestion
@@ -10,7 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class ListSetupExperimentTest {
+class ListSetupAbTestTest {
 
     @MockK(relaxed = true)
     private lateinit var remoteSource: RemoteSource
@@ -18,12 +18,12 @@ class ListSetupExperimentTest {
     @MockK(relaxed = true)
     private lateinit var jsonFileReader: IJsonFileReader
 
-    private lateinit var experiment: AbExperiment<List<Suggestion>>
+    private lateinit var experiment: AbTest<List<Suggestion>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        experiment = ListSetupExperiment(jsonFileReader, remoteSource)
+        experiment = ListSetupAbTest(jsonFileReader, remoteSource)
     }
 
     @Test
