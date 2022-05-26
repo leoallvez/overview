@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.AudioVisualItem
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
 import timber.log.Timber
@@ -34,7 +34,7 @@ fun Context.getStringByName(resource: String): String {
     return this.getString(resourceId)
 }
 
-fun Map.Entry<Suggestion, List<AudioVisual>>.toSuggestionResult(): SuggestionResult {
+fun Map.Entry<Suggestion, List<AudioVisualItem>>.toSuggestionResult(): SuggestionResult {
     val suggestion = this.key
     val audiovisuals = this.value
     return SuggestionResult(
@@ -44,11 +44,11 @@ fun Map.Entry<Suggestion, List<AudioVisual>>.toSuggestionResult(): SuggestionRes
     )
 }
 
-fun <T: AudioVisual> Array<T>.removeRepeated(itemsToRemove: List<AudioVisual>): List<T> {
+fun <T: AudioVisualItem> Array<T>.removeRepeated(itemsToRemove: List<AudioVisualItem>): List<T> {
     return this.filterNot { a -> itemsToRemove.any { b -> b equivalent a } }
 }
 
-private infix fun AudioVisual.equivalent(other: AudioVisual): Boolean {
+private infix fun AudioVisualItem.equivalent(other: AudioVisualItem): Boolean {
     return this.apiId == other.apiId && this.suggestionId == other.suggestionId
 }
 

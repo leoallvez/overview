@@ -1,10 +1,9 @@
 package io.github.leoallvez.take.data.repository
 
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.AudioVisualItem
+import io.github.leoallvez.take.data.model.AudioVisualItem.Companion.TV_TYPE
 import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.data.model.Suggestion.Companion.TV_SHOW_TYPE
 import io.github.leoallvez.take.data.model.SuggestionResult
-import io.github.leoallvez.take.data.model.TvShow
 import io.github.leoallvez.take.data.source.AudiovisualResult
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.data.source.tvshow.TvShowLocalDataSource
@@ -39,15 +38,17 @@ class TvShowRepository @Inject constructor(
 
     override fun getSuggestions(): List<Suggestion> {
         return suggestionLocalDataSource
-            .getByType(TV_SHOW_TYPE)
+            .getByType(TV_TYPE)
     }
 
     override suspend fun saveCache(
-        audioVisuals: List<AudioVisual>,
+        audioVisuaItems: List<AudioVisualItem>,
         suggestionId: Long
     ) {
-        val tvShows = audioVisuals as List<TvShow>
-        tvShows.forEach { it.suggestionId = suggestionId }
-        localDataSource.update(*tvShows.toTypedArray())
+        audioVisuaItems.forEach {
+            it.suggestionId = suggestionId
+            it.type = "tv"
+        }
+        localDataSource.update(*audioVisuaItems.toTypedArray())
     }
 }

@@ -11,25 +11,25 @@ class SuggestionLocalDataSource @Inject constructor(
 
     fun getByType(type: String): List<Suggestion> = dao.getByType(type)
 
-    fun getWithMovies(): Map<Suggestion, List<Movie>> {
-        return dao.getWithMovies()
+    fun getWithMovies(): Map<Suggestion, List<AudioVisualItem>> {
+        return dao.getWithAudioVisualItem()
     }
 
     fun hasMoviesCache(): Boolean {
-        return dao.getWithMovies()
-            .any { (_, movies) ->
-                movies.isNotEmpty()
+        return dao.getWithAudioVisualItem()
+            .any { (_, items) ->
+                items.isNotEmpty()
             }
     }
 
-    fun getWithTvShows(): Map<Suggestion, List<TvShow>> {
-        return dao.getWithTvShows()
+    fun getWithTvShows(): Map<Suggestion, List<AudioVisualItem>> {
+        return dao.getWithAudioVisualItem()
     }
 
     fun hasTvShowsCache(): Boolean {
-        return dao.getWithTvShows()
-            .any { (_, tvShows) ->
-                tvShows.isNotEmpty()
+        return dao.getWithAudioVisualItem()
+            .any { (_, items) ->
+                items.isNotEmpty()
             }
     }
 }

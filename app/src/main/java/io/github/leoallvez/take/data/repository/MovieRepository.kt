@@ -1,7 +1,7 @@
 package io.github.leoallvez.take.data.repository
 
 import io.github.leoallvez.take.data.model.*
-import io.github.leoallvez.take.data.model.Suggestion.Companion.MOVIE_TYPE
+import io.github.leoallvez.take.data.model.AudioVisualItem.Companion.MOVIE_TYPE
 import io.github.leoallvez.take.data.source.AudiovisualResult
 import io.github.leoallvez.take.data.source.movie.MovieLocalDataSource
 import io.github.leoallvez.take.data.source.movie.MovieRemoteDataSource
@@ -40,12 +40,13 @@ class MovieRepository @Inject constructor(
     }
 
     override suspend fun saveCache(
-        audioVisuals: List<AudioVisual>,
+        audioVisualItems: List<AudioVisualItem>,
         suggestionId: Long
     ) {
-        val movies = audioVisuals as List<Movie>
-        movies.forEach { it.suggestionId = suggestionId }
-
-        localDataSource.update(*movies.toTypedArray())
+        audioVisualItems.forEach {
+            it.suggestionId = suggestionId
+            it.type = "movie"
+        }
+        localDataSource.update(*audioVisualItems.toTypedArray())
     }
 }

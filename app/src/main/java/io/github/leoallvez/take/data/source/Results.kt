@@ -1,11 +1,11 @@
 package io.github.leoallvez.take.data.source
 
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.AudioVisualItem
 
 sealed class AudiovisualResult {
 
     class ApiSuccess(
-        val content: List<AudioVisual>
+        val content: List<AudioVisualItem>
     ) : AudiovisualResult()
 
     class ApiError(

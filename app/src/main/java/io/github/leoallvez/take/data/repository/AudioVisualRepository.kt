@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.repository
 
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.AudioVisualItem
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.data.source.AudiovisualResult
@@ -33,7 +33,7 @@ abstract class AudioVisualRepository(
             val response = doRequest(suggestion.apiPath)
             if(response is AudiovisualResult.ApiSuccess) {
                 val audiovisual = response.content
-                saveCache(audiovisual, suggestion.suggestionId)
+                saveCache(audiovisual, suggestion.dbId)
                 val suggestionResult = suggestion.toSuggestionResult(audiovisual)
                 results.add(suggestionResult)
             }
@@ -46,7 +46,7 @@ abstract class AudioVisualRepository(
     abstract fun getSuggestions(): List<Suggestion>
 
     abstract suspend fun saveCache(
-        audioVisuals: List<AudioVisual>,
+        audioVisuals: List<AudioVisualItem>,
         suggestionId: Long
     )
 }

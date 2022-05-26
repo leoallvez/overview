@@ -1,11 +1,11 @@
 package io.github.leoallvez.take.data.source.movie
 
-import io.github.leoallvez.take.data.db.dao.MovieDao
-import io.github.leoallvez.take.data.model.Movie
+import io.github.leoallvez.take.data.db.dao.AudioVisualItemDao
+import io.github.leoallvez.take.data.model.AudioVisualItem
 import javax.inject.Inject
 
 class MovieLocalDataSource @Inject constructor(
-    private val dao: MovieDao
+    private val dao: AudioVisualItemDao
 ) {
-    suspend fun update(vararg entities: Movie) = dao.update(*entities)
+    suspend fun update(vararg entities: AudioVisualItem) = dao.update(*entities)
 }

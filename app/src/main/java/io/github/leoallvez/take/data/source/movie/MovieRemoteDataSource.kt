@@ -16,7 +16,7 @@ class MovieRemoteDataSource @Inject constructor(
 
     suspend fun get(url: String): AudiovisualResult {
         return withContext(ioDispatcher) {
-            when (val response = api.getMovies(url)) {
+            when (val response = api.getAudioVisualItems(url)) {
                 is Success -> ApiSuccess(
                     content = response.body.results
                 )

@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "suggestions")
 data class Suggestion(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "suggestion_id")
-    var suggestionId: Long = 0,
+    @ColumnInfo(name = "db_id")
+    var dbId: Long = 0,
     val type: String,
     val order: Int,
     @ColumnInfo(name = "api_path")
@@ -18,13 +18,9 @@ data class Suggestion(
     @SerializedName(value = "title_resource_id")
     val titleResourceId: String,
 ) {
-    companion object {
-        const val MOVIE_TYPE   = "movie"
-        const val TV_SHOW_TYPE = "tv_show"
-    }
 
     fun toSuggestionResult(
-        audioVisuals: List<AudioVisual>
+        audioVisuals: List<AudioVisualItem>
     ): SuggestionResult {
         return SuggestionResult(
             order = order,
@@ -38,5 +34,5 @@ data class Suggestion(
 class SuggestionResult(
     val order: Int,
     val titleResourceId: String,
-    val audioVisuals: List<AudioVisual>
+    val audioVisuals: List<AudioVisualItem>
 )

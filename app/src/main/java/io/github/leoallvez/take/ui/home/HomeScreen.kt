@@ -15,13 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.*
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.AudioVisualItem
 import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
 import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
@@ -159,7 +158,7 @@ fun SuggestionVerticalList(
 @Composable
 fun AudioVisualHorizontalList(
     title: String,
-    audioVisuals: List<AudioVisual>
+    audioVisuals: List<AudioVisualItem>
 ) {
     ListTitle(title)
     LazyRow {

@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.AudioVisualItem
 
 @Composable
 fun ListTitle(title: String) {
@@ -44,7 +44,7 @@ fun ListTitle(title: String) {
 }
 
 @Composable
-fun HorizontalAudioVisualCard(audioVisual: AudioVisual) {
+fun HorizontalAudioVisualCard(audioVisual: AudioVisualItem) {
     AudioVisualCard(
         audioVisual = audioVisual,
         titleHeight = 65.dp,
@@ -57,7 +57,7 @@ fun HorizontalAudioVisualCard(audioVisual: AudioVisual) {
 
 @Composable
 fun AudioVisualCard(
-    audioVisual: AudioVisual,
+    audioVisual: AudioVisualItem,
     titleHeight: Dp,
     imageHeight: Dp,
     columnWith: Dp,
@@ -71,12 +71,12 @@ fun AudioVisualCard(
                 height = imageHeight + titleHeight
             ).padding(5.dp)
             .clickable {
-                Log.i("click_audio", "click on: ${audioVisual.getContentTitle()}")
+                Log.i("click_audio", "click on: ${audioVisual.getItemTitle()}")
             }
     ) {
         AudioVisualImage(
             imageUrl = audioVisual.getImageUrl(),
-            contentDescription = audioVisual.getContentTitle(),
+            contentDescription = audioVisual.getItemTitle(),
             modifier = Modifier
                 .size(
                     width = columnWith,
@@ -84,7 +84,7 @@ fun AudioVisualCard(
                 )//.border(1.dp, color = Color.DarkGray),
         )
         AudioVisualTitle(
-            title = audioVisual.getContentTitle(),
+            title = audioVisual.getItemTitle(),
             width = columnWith,
             height = titleHeight,
             fontSize = titleFontSize,

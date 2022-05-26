@@ -25,13 +25,13 @@
   },
   {
     "order": 5,
-    "type": "tv_show",
+    "type": "tv",
     "title_resource_id": "tv_trending",
     "api_path": "trending/tv/day"
   },
   {
     "order": 6,
-    "type": "tv_show",
+    "type": "tv",
     "title_resource_id": "tv_popular",
     "api_path": "tv/top_rated"
   }

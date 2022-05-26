@@ -5,38 +5,49 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
-import io.github.leoallvez.take.data.model.AudioVisual.Companion.EMPTY_TITLE
+import io.github.leoallvez.take.BuildConfig
 
 @Entity(
-    tableName = "movies",
+    tableName = "audio_visual_items",
     foreignKeys = [
         ForeignKey(
             entity = Suggestion::class,
-            parentColumns = ["suggestion_id"],
+            parentColumns = ["db_id"],
             childColumns =  ["suggestion_id"],
             onDelete = ForeignKey.CASCADE,
         )
     ]
 )
-data class Movie(
+class AudioVisualItem (
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "movie_id")
-    var movieId: Long,
+    @ColumnInfo(name = "db_id")
+    var dbId: Long = 0,
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
-    override val apiId: Long,
-    val title: String?,
+    val apiId: Long,
+    //val name: String?,
+    //val title: String?,
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
-    override val posterPath: String?,
+    val posterPath: String,
     @field:Json(name = "backdrop_path")
     @ColumnInfo(name = "backdrop_path")
-    override val backdropPath: String?,
+    val backdropPath: String,
     @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
-    override val voteAverage: Double,
+    val voteAverage: Double,
     @ColumnInfo(name = "suggestion_id", index = true)
-    override var suggestionId: Long = 0,
-) : AudioVisual {
-    override fun getContentTitle(): String = title ?: EMPTY_TITLE
+    var suggestionId: Long = 0,
+    var type: String = "OK"
+) {
+    fun getItemTitle() = EMPTY_TITLE
+
+    fun getImageUrl() = "${BuildConfig.IMG_URL}$posterPath"
+
+    companion object {
+        const val EMPTY_TITLE = ""
+        const val MOVIE_TYPE = "movie"
+        const val TV_TYPE = "tv"
+    }
 }
+
