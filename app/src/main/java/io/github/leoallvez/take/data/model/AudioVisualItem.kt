@@ -32,13 +32,12 @@ class AudioVisualItem (
     val posterPath: String,
     @field:Json(name = "backdrop_path")
     @ColumnInfo(name = "backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
     val voteAverage: Double,
     @ColumnInfo(name = "suggestion_id", index = true)
     var suggestionId: Long = 0,
-    var type: String = "OK"
 ) {
     fun getItemTitle() = EMPTY_TITLE
 
@@ -46,8 +45,6 @@ class AudioVisualItem (
 
     companion object {
         const val EMPTY_TITLE = ""
-        const val MOVIE_TYPE = "movie"
-        const val TV_TYPE = "tv"
     }
 }
 
