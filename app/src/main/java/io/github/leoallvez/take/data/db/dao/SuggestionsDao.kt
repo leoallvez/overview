@@ -16,14 +16,14 @@ interface SuggestionsDao {
         insert(*suggestions)
     }
 
-    @Query("SELECT * FROM suggestions")
-    fun getAll(): List<Suggestion>
+    @Query("DELETE FROM suggestions")
+    suspend fun deleteAll()
 
     @Insert
     suspend fun insert(vararg suggestions: Suggestion)
 
-    @Query("DELETE FROM suggestions")
-    suspend fun deleteAll()
+    @Query("SELECT * FROM suggestions")
+    fun getAll(): List<Suggestion>
 
     @Query("""SELECT * 
               FROM suggestions AS s
