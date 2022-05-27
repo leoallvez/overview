@@ -39,12 +39,7 @@ class AudioVisualItem (
     @ColumnInfo(name = "suggestion_id", index = true)
     var suggestionId: Long = 0,
 ) {
-    fun getItemTitle() = name ?: title ?: EMPTY_TITLE
+    fun getItemTitle() = name ?: title ?: ""
 
-    fun getImageUrl() = "${BuildConfig.IMG_URL}$posterPath"
-
-    companion object {
-        const val EMPTY_TITLE = ""
-    }
+    fun getImageUrl() = "${BuildConfig.IMG_URL}/$posterPath"
 }
-

@@ -22,7 +22,7 @@ class AudioVisualItemRepository @Inject constructor(
     suggestionLocalDataSource: SuggestionLocalDataSource,
 ) {
 
-    private val suggestionsList: List<Suggestion> by lazy {
+    private val suggestions: List<Suggestion> by lazy {
         suggestionLocalDataSource.getAll()
     }
 
@@ -42,18 +42,18 @@ class AudioVisualItemRepository @Inject constructor(
     }
 
     private suspend fun getRemoteData(): List<SuggestionResult> {
-        val results = mutableListOf<SuggestionResult>()
-        suggestionsList.forEach { suggestion ->
+        val result = mutableListOf<SuggestionResult>()
+        suggestions.forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
             if(response is AudiovisualResult.ApiSuccess) {
-                val audiovisual = response.content
-                setForeignKeyOnItems(audiovisual, suggestion.dbId)
-                saveItems(audiovisual)
-                val suggestionResult = suggestion.toSuggestionResult(audiovisual)
-                results.add(suggestionResult)
+                val items = response.content
+                setForeignKeyOnItems(items, suggestion.dbId)
+                saveItems(items)
+                val suggestionResult = suggestion.toSuggestionResult(items)
+                result.add(suggestionResult)
             }
         }
-        return results
+        return result
     }
 
     private fun getLocalData(): List<SuggestionResult> {
