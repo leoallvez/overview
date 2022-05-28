@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
-import io.github.leoallvez.take.BuildConfig
+import io.github.leoallvez.take.BuildConfig.*
 
 @Entity(
     tableName = "audio_visual_items",
@@ -41,5 +41,5 @@ class AudioVisualItem (
 ) {
     fun getItemTitle() = name ?: title ?: ""
 
-    fun getImageUrl() = "${BuildConfig.IMG_URL}/$posterPath"
+    fun getItemPoster() = "$IMG_URL/$posterPath"
 }

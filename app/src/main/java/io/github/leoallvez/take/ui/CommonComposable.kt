@@ -75,7 +75,7 @@ fun AudioVisualCard(
             }
     ) {
         AudioVisualImage(
-            imageUrl = audioVisual.getImageUrl(),
+            imageUrl = audioVisual.getItemPoster(),
             contentDescription = audioVisual.getItemTitle(),
             modifier = Modifier
                 .size(

@@ -3,7 +3,7 @@ package io.github.leoallvez.take.data.repository
 import io.github.leoallvez.take.data.model.AudioVisualItem
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
-import io.github.leoallvez.take.data.source.AudiovisualResult
+import io.github.leoallvez.take.data.source.AudioVisualResult
 import io.github.leoallvez.take.data.source.audiovisualitem.AudioVisualItemLocalDataSource
 import io.github.leoallvez.take.data.source.audiovisualitem.AudioVisualItemRemoteDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
@@ -45,7 +45,7 @@ class AudioVisualItemRepository @Inject constructor(
         val result = mutableListOf<SuggestionResult>()
         suggestions.forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
-            if(response is AudiovisualResult.ApiSuccess) {
+            if(response is AudioVisualResult.ApiSuccess) {
                 val items = response.content
                 setForeignKeyOnItems(items, suggestion.dbId)
                 saveItems(items)
@@ -61,7 +61,7 @@ class AudioVisualItemRepository @Inject constructor(
             .map { it.toSuggestionResult() }
     }
 
-    private suspend fun doRequest(apiPath: String): AudiovisualResult {
+    private suspend fun doRequest(apiPath: String): AudioVisualResult {
         return remoteDataSource.get(apiPath)
     }
 
