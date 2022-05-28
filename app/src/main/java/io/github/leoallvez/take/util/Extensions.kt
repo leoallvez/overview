@@ -40,7 +40,7 @@ fun Map.Entry<Suggestion, List<AudioVisualItem>>.toSuggestionResult(): Suggestio
     return SuggestionResult(
         order = suggestion.order,
         titleResourceId = suggestion.titleResourceId,
-        audioVisuals = audiovisuals
+        items = audiovisuals
     )
 }
 

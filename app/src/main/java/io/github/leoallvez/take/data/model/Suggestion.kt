@@ -20,19 +20,13 @@ data class Suggestion(
 ) {
 
     fun toSuggestionResult(
-        audioVisuals: List<AudioVisualItem>
-    ): SuggestionResult {
-        return SuggestionResult(
-            order = order,
-            titleResourceId = titleResourceId,
-            audioVisuals = audioVisuals
-        )
-    }
+        items: List<AudioVisualItem>
+    ) = SuggestionResult(order, titleResourceId, items)
 }
 
 @Immutable
 class SuggestionResult(
     val order: Int,
     val titleResourceId: String,
-    val audioVisuals: List<AudioVisualItem>
+    val items: List<AudioVisualItem>
 )

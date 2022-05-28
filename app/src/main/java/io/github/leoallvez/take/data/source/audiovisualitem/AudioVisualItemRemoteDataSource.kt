@@ -16,7 +16,7 @@ class AudioVisualItemRemoteDataSource @Inject constructor(
         return withContext(ioDispatcher) {
             when (val response = api.getAudioVisualItems(url)) {
                 is NetworkResponse.Success -> AudioVisualResult.ApiSuccess(
-                    content = response.body.results
+                    items = response.body.results
                 )
                 is NetworkResponse.ServerError -> AudioVisualResult.ApiError(
                     code = response.code,

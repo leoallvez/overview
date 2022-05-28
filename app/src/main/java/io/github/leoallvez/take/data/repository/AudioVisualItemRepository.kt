@@ -46,14 +46,14 @@ class AudioVisualItemRepository @Inject constructor(
         suggestions.forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
             if(response is AudioVisualResult.ApiSuccess) {
-                val items = response.content
+                val items = response.items
                 setForeignKeyOnItems(items, suggestion.dbId)
                 saveItems(items)
                 val suggestionResult = suggestion.toSuggestionResult(items)
                 result.add(suggestionResult)
             }
         }
-        return result
+        return result.sortedBy { it.order }
     }
 
     private fun getLocalData(): List<SuggestionResult> {

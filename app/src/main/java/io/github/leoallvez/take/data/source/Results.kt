@@ -5,7 +5,7 @@ import io.github.leoallvez.take.data.model.AudioVisualItem
 sealed class AudioVisualResult {
 
     class ApiSuccess(
-        val content: List<AudioVisualItem>
+        val items: List<AudioVisualItem>
     ) : AudioVisualResult()
 
     class ApiError(

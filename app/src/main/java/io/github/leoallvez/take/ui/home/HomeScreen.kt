@@ -2,7 +2,6 @@ package io.github.leoallvez.take.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -149,7 +148,7 @@ fun SuggestionVerticalList(
         items(suggestions) {
             AudioVisualHorizontalList(
                 title = context.getStringByName(it.titleResourceId),
-                audioVisuals = it.audioVisuals
+                audioVisuals = it.items
             )
         }
     }
