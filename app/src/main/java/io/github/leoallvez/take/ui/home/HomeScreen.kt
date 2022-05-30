@@ -32,6 +32,7 @@ import me.onebone.toolbar.*
 fun HomeScreen(viewModel: HomeViewModel) {
 
     val suggestions = viewModel.getSuggestions().observeAsState(listOf())
+    val featured = viewModel.featured.observeAsState(listOf())
     val showAd = viewModel.adsAreVisible().observeAsState(initial = false)
     val state = rememberCollapsingToolbarScaffoldState()
 
