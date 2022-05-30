@@ -12,11 +12,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.accompanist.pager.*
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.AudioVisualItem
@@ -36,31 +39,29 @@ fun HomeScreen(viewModel: HomeViewModel) {
     val showAd = viewModel.adsAreVisible().observeAsState(initial = false)
     val state = rememberCollapsingToolbarScaffoldState()
 
-    CollapsingToolbarScaffold(
-        modifier = Modifier,
-        scrollStrategy = ScrollStrategy.EnterAlways,
-        state = rememberCollapsingToolbarScaffoldState(),
-        toolbar = {
-            HomeToolBar(state)
-        },
-    ) {
-        HomeScreenContent(
-            suggestions = suggestions.value,
-            adsBannerIsVisible = showAd.value
-        )
+    if(featured.value.isNotEmpty()) {
+        CollapsingToolbarScaffold(
+            modifier = Modifier,
+            scrollStrategy = ScrollStrategy.EnterAlways,
+            state = rememberCollapsingToolbarScaffoldState(),
+            toolbar = {
+                HomeToolBar(items = featured.value)
+            },
+        ) {
+            HomeScreenContent(
+                suggestions = suggestions.value,
+                adsBannerIsVisible = showAd.value
+            )
+        }
     }
 }
 
 @ExperimentalPagerApi
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
-    state: CollapsingToolbarScaffoldState
+    items: List<AudioVisualItem>
 ) {
-    //val textSize = (18 + (30 - 18) * state.toolbarState.progress).sp
-    val pagerState = rememberPagerState(pageCount = 10)
-
-    HorizontalCardSlider(pagerState)
-
+    HorizontalCardSlider(items)
     Text(
         text = "Take",
         modifier = Modifier
@@ -73,33 +74,41 @@ private fun CollapsingToolbarScope.HomeToolBar(
 
 @ExperimentalPagerApi
 @Composable
-private fun CollapsingToolbarScope.HorizontalCardSlider(pagerState: PagerState) {
+private fun CollapsingToolbarScope.HorizontalCardSlider(
+    items: List<AudioVisualItem>
+) {
+
+    val pagerState = rememberPagerState(pageCount = items.size)
 
     Box {
         HorizontalPager(state = pagerState) { page ->
+            val item = items[page]
             Column {
-                Image(
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(data = item.getItemBackdrop())
+                        .crossfade(true)
+                        .build(),
                     modifier = Modifier
                         .parallax(ratio = 0.2f)
                         .background(Color.Black)
                         .fillMaxWidth()
                         .height(235.dp)
                         .pin(),
-                    painter = painterResource(id = R.drawable.aranha),
-                    contentDescription = null
+                    placeholder = painterResource(R.drawable.placeholder),
+                    contentScale = ContentScale.FillHeight,
+                    contentDescription = item.getItemTitle(),
                 )
                 Text(
                     color = Color.White,
-                    text = "Sample of title with pager: $page",
+                    text = item.getItemTitle(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.Black)
                         .padding(10.dp, bottom = 10.dp),
-                        //.border(1.dp, color = Color.Yellow),
                     fontSize = 14.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    //textAlign = TextAlign.Center,
                 )
             }
         }

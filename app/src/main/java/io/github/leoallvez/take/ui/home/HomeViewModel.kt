@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor (
     ): MutableList<SuggestionResult> {
 
         val featured = suggestions.first()
-        _featured.value = featured.items.take(5)
+        _featured.value = featured.items.take(10)
         val result = suggestions.toMutableList()
         result.remove(featured)
         return result
