@@ -19,12 +19,8 @@ class AudioVisualItemRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val localDataSource: AudioVisualItemLocalDataSource,
     private val remoteDataSource: AudioVisualItemRemoteDataSource,
-    suggestionLocalDataSource: SuggestionLocalDataSource,
+    private val suggestionLocalDataSource: SuggestionLocalDataSource,
 ) {
-
-    private val suggestions: List<Suggestion> by lazy {
-        suggestionLocalDataSource.getAll()
-    }
 
     private val suggestionsWithItems: Map<Suggestion, List<AudioVisualItem>> by lazy {
         suggestionLocalDataSource.getWithAudioVisualItems()
@@ -43,7 +39,7 @@ class AudioVisualItemRepository @Inject constructor(
 
     private suspend fun getRemoteData(): List<SuggestionResult> {
         val result = mutableListOf<SuggestionResult>()
-        suggestions.forEach { suggestion ->
+        getSuggestions().forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
             if(response is AudioVisualResult.ApiSuccess) {
                 val items = response.items
@@ -54,6 +50,10 @@ class AudioVisualItemRepository @Inject constructor(
             }
         }
         return result.sortedBy { it.order }
+    }
+
+    private fun getSuggestions(): List<Suggestion> {
+        return suggestionLocalDataSource.getAll()
     }
 
     private fun getLocalData(): List<SuggestionResult> {

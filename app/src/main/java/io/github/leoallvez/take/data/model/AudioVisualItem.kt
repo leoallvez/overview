@@ -42,4 +42,6 @@ class AudioVisualItem (
     fun getItemTitle() = name ?: title ?: ""
 
     fun getItemPoster() = "$IMG_URL/$posterPath"
+
+    fun getItemBackdrop() = "$IMG_URL/$backdropPath"
 }

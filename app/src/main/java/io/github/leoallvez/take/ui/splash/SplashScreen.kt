@@ -29,7 +29,7 @@ fun SplashScreen(
     viewModel: SplashViewModel,
     navController: NavController
 ) {
-    viewModel.loadingData()
+    //viewModel.loadingData()
     val scale = remember { Animatable(0f) }
 
     LaunchedEffect(key1 = true) {
