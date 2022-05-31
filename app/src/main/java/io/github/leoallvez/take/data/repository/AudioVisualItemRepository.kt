@@ -16,19 +16,19 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AudioVisualItemRepository @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val localDataSource: AudioVisualItemLocalDataSource,
-    private val remoteDataSource: AudioVisualItemRemoteDataSource,
-    private val suggestionLocalDataSource: SuggestionLocalDataSource,
+    @IoDispatcher private val _ioDispatcher: CoroutineDispatcher,
+    private val _localDataSource: AudioVisualItemLocalDataSource,
+    private val _remoteDataSource: AudioVisualItemRemoteDataSource,
+    private val _suggestionLocalDataSource: SuggestionLocalDataSource,
 ) {
 
-    private val suggestionsWithItems: Map<Suggestion, List<AudioVisualItem>> by lazy {
-        suggestionLocalDataSource.getWithAudioVisualItems()
+    private val _suggestionsWithItems: Map<Suggestion, List<AudioVisualItem>> by lazy {
+        _suggestionLocalDataSource.getWithAudioVisualItems()
     }
 
     suspend fun getData(): Flow<List<SuggestionResult>> {
-        return withContext(ioDispatcher) {
-            val results = if(suggestionsWithItems.isNotEmpty()) {
+        return withContext(_ioDispatcher) {
+            val results = if(_suggestionsWithItems.isNotEmpty()) {
                 getLocalData()
             } else {
                 getRemoteData()
@@ -53,16 +53,16 @@ class AudioVisualItemRepository @Inject constructor(
     }
 
     private fun getSuggestions(): List<Suggestion> {
-        return suggestionLocalDataSource.getAll()
+        return _suggestionLocalDataSource.getAll()
     }
 
     private fun getLocalData(): List<SuggestionResult> {
-        return suggestionsWithItems
+        return _suggestionsWithItems
             .map { it.toSuggestionResult() }
     }
 
     private suspend fun doRequest(apiPath: String): AudioVisualResult {
-        return remoteDataSource.get(apiPath)
+        return _remoteDataSource.get(apiPath)
     }
 
     private fun setForeignKeyOnItems(
@@ -77,6 +77,6 @@ class AudioVisualItemRepository @Inject constructor(
     private suspend fun saveItems(
         items: List<AudioVisualItem>
     ) {
-        localDataSource.update(*items.toTypedArray())
+        _localDataSource.update(*items.toTypedArray())
     }
 }
