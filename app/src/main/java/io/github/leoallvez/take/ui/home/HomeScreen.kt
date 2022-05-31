@@ -26,7 +26,7 @@ import coil.request.ImageRequest
 import com.google.accompanist.pager.*
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.data.model.SuggestionResult
+import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
 import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
 import io.github.leoallvez.take.ui.ListTitle
@@ -179,7 +179,7 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
 
 @Composable
 fun HomeScreenContent(
-    suggestions: List<SuggestionResult>,
+    suggestions: List<MediaSuggestion>,
     adsBannerIsVisible: Boolean
 ) {
     Box(
@@ -204,7 +204,7 @@ fun HomeScreenContent(
 
 @Composable
 fun SuggestionVerticalList(
-    suggestions: List<SuggestionResult>
+    suggestions: List<MediaSuggestion>
 ) {
     val context = LocalContext.current
     LazyColumn {

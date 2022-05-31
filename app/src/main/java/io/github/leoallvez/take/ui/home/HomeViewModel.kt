@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.abtest.AbTest
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.data.model.SuggestionResult
+import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.data.repository.ContentsManager
 import io.github.leoallvez.take.di.AbDisplayAds
 import io.github.leoallvez.take.di.MainDispatcher
@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor (
 
     val featured: LiveData<List<MediaItem>> = _manager.featured
 
-    val suggestions: LiveData<List<SuggestionResult>> = _manager.suggestions
+    val suggestions: LiveData<List<MediaSuggestion>> = _manager.mediaSuggestions
 
     init {
         refresh()

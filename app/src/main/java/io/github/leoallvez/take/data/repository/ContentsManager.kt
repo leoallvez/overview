@@ -2,7 +2,7 @@ package io.github.leoallvez.take.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.data.model.SuggestionResult
+import io.github.leoallvez.take.data.model.MediaSuggestion
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class ContentsManager @Inject constructor(
 ) {
 
     val featured = MutableLiveData<List<MediaItem>>()
-    val suggestions = MutableLiveData<List<SuggestionResult>>()
+    val mediaSuggestions = MutableLiveData<List<MediaSuggestion>>()
 
     suspend fun refresh() {
         _suggestionRepository.refresh()
@@ -20,17 +20,17 @@ class ContentsManager @Inject constructor(
     }
 
     private suspend fun setAttributes() {
-        val suggestionsList = getSuggestions()
+        val suggestionsList = getMediaSuggestions()
         val result = if(suggestionsList.isNotEmpty()) {
             featured.value = sliceFeatured(suggestionsList)
             suggestionsList
         } else {
             listOf()
         }
-        suggestions.value = result
+        mediaSuggestions.value = result
     }
 
-    private suspend fun getSuggestions(): MutableList<SuggestionResult> {
+    private suspend fun getMediaSuggestions(): MutableList<MediaSuggestion> {
         return _mediaRepository
             .getData()
             .first()
@@ -38,7 +38,7 @@ class ContentsManager @Inject constructor(
     }
 
     private fun sliceFeatured(
-        suggestions: MutableList<SuggestionResult>
+        suggestions: MutableList<MediaSuggestion>
     ): List<MediaItem> {
         val featured = suggestions.first()
         suggestions.remove(featured)

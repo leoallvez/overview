@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.data.model.SuggestionResult
+import io.github.leoallvez.take.data.model.MediaSuggestion
 import timber.log.Timber
 import java.io.IOException
 import java.lang.reflect.Type
@@ -34,13 +34,13 @@ fun Context.getStringByName(resource: String): String {
     return this.getString(resourceId)
 }
 
-fun Map.Entry<Suggestion, List<MediaItem>>.toSuggestionResult(): SuggestionResult {
+fun Map.Entry<Suggestion, List<MediaItem>>.toMediaSuggestion(): MediaSuggestion {
     val suggestion = this.key
-    val audiovisuals = this.value
-    return SuggestionResult(
+    val items = this.value
+    return MediaSuggestion(
         order = suggestion.order,
         titleResourceId = suggestion.titleResourceId,
-        items = audiovisuals
+        items = items
     )
 }
 

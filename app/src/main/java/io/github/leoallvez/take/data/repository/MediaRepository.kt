@@ -2,13 +2,13 @@ package io.github.leoallvez.take.data.repository
 
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.data.model.SuggestionResult
+import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.data.source.MediaResult
 import io.github.leoallvez.take.data.source.mediaitem.MediaLocalDataSource
 import io.github.leoallvez.take.data.source.mediaitem.MediaRemoteDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.di.IoDispatcher
-import io.github.leoallvez.take.util.toSuggestionResult
+import io.github.leoallvez.take.util.toMediaSuggestion
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,7 +26,7 @@ class MediaRepository @Inject constructor(
         _suggestionLocalDataSource.getWithMediaItems()
     }
 
-    suspend fun getData(): Flow<List<SuggestionResult>> {
+    suspend fun getData(): Flow<List<MediaSuggestion>> {
         return withContext(_ioDispatcher) {
             val results = if(_suggestionsWithItems.isNotEmpty()) {
                 getLocalData()
@@ -37,15 +37,15 @@ class MediaRepository @Inject constructor(
         }
     }
 
-    private suspend fun getRemoteData(): List<SuggestionResult> {
-        val result = mutableListOf<SuggestionResult>()
+    private suspend fun getRemoteData(): List<MediaSuggestion> {
+        val result = mutableListOf<MediaSuggestion>()
         getSuggestions().forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
             if(response is MediaResult.ApiSuccess) {
                 val items = response.items
                 setForeignKeyOnItems(items, suggestion.dbId)
                 saveItems(items)
-                val suggestionResult = suggestion.toSuggestionResult(items)
+                val suggestionResult = suggestion.toMediaSuggestion(items)
                 result.add(suggestionResult)
             }
         }
@@ -56,9 +56,9 @@ class MediaRepository @Inject constructor(
         return _suggestionLocalDataSource.getAll()
     }
 
-    private fun getLocalData(): List<SuggestionResult> {
+    private fun getLocalData(): List<MediaSuggestion> {
         return _suggestionsWithItems
-            .map { it.toSuggestionResult() }
+            .map { it.toMediaSuggestion() }
     }
 
     private suspend fun doRequest(apiPath: String): MediaResult {

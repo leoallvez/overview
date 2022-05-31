@@ -19,13 +19,13 @@ data class Suggestion(
     val titleResourceId: String,
 ) {
 
-    fun toSuggestionResult(
+    fun toMediaSuggestion(
         items: List<MediaItem>
-    ) = SuggestionResult(order, titleResourceId, items)
+    ) = MediaSuggestion(order, titleResourceId, items)
 }
 
 @Immutable
-class SuggestionResult(
+class MediaSuggestion(
     val order: Int,
     val titleResourceId: String,
     val items: List<MediaItem>
