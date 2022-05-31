@@ -17,32 +17,32 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class SuggestionRepository @Inject constructor(
-    private var cacheDataSource: CacheDataSource,
-    private val localDataSource: SuggestionLocalDataSource,
-    private val remoteDataSource: SuggestionRemoteDataSource,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    private var _cacheDataSource: CacheDataSource,
+    private val _localDataSource: SuggestionLocalDataSource,
+    private val _remoteDataSource: SuggestionRemoteDataSource,
+    @IoDispatcher private val _ioDispatcher: CoroutineDispatcher
 ) {
-    private val formatter: DateFormat by lazy {
+    private val _formatter: DateFormat by lazy {
         SimpleDateFormat(TIME_PATTERN, Locale.ENGLISH)
     }
 
-    suspend fun refresh() = withContext (ioDispatcher) {
+    suspend fun refresh() = withContext (_ioDispatcher) {
         if(isTimeToRefreshCache()) {
-            val suggestions = remoteDataSource.get().toTypedArray()
-            localDataSource.update(*suggestions)
+            val suggestions = _remoteDataSource.get().toTypedArray()
+            _localDataSource.update(*suggestions)
             saveLastCacheTime()
         }
     }
 
     private suspend fun saveLastCacheTime() {
-        val nowDateFormatted = formatter.format(Date())
-        cacheDataSource.setValue(LAST_CACHE_TIME, nowDateFormatted)
+        val nowDateFormatted = _formatter.format(Date())
+        _cacheDataSource.setValue(LAST_CACHE_TIME, nowDateFormatted)
     }
 
     private suspend fun isTimeToRefreshCache(): Boolean {
         val lastCacheDateFormatted = getLastCacheDateFormatted()
         return if(lastCacheDateFormatted.isNotBlank()) {
-            val lastCacheDate = formatter.parse(lastCacheDateFormatted) as Date
+            val lastCacheDate = _formatter.parse(lastCacheDateFormatted) as Date
             return maximumCacheTimeHasPassed(lastCacheDate)
         } else {
             true
@@ -50,7 +50,7 @@ class SuggestionRepository @Inject constructor(
     }
 
     private suspend fun getLastCacheDateFormatted(): String {
-        return cacheDataSource.getValue(LAST_CACHE_TIME).first() ?: ""
+        return _cacheDataSource.getValue(LAST_CACHE_TIME).first() ?: ""
     }
 
     private fun maximumCacheTimeHasPassed(

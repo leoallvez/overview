@@ -20,7 +20,7 @@ data class Suggestion(
 ) {
 
     fun toSuggestionResult(
-        items: List<AudioVisualItem>
+        items: List<MediaItem>
     ) = SuggestionResult(order, titleResourceId, items)
 }
 
@@ -28,5 +28,5 @@ data class Suggestion(
 class SuggestionResult(
     val order: Int,
     val titleResourceId: String,
-    val items: List<AudioVisualItem>
+    val items: List<MediaItem>
 )

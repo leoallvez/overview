@@ -1,29 +1,29 @@
-package io.github.leoallvez.take.data.source.audiovisualitem
+package io.github.leoallvez.take.data.source.mediaitem
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.leoallvez.take.data.api.ApiService
-import io.github.leoallvez.take.data.source.AudioVisualResult
+import io.github.leoallvez.take.data.source.MediaResult
 import io.github.leoallvez.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AudioVisualItemRemoteDataSource @Inject constructor(
+class MediaRemoteDataSource @Inject constructor(
     private val api: ApiService,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-    suspend fun get(url: String): AudioVisualResult {
+    suspend fun get(url: String): MediaResult {
         return withContext(ioDispatcher) {
             when (val response = api.getAudioVisualItems(url)) {
-                is NetworkResponse.Success -> AudioVisualResult.ApiSuccess(
+                is NetworkResponse.Success -> MediaResult.ApiSuccess(
                     items = response.body.results
                 )
-                is NetworkResponse.ServerError -> AudioVisualResult.ApiError(
+                is NetworkResponse.ServerError -> MediaResult.ApiError(
                     code = response.code,
                     message = response.body?.statusMessage
                 )
-                is NetworkResponse.NetworkError -> AudioVisualResult.ApiNetworkError
-                is NetworkResponse.UnknownError -> AudioVisualResult.ApiUnknownError
+                is NetworkResponse.NetworkError -> MediaResult.ApiNetworkError
+                is NetworkResponse.UnknownError -> MediaResult.ApiUnknownError
             }
         }
     }

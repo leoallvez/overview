@@ -4,11 +4,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.leoallvez.take.data.model.AudioVisualItem
+import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
 
 @Dao
-interface SuggestionsDao {
+interface SuggestionDao {
 
     @Transaction
     suspend fun update(vararg suggestions: Suggestion) {
@@ -27,6 +27,6 @@ interface SuggestionsDao {
 
     @Query("""SELECT * 
               FROM suggestions AS s
-              JOIN audio_visual_items AS a ON a.suggestion_id = s.db_id""")
-    fun getWithAudioVisualItems(): Map<Suggestion, List<AudioVisualItem>>
+              JOIN media_items AS m ON m.suggestion_id = s.db_id""")
+    fun getWithAudioVisualItems(): Map<Suggestion, List<MediaItem>>
 }

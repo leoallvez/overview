@@ -4,7 +4,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.api.response.ContentResponse
 import io.github.leoallvez.take.data.api.response.ErrorResponse
-import io.github.leoallvez.take.data.model.AudioVisualItem
+import io.github.leoallvez.take.data.model.MediaItem
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,6 +21,6 @@ interface ApiService {
         language: String = "pt-BR",
         @Query(value = "region")
         region: String = "BR"
-    ): NetworkResponse<ContentResponse<AudioVisualItem>, ErrorResponse>
+    ): NetworkResponse<ContentResponse<MediaItem>, ErrorResponse>
 
 }

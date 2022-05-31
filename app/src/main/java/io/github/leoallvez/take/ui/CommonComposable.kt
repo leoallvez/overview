@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.data.model.AudioVisualItem
+import io.github.leoallvez.take.data.model.MediaItem
 
 @Composable
 fun ListTitle(title: String) {
@@ -44,7 +44,7 @@ fun ListTitle(title: String) {
 }
 
 @Composable
-fun HorizontalAudioVisualCard(audioVisual: AudioVisualItem) {
+fun HorizontalAudioVisualCard(audioVisual: MediaItem) {
     AudioVisualCard(
         audioVisual = audioVisual,
         titleHeight = 65.dp,
@@ -57,7 +57,7 @@ fun HorizontalAudioVisualCard(audioVisual: AudioVisualItem) {
 
 @Composable
 fun AudioVisualCard(
-    audioVisual: AudioVisualItem,
+    audioVisual: MediaItem,
     titleHeight: Dp,
     imageHeight: Dp,
     columnWith: Dp,

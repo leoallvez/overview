@@ -1,11 +1,11 @@
 package io.github.leoallvez.take.data.repository
 
-import io.github.leoallvez.take.data.model.AudioVisualItem
+import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.SuggestionResult
-import io.github.leoallvez.take.data.source.AudioVisualResult
-import io.github.leoallvez.take.data.source.audiovisualitem.AudioVisualItemLocalDataSource
-import io.github.leoallvez.take.data.source.audiovisualitem.AudioVisualItemRemoteDataSource
+import io.github.leoallvez.take.data.source.MediaResult
+import io.github.leoallvez.take.data.source.mediaitem.MediaLocalDataSource
+import io.github.leoallvez.take.data.source.mediaitem.MediaRemoteDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.di.IoDispatcher
 import io.github.leoallvez.take.util.toSuggestionResult
@@ -15,20 +15,20 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AudioVisualItemRepository @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val localDataSource: AudioVisualItemLocalDataSource,
-    private val remoteDataSource: AudioVisualItemRemoteDataSource,
-    private val suggestionLocalDataSource: SuggestionLocalDataSource,
+class MediaRepository @Inject constructor(
+    @IoDispatcher private val _ioDispatcher: CoroutineDispatcher,
+    private val _localDataSource: MediaLocalDataSource,
+    private val _remoteDataSource: MediaRemoteDataSource,
+    private val _suggestionLocalDataSource: SuggestionLocalDataSource,
 ) {
 
-    private val suggestionsWithItems: Map<Suggestion, List<AudioVisualItem>> by lazy {
-        suggestionLocalDataSource.getWithAudioVisualItems()
+    private val _suggestionsWithItems: Map<Suggestion, List<MediaItem>> by lazy {
+        _suggestionLocalDataSource.getWithMediaItems()
     }
 
     suspend fun getData(): Flow<List<SuggestionResult>> {
-        return withContext(ioDispatcher) {
-            val results = if(suggestionsWithItems.isNotEmpty()) {
+        return withContext(_ioDispatcher) {
+            val results = if(_suggestionsWithItems.isNotEmpty()) {
                 getLocalData()
             } else {
                 getRemoteData()
@@ -41,7 +41,7 @@ class AudioVisualItemRepository @Inject constructor(
         val result = mutableListOf<SuggestionResult>()
         getSuggestions().forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
-            if(response is AudioVisualResult.ApiSuccess) {
+            if(response is MediaResult.ApiSuccess) {
                 val items = response.items
                 setForeignKeyOnItems(items, suggestion.dbId)
                 saveItems(items)
@@ -53,20 +53,20 @@ class AudioVisualItemRepository @Inject constructor(
     }
 
     private fun getSuggestions(): List<Suggestion> {
-        return suggestionLocalDataSource.getAll()
+        return _suggestionLocalDataSource.getAll()
     }
 
     private fun getLocalData(): List<SuggestionResult> {
-        return suggestionsWithItems
+        return _suggestionsWithItems
             .map { it.toSuggestionResult() }
     }
 
-    private suspend fun doRequest(apiPath: String): AudioVisualResult {
-        return remoteDataSource.get(apiPath)
+    private suspend fun doRequest(apiPath: String): MediaResult {
+        return _remoteDataSource.get(apiPath)
     }
 
     private fun setForeignKeyOnItems(
-        items: List<AudioVisualItem>,
+        items: List<MediaItem>,
         suggestionId: Long
     ) {
         items.forEach {
@@ -75,8 +75,8 @@ class AudioVisualItemRepository @Inject constructor(
     }
 
     private suspend fun saveItems(
-        items: List<AudioVisualItem>
+        items: List<MediaItem>
     ) {
-        localDataSource.update(*items.toTypedArray())
+        _localDataSource.update(*items.toTypedArray())
     }
 }

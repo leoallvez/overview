@@ -4,14 +4,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.leoallvez.take.data.model.AudioVisualItem
+import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.util.removeRepeated
 
 @Dao
-interface AudioVisualItemDao {
+interface MediaItemDao {
 
     @Transaction
-    suspend fun update(vararg models: AudioVisualItem) {
+    suspend fun update(vararg models: MediaItem) {
         val result = models
                 .removeRepeated(itemsToRemove = getAllAsList())
                 .toTypedArray()
@@ -20,8 +20,8 @@ interface AudioVisualItemDao {
     }
 
     @Insert
-    suspend fun insert(vararg models: AudioVisualItem)
+    suspend fun insert(vararg models: MediaItem)
 
-    @Query("SELECT * FROM audio_visual_items order by db_id desc;")
-    fun getAllAsList(): List<AudioVisualItem>
+    @Query("SELECT * FROM media_items order by db_id desc;")
+    fun getAllAsList(): List<MediaItem>
 }

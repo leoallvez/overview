@@ -25,7 +25,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.pager.*
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.data.model.AudioVisualItem
+import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.SuggestionResult
 import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
 import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
@@ -112,7 +112,7 @@ fun LoadingIndicator() {
 @ExperimentalPagerApi
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
-    items: List<AudioVisualItem>
+    items: List<MediaItem>
 ) {
     HorizontalCardSlider(items)
     Text(
@@ -128,7 +128,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
 @ExperimentalPagerApi
 @Composable
 private fun CollapsingToolbarScope.HorizontalCardSlider(
-    items: List<AudioVisualItem>
+    items: List<MediaItem>
 ) {
 
     val pagerState = rememberPagerState(pageCount = items.size)
@@ -220,7 +220,7 @@ fun SuggestionVerticalList(
 @Composable
 fun AudioVisualHorizontalList(
     title: String,
-    audioVisuals: List<AudioVisualItem>
+    audioVisuals: List<MediaItem>
 ) {
     ListTitle(title)
     LazyRow {

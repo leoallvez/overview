@@ -8,7 +8,7 @@ import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig.*
 
 @Entity(
-    tableName = "audio_visual_items",
+    tableName = "media_items",
     foreignKeys = [
         ForeignKey(
             entity = Suggestion::class,
@@ -18,7 +18,7 @@ import io.github.leoallvez.take.BuildConfig.*
         )
     ]
 )
-class AudioVisualItem (
+class MediaItem (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "db_id")
     var dbId: Long = 0,

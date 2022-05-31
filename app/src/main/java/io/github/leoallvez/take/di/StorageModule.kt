@@ -28,10 +28,10 @@ class StorageModule {
         ).build()
 
     @Provides
-    fun provideAudioVisualItemDao(db: TakeDatabase) = db.audioVisualItemDao()
+    fun provideMediaItemDao(db: TakeDatabase) = db.mediaItemDao()
 
     @Provides
-    fun provideSuggestions(db: TakeDatabase) = db.suggestionDao()
+    fun provideSuggestionDao(db: TakeDatabase) = db.suggestionDao()
 
     @Provides
     fun provideDataStore(
