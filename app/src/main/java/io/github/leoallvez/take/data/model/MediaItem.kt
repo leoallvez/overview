@@ -12,7 +12,7 @@ import io.github.leoallvez.take.BuildConfig.*
     foreignKeys = [
         ForeignKey(
             entity = Suggestion::class,
-            parentColumns = ["db_id"],
+            parentColumns = ["suggestion_db_id"],
             childColumns =  ["suggestion_id"],
             onDelete = ForeignKey.CASCADE,
         )
@@ -20,8 +20,8 @@ import io.github.leoallvez.take.BuildConfig.*
 )
 class MediaItem (
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "db_id")
-    var dbId: Long = 0,
+    @ColumnInfo(name = "media_db_id")
+    var mediaDbId: Long = 0,
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
     val apiId: Long,

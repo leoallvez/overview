@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "suggestions")
 data class Suggestion(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "db_id")
-    var dbId: Long = 0,
+    @ColumnInfo(name = "suggestion_db_id")
+    var suggestionDbId: Long = 0,
     val type: String,
     val order: Int,
     @ColumnInfo(name = "api_path")

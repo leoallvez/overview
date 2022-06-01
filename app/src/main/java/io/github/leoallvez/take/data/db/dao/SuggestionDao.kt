@@ -1,9 +1,6 @@
 package io.github.leoallvez.take.data.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
 
@@ -25,8 +22,8 @@ interface SuggestionDao {
     @Query("SELECT * FROM suggestions")
     fun getAll(): List<Suggestion>
 
-    @Query("""SELECT * 
+    @Query("""SELECT *
               FROM suggestions AS s
-              JOIN media_items AS m ON m.suggestion_id = s.db_id""")
+              JOIN media_items AS m ON s.suggestion_db_id = m.suggestion_id""")
     fun getWithMediaItems(): Map<Suggestion, List<MediaItem>>
 }

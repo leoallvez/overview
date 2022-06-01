@@ -43,10 +43,10 @@ class MediaRepository @Inject constructor(
             val response = doRequest(suggestion.apiPath)
             if(response is MediaResult.ApiSuccess) {
                 val items = response.items
-                setForeignKeyOnItems(items, suggestion.dbId)
+                setForeignKeyOnItems(items, suggestion.suggestionDbId)
                 saveItems(items)
-                val suggestionResult = suggestion.toMediaSuggestion(items)
-                result.add(suggestionResult)
+                val mediaSuggestion = suggestion.toMediaSuggestion(items)
+                result.add(mediaSuggestion)
             }
         }
         return result.sortedBy { it.order }

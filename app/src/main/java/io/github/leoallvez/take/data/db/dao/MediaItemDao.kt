@@ -22,6 +22,6 @@ interface MediaItemDao {
     @Insert
     suspend fun insert(vararg models: MediaItem)
 
-    @Query("SELECT * FROM media_items order by db_id desc")
+    @Query("SELECT * FROM media_items")
     fun getAll(): List<MediaItem>
 }
