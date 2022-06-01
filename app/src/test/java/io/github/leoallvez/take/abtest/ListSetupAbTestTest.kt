@@ -23,7 +23,7 @@ class ListSetupAbTestTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        experiment = ListSetupAbTest(jsonFileReader, remoteSource)
+        experiment = SuggestionAbTest(jsonFileReader, remoteSource)
     }
 
     @Test

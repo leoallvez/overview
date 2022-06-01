@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.data.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
@@ -11,8 +12,11 @@ class MediaSuggestionManager @Inject constructor(
     private val _mediaRepository: MediaRepository,
 ) {
 
-    val featured = MutableLiveData<List<MediaItem>>()
-    val mediaSuggestions = MutableLiveData<List<MediaSuggestion>>()
+    private val _featured = MutableLiveData<List<MediaItem>>()
+    val featured: LiveData<List<MediaItem>> = _featured
+
+    private val _mediaSuggestions = MutableLiveData<List<MediaSuggestion>>()
+    val mediaSuggestions: LiveData<List<MediaSuggestion>> = _mediaSuggestions
 
     suspend fun refresh() {
         _suggestionRepository.refresh()
@@ -20,14 +24,14 @@ class MediaSuggestionManager @Inject constructor(
     }
 
     private suspend fun setAttributes() {
-        val suggestionsList = getMediaSuggestions()
-        val result = if(suggestionsList.isNotEmpty()) {
-            featured.value = sliceFeatured(suggestionsList)
-            suggestionsList
+        val mediaSuggestions = getMediaSuggestions()
+        val result = if(mediaSuggestions.isNotEmpty()) {
+            _featured.value = sliceFeatured(mediaSuggestions)
+            mediaSuggestions
         } else {
             listOf()
         }
-        mediaSuggestions.value = result
+        _mediaSuggestions.value = result
     }
 
     private suspend fun getMediaSuggestions(): MutableList<MediaSuggestion> {
@@ -38,10 +42,10 @@ class MediaSuggestionManager @Inject constructor(
     }
 
     private fun sliceFeatured(
-        suggestions: MutableList<MediaSuggestion>
+        mediaSuggestions: MutableList<MediaSuggestion>
     ): List<MediaItem> {
-        val featured = suggestions.first()
-        suggestions.remove(featured)
+        val featured = mediaSuggestions.first()
+        mediaSuggestions.remove(featured)
         return featured.items.take(MAXIMUM_OF_FEATURED)
     }
 

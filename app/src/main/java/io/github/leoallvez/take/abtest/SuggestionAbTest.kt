@@ -7,30 +7,30 @@ import io.github.leoallvez.take.util.IJsonFileReader
 import io.github.leoallvez.take.util.getList
 import javax.inject.Inject
 
-class ListSetupAbTest @Inject constructor(
+class SuggestionAbTest @Inject constructor(
     private val jsonFileReader: IJsonFileReader,
     private val remoteSource: RemoteSource
 ) : AbTest<List<Suggestion>> {
 
     override fun execute(): List<Suggestion> {
-        return getLocalListsSetup() ?: getRemoteListsSetup()
+        return getLocalSuggestions() ?: getRemoteSuggestions()
     }
 
-    private fun getLocalListsSetup(): List<Suggestion>? {
-        val json = jsonFileReader.read(LISTS_SETUP_FILE)
-        return parseJsonToListSetup(json)
+    private fun getLocalSuggestions(): List<Suggestion>? {
+        val json = jsonFileReader.read(SUGGESTIONS_FILE)
+        return parseJsonToSuggestions(json)
     }
 
-    private fun getRemoteListsSetup(): List<Suggestion> {
+    private fun getRemoteSuggestions(): List<Suggestion> {
         val json = remoteSource.getString(LIST_SETUP_KEY)
-        return parseJsonToListSetup(json) ?: listOf()
+        return parseJsonToSuggestions(json) ?: listOf()
     }
 
-    private fun parseJsonToListSetup(json: String): List<Suggestion>? {
+    private fun parseJsonToSuggestions(json: String): List<Suggestion>? {
         return json.getList(Suggestion::class.java)
     }
 
     companion object {
-        const val LISTS_SETUP_FILE = "lists_setup.json"
+        private const val SUGGESTIONS_FILE = "suggestions.json"
     }
 }
