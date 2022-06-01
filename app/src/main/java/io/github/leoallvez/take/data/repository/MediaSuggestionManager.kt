@@ -6,7 +6,7 @@ import io.github.leoallvez.take.data.model.MediaSuggestion
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class ContentsManager @Inject constructor(
+class MediaSuggestionManager @Inject constructor(
     private val _suggestionRepository: SuggestionRepository,
     private val _mediaRepository: MediaRepository,
 ) {

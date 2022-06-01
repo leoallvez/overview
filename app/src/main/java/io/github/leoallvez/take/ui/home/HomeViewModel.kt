@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.abtest.AbTest
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
-import io.github.leoallvez.take.data.repository.ContentsManager
+import io.github.leoallvez.take.data.repository.MediaSuggestionManager
 import io.github.leoallvez.take.di.AbDisplayAds
 import io.github.leoallvez.take.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor (
-    private val _manager: ContentsManager,
+    private val _manager: MediaSuggestionManager,
     @AbDisplayAds private val _experiment: AbTest<Boolean>,
     @MainDispatcher private val _mainDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
