@@ -5,14 +5,14 @@ import io.github.leoallvez.take.data.model.*
 import javax.inject.Inject
 
 class SuggestionLocalDataSource @Inject constructor(
-    private val dao: SuggestionDao
+    private val _dao: SuggestionDao
 ) {
 
-    fun getAll(): List<Suggestion> = dao.getAll()
+    fun getAll(): List<Suggestion> = _dao.getAll()
 
-    suspend fun update(vararg entities: Suggestion) = dao.update(*entities)
+    suspend fun update(vararg entities: Suggestion) = _dao.update(*entities)
 
     fun getWithMediaItems(): Map<Suggestion, List<MediaItem>> {
-        return dao.getWithMediaItems()
+        return _dao.getWithMediaItems()
     }
 }

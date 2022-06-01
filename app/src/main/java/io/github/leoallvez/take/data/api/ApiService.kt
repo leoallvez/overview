@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET(value = "{url}")
-    suspend fun getAudioVisualItems(
+    suspend fun getMediaItems(
         @Path(value = "url", encoded = true)
         url: String,
         @Query(value ="api_key")

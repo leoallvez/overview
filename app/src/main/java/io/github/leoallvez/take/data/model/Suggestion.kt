@@ -22,4 +22,3 @@ data class Suggestion(
         return MediaSuggestion(order, titleResourceId, items)
     }
 }
-

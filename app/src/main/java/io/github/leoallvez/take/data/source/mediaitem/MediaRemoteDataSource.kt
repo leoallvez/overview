@@ -14,7 +14,7 @@ class MediaRemoteDataSource @Inject constructor(
 ) {
     suspend fun get(url: String): MediaResult {
         return withContext(ioDispatcher) {
-            when (val response = api.getAudioVisualItems(url)) {
+            when (val response = api.getMediaItems(url)) {
                 is NetworkResponse.Success -> MediaResult.ApiSuccess(
                     items = response.body.results
                 )

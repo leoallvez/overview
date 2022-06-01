@@ -9,7 +9,7 @@ import io.github.leoallvez.take.abtest.AbTest
 import io.github.leoallvez.take.abtest.DisplayAdsAbTest
 import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.model.*
-import io.github.leoallvez.take.abtest.ListSetupAbTest
+import io.github.leoallvez.take.abtest.SuggestionAbTest
 import io.github.leoallvez.take.util.IJsonFileReader
 
 @Module
@@ -22,8 +22,8 @@ class AbExperimentModule {
         remote: RemoteSource
     ): AbTest<Boolean> {
         return DisplayAdsAbTest(
-            localPermission = BuildConfig.ADS_ARE_VISIBLES,
-            remoteSource = remote
+            _localPermission = BuildConfig.ADS_ARE_VISIBLES,
+            _remoteSource = remote
         )
     }
 
@@ -33,9 +33,9 @@ class AbExperimentModule {
         jsonFileReader: IJsonFileReader,
         remote: RemoteSource
     ): AbTest<List<Suggestion>> {
-        return ListSetupAbTest(
-            jsonFileReader = jsonFileReader,
-            remoteSource = remote
+        return SuggestionAbTest(
+            _jsonFileReader = jsonFileReader,
+            _remoteSource = remote
         )
     }
 }
