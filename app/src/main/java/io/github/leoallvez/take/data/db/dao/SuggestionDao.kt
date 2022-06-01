@@ -28,5 +28,5 @@ interface SuggestionDao {
     @Query("""SELECT * 
               FROM suggestions AS s
               JOIN media_items AS m ON m.suggestion_id = s.db_id""")
-    fun getWithAudioVisualItems(): Map<Suggestion, List<MediaItem>>
+    fun getWithMediaItems(): Map<Suggestion, List<MediaItem>>
 }

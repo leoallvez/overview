@@ -13,7 +13,7 @@ interface MediaItemDao {
     @Transaction
     suspend fun update(vararg models: MediaItem) {
         val result = models
-                .removeRepeated(itemsToRemove = getAllAsList())
+                .removeRepeated(itemsToRemove = getAll())
                 .toTypedArray()
 
         insert(*result)
@@ -22,6 +22,6 @@ interface MediaItemDao {
     @Insert
     suspend fun insert(vararg models: MediaItem)
 
-    @Query("SELECT * FROM media_items order by db_id desc;")
-    fun getAllAsList(): List<MediaItem>
+    @Query("SELECT * FROM media_items order by db_id desc")
+    fun getAll(): List<MediaItem>
 }

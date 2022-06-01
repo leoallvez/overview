@@ -27,7 +27,6 @@ fun <T> String.getList(clazz: Class<T>?): List<T>? = try {
     null
 }
 
-
 fun Context.getStringByName(resource: String): String {
     val resourceId = this.resources
         .getIdentifier(resource, "string", this.packageName)
