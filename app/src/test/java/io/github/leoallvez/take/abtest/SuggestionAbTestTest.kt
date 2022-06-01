@@ -10,28 +10,28 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class ListSetupAbTestTest {
+class SuggestionAbTestTest {
 
     @MockK(relaxed = true)
-    private lateinit var remoteSource: RemoteSource
+    private lateinit var _remoteSource: RemoteSource
 
     @MockK(relaxed = true)
-    private lateinit var jsonFileReader: IJsonFileReader
+    private lateinit var _jsonFileReader: IJsonFileReader
 
-    private lateinit var experiment: AbTest<List<Suggestion>>
+    private lateinit var _experiment: AbTest<List<Suggestion>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        experiment = SuggestionAbTest(jsonFileReader, remoteSource)
+        _experiment = SuggestionAbTest(_jsonFileReader, _remoteSource)
     }
 
     @Test
     fun onExecute_parseValidJsonToList_listHasNoNullElement() {
         //Arrange
-        every { jsonFileReader.read(any()) } returns JSON
+        every { _jsonFileReader.read(any()) } returns JSON
         //Act
-        val list: List<Suggestion?> = experiment.execute()
+        val list: List<Suggestion?> = _experiment.execute()
         val hasNoNullElement = list.any { it == null }.not()
         //Assert
         assertTrue(hasNoNullElement)
@@ -40,9 +40,9 @@ class ListSetupAbTestTest {
     @Test
     fun onExecute_parseValidJsonToList_listIsNotEmpty() {
         //Arrange
-        every { jsonFileReader.read(any()) } returns JSON
+        every { _jsonFileReader.read(any()) } returns JSON
         //Act
-        val list: List<Suggestion> = experiment.execute()
+        val list: List<Suggestion> = _experiment.execute()
         //Assert
         assertTrue(list.isNotEmpty())
     }
@@ -52,7 +52,7 @@ class ListSetupAbTestTest {
         //Arrange
         everyLocalAndRemote(local = EMPTY, remote = JSON)
         //Act
-        val list: List<Suggestion> = experiment.execute()
+        val list: List<Suggestion> = _experiment.execute()
         //Assert
         assertTrue(list.isNotEmpty())
     }
@@ -62,7 +62,7 @@ class ListSetupAbTestTest {
         //Arrange
         everyLocalAndRemote(local = EMPTY, remote = EMPTY)
         //Act
-        val list: List<Suggestion> = experiment.execute()
+        val list: List<Suggestion> = _experiment.execute()
         //Assert
         assertTrue(list.isEmpty())
     }
@@ -72,7 +72,7 @@ class ListSetupAbTestTest {
         //Arrange
         everyLocalAndRemote(local = JSON, remote = EMPTY)
         //Act
-        val list: List<Suggestion> = experiment.execute()
+        val list: List<Suggestion> = _experiment.execute()
         //Assert
         assertTrue(list.isNotEmpty())
     }
@@ -81,8 +81,8 @@ class ListSetupAbTestTest {
         local: String,
         remote: String
     ) {
-        every { jsonFileReader.read(any()) } returns local
-        every { remoteSource.getString(any()) } returns remote
+        every { _jsonFileReader.read(any()) } returns local
+        every { _remoteSource.getString(any()) } returns remote
     }
 
     companion object {

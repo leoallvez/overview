@@ -14,25 +14,25 @@ import org.junit.Test
 
 class DisplayAdsAbTestTest {
 
-    private lateinit var remoteSource: RemoteSource
+    private lateinit var _remoteSource: RemoteSource
 
     @MockK
-    private lateinit var remoteConfig: FirebaseRemoteConfig
+    private lateinit var _remoteConfig: FirebaseRemoteConfig
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        remoteSource = RemoteConfigWrapper(remoteConfig)
+        _remoteSource = RemoteConfigWrapper(_remoteConfig)
     }
 
     @Test
     fun onExecute_localIsTrueRemoteIsTrue_isTrue() {
         //Arrange
         val experiment = DisplayAdsAbTest(
-            localPermission = true,
-            remoteSource
+            _localPermission = true,
+            _remoteSource = _remoteSource
         )
-        every { remoteConfig.getBoolean(any()) } returns true
+        every { _remoteConfig.getBoolean(any()) } returns true
         //Act
         val result = experiment.execute()
         //Assert
@@ -43,10 +43,10 @@ class DisplayAdsAbTestTest {
     fun onExecute_localIsTrueRemoteIsFalse_isTrue() {
         //Arrange
         val experiment = DisplayAdsAbTest(
-            localPermission = true,
-            remoteSource
+            _localPermission = true,
+            _remoteSource = _remoteSource
         )
-        every { remoteConfig.getBoolean(any()) } returns false
+        every { _remoteConfig.getBoolean(any()) } returns false
         //Act
         val result = experiment.execute()
         //Assert
@@ -57,10 +57,10 @@ class DisplayAdsAbTestTest {
     fun onExecute_localIsFalseRemoteIsFalse_isFalse() {
         //Arrange
         val experiment = DisplayAdsAbTest(
-            localPermission = false,
-            remoteSource
+            _localPermission = false,
+            _remoteSource = _remoteSource
         )
-        every { remoteConfig.getBoolean(any()) } returns false
+        every { _remoteConfig.getBoolean(any()) } returns false
         //Act
         val result = experiment.execute()
         //Assert
@@ -71,10 +71,10 @@ class DisplayAdsAbTestTest {
     fun onExecute_localIsFalseRemoteIsTrue_isFalse() {
         //Arrange
         val experiment = DisplayAdsAbTest(
-            localPermission = false,
-            remoteSource
+            _localPermission = false,
+            _remoteSource = _remoteSource
         )
-        every { remoteConfig.getBoolean(any()) } returns true
+        every { _remoteConfig.getBoolean(any()) } returns true
         //Act
         val result = experiment.execute()
         //Assert
@@ -84,15 +84,15 @@ class DisplayAdsAbTestTest {
     @Test
     fun onExecute_getBooleanIsCalled() {
         //Arrange
-        remoteSource = mockk()
+        _remoteSource = mockk()
         val experiment = DisplayAdsAbTest(
-            localPermission = false,
-            remoteSource
+            _localPermission = false,
+            _remoteSource = _remoteSource
         )
-        every { remoteSource.getBoolean(any()) } returns true
+        every { _remoteSource.getBoolean(any()) } returns true
         //Act
         experiment.execute()
         //Assert
-        verify { remoteSource.getBoolean(any()) }
+        verify { _remoteSource.getBoolean(any()) }
     }
 }
