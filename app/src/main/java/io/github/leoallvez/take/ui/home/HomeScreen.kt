@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -17,21 +19,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.pager.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
-import io.github.leoallvez.take.ui.HorizontalAudioVisualCard
 import io.github.leoallvez.take.ui.ListTitle
+import io.github.leoallvez.take.ui.MediaCard
 import io.github.leoallvez.take.util.getStringByName
-import me.onebone.toolbar.*
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.CollapsingToolbarScope
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @ExperimentalPagerApi
 @Composable
@@ -60,7 +67,11 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 )
             }
         } else {
-            Toast.makeText(LocalContext.current, "Erro ao carregar...", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                LocalContext.current,
+                stringResource(id = R.string.error_on_loading),
+                Toast.LENGTH_LONG
+            ).show()
             ErrorOnLoading(refresh = { viewModel.refresh() })
         }
     }
@@ -87,11 +98,11 @@ fun ErrorOnLoading(refresh: () -> Unit) {
         ) {
             Icon(
                 Icons.Filled.Refresh,
-                contentDescription = "Favorite",
+                contentDescription = stringResource(id = R.string.refresh_icon),
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("Tentar novamente")
+            Text(text = stringResource(id = R.string.btn_try_again))
         }
 
     }
@@ -115,14 +126,20 @@ private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>
 ) {
     HorizontalCardSlider(items)
-    Text(
-        text = "Take",
+    Button(
+        onClick = {},
+        shape = CircleShape,
         modifier = Modifier
+            .padding(end = 15.dp, top = 5.dp)
             .road(Alignment.TopEnd, Alignment.TopEnd)
-            .padding(10.dp),
-        color = Color.White,
-        fontSize = 30.sp
-    )
+    ) {
+        Icon(
+            Icons.Filled.Search,
+            contentDescription = stringResource(id = R.string.refresh_icon),
+            modifier = Modifier.size(30.dp),
+            tint = Color.White
+        )
+    }
 }
 
 @ExperimentalPagerApi
@@ -136,34 +153,17 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
     Box {
         HorizontalPager(state = pagerState) { page ->
             val item = items[page]
-            Column {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(data = item.getItemBackdrop())
-                        .crossfade(true)
-                        .build(),
-                    modifier = Modifier
-                        .parallax(ratio = 0.2f)
-                        .background(Color.Black)
-                        .fillMaxWidth()
-                        .height(235.dp)
-                        .pin(),
-                    placeholder = painterResource(R.drawable.placeholder),
-                    contentScale = ContentScale.FillHeight,
-                    contentDescription = item.getItemTitle(),
-                )
-                Text(
-                    color = Color.White,
-                    text = item.getItemTitle(),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.Black)
-                        .padding(10.dp, bottom = 10.dp),
-                    fontSize = 14.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
+            CardSliderImage(item = item)
+            Text(
+                text = item.getItemTitle(),
+                modifier = Modifier
+                    .background(MaterialTheme.colors.primary.copy(alpha = 0.4f))
+                    .fillMaxSize()
+                    .align(Alignment.BottomEnd)
+                    .padding(start = 15.dp, 5.dp),
+                color = Color.White,
+                fontSize = 17.sp
+            )
         }
 
         HorizontalPagerIndicator(
@@ -175,6 +175,24 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
             activeColor = Color.White,
         )
     }
+}
+
+@Composable
+fun CollapsingToolbarScope.CardSliderImage(item: MediaItem) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data = item.getItemBackdrop())
+            .crossfade(true)
+            .build(),
+        modifier = Modifier
+            .parallax(ratio = 0.2f)
+            .background(Color.Black)
+            .fillMaxWidth()
+            .height(235.dp)
+            .pin(),
+        contentScale = ContentScale.FillHeight,
+        contentDescription = item.getItemTitle(),
+    )
 }
 
 @Composable
@@ -206,26 +224,27 @@ fun HomeScreenContent(
 fun SuggestionVerticalList(
     suggestions: List<MediaSuggestion>
 ) {
-    val context = LocalContext.current
     LazyColumn {
         items(suggestions) {
-            AudioVisualHorizontalList(
-                title = context.getStringByName(it.titleResourceId),
-                audioVisuals = it.items
+            MediaHorizontalList(
+                title = LocalContext
+                    .current
+                    .getStringByName(it.titleResourceId),
+                items = it.items
             )
         }
     }
 }
 
 @Composable
-fun AudioVisualHorizontalList(
+fun MediaHorizontalList(
     title: String,
-    audioVisuals: List<MediaItem>
+    items: List<MediaItem>
 ) {
     ListTitle(title)
     LazyRow {
-        items(audioVisuals) { audiovisual ->
-            HorizontalAudioVisualCard(audiovisual)
+        items(items) { item ->
+            MediaCard(item)
         }
     }
 }
