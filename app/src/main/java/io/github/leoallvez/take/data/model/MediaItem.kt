@@ -21,7 +21,7 @@ import io.github.leoallvez.take.BuildConfig.*
 class MediaItem (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "media_db_id")
-    var mediaDbId: Long = 0,
+    var dbId: Long = 0,
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
     val apiId: Long,

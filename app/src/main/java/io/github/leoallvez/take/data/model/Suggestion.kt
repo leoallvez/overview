@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 data class Suggestion(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "suggestion_db_id")
-    var suggestionDbId: Long = 0,
+    var dbId: Long = 0,
     val type: String,
     val order: Int,
     @ColumnInfo(name = "api_path")

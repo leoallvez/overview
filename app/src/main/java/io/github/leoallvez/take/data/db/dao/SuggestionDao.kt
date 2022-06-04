@@ -8,16 +8,16 @@ import io.github.leoallvez.take.data.model.Suggestion
 interface SuggestionDao {
 
     @Transaction
-    suspend fun update(vararg suggestions: Suggestion) {
+    suspend fun update(vararg models: Suggestion) {
         deleteAll()
-        insert(*suggestions)
+        insert(*models)
     }
 
     @Query("DELETE FROM suggestions")
     suspend fun deleteAll()
 
     @Insert
-    suspend fun insert(vararg suggestions: Suggestion)
+    suspend fun insert(vararg models: Suggestion)
 
     @Query("SELECT * FROM suggestions")
     fun getAll(): List<Suggestion>
@@ -25,5 +25,5 @@ interface SuggestionDao {
     @Query("""SELECT *
               FROM suggestions AS s
               JOIN media_items AS m ON s.suggestion_db_id = m.suggestion_id""")
-    fun getWithMediaItems(): Map<Suggestion, List<MediaItem>>
+    fun getAllWithMediaItems(): Map<Suggestion, List<MediaItem>>
 }

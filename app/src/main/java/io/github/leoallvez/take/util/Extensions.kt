@@ -43,7 +43,7 @@ fun Map.Entry<Suggestion, List<MediaItem>>.toMediaSuggestion(): MediaSuggestion 
     )
 }
 
-fun <T: MediaItem> Array<T>.removeRepeated(itemsToRemove: List<MediaItem>): List<T> {
+fun Array<out MediaItem>.removeRepeated(itemsToRemove: List<MediaItem>): List<MediaItem> {
     return this.filterNot { a -> itemsToRemove.any { b -> b equivalent a } }
 }
 

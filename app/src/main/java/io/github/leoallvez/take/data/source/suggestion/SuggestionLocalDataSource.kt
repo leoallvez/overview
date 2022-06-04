@@ -13,6 +13,6 @@ class SuggestionLocalDataSource @Inject constructor(
     suspend fun update(vararg entities: Suggestion) = _dao.update(*entities)
 
     fun getWithMediaItems(): Map<Suggestion, List<MediaItem>> {
-        return _dao.getWithMediaItems()
+        return _dao.getAllWithMediaItems()
     }
 }
