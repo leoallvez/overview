@@ -31,7 +31,7 @@ import com.google.accompanist.pager.rememberPagerState
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
-import io.github.leoallvez.take.ui.AdsBannerBottomAppBar
+import io.github.leoallvez.take.ui.AdsBanner
 import io.github.leoallvez.take.ui.ListTitle
 import io.github.leoallvez.take.ui.MediaCard
 import io.github.leoallvez.take.util.getStringByName
@@ -206,12 +206,17 @@ fun HomeScreenContent(
             .fillMaxSize()
             .background(color = Color.DarkGray)
             .background(Color.Black)
-            .padding(10.dp, bottom = 50.dp),
+            //.padding(10.dp, top = 50.dp),
     ) {
         Column {
-            AdsBannerBottomAppBar(
+            val adPadding = 10.dp
+            AdsBanner(
                 bannerId = R.string.banner_sample_id,
-                isVisible = adsBannerIsVisible
+                isVisible = adsBannerIsVisible,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = adPadding, bottom = adPadding)
+                    .height(50.dp)
             )
             SuggestionVerticalList(
                 suggestions = suggestions
