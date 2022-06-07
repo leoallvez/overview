@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -160,9 +161,10 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
                     .background(MaterialTheme.colors.primary.copy(alpha = 0.4f))
                     .fillMaxSize()
                     .align(Alignment.BottomEnd)
-                    .padding(start = 15.dp, 5.dp),
+                    .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
                 color = Color.White,
-                fontSize = 17.sp
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
             )
         }
 
