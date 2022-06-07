@@ -46,10 +46,13 @@ class MediaSuggestionManager @Inject constructor(
     ): List<MediaItem> {
         val featured = mediaSuggestions.first()
         mediaSuggestions.remove(featured)
-        return featured.items.take(MAXIMUM_OF_FEATURED)
+        return featured
+            .items
+            .sortedByDescending { it.voteAverage }
+            .take(MAXIMUM_OF_FEATURED)
     }
 
     companion object {
-        private const val MAXIMUM_OF_FEATURED = 10
+        private const val MAXIMUM_OF_FEATURED = 5
     }
 }
