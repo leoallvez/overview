@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,11 +24,8 @@ import io.github.leoallvez.take.ui.Screen
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(
-    viewModel: SplashViewModel,
-    navController: NavController
-) {
-    viewModel.loadingData()
+fun SplashScreen(nav: NavController) {
+
     val scale = remember { Animatable(0f) }
 
     LaunchedEffect(key1 = true) {
@@ -42,7 +38,7 @@ fun SplashScreen(
                 })
         )
         delay(1500L)
-        navController.navigate(route = Screen.Home.route) {
+        nav.navigate(route = Screen.Home.route) {
             popUpTo(Screen.Splash.route) {
                 inclusive = true
             }

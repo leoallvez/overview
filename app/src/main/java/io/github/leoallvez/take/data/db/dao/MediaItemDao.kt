@@ -4,24 +4,24 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.leoallvez.take.data.model.Movie
+import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.util.removeRepeated
 
 @Dao
-interface MovieDao {
+interface MediaItemDao {
 
     @Transaction
-    suspend fun update(vararg models: Movie) {
+    suspend fun update(vararg models: MediaItem) {
         val result = models
-                .removeRepeated(itemsToRemove = getAllAsList())
+                .removeRepeated(itemsToRemove = getAll())
                 .toTypedArray()
 
         insert(*result)
     }
 
     @Insert
-    suspend fun insert(vararg models: Movie)
+    suspend fun insert(vararg models: MediaItem)
 
-    @Query("SELECT * FROM movies order by movie_id desc;")
-    fun getAllAsList(): List<Movie>
+    @Query("SELECT * FROM media_items")
+    fun getAll(): List<MediaItem>
 }

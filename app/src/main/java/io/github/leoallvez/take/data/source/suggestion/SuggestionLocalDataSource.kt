@@ -1,35 +1,18 @@
 package io.github.leoallvez.take.data.source.suggestion
 
-import io.github.leoallvez.take.data.db.dao.SuggestionsDao
+import io.github.leoallvez.take.data.db.dao.SuggestionDao
 import io.github.leoallvez.take.data.model.*
 import javax.inject.Inject
 
 class SuggestionLocalDataSource @Inject constructor(
-    private val dao: SuggestionsDao
+    private val _dao: SuggestionDao
 ) {
-    suspend fun update(vararg entities: Suggestion) = dao.update(*entities)
 
-    fun getByType(type: String): List<Suggestion> = dao.getByType(type)
+    fun getAll(): List<Suggestion> = _dao.getAll()
 
-    fun getWithMovies(): Map<Suggestion, List<Movie>> {
-        return dao.getWithMovies()
-    }
+    suspend fun update(vararg entities: Suggestion) = _dao.update(*entities)
 
-    fun hasMoviesCache(): Boolean {
-        return dao.getWithMovies()
-            .any { (_, movies) ->
-                movies.isNotEmpty()
-            }
-    }
-
-    fun getWithTvShows(): Map<Suggestion, List<TvShow>> {
-        return dao.getWithTvShows()
-    }
-
-    fun hasTvShowsCache(): Boolean {
-        return dao.getWithTvShows()
-            .any { (_, tvShows) ->
-                tvShows.isNotEmpty()
-            }
+    fun getWithMediaItems(): Map<Suggestion, List<MediaItem>> {
+        return _dao.getAllWithMediaItems()
     }
 }

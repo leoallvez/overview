@@ -1,19 +1,14 @@
 package io.github.leoallvez.take.data.source
 
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.MediaItem
 
-sealed class AudiovisualResult {
+sealed class MediaResult {
 
-    class ApiSuccess(
-        val content: List<AudioVisual>
-    ) : AudiovisualResult()
+    class ApiSuccess(val items: List<MediaItem>) : MediaResult()
 
-    class ApiError(
-        val code: Int,
-        val message: String?
-    ) : AudiovisualResult()
+    class ApiError(val code: Int, val message: String?) : MediaResult()
 
-    object ApiNetworkError : AudiovisualResult()
+    object ApiNetworkError : MediaResult()
 
-    object ApiUnknownError : AudiovisualResult()
+    object ApiUnknownError : MediaResult()
 }

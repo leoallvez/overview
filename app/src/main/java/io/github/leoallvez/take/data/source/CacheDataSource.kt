@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CacheDataSource @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val _dataStore: DataStore<Preferences>
 ) {
 
     suspend fun <T> setValue(key: Preferences.Key<T>, value: T) {
-        dataStore.edit { preferences ->
+        _dataStore.edit { preferences ->
             preferences[key] = value
         }
     }
 
     fun <T> getValue(key: Preferences.Key<T>): Flow<T?> {
-        return dataStore.data.map { preferences ->
+        return _dataStore.data.map { preferences ->
             preferences[key]
         }
     }

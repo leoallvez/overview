@@ -28,13 +28,10 @@ class StorageModule {
         ).build()
 
     @Provides
-    fun provideMovieDao(db: TakeDatabase) = db.movieDao()
+    fun provideMediaItemDao(db: TakeDatabase) = db.mediaItemDao()
 
     @Provides
-    fun provideTvShowDao(db: TakeDatabase) = db.tvShowDao()
-
-    @Provides
-    fun provideSuggestions(db: TakeDatabase) = db.suggestionDao()
+    fun provideSuggestionDao(db: TakeDatabase) = db.suggestionDao()
 
     @Provides
     fun provideDataStore(

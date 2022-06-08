@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class SuggestionRemoteDataSource @Inject constructor(
     @AbSuggestions
-    val experiment: AbTest<List<Suggestion>>
+    private val _experiment: AbTest<List<Suggestion>>
 ) {
-    fun get() = experiment.execute()
+    fun get() = _experiment.execute()
 }

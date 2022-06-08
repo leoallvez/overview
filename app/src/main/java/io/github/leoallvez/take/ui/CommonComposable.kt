@@ -1,6 +1,5 @@
 package io.github.leoallvez.take.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +24,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.data.model.AudioVisual
+import io.github.leoallvez.take.data.model.MediaItem
+import timber.log.Timber
 
 @Composable
 fun ListTitle(title: String) {
@@ -38,31 +38,19 @@ fun ListTitle(title: String) {
                 bottom = 5.dp,
                 top = 15.dp
             ),
-        fontSize = 20.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
     )
 }
 
 @Composable
-fun HorizontalAudioVisualCard(audioVisual: AudioVisual) {
-    AudioVisualCard(
-        audioVisual = audioVisual,
-        titleHeight = 65.dp,
-        imageHeight = 200.dp,
-        columnWith = 140.dp,
-        titleFontSize = 13.sp,
-        titleMaxLines = 3
-    )
-}
-
-@Composable
-fun AudioVisualCard(
-    audioVisual: AudioVisual,
-    titleHeight: Dp,
-    imageHeight: Dp,
-    columnWith: Dp,
-    titleFontSize: TextUnit,
-    titleMaxLines: Int
+fun MediaCard(
+    media: MediaItem,
+    titleHeight: Dp = 65.dp,
+    imageHeight: Dp = 200.dp,
+    columnWith: Dp = 140.dp,
+    titleFontSize: TextUnit = 12.sp,
+    titleMaxLines: Int = 3
 ) {
     Column(
         modifier = Modifier
@@ -71,20 +59,22 @@ fun AudioVisualCard(
                 height = imageHeight + titleHeight
             ).padding(5.dp)
             .clickable {
-                Log.i("click_audio", "click on: ${audioVisual.getContentTitle()}")
+                Timber
+                    .tag("click_audio")
+                    .i("click on: ${media.getItemTitle()}")
             }
     ) {
-        AudioVisualImage(
-            imageUrl = audioVisual.getImageUrl(),
-            contentDescription = audioVisual.getContentTitle(),
+        MediaImage(
+            imageUrl = media.getItemPoster(),
+            contentDescription = media.getItemTitle(),
             modifier = Modifier
                 .size(
                     width = columnWith,
                     height = imageHeight
-                )//.border(1.dp, color = Color.DarkGray),
+                )
         )
-        AudioVisualTitle(
-            title = audioVisual.getContentTitle(),
+        MediaTitle(
+            title = media.getItemTitle(),
             width = columnWith,
             height = titleHeight,
             fontSize = titleFontSize,
@@ -94,7 +84,7 @@ fun AudioVisualCard(
 }
 
 @Composable
-fun AudioVisualImage(
+fun MediaImage(
     imageUrl: String,
     contentDescription: String,
     modifier: Modifier
@@ -119,7 +109,7 @@ fun AudioVisualImage(
 }
 
 @Composable
-fun AudioVisualTitle(
+fun MediaTitle(
     title: String,
     width: Dp,
     height: Dp,
@@ -131,7 +121,7 @@ fun AudioVisualTitle(
         text = title,
         modifier = Modifier
             .padding(top = 5.dp)
-            .size(width = width, height = height), //.border(1.dp, color = Color.Yellow),
+            .size(width = width, height = height),
         fontSize = fontSize,
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,

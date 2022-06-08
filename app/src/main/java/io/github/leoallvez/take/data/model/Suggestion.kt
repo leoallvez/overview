@@ -1,14 +1,13 @@
 package io.github.leoallvez.take.data.model
 
-import androidx.compose.runtime.Immutable
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "suggestions")
 data class Suggestion(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "suggestion_id")
-    var suggestionId: Long = 0,
+    @ColumnInfo(name = "suggestion_db_id")
+    var dbId: Long = 0,
     val type: String,
     val order: Int,
     @ColumnInfo(name = "api_path")
@@ -18,25 +17,8 @@ data class Suggestion(
     @SerializedName(value = "title_resource_id")
     val titleResourceId: String,
 ) {
-    companion object {
-        const val MOVIE_TYPE   = "movie"
-        const val TV_SHOW_TYPE = "tv_show"
-    }
 
-    fun toSuggestionResult(
-        audioVisuals: List<AudioVisual>
-    ): SuggestionResult {
-        return SuggestionResult(
-            order = order,
-            titleResourceId = titleResourceId,
-            audioVisuals = audioVisuals
-        )
+    fun toMediaSuggestion(items: List<MediaItem>): MediaSuggestion {
+        return MediaSuggestion(order, titleResourceId, items)
     }
 }
-
-@Immutable
-class SuggestionResult(
-    val order: Int,
-    val titleResourceId: String,
-    val audioVisuals: List<AudioVisual>
-)
