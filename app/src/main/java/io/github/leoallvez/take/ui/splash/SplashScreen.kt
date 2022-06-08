@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.Screen
@@ -26,10 +27,9 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    viewModel: SplashViewModel,
+    viewModel: SplashViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    //viewModel.loadingData()
     val scale = remember { Animatable(0f) }
 
     LaunchedEffect(key1 = true) {

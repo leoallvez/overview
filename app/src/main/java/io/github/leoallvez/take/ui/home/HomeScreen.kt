@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -43,7 +44,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @ExperimentalPagerApi
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featured = viewModel.featured.observeAsState(listOf()).value
