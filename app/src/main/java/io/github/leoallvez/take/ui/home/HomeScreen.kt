@@ -1,6 +1,7 @@
 package io.github.leoallvez.take.ui.home
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -8,14 +9,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -128,12 +132,16 @@ private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>
 ) {
     HorizontalCardSlider(items)
-    Button(
+    OutlinedButton(
         onClick = {},
-        shape = CircleShape,
+        shape = RoundedCornerShape(50),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = Color.Black,
+            backgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.6f)
+        ),
         modifier = Modifier
-            .padding(end = 15.dp, top = 5.dp)
             .road(Alignment.TopEnd, Alignment.TopEnd)
+            .padding(end = 15.dp, top = 5.dp)
     ) {
         Icon(
             Icons.Filled.Search,
@@ -159,12 +167,12 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
             Text(
                 text = item.getItemTitle(),
                 modifier = Modifier
-                    .background(MaterialTheme.colors.primary.copy(alpha = 0.4f))
+                    .background(MaterialTheme.colors.primary.copy(alpha = 0.6f))
                     .fillMaxSize()
                     .align(Alignment.BottomEnd)
                     .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
                 color = Color.White,
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
             )
         }
@@ -209,7 +217,6 @@ fun HomeScreenContent(
             .fillMaxSize()
             .background(color = Color.DarkGray)
             .background(Color.Black)
-            //.padding(10.dp, top = 50.dp),
     ) {
         Column {
             val adPadding = 10.dp

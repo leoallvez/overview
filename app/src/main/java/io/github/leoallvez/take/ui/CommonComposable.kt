@@ -38,7 +38,7 @@ fun ListTitle(title: String) {
                 bottom = 5.dp,
                 top = 15.dp
             ),
-        fontSize = 20.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
     )
 }
