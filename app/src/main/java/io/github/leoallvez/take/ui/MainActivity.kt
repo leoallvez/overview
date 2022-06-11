@@ -40,12 +40,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-                    TakeApp(
-                        isNotOnline = isOnline
-                            .observeAsState(true)
-                            .value
-                            .not()
-                    )
+                    TakeApp(isOnline = isOnline.observeAsState(true).value)
                 }
             }
         }
@@ -54,11 +49,11 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalPagerApi
 @Composable
-fun TakeApp(isNotOnline: Boolean) {
+fun TakeApp(isOnline: Boolean) {
     Box {
-        AppContent()
+        NavController()
         OfflineSnackbar(
-            isNotOnline,
+            isNotOnline = isOnline.not(),
             modifier = Modifier.align(Alignment.BottomEnd)
         )
     }
@@ -66,7 +61,7 @@ fun TakeApp(isNotOnline: Boolean) {
 
 @ExperimentalPagerApi
 @Composable
-fun AppContent() {
+fun NavController() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -86,6 +81,8 @@ fun OfflineSnackbar(isNotOnline: Boolean, modifier :Modifier) {
     if (isNotOnline) {
         Snackbar(
             modifier = modifier.padding(8.dp)
-        ) { Text(text = stringResource(id = R.string.app_offline_msg)) }
+        ) {
+            Text(text = stringResource(id = R.string.app_offline_msg))
+        }
     }
 }
