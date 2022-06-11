@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.abtest
 
-import io.github.leoallvez.firebase.RemoteConfigKey.LIST_SETUP_KEY
+import io.github.leoallvez.firebase.RemoteConfigKey.SUGGESTIONS_LIST_KEY
 import io.github.leoallvez.firebase.RemoteSource
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.util.IJsonFileReader
@@ -22,7 +22,7 @@ class SuggestionAbTest @Inject constructor(
     }
 
     private fun getRemoteSuggestions(): List<Suggestion>? {
-        val json = _remoteSource.getString(LIST_SETUP_KEY)
+        val json = _remoteSource.getString(SUGGESTIONS_LIST_KEY)
         return parseJsonToSuggestions(json)
     }
 
