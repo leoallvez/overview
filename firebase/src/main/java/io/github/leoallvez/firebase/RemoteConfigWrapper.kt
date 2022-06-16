@@ -5,6 +5,11 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import io.github.leoallvez.firebase.BuildConfig.REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
 import timber.log.Timber
 
+interface RemoteSource {
+    fun getString(key: RemoteConfigKey): String
+    fun getBoolean(key: RemoteConfigKey): Boolean
+}
+
 class RemoteConfigWrapper(
     private val _remoteConfig: FirebaseRemoteConfig
 ) : RemoteSource {
