@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(nav: NavController, logger: Logger) {
 
-    TrackScreenView(screenName = Screen.Splash.name, logger)
+    TrackScreenView(screen = Screen.Splash, logger)
 
     val scale = remember { Animatable(0f) }
 

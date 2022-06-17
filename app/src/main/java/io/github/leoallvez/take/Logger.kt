@@ -1,5 +1,6 @@
 package io.github.leoallvez.take
 
 interface Logger {
-    fun logScreenView(screenName: String)
+    fun logOpenScreen(screenName: String)
+    fun logExitScreen(screenName: String)
 }

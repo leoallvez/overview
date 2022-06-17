@@ -47,7 +47,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     logger: Logger
 ) {
-    TrackScreenView(screenName = Screen.Home.name, logger)
+    TrackScreenView(screen = Screen.Home, logger)
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featured = viewModel.featured.observeAsState(listOf()).value

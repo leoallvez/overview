@@ -132,11 +132,11 @@ fun MediaTitle(
     )
 }
 
-@SuppressLint("ComposableNaming")
+@SuppressLint("TrackScreenView")
 @Composable
-fun TrackScreenView(screenName: String, logger: Logger) {
+fun TrackScreenView(screen: Screen, logger: Logger) {
     DisposableEffect(Unit){
-        logger.logScreenView(screenName)
-        onDispose { /**Log.d("SCREENTRACKING", "screen exit : $name")*/ }
+        logger.logOpenScreen(screen.name)
+        onDispose { logger.logExitScreen(screen.name) }
     }
 }

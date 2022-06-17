@@ -8,7 +8,8 @@ enum class RemoteConfigKey(val value: String) {
 }
 
 enum class AnalyticsEvent(val value: String) {
-    SCREEN_VIEW(value = FirebaseAnalytics.Event.SCREEN_VIEW)
+    OPEN_SCREEN(value = "open_screen"),
+    EXIT_SCREEN(value = "exit_screen"),
 }
 
 enum class AnalyticsParam(val value: String) {
