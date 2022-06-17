@@ -30,13 +30,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
-import io.github.leoallvez.take.ui.AdsBanner
-import io.github.leoallvez.take.ui.ListTitle
-import io.github.leoallvez.take.ui.MediaCard
-import io.github.leoallvez.take.ui.TrackScreenView
+import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.util.getStringByName
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScope
@@ -45,8 +43,11 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @ExperimentalPagerApi
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
-    TrackScreenView(name = "Home")
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+    logger: Logger
+) {
+    TrackScreenView(screenName = Screen.Home.name, logger)
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featured = viewModel.featured.observeAsState(listOf()).value

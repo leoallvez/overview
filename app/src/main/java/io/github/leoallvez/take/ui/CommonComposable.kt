@@ -1,7 +1,6 @@
 package io.github.leoallvez.take.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import timber.log.Timber
@@ -134,9 +134,9 @@ fun MediaTitle(
 
 @SuppressLint("ComposableNaming")
 @Composable
-fun TrackScreenView(name: String) {
+fun TrackScreenView(screenName: String, logger: Logger) {
     DisposableEffect(Unit){
-        Log.d("SCREENTRACKING", "screen enter : $name")
-        onDispose { Log.d("SCREENTRACKING", "screen exit : $name") }
+        logger.logScreenView(screenName)
+        onDispose { /**Log.d("SCREENTRACKING", "screen exit : $name")*/ }
     }
 }
