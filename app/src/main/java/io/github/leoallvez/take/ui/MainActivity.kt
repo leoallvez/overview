@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.AnalyticsLogger
 import io.github.leoallvez.take.Logger
+import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
 import javax.inject.Inject
 
 @ExperimentalPagerApi
@@ -80,6 +81,9 @@ fun NavController(logger: Logger) {
         }
         composable(route = Screen.Home.route) {
             HomeScreen(logger = logger)
+        }
+        composable(route = Screen.MediaDetails.route) {
+            MediaDetailsScreen(logger = logger)
         }
     }
 }
