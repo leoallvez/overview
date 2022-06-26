@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.leoallvez.take.R
+import io.github.leoallvez.take.AnalyticsLogger
+import io.github.leoallvez.take.Logger
 import javax.inject.Inject
 
 @ExperimentalPagerApi
@@ -33,6 +35,9 @@ class MainActivity : ComponentActivity() {
     @IsOnline
     lateinit var isOnline: LiveData<Boolean>
 
+    @Inject
+    lateinit var analyticsLog: AnalyticsLogger
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -40,7 +45,10 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-                    TakeApp(isOnline = isOnline.observeAsState(true).value)
+                    TakeApp(
+                        isOnline = isOnline.observeAsState(true).value,
+                        analyticsLog = analyticsLog
+                    )
                 }
             }
         }
@@ -49,9 +57,9 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalPagerApi
 @Composable
-fun TakeApp(isOnline: Boolean) {
+fun TakeApp(isOnline: Boolean, analyticsLog: AnalyticsLogger) {
     Box {
-        NavController()
+        NavController(analyticsLog)
         OfflineSnackbar(
             isNotOnline = isOnline.not(),
             modifier = Modifier.align(Alignment.BottomEnd)
@@ -61,17 +69,17 @@ fun TakeApp(isOnline: Boolean) {
 
 @ExperimentalPagerApi
 @Composable
-fun NavController() {
+fun NavController(logger: Logger) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = Screen.Splash.route
     ) {
         composable(route = Screen.Splash.route) {
-            SplashScreen(nav = navController)
+            SplashScreen(nav = navController, logger)
         }
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(logger = logger)
         }
     }
 }

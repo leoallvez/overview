@@ -19,12 +19,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.Screen
+import io.github.leoallvez.take.ui.TrackScreenView
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(nav: NavController) {
+fun SplashScreen(nav: NavController, logger: Logger) {
+
+    TrackScreenView(screen = Screen.Splash, logger)
 
     val scale = remember { Animatable(0f) }
 

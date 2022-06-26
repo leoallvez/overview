@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import timber.log.Timber
@@ -127,4 +130,13 @@ fun MediaTitle(
         overflow = TextOverflow.Ellipsis,
         textAlign = TextAlign.Center,
     )
+}
+
+@SuppressLint("TrackScreenView")
+@Composable
+fun TrackScreenView(screen: Screen, logger: Logger) {
+    DisposableEffect(Unit){
+        logger.logOpenScreen(screen.name)
+        onDispose { logger.logExitScreen(screen.name) }
+    }
 }
