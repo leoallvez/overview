@@ -48,44 +48,40 @@ fun ListTitle(title: String) {
 @Composable
 fun MediaCard(
     media: MediaItem,
-    titleHeight: Dp = 65.dp,
-    imageHeight: Dp = 200.dp,
-    columnWith: Dp = 140.dp,
-    titleFontSize: TextUnit = 12.sp,
-    titleMaxLines: Int = 3,
-    onClick: (Long) -> Unit,
+    onClick: (mediaId: Long) -> Unit,
 ) {
+    val imageHeight: Dp = 200.dp
+    val titleHeight: Dp = 65.dp
+    val cardWith: Dp = 140.dp
     Column(
         modifier = Modifier
             .size(
-                width = columnWith,
+                width = cardWith,
                 height = imageHeight + titleHeight
-            ).padding(5.dp)
+            ).padding(all = 5.dp)
             .clickable { onClick.invoke(media.apiId) }
     ) {
         MediaImage(
-            imageUrl = media.getItemPoster(),
-            contentDescription = media.getItemTitle(),
+            media = media,
             modifier = Modifier
                 .size(
-                    width = columnWith,
+                    width = cardWith,
                     height = imageHeight
                 )
         )
         MediaTitle(
             title = media.getItemTitle(),
-            width = columnWith,
+            width = cardWith,
             height = titleHeight,
-            fontSize = titleFontSize,
-            maxLines = titleMaxLines,
+            fontSize = 12.sp,
+            maxLines = 3,
         )
     }
 }
 
 @Composable
 fun MediaImage(
-    imageUrl: String,
-    contentDescription: String,
+    media: MediaItem,
     modifier: Modifier
 ) {
     Box(modifier = modifier) {
@@ -96,12 +92,12 @@ fun MediaImage(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(data = imageUrl)
+                    .data(data = media.getItemPoster())
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(R.drawable.placeholder),
                 contentScale = ContentScale.FillHeight,
-                contentDescription = contentDescription,
+                contentDescription = media.getItemTitle(),
             )
         }
     }
