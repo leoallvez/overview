@@ -28,7 +28,6 @@ import coil.request.ImageRequest
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
-import timber.log.Timber
 
 @Composable
 fun ListTitle(title: String) {
@@ -53,7 +52,8 @@ fun MediaCard(
     imageHeight: Dp = 200.dp,
     columnWith: Dp = 140.dp,
     titleFontSize: TextUnit = 12.sp,
-    titleMaxLines: Int = 3
+    titleMaxLines: Int = 3,
+    onClick: (Long) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -61,11 +61,7 @@ fun MediaCard(
                 width = columnWith,
                 height = imageHeight + titleHeight
             ).padding(5.dp)
-            .clickable {
-                Timber
-                    .tag("click_audio")
-                    .i("click on: ${media.getItemTitle()}")
-            }
+            .clickable { onClick.invoke(media.apiId) }
     ) {
         MediaImage(
             imageUrl = media.getItemPoster(),

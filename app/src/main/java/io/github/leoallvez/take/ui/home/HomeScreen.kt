@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -44,6 +45,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(
+    nav: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
     logger: Logger
 ) {
@@ -68,7 +70,8 @@ fun HomeScreen(
             ) {
                 HomeScreenContent(
                     suggestions = suggestions,
-                    adsBannerIsVisible = showAd
+                    adsBannerIsVisible = showAd,
+                    nav = nav,
                 )
             }
         } else {
@@ -208,7 +211,8 @@ fun CollapsingToolbarScope.CardSliderImage(item: MediaItem) {
 @Composable
 fun HomeScreenContent(
     suggestions: List<MediaSuggestion>,
-    adsBannerIsVisible: Boolean
+    adsBannerIsVisible: Boolean,
+    nav: NavController,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -228,6 +232,7 @@ fun HomeScreenContent(
                     .height(50.dp)
             )
             SuggestionVerticalList(
+                nav = nav,
                 suggestions = suggestions
             )
         }
@@ -236,7 +241,8 @@ fun HomeScreenContent(
 
 @Composable
 fun SuggestionVerticalList(
-    suggestions: List<MediaSuggestion>
+    nav: NavController,
+    suggestions: List<MediaSuggestion>,
 ) {
     LazyColumn {
         items(suggestions) {
@@ -244,7 +250,8 @@ fun SuggestionVerticalList(
                 title = LocalContext
                     .current
                     .getStringByName(it.titleResourceId),
-                items = it.items
+                items = it.items,
+                nav = nav,
             )
         }
     }
@@ -253,12 +260,15 @@ fun SuggestionVerticalList(
 @Composable
 fun MediaHorizontalList(
     title: String,
-    items: List<MediaItem>
+    items: List<MediaItem>,
+    nav: NavController,
 ) {
     ListTitle(title)
     LazyRow {
         items(items) { item ->
-            MediaCard(item)
+            MediaCard(item) { mediaId: Long ->
+                nav.navigate(Screen.MediaDetails.editRoute(mediaId))
+            }
         }
     }
 }

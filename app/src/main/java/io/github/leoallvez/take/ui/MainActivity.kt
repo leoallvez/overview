@@ -22,6 +22,8 @@ import io.github.leoallvez.take.ui.theme.TakeTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
+import androidx.navigation.compose.navArgument
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.AnalyticsLogger
 import io.github.leoallvez.take.Logger
@@ -77,13 +79,19 @@ fun NavController(logger: Logger) {
         startDestination = Screen.Splash.route
     ) {
         composable(route = Screen.Splash.route) {
-            SplashScreen(nav = navController, logger)
+            SplashScreen(nav = navController,logger = logger)
         }
         composable(route = Screen.Home.route) {
-            HomeScreen(logger = logger)
+            HomeScreen(nav = navController, logger = logger)
         }
-        composable(route = Screen.MediaDetails.route) {
-            MediaDetailsScreen(logger = logger)
+        composable(
+            route = Screen.MediaDetails.route,
+            arguments = listOf(
+                navArgument(name = Screen.MediaDetails.paramName) { type = NavType.LongType }
+            )
+        ) { navBackStackEntry ->
+            val mediaId: Long? = navBackStackEntry.arguments?.getLong(Screen.MediaDetails.paramName)
+            MediaDetailsScreen(mediaId = mediaId, logger = logger)
         }
     }
 }
