@@ -8,10 +8,9 @@ import io.github.leoallvez.take.ui.Screen
 import io.github.leoallvez.take.ui.TrackScreenView
 
 @Composable
-fun MediaDetailsScreen(mediaId: Long?, logger: Logger) {
+fun MediaDetailsScreen(id: Long?, type: String?, logger: Logger) {
 
     TrackScreenView(screen = Screen.MediaDetails, logger)
 
-    Text(text = "Clicked on apiId: $mediaId", color = Color.Black)
-
+    Text(text = "Clicked on apiId: $id, type: $type", color = Color.Black)
 }

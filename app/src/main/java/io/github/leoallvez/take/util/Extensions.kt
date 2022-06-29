@@ -38,6 +38,7 @@ fun Map.Entry<Suggestion, List<MediaItem>>.toMediaSuggestion(): MediaSuggestion 
     val items = this.value
     return MediaSuggestion(
         order = suggestion.order,
+        type = suggestion.type,
         titleResourceId = suggestion.titleResourceId,
         items = items
     )

@@ -247,11 +247,10 @@ fun SuggestionVerticalList(
     LazyColumn {
         items(suggestions) {
             MediaHorizontalList(
-                title = LocalContext
-                    .current
-                    .getStringByName(it.titleResourceId),
-                items = it.items,
+                title = LocalContext.current.getStringByName(it.titleResourceId),
+                mediaType = it.type,
                 nav = nav,
+                items = it.items,
             )
         }
     }
@@ -260,14 +259,15 @@ fun SuggestionVerticalList(
 @Composable
 fun MediaHorizontalList(
     title: String,
-    items: List<MediaItem>,
+    mediaType: String,
     nav: NavController,
+    items: List<MediaItem>,
 ) {
     ListTitle(title)
     LazyRow {
         items(items) { item ->
             MediaCard(item) { mediaId: Long ->
-                nav.navigate(Screen.MediaDetails.editRoute(mediaId))
+                nav.navigate(Screen.MediaDetails.editRoute(id = mediaId, type = mediaType))
             }
         }
     }

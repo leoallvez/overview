@@ -5,29 +5,34 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Snackbar
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
-import androidx.lifecycle.LiveData
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import dagger.hilt.android.AndroidEntryPoint
-import io.github.leoallvez.take.di.IsOnline
-import io.github.leoallvez.take.ui.home.HomeScreen
-import io.github.leoallvez.take.ui.splash.SplashScreen
-import io.github.leoallvez.take.ui.theme.TakeTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import io.github.leoallvez.take.R
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import dagger.hilt.android.AndroidEntryPoint
 import io.github.leoallvez.take.AnalyticsLogger
 import io.github.leoallvez.take.Logger
+import io.github.leoallvez.take.R
+import io.github.leoallvez.take.di.IsOnline
+import io.github.leoallvez.take.ui.Screen.Companion.ID_PARAM
+import io.github.leoallvez.take.ui.Screen.Companion.TYPE_PARAM
+import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
+import io.github.leoallvez.take.ui.splash.SplashScreen
+import io.github.leoallvez.take.ui.theme.TakeTheme
 import javax.inject.Inject
 
 @ExperimentalPagerApi
@@ -87,11 +92,16 @@ fun NavController(logger: Logger) {
         composable(
             route = Screen.MediaDetails.route,
             arguments = listOf(
-                navArgument(name = Screen.MediaDetails.paramName) { type = NavType.LongType }
+                navArgument(name = ID_PARAM) { type = NavType.LongType },
+                navArgument(name = TYPE_PARAM) { type = NavType.StringType },
             )
         ) { navBackStackEntry ->
-            val mediaId: Long? = navBackStackEntry.arguments?.getLong(Screen.MediaDetails.paramName)
-            MediaDetailsScreen(mediaId = mediaId, logger = logger)
+            val arguments = navBackStackEntry.arguments
+            MediaDetailsScreen(
+                id = arguments?.getLong(ID_PARAM),
+                type = arguments?.getString(TYPE_PARAM),
+                logger = logger
+            )
         }
     }
 }

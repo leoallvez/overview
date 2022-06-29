@@ -19,6 +19,6 @@ data class Suggestion(
 ) {
 
     fun toMediaSuggestion(items: List<MediaItem>): MediaSuggestion {
-        return MediaSuggestion(order, titleResourceId, items)
+        return MediaSuggestion(order, type, titleResourceId, items)
     }
 }
