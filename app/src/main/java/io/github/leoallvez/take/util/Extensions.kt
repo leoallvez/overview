@@ -1,12 +1,14 @@
 package io.github.leoallvez.take.util
 
 import android.content.Context
+import androidx.navigation.NavBackStackEntry
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.MediaSuggestion
+import io.github.leoallvez.take.ui.Screen
 import timber.log.Timber
 import java.io.IOException
 import java.lang.reflect.Type
@@ -50,6 +52,12 @@ fun Array<out MediaItem>.removeRepeated(itemsToRemove: List<MediaItem>): List<Me
 
 private infix fun MediaItem.equivalent(other: MediaItem): Boolean {
     return this.apiId == other.apiId && this.suggestionId == other.suggestionId
+}
+
+fun NavBackStackEntry.getParams(): Pair<Long, String> {
+    val id = arguments?.getLong(Screen.ID_PARAM)
+    val type = arguments?.getString(Screen.TYPE_PARAM)
+    return Pair(id ?: 0, type ?: "")
 }
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

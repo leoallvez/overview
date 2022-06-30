@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +34,7 @@ import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.ui.theme.TakeTheme
+import io.github.leoallvez.take.util.getParams
 import javax.inject.Inject
 
 @ExperimentalPagerApi
@@ -96,10 +98,8 @@ fun NavController(logger: Logger) {
                 navArgument(name = TYPE_PARAM) { type = NavType.StringType },
             )
         ) { navBackStackEntry ->
-            val arguments = navBackStackEntry.arguments
             MediaDetailsScreen(
-                id = arguments?.getLong(ID_PARAM),
-                type = arguments?.getString(TYPE_PARAM),
+                params = navBackStackEntry.getParams(),
                 logger = logger
             )
         }
@@ -107,7 +107,7 @@ fun NavController(logger: Logger) {
 }
 
 @Composable
-fun OfflineSnackbar(isNotOnline: Boolean, modifier :Modifier) {
+fun OfflineSnackbar(isNotOnline: Boolean, modifier: Modifier) {
     if (isNotOnline) {
         Snackbar(
             modifier = modifier.padding(8.dp)
