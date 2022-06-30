@@ -28,7 +28,7 @@ interface ApiService {
     suspend fun getMediaDetail(
         @Path(value = "type", encoded = true)
         type: String,
-        @Path(value = "type", encoded = true)
+        @Path(value = "id", encoded = true)
         id: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
