@@ -1,14 +1,12 @@
 package io.github.leoallvez.take.data.repository
 
-import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.leoallvez.take.data.api.response.ListContentResponse
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.MediaSuggestion
-import io.github.leoallvez.take.data.source.MediaResult
+import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.source.NetworkResult
+import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
 import io.github.leoallvez.take.data.source.mediaitem.MediaLocalDataSource
-import io.github.leoallvez.take.data.source.mediaitem.MediaRemoteDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.di.IoDispatcher
 import io.github.leoallvez.take.util.toMediaSuggestion
@@ -18,10 +16,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MediaRepository @Inject constructor(
+class MediaItemsRepository @Inject constructor(
     @IoDispatcher private val _ioDispatcher: CoroutineDispatcher,
     private val _localDataSource: MediaLocalDataSource,
-    private val _remoteDataSource: MediaRemoteDataSource,
+    private val _remoteDataSource: IMediaRemoteDataSource,
     private val _suggestionLocalDataSource: SuggestionLocalDataSource,
 ) {
 
