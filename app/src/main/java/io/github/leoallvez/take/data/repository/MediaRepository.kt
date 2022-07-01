@@ -1,9 +1,12 @@
 package io.github.leoallvez.take.data.repository
 
+import com.haroldadmin.cnradapter.NetworkResponse
+import io.github.leoallvez.take.data.api.response.ListContentResponse
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.data.source.MediaResult
+import io.github.leoallvez.take.data.source.NetworkResult
 import io.github.leoallvez.take.data.source.mediaitem.MediaLocalDataSource
 import io.github.leoallvez.take.data.source.mediaitem.MediaRemoteDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
@@ -41,12 +44,13 @@ class MediaRepository @Inject constructor(
         val result = mutableListOf<MediaSuggestion>()
         getSuggestions().forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
-            if(response is MediaResult.ApiSuccess) {
-                val items = response.items
-                setForeignKeyOnItems(items, suggestion.dbId)
-                saveItems(items)
-                val mediaSuggestion = suggestion.toMediaSuggestion(items)
-                result.add(mediaSuggestion)
+            if(response is NetworkResult.Success) {
+                response.data?.results?.let { items ->
+                    setForeignKeyOnItems(items, suggestion.dbId)
+                    saveItems(items)
+                    val mediaSuggestion = suggestion.toMediaSuggestion(items)
+                    result.add(mediaSuggestion)
+                }
             }
         }
         return result.sortedBy { it.order }
@@ -61,8 +65,8 @@ class MediaRepository @Inject constructor(
             .map { it.toMediaSuggestion() }
     }
 
-    private suspend fun doRequest(apiPath: String): MediaResult {
-        return _remoteDataSource.get(apiPath)
+    private suspend fun doRequest(apiPath: String): NetworkResult<ListContentResponse<MediaItem>> {
+        return _remoteDataSource.getMediaItems(apiPath)
     }
 
     private fun setForeignKeyOnItems(
