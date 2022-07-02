@@ -3,59 +3,59 @@ package io.github.leoallvez.take.data.api.response
 import com.squareup.moshi.Json
 
 data class MediaDetailResponse (
-    val adult: Boolean,
+    val adult: Boolean = false,
 
     @field:Json(name = "backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String = "",
 
     @field:Json(name = "belongs_to_collection")
     val belongsToCollection: Any? = null,
 
-    val budget: Long,
-    val genres: List<Genre>,
-    val homepage: String,
-    val id: Long,
+    val budget: Long = 0L,
+    val genres: List<Genre> = listOf(),
+    val homepage: String = "",
+    val id: Long = 0L,
 
     @field:Json(name = "imdb_id")
-    val imdbID: String,
+    val imdbID: String = "",
 
     @field:Json(name = "original_language")
-    val originalLanguage: String,
+    val originalLanguage: String = "",
 
     @field:Json(name = "original_title")
-    val originalTitle: String,
+    val originalTitle: String = "",
 
-    val overview: String,
-    val popularity: Double,
+    val overview: String = "",
+    val popularity: Double = 0.0,
 
     @field:Json(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String = "",
 
     @field:Json(name = "production_companies")
-    val productionCompanies: List<ProductionCompany>,
+    val productionCompanies: List<ProductionCompany> = listOf(),
 
     @field:Json(name = "production_countries")
-    val productionCountries: List<ProductionCountry>,
+    val productionCountries: List<ProductionCountry> = listOf(),
 
     @field:Json(name = "release_date")
-    val releaseDate: String,
+    val releaseDate: String = "",
 
-    val revenue: Long,
-    val runtime: Long,
+    val revenue: Long = 0L,
+    val runtime: Long = 0L,
 
     @field:Json(name = "spoken_languages")
-    val spokenLanguages: List<SpokenLanguage>,
+    val spokenLanguages: List<SpokenLanguage> = listOf(),
 
-    val status: String,
-    val tagline: String,
-    val title: String,
-    val video: Boolean,
+    val status: String = "",
+    val tagline: String = "",
+    val title: String = "",
+    val video: Boolean = false,
 
     @field:Json(name = "vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double = 0.0,
 
     @field:Json(name = "vote_count")
-    val voteCount: Long
+    val voteCount: Long = 0L
 )
 
 data class Genre (
