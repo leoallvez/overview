@@ -1,12 +1,13 @@
 package io.github.leoallvez.take.data.source.mock
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.cnradapter.NetworkResponse.*
 import io.github.leoallvez.take.data.api.response.ErrorResponse
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import okio.IOException
 
 internal typealias Response = NetworkResponse<MediaDetailResponse, ErrorResponse>
-internal typealias SuccessResponse = NetworkResponse.Success<MediaDetailResponse>
+internal typealias MediaDetailsSuccessResponse = Success<MediaDetailResponse>
 
 abstract class MockResponseFactory {
 
@@ -14,36 +15,41 @@ abstract class MockResponseFactory {
 
     companion object {
         inline fun <reified T : Response> createFactory() = when(T::class) {
-            NetworkResponse.Success::class      -> MockSuccessFactory
-            NetworkResponse.NetworkError::class -> MockNetworkErrorFactory
-            NetworkResponse.ServerError::class  -> MockServerErrorFactory
-            NetworkResponse.UnknownError::class -> MockUnknownErrorFactory
+            Success::class      -> MockSuccessFactory
+            NetworkError::class -> MockNetworkErrorFactory
+            ServerError::class  -> MockServerErrorFactory
+            UnknownError::class -> MockUnknownErrorFactory
             else -> throw IllegalArgumentException()
         }
-        fun createResponse() = MediaDetailResponse()
+        fun getDataResponse() = MediaDetailResponse()
     }
 }
 
 object MockSuccessFactory : MockResponseFactory() {
-    override fun makeResponse() = NetworkResponse.Success(body = createResponse(), code = 200)
+    override fun makeResponse(): Response {
+        return Success(body = getDataResponse(), code = 200)
+    }
 }
 
 object MockNetworkErrorFactory : MockResponseFactory() {
-    override fun makeResponse() = NetworkResponse.NetworkError(error = IOException("network error"))
+    override fun makeResponse(): Response {
+        return NetworkError(error = IOException("network error"))
+    }
 }
 
 object MockServerErrorFactory : MockResponseFactory() {
 
-    override fun makeResponse() =
-        NetworkResponse.ServerError(body = makeServeErrorBody(), code = 500)
+    override fun makeResponse(): Response {
+        return ServerError(body = makeServeErrorBody(), code = 500)
+    }
 
-    private fun makeServeErrorBody() = ErrorResponse(
-        success = false,
-        statusCode = 500,
-        statusMessage = "Serve error"
-    )
+    private fun makeServeErrorBody() = ErrorResponse().apply {
+        success = false
+        statusCode = 500
+        statusMessage = "error"
+    }
 }
 
 object MockUnknownErrorFactory : MockResponseFactory() {
-    override fun makeResponse() = NetworkResponse.UnknownError(Throwable("unknown error"))
+    override fun makeResponse() = UnknownError(Throwable("unknown error"))
 }

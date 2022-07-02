@@ -21,7 +21,7 @@ class MediaRemoteDataSource @Inject constructor(
         }
 
     override suspend fun getMediaDetails(id: Long, type: String) =
-        when(val response = _api.getMediaDetail(id = id, type = type)) {
+        when(val response = _api.requestMediaDetail(id = id, type = type)) {
             is Success      -> NetworkResult.Success(response.body)
             is ServerError  -> getServeError(msg = response.body?.statusMessage)
             is NetworkError -> NetworkResult.NetworkError()

@@ -26,11 +26,11 @@ data class ContentResponse<T>(
 
 
 data class ErrorResponse(
-    val success: Boolean,
+    var success: Boolean = false,
 
     @field:Json(name = "status_code")
-    val statusCode: Long,
+    var statusCode: Long = 0,
 
     @field:Json(name = "status_message")
-    val statusMessage: String
+    var statusMessage: String = ""
 )

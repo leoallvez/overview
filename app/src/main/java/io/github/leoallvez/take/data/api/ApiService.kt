@@ -25,7 +25,7 @@ interface ApiService {
     ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
 
     @GET(value = "{type}/{id}")
-    suspend fun getMediaDetail(
+    suspend fun requestMediaDetail(
         @Path(value = "type", encoded = true)
         type: String,
         @Path(value = "id", encoded = true)
