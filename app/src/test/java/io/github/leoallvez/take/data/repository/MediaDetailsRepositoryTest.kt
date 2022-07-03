@@ -32,7 +32,7 @@ class MediaDetailsRepositoryTest {
 
     @Test
     fun lab2() = runTest {
-        coEvery { dataSource.getMediaDetails(id = any(), type = any()) } returns NetworkError()
+        coEvery { dataSource.getMediaDetailsResult(id = any(), type = any()) } returns NetworkError()
         val result = repository.getMediaDetails(0, "").single()
         assertEquals(5, 3 + 2)
     }

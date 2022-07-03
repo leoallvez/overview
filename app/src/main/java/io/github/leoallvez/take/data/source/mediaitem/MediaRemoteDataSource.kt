@@ -20,7 +20,7 @@ class MediaRemoteDataSource @Inject constructor(
             is UnknownError -> NetworkResult.UnknownError()
         }
 
-    override suspend fun getMediaDetails(id: Long, type: String) =
+    override suspend fun getMediaDetailsResult(id: Long, type: String) =
         when(val response = _api.requestMediaDetail(id = id, type = type)) {
             is Success      -> NetworkResult.Success(response.body)
             is ServerError  -> getServeError(msg = response.body?.statusMessage)
@@ -33,5 +33,5 @@ class MediaRemoteDataSource @Inject constructor(
 
 interface IMediaRemoteDataSource {
     suspend fun getMediaItems(url: String): MediaListResult
-    suspend fun getMediaDetails(id: Long, type: String): MediaDetailResult
+    suspend fun getMediaDetailsResult(id: Long, type: String): MediaDetailResult
 }
