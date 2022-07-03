@@ -13,6 +13,6 @@ class MediaDetailsRepository @Inject constructor(
 ) {
 
     suspend fun getMediaDetails(id: Long, type: String) = flow {
-        emit(_dataSource.getMediaDetails(id = id, type = type))
+        emit(_dataSource.getMediaDetailsResult(id = id, type = type))
     }.flowOn(_dispatcher)
 }

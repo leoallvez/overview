@@ -4,7 +4,7 @@ import io.github.leoallvez.take.data.api.response.ListContentResponse
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.data.source.NetworkResult
+import io.github.leoallvez.take.data.source.ApiResult
 import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
 import io.github.leoallvez.take.data.source.mediaitem.MediaLocalDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
@@ -42,7 +42,7 @@ class MediaItemsRepository @Inject constructor(
         val result = mutableListOf<MediaSuggestion>()
         getSuggestions().forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
-            if(response is NetworkResult.Success) {
+            if(response is ApiResult.Success) {
                 response.data?.results?.let { items ->
                     setForeignKeyOnItems(items, suggestion.dbId)
                     saveItems(items)
@@ -63,7 +63,7 @@ class MediaItemsRepository @Inject constructor(
             .map { it.toMediaSuggestion() }
     }
 
-    private suspend fun doRequest(apiPath: String): NetworkResult<ListContentResponse<MediaItem>> {
+    private suspend fun doRequest(apiPath: String): ApiResult<ListContentResponse<MediaItem>> {
         return _remoteDataSource.getMediaItems(apiPath)
     }
 

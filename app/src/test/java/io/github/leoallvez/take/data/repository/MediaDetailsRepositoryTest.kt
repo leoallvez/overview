@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.repository
 
-import io.github.leoallvez.take.data.source.NetworkResult.NetworkError
+import io.github.leoallvez.take.data.source.ApiResult.NetworkError
 import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -32,7 +32,7 @@ class MediaDetailsRepositoryTest {
 
     @Test
     fun lab2() = runTest {
-        coEvery { dataSource.getMediaDetails(id = any(), type = any()) } returns NetworkError()
+        coEvery { dataSource.getMediaDetailsResult(id = any(), type = any()) } returns NetworkError()
         val result = repository.getMediaDetails(0, "").single()
         assertEquals(5, 3 + 2)
     }

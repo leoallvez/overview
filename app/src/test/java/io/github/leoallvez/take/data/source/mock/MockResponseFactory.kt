@@ -1,13 +1,9 @@
 package io.github.leoallvez.take.data.source.mock
 
-import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.NetworkResponse.*
 import io.github.leoallvez.take.data.api.response.ErrorResponse
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import okio.IOException
-
-internal typealias Response = NetworkResponse<MediaDetailResponse, ErrorResponse>
-internal typealias MediaDetailsSuccessResponse = Success<MediaDetailResponse>
 
 abstract class MockResponseFactory {
 
@@ -22,6 +18,7 @@ abstract class MockResponseFactory {
             else -> throw IllegalArgumentException()
         }
         fun getDataResponse() = MediaDetailResponse()
+        const val ERROR_MSG = "ERROR_MSG"
     }
 }
 
@@ -33,7 +30,7 @@ object MockSuccessFactory : MockResponseFactory() {
 
 object MockNetworkErrorFactory : MockResponseFactory() {
     override fun makeResponse(): Response {
-        return NetworkError(error = IOException("network error"))
+        return NetworkError(error = IOException(ERROR_MSG))
     }
 }
 
@@ -46,10 +43,10 @@ object MockServerErrorFactory : MockResponseFactory() {
     private fun makeServeErrorBody() = ErrorResponse().apply {
         success = false
         statusCode = 500
-        statusMessage = "error"
+        statusMessage = ERROR_MSG
     }
 }
 
 object MockUnknownErrorFactory : MockResponseFactory() {
-    override fun makeResponse() = UnknownError(Throwable("unknown error"))
+    override fun makeResponse() = UnknownError(Throwable(ERROR_MSG))
 }
