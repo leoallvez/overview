@@ -14,24 +14,16 @@ import org.junit.Test
 
 class MediaDetailsRepositoryTest {
 
-    @MockK
-    private lateinit var _dataSource: IMediaRemoteDataSource
+    @MockK private lateinit var _dataSource: IMediaRemoteDataSource
 
     private lateinit var _repository: MediaDetailsRepository
 
-    @Before
-    fun setup() {
+    @Before fun setup() {
         MockKAnnotations.init(this)
         _repository = MediaDetailsRepository(_dataSource, UnconfinedTestDispatcher())
     }
 
-    @Test
-    fun lab1() {
-        assertEquals(5, 3 + 2)
-    }
-
-    @Test
-    fun lab2() = runTest {
+    @Test fun lab2() = runTest {
         coEvery { _dataSource.getMediaDetailsResult(id = any(), type = any()) } returns NetworkError()
         val result = _repository.getMediaDetails(0, "").single()
         assertEquals(5, 3 + 2)

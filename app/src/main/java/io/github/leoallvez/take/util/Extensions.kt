@@ -3,15 +3,15 @@ package io.github.leoallvez.take.util
 import android.content.Context
 import androidx.navigation.NavBackStackEntry
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.model.MediaSuggestion
+import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.ui.Screen
+import okio.IOException
 import timber.log.Timber
-import java.io.IOException
-import java.lang.reflect.Type
 
 inline fun <reified T> String.fromJson(): T? = try {
     val moshi = Moshi.Builder().build()
@@ -21,14 +21,15 @@ inline fun <reified T> String.fromJson(): T? = try {
     null
 }
 
-fun <T> String.parseToList(clazz: Class<T>?): List<T>? = try {
-    val typeOfT: Type = TypeToken.getParameterized(MutableList::class.java, clazz).type
-    Gson().fromJson(this, typeOfT)
-} catch (io: IOException) {
-    Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${io.stackTrace}")
-    null
+inline fun <reified T> String.parseToList(): List<T> = try {
+    val type = TypeToken.getParameterized(List::class.java, T::class.java).type
+    if(this.isNotEmpty()) Gson().fromJson(this, type) else listOf()
+} catch (e: JsonSyntaxException) {
+    Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${e.stackTrace}")
+    listOf()
 }
 
+//TODO: Finish unit tests for another functions
 fun Context.getStringByName(resource: String): String {
     val resourceId = this.resources
         .getIdentifier(resource, "string", this.packageName)

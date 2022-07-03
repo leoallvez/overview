@@ -32,12 +32,12 @@ class RemoteConfigWrapper(
 
     private fun onCompleteListener() = with(_remoteConfig) {
         fetch().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                activate()
-                Timber.i("Remote Config started")
-            } else {
-                Timber.d("Remote Config not started")
-            }
+            if (task.isSuccessful) { activate() }
+            startLog(task.isSuccessful)
         }
+    }
+
+    private fun startLog(success: Boolean) {
+        Timber.i(message = "Remote Config${ if(success) "" else "not" } started")
     }
 }
