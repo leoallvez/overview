@@ -5,7 +5,7 @@ import io.github.leoallvez.take.data.model.MediaItem
 import javax.inject.Inject
 
 class MediaLocalDataSource @Inject constructor(
-    private val dao: MediaItemDao
+    private val _dao: MediaItemDao
 ) {
-    suspend fun update(vararg entities: MediaItem) = dao.update(*entities)
+    suspend fun update(vararg entities: MediaItem) = _dao.update(*entities)
 }

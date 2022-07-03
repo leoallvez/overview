@@ -23,22 +23,16 @@ abstract class MockResponseFactory {
 }
 
 object MockSuccessFactory : MockResponseFactory() {
-    override fun makeResponse(): Response {
-        return Success(body = getDataResponse(), code = 200)
-    }
+    override fun makeResponse() = Success(body = getDataResponse(), code = 200)
 }
 
 object MockNetworkErrorFactory : MockResponseFactory() {
-    override fun makeResponse(): Response {
-        return NetworkError(error = IOException(ERROR_MSG))
-    }
+    override fun makeResponse() = NetworkError(error = IOException(ERROR_MSG))
 }
 
 object MockServerErrorFactory : MockResponseFactory() {
 
-    override fun makeResponse(): Response {
-        return ServerError(body = makeServeErrorBody(), code = 500)
-    }
+    override fun makeResponse() = ServerError(body = makeServeErrorBody(), code = 500)
 
     private fun makeServeErrorBody() = ErrorResponse().apply {
         success = false
