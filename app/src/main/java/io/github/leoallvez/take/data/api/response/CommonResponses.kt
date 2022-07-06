@@ -17,8 +17,8 @@ data class ErrorResponse(
     var success: Boolean = false,
 
     @field:Json(name = "status_code")
-    var statusCode: Long = 0,
+    var code: Long = 0,
 
     @field:Json(name = "status_message")
-    var statusMessage: String = ""
+    var message: String = ""
 )

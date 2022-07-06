@@ -36,8 +36,8 @@ object MockServerErrorFactory : MockResponseFactory() {
 
     private fun makeServeErrorBody() = ErrorResponse().apply {
         success = false
-        statusCode = 500
-        statusMessage = ERROR_MSG
+        code = 500
+        message = ERROR_MSG
     }
 }
 

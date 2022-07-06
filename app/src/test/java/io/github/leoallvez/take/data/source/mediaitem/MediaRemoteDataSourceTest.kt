@@ -53,7 +53,6 @@ class MediaRemoteDataSourceTest {
         assertTrue(result is Success)
     }
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
         //Arrange
