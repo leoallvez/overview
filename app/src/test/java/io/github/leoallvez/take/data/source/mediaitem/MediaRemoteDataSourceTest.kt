@@ -2,9 +2,13 @@ package io.github.leoallvez.take.data.source.mediaitem
 
 import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.source.ApiResult.*
-import io.github.leoallvez.take.data.source.mock.*
-import io.github.leoallvez.take.data.source.mock.MockResponseFactory.Companion.ERROR_MSG
-import io.github.leoallvez.take.data.source.mock.MockResponseFactory.Companion.getDataResponse
+import io.github.leoallvez.take.util.mock.*
+import io.github.leoallvez.take.util.mock.MediaDetailsSuccessResponse
+import io.github.leoallvez.take.util.mock.MockResponseFactory.Companion.ERROR_MSG
+import io.github.leoallvez.take.util.mock.MockResponseFactory.Companion.getDataResponse
+import io.github.leoallvez.take.util.mock.NetworkErrorResponse
+import io.github.leoallvez.take.util.mock.ServerErrorResponse
+import io.github.leoallvez.take.util.mock.UnknownErrorResponse
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

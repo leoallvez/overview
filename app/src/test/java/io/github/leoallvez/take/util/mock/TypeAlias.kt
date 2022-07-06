@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.data.source.mock
+package io.github.leoallvez.take.util.mock
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.leoallvez.take.data.api.response.ErrorResponse

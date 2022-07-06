@@ -27,8 +27,6 @@ class MediaDetailsRepositoryTest {
         _repository = MediaDetailsRepository(_dataSource, UnconfinedTestDispatcher())
     }
 
-    //TODO make unit test when has more details about this request
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_success() = runTest {
         //Arrange
@@ -69,10 +67,9 @@ class MediaDetailsRepositoryTest {
         assertTrue(result is UnknownError)
     }
 
-    private fun mockResponse(requestType: String) {
-        val response = getResponseByType(requestType)
-        coEvery { _dataSource.getMediaDetailsResult(any(), any()) } returns response
-    }
+    private fun mockResponse(requestType: String) = coEvery {
+        _dataSource.getMediaDetailsResult(any(), any())
+    } returns getResponseByType(requestType)
 
     private fun getResponseByType(requestType: String) = when(requestType) {
         "Success"      -> Success(data = MediaDetailResponse())
