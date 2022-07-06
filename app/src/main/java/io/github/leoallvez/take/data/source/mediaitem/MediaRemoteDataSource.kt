@@ -2,9 +2,10 @@ package io.github.leoallvez.take.data.source.mediaitem
 
 import com.haroldadmin.cnradapter.NetworkResponse.*
 import io.github.leoallvez.take.data.api.ApiService
+import io.github.leoallvez.take.data.api.response.ListContentResponse
+import io.github.leoallvez.take.data.api.response.MediaDetailResponse
+import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.source.ApiResult
-import io.github.leoallvez.take.util.MediaDetailResult
-import io.github.leoallvez.take.util.MediaListResult
 import javax.inject.Inject
 
 //TODO: remove repetition of when structure in methods
@@ -32,6 +33,6 @@ class MediaRemoteDataSource @Inject constructor(
 }
 
 interface IMediaRemoteDataSource {
-    suspend fun getMediaItems(url: String): MediaListResult
-    suspend fun getMediaDetailsResult(id: Long, type: String): MediaDetailResult
+    suspend fun getMediaItems(url: String): ApiResult<ListContentResponse<MediaItem>>
+    suspend fun getMediaDetailsResult(id: Long, type: String): ApiResult<MediaDetailResponse>
 }

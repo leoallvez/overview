@@ -13,7 +13,7 @@ class MediaDetailsViewModel @Inject constructor(
 ) : ViewModel() {
     fun getMediaDetails(id: Long, type: String) {
         viewModelScope.launch {
-            _repository.getMediaDetails(id, type)
+            _repository.getMediaDetailsResult(id, type)
         }
     }
 }

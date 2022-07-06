@@ -5,6 +5,7 @@ import io.github.leoallvez.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MediaDetailsRepository @Inject constructor(
@@ -12,7 +13,9 @@ class MediaDetailsRepository @Inject constructor(
     @IoDispatcher private val _dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun getMediaDetails(id: Long, type: String) = flow {
-        emit(_dataSource.getMediaDetailsResult(id = id, type = type))
-    }.flowOn(_dispatcher)
+    suspend fun getMediaDetailsResult(id: Long, type: String) = withContext(_dispatcher) {
+        return@withContext flow{
+            emit(_dataSource.getMediaDetailsResult(id = id, type = type))
+        }
+    }
 }
