@@ -18,6 +18,7 @@ sealed class ApiResult<T>(
 }
 
 //TODO: log in crashlytics the NetworkResponse Error
+
 fun <T : Any> parserResponseToResult(
     response: NetworkResponse<T, ErrorResponse>
 ) = when(response) {
