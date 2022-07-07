@@ -4,13 +4,13 @@ import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.response.ListContentResponse
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.data.source.ApiResult
+import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.data.source.parserResponseToResult
 import javax.inject.Inject
 
 interface IMediaRemoteDataSource {
-    suspend fun getMediaItems(url: String): ApiResult<ListContentResponse<MediaItem>>
-    suspend fun getMediaDetailsResult(id: Long, type: String): ApiResult<MediaDetailResponse>
+    suspend fun getMediaItems(url: String): DataResult<ListContentResponse<MediaItem>>
+    suspend fun getMediaDetailsResult(apiId: Long, mediaType: String): DataResult<MediaDetailResponse>
 }
 
 class MediaRemoteDataSource @Inject constructor(
@@ -20,8 +20,8 @@ class MediaRemoteDataSource @Inject constructor(
     override suspend fun getMediaItems(url: String) =
         parserResponseToResult(response = _api.getMediaItems(url = url))
 
-    override suspend fun getMediaDetailsResult(id: Long, type: String) =
-        parserResponseToResult(response = _api.requestMediaDetail(id = id, type = type))
+    override suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) =
+        parserResponseToResult(response = _api.requestMediaDetail(apiId = apiId, mediaType = mediaType))
 
 }
 

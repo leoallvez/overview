@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.repository.MediaDetailsRepository
-import io.github.leoallvez.take.data.source.ApiResult
+import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.ui.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,15 +22,15 @@ class MediaDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<MediaUiState>(UiState.Loading())
     val uiState: StateFlow<MediaUiState> = _uiState
 
-    fun loadMediaDetails(id: Long, type: String) = viewModelScope.launch {
-        _repository.getMediaDetailsResult(id, type).collect { result ->
-            val isSuccess = result is ApiResult.Success
+    fun loadMediaDetails(apiId: Long, mediaType: String) = viewModelScope.launch {
+        _repository.getMediaDetailsResult(apiId, mediaType).collect { result ->
+            val isSuccess = result is DataResult.Success
             _uiState.value = if (isSuccess) UiState.Success(result.data) else UiState.Error()
         }
     }
 
-    fun refresh(id: Long, type: String) {
+    fun refresh(apiId: Long, mediaType: String) {
         _uiState.value = UiState.Loading()
-        loadMediaDetails(id = id, type = type)
+        loadMediaDetails(apiId, mediaType)
     }
 }

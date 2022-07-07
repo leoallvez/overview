@@ -11,18 +11,19 @@ import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDe
 
 @Composable
 fun MediaDetailsScreen(
-    params: Pair<Long,String>,
-    viewModel: MediaDetailsViewModel = hiltViewModel(),
-    logger: Logger
+    logger: Logger,
+    params: Pair<Long, String>,
+    viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
-    val (apiId: Long, type: String) = params
-    viewModel.loadMediaDetails(id = apiId, type = type)
     TrackScreenView(screen = Screen.MediaDetails, logger)
+
+    val (apiId: Long, mediaType: String) = params
+    viewModel.loadMediaDetails(apiId, mediaType)
 
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
         is UiState.Success -> MediaDetailsContent(mediaDetails = uiState.data)
-        is UiState.Error   -> ErrorOnLoading(refresh = { viewModel.refresh(apiId, type) })
+        is UiState.Error   -> ErrorOnLoading(refresh = { viewModel.refresh(apiId, mediaType) })
     }
 }
 

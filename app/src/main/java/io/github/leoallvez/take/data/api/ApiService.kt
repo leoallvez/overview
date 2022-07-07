@@ -24,12 +24,12 @@ interface ApiService {
         region: String = "BR"
     ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
 
-    @GET(value = "{type}/{id}")
+    @GET(value = "{media_type}/{api_id}")
     suspend fun requestMediaDetail(
-        @Path(value = "type", encoded = true)
-        type: String,
-        @Path(value = "id", encoded = true)
-        id: Long,
+        @Path(value = "media_type", encoded = true)
+        mediaType: String,
+        @Path(value = "api_id", encoded = true)
+        apiId: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
