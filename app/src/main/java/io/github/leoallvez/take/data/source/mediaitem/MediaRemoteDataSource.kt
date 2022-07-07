@@ -10,7 +10,11 @@ import javax.inject.Inject
 
 interface IMediaRemoteDataSource {
     suspend fun getMediaItems(url: String): DataResult<ListContentResponse<MediaItem>>
-    suspend fun getMediaDetailsResult(apiId: Long, mediaType: String): DataResult<MediaDetailResponse>
+
+    suspend fun getMediaDetailsResult(
+        apiId: Long,
+        mediaType: String
+    ): DataResult<MediaDetailResponse>
 }
 
 class MediaRemoteDataSource @Inject constructor(

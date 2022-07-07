@@ -1,7 +1,7 @@
 package io.github.leoallvez.take.data.repository
 
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
-import io.github.leoallvez.take.data.source.ApiResult.*
+import io.github.leoallvez.take.data.source.DataResult.*
 import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -32,7 +32,7 @@ class MediaDetailsRepositoryTest {
         //Arrange
         mockResponse(requestType = "Success")
         //Act
-        val result = _repository.getMediaDetailsResult(id = ID, type = TYPE).first()
+        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
         assertTrue(result is Success)
     }
@@ -42,7 +42,7 @@ class MediaDetailsRepositoryTest {
         //Arrange
         mockResponse(requestType = "ServerError")
         //Act
-        val result = _repository.getMediaDetailsResult(id = ID, type = TYPE).first()
+        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
         assertTrue(result is ServerError)
     }
@@ -52,7 +52,7 @@ class MediaDetailsRepositoryTest {
         //Arrange
         mockResponse(requestType = "NetworkError")
         //Act
-        val result = _repository.getMediaDetailsResult(id = ID, type = TYPE).first()
+        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
         assertTrue(result is NetworkError)
     }
@@ -62,7 +62,7 @@ class MediaDetailsRepositoryTest {
         //Arrange
         mockResponse(requestType = "UnknownError")
         //Act
-        val result = _repository.getMediaDetailsResult(id = ID, type = TYPE).first()
+        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
         assertTrue(result is UnknownError)
     }
