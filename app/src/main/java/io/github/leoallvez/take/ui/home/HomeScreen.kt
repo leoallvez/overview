@@ -85,49 +85,6 @@ fun HomeScreen(
     }
 }
 
-@Composable
-fun ErrorOnLoading(refresh: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .background(Color.Black)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Button(
-            modifier = Modifier.border(1.dp, Color.White),
-            onClick = { refresh.invoke() },
-            contentPadding = PaddingValues(
-                start = 20.dp,
-                top = 12.dp,
-                end = 20.dp,
-                bottom = 12.dp
-            )
-        ) {
-            Icon(
-                Icons.Filled.Refresh,
-                contentDescription = stringResource(id = R.string.refresh_icon),
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(text = stringResource(id = R.string.btn_try_again))
-        }
-
-    }
-}
-
-@Composable
-fun LoadingIndicator() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .background(Color.Black)
-            .fillMaxSize()
-    ) {
-        CircularProgressIndicator(color = Color.White)
-    }
-}
-
 @ExperimentalPagerApi
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
