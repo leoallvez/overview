@@ -16,15 +16,13 @@ fun MediaDetailsScreen(
     logger: Logger
 ) {
     val (apiId: Long, type: String) = params
-    TrackScreenView(screen = Screen.MediaDetails, logger)
     viewModel.loadMediaDetails(id = apiId, type = type)
+    TrackScreenView(screen = Screen.MediaDetails, logger)
 
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
         is UiState.Success -> MediaDetailsContent(mediaDetails = uiState.data)
-        is UiState.Error   -> ErrorOnLoading(refresh = {
-            viewModel.loadMediaDetails(id = apiId, type = type)
-        })
+        is UiState.Error   -> ErrorOnLoading(refresh = { viewModel.refresh(apiId, type) })
     }
 }
 

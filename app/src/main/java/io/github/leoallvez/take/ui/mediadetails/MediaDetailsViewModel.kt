@@ -28,4 +28,9 @@ class MediaDetailsViewModel @Inject constructor(
             _uiState.value = if (isSuccess) UiState.Success(result.data) else UiState.Error()
         }
     }
+
+    fun refresh(id: Long, type: String) {
+        _uiState.value = UiState.Loading()
+        loadMediaDetails(id = id, type = type)
+    }
 }
