@@ -38,6 +38,9 @@ class MediaItem (
     val voteAverage: Double,
     @ColumnInfo(name = "suggestion_id", index = true)
     var suggestionId: Long = 0,
+    @field:Json(name = "media_type")
+    @ColumnInfo(name = "media_type")
+    val type: String? = ""
 ) {
     fun getItemTitle() = name ?: title ?: ""
 

@@ -194,8 +194,7 @@ fun ButtonOutlined(
             contentColor = Color.Black,
             backgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.6f)
         ),
-        modifier = Modifier
-            .padding(start = 15.dp, top = 5.dp)
+        modifier = modifier
     ) {
         content()
     }

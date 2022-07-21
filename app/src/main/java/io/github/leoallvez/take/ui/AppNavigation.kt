@@ -9,7 +9,7 @@ sealed class Screen(val route: String, val name: String) {
         route = "media_detail/{$ID_PARAM}/{$TYPE_PARAM}",
         name = "MediaDetail"
     ) {
-        fun editRoute(id: Long, type: String) = "media_detail/$id/$type"
+        fun editRoute(id: Long, type: String?) = "media_detail/$id/$type"
     }
 
     companion object {

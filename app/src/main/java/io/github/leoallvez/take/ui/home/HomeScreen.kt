@@ -2,6 +2,7 @@ package io.github.leoallvez.take.ui.home
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -63,7 +64,9 @@ fun HomeScreen(
                 scrollStrategy = ScrollStrategy.EnterAlways,
                 state = rememberCollapsingToolbarScaffoldState(),
                 toolbar = {
-                    HomeToolBar(items = featured)
+                    HomeToolBar(items = featured) { mediaId, mediaType ->
+                        nav.navigate(Screen.MediaDetails.editRoute(id = mediaId, type = mediaType))
+                    }
                 },
             ) {
                 HomeScreenContent(
@@ -86,12 +89,14 @@ fun HomeScreen(
 @ExperimentalPagerApi
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
-    items: List<MediaItem>
+    items: List<MediaItem>,
+    callback: (mediaId: Long, mediaType: String?) -> Unit,
 ) {
-    HorizontalCardSlider(items)
+    HorizontalCardSlider(items, callback)
     ButtonOutlined(
         callback = {},
         modifier = Modifier
+            .road(Alignment.TopEnd, Alignment.TopEnd)
             .padding(end = 15.dp, top = 5.dp)
     ) {
         AppIcon(
@@ -104,7 +109,8 @@ private fun CollapsingToolbarScope.HomeToolBar(
 @ExperimentalPagerApi
 @Composable
 private fun CollapsingToolbarScope.HorizontalCardSlider(
-    items: List<MediaItem>
+    items: List<MediaItem>,
+    callback: (mediaId: Long, mediaType: String?) -> Unit,
 ) {
 
     val pagerState = rememberPagerState(pageCount = items.size)
@@ -112,18 +118,20 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
     Box {
         HorizontalPager(state = pagerState) { page ->
             val item = items[page]
-            CardSliderImage(item = item)
-            Text(
-                text = item.getItemTitle(),
-                modifier = Modifier
-                    .background(MaterialTheme.colors.primary.copy(alpha = 0.6f))
-                    .fillMaxSize()
-                    .align(Alignment.BottomEnd)
-                    .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
-                color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            Box(Modifier.clickable { callback.invoke(item.apiId, item.type) }) {
+                CardSliderImage(item = item)
+                Text(
+                    text = item.getItemTitle(),
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.primary.copy(alpha = 0.6f))
+                        .fillMaxSize()
+                        .align(Alignment.BottomEnd)
+                        .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
         }
 
         HorizontalPagerIndicator(
