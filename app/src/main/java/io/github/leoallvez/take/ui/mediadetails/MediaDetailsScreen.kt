@@ -1,16 +1,25 @@
 package io.github.leoallvez.take.ui.mediadetails
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import io.github.leoallvez.take.Logger
+import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
 fun MediaDetailsScreen(
+    nav: NavController,
     logger: Logger,
     params: Pair<Long, String>,
     viewModel: MediaDetailsViewModel = hiltViewModel()
@@ -22,13 +31,39 @@ fun MediaDetailsScreen(
 
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
-        is UiState.Success -> MediaDetailsContent(mediaDetails = uiState.data)
-        is UiState.Error   -> ErrorOnLoading(refresh = { viewModel.refresh(apiId, mediaType) })
+        is UiState.Success -> {
+            MediaDetailsContent(mediaDetails = uiState.data) {
+                nav.navigate(Screen.Home.route)
+            }
+        }
+        is UiState.Error -> {
+            ErrorOnLoading {
+                viewModel.refresh(apiId, mediaType)
+            }
+        }
     }
 }
 
 @Composable
-fun MediaDetailsContent(mediaDetails: MediaDetails?) {
+fun MediaDetailsContent(
+    mediaDetails: MediaDetails?,
+    callback: () -> Unit
+) {
+    Box {
+        AppBar(callback = callback)
+        Text(text = "Media content: $mediaDetails", color = Color.Black)
+    }
+}
 
-    Text(text = "Media content: $mediaDetails", color = Color.Black)
+@Composable
+fun AppBar(callback: () -> Unit) {
+    ButtonOutlined(
+        callback = callback,
+        modifier =  Modifier.padding(start = 15.dp, top = 5.dp)
+    ) {
+        AppIcon(
+            Icons.Filled.ArrowBack,
+            descriptionResource = R.string.back_to_icon
+        )
+    }
 }

@@ -29,7 +29,7 @@ data class MediaDetailResponse (
     val popularity: Double = 0.0,
 
     @field:Json(name = "poster_path")
-    val posterPath: String = "",
+    val posterPath: String? = "",
 
     @field:Json(name = "production_companies")
     val productionCompanies: List<ProductionCompany> = listOf(),

@@ -29,7 +29,7 @@ class MediaItem (
     val title: String?,
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @field:Json(name = "backdrop_path")
     @ColumnInfo(name = "backdrop_path")
     val backdropPath: String?,

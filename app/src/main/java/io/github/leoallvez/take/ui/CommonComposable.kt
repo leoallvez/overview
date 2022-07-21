@@ -1,6 +1,7 @@
 package io.github.leoallvez.take.ui
 
 import android.annotation.SuppressLint
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,8 +15,10 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -176,4 +179,37 @@ fun ErrorOnLoading(refresh: () -> Unit) {
         }
 
     }
+}
+
+@Composable
+fun ButtonOutlined(
+    callback: () -> Unit,
+    modifier: Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    OutlinedButton(
+        onClick = callback,
+        shape = RoundedCornerShape(50),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = Color.Black,
+            backgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.6f)
+        ),
+        modifier = Modifier
+            .padding(start = 15.dp, top = 5.dp)
+    ) {
+        content()
+    }
+}
+
+@Composable
+fun AppIcon(
+    imageVector: ImageVector,
+    @StringRes descriptionResource: Int,
+) {
+    Icon(
+        imageVector,
+        contentDescription = stringResource(id = descriptionResource),
+        modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size)),
+        tint = Color.White
+    )
 }

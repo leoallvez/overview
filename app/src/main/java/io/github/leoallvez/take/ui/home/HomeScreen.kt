@@ -2,15 +2,13 @@ package io.github.leoallvez.take.ui.home
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -91,22 +89,14 @@ private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>
 ) {
     HorizontalCardSlider(items)
-    OutlinedButton(
-        onClick = {},
-        shape = RoundedCornerShape(50),
-        colors = ButtonDefaults.buttonColors(
-            contentColor = Color.Black,
-            backgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.6f)
-        ),
+    ButtonOutlined(
+        callback = {},
         modifier = Modifier
-            .road(Alignment.TopEnd, Alignment.TopEnd)
             .padding(end = 15.dp, top = 5.dp)
     ) {
-        Icon(
+        AppIcon(
             Icons.Filled.Search,
-            contentDescription = stringResource(id = R.string.refresh_icon),
-            modifier = Modifier.size(30.dp),
-            tint = Color.White
+            descriptionResource = R.string.refresh_icon
         )
     }
 }

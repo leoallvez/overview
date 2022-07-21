@@ -98,7 +98,11 @@ fun NavController(logger: Logger) {
                 navArgument(name = TYPE_PARAM) { type = NavType.StringType },
             )
         ) { navBackStackEntry ->
-            MediaDetailsScreen(logger = logger, params = navBackStackEntry.getParams())
+            MediaDetailsScreen(
+                nav = navController,
+                logger = logger,
+                params = navBackStackEntry.getParams()
+            )
         }
     }
 }
