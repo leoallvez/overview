@@ -212,3 +212,23 @@ fun AppIcon(
         tint = Color.White
     )
 }
+
+@Composable
+fun CardImage(
+    data: String?,
+    contentDescription: String?,
+    modifier: Modifier = Modifier
+) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data = data)
+            .crossfade(true)
+            .build(),
+        modifier = modifier
+            .background(Color.Black)
+            .fillMaxWidth()
+            .height(235.dp),
+        contentScale = ContentScale.FillHeight,
+        contentDescription = contentDescription,
+    )
+}

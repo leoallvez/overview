@@ -1,6 +1,7 @@
 package io.github.leoallvez.take.ui.mediadetails
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -49,21 +50,36 @@ fun MediaDetailsContent(
     mediaDetails: MediaDetails?,
     callback: () -> Unit
 ) {
-    Box {
-        AppBar(callback = callback)
-        Text(text = "Media content: $mediaDetails", color = Color.Black)
+    if(mediaDetails == null) {
+        ErrorOnLoading {}
+    } else {
+        mediaDetails.apply {
+            Column {
+                AppBar(mediaDetails = mediaDetails, callback = callback)
+                Text(
+                    text = "$originalTitle (${mediaDetails.releaseDate.slice(0..3)})",
+                    color = Color.Black
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun AppBar(callback: () -> Unit) {
-    ButtonOutlined(
-        callback = callback,
-        modifier =  Modifier.padding(start = 15.dp, top = 5.dp)
-    ) {
-        AppIcon(
-            Icons.Filled.ArrowBack,
-            descriptionResource = R.string.back_to_icon
+fun AppBar(mediaDetails: MediaDetails?, callback: () -> Unit) {
+    Box {
+        CardImage(
+            data = mediaDetails?.getItemBackdrop(),
+            contentDescription = mediaDetails?.originalTitle
         )
+        ButtonOutlined(
+            callback = callback,
+            modifier = Modifier.padding(start = 15.dp, top = 5.dp)
+        ) {
+            AppIcon(
+                Icons.Filled.ArrowBack,
+                descriptionResource = R.string.back_to_icon
+            )
+        }
     }
 }

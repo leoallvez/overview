@@ -16,7 +16,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,8 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -147,20 +144,13 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
 
 @Composable
 fun CollapsingToolbarScope.CardSliderImage(item: MediaItem) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(data = item.getItemBackdrop())
-            .crossfade(true)
-            .build(),
-        modifier = Modifier
-            .parallax(ratio = 0.2f)
-            .background(Color.Black)
-            .fillMaxWidth()
-            .height(235.dp)
-            .pin(),
-        contentScale = ContentScale.FillHeight,
-        contentDescription = item.getItemTitle(),
-    )
+    item.apply {
+        CardImage(
+            data = getItemBackdrop(),
+            contentDescription = getItemTitle(),
+            modifier = Modifier.parallax(ratio = 0.2f).pin()
+        )
+    }
 }
 
 @Composable

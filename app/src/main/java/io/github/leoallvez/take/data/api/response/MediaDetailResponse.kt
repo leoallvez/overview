@@ -1,6 +1,8 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
+import io.github.leoallvez.take.BuildConfig
+import io.github.leoallvez.take.BuildConfig.*
 
 data class MediaDetailResponse (
     val adult: Boolean = false,
@@ -56,7 +58,9 @@ data class MediaDetailResponse (
 
     @field:Json(name = "vote_count")
     val voteCount: Long = 0L
-)
+) {
+    fun getItemBackdrop() = "$IMG_URL/$backdropPath"
+}
 
 data class Genre (
     val id: Long,
