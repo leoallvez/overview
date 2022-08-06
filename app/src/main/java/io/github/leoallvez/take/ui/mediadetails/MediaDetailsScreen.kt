@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
@@ -12,10 +14,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import io.github.leoallvez.take.Logger
@@ -78,12 +82,12 @@ fun MediaDetailsContent(
 fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
     Box {
         CardImage(
-            data = mediaDetails.getItemBackdrop(),
+            data = mediaDetails.getMediaDetailsBackdrop(),
             contentDescription = mediaDetails.originalTitle
         )
         ButtonOutlined(
             callback = backButtonAction,
-            modifier = Modifier.padding(start = 15.dp, top = 5.dp)
+            modifier = Modifier.padding(5.dp)
         ) {
             AppIcon(
                 Icons.Filled.ArrowBack,
@@ -95,26 +99,42 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
 
 @Composable
 fun MediaBody(mediaDetails: MediaDetails) {
-    mediaDetails.apply {
-        Box(
-            contentAlignment = Alignment.TopCenter,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.DarkGray)
-                .background(Color.Black)
-        ) {
-            ContentSample()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.DarkGray)
+            .verticalScroll(rememberScrollState())
+            .background(Color.Black)
+    ) {
+        MainTitle(mediaDetails.getMediaDetailsLetter())
+        LazyRow {
+            items(mediaDetails.genres) { genre ->
+                Text(text = " ${genre.name} ")
+            }
         }
+        Text(
+            text = mediaDetails.overview,
+            color = Color.White,
+            fontSize = 15.sp,
+            textAlign = TextAlign.Justify,
+            modifier = Modifier.padding(5.dp)
+        )
     }
 }
 
 @Composable
-fun ContentSample() {
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState())
-    ) {
-        for(i in 0..100) {
-            Text(text = "content: $i")
-        }
-    }
+fun MainTitle(title: String) {
+    Text(
+        text = title,
+        color = Color.White,
+        modifier = Modifier
+            .padding(
+                start = 5.dp,
+                top = 10.dp,
+                bottom = 10.dp,
+            ),
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+    )
 }
+

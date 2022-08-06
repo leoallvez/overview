@@ -94,7 +94,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
         callback = {},
         modifier = Modifier
             .road(Alignment.TopEnd, Alignment.TopEnd)
-            .padding(end = 15.dp, top = 5.dp)
+            .padding(5.dp)
     ) {
         AppIcon(
             Icons.Filled.Search,

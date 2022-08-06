@@ -1,7 +1,6 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
-import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.BuildConfig.*
 
 data class MediaDetailResponse (
@@ -25,7 +24,10 @@ data class MediaDetailResponse (
     val originalLanguage: String = "",
 
     @field:Json(name = "original_title")
-    val originalTitle: String = "",
+    val originalTitle: String? = null,
+
+    @field:Json(name = "original_name")
+    val originalName: String? = null,
 
     val overview: String = "",
     val popularity: Double = 0.0,
@@ -50,7 +52,8 @@ data class MediaDetailResponse (
 
     val status: String = "",
     val tagline: String = "",
-    val title: String = "",
+    val title: String? = null,
+    val name: String? = null,
     val video: Boolean = false,
 
     @field:Json(name = "vote_average")
@@ -59,7 +62,15 @@ data class MediaDetailResponse (
     @field:Json(name = "vote_count")
     val voteCount: Long = 0L
 ) {
-    fun getItemBackdrop() = "$IMG_URL/$backdropPath"
+    private val mediaTitle: String?
+        get() = title ?: originalTitle
+
+    private val mediaName: String
+        get() = name ?: originalName ?: ""
+
+    fun getMediaDetailsLetter() = mediaTitle ?: mediaName
+
+    fun getMediaDetailsBackdrop() = "$IMG_URL/$backdropPath"
 }
 
 data class Genre (
