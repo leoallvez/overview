@@ -1,14 +1,12 @@
 package io.github.leoallvez.take.ui.mediadetails
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,13 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
+import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.ui.theme.BlueTake
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -106,35 +107,71 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .verticalScroll(rememberScrollState())
             .background(Color.Black)
     ) {
-        MainTitle(mediaDetails.getMediaDetailsLetter())
-        LazyRow {
-            items(mediaDetails.genres) { genre ->
-                Text(text = " ${genre.name} ")
-            }
+        mediaDetails.apply {
+            MediaTitle(title = getMediaDetailsLetter())
+            GenreList(genres = genres)
+            MediaOverview(overview = overview)
         }
-        Text(
-            text = mediaDetails.overview,
-            color = Color.White,
-            fontSize = 15.sp,
-            textAlign = TextAlign.Justify,
-            modifier = Modifier.padding(5.dp)
-        )
     }
 }
 
 @Composable
-fun MainTitle(title: String) {
+fun MediaTitle(title: String) {
     Text(
         text = title,
-        color = Color.White,
+        color = BlueTake,
         modifier = Modifier
-            .padding(
-                start = 5.dp,
-                top = 10.dp,
-                bottom = 10.dp,
-            ),
-        fontSize = 20.sp,
+            .padding(horizontal = 5.dp, vertical = 10.dp),
+        fontSize = 25.sp,
         fontWeight = FontWeight.Bold,
     )
 }
+
+@Composable
+fun MediaOverview(overview: String) {
+    Text(
+        text = overview,
+        color = Color.White,
+        fontSize = 15.sp,
+        textAlign = TextAlign.Justify,
+        modifier = Modifier.padding(5.dp)
+    )
+}
+
+@Composable
+fun GenreList(genres: List<Genre>) {
+    if (genres.isNotEmpty()) {
+        LazyRow(Modifier.padding(vertical = 5.dp)) {
+            items(genres) { genre ->
+                GenreItem(name = genre.name)
+            }
+        }
+    }
+}
+
+@Composable
+fun GenreItem(name: String) {
+    OutlinedButton(
+        onClick = {},
+        shape = RoundedCornerShape(percent = 100),
+        contentPadding = PaddingValues(horizontal = 10.dp),
+        border = BorderStroke(1.dp, BlueTake),
+        modifier = Modifier
+            .padding(horizontal = 5.dp)
+            .height(25.dp),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = BlueTake,
+            backgroundColor = Color.Black,
+        )
+    ) {
+        Text(text = name, color = BlueTake, fontSize = 15.sp)
+    }
+}
+
+@Preview
+@Composable
+fun GenreListPreview() {
+    GenreList(genres = mutableListOf("A", "B").map { Genre(name = "Genre $it") })
+}
+
 

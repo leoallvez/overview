@@ -74,8 +74,8 @@ data class MediaDetailResponse (
 }
 
 data class Genre (
-    val id: Long,
-    val name: String
+    val id: Long = 0,
+    val name: String = ""
 )
 
 data class ProductionCompany (
