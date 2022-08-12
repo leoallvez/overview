@@ -148,7 +148,7 @@ fun LoadingIndicator() {
             .background(Color.Black)
             .fillMaxSize()
     ) {
-        CircularProgressIndicator(color = Color.White)
+        CircularProgressIndicator(color = BlueTake)
     }
 }
 

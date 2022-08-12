@@ -110,7 +110,9 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .verticalScroll(rememberScrollState())
             .background(Color.Black)
     ) {
+        Spacer(modifier = Modifier)
         GenreList(genres = mediaDetails.genres)
+        Spacer(modifier = Modifier)
         MediaOverview(overview = mediaDetails.overview)
     }
 }
@@ -152,7 +154,7 @@ fun GenreItem(name: String) {
             backgroundColor = Color.Black,
         )
     ) {
-        Text(text = name, color = BlueTake, fontSize = 12.sp)
+        Text(text = name, color = BlueTake, fontSize = 10.sp)
     }
 }
 

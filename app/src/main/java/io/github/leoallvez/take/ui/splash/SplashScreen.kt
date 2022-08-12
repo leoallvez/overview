@@ -23,6 +23,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.Screen
 import io.github.leoallvez.take.ui.TrackScreenView
+import io.github.leoallvez.take.ui.theme.BlueTake
 import kotlinx.coroutines.delay
 
 @Composable
@@ -63,7 +64,8 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
             fontSize = 150.sp,
             modifier = Modifier
                 .align(Alignment.Center)
-                .scale(scale.value)
+                .scale(scale.value),
+            color = BlueTake,
         )
     }
 }
