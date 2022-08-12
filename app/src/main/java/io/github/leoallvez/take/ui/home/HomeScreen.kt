@@ -116,18 +116,13 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
         HorizontalPager(state = pagerState) { page ->
             val item = items[page]
             Box(Modifier.clickable { callback.invoke(item.apiId, item.type) }) {
-                CardSliderImage(item = item)
-                Text(
-                    text = item.getItemTitle(),
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.primary.copy(alpha = 0.6f))
-                        .fillMaxSize()
-                        .align(Alignment.BottomEnd)
-                        .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                )
+                item.apply {
+                    CardSliderImage(item = this)
+                    BackdropTitle(
+                        text = getItemTitle(),
+                        modifier = Modifier.align(Alignment.BottomCenter)
+                    )
+                }
             }
         }
 
@@ -145,10 +140,9 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
 @Composable
 fun CollapsingToolbarScope.CardSliderImage(item: MediaItem) {
     item.apply {
-        CardImage(
+        BackdropImage(
             data = getItemBackdrop(),
-            contentDescription = getItemTitle(),
-            modifier = Modifier.parallax(ratio = 0.2f).pin()
+            contentDescription = getItemBackdrop()
         )
     }
 }

@@ -12,9 +12,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -82,10 +82,13 @@ fun MediaDetailsContent(
 @Composable
 fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
     Box {
-        CardImage(
-            data = mediaDetails.getMediaDetailsBackdrop(),
-            contentDescription = mediaDetails.originalTitle
-        )
+        mediaDetails.apply {
+            BackdropImage(
+                data = getMediaDetailsBackdrop(),
+                contentDescription = originalTitle
+            )
+            BackdropTitle(text = getMediaDetailsLetter(), modifier = Modifier.align(Alignment.BottomCenter))
+        }
         ButtonOutlined(
             callback = backButtonAction,
             modifier = Modifier.padding(5.dp)
@@ -107,24 +110,9 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .verticalScroll(rememberScrollState())
             .background(Color.Black)
     ) {
-        mediaDetails.apply {
-            MediaTitle(title = getMediaDetailsLetter())
-            GenreList(genres = genres)
-            MediaOverview(overview = overview)
-        }
+        GenreList(genres = mediaDetails.genres)
+        MediaOverview(overview = mediaDetails.overview)
     }
-}
-
-@Composable
-fun MediaTitle(title: String) {
-    Text(
-        text = title,
-        color = BlueTake,
-        modifier = Modifier
-            .padding(horizontal = 5.dp, vertical = 10.dp),
-        fontSize = 25.sp,
-        fontWeight = FontWeight.Bold,
-    )
 }
 
 @Composable
@@ -154,17 +142,17 @@ fun GenreItem(name: String) {
     OutlinedButton(
         onClick = {},
         shape = RoundedCornerShape(percent = 100),
-        contentPadding = PaddingValues(horizontal = 10.dp),
+        contentPadding = PaddingValues(horizontal = 5.dp),
         border = BorderStroke(1.dp, BlueTake),
         modifier = Modifier
-            .padding(horizontal = 5.dp)
-            .height(25.dp),
+            .padding(horizontal = 3.dp)
+            .height(17.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = BlueTake,
             backgroundColor = Color.Black,
         )
     ) {
-        Text(text = name, color = BlueTake, fontSize = 15.sp)
+        Text(text = name, color = BlueTake, fontSize = 12.sp)
     }
 }
 

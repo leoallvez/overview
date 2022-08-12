@@ -33,6 +33,8 @@ import coil.request.ImageRequest
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
+import io.github.leoallvez.take.ui.theme.BlueTake
+import me.onebone.toolbar.CollapsingToolbarScope
 
 @Composable
 fun ListTitle(title: String) {
@@ -207,8 +209,8 @@ fun AppIcon(
 ) {
     Icon(
         imageVector,
-        contentDescription = stringResource(id = descriptionResource),
-        modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size)),
+        contentDescription = stringResource(descriptionResource),
+        modifier = Modifier.size(dimensionResource(R.dimen.icon_size)),
         tint = Color.White
     )
 }
@@ -230,5 +232,30 @@ fun CardImage(
             .height(235.dp),
         contentScale = ContentScale.FillHeight,
         contentDescription = contentDescription,
+    )
+}
+
+@Composable
+fun CollapsingToolbarScope.BackdropImage(data: String?, contentDescription: String?) {
+    CardImage(data, contentDescription, modifier = Modifier
+        .parallax(ratio = 0.2f).pin()
+    )
+}
+
+@Composable
+fun BackdropImage(data: String?, contentDescription: String?) {
+    CardImage(data, contentDescription)
+}
+
+@Composable
+fun BackdropTitle(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        modifier = modifier
+            .background(MaterialTheme.colors.primary.copy(alpha = 0.6f))
+            .fillMaxSize()
+            .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
+        color = BlueTake,
+        fontSize = 20.sp,
     )
 }
