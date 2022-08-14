@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -106,8 +107,12 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .padding(15.dp)
     ) {
         mediaDetails.apply {
-            ScreenTitle(getMediaDetailsLetter())
-            ReleaseYer(releaseYear())
+            Row(
+                //verticalAlignment = Alignment.Bottom
+            ) {
+                ScreenTitle(getMediaDetailsLetter())
+                ReleaseYear(releaseYear())
+            }
             GenreList(genres)
             ScreenSubtitle(tagline)
             BodyText(overview)
@@ -116,14 +121,15 @@ fun MediaBody(mediaDetails: MediaDetails) {
 }
 
 @Composable
-fun ReleaseYer(date: String) {
+fun ReleaseYear(date: String) {
     if(date.isNotEmpty()) {
         Text(
-            text = stringResource(id = R.string.release, date),
-            style = MaterialTheme.typography.caption,
+            text = " $date ",
+            style = MaterialTheme.typography.h6,
             color = Color.White,
+            fontWeight = FontWeight.Light,
             modifier = Modifier
-                .padding(bottom = dimensionResource(R.dimen.default_padding))
+                .padding(bottom = 15.dp)
         )
     }
 }
@@ -149,13 +155,13 @@ fun GenreList(genres: List<Genre>) {
 fun GenreItem(name: String) {
     OutlinedButton(
         onClick = {},
-        shape = RoundedCornerShape(percent = 100),
+        shape = RoundedCornerShape(percent = 10),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
         border = BorderStroke(1.dp, BlueTake),
         modifier = Modifier
-            .height(17.dp),
+            .height(25.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = BlueTake,
             backgroundColor = Color.Black,
