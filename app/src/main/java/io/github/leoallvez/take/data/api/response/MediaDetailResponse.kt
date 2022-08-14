@@ -1,7 +1,8 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
-import io.github.leoallvez.take.BuildConfig.*
+import io.github.leoallvez.take.BuildConfig.IMG_URL
+import java.util.*
 
 data class MediaDetailResponse (
     val adult: Boolean = false,
@@ -71,6 +72,8 @@ data class MediaDetailResponse (
     fun getMediaDetailsLetter() = mediaTitle ?: mediaName
 
     fun getMediaDetailsBackdrop() = "$IMG_URL/$backdropPath"
+
+    fun releaseYear() = releaseDate.split("-").first()
 }
 
 data class Genre (

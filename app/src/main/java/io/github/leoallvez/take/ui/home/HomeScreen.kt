@@ -2,13 +2,12 @@ package io.github.leoallvez.take.ui.home
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -18,9 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -32,6 +29,7 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.ui.theme.BlueTake
 import io.github.leoallvez.take.util.getStringByName
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScope
@@ -90,17 +88,13 @@ private fun CollapsingToolbarScope.HomeToolBar(
     callback: (mediaId: Long, mediaType: String?) -> Unit,
 ) {
     HorizontalCardSlider(items, callback)
-    ButtonOutlined(
-        callback = {},
+    ToolbarButton(
+        painter = Icons.Filled.Search,
+        descriptionResource = R.string.back_to_home_icon,
+        iconTint = BlueTake,
         modifier = Modifier
             .road(Alignment.TopEnd, Alignment.TopEnd)
-            .padding(5.dp)
-    ) {
-        AppIcon(
-            Icons.Filled.Search,
-            descriptionResource = R.string.refresh_icon
-        )
-    }
+    ) { }
 }
 
 @ExperimentalPagerApi
@@ -132,7 +126,7 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
                 .align(Alignment.TopCenter)
                 .padding(16.dp),
             inactiveColor = Color.Gray,
-            activeColor = Color.White,
+            activeColor = BlueTake,
         )
     }
 }

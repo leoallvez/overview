@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -184,21 +186,30 @@ fun ErrorOnLoading(refresh: () -> Unit) {
 }
 
 @Composable
-fun ButtonOutlined(
-    callback: () -> Unit,
-    modifier: Modifier,
-    content: @Composable RowScope.() -> Unit
+fun ToolbarButton(
+    painter: ImageVector,
+    @StringRes descriptionResource: Int,
+    modifier: Modifier = Modifier,
+    iconTint: Color = Color.White,
+    onClick: () -> Unit
 ) {
-    OutlinedButton(
-        onClick = callback,
-        shape = RoundedCornerShape(50),
-        colors = ButtonDefaults.buttonColors(
-            contentColor = Color.Black,
-            backgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.6f)
-        ),
-        modifier = modifier
+    Box(
+        modifier
+            .padding(dimensionResource(R.dimen.default_padding))
+            .clip(CircleShape)
+            .background(Color.Black.copy(alpha = 0.5f))
+            .size(45.dp)
+            .clickable { onClick.invoke() }
     ) {
-        content()
+
+        Icon(
+            painter,
+            contentDescription = stringResource(descriptionResource),
+            modifier = Modifier
+                .size(dimensionResource(R.dimen.icon_size))
+                .align(Alignment.Center),
+            tint = iconTint
+        )
     }
 }
 
@@ -252,10 +263,42 @@ fun BackdropTitle(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         modifier = modifier
-            .background(MaterialTheme.colors.primary.copy(alpha = 0.6f))
+            //.background(MaterialTheme.colors.primary.copy(alpha = 0.2f))
             .fillMaxSize()
             .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
         color = BlueTake,
-        fontSize = 20.sp,
+        style = MaterialTheme.typography.h6
+    )
+}
+
+@Composable
+fun ScreenTitle(text: String) {
+    Text(
+        text = text,
+        color = BlueTake,
+        style = MaterialTheme.typography.h6,
+        //modifier = Modifier.padding(top = 10.dp)
+    )
+}
+
+@Composable
+fun ScreenSubtitle(text: String) {
+    if(text.isNotEmpty()) {
+        Text(
+            text = text,
+            color = Color.LightGray,
+            style = MaterialTheme.typography.subtitle2,
+            modifier = Modifier.padding(bottom = 10.dp)
+        )
+    }
+}
+
+@Composable
+fun BodyText(text: String) {
+    Text(
+        text = text,
+        color = Color.White,
+        style = MaterialTheme.typography.body1,
+        modifier = Modifier.padding(vertical = 5.dp)
     )
 }

@@ -1,6 +1,8 @@
 package io.github.leoallvez.take.util
 
 import android.content.Context
+import android.content.res.Resources
+import android.os.Build
 import androidx.navigation.NavBackStackEntry
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -12,6 +14,10 @@ import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.ui.Screen
 import okio.IOException
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 inline fun <reified T> String.fromJson(): T? = try {
     val moshi = Moshi.Builder().build()
