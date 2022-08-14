@@ -195,7 +195,7 @@ fun ToolbarButton(
 ) {
     Box(
         modifier
-            .padding(dimensionResource(R.dimen.default_padding))
+            .padding(dimensionResource(R.dimen.screen_padding))
             .clip(CircleShape)
             .background(Color.Black.copy(alpha = 0.5f))
             .size(45.dp)
@@ -211,19 +211,6 @@ fun ToolbarButton(
             tint = iconTint
         )
     }
-}
-
-@Composable
-fun AppIcon(
-    imageVector: ImageVector,
-    @StringRes descriptionResource: Int,
-) {
-    Icon(
-        imageVector,
-        contentDescription = stringResource(descriptionResource),
-        modifier = Modifier.size(dimensionResource(R.dimen.icon_size)),
-        tint = Color.White
-    )
 }
 
 @Composable
@@ -288,7 +275,7 @@ fun ScreenSubtitle(text: String) {
             text = text,
             color = Color.LightGray,
             style = MaterialTheme.typography.subtitle2,
-            modifier = Modifier.padding(bottom = 10.dp)
+            modifier = Modifier.padding(vertical = 10.dp)
         )
     }
 }
@@ -299,6 +286,7 @@ fun BodyText(text: String) {
         text = text,
         color = Color.White,
         style = MaterialTheme.typography.body1,
-        modifier = Modifier.padding(vertical = 5.dp)
+        modifier = Modifier.padding(vertical = 5.dp),
+        textAlign = TextAlign.Justify
     )
 }

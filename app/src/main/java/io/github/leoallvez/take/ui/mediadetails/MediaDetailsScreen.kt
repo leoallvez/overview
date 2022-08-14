@@ -104,12 +104,10 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .background(color = Color.DarkGray)
             .verticalScroll(rememberScrollState())
             .background(Color.Black)
-            .padding(15.dp)
+            .padding(dimensionResource(R.dimen.screen_padding))
     ) {
         mediaDetails.apply {
-            Row(
-                //verticalAlignment = Alignment.Bottom
-            ) {
+            Row(Modifier.padding(bottom = 10.dp)) {
                 ScreenTitle(getMediaDetailsLetter())
                 ReleaseYear(releaseYear())
             }
@@ -124,12 +122,13 @@ fun MediaBody(mediaDetails: MediaDetails) {
 fun ReleaseYear(date: String) {
     if(date.isNotEmpty()) {
         Text(
-            text = " $date ",
-            style = MaterialTheme.typography.h6,
+            text = "• $date ",
+            style = MaterialTheme.typography.subtitle2,
             color = Color.White,
             fontWeight = FontWeight.Light,
             modifier = Modifier
-                .padding(bottom = 15.dp)
+                .fillMaxHeight()
+                .padding(dimensionResource(R.dimen.default_padding))
         )
     }
 }
