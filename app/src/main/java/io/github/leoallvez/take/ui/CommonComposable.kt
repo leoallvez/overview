@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -241,16 +242,13 @@ fun CollapsingToolbarScope.BackdropImage(data: String?, contentDescription: Stri
 }
 
 @Composable
-fun BackdropImage(data: String?, contentDescription: String?) {
-    CardImage(data, contentDescription)
-}
-
-@Composable
-fun BackdropTitle(text: String, modifier: Modifier = Modifier) {
+fun BackdropTitle(
+    text: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = text,
         modifier = modifier
-            //.background(MaterialTheme.colors.primary.copy(alpha = 0.2f))
             .fillMaxSize()
             .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
         color = BlueTake,
@@ -275,7 +273,8 @@ fun ScreenSubtitle(text: String) {
             text = text,
             color = Color.LightGray,
             style = MaterialTheme.typography.subtitle2,
-            modifier = Modifier.padding(vertical = 10.dp)
+            fontStyle = FontStyle.Italic,
+            modifier = Modifier.padding(vertical = 10.dp),
         )
     }
 }

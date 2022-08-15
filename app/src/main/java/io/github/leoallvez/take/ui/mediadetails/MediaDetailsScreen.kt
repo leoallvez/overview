@@ -1,11 +1,9 @@
 package io.github.leoallvez.take.ui.mediadetails
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,15 +13,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
@@ -84,17 +86,76 @@ fun MediaDetailsContent(
 
 @Composable
 fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
-    Box {
-        BackdropImage(
-            data = mediaDetails.getMediaDetailsBackdrop(),
-            contentDescription = mediaDetails.originalTitle
-        )
-        ToolbarButton(
-            painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon
-        ) { backButtonAction.invoke() }
+    Box(Modifier.fillMaxWidth()) {
+        mediaDetails.apply {
+            MediaBackdrop(
+                url = getBackdrop(),
+                contentDescription = originalTitle,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+            MediaPoster(
+                url = mediaDetails.getPoster(),
+                contentDescription = mediaDetails.originalTitle,
+                modifier = Modifier.align(Alignment.BottomStart)
+            )
+            ToolbarButton(
+                painter = Icons.Default.KeyboardArrowLeft,
+                descriptionResource = R.string.back_to_home_icon
+            ) { backButtonAction.invoke() }
+        }
     }
 }
+
+@Composable
+fun MediaBackdrop(
+    url: String?,
+    contentDescription: String?,
+    modifier: Modifier = Modifier
+) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data = url)
+            .crossfade(true)
+            .build(),
+        modifier = modifier
+            .background(Color.Black)
+            .fillMaxWidth()
+            .height(280.dp)
+            .clip(RoundedCornerShape(5.dp)),
+        contentScale = ContentScale.FillHeight,
+        contentDescription = contentDescription,
+    )
+}
+
+@Composable
+fun MediaPoster(url: String, contentDescription: String?, modifier: Modifier = Modifier) {
+    if(url.isNotEmpty()) {
+        Box(
+            modifier = modifier
+                .size(width = 140.dp, height = 200.dp)
+                .padding(12.dp)
+        ) {
+            Card(
+                shape = RoundedCornerShape(6.dp),
+                contentColor = Color.Black,
+                elevation = 15.dp,
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(data = url)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.placeholder),
+                    contentScale = ContentScale.FillHeight,
+                    contentDescription = contentDescription,
+                    modifier = Modifier
+                        .shadow(2.dp, shape = RoundedCornerShape(5.dp))
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 fun MediaBody(mediaDetails: MediaDetails) {
@@ -104,7 +165,10 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .background(color = Color.DarkGray)
             .verticalScroll(rememberScrollState())
             .background(Color.Black)
-            .padding(dimensionResource(R.dimen.screen_padding))
+            .padding(
+                vertical = dimensionResource(R.dimen.default_padding),
+                horizontal = dimensionResource (R.dimen.screen_padding),
+            ),
     ) {
         mediaDetails.apply {
             Row(Modifier.padding(bottom = 10.dp)) {
@@ -119,10 +183,10 @@ fun MediaBody(mediaDetails: MediaDetails) {
 }
 
 @Composable
-fun ReleaseYear(date: String) {
-    if(date.isNotEmpty()) {
+fun ReleaseYear(year: String) {
+    if(year.isNotEmpty()) {
         Text(
-            text = "• $date ",
+            text = year,
             style = MaterialTheme.typography.subtitle2,
             color = Color.White,
             fontWeight = FontWeight.Light,

@@ -71,7 +71,9 @@ data class MediaDetailResponse (
 
     fun getMediaDetailsLetter() = mediaTitle ?: mediaName
 
-    fun getMediaDetailsBackdrop() = "$IMG_URL/$backdropPath"
+    fun getPoster() = "$IMG_URL/$posterPath"
+
+    fun getBackdrop() = "$IMG_URL/$backdropPath"
 
     fun releaseYear() = releaseDate.split("-").first()
 }
