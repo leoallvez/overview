@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
@@ -151,7 +152,12 @@ fun LoadingIndicator() {
             .background(Color.Black)
             .fillMaxSize()
     ) {
-        CircularProgressIndicator(color = BlueTake)
+        SquareSpinProgressIndicator(
+            modifier = Modifier,
+            color = BlueTake,
+            animationDuration = 800,
+            animationDelay = 200,
+        )
     }
 }
 
