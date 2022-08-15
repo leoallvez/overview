@@ -94,8 +94,8 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
             MediaPoster(
-                url = mediaDetails.getPoster(),
-                contentDescription = mediaDetails.originalTitle,
+                url = getPoster(),
+                contentDescription = originalTitle,
                 modifier = Modifier.align(Alignment.BottomStart)
             )
             ToolbarButton(

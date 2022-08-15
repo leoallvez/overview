@@ -27,17 +27,20 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.theme.BlueTake
 import me.onebone.toolbar.CollapsingToolbarScope
+import me.onebone.toolbar.FabPosition
 
 @Composable
 fun ListTitle(title: String) {
@@ -68,7 +71,8 @@ fun MediaCard(
             .size(
                 width = cardWith,
                 height = imageHeight + titleHeight
-            ).padding(all = 5.dp)
+            )
+            .padding(all = 5.dp)
             .clickable { onClick.invoke(media.apiId) }
     ) {
         MediaImage(
@@ -145,14 +149,29 @@ fun TrackScreenView(screen: Screen, logger: Logger) {
 
 @Composable
 fun LoadingIndicator() {
-    Box(
-        contentAlignment = Alignment.Center,
+    Column(
         modifier = Modifier
             .background(Color.Black)
-            .fillMaxSize()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        CircularProgressIndicator(color = BlueTake)
+        Column {
+            IntermediateScreensText(text = stringResource(R.string.loading))
+            SquareSpinProgressIndicator(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                color = BlueTake,
+                animationDuration = 800,
+                animationDelay = 200,
+            )
+        }
     }
+}
+
+@Preview
+@Composable
+fun LoadingIndicatorPreview() {
+    LoadingIndicator()
 }
 
 @Composable
@@ -164,26 +183,62 @@ fun ErrorOnLoading(refresh: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Button(
-            modifier = Modifier.border(1.dp, Color.White),
-            onClick = { refresh.invoke() },
-            contentPadding = PaddingValues(
-                start = 20.dp,
-                top = 12.dp,
-                end = 20.dp,
-                bottom = 12.dp
-            )
-        ) {
-            Icon(
-                Icons.Filled.Refresh,
-                contentDescription = stringResource(id = R.string.refresh_icon),
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(text = stringResource(id = R.string.btn_try_again))
+        Column {
+            IntermediateScreensText(text = stringResource(R.string.error_on_loading))
+            StylizedButton(
+                buttonText = stringResource(R.string.btn_try_again),
+                iconDescription = stringResource(R.string.refresh_icon),
+                iconImageVector = Icons.Filled.Refresh
+            ) {
+                refresh.invoke()
+            }
         }
-
     }
+}
+
+@Composable
+fun IntermediateScreensText(text: String) {
+    Text(
+        text = text,
+        color = BlueTake,
+        style = MaterialTheme.typography.h6,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .padding(bottom = 40.dp)
+            .width(200.dp)
+    )
+}
+
+@Composable
+fun StylizedButton(
+    buttonText: String,
+    iconDescription: String,
+    iconImageVector: ImageVector,
+    onClick: () -> Unit
+) {
+    Button(
+        modifier = Modifier.border(1.dp, BlueTake),
+        onClick = { onClick.invoke() },
+        contentPadding = PaddingValues(
+            horizontal = 20.dp,
+            vertical = 12.dp,
+        )
+    ) {
+        Icon(
+            Icons.Filled.Refresh,
+            contentDescription = stringResource(R.string.refresh_icon),
+            modifier = Modifier.size(ButtonDefaults.IconSize),
+            tint = BlueTake
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(text = stringResource(R.string.btn_try_again), color = BlueTake)
+    }
+}
+
+@Composable
+@Preview
+fun ErrorOnLoadingPreview() {
+    ErrorOnLoading {}
 }
 
 @Composable
@@ -237,7 +292,8 @@ fun CardImage(
 @Composable
 fun CollapsingToolbarScope.BackdropImage(data: String?, contentDescription: String?) {
     CardImage(data, contentDescription, modifier = Modifier
-        .parallax(ratio = 0.2f).pin()
+        .parallax(ratio = 0.2f)
+        .pin()
     )
 }
 

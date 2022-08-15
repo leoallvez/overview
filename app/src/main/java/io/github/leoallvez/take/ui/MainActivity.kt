@@ -4,7 +4,9 @@ package io.github.leoallvez.take.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Snackbar
@@ -15,6 +17,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavType
@@ -108,12 +111,21 @@ fun NavController(logger: Logger) {
 }
 
 @Composable
-fun OfflineSnackbar(isNotOnline: Boolean, modifier: Modifier) {
-    if (isNotOnline) {
+fun OfflineSnackbar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
+    AnimatedVisibility(
+        visible = isNotOnline,
+        modifier = modifier
+    ) {
         Snackbar(
-            modifier = modifier.padding(8.dp)
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
         ) {
-            Text(text = stringResource(id = R.string.app_offline_msg))
+            Text(
+                text = stringResource(R.string.app_offline_msg),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
