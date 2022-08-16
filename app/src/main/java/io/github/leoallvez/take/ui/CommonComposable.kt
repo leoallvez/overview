@@ -40,7 +40,6 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.theme.BlueTake
 import me.onebone.toolbar.CollapsingToolbarScope
-import me.onebone.toolbar.FabPosition
 
 @Composable
 fun ListTitle(title: String) {
