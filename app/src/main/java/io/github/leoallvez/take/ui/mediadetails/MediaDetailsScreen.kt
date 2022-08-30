@@ -34,6 +34,7 @@ import io.github.leoallvez.take.ui.theme.BlueTake
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import timber.log.Timber
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
@@ -71,6 +72,7 @@ fun MediaDetailsContent(
     if (mediaDetails == null) {
         ErrorOnLoading {}
     } else {
+        Timber.tag("take_cast").i("cast: ${mediaDetails.getOrderedCast()}")
         CollapsingToolbarScaffold(
             modifier = Modifier,
             scrollStrategy = ScrollStrategy.EnterAlways,

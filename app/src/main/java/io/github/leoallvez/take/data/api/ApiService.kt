@@ -35,7 +35,10 @@ interface ApiService {
         @Query(value = "language")
         language: String = "pt-BR",
         @Query(value = "region")
-        region: String = "BR"
+        region: String = "BR",
+        @Query(value = "append_to_response")
+        appendToResponse: String = "credits"
+
     ): NetworkResponse<MediaDetailResponse, ErrorResponse>
 
 }

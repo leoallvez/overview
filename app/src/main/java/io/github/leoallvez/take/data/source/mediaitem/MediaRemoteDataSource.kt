@@ -9,6 +9,7 @@ import io.github.leoallvez.take.data.source.parserResponseToResult
 import javax.inject.Inject
 
 interface IMediaRemoteDataSource {
+
     suspend fun getMediaItems(url: String): DataResult<ListContentResponse<MediaItem>>
 
     suspend fun getMediaDetailsResult(

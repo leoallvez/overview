@@ -1,8 +1,8 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import io.github.leoallvez.take.BuildConfig.IMG_URL
-import java.util.*
 
 data class MediaDetailResponse (
     val adult: Boolean = false,
@@ -61,7 +61,8 @@ data class MediaDetailResponse (
     val voteAverage: Double = 0.0,
 
     @field:Json(name = "vote_count")
-    val voteCount: Long = 0L
+    val voteCount: Long = 0L,
+    private val credits: Credits = Credits()
 ) {
     private val mediaTitle: String?
         get() = title ?: originalTitle
@@ -74,6 +75,8 @@ data class MediaDetailResponse (
     fun getPoster() = "$IMG_URL/$posterPath"
 
     fun getBackdrop() = "$IMG_URL/$backdropPath"
+
+    fun getOrderedCast(): List<Person> = credits.cast.sortedBy { it.order }
 
     fun releaseYear() = releaseDate.split("-").first()
 }
@@ -110,4 +113,27 @@ data class SpokenLanguage (
     val iso639_1: String,
 
     val name: String
+)
+
+data class Credits (
+    val cast: List<Person> = listOf(),
+    val crew: List<Person> = listOf(),
+)
+
+data class Person(
+    val adult: Boolean,
+    val gender: Int,
+    val id: Int,
+    @field:Json(name = "known_for_department")
+    val knownForDepartment: String,
+    val name: String,
+    @field:Json(name = "original_name")
+    val originalName: String,
+    val popularity: Double = 0.0,
+    @field:Json(name = "profile_path")
+    val profilePath: String,
+    val character: String,
+    @field:Json(name = "credit_id")
+    val creditId: String,
+    val order: Int,
 )
