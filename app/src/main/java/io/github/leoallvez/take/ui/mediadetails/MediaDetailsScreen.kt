@@ -29,6 +29,7 @@ import coil.request.ImageRequest
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
+import io.github.leoallvez.take.data.api.response.Person
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.BlueTake
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -169,7 +170,7 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .background(Color.Black)
             .padding(
                 vertical = dimensionResource(R.dimen.default_padding),
-                horizontal = dimensionResource (R.dimen.screen_padding),
+                horizontal = dimensionResource(R.dimen.screen_padding),
             ),
     ) {
         mediaDetails.apply {
@@ -180,8 +181,43 @@ fun MediaBody(mediaDetails: MediaDetails) {
             GenreList(genres)
             ScreenSubtitle(tagline)
             BodyText(overview)
+            PersonsList(getOrderedCast())
         }
     }
+}
+
+@Composable
+fun PersonsList(persons: List<Person>) {
+    if (persons.isNotEmpty()) {
+        LazyRow (
+            Modifier.padding(
+                vertical = dimensionResource(R.dimen.default_padding)
+            ),
+            horizontalArrangement = Arrangement
+                .spacedBy(dimensionResource(R.dimen.default_padding))
+        ) {
+            items(persons) { person -> 
+                PersonItem(person = person)
+            }
+        }
+    }
+}
+
+@Composable 
+fun PersonItem(person: Person) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data = person.getProfile())
+            .crossfade(true)
+            .build(),
+        modifier = Modifier
+            .background(Color.Black)
+            .fillMaxWidth()
+            .height(200.dp)
+            .clip(RoundedCornerShape(5.dp)),
+        contentScale = ContentScale.FillHeight,
+        contentDescription = person.name,
+    )
 }
 
 @Composable

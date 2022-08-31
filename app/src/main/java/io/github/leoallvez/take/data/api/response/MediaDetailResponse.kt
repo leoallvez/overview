@@ -136,4 +136,6 @@ data class Person(
     @field:Json(name = "credit_id")
     val creditId: String,
     val order: Int,
-)
+) {
+    fun getProfile() = "$IMG_URL/$profilePath"
+}
