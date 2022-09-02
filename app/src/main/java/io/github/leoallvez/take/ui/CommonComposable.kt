@@ -340,7 +340,7 @@ fun BodyText(text: String) {
         text = text,
         color = Color.White,
         style = MaterialTheme.typography.body1,
-        modifier = Modifier.padding(vertical = 5.dp),
+        modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
         textAlign = TextAlign.Justify
     )
 }

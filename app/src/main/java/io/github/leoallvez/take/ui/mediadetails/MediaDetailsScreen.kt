@@ -186,6 +186,7 @@ fun MediaBody(mediaDetails: MediaDetails) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PersonsList(persons: List<Person>) {
     if (persons.isNotEmpty()) {
@@ -194,9 +195,9 @@ fun PersonsList(persons: List<Person>) {
                 vertical = dimensionResource(R.dimen.default_padding)
             ),
             horizontalArrangement = Arrangement
-                .spacedBy(dimensionResource(R.dimen.default_padding))
+                .spacedBy(10.dp)
         ) {
-            items(persons) { person -> 
+            items(persons) { person ->
                 PersonItem(person = person)
             }
         }
@@ -216,6 +217,7 @@ fun PersonItem(person: Person) {
             .height(200.dp)
             .clip(RoundedCornerShape(5.dp)),
         contentScale = ContentScale.FillHeight,
+        placeholder = painterResource(R.drawable.placeholder),
         contentDescription = person.name,
     )
 }
