@@ -14,4 +14,7 @@
     <string name="app_offline_msg">Nenhuma conexão com a Internet disponível</string>
     <string name="release">Lançamento: %s</string>
     <string name="loading">Carregando...</string>
+
+    <string name="synopsis">Sinopse</string>
+    <string name="cast">Elenco</string>
 </resources>

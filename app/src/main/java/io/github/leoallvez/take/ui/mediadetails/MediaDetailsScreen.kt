@@ -1,10 +1,13 @@
 package io.github.leoallvez.take.ui.mediadetails
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -19,7 +22,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -186,19 +193,21 @@ fun MediaBody(mediaDetails: MediaDetails) {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PersonsList(persons: List<Person>) {
     if (persons.isNotEmpty()) {
-        LazyRow (
-            Modifier.padding(
-                vertical = dimensionResource(R.dimen.default_padding)
-            ),
-            horizontalArrangement = Arrangement
-                .spacedBy(10.dp)
-        ) {
-            items(persons) { person ->
-                PersonItem(person = person)
+        Column {
+            BasicTitle(title = stringResource(R.string.cast))
+            LazyRow (
+                Modifier.padding(
+                    vertical = dimensionResource(R.dimen.default_padding)
+                ),
+                horizontalArrangement = Arrangement
+                    .spacedBy(10.dp)
+            ) {
+                items(persons) { person ->
+                    PersonItem(person = person)
+                }
             }
         }
     }
@@ -206,19 +215,53 @@ fun PersonsList(persons: List<Person>) {
 
 @Composable 
 fun PersonItem(person: Person) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(data = person.getProfile())
-            .crossfade(true)
-            .build(),
+    Column {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(data = person.getProfile())
+                .crossfade(true)
+                .build(),
+            modifier = Modifier
+                .background(Color.Black)
+                .fillMaxWidth()
+                .height(200.dp)
+                .width(dimensionResource(R.dimen.person_profiler_width))
+                .clip(RoundedCornerShape(5.dp)),
+            contentScale = ContentScale.FillHeight,
+            placeholder = painterResource(R.drawable.placeholder),
+            contentDescription = person.name,
+        )
+        PersonText(
+            text = person.name,
+            style = MaterialTheme.typography.subtitle1,
+            isBold = true,
+        )
+        PersonText(
+            text = person.character,
+            style = MaterialTheme.typography.caption,
+            color = BlueTake,
+        )
+    }
+}
+
+@Composable
+fun PersonText(
+    text: String,
+    style: TextStyle,
+    color: Color = Color.White,
+    isBold: Boolean = false
+) {
+    Text(
+        color = color,
+        text = text,
         modifier = Modifier
-            .background(Color.Black)
-            .fillMaxWidth()
-            .height(200.dp)
-            .clip(RoundedCornerShape(5.dp)),
-        contentScale = ContentScale.FillHeight,
-        placeholder = painterResource(R.drawable.placeholder),
-        contentDescription = person.name,
+            .padding(top = 3.dp)
+            .width(dimensionResource(R.dimen.person_profiler_width)),
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
+        textAlign = TextAlign.Center,
+        fontWeight = if(isBold) FontWeight.Bold else FontWeight.Normal,
+        style = style,
     )
 }
 

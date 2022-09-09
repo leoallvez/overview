@@ -53,6 +53,22 @@ fun ListTitle(title: String) {
                 top = 15.dp
             ),
         fontSize = 16.sp,
+        style = MaterialTheme.typography.h4,
+        fontWeight = FontWeight.Bold,
+    )
+}
+
+@Composable
+fun BasicTitle(title: String) {
+    Text(
+        text = title,
+        color = Color.White,
+        modifier = Modifier
+            .padding(
+                bottom = 5.dp,
+                top = 10.dp
+            ),
+        style = MaterialTheme.typography.h6,
         fontWeight = FontWeight.Bold,
     )
 }
@@ -336,11 +352,14 @@ fun ScreenSubtitle(text: String) {
 
 @Composable
 fun BodyText(text: String) {
-    Text(
-        text = text,
-        color = Color.White,
-        style = MaterialTheme.typography.body1,
-        modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
-        textAlign = TextAlign.Justify
-    )
+    Column {
+        BasicTitle(title = stringResource(R.string.synopsis))
+        Text(
+            text = text,
+            color = Color.White,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
+            textAlign = TextAlign.Justify
+        )
+    }
 }
