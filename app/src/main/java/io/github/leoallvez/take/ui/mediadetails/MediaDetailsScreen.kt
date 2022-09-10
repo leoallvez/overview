@@ -27,7 +27,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -38,11 +38,11 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.data.api.response.Person
 import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
@@ -80,7 +80,6 @@ fun MediaDetailsContent(
     if (mediaDetails == null) {
         ErrorOnLoading {}
     } else {
-        Timber.tag("take_cast").i("cast: ${mediaDetails.getOrderedCast()}")
         CollapsingToolbarScaffold(
             modifier = Modifier,
             scrollStrategy = ScrollStrategy.EnterAlways,
@@ -103,10 +102,14 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
                 contentDescription = originalTitle,
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
-            MediaPoster(
+            BasicImage(
                 url = getPoster(),
                 contentDescription = originalTitle,
-                modifier = Modifier.align(Alignment.BottomStart)
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .size(width = 140.dp, height = 200.dp)
+                    .padding(12.dp)
+                    .shadow(2.dp, shape = RoundedCornerShape(dimensionResource(R.dimen.corner)))
             )
             ToolbarButton(
                 painter = Icons.Default.KeyboardArrowLeft,
@@ -128,44 +131,14 @@ fun MediaBackdrop(
             .crossfade(true)
             .build(),
         modifier = modifier
-            .background(Color.Black)
+            .background(Background)
             .fillMaxWidth()
             .height(280.dp)
-            .clip(RoundedCornerShape(5.dp)),
+            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
         contentScale = ContentScale.FillHeight,
         contentDescription = contentDescription,
     )
 }
-
-@Composable
-fun MediaPoster(url: String, contentDescription: String?, modifier: Modifier = Modifier) {
-    if(url.isNotEmpty()) {
-        Box(
-            modifier = modifier
-                .size(width = 140.dp, height = 200.dp)
-                .padding(12.dp)
-        ) {
-            Card(
-                shape = RoundedCornerShape(6.dp),
-                contentColor = Color.Black,
-                elevation = 15.dp,
-            ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(data = url)
-                        .crossfade(true)
-                        .build(),
-                    placeholder = painterResource(R.drawable.placeholder),
-                    contentScale = ContentScale.FillHeight,
-                    contentDescription = contentDescription,
-                    modifier = Modifier
-                        .shadow(2.dp, shape = RoundedCornerShape(5.dp))
-                )
-            }
-        }
-    }
-}
-
 
 @Composable
 fun MediaBody(mediaDetails: MediaDetails) {
@@ -174,7 +147,7 @@ fun MediaBody(mediaDetails: MediaDetails) {
             .fillMaxSize()
             .background(color = Color.DarkGray)
             .verticalScroll(rememberScrollState())
-            .background(Color.Black)
+            .background(Background)
             .padding(
                 vertical = dimensionResource(R.dimen.default_padding),
                 horizontal = dimensionResource(R.dimen.screen_padding),
@@ -203,7 +176,7 @@ fun PersonsList(persons: List<Person>) {
                     vertical = dimensionResource(R.dimen.default_padding)
                 ),
                 horizontalArrangement = Arrangement
-                    .spacedBy(10.dp)
+                    .spacedBy(5.dp)
             ) {
                 items(persons) { person ->
                     PersonItem(person = person)
@@ -216,21 +189,7 @@ fun PersonsList(persons: List<Person>) {
 @Composable 
 fun PersonItem(person: Person) {
     Column {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data = person.getProfile())
-                .crossfade(true)
-                .build(),
-            modifier = Modifier
-                .background(Color.Black)
-                .fillMaxWidth()
-                .height(200.dp)
-                .width(dimensionResource(R.dimen.person_profiler_width))
-                .clip(RoundedCornerShape(5.dp)),
-            contentScale = ContentScale.FillHeight,
-            placeholder = painterResource(R.drawable.placeholder),
-            contentDescription = person.name,
-        )
+        BasicImage(url = person.getProfile(), contentDescription = person.name)
         PersonText(
             text = person.name,
             style = MaterialTheme.typography.subtitle1,
@@ -240,6 +199,31 @@ fun PersonItem(person: Person) {
             text = person.character,
             style = MaterialTheme.typography.caption,
             color = BlueTake,
+        )
+    }
+}
+
+@Composable
+fun BasicImage(
+    url: String,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    height: Dp = dimensionResource(R.dimen.image_height),
+) {
+    if (url.isNotEmpty()) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(data = url)
+                .crossfade(true)
+                .build(),
+            modifier = modifier
+                .background(Background)
+                .fillMaxWidth()
+                .height(height)
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
+            contentScale = ContentScale.FillHeight,
+            placeholder = painterResource(R.drawable.placeholder),
+            contentDescription = contentDescription,
         )
     }
 }
@@ -310,17 +294,9 @@ fun GenreItem(name: String) {
             .height(25.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = BlueTake,
-            backgroundColor = Color.Black,
+            backgroundColor = Background,
         )
     ) {
         Text(text = name, color = BlueTake, style = MaterialTheme.typography.caption)
     }
 }
-
-@Preview
-@Composable
-fun GenreListPreview() {
-    GenreList(genres = mutableListOf("A", "B").map { Genre(name = "Genre $it") })
-}
-
-

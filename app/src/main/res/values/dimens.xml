@@ -5,4 +5,6 @@
     <dimen name="screen_padding">16dp</dimen>
 
     <dimen name="person_profiler_width">140dp</dimen>
+    <dimen name="image_height">200dp</dimen>
+    <dimen name="corner">5dp</dimen>
 </resources>

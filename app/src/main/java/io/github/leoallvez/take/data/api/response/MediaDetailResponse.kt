@@ -1,7 +1,6 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import io.github.leoallvez.take.BuildConfig.IMG_URL
 
 data class MediaDetailResponse (
