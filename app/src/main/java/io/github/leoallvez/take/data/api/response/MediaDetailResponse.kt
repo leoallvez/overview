@@ -78,6 +78,15 @@ data class MediaDetailResponse (
     fun getOrderedCast(): List<Person> = credits.cast.sortedBy { it.order }
 
     fun releaseYear() = releaseDate.split("-").first()
+
+    fun getRuntimeFormatted() = if (runtime > 0) {
+        val hours = runtime / 60
+        val minutes = runtime % 60
+        "${hours}h ${minutes}m"
+    } else {
+        ""
+    }
+
 }
 
 data class Genre (

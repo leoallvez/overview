@@ -345,21 +345,7 @@ fun ScreenSubtitle(text: String) {
             color = Color.LightGray,
             style = MaterialTheme.typography.subtitle2,
             fontStyle = FontStyle.Italic,
-            modifier = Modifier.padding(vertical = 10.dp),
-        )
-    }
-}
-
-@Composable
-fun BodyText(text: String) {
-    Column {
-        BasicTitle(title = stringResource(R.string.synopsis))
-        Text(
-            text = text,
-            color = Color.White,
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
-            textAlign = TextAlign.Justify
+            modifier = Modifier.padding(vertical = 5.dp),
         )
     }
 }

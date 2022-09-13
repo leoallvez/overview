@@ -158,11 +158,74 @@ fun MediaBody(mediaDetails: MediaDetails) {
                 ScreenTitle(getMediaDetailsLetter())
                 ReleaseYear(releaseYear())
             }
+            Runtime(getRuntimeFormatted())
             GenreList(genres)
-            ScreenSubtitle(tagline)
-            BodyText(overview)
+            TaglineAndOverview(tagline, overview)
             PersonsList(getOrderedCast())
         }
+    }
+}
+
+@Composable
+fun Runtime(runtime: String) {
+    if (runtime.isNotEmpty()) {
+        Text(
+            text = stringResource(R.string.runtime, runtime),
+            color = Color.White,
+            style = MaterialTheme.typography.subtitle1
+        )
+    }
+}
+
+@Composable
+fun GenreList(genres: List<Genre>) {
+    if (genres.isNotEmpty()) {
+        LazyRow(
+            Modifier.padding(
+                vertical = dimensionResource(R.dimen.default_padding)
+            ),
+            horizontalArrangement = Arrangement
+                .spacedBy(dimensionResource(R.dimen.default_padding))
+        ) {
+            items(genres) { genre ->
+                GenreItem(name = genre.name)
+            }
+        }
+    }
+}
+
+@Composable
+fun GenreItem(name: String) {
+    OutlinedButton(
+        onClick = {},
+        shape = RoundedCornerShape(percent = 10),
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(R.dimen.default_padding)
+        ),
+        border = BorderStroke(1.dp, BlueTake),
+        modifier = Modifier
+            .height(25.dp),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = BlueTake,
+            backgroundColor = Background,
+        )
+    ) {
+        Text(text = name, color = BlueTake, style = MaterialTheme.typography.caption)
+    }
+}
+
+@Composable
+fun TaglineAndOverview(tagline: String, overview: String) {
+    Column {
+        BasicTitle(stringResource(R.string.synopsis))
+        ScreenSubtitle(tagline)
+        Text(
+            text = overview,
+            color = Color.White,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
+            textAlign = TextAlign.Justify
+        )
     }
 }
 
@@ -261,42 +324,5 @@ fun ReleaseYear(year: String) {
                 .fillMaxHeight()
                 .padding(dimensionResource(R.dimen.default_padding))
         )
-    }
-}
-
-@Composable
-fun GenreList(genres: List<Genre>) {
-    if (genres.isNotEmpty()) {
-        LazyRow(
-            Modifier.padding(
-                vertical = dimensionResource(R.dimen.default_padding)
-            ),
-            horizontalArrangement = Arrangement
-                .spacedBy(dimensionResource(R.dimen.default_padding))
-        ) {
-            items(genres) { genre ->
-                GenreItem(name = genre.name)
-            }
-        }
-    }
-}
-
-@Composable
-fun GenreItem(name: String) {
-    OutlinedButton(
-        onClick = {},
-        shape = RoundedCornerShape(percent = 10),
-        contentPadding = PaddingValues(
-            horizontal = dimensionResource(R.dimen.default_padding)
-        ),
-        border = BorderStroke(1.dp, BlueTake),
-        modifier = Modifier
-            .height(25.dp),
-        colors = ButtonDefaults.buttonColors(
-            contentColor = BlueTake,
-            backgroundColor = Background,
-        )
-    ) {
-        Text(text = name, color = BlueTake, style = MaterialTheme.typography.caption)
     }
 }
