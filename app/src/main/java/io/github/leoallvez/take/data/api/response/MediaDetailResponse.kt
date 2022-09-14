@@ -2,6 +2,7 @@ package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig.IMG_URL
+import io.github.leoallvez.take.data.model.MediaItem
 
 data class MediaDetailResponse (
     val adult: Boolean = false,
@@ -61,7 +62,9 @@ data class MediaDetailResponse (
 
     @field:Json(name = "vote_count")
     val voteCount: Long = 0L,
-    private val credits: Credits = Credits()
+
+    private val credits: Credits = Credits(),
+    val similar: Similar = Similar(),
 ) {
     private val mediaTitle: String?
         get() = title ?: originalTitle
@@ -86,8 +89,11 @@ data class MediaDetailResponse (
     } else {
         ""
     }
-
 }
+
+data class Similar (
+    val results: List<MediaItem> = listOf(),
+)
 
 data class Genre (
     val id: Long = 0,

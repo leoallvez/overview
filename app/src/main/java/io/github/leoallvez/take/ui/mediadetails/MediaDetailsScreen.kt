@@ -37,6 +37,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.data.api.response.Person
+import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
@@ -162,6 +163,7 @@ fun MediaBody(mediaDetails: MediaDetails) {
             GenreList(genres)
             TaglineAndOverview(tagline, overview)
             PersonsList(getOrderedCast())
+            MediaItemList(similar.results)
         }
     }
 }
@@ -253,15 +255,49 @@ fun PersonsList(persons: List<Person>) {
 fun PersonItem(person: Person) {
     Column {
         BasicImage(url = person.getProfile(), contentDescription = person.name)
-        PersonText(
+        BasicText(
             text = person.name,
             style = MaterialTheme.typography.subtitle1,
             isBold = true,
         )
-        PersonText(
+        BasicText(
             text = person.character,
             style = MaterialTheme.typography.caption,
             color = BlueTake,
+        )
+    }
+}
+
+@Composable
+fun MediaItemList(medias: List<MediaItem>) {
+    if (medias.isNotEmpty()) {
+        Column {
+            BasicTitle(title = stringResource(R.string.similar))
+            LazyRow (
+                Modifier.padding(
+                    vertical = dimensionResource(R.dimen.default_padding)
+                ),
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                items(medias) { media ->
+                    MediaItem(media)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MediaItem(mediaItem: MediaItem) {
+    Column {
+        BasicImage(
+            url = mediaItem.getItemPoster(),
+            contentDescription = mediaItem.getItemTitle()
+        )
+        BasicText(
+            text = mediaItem.getItemTitle(),
+            style = MaterialTheme.typography.body1,
+            //isBold = true,
         )
     }
 }
@@ -292,7 +328,7 @@ fun BasicImage(
 }
 
 @Composable
-fun PersonText(
+fun BasicText(
     text: String,
     style: TextStyle,
     color: Color = Color.White,

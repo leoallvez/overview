@@ -15,6 +15,7 @@
     <string name="release">Lançamento: %s</string>
     <string name="loading">Carregando...</string>
     <string name="runtime">Duração: %s</string>
+    <string name="similar">Similar</string>
 
     <string name="synopsis">Sinopse</string>
     <string name="cast">Elenco</string>

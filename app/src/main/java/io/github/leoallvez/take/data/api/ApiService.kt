@@ -37,7 +37,7 @@ interface ApiService {
         @Query(value = "region")
         region: String = "BR",
         @Query(value = "append_to_response")
-        appendToResponse: String = "credits"
+        appendToResponse: String = "credits,similar"
 
     ): NetworkResponse<MediaDetailResponse, ErrorResponse>
 
