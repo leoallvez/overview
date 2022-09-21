@@ -3,6 +3,7 @@ package io.github.leoallvez.take.data.source.mediaitem
 import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.response.ListContentResponse
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
+import io.github.leoallvez.take.data.api.response.ProviderResponse
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.data.source.parserResponseToResult
@@ -16,17 +17,25 @@ interface IMediaRemoteDataSource {
         apiId: Long,
         mediaType: String
     ): DataResult<MediaDetailResponse>
+
+    suspend fun getProvidersResult(
+        apiId: Long,
+        mediaType: String
+    ): DataResult<ProviderResponse>
 }
 
 class MediaRemoteDataSource @Inject constructor(
     private val _api: ApiService
 ) : IMediaRemoteDataSource {
 
-    override suspend fun getMediaItems(url: String) =
-        parserResponseToResult(response = _api.getMediaItems(url = url))
+    override suspend fun getMediaItems(url: String)
+        = parserResponseToResult(response = _api.getMediaItems(url = url))
 
-    override suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) =
-        parserResponseToResult(response = _api.requestMediaDetail(apiId = apiId, mediaType = mediaType))
+    override suspend fun getMediaDetailsResult(apiId: Long, mediaType: String)
+        = parserResponseToResult(response = _api.getMediaDetail(apiId = apiId, mediaType = mediaType))
+
+    override suspend fun getProvidersResult(apiId: Long, mediaType: String)
+        = parserResponseToResult(response = _api.getProviders(apiId = apiId, mediaType = mediaType))
 
 }
 

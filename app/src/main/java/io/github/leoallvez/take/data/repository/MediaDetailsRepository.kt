@@ -14,6 +14,7 @@ class MediaDetailsRepository @Inject constructor(
 
     suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) = withContext(_dispatcher) {
         return@withContext flow{
+            val providers = _dataSource.getProvidersResult(apiId, mediaType).data?.results
             emit(_dataSource.getMediaDetailsResult(apiId, mediaType))
         }
     }
