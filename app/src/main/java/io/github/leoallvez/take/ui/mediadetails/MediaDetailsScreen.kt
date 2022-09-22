@@ -37,6 +37,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.data.api.response.Person
+import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.Background
@@ -160,8 +161,9 @@ fun MediaBody(mediaDetails: MediaDetails) {
                 ReleaseYear(releaseYear())
             }
             Runtime(getRuntimeFormatted())
+            ProvidersList(providers)
             GenreList(genres)
-            TaglineAndOverview(tagline, overview)
+            Overview(overview)
             PersonsList(getOrderedCast())
             MediaItemList(similar.results)
         }
@@ -177,6 +179,35 @@ fun Runtime(runtime: String) {
             style = MaterialTheme.typography.subtitle1
         )
     }
+}
+
+@Composable
+fun ProvidersList(providers: List<ProviderPlace>) {
+    if (providers.isNotEmpty()) {
+        BasicTitle(stringResource(R.string.where_to_watch))
+        LazyRow (
+            Modifier.padding(
+                vertical = 10.dp
+            ),
+            horizontalArrangement = Arrangement
+                .spacedBy(dimensionResource(R.dimen.default_padding))
+        ) {
+            items(providers) { provider ->
+                ProviderItem(provider)
+            }
+        }
+    }
+}
+
+@Composable
+fun ProviderItem(provider: ProviderPlace) {
+    BasicImage(
+        url = provider.logoPath(),
+        contentDescription = provider.providerName,
+        Modifier
+            .width(50.dp)
+            .height(50.dp)
+    )
 }
 
 @Composable
@@ -217,10 +248,9 @@ fun GenreItem(name: String) {
 }
 
 @Composable
-fun TaglineAndOverview(tagline: String, overview: String) {
+fun Overview(overview: String) {
     Column {
         BasicTitle(stringResource(R.string.synopsis))
-        ScreenSubtitle(tagline)
         Text(
             text = overview,
             color = Color.White,
@@ -272,7 +302,7 @@ fun PersonItem(person: Person) {
 fun MediaItemList(medias: List<MediaItem>) {
     if (medias.isNotEmpty()) {
         Column {
-            BasicTitle(title = stringResource(R.string.similar))
+            BasicTitle(title = stringResource(R.string.related))
             LazyRow (
                 Modifier.padding(
                     vertical = dimensionResource(R.dimen.default_padding)

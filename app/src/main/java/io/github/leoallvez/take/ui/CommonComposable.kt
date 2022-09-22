@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -335,17 +334,4 @@ fun ScreenTitle(text: String) {
         style = MaterialTheme.typography.h6,
         fontWeight = FontWeight.Bold,
     )
-}
-
-@Composable
-fun ScreenSubtitle(text: String) {
-    if(text.isNotEmpty()) {
-        Text(
-            text = text,
-            color = Color.LightGray,
-            style = MaterialTheme.typography.subtitle2,
-            fontStyle = FontStyle.Italic,
-            modifier = Modifier.padding(vertical = 5.dp),
-        )
-    }
 }

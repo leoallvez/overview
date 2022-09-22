@@ -1,5 +1,8 @@
 package io.github.leoallvez.take.data.repository
 
+import io.github.leoallvez.take.data.api.response.Provider
+import io.github.leoallvez.take.data.api.response.ProviderPlace
+import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
 import io.github.leoallvez.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,9 +16,23 @@ class MediaDetailsRepository @Inject constructor(
 ) {
 
     suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) = withContext(_dispatcher) {
-        return@withContext flow{
-            val providers = _dataSource.getProvidersResult(apiId, mediaType).data?.results
-            emit(_dataSource.getMediaDetailsResult(apiId, mediaType))
+        return@withContext flow {
+            val result = _dataSource.getMediaDetailsResult(apiId, mediaType)
+            if (result is DataResult.Success) {
+               result.data?.providers = getProviders(apiId, mediaType)
+            }
+            emit(result)
+        }
+    }
+
+    private suspend fun getProviders(apiId: Long, mediaType: String): List<ProviderPlace> {
+        val result = _dataSource.getProvidersResult(apiId, mediaType)
+        val resultsMap = result.data?.results ?: mapOf()
+        val entries = resultsMap.filter { it.key == "BR" }.entries
+        return if(entries.isNotEmpty()) {
+            entries.first().value.flatRate.sortedBy { it.displayPriority }
+        } else {
+            listOf()
         }
     }
 }

@@ -19,4 +19,6 @@
 
     <string name="synopsis">Sinopse</string>
     <string name="cast">Elenco</string>
+    <string name="related">Relacionados</string>
+    <string name="where_to_watch">Onde assistir</string>
 </resources>

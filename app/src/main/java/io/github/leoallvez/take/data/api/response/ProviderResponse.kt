@@ -1,15 +1,15 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
+import io.github.leoallvez.take.BuildConfig
 
 data class ProviderResponse (
-    val id: Long,
-    val
-    results: Map<String, Provider>
+    private val id: Long,
+    val results: Map<String, Provider>
 )
 
 data class Provider (
-    val link: String,
+    private val link: String,
     @field:Json(name = "flatrate")
     val flatRate: List<ProviderPlace>
 )
@@ -17,8 +17,10 @@ data class Provider (
 class ProviderPlace(
     @field:Json(name = "display_priority")
     val displayPriority: Int = 0,
-    @field:Json(name = "provider_id")
-    val providerId: Long = 0,
+    @field:Json(name = "logo_path")
+    private val logoPath: String = "",
     @field:Json(name = "provider_name")
     val providerName: String = "",
-)
+) {
+    fun logoPath() = "${BuildConfig.IMG_URL}/$logoPath"
+}

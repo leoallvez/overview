@@ -65,6 +65,8 @@ data class MediaDetailResponse (
 
     private val credits: Credits = Credits(),
     val similar: Similar = Similar(),
+
+    var providers: List<ProviderPlace> = listOf()
 ) {
     private val mediaTitle: String?
         get() = title ?: originalTitle
