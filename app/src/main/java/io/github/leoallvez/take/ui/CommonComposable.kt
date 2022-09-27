@@ -331,7 +331,7 @@ fun ScreenTitle(text: String) {
     Text(
         text = text,
         color = BlueTake,
-        style = MaterialTheme.typography.h6,
+        style = MaterialTheme.typography.h5,
         fontWeight = FontWeight.Bold,
     )
 }

@@ -60,7 +60,9 @@ fun MediaDetailsScreen(
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
         is UiState.Success -> {
-            MediaDetailsContent(mediaDetails = uiState.data, nav)
+            MediaDetailsContent(mediaDetails = uiState.data, nav) {
+                viewModel.refresh(apiId, mediaType)
+            }
         }
         is UiState.Error -> {
             ErrorOnLoading {
@@ -73,10 +75,11 @@ fun MediaDetailsScreen(
 @Composable
 fun MediaDetailsContent(
     mediaDetails: MediaDetails?,
-    nav: NavController
+    nav: NavController,
+    refresh: () -> Unit
 ) {
     if (mediaDetails == null) {
-        ErrorOnLoading {}
+        ErrorOnLoading { refresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
             modifier = Modifier,
@@ -212,9 +215,9 @@ fun ProviderItem(provider: ProviderPlace) {
     BasicImage(
         url = provider.logoPath(),
         contentDescription = provider.providerName,
-        Modifier
-            .width(50.dp)
-            .height(50.dp)
+        modifier = Modifier
+            .size(50.dp)
+            .border(1.dp, Color.DarkGray, RoundedCornerShape(dimensionResource(R.dimen.corner)))
     )
 }
 
@@ -280,8 +283,6 @@ fun PersonsList(persons: List<Person>, nav: NavController) {
                 Modifier.padding(
                     vertical = dimensionResource(R.dimen.default_padding)
                 ),
-                horizontalArrangement = Arrangement
-                    .spacedBy(5.dp)
             ) {
                 items(persons) { person ->
                     PersonItem(person = person) {
@@ -304,12 +305,13 @@ fun PersonItem(person: Person, onClick: () -> Unit) {
             contentDescription = person.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(135.dp)
+                .size(120.dp)
                 .clip(CircleShape)
+                .border(1.dp, Color.DarkGray, CircleShape)
         )
         BasicText(
             text = person.name,
-            style = MaterialTheme.typography.body1,
+            style =  MaterialTheme.typography.caption,
             isBold = true,
         )
         BasicText(
@@ -351,7 +353,7 @@ fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
             contentDescription = mediaItem.getItemTitle()
         )
         BasicText(
-            text = mediaItem.getItemTitle()  + " id: ${mediaItem.apiId}",
+            text = mediaItem.getItemTitle(),
             style = MaterialTheme.typography.body1,
             isBold = true,
         )
