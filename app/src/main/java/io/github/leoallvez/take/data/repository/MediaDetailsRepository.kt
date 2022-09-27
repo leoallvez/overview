@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.repository
 
-import io.github.leoallvez.take.data.api.response.Provider
+import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
@@ -19,10 +19,15 @@ class MediaDetailsRepository @Inject constructor(
         return@withContext flow {
             val result = _dataSource.getMediaDetailsResult(apiId, mediaType)
             if (result is DataResult.Success) {
-               result.data?.providers = getProviders(apiId, mediaType)
+                setSimilarType(result.data, mediaType)
+                result.data?.providers = getProviders(apiId, mediaType)
             }
             emit(result)
         }
+    }
+
+    private fun setSimilarType(mediaDetails: MediaDetailResponse?, mediaType: String) {
+        mediaDetails?.similar?.results?.forEach { it.type = mediaType  }
     }
 
     private suspend fun getProviders(apiId: Long, mediaType: String): List<ProviderPlace> {

@@ -40,7 +40,7 @@ class MediaItem (
     var suggestionId: Long = 0,
     @field:Json(name = "media_type")
     @ColumnInfo(name = "media_type")
-    val type: String? = ""
+    var type: String? = ""
 ) {
     fun getItemTitle() = name ?: title ?: ""
 

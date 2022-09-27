@@ -1,13 +1,10 @@
 package io.github.leoallvez.take.ui.mediadetails
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -62,9 +59,7 @@ fun MediaDetailsScreen(
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
         is UiState.Success -> {
-            MediaDetailsContent(mediaDetails = uiState.data) {
-                nav.navigate(Screen.Home.route)
-            }
+            MediaDetailsContent(mediaDetails = uiState.data, nav)
         }
         is UiState.Error -> {
             ErrorOnLoading {
@@ -77,7 +72,7 @@ fun MediaDetailsScreen(
 @Composable
 fun MediaDetailsContent(
     mediaDetails: MediaDetails?,
-    callback: () -> Unit
+    nav: NavController
 ) {
     if (mediaDetails == null) {
         ErrorOnLoading {}
@@ -87,10 +82,12 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(mediaDetails) { callback.invoke() }
+                MediaToolBar(mediaDetails) {
+                    nav.navigate(Screen.Home.route)
+                }
             }
         ) {
-            MediaBody(mediaDetails)
+            MediaBody(mediaDetails, nav)
         }
     }
 }
@@ -143,7 +140,10 @@ fun MediaBackdrop(
 }
 
 @Composable
-fun MediaBody(mediaDetails: MediaDetails) {
+fun MediaBody(
+    mediaDetails: MediaDetails,
+    nav: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -165,7 +165,7 @@ fun MediaBody(mediaDetails: MediaDetails) {
             GenreList(genres)
             Overview(overview)
             PersonsList(getOrderedCast())
-            MediaItemList(similar.results)
+            MediaItemList(similar.results, nav)
         }
     }
 }
@@ -299,7 +299,7 @@ fun PersonItem(person: Person) {
 }
 
 @Composable
-fun MediaItemList(medias: List<MediaItem>) {
+fun MediaItemList(medias: List<MediaItem>, nav: NavController) {
     if (medias.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.related))
@@ -310,7 +310,11 @@ fun MediaItemList(medias: List<MediaItem>) {
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(medias) { media ->
-                    MediaItem(media)
+                    MediaItem(media) {
+                        nav.navigate(
+                            Screen.MediaDetails.editRoute(id = media.apiId, type = media.type)
+                        )
+                    }
                 }
             }
         }
@@ -318,8 +322,8 @@ fun MediaItemList(medias: List<MediaItem>) {
 }
 
 @Composable
-fun MediaItem(mediaItem: MediaItem) {
-    Column {
+fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
+    Column(Modifier.clickable { onClick.invoke() }) {
         BasicImage(
             url = mediaItem.getItemPoster(),
             contentDescription = mediaItem.getItemTitle()
@@ -327,7 +331,6 @@ fun MediaItem(mediaItem: MediaItem) {
         BasicText(
             text = mediaItem.getItemTitle(),
             style = MaterialTheme.typography.body1,
-            //isBold = true,
         )
     }
 }
