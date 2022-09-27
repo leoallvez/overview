@@ -33,8 +33,9 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.di.IsOnline
 import io.github.leoallvez.take.ui.Screen.Companion.ID_PARAM
 import io.github.leoallvez.take.ui.Screen.Companion.TYPE_PARAM
+import io.github.leoallvez.take.ui.cast_person.CastPersonScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
-import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
+import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.ui.theme.TakeTheme
 import io.github.leoallvez.take.util.getParams
@@ -73,7 +74,7 @@ class MainActivity : ComponentActivity() {
 fun TakeApp(isOnline: Boolean, analyticsLog: AnalyticsLogger) {
     Box {
         NavController(analyticsLog)
-        OfflineSnackbar(
+        OfflineSnackBar(
             isNotOnline = isOnline.not(),
             modifier = Modifier.align(Alignment.BottomEnd)
         )
@@ -107,11 +108,19 @@ fun NavController(logger: Logger) {
                 params = navBackStackEntry.getParams()
             )
         }
+        composable(
+            route = Screen.CastPerson.route,
+            arguments = listOf(
+                navArgument(name = ID_PARAM) { type = NavType.LongType}
+            )
+        ) {
+            CastPersonScreen()
+        }
     }
 }
 
 @Composable
-fun OfflineSnackbar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
+fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
     AnimatedVisibility(
         visible = isNotOnline,
         modifier = modifier

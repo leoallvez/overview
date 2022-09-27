@@ -12,6 +12,13 @@ sealed class Screen(val route: String, val name: String) {
         fun editRoute(id: Long, type: String?) = "media_detail/$id/$type"
     }
 
+    object CastPerson : Screen(
+        route = "cast_person/{$ID_PARAM}",
+        name = "CastPerson"
+    ) {
+        fun editRoute(id: Long) = "cast_person/$id"
+    }
+
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"

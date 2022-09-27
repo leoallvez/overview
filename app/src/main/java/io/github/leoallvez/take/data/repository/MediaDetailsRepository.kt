@@ -35,7 +35,7 @@ class MediaDetailsRepository @Inject constructor(
         val resultsMap = result.data?.results ?: mapOf()
         val entries = resultsMap.filter { it.key == "BR" }.entries
         return if(entries.isNotEmpty()) {
-            entries.first().value.flatRate.sortedBy { it.displayPriority }
+            entries.first().value.flatRate?.sortedBy { it.displayPriority } ?: listOf()
         } else {
             listOf()
         }

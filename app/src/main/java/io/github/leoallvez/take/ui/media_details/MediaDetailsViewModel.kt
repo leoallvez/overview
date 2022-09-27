@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.ui.mediadetails
+package io.github.leoallvez.take.ui.media_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +10,7 @@ import io.github.leoallvez.take.ui.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 private typealias MediaUiState = UiState<MediaDetailResponse?>
@@ -23,6 +24,7 @@ class MediaDetailsViewModel @Inject constructor(
     val uiState: StateFlow<MediaUiState> = _uiState
 
     fun loadMediaDetails(apiId: Long, mediaType: String) = viewModelScope.launch {
+        Timber.tag("loadMediaDetails").i("id: $apiId, type: $mediaType")
         _repository.getMediaDetailsResult(apiId, mediaType).collect { result ->
             val isSuccess = result is DataResult.Success
             _uiState.value = if (isSuccess) UiState.Success(result.data) else UiState.Error()

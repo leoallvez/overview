@@ -11,7 +11,7 @@ data class ProviderResponse (
 data class Provider (
     private val link: String,
     @field:Json(name = "flatrate")
-    val flatRate: List<ProviderPlace>
+    val flatRate: List<ProviderPlace>?
 )
 
 class ProviderPlace(

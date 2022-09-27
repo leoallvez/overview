@@ -1,9 +1,10 @@
-package io.github.leoallvez.take.ui.mediadetails
+package io.github.leoallvez.take.ui.media_details
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -156,25 +157,32 @@ fun MediaBody(
             ),
     ) {
         mediaDetails.apply {
-            Row(Modifier.padding(bottom = 10.dp)) {
-                ScreenTitle(getMediaDetailsLetter())
-                ReleaseYear(releaseYear())
-            }
-            Runtime(getRuntimeFormatted())
+            ScreenTitle(getMediaDetailsLetter())
+            ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
             ProvidersList(providers)
             GenreList(genres)
             Overview(overview)
-            PersonsList(getOrderedCast())
+            PersonsList(getOrderedCast(), nav)
             MediaItemList(similar.results, nav)
         }
     }
 }
 
 @Composable
-fun Runtime(runtime: String) {
-    if (runtime.isNotEmpty()) {
+fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
+    Row(Modifier.padding(vertical = 10.dp)) {
+        val showSeparator = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
+        SimpleSubtitle(releaseYear)
+        SimpleSubtitle(" • ", display = showSeparator)
+        SimpleSubtitle(runtime)
+    }
+}
+
+@Composable
+fun SimpleSubtitle(subtitle: String, display: Boolean = true) {
+    if (subtitle.isNotEmpty() && display) {
         Text(
-            text = stringResource(R.string.runtime, runtime),
+            text = subtitle,
             color = Color.White,
             style = MaterialTheme.typography.subtitle1
         )
@@ -249,20 +257,22 @@ fun GenreItem(name: String) {
 
 @Composable
 fun Overview(overview: String) {
-    Column {
-        BasicTitle(stringResource(R.string.synopsis))
-        Text(
-            text = overview,
-            color = Color.White,
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
-            textAlign = TextAlign.Justify
-        )
+    if (overview.isNotBlank()) {
+        Column {
+            BasicTitle(stringResource(R.string.synopsis))
+            Text(
+                text = overview,
+                color = Color.White,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
+                textAlign = TextAlign.Justify
+            )
+        }
     }
 }
 
 @Composable
-fun PersonsList(persons: List<Person>) {
+fun PersonsList(persons: List<Person>, nav: NavController) {
     if (persons.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
@@ -274,7 +284,9 @@ fun PersonsList(persons: List<Person>) {
                     .spacedBy(5.dp)
             ) {
                 items(persons) { person ->
-                    PersonItem(person = person)
+                    PersonItem(person = person) {
+                        nav.navigate(route = Screen.CastPerson.editRoute(person.id))
+                    }
                 }
             }
         }
@@ -282,12 +294,22 @@ fun PersonsList(persons: List<Person>) {
 }
 
 @Composable 
-fun PersonItem(person: Person) {
-    Column {
-        BasicImage(url = person.getProfile(), contentDescription = person.name)
+fun PersonItem(person: Person, onClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable { onClick.invoke() }
+    ) {
+        BasicImage(
+            url = person.getProfile(),
+            contentDescription = person.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(135.dp)
+                .clip(CircleShape)
+        )
         BasicText(
             text = person.name,
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.body1,
             isBold = true,
         )
         BasicText(
@@ -329,8 +351,9 @@ fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
             contentDescription = mediaItem.getItemTitle()
         )
         BasicText(
-            text = mediaItem.getItemTitle(),
+            text = mediaItem.getItemTitle()  + " id: ${mediaItem.apiId}",
             style = MaterialTheme.typography.body1,
+            isBold = true,
         )
     }
 }
@@ -341,6 +364,7 @@ fun BasicImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     height: Dp = dimensionResource(R.dimen.image_height),
+    contentScale: ContentScale = ContentScale.FillHeight
 ) {
     if (url.isNotEmpty()) {
         AsyncImage(
@@ -353,7 +377,7 @@ fun BasicImage(
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
-            contentScale = ContentScale.FillHeight,
+            contentScale = contentScale,
             placeholder = painterResource(R.drawable.placeholder),
             contentDescription = contentDescription,
         )
@@ -381,17 +405,3 @@ fun BasicText(
     )
 }
 
-@Composable
-fun ReleaseYear(year: String) {
-    if(year.isNotEmpty()) {
-        Text(
-            text = year,
-            style = MaterialTheme.typography.subtitle2,
-            color = Color.White,
-            fontWeight = FontWeight.Light,
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(dimensionResource(R.dimen.default_padding))
-        )
-    }
-}
