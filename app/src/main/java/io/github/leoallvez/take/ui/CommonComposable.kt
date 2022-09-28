@@ -6,6 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,12 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,12 +35,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
+import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
 import me.onebone.toolbar.CollapsingToolbarScope
 
@@ -239,13 +245,13 @@ fun StylizedButton(
         )
     ) {
         Icon(
-            Icons.Filled.Refresh,
-            contentDescription = stringResource(R.string.refresh_icon),
+            iconImageVector,
+            contentDescription = iconDescription,
             modifier = Modifier.size(ButtonDefaults.IconSize),
             tint = BlueTake
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(text = stringResource(R.string.btn_try_again), color = BlueTake)
+        Text(text = buttonText, color = BlueTake)
     }
 }
 
@@ -334,4 +340,103 @@ fun ScreenTitle(text: String) {
         style = MaterialTheme.typography.h5,
         fontWeight = FontWeight.Bold,
     )
+}
+
+@Composable
+fun MediaItemList(medias: List<MediaItem>, navigation: NavController) {
+    if (medias.isNotEmpty()) {
+        Column {
+            BasicTitle(title = stringResource(R.string.related))
+            LazyRow (
+                Modifier.padding(
+                    vertical = dimensionResource(R.dimen.default_padding)
+                ),
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                items(medias) { media ->
+                    MediaItem(media) {
+                        navigation.navigate(
+                            Screen.MediaDetails.editRoute(id = media.apiId, type = media.type)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
+    Column(Modifier.clickable { onClick.invoke() }) {
+        BasicImage(
+            url = mediaItem.getItemPoster(),
+            contentDescription = mediaItem.getItemTitle(),
+        )
+        BasicText(
+            text = mediaItem.getItemTitle(),
+            style = MaterialTheme.typography.body1,
+            isBold = true,
+        )
+    }
+}
+
+@Composable
+fun BasicImage(
+    url: String,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    height: Dp = dimensionResource(R.dimen.image_height),
+    contentScale: ContentScale = ContentScale.FillHeight,
+    placeholder: Painter = painterResource(R.drawable.placeholder),
+    errorDefaultImage: Painter = painterResource(R.drawable.placeholder)
+) {
+    if (url.isNotEmpty()) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(data = url)
+                .crossfade(true)
+                .build(),
+            modifier = modifier
+                .background(Background)
+                .fillMaxWidth()
+                .height(height)
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
+            contentScale = contentScale,
+            placeholder = placeholder,
+            contentDescription = contentDescription,
+            error = errorDefaultImage,
+        )
+    }
+}
+
+@Composable
+fun BasicText(
+    text: String,
+    style: TextStyle,
+    color: Color = Color.White,
+    isBold: Boolean = false
+) {
+    Text(
+        color = color,
+        text = text,
+        modifier = Modifier
+            .padding(top = 3.dp)
+            .width(dimensionResource(R.dimen.person_profiler_width)),
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
+        textAlign = TextAlign.Center,
+        fontWeight = if(isBold) FontWeight.Bold else FontWeight.Normal,
+        style = style,
+    )
+}
+
+@Composable
+fun SimpleSubtitle(text: String, display: Boolean = true) {
+    if (text.isNotEmpty() && display) {
+        Text(
+            text = text,
+            color = Color.White,
+            style = MaterialTheme.typography.subtitle1
+        )
+    }
 }

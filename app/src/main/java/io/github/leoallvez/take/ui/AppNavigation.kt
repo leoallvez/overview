@@ -19,6 +19,13 @@ sealed class Screen(val route: String, val name: String) {
         fun editRoute(id: Long) = "cast_person/$id"
     }
 
+    object Discover : Screen(
+        route = "discover/{$ID_PARAM}",
+        name = "Discover"
+    ) {
+        fun editRoute(id: Long) = "discover/$id"
+    }
+
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"

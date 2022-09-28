@@ -34,6 +34,7 @@ import io.github.leoallvez.take.di.IsOnline
 import io.github.leoallvez.take.ui.Screen.Companion.ID_PARAM
 import io.github.leoallvez.take.ui.Screen.Companion.TYPE_PARAM
 import io.github.leoallvez.take.ui.cast_person.CastPersonScreen
+import io.github.leoallvez.take.ui.discover.DiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
@@ -115,6 +116,14 @@ fun NavController(logger: Logger) {
             )
         ) {
             CastPersonScreen()
+        }
+        composable(
+            route = Screen.Discover.route,
+            arguments = listOf(
+                navArgument(name = ID_PARAM) { type = NavType.LongType}
+            )
+        ) {
+            DiscoverScreen()
         }
     }
 }

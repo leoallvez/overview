@@ -6,7 +6,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
@@ -21,11 +24,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -36,13 +36,14 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.data.api.response.Person
 import io.github.leoallvez.take.data.api.response.ProviderPlace
-import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
+import io.github.leoallvez.take.ui.theme.BorderColor
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import timber.log.Timber
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
@@ -60,7 +61,7 @@ fun MediaDetailsScreen(
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
         is UiState.Success -> {
-            MediaDetailsContent(mediaDetails = uiState.data, nav) {
+            MediaDetailsContent(mediaDetails = uiState.data, navigation = nav) {
                 viewModel.refresh(apiId, mediaType)
             }
         }
@@ -75,7 +76,7 @@ fun MediaDetailsScreen(
 @Composable
 fun MediaDetailsContent(
     mediaDetails: MediaDetails?,
-    nav: NavController,
+    navigation: NavController,
     refresh: () -> Unit
 ) {
     if (mediaDetails == null) {
@@ -87,11 +88,11 @@ fun MediaDetailsContent(
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
                 MediaToolBar(mediaDetails) {
-                    nav.navigate(Screen.Home.route)
+                    navigation.navigate(Screen.Home.route)
                 }
             }
         ) {
-            MediaBody(mediaDetails, nav)
+            MediaBody(mediaDetails, navigation)
         }
     }
 }
@@ -162,11 +163,11 @@ fun MediaBody(
         mediaDetails.apply {
             ScreenTitle(getMediaDetailsLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
-            ProvidersList(providers)
-            GenreList(genres)
+            ProvidersList(providers, navigation = nav)
+            GenreList(genres, navigation = nav)
             Overview(overview)
-            PersonsList(getOrderedCast(), nav)
-            MediaItemList(similar.results, nav)
+            PersonsList(getOrderedCast(), navigation = nav)
+            MediaItemList(similar.results, navigation = nav)
         }
     }
 }
@@ -174,26 +175,17 @@ fun MediaBody(
 @Composable
 fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
     Row(Modifier.padding(vertical = 10.dp)) {
-        val showSeparator = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
-        SimpleSubtitle(releaseYear)
-        SimpleSubtitle(" • ", display = showSeparator)
-        SimpleSubtitle(runtime)
-    }
-}
-
-@Composable
-fun SimpleSubtitle(subtitle: String, display: Boolean = true) {
-    if (subtitle.isNotEmpty() && display) {
-        Text(
-            text = subtitle,
-            color = Color.White,
-            style = MaterialTheme.typography.subtitle1
+        SimpleSubtitle(text = releaseYear)
+        SimpleSubtitle(
+            text = stringResource(R.string.separator),
+            display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
         )
+        SimpleSubtitle(text = runtime)
     }
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>) {
+fun ProvidersList(providers: List<ProviderPlace>, navigation: NavController) {
     if (providers.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow (
@@ -204,25 +196,32 @@ fun ProvidersList(providers: List<ProviderPlace>) {
                 .spacedBy(dimensionResource(R.dimen.default_padding))
         ) {
             items(providers) { provider ->
-                ProviderItem(provider)
+                ProviderItem(provider) {
+                    navigation.navigate(Screen.Discover.editRoute(provider.id))
+                }
             }
         }
     }
 }
 
 @Composable
-fun ProviderItem(provider: ProviderPlace) {
+fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
     BasicImage(
         url = provider.logoPath(),
         contentDescription = provider.providerName,
         modifier = Modifier
             .size(50.dp)
-            .border(1.dp, Color.DarkGray, RoundedCornerShape(dimensionResource(R.dimen.corner)))
+            .border(
+                dimensionResource(R.dimen.border_width),
+                BorderColor,
+                RoundedCornerShape(dimensionResource(R.dimen.corner))
+            )
+            .clickable { onClick.invoke() }
     )
 }
 
 @Composable
-fun GenreList(genres: List<Genre>) {
+fun GenreList(genres: List<Genre>, navigation: NavController) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -232,16 +231,19 @@ fun GenreList(genres: List<Genre>) {
                 .spacedBy(dimensionResource(R.dimen.default_padding))
         ) {
             items(genres) { genre ->
-                GenreItem(name = genre.name)
+                GenreItem(name = genre.name) {
+                    Timber.tag("click_example").i("click in genre!")
+                    navigation.navigate(Screen.Discover.editRoute(genre.id))
+                }
             }
         }
     }
 }
 
 @Composable
-fun GenreItem(name: String) {
+fun GenreItem(name: String, onClick: () -> Unit) {
     OutlinedButton(
-        onClick = {},
+        onClick = { onClick.invoke() },
         shape = RoundedCornerShape(percent = 10),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
@@ -251,10 +253,15 @@ fun GenreItem(name: String) {
             .height(25.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = BlueTake,
-            backgroundColor = Background,
-        )
+            backgroundColor = BlueTake,
+        ),
     ) {
-        Text(text = name, color = BlueTake, style = MaterialTheme.typography.caption)
+        Text(
+            text = name,
+            color = Background,
+            style = MaterialTheme.typography.caption,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
@@ -275,7 +282,7 @@ fun Overview(overview: String) {
 }
 
 @Composable
-fun PersonsList(persons: List<Person>, nav: NavController) {
+fun PersonsList(persons: List<Person>, navigation: NavController) {
     if (persons.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
@@ -286,7 +293,7 @@ fun PersonsList(persons: List<Person>, nav: NavController) {
             ) {
                 items(persons) { person ->
                     PersonItem(person = person) {
-                        nav.navigate(route = Screen.CastPerson.editRoute(person.id))
+                        navigation.navigate(route = Screen.CastPerson.editRoute(person.id))
                     }
                 }
             }
@@ -307,7 +314,9 @@ fun PersonItem(person: Person, onClick: () -> Unit) {
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
-                .border(1.dp, Color.DarkGray, CircleShape)
+                .border(dimensionResource(R.dimen.border_width), BorderColor, CircleShape),
+            placeholder = painterResource(R.drawable.avatar),
+            errorDefaultImage = painterResource(R.drawable.avatar)
         )
         BasicText(
             text = person.name,
@@ -321,89 +330,3 @@ fun PersonItem(person: Person, onClick: () -> Unit) {
         )
     }
 }
-
-@Composable
-fun MediaItemList(medias: List<MediaItem>, nav: NavController) {
-    if (medias.isNotEmpty()) {
-        Column {
-            BasicTitle(title = stringResource(R.string.related))
-            LazyRow (
-                Modifier.padding(
-                    vertical = dimensionResource(R.dimen.default_padding)
-                ),
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                items(medias) { media ->
-                    MediaItem(media) {
-                        nav.navigate(
-                            Screen.MediaDetails.editRoute(id = media.apiId, type = media.type)
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
-    Column(Modifier.clickable { onClick.invoke() }) {
-        BasicImage(
-            url = mediaItem.getItemPoster(),
-            contentDescription = mediaItem.getItemTitle()
-        )
-        BasicText(
-            text = mediaItem.getItemTitle(),
-            style = MaterialTheme.typography.body1,
-            isBold = true,
-        )
-    }
-}
-
-@Composable
-fun BasicImage(
-    url: String,
-    contentDescription: String?,
-    modifier: Modifier = Modifier,
-    height: Dp = dimensionResource(R.dimen.image_height),
-    contentScale: ContentScale = ContentScale.FillHeight
-) {
-    if (url.isNotEmpty()) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data = url)
-                .crossfade(true)
-                .build(),
-            modifier = modifier
-                .background(Background)
-                .fillMaxWidth()
-                .height(height)
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
-            contentScale = contentScale,
-            placeholder = painterResource(R.drawable.placeholder),
-            contentDescription = contentDescription,
-        )
-    }
-}
-
-@Composable
-fun BasicText(
-    text: String,
-    style: TextStyle,
-    color: Color = Color.White,
-    isBold: Boolean = false
-) {
-    Text(
-        color = color,
-        text = text,
-        modifier = Modifier
-            .padding(top = 3.dp)
-            .width(dimensionResource(R.dimen.person_profiler_width)),
-        maxLines = 3,
-        overflow = TextOverflow.Ellipsis,
-        textAlign = TextAlign.Center,
-        fontWeight = if(isBold) FontWeight.Bold else FontWeight.Normal,
-        style = style,
-    )
-}
-

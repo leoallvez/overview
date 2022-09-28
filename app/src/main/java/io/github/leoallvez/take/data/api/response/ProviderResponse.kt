@@ -15,6 +15,7 @@ data class Provider (
 )
 
 class ProviderPlace(
+    val id: Long = 0L,
     @field:Json(name = "display_priority")
     val displayPriority: Int = 0,
     @field:Json(name = "logo_path")

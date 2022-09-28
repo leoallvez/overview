@@ -181,7 +181,7 @@ fun SuggestionVerticalList(
             MediaHorizontalList(
                 title = LocalContext.current.getStringByName(it.titleResourceId),
                 mediaType = it.type,
-                nav = nav,
+                nav,
                 items = it.items,
             )
         }
