@@ -175,11 +175,14 @@ fun MediaBody(
 @Composable
 fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
     Row(Modifier.padding(vertical = 10.dp)) {
+        val spacerModifier = Modifier.padding(horizontal = 2.dp)
         SimpleSubtitle(text = releaseYear)
+        Spacer(modifier = spacerModifier)
         SimpleSubtitle(
             text = stringResource(R.string.separator),
             display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
         )
+        Spacer(modifier = spacerModifier)
         SimpleSubtitle(text = runtime)
     }
 }

@@ -65,9 +65,7 @@ data class MediaDetailResponse (
     fun getReleaseYear() = releaseDate.split("-").first()
 
     fun getRuntimeFormatted() = if (runtime > 0) {
-        val hours = runtime / 60
-        val minutes = runtime % 60
-        "${hours}h ${minutes}m"
+        "${runtime/60}h ${runtime%60}min"
     } else {
         ""
     }
