@@ -3,9 +3,11 @@ package io.github.leoallvez.take.ui.home
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -15,8 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -28,6 +30,7 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
 import io.github.leoallvez.take.util.getStringByName
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -46,7 +49,7 @@ fun HomeScreen(
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featured = viewModel.featured.observeAsState(listOf()).value
-    val loading = viewModel.loading.observeAsState(true).value
+    val loading = viewModel.loading.observeAsState(initial = true).value
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
     if(loading) {
@@ -63,11 +66,7 @@ fun HomeScreen(
                     }
                 },
             ) {
-                HomeScreenContent(
-                    suggestions = suggestions,
-                    adsBannerIsVisible = showAds,
-                    nav = nav,
-                )
+                HomeScreenContent(suggestions = suggestions, showAds = showAds, nav = nav)
             }
         } else {
             Toast.makeText(
@@ -91,8 +90,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
         painter = Icons.Filled.Search,
         descriptionResource = R.string.back_to_home_icon,
         iconTint = BlueTake,
-        modifier = Modifier
-            .road(Alignment.TopEnd, Alignment.TopEnd)
+        modifier = Modifier.road(Alignment.TopEnd, Alignment.TopEnd)
     ) { }
 }
 
@@ -123,7 +121,7 @@ private fun CollapsingToolbarScope.HorizontalCardSlider(
             pagerState = pagerState,
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(16.dp),
+                .padding(dimensionResource(R.dimen.screen_padding)),
             inactiveColor = Color.Gray,
             activeColor = BlueTake,
         )
@@ -143,25 +141,19 @@ fun CollapsingToolbarScope.CardSliderImage(item: MediaItem) {
 @Composable
 fun HomeScreenContent(
     suggestions: List<MediaSuggestion>,
-    adsBannerIsVisible: Boolean,
+    showAds: Boolean,
     nav: NavController,
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.DarkGray)
-            .background(Color.Black)
+            .background(Background)
+            .padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
         Column {
-            AdsBanner(
-                bannerId = R.string.banner_sample_id,
-                isVisible = adsBannerIsVisible,
-            )
-            SuggestionVerticalList(
-                nav = nav,
-                suggestions = suggestions
-            )
+            AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAds)
+            SuggestionVerticalList(nav = nav, suggestions = suggestions)
         }
     }
 }
@@ -173,29 +165,12 @@ fun SuggestionVerticalList(
 ) {
     LazyColumn {
         items(suggestions) {
-            MediaHorizontalList(
-                title = LocalContext.current.getStringByName(it.titleResourceId),
-                mediaType = it.type,
-                nav,
-                items = it.items,
+            MediaItemList(
+                listTitle = LocalContext.current.getStringByName(it.titleResourceId),
+                medias = it.items,
+                navigation = nav,
+                mediaType = it.type
             )
-        }
-    }
-}
-
-@Composable
-fun MediaHorizontalList(
-    title: String,
-    mediaType: String,
-    nav: NavController,
-    items: List<MediaItem>,
-) {
-    ListTitle(title)
-    LazyRow {
-        items(items) { item ->
-            MediaCard(item) { mediaId: Long ->
-                nav.navigate(Screen.MediaDetails.editRoute(id = mediaId, type = mediaType))
-            }
         }
     }
 }

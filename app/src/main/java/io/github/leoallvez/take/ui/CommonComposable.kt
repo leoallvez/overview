@@ -343,10 +343,15 @@ fun ScreenTitle(text: String) {
 }
 
 @Composable
-fun MediaItemList(medias: List<MediaItem>, navigation: NavController) {
+fun MediaItemList(
+    listTitle:String,
+    medias: List<MediaItem>,
+    navigation: NavController,
+    mediaType: String? = null
+) {
     if (medias.isNotEmpty()) {
         Column {
-            BasicTitle(title = stringResource(R.string.related))
+            BasicTitle(listTitle)
             LazyRow (
                 Modifier.padding(
                     vertical = dimensionResource(R.dimen.default_padding)
@@ -356,7 +361,7 @@ fun MediaItemList(medias: List<MediaItem>, navigation: NavController) {
                 items(medias) { media ->
                     MediaItem(media) {
                         navigation.navigate(
-                            Screen.MediaDetails.editRoute(id = media.apiId, type = media.type)
+                            Screen.MediaDetails.editRoute(id = media.apiId, type = mediaType ?: media.type)
                         )
                     }
                 }

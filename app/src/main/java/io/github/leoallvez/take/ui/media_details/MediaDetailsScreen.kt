@@ -41,7 +41,6 @@ import io.github.leoallvez.take.ui.theme.BorderColor
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
@@ -133,13 +132,9 @@ fun MediaBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.DarkGray)
             .verticalScroll(rememberScrollState())
             .background(Background)
-            .padding(
-                vertical = dimensionResource(R.dimen.default_padding),
-                horizontal = dimensionResource(R.dimen.screen_padding),
-            ),
+            .padding(dimensionResource(R.dimen.default_padding)),
     ) {
         mediaDetails.apply {
             ScreenTitle(getMediaDetailsLetter())
@@ -152,7 +147,11 @@ fun MediaBody(
                 isVisible = showAds,
             )
             PersonsList(getOrderedCast(), navigation = nav)
-            MediaItemList(similar.results, navigation = nav)
+            MediaItemList(
+                listTitle = stringResource(R.string.related),
+                medias = similar.results,
+                navigation = nav
+            )
         }
     }
 }
@@ -220,7 +219,6 @@ fun GenreList(genres: List<Genre>, navigation: NavController) {
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
-                    Timber.tag("click_example").i("click in genre!")
                     navigation.navigate(Screen.Discover.editRoute(genre.id))
                 }
             }
