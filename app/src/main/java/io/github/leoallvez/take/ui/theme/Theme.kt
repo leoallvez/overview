@@ -4,24 +4,15 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
-
 private val TakeColorPalette = lightColors(
     primary = Black200,
     primaryVariant = Black200,
     secondary = Black200,
     surface = Black200,
-
-    /* Other default colors to override
-    background = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-*/
 )
 
 @Composable
-fun TakeTheme(content: @Composable() () -> Unit) {
+fun TakeTheme(content: @Composable () -> Unit) {
 
     MaterialTheme(
         colors = TakeColorPalette,

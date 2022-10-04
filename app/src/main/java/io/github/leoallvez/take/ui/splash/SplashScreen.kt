@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -23,6 +22,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.Screen
 import io.github.leoallvez.take.ui.TrackScreenView
+import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
 import kotlinx.coroutines.delay
 
@@ -55,11 +55,11 @@ fun SplashScreen(nav: NavController, logger: Logger) {
 @Composable
 fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.Black),
+        modifier = Modifier.fillMaxSize().background(Background),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = stringResource(id = R.string.app_global_name),
+            text = stringResource(R.string.app_global_name),
             style = MaterialTheme.typography.overline,
             fontSize = 150.sp,
             modifier = Modifier

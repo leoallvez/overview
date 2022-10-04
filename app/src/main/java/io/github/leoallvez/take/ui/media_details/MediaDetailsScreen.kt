@@ -64,11 +64,7 @@ fun MediaDetailsScreen(
                 viewModel.refresh(apiId, mediaType)
             }
         }
-        is UiState.Error -> {
-            ErrorOnLoading {
-                viewModel.refresh(apiId, mediaType)
-            }
-        }
+        is UiState.Error -> ErrorOnLoading { viewModel.refresh(apiId, mediaType) }
     }
 }
 

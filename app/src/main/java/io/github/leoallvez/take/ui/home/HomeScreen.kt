@@ -1,6 +1,5 @@
 package io.github.leoallvez.take.ui.home
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -69,12 +67,7 @@ fun HomeScreen(
                 HomeScreenContent(suggestions = suggestions, showAds = showAds, nav = nav)
             }
         } else {
-            Toast.makeText(
-                LocalContext.current,
-                stringResource(id = R.string.error_on_loading),
-                Toast.LENGTH_LONG
-            ).show()
-            ErrorOnLoading(refresh = { viewModel.refresh() })
+            ErrorOnLoading { viewModel.refresh() }
         }
     }
 }
@@ -165,11 +158,9 @@ fun SuggestionVerticalList(
 ) {
     LazyColumn {
         items(suggestions) {
+            val title = LocalContext.current.getStringByName(it.titleResourceId)
             MediaItemList(
-                listTitle = LocalContext.current.getStringByName(it.titleResourceId),
-                medias = it.items,
-                navigation = nav,
-                mediaType = it.type
+                listTitle = title, medias = it.items, navigation = nav, mediaType = it.type
             )
         }
     }
