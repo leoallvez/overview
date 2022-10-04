@@ -1,30 +1,45 @@
 package io.github.leoallvez.take.ui
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Snackbar
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.leoallvez.take.di.IsOnline
-import io.github.leoallvez.take.ui.home.HomeScreen
-import io.github.leoallvez.take.ui.splash.SplashScreen
-import io.github.leoallvez.take.ui.theme.TakeTheme
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import io.github.leoallvez.take.R
 import io.github.leoallvez.take.AnalyticsLogger
 import io.github.leoallvez.take.Logger
+import io.github.leoallvez.take.R
+import io.github.leoallvez.take.di.IsOnline
+import io.github.leoallvez.take.ui.Screen.Companion.ID_PARAM
+import io.github.leoallvez.take.ui.Screen.Companion.TYPE_PARAM
+import io.github.leoallvez.take.ui.cast_person.CastPersonScreen
+import io.github.leoallvez.take.ui.discover.DiscoverScreen
+import io.github.leoallvez.take.ui.home.HomeScreen
+import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
+import io.github.leoallvez.take.ui.splash.SplashScreen
+import io.github.leoallvez.take.ui.theme.TakeTheme
+import io.github.leoallvez.take.util.getParams
 import javax.inject.Inject
 
 @ExperimentalPagerApi
@@ -60,7 +75,7 @@ class MainActivity : ComponentActivity() {
 fun TakeApp(isOnline: Boolean, analyticsLog: AnalyticsLogger) {
     Box {
         NavController(analyticsLog)
-        OfflineSnackbar(
+        OfflineSnackBar(
             isNotOnline = isOnline.not(),
             modifier = Modifier.align(Alignment.BottomEnd)
         )
@@ -76,21 +91,59 @@ fun NavController(logger: Logger) {
         startDestination = Screen.Splash.route
     ) {
         composable(route = Screen.Splash.route) {
-            SplashScreen(nav = navController, logger)
+            SplashScreen(nav = navController,logger = logger)
         }
         composable(route = Screen.Home.route) {
-            HomeScreen(logger = logger)
+            HomeScreen(nav = navController, logger = logger)
+        }
+        composable(
+            route = Screen.MediaDetails.route,
+            arguments = listOf(
+                navArgument(name = ID_PARAM) { type = NavType.LongType },
+                navArgument(name = TYPE_PARAM) { type = NavType.StringType },
+            )
+        ) { navBackStackEntry ->
+            MediaDetailsScreen(
+                nav = navController,
+                logger = logger,
+                params = navBackStackEntry.getParams()
+            )
+        }
+        composable(
+            route = Screen.CastPerson.route,
+            arguments = listOf(
+                navArgument(name = ID_PARAM) { type = NavType.LongType}
+            )
+        ) {
+            CastPersonScreen()
+        }
+        composable(
+            route = Screen.Discover.route,
+            arguments = listOf(
+                navArgument(name = ID_PARAM) { type = NavType.LongType}
+            )
+        ) {
+            DiscoverScreen()
         }
     }
 }
 
 @Composable
-fun OfflineSnackbar(isNotOnline: Boolean, modifier :Modifier) {
-    if (isNotOnline) {
+fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
+    AnimatedVisibility(
+        visible = isNotOnline,
+        modifier = modifier
+    ) {
         Snackbar(
-            modifier = modifier.padding(8.dp)
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
         ) {
-            Text(text = stringResource(id = R.string.app_offline_msg))
+            Text(
+                text = stringResource(R.string.app_offline_msg),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

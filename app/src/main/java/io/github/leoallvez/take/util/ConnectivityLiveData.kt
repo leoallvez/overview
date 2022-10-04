@@ -5,20 +5,20 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import javax.inject.Inject
 
+private fun Application.getConnectivityManager(): ConnectivityManager {
+    return this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+}
+
 class ConnectivityLiveData(
-    private val connectivityManager: ConnectivityManager
+    private val _connectivityManager: ConnectivityManager
 ) : LiveData<Boolean>() {
 
-    @Inject constructor(application: Application) : this(application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+    @Inject constructor(app: Application) : this(app.getConnectivityManager())
 
-    private val networkCallback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-
-    object : ConnectivityManager.NetworkCallback() {
+    private val _networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
             postValue(true)
@@ -30,16 +30,14 @@ class ConnectivityLiveData(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onActive() {
         super.onActive()
         val builder = NetworkRequest.Builder()
-        connectivityManager.registerNetworkCallback(builder.build(),networkCallback)
+        _connectivityManager.registerNetworkCallback(builder.build(),_networkCallback)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onInactive() {
         super.onInactive()
-        connectivityManager.unregisterNetworkCallback(networkCallback)
+        _connectivityManager.unregisterNetworkCallback(_networkCallback)
     }
 }

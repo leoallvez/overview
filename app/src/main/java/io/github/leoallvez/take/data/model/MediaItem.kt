@@ -29,7 +29,7 @@ class MediaItem (
     val title: String?,
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @field:Json(name = "backdrop_path")
     @ColumnInfo(name = "backdrop_path")
     val backdropPath: String?,
@@ -38,6 +38,9 @@ class MediaItem (
     val voteAverage: Double,
     @ColumnInfo(name = "suggestion_id", index = true)
     var suggestionId: Long = 0,
+    @field:Json(name = "media_type")
+    @ColumnInfo(name = "media_type")
+    var type: String? = ""
 ) {
     fun getItemTitle() = name ?: title ?: ""
 

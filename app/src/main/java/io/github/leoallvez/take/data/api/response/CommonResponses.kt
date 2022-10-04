@@ -2,23 +2,23 @@ package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
 
-data class ContentResponse<T>(
-    val page: Long,
-    val results: List<T>,
+data class ListContentResponse<T>(
+    val page: Long = 0,
+    val results: List<T> = listOf(),
 
     @field:Json(name = "total_pages")
-    val totalPages: Long,
+    val totalPages: Long = 0,
 
     @field:Json(name = "total_results")
-    val totalResults: Long
+    val totalResults: Long = 0
 )
 
 data class ErrorResponse(
-    val success: Boolean,
+    var success: Boolean = false,
 
     @field:Json(name = "status_code")
-    val statusCode: Long,
+    var code: Long = 0,
 
     @field:Json(name = "status_message")
-    val statusMessage: String
+    var message: String = ""
 )

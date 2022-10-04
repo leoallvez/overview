@@ -24,8 +24,4 @@ class AnalyticsLogger @Inject constructor(
         _source.logEvent(event, bundle)
         Timber.i(message = "${event.value} $screenName")
     }
-
-    companion object {
-        private const val TAG = "analytics_logger"
-    }
 }

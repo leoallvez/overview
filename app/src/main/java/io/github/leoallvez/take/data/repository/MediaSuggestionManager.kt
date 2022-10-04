@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class MediaSuggestionManager @Inject constructor(
     private val _suggestionRepository: SuggestionRepository,
-    private val _mediaRepository: MediaRepository,
+    private val _mediaItemsRepository: MediaItemsRepository,
 ) {
 
     private val _featured = MutableLiveData<List<MediaItem>>()
@@ -35,7 +35,7 @@ class MediaSuggestionManager @Inject constructor(
     }
 
     private suspend fun getMediaSuggestions(): MutableList<MediaSuggestion> {
-        return _mediaRepository
+        return _mediaItemsRepository
             .getData()
             .first()
             .toMutableList()

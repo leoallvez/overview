@@ -13,24 +13,25 @@ class SuggestionAbTest @Inject constructor(
 ) : AbTest<List<Suggestion>> {
 
     override fun execute(): List<Suggestion> {
-        return getRemoteSuggestions() ?: getLocalSuggestions()
+        val list = getRemoteSuggestions()
+        return list.ifEmpty { getLocalSuggestions() }
     }
 
     private fun getLocalSuggestions(): List<Suggestion> {
-        val json = _jsonFileReader.read(SUGGESTIONS_FILE)
-        return parseJsonToSuggestions(json) ?: listOf()
+        val json = _jsonFileReader.read(SUGGESTIONS_FILE_NAME)
+        return parseJsonToSuggestions(json)
     }
 
-    private fun getRemoteSuggestions(): List<Suggestion>? {
+    private fun getRemoteSuggestions(): List<Suggestion> {
         val json = _remoteSource.getString(SUGGESTIONS_LIST_KEY)
         return parseJsonToSuggestions(json)
     }
 
-    private fun parseJsonToSuggestions(json: String): List<Suggestion>? {
-        return json.parseToList(Suggestion::class.java)
+    private fun parseJsonToSuggestions(json: String): List<Suggestion> {
+        return json.parseToList()
     }
 
     companion object {
-        private const val SUGGESTIONS_FILE = "suggestions.json"
+        private const val SUGGESTIONS_FILE_NAME = "suggestions.json"
     }
 }
