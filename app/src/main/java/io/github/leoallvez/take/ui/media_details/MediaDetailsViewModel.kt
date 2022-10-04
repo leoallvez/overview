@@ -1,11 +1,15 @@
 package io.github.leoallvez.take.ui.media_details
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.leoallvez.take.abtest.AbTest
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.repository.MediaDetailsRepository
 import io.github.leoallvez.take.data.source.DataResult
+import io.github.leoallvez.take.di.AbDisplayAds
 import io.github.leoallvez.take.ui.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +20,7 @@ private typealias MediaUiState = UiState<MediaDetailResponse?>
 
 @HiltViewModel
 class MediaDetailsViewModel @Inject constructor(
+    @AbDisplayAds private val _experiment: AbTest<Boolean>,
     private val _repository: MediaDetailsRepository
 ) : ViewModel() {
 
@@ -32,5 +37,9 @@ class MediaDetailsViewModel @Inject constructor(
     fun refresh(apiId: Long, mediaType: String) {
         _uiState.value = UiState.Loading()
         loadMediaDetails(apiId, mediaType)
+    }
+
+    fun adsAreVisible(): LiveData<Boolean> = liveData {
+        emit(value = _experiment.execute())
     }
 }

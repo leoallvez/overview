@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,6 +54,8 @@ fun MediaDetailsScreen(
     params: Pair<Long, String>,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
+
+    val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
     TrackScreenView(screen = Screen.MediaDetails, logger)
 
     val (apiId: Long, mediaType: String) = params
@@ -61,7 +64,7 @@ fun MediaDetailsScreen(
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
         is UiState.Success -> {
-            MediaDetailsContent(mediaDetails = uiState.data, navigation = nav) {
+            MediaDetailsContent(mediaDetails = uiState.data, showAds, navigation = nav) {
                 viewModel.refresh(apiId, mediaType)
             }
         }
@@ -76,6 +79,7 @@ fun MediaDetailsScreen(
 @Composable
 fun MediaDetailsContent(
     mediaDetails: MediaDetails?,
+    showAds: Boolean,
     navigation: NavController,
     refresh: () -> Unit
 ) {
@@ -92,7 +96,7 @@ fun MediaDetailsContent(
                 }
             }
         ) {
-            MediaBody(mediaDetails, navigation)
+            MediaBody(mediaDetails, showAds, navigation)
         }
     }
 }
@@ -147,6 +151,7 @@ fun MediaBackdrop(
 @Composable
 fun MediaBody(
     mediaDetails: MediaDetails,
+    showAds: Boolean,
     nav: NavController
 ) {
     Column(
@@ -166,6 +171,10 @@ fun MediaBody(
             ProvidersList(providers, navigation = nav)
             GenreList(genres, navigation = nav)
             Overview(overview)
+            AdsBanner(
+                bannerId = R.string.banner_sample_id,
+                isVisible = showAds,
+            )
             PersonsList(getOrderedCast(), navigation = nav)
             MediaItemList(similar.results, navigation = nav)
         }

@@ -374,7 +374,7 @@ fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
         )
         BasicText(
             text = mediaItem.getItemTitle(),
-            style = MaterialTheme.typography.body1,
+            style =  MaterialTheme.typography.caption,
             isBold = true,
         )
     }

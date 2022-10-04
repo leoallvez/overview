@@ -47,7 +47,7 @@ fun HomeScreen(
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featured = viewModel.featured.observeAsState(listOf()).value
     val loading = viewModel.loading.observeAsState(true).value
-    val showAd = viewModel.adsAreVisible().observeAsState(initial = false).value
+    val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
     if(loading) {
         LoadingIndicator()
@@ -65,7 +65,7 @@ fun HomeScreen(
             ) {
                 HomeScreenContent(
                     suggestions = suggestions,
-                    adsBannerIsVisible = showAd,
+                    adsBannerIsVisible = showAds,
                     nav = nav,
                 )
             }
@@ -154,14 +154,9 @@ fun HomeScreenContent(
             .background(Color.Black)
     ) {
         Column {
-            val adPadding = 10.dp
             AdsBanner(
                 bannerId = R.string.banner_sample_id,
                 isVisible = adsBannerIsVisible,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = adPadding, bottom = adPadding)
-                    .height(50.dp)
             )
             SuggestionVerticalList(
                 nav = nav,
