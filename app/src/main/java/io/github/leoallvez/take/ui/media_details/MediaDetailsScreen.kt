@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,8 +29,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
@@ -105,7 +102,7 @@ fun MediaDetailsContent(
 fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
     Box(Modifier.fillMaxWidth()) {
         mediaDetails.apply {
-            MediaBackdrop(
+            Backdrop(
                 url = getBackdrop(),
                 contentDescription = originalTitle,
                 modifier = Modifier.align(Alignment.CenterEnd)
@@ -125,27 +122,6 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
             ) { backButtonAction.invoke() }
         }
     }
-}
-
-@Composable
-fun MediaBackdrop(
-    url: String?,
-    contentDescription: String?,
-    modifier: Modifier = Modifier
-) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(data = url)
-            .crossfade(true)
-            .build(),
-        modifier = modifier
-            .background(Background)
-            .fillMaxWidth()
-            .height(280.dp)
-            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
-        contentScale = ContentScale.FillHeight,
-        contentDescription = contentDescription,
-    )
 }
 
 @Composable

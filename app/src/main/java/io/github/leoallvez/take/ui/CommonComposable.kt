@@ -440,3 +440,26 @@ fun SimpleSubtitle(text: String, display: Boolean = true) {
         )
     }
 }
+
+@Composable
+fun Backdrop(
+    url: String?,
+    contentDescription: String?,
+    modifier: Modifier = Modifier
+) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data = url)
+            .crossfade(true)
+            .build(),
+        modifier = modifier
+            .background(Background)
+            .fillMaxWidth()
+            .height(280.dp)
+            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
+        contentScale = ContentScale.FillHeight,
+        contentDescription = contentDescription,
+        placeholder = painterResource(R.drawable.img_gargantua),
+        error = painterResource(R.drawable.img_gargantua)
+    )
+}
