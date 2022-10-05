@@ -93,7 +93,6 @@ private fun HorizontalCardSlider(
 
     Column(Modifier.background(Background)) {
         Box {
-            PagerIndicator(pagerState = pagerState, modifier = Modifier.align(Alignment.TopCenter))
             HorizontalPager(state = pagerState) { page ->
                 val item = items[page]
                 Box(
@@ -108,6 +107,7 @@ private fun HorizontalCardSlider(
                     )
                 }
             }
+            PagerIndicator(pagerState = pagerState, modifier = Modifier.align(Alignment.TopCenter))
             ScreenTitle(
                 text = items[pagerState.currentPage].getItemTitle(),
                 modifier = Modifier
