@@ -41,7 +41,7 @@ fun HomeScreen(
     TrackScreenView(screen = Screen.Home, logger)
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
-    val featured = viewModel.featured.observeAsState(listOf()).value
+    val featuredMediaItems = viewModel.featuredMediaItems.observeAsState(listOf()).value
     val loading = viewModel.loading.observeAsState(initial = true).value
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
@@ -54,8 +54,10 @@ fun HomeScreen(
                 scrollStrategy = ScrollStrategy.EnterAlways,
                 state = rememberCollapsingToolbarScaffoldState(),
                 toolbar = {
-                    HomeToolBar(items = featured) { mediaId, mediaType ->
-                        nav.navigate(Screen.MediaDetails.editRoute(id = mediaId, type = mediaType))
+                    HomeToolBar(items = featuredMediaItems) { item ->
+                        nav.navigate(
+                            Screen.MediaDetails.editRoute(id = item.apiId, type = item.type)
+                        )
                     }
                 },
             ) {
@@ -71,7 +73,7 @@ fun HomeScreen(
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>,
-    callback: (mediaId: Long, mediaType: String?) -> Unit,
+    callback: (MediaItem) -> Unit,
 ) {
     HorizontalCardSlider(items, callback)
     ToolbarButton(
@@ -86,7 +88,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
 @Composable
 private fun HorizontalCardSlider(
     items: List<MediaItem>,
-    callback: (id: Long, type: String?) -> Unit,
+    callback: (MediaItem) -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = items.size)
 
@@ -98,7 +100,8 @@ private fun HorizontalCardSlider(
                 modifier = Modifier.align(Alignment.TopCenter)
             )
             ScreenTitle(
-                text = items[pagerState.currentPage].getItemTitle(),
+                text = items[pagerState.currentPage].getLetter(),
+                maxLines = 1,
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(dimensionResource(R.dimen.default_padding))
@@ -112,18 +115,18 @@ private fun HorizontalCardSlider(
 fun SlideImage(
     pagerState: PagerState,
     items: List<MediaItem>,
-    onClick: (mediaId: Long, mediaType: String?) -> Unit
+    onClick: (MediaItem) -> Unit
 ) {
     HorizontalPager(state = pagerState) { page ->
         val item = items[page]
         Box(
             Modifier
                 .height(320.dp)
-                .clickable { onClick.invoke(item.apiId, item.type) }
+                .clickable { onClick.invoke(item) }
         ) {
             Backdrop(
-                url = item.getItemBackdrop(),
-                contentDescription = item.getItemTitle(),
+                url = item.getBackdrop(),
+                contentDescription = item.getLetter(),
                 modifier = Modifier.align(Alignment.TopCenter)
             )
         }
@@ -171,7 +174,7 @@ fun SuggestionVerticalList(
         items(suggestions) {
             val title = LocalContext.current.getStringByName(it.titleResourceId)
             MediaItemList(
-                listTitle = title, medias = it.items, navigation = nav, mediaType = it.type
+                listTitle = title, items = it.items, navigation = nav, mediaType = it.type
             )
         }
     }

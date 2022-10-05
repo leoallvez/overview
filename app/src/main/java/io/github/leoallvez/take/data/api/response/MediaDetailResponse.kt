@@ -5,44 +5,31 @@ import io.github.leoallvez.take.BuildConfig.IMG_URL
 import io.github.leoallvez.take.data.model.MediaItem
 
 data class MediaDetailResponse (
-    val adult: Boolean = false,
-
-    @field:Json(name = "backdrop_path")
-    val backdropPath: String = "",
-
-    val genres: List<Genre> = listOf(),
-
     val id: Long = 0L,
 
+    @field:Json(name = "backdrop_path")
+    private val backdropPath: String = "",
+
     @field:Json(name = "original_title")
-    val originalTitle: String? = null,
+    private val originalTitle: String? = null,
 
     @field:Json(name = "original_name")
-    val originalName: String? = null,
+    private val originalName: String? = null,
 
     val overview: String = "",
-    val popularity: Double? = 0.0,
 
     @field:Json(name = "poster_path")
-    val posterPath: String? = "",
+    private val posterPath: String? = "",
 
     @field:Json(name = "release_date")
-    val releaseDate: String = "",
+    private val releaseDate: String = "",
 
-    val runtime: Long = 0L,
+    private val runtime: Long = 0L,
 
-    val status: String = "",
-    val tagline: String = "",
-    val title: String? = null,
-    val name: String? = null,
-    val video: Boolean = false,
+    private val title: String? = null,
+    private val name: String? = null,
 
-    @field:Json(name = "vote_average")
-    val voteAverage: Double = 0.0,
-
-    @field:Json(name = "vote_count")
-    val voteCount: Long = 0L,
-
+    val genres: List<Genre> = listOf(),
     private val credits: Credits = Credits(),
     val similar: Similar = Similar(),
 
@@ -54,7 +41,7 @@ data class MediaDetailResponse (
     private val mediaName: String
         get() = name ?: originalName ?: ""
 
-    fun getMediaDetailsLetter() = mediaTitle ?: mediaName
+    fun getLetter() = mediaTitle ?: mediaName
 
     fun getPoster() = "$IMG_URL/$posterPath"
 

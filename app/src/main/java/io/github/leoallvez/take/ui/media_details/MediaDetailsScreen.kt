@@ -99,12 +99,12 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
         mediaDetails.apply {
             Backdrop(
                 url = getBackdrop(),
-                contentDescription = originalTitle,
+                contentDescription = getLetter(),
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
             BasicImage(
                 url = getPoster(),
-                contentDescription = originalTitle,
+                contentDescription = getLetter(),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .size(width = 140.dp, height = 200.dp)
@@ -133,7 +133,7 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding)),
     ) {
         mediaDetails.apply {
-            ScreenTitle(getMediaDetailsLetter())
+            ScreenTitle(getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
             ProvidersList(providers, navigation = nav)
             GenreList(genres, navigation = nav)
@@ -145,7 +145,7 @@ fun MediaBody(
             PersonsList(getOrderedCast(), navigation = nav)
             MediaItemList(
                 listTitle = stringResource(R.string.related),
-                medias = similar.results,
+                items = similar.results,
                 navigation = nav
             )
         }
@@ -190,7 +190,7 @@ fun ProvidersList(providers: List<ProviderPlace>, navigation: NavController) {
 @Composable
 fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
     BasicImage(
-        url = provider.logoPath(),
+        url = provider.getLogo(),
         contentDescription = provider.providerName,
         modifier = Modifier
             .size(50.dp)
