@@ -234,12 +234,13 @@ fun BackdropTitle(
 }
 
 @Composable
-fun ScreenTitle(text: String) {
+fun ScreenTitle(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         color = BlueTake,
         style = MaterialTheme.typography.h5,
         fontWeight = FontWeight.Bold,
+        modifier = modifier
     )
 }
 

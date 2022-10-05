@@ -2,10 +2,7 @@ package io.github.leoallvez.take.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -17,12 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
@@ -89,46 +84,50 @@ private fun CollapsingToolbarScope.HomeToolBar(
 
 @ExperimentalPagerApi
 @Composable
-private fun CollapsingToolbarScope.HorizontalCardSlider(
+private fun HorizontalCardSlider(
     items: List<MediaItem>,
     callback: (mediaId: Long, mediaType: String?) -> Unit,
 ) {
 
     val pagerState = rememberPagerState(pageCount = items.size)
 
-    Box {
-        HorizontalPager(state = pagerState) { page ->
-            val item = items[page]
-            Box(Modifier.clickable { callback.invoke(item.apiId, item.type) }) {
-                item.apply {
-                    CardSliderImage(item = this)
-                    BackdropTitle(
-                        text = getItemTitle(),
-                        modifier = Modifier.align(Alignment.BottomCenter)
+    Column(Modifier.background(Background)) {
+        Box {
+            PagerIndicator(pagerState = pagerState, modifier = Modifier.align(Alignment.TopCenter))
+            HorizontalPager(state = pagerState) { page ->
+                val item = items[page]
+                Box(
+                    Modifier
+                        .height(320.dp)
+                        .clickable { callback.invoke(item.apiId, item.type) }
+                ) {
+                    Backdrop(
+                        url = item.getItemBackdrop(),
+                        contentDescription = item.getItemTitle(),
+                        modifier = Modifier.align(Alignment.TopCenter)
                     )
                 }
             }
+            ScreenTitle(
+                text = items[pagerState.currentPage].getItemTitle(),
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(dimensionResource(R.dimen.default_padding))
+            )
         }
-
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(dimensionResource(R.dimen.screen_padding)),
-            inactiveColor = Color.Gray,
-            activeColor = BlueTake,
-        )
     }
 }
 
+@ExperimentalPagerApi
 @Composable
-fun CollapsingToolbarScope.CardSliderImage(item: MediaItem) {
-    item.apply {
-        BackdropImage(
-            data = getItemBackdrop(),
-            contentDescription = getItemBackdrop()
-        )
-    }
+fun PagerIndicator(pagerState: PagerState, modifier: Modifier) {
+    HorizontalPagerIndicator(
+        pagerState = pagerState,
+        modifier = modifier
+            .padding(dimensionResource(R.dimen.screen_padding)),
+        inactiveColor = Color.Gray,
+        activeColor = BlueTake,
+    )
 }
 
 @Composable
