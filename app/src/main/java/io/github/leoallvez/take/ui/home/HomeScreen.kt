@@ -86,28 +86,17 @@ private fun CollapsingToolbarScope.HomeToolBar(
 @Composable
 private fun HorizontalCardSlider(
     items: List<MediaItem>,
-    callback: (mediaId: Long, mediaType: String?) -> Unit,
+    callback: (id: Long, type: String?) -> Unit,
 ) {
-
     val pagerState = rememberPagerState(pageCount = items.size)
 
     Column(Modifier.background(Background)) {
         Box {
-            HorizontalPager(state = pagerState) { page ->
-                val item = items[page]
-                Box(
-                    Modifier
-                        .height(320.dp)
-                        .clickable { callback.invoke(item.apiId, item.type) }
-                ) {
-                    Backdrop(
-                        url = item.getItemBackdrop(),
-                        contentDescription = item.getItemTitle(),
-                        modifier = Modifier.align(Alignment.TopCenter)
-                    )
-                }
-            }
-            PagerIndicator(pagerState = pagerState, modifier = Modifier.align(Alignment.TopCenter))
+            SlideImage(pagerState = pagerState, items = items, onClick = callback)
+            SlideIndicator(
+                pagerState = pagerState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
             ScreenTitle(
                 text = items[pagerState.currentPage].getItemTitle(),
                 modifier = Modifier
@@ -120,7 +109,30 @@ private fun HorizontalCardSlider(
 
 @ExperimentalPagerApi
 @Composable
-fun PagerIndicator(pagerState: PagerState, modifier: Modifier) {
+fun SlideImage(
+    pagerState: PagerState,
+    items: List<MediaItem>,
+    onClick: (mediaId: Long, mediaType: String?) -> Unit
+) {
+    HorizontalPager(state = pagerState) { page ->
+        val item = items[page]
+        Box(
+            Modifier
+                .height(320.dp)
+                .clickable { onClick.invoke(item.apiId, item.type) }
+        ) {
+            Backdrop(
+                url = item.getItemBackdrop(),
+                contentDescription = item.getItemTitle(),
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
+    }
+}
+
+@ExperimentalPagerApi
+@Composable
+fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
     HorizontalPagerIndicator(
         pagerState = pagerState,
         modifier = modifier
