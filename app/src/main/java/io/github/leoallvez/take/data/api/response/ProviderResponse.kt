@@ -23,5 +23,5 @@ class ProviderPlace(
     @field:Json(name = "provider_name")
     val providerName: String = "",
 ) {
-    fun logoPath() = "${BuildConfig.IMG_URL}/$logoPath"
+    fun getLogo() = "${BuildConfig.IMG_URL}/$logoPath"
 }

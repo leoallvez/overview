@@ -8,13 +8,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import io.github.leoallvez.take.ui.theme.Background
 
 @Composable
 fun CastPersonScreen() {
     Column(
         modifier = Modifier
-            .background(Color.Black)
+            .background(Background)
             .fillMaxSize()
     ) {
         Box {

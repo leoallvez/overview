@@ -41,7 +41,6 @@ import io.github.leoallvez.take.ui.theme.BorderColor
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
@@ -65,11 +64,7 @@ fun MediaDetailsScreen(
                 viewModel.refresh(apiId, mediaType)
             }
         }
-        is UiState.Error -> {
-            ErrorOnLoading {
-                viewModel.refresh(apiId, mediaType)
-            }
-        }
+        is UiState.Error -> ErrorOnLoading { viewModel.refresh(apiId, mediaType) }
     }
 }
 
@@ -104,12 +99,12 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
         mediaDetails.apply {
             Backdrop(
                 url = getBackdrop(),
-                contentDescription = originalTitle,
+                contentDescription = getLetter(),
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
             BasicImage(
                 url = getPoster(),
-                contentDescription = originalTitle,
+                contentDescription = getLetter(),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .size(width = 140.dp, height = 200.dp)
@@ -133,16 +128,12 @@ fun MediaBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.DarkGray)
             .verticalScroll(rememberScrollState())
             .background(Background)
-            .padding(
-                vertical = dimensionResource(R.dimen.default_padding),
-                horizontal = dimensionResource(R.dimen.screen_padding),
-            ),
+            .padding(dimensionResource(R.dimen.default_padding)),
     ) {
         mediaDetails.apply {
-            ScreenTitle(getMediaDetailsLetter())
+            ScreenTitle(getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
             ProvidersList(providers, navigation = nav)
             GenreList(genres, navigation = nav)
@@ -152,7 +143,11 @@ fun MediaBody(
                 isVisible = showAds,
             )
             PersonsList(getOrderedCast(), navigation = nav)
-            MediaItemList(similar.results, navigation = nav)
+            MediaItemList(
+                listTitle = stringResource(R.string.related),
+                items = similar.results,
+                navigation = nav
+            )
         }
     }
 }
@@ -195,7 +190,7 @@ fun ProvidersList(providers: List<ProviderPlace>, navigation: NavController) {
 @Composable
 fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
     BasicImage(
-        url = provider.logoPath(),
+        url = provider.getLogo(),
         contentDescription = provider.providerName,
         modifier = Modifier
             .size(50.dp)
@@ -220,7 +215,6 @@ fun GenreList(genres: List<Genre>, navigation: NavController) {
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
-                    Timber.tag("click_example").i("click in genre!")
                     navigation.navigate(Screen.Discover.editRoute(genre.id))
                 }
             }

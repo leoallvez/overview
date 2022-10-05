@@ -32,9 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -44,24 +42,6 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
-import me.onebone.toolbar.CollapsingToolbarScope
-
-@Composable
-fun ListTitle(title: String) {
-    Text(
-        text = title,
-        color = Color.White,
-        modifier = Modifier
-            .padding(
-                start = 5.dp,
-                bottom = 5.dp,
-                top = 15.dp
-            ),
-        fontSize = 16.sp,
-        style = MaterialTheme.typography.h4,
-        fontWeight = FontWeight.Bold,
-    )
-}
 
 @Composable
 fun BasicTitle(title: String) {
@@ -78,86 +58,6 @@ fun BasicTitle(title: String) {
     )
 }
 
-@Composable
-fun MediaCard(
-    media: MediaItem,
-    onClick: (mediaId: Long) -> Unit,
-) {
-    val imageHeight: Dp = 200.dp
-    val titleHeight: Dp = 65.dp
-    val cardWith: Dp = 140.dp
-    Column(
-        modifier = Modifier
-            .size(
-                width = cardWith,
-                height = imageHeight + titleHeight
-            )
-            .padding(all = 5.dp)
-            .clickable { onClick.invoke(media.apiId) }
-    ) {
-        MediaImage(
-            media = media,
-            modifier = Modifier
-                .size(
-                    width = cardWith,
-                    height = imageHeight
-                )
-        )
-        MediaTitle(
-            title = media.getItemTitle(),
-            width = cardWith,
-            height = titleHeight,
-            fontSize = 12.sp,
-            maxLines = 3,
-        )
-    }
-}
-
-@Composable
-fun MediaImage(
-    media: MediaItem,
-    modifier: Modifier
-) {
-    Box(modifier = modifier) {
-        Card(
-            shape = RoundedCornerShape(6.dp),
-            contentColor = Color.Black,
-            elevation = 15.dp,
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(data = media.getItemPoster())
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(R.drawable.placeholder),
-                contentScale = ContentScale.FillHeight,
-                contentDescription = media.getItemTitle(),
-            )
-        }
-    }
-}
-
-@Composable
-fun MediaTitle(
-    title: String,
-    width: Dp,
-    height: Dp,
-    fontSize: TextUnit,
-    maxLines: Int
-) {
-    Text(
-        color = Color.White,
-        text = title,
-        modifier = Modifier
-            .padding(top = 5.dp)
-            .size(width = width, height = height),
-        fontSize = fontSize,
-        maxLines = maxLines,
-        overflow = TextOverflow.Ellipsis,
-        textAlign = TextAlign.Center,
-    )
-}
-
 @SuppressLint("TrackScreenView")
 @Composable
 fun TrackScreenView(screen: Screen, logger: Logger) {
@@ -171,7 +71,7 @@ fun TrackScreenView(screen: Screen, logger: Logger) {
 fun LoadingIndicator() {
     Column(
         modifier = Modifier
-            .background(Color.Black)
+            .background(Background)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -188,17 +88,11 @@ fun LoadingIndicator() {
     }
 }
 
-@Preview
-@Composable
-fun LoadingIndicatorPreview() {
-    LoadingIndicator()
-}
-
 @Composable
 fun ErrorOnLoading(refresh: () -> Unit) {
     Column(
         modifier = Modifier
-            .background(Color.Black)
+            .background(Background)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -273,7 +167,7 @@ fun ToolbarButton(
         modifier
             .padding(dimensionResource(R.dimen.screen_padding))
             .clip(CircleShape)
-            .background(Color.Black.copy(alpha = 0.5f))
+            .background(Background.copy(alpha = 0.5f))
             .size(45.dp)
             .clickable { onClick.invoke() }
     ) {
@@ -290,73 +184,39 @@ fun ToolbarButton(
 }
 
 @Composable
-fun CardImage(
-    data: String?,
-    contentDescription: String?,
-    modifier: Modifier = Modifier
-) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(data = data)
-            .crossfade(true)
-            .build(),
-        modifier = modifier
-            .background(Color.Black)
-            .fillMaxWidth()
-            .height(235.dp),
-        contentScale = ContentScale.FillHeight,
-        contentDescription = contentDescription,
-    )
-}
-
-@Composable
-fun CollapsingToolbarScope.BackdropImage(data: String?, contentDescription: String?) {
-    CardImage(data, contentDescription, modifier = Modifier
-        .parallax(ratio = 0.2f)
-        .pin()
-    )
-}
-
-@Composable
-fun BackdropTitle(
-    text: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = text,
-        modifier = modifier
-            .fillMaxSize()
-            .padding(start = 7.dp, top = 5.dp, bottom = 5.dp),
-        color = BlueTake,
-        style = MaterialTheme.typography.h6
-    )
-}
-
-@Composable
-fun ScreenTitle(text: String) {
+fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int.MAX_VALUE) {
     Text(
         text = text,
         color = BlueTake,
         style = MaterialTheme.typography.h5,
         fontWeight = FontWeight.Bold,
+        modifier = modifier,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
 @Composable
-fun MediaItemList(medias: List<MediaItem>, navigation: NavController) {
-    if (medias.isNotEmpty()) {
+fun MediaItemList(
+    listTitle:String,
+    items: List<MediaItem>,
+    navigation: NavController,
+    mediaType: String? = null
+) {
+    if (items.isNotEmpty()) {
         Column {
-            BasicTitle(title = stringResource(R.string.related))
+            BasicTitle(listTitle)
             LazyRow (
                 Modifier.padding(
                     vertical = dimensionResource(R.dimen.default_padding)
                 ),
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding))
             ) {
-                items(medias) { media ->
-                    MediaItem(media) {
+                items(items) { item ->
+                    MediaItem(item) {
                         navigation.navigate(
-                            Screen.MediaDetails.editRoute(id = media.apiId, type = media.type)
+                            Screen.MediaDetails
+                                .editRoute(id = item.apiId, type = mediaType ?: item.type)
                         )
                     }
                 }
@@ -369,11 +229,11 @@ fun MediaItemList(medias: List<MediaItem>, navigation: NavController) {
 fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
     Column(Modifier.clickable { onClick.invoke() }) {
         BasicImage(
-            url = mediaItem.getItemPoster(),
-            contentDescription = mediaItem.getItemTitle(),
+            url = mediaItem.getPoster(),
+            contentDescription = mediaItem.getLetter(),
         )
         BasicText(
-            text = mediaItem.getItemTitle(),
+            text = mediaItem.getLetter(),
             style =  MaterialTheme.typography.caption,
             isBold = true,
         )

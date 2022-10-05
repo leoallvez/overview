@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor (
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading
 
-    val featured: LiveData<List<MediaItem>> = _manager.featured
+    val featuredMediaItems: LiveData<List<MediaItem>> = _manager.featuredMediaItems
 
     val suggestions: LiveData<List<MediaSuggestion>> = _manager.mediaSuggestions
 

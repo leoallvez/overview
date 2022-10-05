@@ -42,9 +42,9 @@ class MediaItem (
     @ColumnInfo(name = "media_type")
     var type: String? = ""
 ) {
-    fun getItemTitle() = name ?: title ?: ""
+    fun getLetter() = name ?: title ?: ""
 
-    fun getItemPoster() = "$IMG_URL/$posterPath"
+    fun getPoster() = "$IMG_URL/$posterPath"
 
-    fun getItemBackdrop() = "$IMG_URL/$backdropPath"
+    fun getBackdrop() = "$IMG_URL/$backdropPath"
 }

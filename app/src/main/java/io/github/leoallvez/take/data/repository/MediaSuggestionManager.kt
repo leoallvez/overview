@@ -12,8 +12,8 @@ class MediaSuggestionManager @Inject constructor(
     private val _mediaItemsRepository: MediaItemsRepository,
 ) {
 
-    private val _featured = MutableLiveData<List<MediaItem>>()
-    val featured: LiveData<List<MediaItem>> = _featured
+    private val _featuredMediaItems = MutableLiveData<List<MediaItem>>()
+    val featuredMediaItems: LiveData<List<MediaItem>> = _featuredMediaItems
 
     private val _mediaSuggestions = MutableLiveData<List<MediaSuggestion>>()
     val mediaSuggestions: LiveData<List<MediaSuggestion>> = _mediaSuggestions
@@ -26,7 +26,7 @@ class MediaSuggestionManager @Inject constructor(
     private suspend fun setAttributes() {
         val mediaSuggestions = getMediaSuggestions()
         val result = if(mediaSuggestions.isNotEmpty()) {
-            _featured.value = sliceFeatured(mediaSuggestions)
+            _featuredMediaItems.value = sliceFeatured(mediaSuggestions)
             mediaSuggestions
         } else {
             listOf()
@@ -48,7 +48,7 @@ class MediaSuggestionManager @Inject constructor(
         mediaSuggestions.remove(featured)
         return featured
             .items
-            .sortedByDescending { it.voteAverage }
+            .sortedByDescending { it.suggestionId }
             .take(MAXIMUM_OF_FEATURED)
     }
 
