@@ -20,26 +20,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.leoallvez.take.AnalyticsLogger
-import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.di.IsOnline
-import io.github.leoallvez.take.ui.Screen.Companion.ID_PARAM
-import io.github.leoallvez.take.ui.Screen.Companion.TYPE_PARAM
-import io.github.leoallvez.take.ui.cast_person.CastPersonScreen
-import io.github.leoallvez.take.ui.discover.DiscoverScreen
-import io.github.leoallvez.take.ui.home.HomeScreen
-import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
-import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.ui.theme.TakeTheme
-import io.github.leoallvez.take.util.getParams
 import javax.inject.Inject
 
 @ExperimentalPagerApi
@@ -79,52 +65,6 @@ fun TakeApp(isOnline: Boolean, analyticsLog: AnalyticsLogger) {
             isNotOnline = isOnline.not(),
             modifier = Modifier.align(Alignment.BottomEnd)
         )
-    }
-}
-
-@ExperimentalPagerApi
-@Composable
-fun NavController(logger: Logger) {
-    val navController = rememberNavController()
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Splash.route
-    ) {
-        composable(route = Screen.Splash.route) {
-            SplashScreen(nav = navController,logger = logger)
-        }
-        composable(route = Screen.Home.route) {
-            HomeScreen(nav = navController, logger = logger)
-        }
-        composable(
-            route = Screen.MediaDetails.route,
-            arguments = listOf(
-                navArgument(name = ID_PARAM) { type = NavType.LongType },
-                navArgument(name = TYPE_PARAM) { type = NavType.StringType },
-            )
-        ) { navBackStackEntry ->
-            MediaDetailsScreen(
-                nav = navController,
-                logger = logger,
-                params = navBackStackEntry.getParams()
-            )
-        }
-        composable(
-            route = Screen.CastPerson.route,
-            arguments = listOf(
-                navArgument(name = ID_PARAM) { type = NavType.LongType}
-            )
-        ) {
-            CastPersonScreen()
-        }
-        composable(
-            route = Screen.Discover.route,
-            arguments = listOf(
-                navArgument(name = ID_PARAM) { type = NavType.LongType}
-            )
-        ) {
-            DiscoverScreen()
-        }
     }
 }
 

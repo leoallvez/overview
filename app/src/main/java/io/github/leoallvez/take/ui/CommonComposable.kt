@@ -30,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -150,12 +149,6 @@ fun StylizedButton(
 }
 
 @Composable
-@Preview
-fun ErrorOnLoadingPreview() {
-    ErrorOnLoading {}
-}
-
-@Composable
 fun ToolbarButton(
     painter: ImageVector,
     @StringRes descriptionResource: Int,
@@ -200,8 +193,9 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
 fun MediaItemList(
     listTitle:String,
     items: List<MediaItem>,
-    navigation: NavController,
-    mediaType: String? = null
+    //navigation: NavController,
+    mediaType: String? = null,
+    onClickItem: (apiId: Long, mediaType: String?) -> Unit
 ) {
     if (items.isNotEmpty()) {
         Column {
@@ -214,10 +208,11 @@ fun MediaItemList(
             ) {
                 items(items) { item ->
                     MediaItem(item) {
-                        navigation.navigate(
-                            Screen.MediaDetails
-                                .editRoute(id = item.apiId, type = mediaType ?: item.type)
-                        )
+//                        navigation.navigate(
+//                            Screen.MediaDetails
+//                                .editRoute(id = item.apiId, type = mediaType ?: item.type)
+//                        )
+                        onClickItem.invoke(item.apiId, mediaType ?: item.type)
                     }
                 }
             }

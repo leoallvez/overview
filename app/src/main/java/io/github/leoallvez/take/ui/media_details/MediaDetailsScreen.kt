@@ -28,7 +28,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
@@ -45,9 +44,9 @@ import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDe
 
 @Composable
 fun MediaDetailsScreen(
-    nav: NavController,
     logger: Logger,
     params: Pair<Long, String>,
+    events: MediaDetailsScreenEvents,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
 
@@ -60,7 +59,7 @@ fun MediaDetailsScreen(
     when(val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingIndicator()
         is UiState.Success -> {
-            MediaDetailsContent(mediaDetails = uiState.data, showAds, navigation = nav) {
+            MediaDetailsContent(mediaDetails = uiState.data, showAds, events = events) {
                 viewModel.refresh(apiId, mediaType)
             }
         }
@@ -72,7 +71,7 @@ fun MediaDetailsScreen(
 fun MediaDetailsContent(
     mediaDetails: MediaDetails?,
     showAds: Boolean,
-    navigation: NavController,
+    events: MediaDetailsScreenEvents,
     refresh: () -> Unit
 ) {
     if (mediaDetails == null) {
@@ -84,11 +83,11 @@ fun MediaDetailsContent(
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
                 MediaToolBar(mediaDetails) {
-                    navigation.navigate(Screen.Home.route)
+                    events.onNavigateToHome()
                 }
             }
         ) {
-            MediaBody(mediaDetails, showAds, navigation)
+            MediaBody(mediaDetails, showAds, events)
         }
     }
 }
@@ -123,7 +122,7 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
 fun MediaBody(
     mediaDetails: MediaDetails,
     showAds: Boolean,
-    nav: NavController
+    events: MediaDetailsScreenEvents
 ) {
     Column(
         modifier = Modifier
@@ -135,19 +134,26 @@ fun MediaBody(
         mediaDetails.apply {
             ScreenTitle(getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
-            ProvidersList(providers, navigation = nav)
-            GenreList(genres, navigation = nav)
+            ProvidersList(providers) { apiId ->
+                events.onNavigateToDiscover(apiId = apiId)
+            }
+            GenreList(genres) { apiId ->
+                events.onNavigateToCastDetails(apiId = apiId)
+            }
             Overview(overview)
             AdsBanner(
                 bannerId = R.string.banner_sample_id,
                 isVisible = showAds,
             )
-            PersonsList(getOrderedCast(), navigation = nav)
+            CastList(getOrderedCast()) { apiId ->
+                events.onNavigateToCastDetails(apiId = apiId)
+            }
             MediaItemList(
                 listTitle = stringResource(R.string.related),
                 items = similar.results,
-                navigation = nav
-            )
+            ) { apiId, mediaType ->
+                events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType)
+            }
         }
     }
 }
@@ -168,7 +174,7 @@ fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>, navigation: NavController) {
+fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
     if (providers.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow (
@@ -180,7 +186,7 @@ fun ProvidersList(providers: List<ProviderPlace>, navigation: NavController) {
         ) {
             items(providers) { provider ->
                 ProviderItem(provider) {
-                    navigation.navigate(Screen.Discover.editRoute(provider.id))
+                    onClickItem.invoke(provider.id)
                 }
             }
         }
@@ -204,7 +210,7 @@ fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
 }
 
 @Composable
-fun GenreList(genres: List<Genre>, navigation: NavController) {
+fun GenreList(genres: List<Genre>, onClickItem: (Long) -> Unit) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -215,7 +221,7 @@ fun GenreList(genres: List<Genre>, navigation: NavController) {
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
-                    navigation.navigate(Screen.Discover.editRoute(genre.id))
+                    onClickItem.invoke(genre.id)
                 }
             }
         }
@@ -264,8 +270,8 @@ fun Overview(overview: String) {
 }
 
 @Composable
-fun PersonsList(persons: List<Person>, navigation: NavController) {
-    if (persons.isNotEmpty()) {
+fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
+    if (cast.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
             LazyRow (
@@ -273,9 +279,9 @@ fun PersonsList(persons: List<Person>, navigation: NavController) {
                     vertical = dimensionResource(R.dimen.default_padding)
                 ),
             ) {
-                items(persons) { person ->
-                    PersonItem(person = person) {
-                        navigation.navigate(route = Screen.CastPerson.editRoute(person.id))
+                items(cast) { castPerson ->
+                    CastItem(castPerson = castPerson) {
+                        onClickItem.invoke(castPerson.id)
                     }
                 }
             }
@@ -284,14 +290,14 @@ fun PersonsList(persons: List<Person>, navigation: NavController) {
 }
 
 @Composable 
-fun PersonItem(person: Person, onClick: () -> Unit) {
+fun CastItem(castPerson: Person, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
         BasicImage(
-            url = person.getProfile(),
-            contentDescription = person.name,
+            url = castPerson.getProfile(),
+            contentDescription = castPerson.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(120.dp)
@@ -301,12 +307,12 @@ fun PersonItem(person: Person, onClick: () -> Unit) {
             errorDefaultImage = painterResource(R.drawable.avatar)
         )
         BasicText(
-            text = person.name,
+            text = castPerson.name,
             style =  MaterialTheme.typography.caption,
             isBold = true,
         )
         BasicText(
-            text = person.character,
+            text = castPerson.character,
             style = MaterialTheme.typography.caption,
             color = BlueTake,
         )

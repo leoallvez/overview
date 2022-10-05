@@ -160,22 +160,28 @@ fun HomeScreenContent(
     ) {
         Column {
             AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAds)
-            SuggestionVerticalList(nav = nav, suggestions = suggestions)
+            SuggestionVerticalList(suggestions = suggestions) { apiId, mediaType ->
+                nav.navigate(
+                    Screen.MediaDetails.editRoute(id = apiId, type = mediaType)
+                )
+            }
         }
     }
 }
 
 @Composable
 fun SuggestionVerticalList(
-    nav: NavController,
     suggestions: List<MediaSuggestion>,
+    onClickItem: (Long, String?) -> Unit,
 ) {
     LazyColumn {
         items(suggestions) {
             val title = LocalContext.current.getStringByName(it.titleResourceId)
             MediaItemList(
-                listTitle = title, items = it.items, navigation = nav, mediaType = it.type
-            )
+                listTitle = title, items = it.items, mediaType = it.type
+            ) { apiId, mediaType ->
+                onClickItem.invoke(apiId, mediaType)
+            }
         }
     }
 }
