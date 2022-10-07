@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.github.leoallvez.take.AnalyticsLogger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.di.IsOnline
+import io.github.leoallvez.take.ui.navigation.NavController
 import io.github.leoallvez.take.ui.theme.TakeTheme
 import javax.inject.Inject
 

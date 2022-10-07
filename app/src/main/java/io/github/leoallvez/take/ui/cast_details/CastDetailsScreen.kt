@@ -9,18 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.Screen
 import io.github.leoallvez.take.ui.TrackScreenView
 import io.github.leoallvez.take.ui.theme.Background
-import timber.log.Timber
 
 @Composable
 fun CastDetailsScreen(
     apiId: Long?,
-    nav: NavController,
     logger: Logger,
+    onNavigateToHome: () -> Unit,
+    onNavigateToMediaDetails: (apiId: Long, mediaType: String?) -> Unit,
     viewModel: CastDetailsViewModel = hiltViewModel(),
 ) {
     TrackScreenView(screen = Screen.CastDetails, logger)

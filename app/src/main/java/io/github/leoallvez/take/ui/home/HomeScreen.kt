@@ -16,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.pager.*
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
@@ -34,9 +33,9 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(
-    nav: NavController,
+    logger: Logger,
     viewModel: HomeViewModel = hiltViewModel(),
-    logger: Logger
+    onNavigateToMediaDetails: (apiId: Long, mediaType: String?) -> Unit
 ) {
     TrackScreenView(screen = Screen.Home, logger)
 
@@ -55,13 +54,15 @@ fun HomeScreen(
                 state = rememberCollapsingToolbarScaffoldState(),
                 toolbar = {
                     HomeToolBar(items = featuredMediaItems) { item ->
-                        nav.navigate(
-                            Screen.MediaDetails.editRoute(id = item.apiId, type = item.type)
-                        )
+                        onNavigateToMediaDetails.invoke(item.apiId, item.type)
                     }
                 },
             ) {
-                HomeScreenContent(suggestions = suggestions, showAds = showAds, nav = nav)
+                HomeScreenContent(
+                    suggestions = suggestions,
+                    showAds = showAds,
+                    onNavigateToMediaDetails = onNavigateToMediaDetails
+                )
             }
         } else {
             ErrorOnLoading { viewModel.refresh() }
@@ -149,7 +150,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
 fun HomeScreenContent(
     suggestions: List<MediaSuggestion>,
     showAds: Boolean,
-    nav: NavController,
+    onNavigateToMediaDetails: (apiId: Long, mediaType: String?) -> Unit,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -161,9 +162,7 @@ fun HomeScreenContent(
         Column {
             AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAds)
             SuggestionVerticalList(suggestions = suggestions) { apiId, mediaType ->
-                nav.navigate(
-                    Screen.MediaDetails.editRoute(id = apiId, type = mediaType)
-                )
+                onNavigateToMediaDetails.invoke(apiId, mediaType)
             }
         }
     }

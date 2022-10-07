@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.Screen
@@ -27,7 +26,7 @@ import io.github.leoallvez.take.ui.theme.BlueTake
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(nav: NavController, logger: Logger) {
+fun SplashScreen(logger: Logger, onNavigateToHome: () -> Unit) {
 
     TrackScreenView(screen = Screen.Splash, logger)
 
@@ -43,11 +42,7 @@ fun SplashScreen(nav: NavController, logger: Logger) {
                 })
         )
         delay(1500L)
-        nav.navigate(route = Screen.Home.route) {
-            popUpTo(Screen.Splash.route) {
-                inclusive = true
-            }
-        }
+        onNavigateToHome.invoke()
     }
     SplashScreenContent(scale)
 }

@@ -40,6 +40,7 @@ import io.github.leoallvez.take.ui.theme.BorderColor
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
