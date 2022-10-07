@@ -16,6 +16,7 @@ import io.github.leoallvez.take.ui.discover.DiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
+import io.github.leoallvez.take.util.MediaItemClick
 import io.github.leoallvez.take.util.getParams
 
 @ExperimentalPagerApi
@@ -68,7 +69,7 @@ fun NavController(logger: Logger, navController: NavHostController = rememberNav
 fun NavGraphBuilder.mediaDetailsGraph(
     logger: Logger,
     navController: NavHostController,
-    onNavigateToMediaDetails: (Long, String?) -> Unit
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     composable(
         route = Screen.MediaDetails.route,

@@ -24,6 +24,7 @@ import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
+import io.github.leoallvez.take.util.MediaItemClick
 import io.github.leoallvez.take.util.getStringByName
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScope
@@ -35,7 +36,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 fun HomeScreen(
     logger: Logger,
     viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateToMediaDetails: (apiId: Long, mediaType: String?) -> Unit
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     TrackScreenView(screen = Screen.Home, logger)
 
@@ -150,7 +151,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
 fun HomeScreenContent(
     suggestions: List<MediaSuggestion>,
     showAds: Boolean,
-    onNavigateToMediaDetails: (apiId: Long, mediaType: String?) -> Unit,
+    onNavigateToMediaDetails: MediaItemClick,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -171,7 +172,7 @@ fun HomeScreenContent(
 @Composable
 fun SuggestionVerticalList(
     suggestions: List<MediaSuggestion>,
-    onClickItem: (Long, String?) -> Unit,
+    onClickItem: MediaItemClick,
 ) {
     LazyColumn {
         items(suggestions) {

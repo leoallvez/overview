@@ -32,7 +32,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
@@ -41,6 +40,7 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
+import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
 fun BasicTitle(title: String) {
@@ -193,9 +193,8 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
 fun MediaItemList(
     listTitle:String,
     items: List<MediaItem>,
-    //navigation: NavController,
     mediaType: String? = null,
-    onClickItem: (apiId: Long, mediaType: String?) -> Unit
+    onClickItem: MediaItemClick
 ) {
     if (items.isNotEmpty()) {
         Column {
@@ -208,10 +207,6 @@ fun MediaItemList(
             ) {
                 items(items) { item ->
                     MediaItem(item) {
-//                        navigation.navigate(
-//                            Screen.MediaDetails
-//                                .editRoute(id = item.apiId, type = mediaType ?: item.type)
-//                        )
                         onClickItem.invoke(item.apiId, mediaType ?: item.type)
                     }
                 }

@@ -13,13 +13,14 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.Screen
 import io.github.leoallvez.take.ui.TrackScreenView
 import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
 fun CastDetailsScreen(
     apiId: Long?,
     logger: Logger,
     onNavigateToHome: () -> Unit,
-    onNavigateToMediaDetails: (apiId: Long, mediaType: String?) -> Unit,
+    onNavigateToMediaDetails: MediaItemClick,
     viewModel: CastDetailsViewModel = hiltViewModel(),
 ) {
     TrackScreenView(screen = Screen.CastDetails, logger)

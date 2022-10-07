@@ -13,6 +13,8 @@ import io.github.leoallvez.take.ui.Screen
 import okio.IOException
 import timber.log.Timber
 
+typealias MediaItemClick = (apiId: Long, mediaType: String?) -> Unit
+
 inline fun <reified T> String.fromJson(): T? = try {
     val moshi = Moshi.Builder().build()
     moshi.adapter(T::class.java).fromJson(this)
