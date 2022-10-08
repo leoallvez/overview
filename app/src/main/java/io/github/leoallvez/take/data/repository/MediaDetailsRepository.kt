@@ -3,7 +3,7 @@ package io.github.leoallvez.take.data.repository
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.data.source.DataResult
-import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
+import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
 import io.github.leoallvez.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow

@@ -1,8 +1,8 @@
 package io.github.leoallvez.take.data.api.response
 
 import com.squareup.moshi.Json
+import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.model.MediaItem
-
 
 data class PersonResponse (
     val id: Long,
@@ -21,7 +21,11 @@ data class PersonResponse (
     val tvCredits: TvCredits,
     @field:Json(name = "movie_credits")
     val movieCredits: MovieCredits
-)
+) {
+    override fun toString() = "name: $name \nbiography: $biography"
+
+    fun getProfile() = "${BuildConfig.IMG_URL}/$profilePath"
+}
 
 data class MovieCredits (
     val cast: List<MediaItem>,

@@ -11,12 +11,13 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.Screen
-import io.github.leoallvez.take.ui.cast_details.CastDetailsScreen
+import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.discover.DiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.util.MediaItemClick
+import io.github.leoallvez.take.util.getApiId
 import io.github.leoallvez.take.util.getParams
 
 @ExperimentalPagerApi
@@ -89,7 +90,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     ) { navBackStackEntry ->
         CastDetailsScreen(
-            apiId = navBackStackEntry.arguments?.getLong(Screen.ID_PARAM),
+            apiId = navBackStackEntry.getApiId(),
             logger = logger,
             onNavigateToHome = { navController.navigate(Screen.Home.route) },
             onNavigateToMediaDetails = onNavigateToMediaDetails,

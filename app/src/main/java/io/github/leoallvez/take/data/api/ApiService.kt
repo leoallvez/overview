@@ -54,8 +54,7 @@ interface ApiService {
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
     @GET(value = "person/{api_id}")
-    suspend fun getPerson(
-        mediaType: String,
+    suspend fun getPersonDetails(
         @Path(value = "api_id", encoded = true)
         apiId: Long,
         @Query(value ="api_key")

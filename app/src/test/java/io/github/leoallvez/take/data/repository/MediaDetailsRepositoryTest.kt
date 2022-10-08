@@ -2,7 +2,7 @@ package io.github.leoallvez.take.data.repository
 
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.source.DataResult.*
-import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
+import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

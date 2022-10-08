@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.data.source.mediaitem
+package io.github.leoallvez.take.data.source.media_item
 
 import io.github.leoallvez.take.data.db.dao.MediaItemDao
 import io.github.leoallvez.take.data.model.MediaItem
