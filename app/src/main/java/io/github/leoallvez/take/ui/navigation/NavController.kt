@@ -23,10 +23,8 @@ import io.github.leoallvez.take.util.getParams
 @Composable
 fun NavController(logger: Logger, navController: NavHostController = rememberNavController()) {
 
-    val onNavigateToMediaDetails = { apiId: Long, mediaType: String? ->
-        navController.navigate(
-            Screen.MediaDetails.editRoute(id = apiId, type = mediaType)
-        )
+    val onNavigateToMediaDetails: MediaItemClick = { id, type ->
+        navController.navigate(Screen.MediaDetails.editRoute(id, type))
     }
     NavHost(
         navController = navController,

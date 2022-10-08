@@ -2,10 +2,7 @@ package io.github.leoallvez.take.data.api
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.leoallvez.take.BuildConfig
-import io.github.leoallvez.take.data.api.response.ListContentResponse
-import io.github.leoallvez.take.data.api.response.ErrorResponse
-import io.github.leoallvez.take.data.api.response.MediaDetailResponse
-import io.github.leoallvez.take.data.api.response.ProviderResponse
+import io.github.leoallvez.take.data.api.response.*
 import io.github.leoallvez.take.data.model.MediaItem
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -56,4 +53,18 @@ interface ApiService {
         region: String = "BR",
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
+    @GET(value = "person/{api_id}")
+    suspend fun getPerson(
+        mediaType: String,
+        @Path(value = "api_id", encoded = true)
+        apiId: Long,
+        @Query(value ="api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "pt-BR",
+        @Query(value = "region")
+        region: String = "BR",
+        @Query(value = "append_to_response")
+        appendToResponse: String = "tv_credits,movie_credits"
+    ): NetworkResponse<PersonResponse, ErrorResponse>
 }
