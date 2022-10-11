@@ -18,19 +18,14 @@ data class PersonResponse (
     @field:Json(name = "profile_path")
     val profilePath: String,
     @field:Json(name = "tv_credits")
-    val tvCredits: TvCredits,
+    private val tvCredits: TvCredits,
     @field:Json(name = "movie_credits")
-    val movieCredits: MovieCredits
+    private val movieCredits: MovieCredits
 ) {
     fun getProfile() = "${BuildConfig.IMG_URL}/$profilePath"
+    fun getFilmography() = movieCredits.cast
+    fun getTvShows() = tvCredits.cast
 }
 
-data class MovieCredits (
-    val cast: List<MediaItem>,
-    val crew: List<MediaItem>
-)
-
-data class TvCredits (
-    val cast: List<MediaItem>,
-    val crew: List<MediaItem>
-)
+data class MovieCredits (val cast: List<MediaItem>)
+data class TvCredits (val cast: List<MediaItem>)

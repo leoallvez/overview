@@ -40,6 +40,7 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
+import io.github.leoallvez.take.ui.theme.BorderColor
 import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
@@ -325,4 +326,35 @@ fun <T> UiStateResult(
         is UiState.Success -> successContent(uiState.data)
         else -> ErrorScreen { onRefresh() }
     }
+}
+
+@Composable
+fun BasicParagraph(@StringRes paragraphTitle: Int, paragraph: String) {
+    if (paragraph.isNotBlank()) {
+        Column {
+            BasicTitle(stringResource(paragraphTitle))
+            Text(
+                text = paragraph,
+                color = Color.White,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
+                textAlign = TextAlign.Justify
+            )
+        }
+    }
+}
+
+@Composable
+fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Modifier = Modifier) {
+    BasicImage(
+        url = imageUrl,
+        contentDescription = contentDescription,
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+            .size(120.dp)
+            .clip(CircleShape)
+            .border(dimensionResource(R.dimen.border_width), BorderColor, CircleShape),
+        placeholder = painterResource(R.drawable.avatar),
+        errorDefaultImage = painterResource(R.drawable.avatar)
+    )
 }

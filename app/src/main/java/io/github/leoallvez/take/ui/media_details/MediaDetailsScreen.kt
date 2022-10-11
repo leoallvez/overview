@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -17,15 +16,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.leoallvez.take.Logger
@@ -34,13 +28,13 @@ import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.data.api.response.Person
 import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
 import io.github.leoallvez.take.ui.theme.BorderColor
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
 
 @Composable
@@ -61,7 +55,7 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, mediaType) }
     ) { dataResult ->
-        MediaDetailsContent(mediaDetails = dataResult, showAds = showAds, events = events) {
+        MediaDetailsContent(dataResult, showAds, events) {
             viewModel.refresh(apiId, mediaType)
         }
     }
@@ -72,10 +66,10 @@ fun MediaDetailsContent(
     mediaDetails: MediaDetails?,
     showAds: Boolean,
     events: MediaDetailsScreenEvents,
-    refresh: () -> Unit
+    onRefresh: () -> Unit
 ) {
     if (mediaDetails == null) {
-        ErrorScreen { refresh.invoke() }
+        ErrorScreen { onRefresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
             modifier = Modifier,
@@ -140,7 +134,7 @@ fun MediaBody(
             GenreList(genres) { apiId ->
                 events.onNavigateToCastDetails(apiId = apiId)
             }
-            Overview(overview)
+            BasicParagraph(R.string.synopsis, overview)
             AdsBanner(
                 bannerId = R.string.banner_sample_id,
                 isVisible = showAds,
@@ -254,22 +248,6 @@ fun GenreItem(name: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun Overview(overview: String) {
-    if (overview.isNotBlank()) {
-        Column {
-            BasicTitle(stringResource(R.string.synopsis))
-            Text(
-                text = overview,
-                color = Color.White,
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
-                textAlign = TextAlign.Justify
-            )
-        }
-    }
-}
-
-@Composable
 fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
     if (cast.isNotEmpty()) {
         Column {
@@ -295,17 +273,7 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
-        BasicImage(
-            url = castPerson.getProfile(),
-            contentDescription = castPerson.name,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(120.dp)
-                .clip(CircleShape)
-                .border(dimensionResource(R.dimen.border_width), BorderColor, CircleShape),
-            placeholder = painterResource(R.drawable.avatar),
-            errorDefaultImage = painterResource(R.drawable.avatar)
-        )
+        PersonImageCircle(imageUrl = castPerson.getProfile(), contentDescription = castPerson.name)
         BasicText(
             text = castPerson.name,
             style =  MaterialTheme.typography.caption,

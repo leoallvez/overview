@@ -1,26 +1,33 @@
 package io.github.leoallvez.take.ui.person
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.ui.MediaItemList
-import io.github.leoallvez.take.data.api.response.PersonResponse as Person
-import io.github.leoallvez.take.ui.Screen
-import io.github.leoallvez.take.ui.TrackScreenView
-import io.github.leoallvez.take.ui.UiStateResult
+import io.github.leoallvez.take.data.MediaType
+import io.github.leoallvez.take.data.MediaType.*
+import io.github.leoallvez.take.data.model.MediaItem
+import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.util.MediaItemClick
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 
 @Composable
 fun CastDetailsScreen(
@@ -54,27 +61,81 @@ fun PersonDetailsContent(
     onNavigateToMediaDetails: MediaItemClick,
     onRefresh: () -> Unit,
 ) {
+    if(person == null) {
+        ErrorScreen { onRefresh.invoke() }
+    } else {
+        CollapsingToolbarScaffold(
+            modifier = Modifier,
+            scrollStrategy = ScrollStrategy.EnterAlways,
+            state = rememberCollapsingToolbarScaffoldState(),
+            toolbar = {
+                PersonToolBar(person) {
+                    onNavigateToHome.invoke()
+                }
+            }
+        ) {
+            PersonBody(person, showAds, onNavigateToMediaDetails)
+        }
+    }
+}
+
+@Composable
+fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
+    Box(Modifier.fillMaxWidth().background(Background)) {
+
+        PersonImageCircle(
+            imageUrl = person.getProfile(),
+            contentDescription = person.name,
+            modifier = Modifier
+                .size(200.dp)
+                .padding(dimensionResource(R.dimen.screen_padding))
+                .align(Alignment.Center)
+        )
+        ToolbarButton(
+            painter = Icons.Default.KeyboardArrowLeft,
+            descriptionResource = R.string.back_to_home_icon
+        ) { backButtonAction.invoke() }
+    }
+}
+
+@Composable
+fun PersonBody(
+    person: Person,
+    showAds: Boolean,
+    onNavigateToMediaDetails: MediaItemClick
+) {
     Column(
         modifier = Modifier
-            .background(Background)
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(Background)
+            .padding(dimensionResource(R.dimen.default_padding)),
     ) {
+        person.apply {
+            ScreenTitle(name)
+            BasicParagraph(R.string.biography, biography)
+            ParticipationList(
+                R.string.movies_participation, getFilmography(), MOVIE, onNavigateToMediaDetails
+            )
+            ParticipationList(
+                R.string.tv_shows_participation, getTvShows(), TV, onNavigateToMediaDetails
+            )
+            AdsBanner(R.string.banner_sample_id, showAds)
+        }
+    }
+}
 
-        Box {
-            Text(text = "${person?.biography}", modifier = Modifier.align(Alignment.Center))
-        }
-
-        MediaItemList(
-            listTitle = stringResource(R.string.related),
-            items = person?.movieCredits?.crew ?: listOf(),
-        ) { apiId, _ ->
-            onNavigateToMediaDetails.invoke(apiId, "movie")
-        }
-        MediaItemList(
-            listTitle = stringResource(R.string.related),
-            items = person?.tvCredits?.crew ?: listOf(),
-        ) { apiId, _ ->
-            onNavigateToMediaDetails.invoke(apiId, "tv")
-        }
+@Composable
+fun ParticipationList(
+    @StringRes listTitleRes: Int,
+    mediaItems: List<MediaItem>,
+    mediaType: MediaType,
+    onClick: MediaItemClick
+) {
+    MediaItemList(
+        listTitle = stringResource(listTitleRes),
+        items = mediaItems,
+    ) { apiId, _ ->
+        onClick.invoke(apiId, mediaType.key)
     }
 }
