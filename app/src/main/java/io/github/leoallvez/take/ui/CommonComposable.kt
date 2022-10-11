@@ -67,7 +67,7 @@ fun TrackScreenView(screen: Screen, logger: Logger) {
 }
 
 @Composable
-fun LoadingIndicator() {
+fun LoadingScreen() {
     Column(
         modifier = Modifier
             .background(Background)
@@ -88,7 +88,7 @@ fun LoadingIndicator() {
 }
 
 @Composable
-fun ErrorOnLoading(refresh: () -> Unit) {
+fun ErrorScreen(refresh: () -> Unit) {
     Column(
         modifier = Modifier
             .background(Background)
@@ -315,16 +315,14 @@ fun Backdrop(
 }
 
 @Composable
-fun <T> ScreenState(
+fun <T> UiStateResult(
     uiState: UiState<T>,
     onRefresh: () -> Unit,
-    SuccessComposable: @Composable (dataResult: T) -> Unit
+    successContent: @Composable (T) -> Unit
 ) {
     when(uiState) {
-        is UiState.Loading -> LoadingIndicator()
-        is UiState.Success -> {
-            SuccessComposable.invoke(uiState.data)
-        }
-        else -> ErrorOnLoading { onRefresh.invoke() }
+        is UiState.Loading -> LoadingScreen()
+        is UiState.Success -> successContent(uiState.data)
+        else -> ErrorScreen { onRefresh() }
     }
 }

@@ -57,7 +57,7 @@ fun MediaDetailsScreen(
     val (apiId: Long, mediaType: String) = params
     viewModel.loadMediaDetails(apiId, mediaType)
 
-    ScreenState(
+    UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, mediaType) }
     ) { dataResult ->
@@ -75,7 +75,7 @@ fun MediaDetailsContent(
     refresh: () -> Unit
 ) {
     if (mediaDetails == null) {
-        ErrorOnLoading { refresh.invoke() }
+        ErrorScreen { refresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
             modifier = Modifier,

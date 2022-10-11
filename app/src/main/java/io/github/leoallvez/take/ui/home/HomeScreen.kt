@@ -46,7 +46,7 @@ fun HomeScreen(
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
     if(loading) {
-        LoadingIndicator()
+        LoadingScreen()
     } else {
         if (suggestions.isNotEmpty()) {
             CollapsingToolbarScaffold(
@@ -66,7 +66,7 @@ fun HomeScreen(
                 )
             }
         } else {
-            ErrorOnLoading { viewModel.refresh() }
+            ErrorScreen { viewModel.refresh() }
         }
     }
 }

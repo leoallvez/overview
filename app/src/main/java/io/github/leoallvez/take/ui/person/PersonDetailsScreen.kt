@@ -10,12 +10,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.leoallvez.take.Logger
+import io.github.leoallvez.take.R
+import io.github.leoallvez.take.ui.MediaItemList
 import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 import io.github.leoallvez.take.ui.Screen
-import io.github.leoallvez.take.ui.ScreenState
 import io.github.leoallvez.take.ui.TrackScreenView
+import io.github.leoallvez.take.ui.UiStateResult
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.util.MediaItemClick
 
@@ -33,7 +36,7 @@ fun CastDetailsScreen(
 
     viewModel.loadPersonDetails(apiId)
 
-    ScreenState(
+    UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId) }
     ) { dataResult ->
@@ -56,8 +59,22 @@ fun PersonDetailsContent(
             .background(Background)
             .fillMaxSize()
     ) {
+
         Box {
-            Text(text = "${person?.toString()}", modifier = Modifier.align(Alignment.Center))
+            Text(text = "${person?.biography}", modifier = Modifier.align(Alignment.Center))
+        }
+
+        MediaItemList(
+            listTitle = stringResource(R.string.related),
+            items = person?.movieCredits?.crew ?: listOf(),
+        ) { apiId, _ ->
+            onNavigateToMediaDetails.invoke(apiId, "movie")
+        }
+        MediaItemList(
+            listTitle = stringResource(R.string.related),
+            items = person?.tvCredits?.crew ?: listOf(),
+        ) { apiId, _ ->
+            onNavigateToMediaDetails.invoke(apiId, "tv")
         }
     }
 }
