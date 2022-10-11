@@ -12,8 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.leoallvez.take.Logger
-import io.github.leoallvez.take.data.api.response.PersonResponse
-import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.data.api.response.PersonResponse as Person
+import io.github.leoallvez.take.ui.Screen
+import io.github.leoallvez.take.ui.ScreenState
+import io.github.leoallvez.take.ui.TrackScreenView
 import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.util.MediaItemClick
 
@@ -31,20 +33,19 @@ fun CastDetailsScreen(
 
     viewModel.loadPersonDetails(apiId)
 
-    when(val uiState = viewModel.uiState.collectAsState().value) {
-        is UiState.Loading -> LoadingIndicator()
-        is UiState.Success -> {
-            PersonDetailsContent(uiState.data, showAds, onNavigateToHome, onNavigateToMediaDetails) {
-                viewModel.refresh(apiId)
-            }
+    ScreenState(
+        uiState = viewModel.uiState.collectAsState().value,
+        onRefresh = { viewModel.refresh(apiId) }
+    ) { dataResult ->
+        PersonDetailsContent(dataResult, showAds, onNavigateToHome, onNavigateToMediaDetails) {
+            viewModel.refresh(apiId)
         }
-        is UiState.Error -> ErrorOnLoading { viewModel.refresh(apiId) }
     }
 }
 
 @Composable
 fun PersonDetailsContent(
-    personDetails: PersonResponse?,
+    person: Person?,
     showAds: Boolean,
     onNavigateToHome: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
@@ -56,7 +57,7 @@ fun PersonDetailsContent(
             .fillMaxSize()
     ) {
         Box {
-            Text(text = "${personDetails?.toString()}", modifier = Modifier.align(Alignment.Center))
+            Text(text = "${person?.toString()}", modifier = Modifier.align(Alignment.Center))
         }
     }
 }

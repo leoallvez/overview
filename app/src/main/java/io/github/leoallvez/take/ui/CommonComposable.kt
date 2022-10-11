@@ -313,3 +313,18 @@ fun Backdrop(
         error = painterResource(R.drawable.img_gargantua)
     )
 }
+
+@Composable
+fun <T> ScreenState(
+    uiState: UiState<T>,
+    onRefresh: () -> Unit,
+    SuccessComposable: @Composable (dataResult: T) -> Unit
+) {
+    when(uiState) {
+        is UiState.Loading -> LoadingIndicator()
+        is UiState.Success -> {
+            SuccessComposable.invoke(uiState.data)
+        }
+        else -> ErrorOnLoading { onRefresh.invoke() }
+    }
+}

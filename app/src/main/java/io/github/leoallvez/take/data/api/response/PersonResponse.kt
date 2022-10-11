@@ -22,7 +22,8 @@ data class PersonResponse (
     @field:Json(name = "movie_credits")
     val movieCredits: MovieCredits
 ) {
-    override fun toString() = "name: $name \nbiography: $biography"
+    override fun toString() = """name: $name \n biography: $biography\n crew size ${movieCredits.crew.size} \n
+             movie cast size ${movieCredits.crew.size}, tv cast size ${tvCredits.cast.size}"""
 
     fun getProfile() = "${BuildConfig.IMG_URL}/$profilePath"
 }

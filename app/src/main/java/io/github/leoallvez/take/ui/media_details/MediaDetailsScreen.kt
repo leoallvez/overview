@@ -57,14 +57,13 @@ fun MediaDetailsScreen(
     val (apiId: Long, mediaType: String) = params
     viewModel.loadMediaDetails(apiId, mediaType)
 
-    when(val uiState = viewModel.uiState.collectAsState().value) {
-        is UiState.Loading -> LoadingIndicator()
-        is UiState.Success -> {
-            MediaDetailsContent(mediaDetails = uiState.data, showAds, events = events) {
-                viewModel.refresh(apiId, mediaType)
-            }
+    ScreenState(
+        uiState = viewModel.uiState.collectAsState().value,
+        onRefresh = { viewModel.refresh(apiId, mediaType) }
+    ) { dataResult ->
+        MediaDetailsContent(mediaDetails = dataResult, showAds = showAds, events = events) {
+            viewModel.refresh(apiId, mediaType)
         }
-        is UiState.Error -> ErrorOnLoading { viewModel.refresh(apiId, mediaType) }
     }
 }
 

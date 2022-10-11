@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private typealias MediaUiState = UiState<MediaDetailResponse?>
+typealias MediaUiState = UiState<MediaDetailResponse?>
 
 @HiltViewModel
 class MediaDetailsViewModel @Inject constructor(
