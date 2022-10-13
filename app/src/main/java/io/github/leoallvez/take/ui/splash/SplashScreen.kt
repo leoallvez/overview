@@ -21,7 +21,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.ui.Screen
 import io.github.leoallvez.take.ui.TrackScreenView
-import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
 import kotlinx.coroutines.delay
 
@@ -50,7 +50,7 @@ fun SplashScreen(logger: Logger, onNavigateToHome: () -> Unit) {
 @Composable
 fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
     Box(
-        modifier = Modifier.fillMaxSize().background(Background),
+        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
         contentAlignment = Alignment.Center,
     ) {
         Text(

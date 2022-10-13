@@ -29,9 +29,9 @@ import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
-import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
-import io.github.leoallvez.take.ui.theme.BorderColor
+import io.github.leoallvez.take.ui.theme.SecondaryBackground
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -122,7 +122,7 @@ fun MediaBody(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(Background)
+            .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding)),
     ) {
         mediaDetails.apply {
@@ -196,7 +196,7 @@ fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
             .size(50.dp)
             .border(
                 dimensionResource(R.dimen.border_width),
-                BorderColor,
+                SecondaryBackground,
                 RoundedCornerShape(dimensionResource(R.dimen.corner))
             )
             .clickable { onClick.invoke() }
@@ -240,7 +240,7 @@ fun GenreItem(name: String, onClick: () -> Unit) {
     ) {
         Text(
             text = name,
-            color = Background,
+            color = PrimaryBackground,
             style = MaterialTheme.typography.caption,
             fontWeight = FontWeight.Bold
         )

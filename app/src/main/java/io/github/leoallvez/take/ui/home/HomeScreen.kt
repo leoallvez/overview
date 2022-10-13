@@ -22,7 +22,7 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.ui.*
-import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
 import io.github.leoallvez.take.util.MediaItemClick
 import io.github.leoallvez.take.util.getStringByName
@@ -94,7 +94,7 @@ private fun HorizontalCardSlider(
 ) {
     val pagerState = rememberPagerState(pageCount = items.size)
 
-    Column(Modifier.background(Background)) {
+    Column(Modifier.background(PrimaryBackground)) {
         Box {
             SlideImage(pagerState = pagerState, items = items, onClick = callback)
             SlideIndicator(
@@ -157,7 +157,7 @@ fun HomeScreenContent(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(Background)
+            .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
         Column {

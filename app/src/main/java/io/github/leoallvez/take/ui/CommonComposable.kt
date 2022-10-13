@@ -38,9 +38,9 @@ import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressInd
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
-import io.github.leoallvez.take.ui.theme.BorderColor
+import io.github.leoallvez.take.ui.theme.SecondaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
@@ -71,7 +71,7 @@ fun TrackScreenView(screen: Screen, logger: Logger) {
 fun LoadingScreen() {
     Column(
         modifier = Modifier
-            .background(Background)
+            .background(PrimaryBackground)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -92,7 +92,7 @@ fun LoadingScreen() {
 fun ErrorScreen(refresh: () -> Unit) {
     Column(
         modifier = Modifier
-            .background(Background)
+            .background(PrimaryBackground)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -161,7 +161,7 @@ fun ToolbarButton(
         modifier
             .padding(dimensionResource(R.dimen.screen_padding))
             .clip(CircleShape)
-            .background(Background.copy(alpha = 0.5f))
+            .background(PrimaryBackground.copy(alpha = 0.5f))
             .size(45.dp)
             .clickable { onClick.invoke() }
     ) {
@@ -248,7 +248,7 @@ fun BasicImage(
                 .crossfade(true)
                 .build(),
             modifier = modifier
-                .background(Background)
+                .background(PrimaryBackground)
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
@@ -304,14 +304,12 @@ fun Backdrop(
             .crossfade(true)
             .build(),
         modifier = modifier
-            .background(Background)
+            .background(SecondaryBackground)
             .fillMaxWidth()
             .height(280.dp)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
         contentScale = ContentScale.FillHeight,
-        contentDescription = contentDescription,
-        placeholder = painterResource(R.drawable.img_gargantua),
-        error = painterResource(R.drawable.img_gargantua)
+        contentDescription = contentDescription
     )
 }
 
@@ -353,7 +351,7 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
         modifier = modifier
             .size(120.dp)
             .clip(CircleShape)
-            .border(dimensionResource(R.dimen.border_width), BorderColor, CircleShape),
+            .border(dimensionResource(R.dimen.border_width), SecondaryBackground, CircleShape),
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )

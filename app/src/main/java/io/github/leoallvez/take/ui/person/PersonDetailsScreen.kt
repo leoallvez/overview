@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -12,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,7 +24,8 @@ import io.github.leoallvez.take.data.MediaType
 import io.github.leoallvez.take.data.MediaType.*
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.*
-import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
+import io.github.leoallvez.take.ui.theme.SecondaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -65,7 +68,7 @@ fun PersonDetailsContent(
         ErrorScreen { onRefresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
-            modifier = Modifier,
+            modifier = Modifier.background(PrimaryBackground),
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
@@ -81,13 +84,18 @@ fun PersonDetailsContent(
 
 @Composable
 fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
-    Box(Modifier.fillMaxWidth().background(Background)) {
+    Box(
+        Modifier.fillMaxWidth()
+            .height(300.dp)
+            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+            .background(SecondaryBackground)
+    ) {
 
         PersonImageCircle(
             imageUrl = person.getProfileImage(),
             contentDescription = person.name,
             modifier = Modifier
-                .size(200.dp)
+                .size(280.dp)
                 .padding(dimensionResource(R.dimen.screen_padding))
                 .align(Alignment.Center)
         )
@@ -108,7 +116,7 @@ fun PersonBody(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(Background)
+            .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding)),
     ) {
         person.apply {
