@@ -11,8 +11,12 @@ data class ProviderResponse (
 data class Provider (
     private val link: String,
     @field:Json(name = "flatrate")
-    val flatRate: List<ProviderPlace>?
-)
+    private val flatRate: List<ProviderPlace>?
+) {
+    fun getOrderedFlatRate(): List<ProviderPlace> {
+        return flatRate?.sortedBy { it.displayPriority } ?: listOf()
+    }
+}
 
 class ProviderPlace(
     val id: Long = 0L,
@@ -23,5 +27,5 @@ class ProviderPlace(
     @field:Json(name = "provider_name")
     val providerName: String = "",
 ) {
-    fun getLogo() = "${BuildConfig.IMG_URL}/$logoPath"
+    fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
 }

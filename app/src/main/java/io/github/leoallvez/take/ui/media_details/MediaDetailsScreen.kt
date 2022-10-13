@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
-import io.github.leoallvez.take.data.api.response.Person
+import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
@@ -91,12 +91,12 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
     Box(Modifier.fillMaxWidth()) {
         mediaDetails.apply {
             Backdrop(
-                url = getBackdrop(),
+                url = getBackdropImage(),
                 contentDescription = getLetter(),
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
             BasicImage(
-                url = getPoster(),
+                url = getPosterImage(),
                 contentDescription = getLetter(),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -190,7 +190,7 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
 @Composable
 fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
     BasicImage(
-        url = provider.getLogo(),
+        url = provider.getLogoImage(),
         contentDescription = provider.providerName,
         modifier = Modifier
             .size(50.dp)
@@ -273,7 +273,7 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
-        PersonImageCircle(imageUrl = castPerson.getProfile(), contentDescription = castPerson.name)
+        PersonImageCircle(imageUrl = castPerson.getProfileImage(), contentDescription = castPerson.name)
         BasicText(
             text = castPerson.name,
             style =  MaterialTheme.typography.caption,

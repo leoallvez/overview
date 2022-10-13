@@ -3,6 +3,7 @@ package io.github.leoallvez.take.data.api.response
 import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig.IMG_URL
 import io.github.leoallvez.take.data.model.MediaItem
+import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 
 data class MediaDetailResponse (
     val id: Long = 0L,
@@ -43,11 +44,11 @@ data class MediaDetailResponse (
 
     fun getLetter() = mediaTitle ?: mediaName
 
-    fun getPoster() = "$IMG_URL/$posterPath"
+    fun getPosterImage() = "$IMG_URL/$posterPath"
 
-    fun getBackdrop() = "$IMG_URL/$backdropPath"
+    fun getBackdropImage() = "$IMG_URL/$backdropPath"
 
-    fun getOrderedCast(): List<Person> = credits.cast.sortedBy { it.order }
+    fun getOrderedCast() = credits.cast.sortedBy { it.order }
 
     fun getReleaseYear() = releaseDate.split("-").first()
 
@@ -57,28 +58,8 @@ data class MediaDetailResponse (
         ""
     }
 }
+data class Credits (val cast: List<Person> = listOf())
 
-data class Similar (
-    val results: List<MediaItem> = listOf(),
-)
+data class Genre (val id: Long = 0, val name: String = "")
 
-data class Genre (
-    val id: Long = 0,
-    val name: String = ""
-)
-
-data class Credits (
-    val cast: List<Person> = listOf(),
-    val crew: List<Person> = listOf(),
-)
-
-data class Person(
-    val id: Long,
-    val name: String,
-    @field:Json(name = "profile_path")
-    val profilePath: String? = "",
-    val character: String,
-    val order: Int,
-) {
-    fun getProfile() = "$IMG_URL/$profilePath"
-}
+data class Similar (val results: List<MediaItem> = listOf())

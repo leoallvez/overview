@@ -84,7 +84,7 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
     Box(Modifier.fillMaxWidth().background(Background)) {
 
         PersonImageCircle(
-            imageUrl = person.getProfile(),
+            imageUrl = person.getProfileImage(),
             contentDescription = person.name,
             modifier = Modifier
                 .size(200.dp)
@@ -102,7 +102,7 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
 fun PersonBody(
     person: Person,
     showAds: Boolean,
-    onNavigateToMediaDetails: MediaItemClick
+    onClickItem: MediaItemClick
 ) {
     Column(
         modifier = Modifier
@@ -114,12 +114,8 @@ fun PersonBody(
         person.apply {
             ScreenTitle(name)
             BasicParagraph(R.string.biography, biography)
-            ParticipationList(
-                R.string.movies_participation, getFilmography(), MOVIE, onNavigateToMediaDetails
-            )
-            ParticipationList(
-                R.string.tv_shows_participation, getTvShows(), TV, onNavigateToMediaDetails
-            )
+            ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
+            ParticipationList(R.string.tv_shows_participation, getTvShows(), TV, onClickItem)
             AdsBanner(R.string.banner_sample_id, showAds)
         }
     }
@@ -130,12 +126,12 @@ fun ParticipationList(
     @StringRes listTitleRes: Int,
     mediaItems: List<MediaItem>,
     mediaType: MediaType,
-    onClick: MediaItemClick
+    onClickItem: MediaItemClick
 ) {
     MediaItemList(
         listTitle = stringResource(listTitleRes),
         items = mediaItems,
     ) { apiId, _ ->
-        onClick.invoke(apiId, mediaType.key)
+        onClickItem.invoke(apiId, mediaType.key)
     }
 }

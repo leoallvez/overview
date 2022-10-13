@@ -220,7 +220,7 @@ fun MediaItemList(
 fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
     Column(Modifier.clickable { onClick.invoke() }) {
         BasicImage(
-            url = mediaItem.getPoster(),
+            url = mediaItem.getPosterImage(),
             contentDescription = mediaItem.getLetter(),
         )
         BasicText(

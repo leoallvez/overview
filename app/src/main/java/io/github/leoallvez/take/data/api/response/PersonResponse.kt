@@ -9,23 +9,22 @@ data class PersonResponse (
     val name: String,
     val biography: String,
     val birthday: String,
+    val order: Int = 0,
+    val character: String = "",
     @field:Json(name = "deathday")
     val deathDay: String? = null,
-    @field:Json(name = "known_for_department")
-    val knownForDepartment: String,
     @field:Json(name = "place_of_birth")
     val placeOfBirth: String,
     @field:Json(name = "profile_path")
-    val profilePath: String,
+    private val profilePath: String,
     @field:Json(name = "tv_credits")
-    private val tvCredits: TvCredits,
+    private val tvCredits: MediaCredits,
     @field:Json(name = "movie_credits")
-    private val movieCredits: MovieCredits
+    private val movieCredits: MediaCredits
 ) {
-    fun getProfile() = "${BuildConfig.IMG_URL}/$profilePath"
+    fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
     fun getFilmography() = movieCredits.cast
     fun getTvShows() = tvCredits.cast
 }
 
-data class MovieCredits (val cast: List<MediaItem>)
-data class TvCredits (val cast: List<MediaItem>)
+data class MediaCredits (val cast: List<MediaItem>)

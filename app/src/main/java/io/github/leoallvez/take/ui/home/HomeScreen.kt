@@ -127,7 +127,7 @@ fun SlideImage(
                 .clickable { onClick.invoke(item) }
         ) {
             Backdrop(
-                url = item.getBackdrop(),
+                url = item.getBackdropImage(),
                 contentDescription = item.getLetter(),
                 modifier = Modifier.align(Alignment.TopCenter)
             )
