@@ -207,7 +207,7 @@ fun MediaItemList(
                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding))
             ) {
                 items(items) { item ->
-                    MediaItem(item) {
+                    MediaItem(item, imageWithBorder = true) {
                         onClickItem.invoke(item.apiId, mediaType ?: item.type)
                     }
                 }
@@ -217,11 +217,12 @@ fun MediaItemList(
 }
 
 @Composable
-fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
+fun MediaItem(mediaItem: MediaItem, imageWithBorder: Boolean = false, onClick: () -> Unit) {
     Column(Modifier.clickable { onClick.invoke() }) {
         BasicImage(
             url = mediaItem.getPosterImage(),
             contentDescription = mediaItem.getLetter(),
+            withBorder = imageWithBorder
         )
         BasicText(
             text = mediaItem.getLetter(),
@@ -239,7 +240,8 @@ fun BasicImage(
     height: Dp = dimensionResource(R.dimen.image_height),
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
-    errorDefaultImage: Painter = painterResource(R.drawable.placeholder)
+    errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
+    withBorder: Boolean = false
 ) {
     if (url.isNotEmpty()) {
         AsyncImage(
@@ -251,7 +253,12 @@ fun BasicImage(
                 .background(PrimaryBackground)
                 .fillMaxWidth()
                 .height(height)
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                    then (if(withBorder) Modifier.border(
+                            dimensionResource(R.dimen.border_width),
+                            SecondaryBackground,
+                            RoundedCornerShape(dimensionResource(R.dimen.corner))
+                    ) else Modifier),
             contentScale = contentScale,
             placeholder = placeholder,
             contentDescription = contentDescription,

@@ -25,17 +25,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
-import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
-import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
-import io.github.leoallvez.take.ui.theme.SecondaryBackground
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse as MediaDetails
+import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 
 @Composable
 fun MediaDetailsScreen(
@@ -192,13 +191,9 @@ fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
     BasicImage(
         url = provider.getLogoImage(),
         contentDescription = provider.providerName,
+        withBorder = true,
         modifier = Modifier
             .size(50.dp)
-            .border(
-                dimensionResource(R.dimen.border_width),
-                SecondaryBackground,
-                RoundedCornerShape(dimensionResource(R.dimen.corner))
-            )
             .clickable { onClick.invoke() }
     )
 }
