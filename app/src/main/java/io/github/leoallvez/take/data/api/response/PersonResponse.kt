@@ -5,7 +5,8 @@ import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.model.MediaItem
 
 data class PersonResponse (
-    val id: Long,
+    @field:Json(name = "id")
+    val apiId: Long = 0,
     val name: String,
     val biography: String,
     val birthday: String,

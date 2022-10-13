@@ -4,7 +4,8 @@ import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig
 
 data class ProviderResponse (
-    private val id: Long,
+    @field:Json(name = "id")
+    val apiId: Long = 0,
     val results: Map<String, Provider>
 )
 
@@ -19,7 +20,8 @@ data class Provider (
 }
 
 class ProviderPlace(
-    val id: Long = 0L,
+    @field:Json(name = "id")
+    val apiId: Long = 0,
     @field:Json(name = "display_priority")
     val displayPriority: Int = 0,
     @field:Json(name = "logo_path")

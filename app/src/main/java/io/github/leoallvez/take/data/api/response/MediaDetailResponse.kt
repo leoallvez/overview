@@ -6,7 +6,8 @@ import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 
 data class MediaDetailResponse (
-    val id: Long = 0L,
+    @field:Json(name = "id")
+    val apiId: Long = 0,
 
     @field:Json(name = "backdrop_path")
     private val backdropPath: String = "",
@@ -25,7 +26,7 @@ data class MediaDetailResponse (
     @field:Json(name = "release_date")
     private val releaseDate: String = "",
 
-    private val runtime: Long = 0L,
+    private val runtime: Long = 0,
 
     private val title: String? = null,
     private val name: String? = null,
@@ -60,6 +61,10 @@ data class MediaDetailResponse (
 }
 data class Credits (val cast: List<Person> = listOf())
 
-data class Genre (val id: Long = 0, val name: String = "")
+data class Genre (
+    @field:Json(name = "id")
+    val apiId: Long = 0,
+    val name: String = ""
+)
 
 data class Similar (val results: List<MediaItem> = listOf())

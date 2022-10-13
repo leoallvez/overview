@@ -180,7 +180,7 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
         ) {
             items(providers) { provider ->
                 ProviderItem(provider) {
-                    onClickItem.invoke(provider.id)
+                    onClickItem.invoke(provider.apiId)
                 }
             }
         }
@@ -215,7 +215,7 @@ fun GenreList(genres: List<Genre>, onClickItem: (Long) -> Unit) {
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
-                    onClickItem.invoke(genre.id)
+                    onClickItem.invoke(genre.apiId)
                 }
             }
         }
@@ -259,7 +259,7 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
             ) {
                 items(cast) { castPerson ->
                     CastItem(castPerson = castPerson) {
-                        onClickItem.invoke(castPerson.id)
+                        onClickItem.invoke(castPerson.apiId)
                     }
                 }
             }
