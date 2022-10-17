@@ -3,6 +3,7 @@ package io.github.leoallvez.take.data.api.response
 import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig.IMG_URL
 import io.github.leoallvez.take.data.model.MediaItem
+import io.github.leoallvez.take.util.DateHelper
 import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 
 data class MediaDetailResponse (
@@ -51,7 +52,7 @@ data class MediaDetailResponse (
 
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
 
-    fun getReleaseYear() = releaseDate.split("-").first()
+    fun getReleaseYear() = DateHelper(releaseDate).getYear()
 
     fun getRuntimeFormatted() = if (runtime > 0) {
         "${runtime/60}h ${runtime%60}min"

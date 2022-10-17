@@ -3,6 +3,7 @@ package io.github.leoallvez.take.data.api.response
 import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.model.MediaItem
+import io.github.leoallvez.take.util.DateHelper
 
 data class PersonResponse (
     @field:Json(name = "id")
@@ -26,6 +27,11 @@ data class PersonResponse (
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
     fun getFilmography() = movieCredits.cast
     fun getTvShows() = tvCredits.cast
+
+    fun getFormattedBirthday() = DateHelper(birthday).formattedDate()
+
+    fun getFormattedDeathDay() = DateHelper(deathDay).formattedDate()
 }
 
 data class MediaCredits (val cast: List<MediaItem>)
+
