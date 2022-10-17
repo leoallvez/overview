@@ -87,7 +87,8 @@ fun PersonDetailsContent(
 @Composable
 fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
     Box(
-        Modifier.fillMaxWidth()
+        Modifier
+            .fillMaxWidth()
             .height(300.dp)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
             .background(SecondaryBackground)
@@ -122,12 +123,29 @@ fun PersonBody(
             .padding(dimensionResource(R.dimen.default_padding)),
     ) {
         person.apply {
-            Text(text = getFormattedBirthday(), color = Color.White)
             ScreenTitle(name)
+            Birthday(person)
             BasicParagraph(R.string.biography, biography)
             ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
             ParticipationList(R.string.tv_shows_participation, getTvShows(), TV, onClickItem)
             AdsBanner(R.string.banner_sample_id, showAds)
+        }
+    }
+}
+
+@Composable
+fun Birthday(person: Person) {
+    if (person.getFormattedBirthday().isNotEmpty()) {
+        Row(Modifier.padding(vertical = 10.dp)) {
+            val spacerModifier = Modifier.padding(horizontal = 2.dp)
+            SimpleSubtitle(text = person.getFormattedBirthday())
+            Spacer(modifier = spacerModifier)
+            SimpleSubtitle(text = "-")
+            Spacer(modifier = spacerModifier)
+            SimpleSubtitle(text = person.getAge())
+            Spacer(modifier = spacerModifier)
+            SimpleSubtitle(text = "-")
+            SimpleSubtitle(text = person.getFormattedDeathDay())
         }
     }
 }
@@ -146,3 +164,4 @@ fun ParticipationList(
         onClickItem.invoke(apiId, mediaType.key)
     }
 }
+

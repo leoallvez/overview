@@ -1,6 +1,9 @@
 package io.github.leoallvez.take.util
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DateHelper(dateIn: String?) {
@@ -14,20 +17,33 @@ class DateHelper(dateIn: String?) {
     }
 
     fun formattedDate(): String = if (date.isNotEmpty()) {
-        val locale = Locale.getDefault()
-        val format = SimpleDateFormat("yyyy-MM-dd", locale)
-        format.parse(date)?.let { dateFormat(locale, it) } ?: DEFAULT_RETURN
+        val format = SimpleDateFormat(API_DATE_PATTERN, Locale.getDefault())
+        format.parse(date)?.let { dateFormat(it) } ?: DEFAULT_RETURN
     } else {
         DEFAULT_RETURN
     }
 
-    private fun dateFormat(locale: Locale, date: Date) =
-        SimpleDateFormat(datePattern(locale), locale).format(date)
+    private fun dateFormat(date: Date): String {
+        val locale = Locale.getDefault()
+        val datePattern = if (locale.language == "pt") "dd/MM/yyyy" else "MM/dd/yyyy"
+        return SimpleDateFormat(datePattern, locale).format(date)
+    }
 
-    private fun datePattern(locale: Locale) =
-        if (locale.language == "pt") "dd/MM/yyyy" else "MM/dd/yyyy"
+    fun periodBetween(dateEnd: String? = null): String = if (date.isNotEmpty())  {
+        val formatter = DateTimeFormatter.ofPattern(API_DATE_PATTERN)
+        val start = LocalDate.parse(date, formatter)
+        val end = if(dateEnd.isNullOrBlank().not()) {
+            LocalDate.parse(dateEnd, formatter)
+        } else {
+            LocalDate.now()
+        }
+        Period.between(start, end).years.toString()
+    } else {
+        DEFAULT_RETURN
+    }
 
     companion object {
         private const val DEFAULT_RETURN = ""
+        private const val API_DATE_PATTERN = "yyyy-MM-dd"
     }
 }

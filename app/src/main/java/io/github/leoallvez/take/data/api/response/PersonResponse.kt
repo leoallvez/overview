@@ -4,6 +4,8 @@ import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.util.DateHelper
+import java.time.LocalDate
+import java.time.Period
 
 data class PersonResponse (
     @field:Json(name = "id")
@@ -27,10 +29,10 @@ data class PersonResponse (
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
     fun getFilmography() = movieCredits.cast
     fun getTvShows() = tvCredits.cast
-
     fun getFormattedBirthday() = DateHelper(birthday).formattedDate()
-
     fun getFormattedDeathDay() = DateHelper(deathDay).formattedDate()
+
+    fun getAge() = DateHelper(birthday).periodBetween(deathDay)
 }
 
 data class MediaCredits (val cast: List<MediaItem>)
