@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.data.source.mediaitem
+package io.github.leoallvez.take.data.source.media_item
 
 import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.source.DataResult.*
@@ -96,7 +96,7 @@ class MediaRemoteDataSourceTest {
 
     private inline fun <reified T : Response> mockResponse() {
         val factory = MockResponseFactory.createFactory<T>()
-        coEvery { _api.requestMediaDetail(any(), any()) } returns factory.makeResponse()
+        coEvery { _api.getMediaDetail(any(), any()) } returns factory.makeResponse()
     }
 
     private companion object {

@@ -18,8 +18,14 @@
     <string name="similar">Similar</string>
 
     <string name="synopsis">Sinopse</string>
+    <string name="biography">Biografia</string>
     <string name="cast">Elenco</string>
     <string name="related">Relacionados</string>
     <string name="where_to_watch">Onde assistir</string>
     <string name="separator">•</string>
+    <string name="em_dash">-</string>
+    <string name="tv_shows_participation">Participações na TV </string>
+    <string name="movies_participation">Participações no cinema</string>
+    <string name="age">%s anos</string>
+    <string name="place_of_birth">Local de nascimento (em inglês)</string>
 </resources>

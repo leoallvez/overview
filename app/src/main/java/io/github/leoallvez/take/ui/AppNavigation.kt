@@ -6,17 +6,17 @@ sealed class Screen(val route: String, val name: String) {
     object Home : Screen(route = "home_screen", name = "HomeScreen")
 
     object MediaDetails : Screen(
-        route = "media_detail/{$ID_PARAM}/{$TYPE_PARAM}",
+        route = "media_details/{$ID_PARAM}/{$TYPE_PARAM}",
         name = "MediaDetail"
     ) {
-        fun editRoute(id: Long, type: String?) = "media_detail/$id/$type"
+        fun editRoute(id: Long, type: String?) = "media_details/$id/$type"
     }
 
-    object CastPerson : Screen(
-        route = "cast_person/{$ID_PARAM}",
-        name = "CastPerson"
+    object CastDetails : Screen(
+        route = "cast_details/{$ID_PARAM}",
+        name = "CastDetails"
     ) {
-        fun editRoute(id: Long) = "cast_person/$id"
+        fun editRoute(id: Long) = "cast_details/$id"
     }
 
     object Discover : Screen(

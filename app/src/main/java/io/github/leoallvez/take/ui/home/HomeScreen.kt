@@ -16,15 +16,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.pager.*
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.ui.*
-import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
+import io.github.leoallvez.take.util.MediaItemClick
 import io.github.leoallvez.take.util.getStringByName
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScope
@@ -34,9 +34,9 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(
-    nav: NavController,
+    logger: Logger,
     viewModel: HomeViewModel = hiltViewModel(),
-    logger: Logger
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     TrackScreenView(screen = Screen.Home, logger)
 
@@ -46,7 +46,7 @@ fun HomeScreen(
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
     if(loading) {
-        LoadingIndicator()
+        LoadingScreen()
     } else {
         if (suggestions.isNotEmpty()) {
             CollapsingToolbarScaffold(
@@ -55,16 +55,18 @@ fun HomeScreen(
                 state = rememberCollapsingToolbarScaffoldState(),
                 toolbar = {
                     HomeToolBar(items = featuredMediaItems) { item ->
-                        nav.navigate(
-                            Screen.MediaDetails.editRoute(id = item.apiId, type = item.type)
-                        )
+                        onNavigateToMediaDetails.invoke(item.apiId, item.type)
                     }
                 },
             ) {
-                HomeScreenContent(suggestions = suggestions, showAds = showAds, nav = nav)
+                HomeScreenContent(
+                    suggestions = suggestions,
+                    showAds = showAds,
+                    onNavigateToMediaDetails = onNavigateToMediaDetails
+                )
             }
         } else {
-            ErrorOnLoading { viewModel.refresh() }
+            ErrorScreen { viewModel.refresh() }
         }
     }
 }
@@ -92,7 +94,7 @@ private fun HorizontalCardSlider(
 ) {
     val pagerState = rememberPagerState(pageCount = items.size)
 
-    Column(Modifier.background(Background)) {
+    Column(Modifier.background(PrimaryBackground)) {
         Box {
             SlideImage(pagerState = pagerState, items = items, onClick = callback)
             SlideIndicator(
@@ -125,7 +127,7 @@ fun SlideImage(
                 .clickable { onClick.invoke(item) }
         ) {
             Backdrop(
-                url = item.getBackdrop(),
+                url = item.getBackdropImage(),
                 contentDescription = item.getLetter(),
                 modifier = Modifier.align(Alignment.TopCenter)
             )
@@ -149,33 +151,37 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
 fun HomeScreenContent(
     suggestions: List<MediaSuggestion>,
     showAds: Boolean,
-    nav: NavController,
+    onNavigateToMediaDetails: MediaItemClick,
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(Background)
+            .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
         Column {
             AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAds)
-            SuggestionVerticalList(nav = nav, suggestions = suggestions)
+            SuggestionVerticalList(suggestions = suggestions) { apiId, mediaType ->
+                onNavigateToMediaDetails.invoke(apiId, mediaType)
+            }
         }
     }
 }
 
 @Composable
 fun SuggestionVerticalList(
-    nav: NavController,
     suggestions: List<MediaSuggestion>,
+    onClickItem: MediaItemClick,
 ) {
     LazyColumn {
         items(suggestions) {
             val title = LocalContext.current.getStringByName(it.titleResourceId)
             MediaItemList(
-                listTitle = title, items = it.items, navigation = nav, mediaType = it.type
-            )
+                listTitle = title, items = it.items, mediaType = it.type
+            ) { apiId, mediaType ->
+                onClickItem.invoke(apiId, mediaType)
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ package io.github.leoallvez.take.data.repository
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.api.response.ProviderPlace
 import io.github.leoallvez.take.data.source.DataResult
-import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
+import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
 import io.github.leoallvez.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
@@ -35,7 +35,7 @@ class MediaDetailsRepository @Inject constructor(
         val resultsMap = result.data?.results ?: mapOf()
         val entries = resultsMap.filter { it.key == "BR" }.entries
         return if(entries.isNotEmpty()) {
-            entries.first().value.flatRate?.sortedBy { it.displayPriority } ?: listOf()
+            entries.first().value.getOrderedFlatRate()
         } else {
             listOf()
         }

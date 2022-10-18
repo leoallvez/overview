@@ -4,18 +4,24 @@ import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig
 
 data class ProviderResponse (
-    private val id: Long,
+    @field:Json(name = "id")
+    val apiId: Long = 0,
     val results: Map<String, Provider>
 )
 
 data class Provider (
     private val link: String,
     @field:Json(name = "flatrate")
-    val flatRate: List<ProviderPlace>?
-)
+    private val flatRate: List<ProviderPlace>?
+) {
+    fun getOrderedFlatRate(): List<ProviderPlace> {
+        return flatRate?.sortedBy { it.displayPriority } ?: listOf()
+    }
+}
 
 class ProviderPlace(
-    val id: Long = 0L,
+    @field:Json(name = "id")
+    val apiId: Long = 0,
     @field:Json(name = "display_priority")
     val displayPriority: Int = 0,
     @field:Json(name = "logo_path")
@@ -23,5 +29,5 @@ class ProviderPlace(
     @field:Json(name = "provider_name")
     val providerName: String = "",
 ) {
-    fun getLogo() = "${BuildConfig.IMG_URL}/$logoPath"
+    fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
 }

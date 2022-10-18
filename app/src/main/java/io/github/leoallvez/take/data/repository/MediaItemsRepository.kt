@@ -5,8 +5,8 @@ import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.data.source.DataResult
-import io.github.leoallvez.take.data.source.mediaitem.IMediaRemoteDataSource
-import io.github.leoallvez.take.data.source.mediaitem.MediaLocalDataSource
+import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
+import io.github.leoallvez.take.data.source.media_item.MediaLocalDataSource
 import io.github.leoallvez.take.data.source.suggestion.SuggestionLocalDataSource
 import io.github.leoallvez.take.di.IoDispatcher
 import io.github.leoallvez.take.util.toMediaSuggestion

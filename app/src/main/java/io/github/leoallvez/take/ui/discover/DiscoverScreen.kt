@@ -8,13 +8,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.github.leoallvez.take.ui.theme.Background
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 
 @Composable
 fun DiscoverScreen() {
     Column(
         modifier = Modifier
-            .background(Background)
+            .background(PrimaryBackground)
             .fillMaxSize()
     ) {
         Box {

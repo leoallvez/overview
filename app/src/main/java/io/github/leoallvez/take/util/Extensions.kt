@@ -13,6 +13,8 @@ import io.github.leoallvez.take.ui.Screen
 import okio.IOException
 import timber.log.Timber
 
+typealias MediaItemClick = (apiId: Long, mediaType: String?) -> Unit
+
 inline fun <reified T> String.fromJson(): T? = try {
     val moshi = Moshi.Builder().build()
     moshi.adapter(T::class.java).fromJson(this)
@@ -60,6 +62,8 @@ fun NavBackStackEntry.getParams(): Pair<Long, String> {
     val type = arguments?.getString(Screen.TYPE_PARAM)
     return Pair(id ?: 0, type ?: "")
 }
+
+fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(Screen.ID_PARAM) ?: 0
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"
 

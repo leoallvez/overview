@@ -30,18 +30,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.ui.theme.Background
 import io.github.leoallvez.take.ui.theme.BlueTake
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
+import io.github.leoallvez.take.ui.theme.SecondaryBackground
+import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
 fun BasicTitle(title: String) {
@@ -68,10 +68,10 @@ fun TrackScreenView(screen: Screen, logger: Logger) {
 }
 
 @Composable
-fun LoadingIndicator() {
+fun LoadingScreen() {
     Column(
         modifier = Modifier
-            .background(Background)
+            .background(PrimaryBackground)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,10 +89,10 @@ fun LoadingIndicator() {
 }
 
 @Composable
-fun ErrorOnLoading(refresh: () -> Unit) {
+fun ErrorScreen(refresh: () -> Unit) {
     Column(
         modifier = Modifier
-            .background(Background)
+            .background(PrimaryBackground)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -150,12 +150,6 @@ fun StylizedButton(
 }
 
 @Composable
-@Preview
-fun ErrorOnLoadingPreview() {
-    ErrorOnLoading {}
-}
-
-@Composable
 fun ToolbarButton(
     painter: ImageVector,
     @StringRes descriptionResource: Int,
@@ -167,7 +161,7 @@ fun ToolbarButton(
         modifier
             .padding(dimensionResource(R.dimen.screen_padding))
             .clip(CircleShape)
-            .background(Background.copy(alpha = 0.5f))
+            .background(PrimaryBackground.copy(alpha = 0.5f))
             .size(45.dp)
             .clickable { onClick.invoke() }
     ) {
@@ -200,8 +194,8 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
 fun MediaItemList(
     listTitle:String,
     items: List<MediaItem>,
-    navigation: NavController,
-    mediaType: String? = null
+    mediaType: String? = null,
+    onClickItem: MediaItemClick
 ) {
     if (items.isNotEmpty()) {
         Column {
@@ -213,11 +207,8 @@ fun MediaItemList(
                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding))
             ) {
                 items(items) { item ->
-                    MediaItem(item) {
-                        navigation.navigate(
-                            Screen.MediaDetails
-                                .editRoute(id = item.apiId, type = mediaType ?: item.type)
-                        )
+                    MediaItem(item, imageWithBorder = true) {
+                        onClickItem.invoke(item.apiId, mediaType ?: item.type)
                     }
                 }
             }
@@ -226,11 +217,12 @@ fun MediaItemList(
 }
 
 @Composable
-fun MediaItem(mediaItem: MediaItem, onClick: () -> Unit) {
+fun MediaItem(mediaItem: MediaItem, imageWithBorder: Boolean = false, onClick: () -> Unit) {
     Column(Modifier.clickable { onClick.invoke() }) {
         BasicImage(
-            url = mediaItem.getPoster(),
+            url = mediaItem.getPosterImage(),
             contentDescription = mediaItem.getLetter(),
+            withBorder = imageWithBorder
         )
         BasicText(
             text = mediaItem.getLetter(),
@@ -248,7 +240,8 @@ fun BasicImage(
     height: Dp = dimensionResource(R.dimen.image_height),
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
-    errorDefaultImage: Painter = painterResource(R.drawable.placeholder)
+    errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
+    withBorder: Boolean = false
 ) {
     if (url.isNotEmpty()) {
         AsyncImage(
@@ -257,10 +250,15 @@ fun BasicImage(
                 .crossfade(true)
                 .build(),
             modifier = modifier
-                .background(Background)
+                .background(PrimaryBackground)
                 .fillMaxWidth()
                 .height(height)
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                    then (if(withBorder) Modifier.border(
+                            dimensionResource(R.dimen.border_width),
+                            SecondaryBackground,
+                            RoundedCornerShape(dimensionResource(R.dimen.corner))
+                    ) else Modifier),
             contentScale = contentScale,
             placeholder = placeholder,
             contentDescription = contentDescription,
@@ -291,12 +289,23 @@ fun BasicText(
 }
 
 @Composable
-fun SimpleSubtitle(text: String, display: Boolean = true) {
+fun PartingPoint(display: Boolean = true) {
+    SimpleSubtitle(text = stringResource(R.string.separator), display = display)
+}
+
+@Composable
+fun PartingEmDash(display: Boolean = true) {
+    SimpleSubtitle(text = stringResource(R.string.em_dash), display = display)
+}
+
+@Composable
+fun SimpleSubtitle(text: String, display: Boolean = true, isBold: Boolean = true) {
     if (text.isNotEmpty() && display) {
         Text(
             text = text,
             color = Color.White,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
         )
     }
 }
@@ -313,13 +322,60 @@ fun Backdrop(
             .crossfade(true)
             .build(),
         modifier = modifier
-            .background(Background)
+            .background(SecondaryBackground)
             .fillMaxWidth()
             .height(280.dp)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
         contentScale = ContentScale.FillHeight,
+        contentDescription = contentDescription
+    )
+}
+
+@Composable
+fun <T> UiStateResult(
+    uiState: UiState<T>,
+    onRefresh: () -> Unit,
+    successContent: @Composable (T) -> Unit
+) {
+    when(uiState) {
+        is UiState.Loading -> LoadingScreen()
+        is UiState.Success -> successContent(uiState.data)
+        else -> ErrorScreen { onRefresh() }
+    }
+}
+
+@Composable
+fun BasicParagraph(@StringRes paragraphTitle: Int, paragraph: String) {
+    if (paragraph.isNotBlank()) {
+        Column {
+            BasicTitle(stringResource(paragraphTitle))
+            BasicParagraph(paragraph)
+        }
+    }
+}
+
+@Composable
+fun BasicParagraph(paragraph: String) {
+    Text(
+        text = paragraph,
+        color = Color.White,
+        style = MaterialTheme.typography.body1,
+        modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
+        textAlign = TextAlign.Justify
+    )
+}
+
+@Composable
+fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Modifier = Modifier) {
+    BasicImage(
+        url = imageUrl,
         contentDescription = contentDescription,
-        placeholder = painterResource(R.drawable.img_gargantua),
-        error = painterResource(R.drawable.img_gargantua)
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+            .size(120.dp)
+            .clip(CircleShape)
+            .border(dimensionResource(R.dimen.border_width), SecondaryBackground, CircleShape),
+        placeholder = painterResource(R.drawable.avatar),
+        errorDefaultImage = painterResource(R.drawable.avatar)
     )
 }

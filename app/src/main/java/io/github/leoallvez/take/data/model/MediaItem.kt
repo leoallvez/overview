@@ -44,7 +44,7 @@ class MediaItem (
 ) {
     fun getLetter() = name ?: title ?: ""
 
-    fun getPoster() = "$IMG_URL/$posterPath"
+    fun getPosterImage() = "$IMG_URL/$posterPath"
 
-    fun getBackdrop() = "$IMG_URL/$backdropPath"
+    fun getBackdropImage() = "$IMG_URL/$backdropPath"
 }

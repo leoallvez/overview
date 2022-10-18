@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.data.source.mediaitem
+package io.github.leoallvez.take.data.source.media_item
 
 import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.response.ListContentResponse
