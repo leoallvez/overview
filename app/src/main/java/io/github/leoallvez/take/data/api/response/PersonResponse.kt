@@ -18,7 +18,7 @@ data class PersonResponse (
     @field:Json(name = "deathday")
     val deathDay: String? = null,
     @field:Json(name = "place_of_birth")
-    val placeOfBirth: String,
+    private val placeOfBirth: String?,
     @field:Json(name = "profile_path")
     private val profilePath: String,
     @field:Json(name = "tv_credits")
@@ -31,7 +31,7 @@ data class PersonResponse (
     fun getTvShows() = tvCredits.cast
     fun getFormattedBirthday() = DateHelper(birthday).formattedDate()
     fun getFormattedDeathDay() = DateHelper(deathDay).formattedDate()
-
+    fun birthPlace() = placeOfBirth ?: ""
     fun getAge() = DateHelper(birthday).periodBetween(deathDay)
 }
 

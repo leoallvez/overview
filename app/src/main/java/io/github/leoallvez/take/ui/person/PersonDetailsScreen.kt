@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -124,7 +125,8 @@ fun PersonBody(
     ) {
         person.apply {
             ScreenTitle(name)
-            Birthday(person)
+            PersonDates(person)
+            PlaceOfBirth(birthPlace())
             BasicParagraph(R.string.biography, biography)
             ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
             ParticipationList(R.string.tv_shows_participation, getTvShows(), TV, onClickItem)
@@ -134,20 +136,55 @@ fun PersonBody(
 }
 
 @Composable
-fun Birthday(person: Person) {
-    if (person.getFormattedBirthday().isNotEmpty()) {
-        Row(Modifier.padding(vertical = 10.dp)) {
-            val spacerModifier = Modifier.padding(horizontal = 2.dp)
-            SimpleSubtitle(text = person.getFormattedBirthday())
-            Spacer(modifier = spacerModifier)
-            SimpleSubtitle(text = "-")
-            Spacer(modifier = spacerModifier)
-            SimpleSubtitle(text = person.getAge())
-            Spacer(modifier = spacerModifier)
-            SimpleSubtitle(text = "-")
-            SimpleSubtitle(text = person.getFormattedDeathDay())
+fun PersonDates(person: Person) {
+    person.apply {
+        if (getFormattedBirthday().isNotEmpty()) {
+            Row(Modifier.padding(vertical = 10.dp)) {
+                SimpleSubtitle(getFormattedBirthday())
+                PersonDeathDay(getFormattedDeathDay())
+                PersonAge(getAge())
+            }
         }
     }
+}
+
+@Composable
+fun PlaceOfBirth(placeOfBirth: String) {
+    if (placeOfBirth.isNotEmpty()) {
+        Column {
+            SimpleSubtitle(stringResource(R.string.place_of_birth), isBold = true)
+            BasicParagraph(placeOfBirth)
+        }
+    }
+}
+
+@Composable
+fun PersonDeathDay(deathDay: String) {
+    if (deathDay.isNotEmpty()) {
+        PersonSpace()
+        PartingEmDash()
+        PersonSpace()
+        SimpleSubtitle(deathDay)
+    }
+}
+
+@Composable
+fun PersonAge(age: String) {
+    if (age.isNotEmpty()) {
+        PersonSpace()
+        PartingPoint()
+        PersonSpace()
+        Text(
+            text = stringResource(R.string.age, age),
+            color = Color.White,
+            style = MaterialTheme.typography.subtitle1
+        )
+    }
+}
+
+@Composable
+fun PersonSpace() {
+    Spacer(modifier = Modifier.padding(horizontal = 2.dp))
 }
 
 @Composable

@@ -157,8 +157,7 @@ fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
         val spacerModifier = Modifier.padding(horizontal = 2.dp)
         SimpleSubtitle(text = releaseYear)
         Spacer(modifier = spacerModifier)
-        SimpleSubtitle(
-            text = stringResource(R.string.separator),
+        PartingPoint(
             display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
         )
         Spacer(modifier = spacerModifier)

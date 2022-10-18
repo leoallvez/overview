@@ -38,8 +38,8 @@ import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressInd
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
+import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.SecondaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 
@@ -289,12 +289,23 @@ fun BasicText(
 }
 
 @Composable
-fun SimpleSubtitle(text: String, display: Boolean = true) {
+fun PartingPoint(display: Boolean = true) {
+    SimpleSubtitle(text = stringResource(R.string.separator), display = display)
+}
+
+@Composable
+fun PartingEmDash(display: Boolean = true) {
+    SimpleSubtitle(text = stringResource(R.string.em_dash), display = display)
+}
+
+@Composable
+fun SimpleSubtitle(text: String, display: Boolean = true, isBold: Boolean = true) {
     if (text.isNotEmpty() && display) {
         Text(
             text = text,
             color = Color.White,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
         )
     }
 }
@@ -338,15 +349,20 @@ fun BasicParagraph(@StringRes paragraphTitle: Int, paragraph: String) {
     if (paragraph.isNotBlank()) {
         Column {
             BasicTitle(stringResource(paragraphTitle))
-            Text(
-                text = paragraph,
-                color = Color.White,
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
-                textAlign = TextAlign.Justify
-            )
+            BasicParagraph(paragraph)
         }
     }
+}
+
+@Composable
+fun BasicParagraph(paragraph: String) {
+    Text(
+        text = paragraph,
+        color = Color.White,
+        style = MaterialTheme.typography.body1,
+        modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
+        textAlign = TextAlign.Justify
+    )
 }
 
 @Composable
