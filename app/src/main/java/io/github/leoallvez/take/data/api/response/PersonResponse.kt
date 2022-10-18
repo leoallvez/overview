@@ -20,18 +20,21 @@ data class PersonResponse (
     @field:Json(name = "profile_path")
     private val profilePath: String,
     @field:Json(name = "tv_credits")
-    private val tvCredits: MediaCredits,
+    private val tvShows: MediaCredits,
     @field:Json(name = "movie_credits")
-    private val movieCredits: MediaCredits
+    private val movies: MediaCredits
 ) {
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
-    fun getFilmography() = movieCredits.cast
-    fun getTvShows() = tvCredits.cast
+    fun getFilmography() = movies.mediaItems
+    fun getTvShows() = tvShows.mediaItems
     fun getFormattedBirthday() = DateHelper(birthday).formattedDate()
     fun getFormattedDeathDay() = DateHelper(deathDay).formattedDate()
     fun birthPlace() = placeOfBirth ?: ""
     fun getAge() = DateHelper(birthday).periodBetween(deathDay)
 }
 
-data class MediaCredits (val cast: List<MediaItem>)
+data class MediaCredits (
+    @field:Json(name = "cast")
+    val mediaItems: List<MediaItem>
+)
 
