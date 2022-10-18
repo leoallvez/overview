@@ -4,8 +4,6 @@ import com.squareup.moshi.Json
 import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.util.DateHelper
-import java.time.LocalDate
-import java.time.Period
 
 data class PersonResponse (
     @field:Json(name = "id")
