@@ -17,7 +17,7 @@ sealed class DataResult<T>(
 }
 
 //TODO: log in crashlytics the NetworkResponse Error
-fun <T : Any> parserResponseToResult(
+fun <T : Any> responseToResult(
     response: NetworkResponse<T, ErrorResponse>
 ) = when(response) {
     is NetworkResponse.Success      -> DataResult.Success(data = response.body)

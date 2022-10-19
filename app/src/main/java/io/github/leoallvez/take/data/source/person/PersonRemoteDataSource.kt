@@ -4,7 +4,7 @@ import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.IApiLocale
 import io.github.leoallvez.take.data.api.response.PersonResponse
 import io.github.leoallvez.take.data.source.DataResult
-import io.github.leoallvez.take.data.source.parserResponseToResult
+import io.github.leoallvez.take.data.source.responseToResult
 import javax.inject.Inject
 
 interface IPersonRemoteDataSource {
@@ -16,7 +16,7 @@ class PersonRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ): IPersonRemoteDataSource {
 
-    override suspend fun getPersonDetails(apiId: Long) = parserResponseToResult(
+    override suspend fun getPersonDetails(apiId: Long) = responseToResult(
         _api.getPersonDetails(id = apiId, language = _locale.language, region = _locale.region)
     )
 }

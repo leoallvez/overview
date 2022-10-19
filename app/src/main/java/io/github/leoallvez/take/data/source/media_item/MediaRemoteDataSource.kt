@@ -7,7 +7,7 @@ import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.api.response.ProviderResponse
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.source.DataResult
-import io.github.leoallvez.take.data.source.parserResponseToResult
+import io.github.leoallvez.take.data.source.responseToResult
 import javax.inject.Inject
 
 interface IMediaRemoteDataSource {
@@ -24,17 +24,17 @@ class MediaRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IMediaRemoteDataSource {
 
-    override suspend fun getMediaItemsResult(url: String) = parserResponseToResult(
+    override suspend fun getMediaItemsResult(url: String) = responseToResult(
         _api.getMediaItems(url = url, language = _locale.language, region = _locale.region)
     )
 
-    override suspend fun getProvidersResult(id: Long, type: String) = parserResponseToResult(
+    override suspend fun getProvidersResult(id: Long, type: String) = responseToResult(
         _api.getProviders(
             id = id, type = type, language = _locale.language, region = _locale.region
         )
     )
 
-    override suspend fun getMediaDetailsResult(id: Long, type: String) = parserResponseToResult(
+    override suspend fun getMediaDetailsResult(id: Long, type: String) = responseToResult(
         _api.getMediaDetail(
             id = id, type = type, language = _locale.language, region = _locale.region
         )
