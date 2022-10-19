@@ -7,6 +7,7 @@ import io.github.leoallvez.take.data.model.MediaItem
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.*
 
 interface ApiService {
 
@@ -17,9 +18,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR"
+        region: String,
     ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
 
     @GET(value = "{media_type}/{api_id}")
@@ -31,9 +32,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR",
+        region: String,
         @Query(value = "append_to_response")
         appendToResponse: String = "credits,similar"
 
@@ -48,9 +49,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR",
+        region: String,
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
     @GET(value = "person/{api_id}")
@@ -60,9 +61,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR",
+        region: String,
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
     ): NetworkResponse<PersonResponse, ErrorResponse>

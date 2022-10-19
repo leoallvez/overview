@@ -1,6 +1,7 @@
 package io.github.leoallvez.take.data.source.media_item
 
 import io.github.leoallvez.take.data.api.ApiService
+import io.github.leoallvez.take.data.api.IApiLocale
 import io.github.leoallvez.take.data.api.response.ListContentResponse
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.api.response.ProviderResponse
@@ -25,17 +26,37 @@ interface IMediaRemoteDataSource {
 }
 
 class MediaRemoteDataSource @Inject constructor(
-    private val _api: ApiService
+    private val _api: ApiService,
+    _locale: IApiLocale
 ) : IMediaRemoteDataSource {
 
-    override suspend fun getMediaItems(url: String)
-        = parserResponseToResult(response = _api.getMediaItems(url = url))
+    private val language = _locale.language()
+    private val region = _locale.region
 
-    override suspend fun getMediaDetailsResult(apiId: Long, mediaType: String)
-        = parserResponseToResult(response = _api.getMediaDetail(apiId = apiId, mediaType = mediaType))
+    override suspend fun getMediaItems(url: String): DataResult<ListContentResponse<MediaItem>> {
+        val response = _api.getMediaItems(url = url, language = language, region = region)
+        return parserResponseToResult(response)
+    }
 
-    override suspend fun getProvidersResult(apiId: Long, mediaType: String)
-        = parserResponseToResult(response = _api.getProviders(apiId = apiId, mediaType = mediaType))
+    override suspend fun getMediaDetailsResult(
+        apiId: Long,
+        mediaType: String
+    ): DataResult<MediaDetailResponse> {
+        val response = _api.getMediaDetail(
+            apiId = apiId, mediaType = mediaType, language = language, region = region
+        )
+        return parserResponseToResult(response)
+    }
+
+    override suspend fun getProvidersResult(
+        apiId: Long,
+        mediaType: String
+    ): DataResult<ProviderResponse> {
+        val response = _api.getProviders(
+            apiId = apiId, mediaType = mediaType, language = language, region = region
+        )
+        return parserResponseToResult(response)
+    }
 
 }
 
