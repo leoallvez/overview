@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 interface IMediaRemoteDataSource {
 
-    suspend fun getMediaItems(url: String): DataResult<ListContentResponse<MediaItem>>
+    suspend fun getMediaItemsResult(url: String): DataResult<ListContentResponse<MediaItem>>
 
     suspend fun getProvidersResult(id: Long, type: String): DataResult<ProviderResponse>
 
@@ -24,7 +24,7 @@ class MediaRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IMediaRemoteDataSource {
 
-    override suspend fun getMediaItems(url: String) = parserResponseToResult(
+    override suspend fun getMediaItemsResult(url: String) = parserResponseToResult(
         _api.getMediaItems(url = url, language = _locale.language, region = _locale.region)
     )
 
