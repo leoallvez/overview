@@ -7,7 +7,6 @@ import io.github.leoallvez.take.data.model.MediaItem
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.*
 
 interface ApiService {
 
@@ -26,9 +25,9 @@ interface ApiService {
     @GET(value = "{media_type}/{api_id}")
     suspend fun getMediaDetail(
         @Path(value = "media_type", encoded = true)
-        mediaType: String,
+        type: String,
         @Path(value = "api_id", encoded = true)
-        apiId: Long,
+        id: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
@@ -43,9 +42,9 @@ interface ApiService {
     @GET(value = "{media_type}/{api_id}/watch/providers")
     suspend fun getProviders(
         @Path(value = "media_type", encoded = true)
-        mediaType: String,
+        type: String,
         @Path(value = "api_id", encoded = true)
-        apiId: Long,
+        id: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
@@ -57,7 +56,7 @@ interface ApiService {
     @GET(value = "person/{api_id}")
     suspend fun getPersonDetails(
         @Path(value = "api_id", encoded = true)
-        apiId: Long,
+        id: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")

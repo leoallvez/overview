@@ -14,49 +14,30 @@ interface IMediaRemoteDataSource {
 
     suspend fun getMediaItems(url: String): DataResult<ListContentResponse<MediaItem>>
 
-    suspend fun getMediaDetailsResult(
-        apiId: Long,
-        mediaType: String
-    ): DataResult<MediaDetailResponse>
+    suspend fun getProvidersResult(id: Long, type: String): DataResult<ProviderResponse>
 
-    suspend fun getProvidersResult(
-        apiId: Long,
-        mediaType: String
-    ): DataResult<ProviderResponse>
+    suspend fun getMediaDetailsResult(id: Long, type: String): DataResult<MediaDetailResponse>
 }
 
 class MediaRemoteDataSource @Inject constructor(
     private val _api: ApiService,
-    _locale: IApiLocale
+    private val _locale: IApiLocale
 ) : IMediaRemoteDataSource {
 
-    private val language = _locale.language()
-    private val region = _locale.region
+    override suspend fun getMediaItems(url: String) = parserResponseToResult(
+        _api.getMediaItems(url = url, language = _locale.language, region = _locale.region)
+    )
 
-    override suspend fun getMediaItems(url: String): DataResult<ListContentResponse<MediaItem>> {
-        val response = _api.getMediaItems(url = url, language = language, region = region)
-        return parserResponseToResult(response)
-    }
-
-    override suspend fun getMediaDetailsResult(
-        apiId: Long,
-        mediaType: String
-    ): DataResult<MediaDetailResponse> {
-        val response = _api.getMediaDetail(
-            apiId = apiId, mediaType = mediaType, language = language, region = region
+    override suspend fun getProvidersResult(id: Long, type: String) = parserResponseToResult(
+        _api.getProviders(
+            id = id, type = type, language = _locale.language, region = _locale.region
         )
-        return parserResponseToResult(response)
-    }
+    )
 
-    override suspend fun getProvidersResult(
-        apiId: Long,
-        mediaType: String
-    ): DataResult<ProviderResponse> {
-        val response = _api.getProviders(
-            apiId = apiId, mediaType = mediaType, language = language, region = region
+    override suspend fun getMediaDetailsResult(id: Long, type: String) = parserResponseToResult(
+        _api.getMediaDetail(
+            id = id, type = type, language = _locale.language, region = _locale.region
         )
-        return parserResponseToResult(response)
-    }
+    )
 
 }
-
