@@ -1,6 +1,7 @@
 package io.github.leoallvez.take.data.repository
 
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
+import io.github.leoallvez.take.data.api.response.ProviderResponse
 import io.github.leoallvez.take.data.source.DataResult.*
 import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
 import io.mockk.MockKAnnotations
@@ -30,6 +31,9 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_success() = runTest {
         //Arrange
+        coEvery { _dataSource.getProvidersResult(any(), any()) } returns
+                Success(data = ProviderResponse())
+
         mockResponse(requestType = "Success")
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()

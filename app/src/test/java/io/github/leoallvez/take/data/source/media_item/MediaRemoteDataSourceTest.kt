@@ -1,6 +1,7 @@
 package io.github.leoallvez.take.data.source.media_item
 
 import io.github.leoallvez.take.data.api.ApiService
+import io.github.leoallvez.take.data.api.IApiLocale
 import io.github.leoallvez.take.data.source.DataResult.*
 import io.github.leoallvez.take.util.mock.*
 import io.github.leoallvez.take.util.mock.MediaDetailsSuccessResponse
@@ -25,12 +26,15 @@ class MediaRemoteDataSourceTest {
     @MockK(relaxed = true)
     private lateinit var _api: ApiService
 
+    @MockK(relaxed = true)
+    private lateinit var _locale: IApiLocale
+
     private lateinit var _dataSource: IMediaRemoteDataSource
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _dataSource = MediaRemoteDataSource(_api)
+        _dataSource = MediaRemoteDataSource(_api, _locale)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -38,7 +42,7 @@ class MediaRemoteDataSourceTest {
         //Arrange
         mockResponse<MediaDetailsSuccessResponse>()
         //Act
-        val result = _dataSource.getMediaDetailsResult(apiId = ID, mediaType = TYPE)
+        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
         assertEquals(getDataResponse(), result.data)
     }
@@ -48,7 +52,7 @@ class MediaRemoteDataSourceTest {
         //Arrange
         mockResponse<MediaDetailsSuccessResponse>()
         //Act
-        val result = _dataSource.getMediaDetailsResult(apiId = ID, mediaType = TYPE)
+        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
         assertTrue(result is Success)
     }
@@ -58,7 +62,7 @@ class MediaRemoteDataSourceTest {
         //Arrange
         mockResponse<ServerErrorResponse>()
         //Act
-        val result = _dataSource.getMediaDetailsResult(apiId = ID, mediaType = TYPE)
+        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
         assertEquals(ERROR_MSG, result.message)
     }
@@ -68,7 +72,7 @@ class MediaRemoteDataSourceTest {
         //Arrange
         mockResponse<ServerErrorResponse>()
         //Act
-        val result = _dataSource.getMediaDetailsResult(apiId = ID, mediaType = TYPE)
+        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
         assertTrue(result is ServerError)
     }
@@ -79,7 +83,7 @@ class MediaRemoteDataSourceTest {
         //Arrange
         mockResponse<NetworkErrorResponse>()
         //Act
-        val result = _dataSource.getMediaDetailsResult(apiId = ID, mediaType = TYPE)
+        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
         assertTrue(result is NetworkError)
     }
@@ -89,14 +93,14 @@ class MediaRemoteDataSourceTest {
         //Arrange
         mockResponse<UnknownErrorResponse>()
         //Act
-        val result = _dataSource.getMediaDetailsResult(apiId = ID, mediaType = TYPE)
+        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
         assertTrue(result is UnknownError)
     }
 
     private inline fun <reified T : Response> mockResponse() {
         val factory = MockResponseFactory.createFactory<T>()
-        coEvery { _api.getMediaDetail(any(), any()) } returns factory.makeResponse()
+        coEvery { _api.getMediaDetail(id = any(), type = any()) } returns factory.makeResponse()
     }
 
     private companion object {

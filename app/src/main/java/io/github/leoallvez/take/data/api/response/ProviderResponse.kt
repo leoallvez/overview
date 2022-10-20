@@ -6,7 +6,7 @@ import io.github.leoallvez.take.BuildConfig
 data class ProviderResponse (
     @field:Json(name = "id")
     val apiId: Long = 0,
-    val results: Map<String, Provider>
+    val results: Map<String, Provider> = mapOf()
 )
 
 data class Provider (

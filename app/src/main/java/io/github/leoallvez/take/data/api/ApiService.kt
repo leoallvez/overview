@@ -17,9 +17,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String,
+        language: String = "",
         @Query(value = "region")
-        region: String,
+        region: String = "",
     ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
 
     @GET(value = "{media_type}/{api_id}")
@@ -31,9 +31,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String,
+        language: String = "",
         @Query(value = "region")
-        region: String,
+        region: String = "",
         @Query(value = "append_to_response")
         appendToResponse: String = "credits,similar"
 
@@ -48,9 +48,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String,
+        language: String = "",
         @Query(value = "region")
-        region: String,
+        region: String = "",
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
     @GET(value = "person/{api_id}")
@@ -60,9 +60,9 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String,
+        language: String = "",
         @Query(value = "region")
-        region: String,
+        region: String = "",
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
     ): NetworkResponse<PersonResponse, ErrorResponse>
