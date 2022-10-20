@@ -17,23 +17,23 @@ interface ApiService {
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR"
+        region: String,
     ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
 
     @GET(value = "{media_type}/{api_id}")
     suspend fun getMediaDetail(
         @Path(value = "media_type", encoded = true)
-        mediaType: String,
+        type: String,
         @Path(value = "api_id", encoded = true)
-        apiId: Long,
+        id: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR",
+        region: String,
         @Query(value = "append_to_response")
         appendToResponse: String = "credits,similar"
 
@@ -42,27 +42,27 @@ interface ApiService {
     @GET(value = "{media_type}/{api_id}/watch/providers")
     suspend fun getProviders(
         @Path(value = "media_type", encoded = true)
-        mediaType: String,
+        type: String,
         @Path(value = "api_id", encoded = true)
-        apiId: Long,
+        id: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR",
+        region: String,
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
     @GET(value = "person/{api_id}")
     suspend fun getPersonDetails(
         @Path(value = "api_id", encoded = true)
-        apiId: Long,
+        id: Long,
         @Query(value ="api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
-        language: String = "pt-BR",
+        language: String,
         @Query(value = "region")
-        region: String = "BR",
+        region: String,
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
     ): NetworkResponse<PersonResponse, ErrorResponse>

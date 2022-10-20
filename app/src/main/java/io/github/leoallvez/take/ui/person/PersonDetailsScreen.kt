@@ -24,11 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.MediaType
-import io.github.leoallvez.take.data.MediaType.*
+import io.github.leoallvez.take.data.MediaType.MOVIE
+import io.github.leoallvez.take.data.MediaType.TV
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
-import io.github.leoallvez.take.ui.theme.SecondaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -92,20 +92,21 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
             .fillMaxWidth()
             .height(300.dp)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-            .background(SecondaryBackground)
+            .background(PrimaryBackground)
     ) {
 
         PersonImageCircle(
             imageUrl = person.getProfileImage(),
             contentDescription = person.name,
             modifier = Modifier
-                .size(280.dp)
+                .size(300.dp)
                 .padding(dimensionResource(R.dimen.screen_padding))
                 .align(Alignment.Center)
         )
         ToolbarButton(
             painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon
+            descriptionResource = R.string.back_to_home_icon,
+            background = Color.White.copy(alpha = 0.1f)
         ) { backButtonAction.invoke() }
     }
 }

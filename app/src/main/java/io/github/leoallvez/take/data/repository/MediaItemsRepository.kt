@@ -64,7 +64,7 @@ class MediaItemsRepository @Inject constructor(
     }
 
     private suspend fun doRequest(apiPath: String): DataResult<ListContentResponse<MediaItem>> {
-        return _remoteDataSource.getMediaItems(apiPath)
+        return _remoteDataSource.getMediaItemsResult(apiPath)
     }
 
     private fun setForeignKeyOnItems(

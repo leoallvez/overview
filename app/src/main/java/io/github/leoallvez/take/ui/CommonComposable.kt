@@ -155,13 +155,14 @@ fun ToolbarButton(
     @StringRes descriptionResource: Int,
     modifier: Modifier = Modifier,
     iconTint: Color = Color.White,
+    background: Color = PrimaryBackground.copy(alpha = 0.5f),
     onClick: () -> Unit
 ) {
     Box(
         modifier
             .padding(dimensionResource(R.dimen.screen_padding))
             .clip(CircleShape)
-            .background(PrimaryBackground.copy(alpha = 0.5f))
+            .background(background)
             .size(45.dp)
             .clickable { onClick.invoke() }
     ) {

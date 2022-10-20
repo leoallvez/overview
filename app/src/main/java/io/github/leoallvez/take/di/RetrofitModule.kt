@@ -6,10 +6,13 @@ import javax.inject.Singleton
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
+import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.leoallvez.take.data.api.ApiLocale
 import io.github.leoallvez.take.data.api.ApiService
+import io.github.leoallvez.take.data.api.IApiLocale
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,3 +33,11 @@ class RetrofitModule {
             .build()
     }
 }
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class ApiModule {
+    @Binds
+    abstract fun bindApiLocale(locale: ApiLocale): IApiLocale
+}
+
