@@ -24,18 +24,18 @@ class MediaItem (
     var dbId: Long = 0,
     @field:Json(name = "id")
     @ColumnInfo(name = "api_id")
-    val apiId: Long,
-    val name: String?,
-    val title: String?,
+    val apiId: Long = 0,
+    val name: String? = "",
+    val title: String? = "",
     @field:Json(name = "poster_path")
     @ColumnInfo(name = "poster_path")
-    val posterPath: String?,
+    val posterPath: String? = "",
     @field:Json(name = "backdrop_path")
     @ColumnInfo(name = "backdrop_path")
-    val backdropPath: String?,
+    val backdropPath: String? = "",
     @field:Json(name = "vote_average")
     @ColumnInfo(name = "vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double = 0.0,
     @ColumnInfo(name = "suggestion_id", index = true)
     var suggestionId: Long = 0,
     @field:Json(name = "media_type")
