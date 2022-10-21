@@ -8,6 +8,8 @@ import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
 import io.github.leoallvez.take.data.source.media_item.MediaRemoteDataSource
 import io.github.leoallvez.take.data.source.person.IPersonRemoteDataSource
 import io.github.leoallvez.take.data.source.person.PersonRemoteDataSource
+import io.github.leoallvez.take.data.source.provider.IProviderRemoteDataSource
+import io.github.leoallvez.take.data.source.provider.ProviderRemoteDataSource
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,4 +24,9 @@ abstract class SourceModule {
     abstract fun bindPersonRemoteDataSource(
         source: PersonRemoteDataSource
     ): IPersonRemoteDataSource
+
+    @Binds
+    abstract fun bindProviderDataSource(
+        source: ProviderRemoteDataSource
+    ): IProviderRemoteDataSource
 }

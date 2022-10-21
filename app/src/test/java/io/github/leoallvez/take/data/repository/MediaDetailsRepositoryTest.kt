@@ -4,6 +4,10 @@ import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.api.response.ProviderResponse
 import io.github.leoallvez.take.data.source.DataResult.*
 import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
+import io.github.leoallvez.take.data.source.provider.IProviderRemoteDataSource
+import io.github.leoallvez.take.util.mock.ReturnType
+import io.github.leoallvez.take.util.mock.ReturnType.*
+import io.github.leoallvez.take.util.mock.mockResult
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -18,23 +22,30 @@ import org.junit.Test
 class MediaDetailsRepositoryTest {
 
     @MockK(relaxed = true)
-    private lateinit var _dataSource: IMediaRemoteDataSource
+    private lateinit var _mediaSource: IMediaRemoteDataSource
+
+    @MockK(relaxed = true)
+    private lateinit var _providerSource: IProviderRemoteDataSource
 
     private lateinit var _repository: MediaDetailsRepository
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before fun setup() {
         MockKAnnotations.init(this)
-        _repository = MediaDetailsRepository(_dataSource, UnconfinedTestDispatcher())
+        _repository = MediaDetailsRepository(
+            _mediaSource,
+            _providerSource,
+            UnconfinedTestDispatcher()
+        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_success() = runTest {
         //Arrange
-        coEvery { _dataSource.getProvidersResult(any(), any()) } returns
+        coEvery { _providerSource.getProvidersResult(any(), any()) } returns
                 Success(data = ProviderResponse())
 
-        mockResponse(requestType = "Success")
+        mockResponse(requestType = SUCCESS)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -44,7 +55,7 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverError() = runTest {
         //Arrange
-        mockResponse(requestType = "ServerError")
+        mockResponse(requestType = SERVER_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -54,7 +65,7 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_networkError() = runTest {
         //Arrange
-        mockResponse(requestType = "NetworkError")
+        mockResponse(requestType = NETWORK_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -64,24 +75,19 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_unknownError() = runTest {
         //Arrange
-        mockResponse(requestType = "UnknownError")
+        mockResponse(requestType = UNKNOWN_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
         assertTrue(result is UnknownError)
     }
 
-    private fun mockResponse(requestType: String) = coEvery {
-        _dataSource.getMediaDetailsResult(any(), any())
-    } returns getResponseByType(requestType)
+    private fun mockResponse(requestType: ReturnType) = coEvery {
+        _mediaSource.getMediaDetailsResult(any(), any())
+    } returns createMediaDetailResponse(requestType)
 
-    private fun getResponseByType(requestType: String) = when(requestType) {
-        "Success"      -> Success(data = MediaDetailResponse())
-        "ServerError"  -> ServerError()
-        "NetworkError" -> NetworkError()
-        "UnknownError" -> UnknownError()
-        else -> throw IllegalArgumentException()
-    }
+    private fun createMediaDetailResponse(requestType: ReturnType) =
+        mockResult(requestType, Success(data = MediaDetailResponse()))
 
     private companion object {
         const val ID = 1L

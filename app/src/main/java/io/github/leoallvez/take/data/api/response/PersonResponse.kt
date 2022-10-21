@@ -6,8 +6,6 @@ import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.util.DateHelper
 
 data class PersonResponse (
-    @field:Json(name = "id")
-    val apiId: Long = 0,
     val name: String = "",
     val biography: String = "",
     val birthday: String = "",
@@ -23,7 +21,7 @@ data class PersonResponse (
     private val tvShows: MediaCredits = MediaCredits(),
     @field:Json(name = "movie_credits")
     private val movies: MediaCredits = MediaCredits()
-) {
+) : DataResponse() {
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
     fun getFilmography() = movies.mediaItems
     fun getTvShows() = tvShows.mediaItems
