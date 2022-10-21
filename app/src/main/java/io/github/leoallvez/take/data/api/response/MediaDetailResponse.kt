@@ -7,9 +7,6 @@ import io.github.leoallvez.take.util.DateHelper
 import io.github.leoallvez.take.data.api.response.PersonResponse as Person
 
 data class MediaDetailResponse (
-    @field:Json(name = "id")
-    val apiId: Long = 0,
-
     @field:Json(name = "backdrop_path")
     private val backdropPath: String = "",
 
@@ -37,7 +34,8 @@ data class MediaDetailResponse (
     val similar: Similar = Similar(),
 
     var providers: List<ProviderPlace> = listOf()
-) {
+) : DataResponse() {
+
     private val mediaTitle: String?
         get() = title ?: originalTitle
 
@@ -62,10 +60,6 @@ data class MediaDetailResponse (
 }
 data class Credits (val cast: List<Person> = listOf())
 
-data class Genre (
-    @field:Json(name = "id")
-    val apiId: Long = 0,
-    val name: String = ""
-)
+data class Genre (val name: String = "") : DataResponse()
 
 data class Similar (val results: List<MediaItem> = listOf())

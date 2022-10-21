@@ -1,8 +1,13 @@
 package io.github.leoallvez.take.data.repository
 
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
+import io.github.leoallvez.take.data.api.response.ProviderResponse
 import io.github.leoallvez.take.data.source.DataResult.*
 import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
+import io.github.leoallvez.take.data.source.provider.IProviderRemoteDataSource
+import io.github.leoallvez.take.util.mock.ReturnType
+import io.github.leoallvez.take.util.mock.ReturnType.*
+import io.github.leoallvez.take.util.mock.mockResult
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -17,20 +22,25 @@ import org.junit.Test
 class MediaDetailsRepositoryTest {
 
     @MockK(relaxed = true)
-    private lateinit var _dataSource: IMediaRemoteDataSource
+    private lateinit var _mediaSource: IMediaRemoteDataSource
+
+    @MockK(relaxed = true)
+    private lateinit var _providerSource: IProviderRemoteDataSource
 
     private lateinit var _repository: MediaDetailsRepository
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before fun setup() {
         MockKAnnotations.init(this)
-        _repository = MediaDetailsRepository(_dataSource, UnconfinedTestDispatcher())
+        val dispatcher = UnconfinedTestDispatcher()
+        _repository = MediaDetailsRepository(_mediaSource, _providerSource, dispatcher)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_success() = runTest {
         //Arrange
-        mockResponse(requestType = "Success")
+        coEveryProviderSuccessResponse()
+        coEveryMediaDetailResponse(requestType = SUCCESS)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -40,7 +50,7 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverError() = runTest {
         //Arrange
-        mockResponse(requestType = "ServerError")
+        coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -50,7 +60,7 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_networkError() = runTest {
         //Arrange
-        mockResponse(requestType = "NetworkError")
+        coEveryMediaDetailResponse(requestType = NETWORK_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -60,24 +70,24 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_unknownError() = runTest {
         //Arrange
-        mockResponse(requestType = "UnknownError")
+        coEveryMediaDetailResponse(requestType = UNKNOWN_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
         assertTrue(result is UnknownError)
     }
 
-    private fun mockResponse(requestType: String) = coEvery {
-        _dataSource.getMediaDetailsResult(any(), any())
-    } returns getResponseByType(requestType)
+    private fun coEveryMediaDetailResponse(requestType: ReturnType) = coEvery {
+        _mediaSource.getMediaDetailsResult(any(), any())
+    } returns createMediaDetailResponse(requestType)
 
-    private fun getResponseByType(requestType: String) = when(requestType) {
-        "Success"      -> Success(data = MediaDetailResponse())
-        "ServerError"  -> ServerError()
-        "NetworkError" -> NetworkError()
-        "UnknownError" -> UnknownError()
-        else -> throw IllegalArgumentException()
-    }
+    private fun createMediaDetailResponse(
+        requestType: ReturnType
+    ) = mockResult(requestType, Success(data = MediaDetailResponse()))
+
+    private fun coEveryProviderSuccessResponse() = coEvery {
+        _providerSource.getProvidersResult(any(), any())
+    } returns mockResult(SUCCESS, Success(data = ProviderResponse()))
 
     private companion object {
         const val ID = 1L
