@@ -32,11 +32,8 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before fun setup() {
         MockKAnnotations.init(this)
-        _repository = MediaDetailsRepository(
-            _mediaSource,
-            _providerDataSource = _providerSource,
-            UnconfinedTestDispatcher()
-        )
+        val dispatcher = UnconfinedTestDispatcher()
+        _repository = MediaDetailsRepository(_mediaSource, _providerSource, dispatcher)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -84,9 +81,9 @@ class MediaDetailsRepositoryTest {
         _mediaSource.getMediaDetailsResult(any(), any())
     } returns createMediaDetailResponse(requestType)
 
-    private fun createMediaDetailResponse(requestType: ReturnType) =
-        mockResult(requestType, Success(data = MediaDetailResponse()))
-
+    private fun createMediaDetailResponse(
+        requestType: ReturnType
+    ) = mockResult(requestType, Success(data = MediaDetailResponse()))
 
     private fun coEveryProviderSuccessResponse() = coEvery {
         _providerSource.getProvidersResult(any(), any())
