@@ -46,8 +46,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_successResponse_resultIsSuccess() = runTest {
         //Arrange
-        val response = NetworkResponse.Success(body = PersonResponse(), code = 200)
-        coEveryApi(response)
+        coEveryApi(response = NetworkResponse.Success(body = PersonResponse(), code = 200))
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -57,8 +56,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
         //Arrange
-        val response = MockResponse.serverErrorResponse
-        coEveryApi(response)
+        coEveryApi(response = MockResponse.serverErrorResponse)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -68,8 +66,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_serverErrorResponse_resultIsServerError() = runTest {
         //Arrange
-        val response = MockResponse.serverErrorResponse
-        coEveryApi(response)
+        coEveryApi(response = MockResponse.serverErrorResponse)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -79,8 +76,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_networkErrorResponse_resultIsNetworkError() = runTest {
         //Arrange
-        val response = MockResponse.networkResponse
-        coEveryApi(response)
+        coEveryApi(response = MockResponse.networkResponse)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -90,8 +86,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_unknownErrorResponse_resultIsUnknownError() = runTest {
         //Arrange
-        val response = MockResponse.unknownErrorResponse
-        coEveryApi(response)
+        coEveryApi(response = MockResponse.unknownErrorResponse)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
