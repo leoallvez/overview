@@ -42,9 +42,7 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_success() = runTest {
         //Arrange
-        coEvery { _providerSource.getProvidersResult(any(), any()) } returns
-                Success(data = ProviderResponse())
-
+        coEveryProviderSuccessResponse()
         coEveryMediaDetailResponse(requestType = SUCCESS)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
@@ -88,6 +86,11 @@ class MediaDetailsRepositoryTest {
 
     private fun createMediaDetailResponse(requestType: ReturnType) =
         mockResult(requestType, Success(data = MediaDetailResponse()))
+
+
+    private fun coEveryProviderSuccessResponse() = coEvery {
+        _providerSource.getProvidersResult(any(), any())
+    } returns mockResult(SUCCESS, Success(data = ProviderResponse()))
 
     private companion object {
         const val ID = 1L

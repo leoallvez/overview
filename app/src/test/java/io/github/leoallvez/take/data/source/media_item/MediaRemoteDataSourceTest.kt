@@ -5,6 +5,7 @@ import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.source.DataResult.*
 import io.github.leoallvez.take.util.mock.*
+import io.github.leoallvez.take.util.mock.ReturnType.*
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -35,7 +36,7 @@ class MediaRemoteDataSourceTest {
     @Test fun getMediaDetailsResult_successResponse_dataResponseIsSameAsApi() = runTest {
         //Arrange
         val response = createMediaDetailsSuccess()
-        coEveryMediaDetail(ReturnType.SUCCESS, response)
+        coEveryMediaDetailResponse(requestType = SUCCESS, response)
         //Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
@@ -45,7 +46,7 @@ class MediaRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_successResponse_resultIsSuccess() = runTest {
         //Arrange
-        coEveryMediaDetail(ReturnType.SUCCESS, createMediaDetailsSuccess())
+        coEveryMediaDetailResponse(requestType = SUCCESS, createMediaDetailsSuccess())
         //Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
@@ -55,7 +56,7 @@ class MediaRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
         //Arrange
-        coEveryMediaDetail(ReturnType.SERVER_ERROR)
+        coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         //Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
@@ -65,7 +66,7 @@ class MediaRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverErrorResponse_resultIsServerError() = runTest {
         //Arrange
-        coEveryMediaDetail(ReturnType.SERVER_ERROR)
+        coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         //Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
@@ -76,7 +77,7 @@ class MediaRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_networkErrorResponse_resultIsNetworkError() = runTest {
         //Arrange
-        coEveryMediaDetail(ReturnType.NETWORK_ERROR)
+        coEveryMediaDetailResponse(requestType = NETWORK_ERROR)
         //Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
@@ -86,14 +87,14 @@ class MediaRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_unknownErrorResponse_resultIsUnknownError() = runTest {
         //Arrange
-        coEveryMediaDetail(ReturnType.UNKNOWN_ERROR)
+        coEveryMediaDetailResponse(requestType = UNKNOWN_ERROR)
         //Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         //Assert
         assertTrue(result is UnknownError)
     }
 
-    private fun coEveryMediaDetail(
+    private fun coEveryMediaDetailResponse(
         requestType: ReturnType,
         successResponse: MediaDetailsSuccess = createMediaDetailsSuccess()
     ) = coEvery {

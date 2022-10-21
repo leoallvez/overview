@@ -5,6 +5,7 @@ import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.response.PersonResponse
 import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.util.mock.*
+import io.github.leoallvez.take.util.mock.ReturnType.*
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -33,7 +34,7 @@ class PersonRemoteDataSourceTest {
     @Test fun getPersonDetails_successResponse_dataResponseIsSameAsApi() = runTest {
         //Arrange
         val response = createPersonResponseSuccess()
-        coEveryPersonResponse(ReturnType.SUCCESS, response)
+        coEveryPersonResponse(requestType = SUCCESS, response)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -43,7 +44,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_successResponse_resultIsSuccess() = runTest {
         //Arrange
-        coEveryPersonResponse(ReturnType.SUCCESS)
+        coEveryPersonResponse(requestType = SUCCESS)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -53,7 +54,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
         //Arrange
-        coEveryPersonResponse(ReturnType.SERVER_ERROR)
+        coEveryPersonResponse(requestType = SERVER_ERROR)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -63,7 +64,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_serverErrorResponse_resultIsServerError() = runTest {
         //Arrange
-        coEveryPersonResponse(ReturnType.SERVER_ERROR)
+        coEveryPersonResponse(requestType = SERVER_ERROR)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -73,7 +74,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_networkErrorResponse_resultIsNetworkError() = runTest {
         //Arrange
-        coEveryPersonResponse(ReturnType.NETWORK_ERROR)
+        coEveryPersonResponse(requestType = NETWORK_ERROR)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
@@ -83,7 +84,7 @@ class PersonRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_unknownErrorResponse_resultIsUnknownError() = runTest {
         //Arrange
-        coEveryPersonResponse(ReturnType.UNKNOWN_ERROR)
+        coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         //Act
         val result = _dataSource.getPersonDetails(apiId = 1)
         //Assert
