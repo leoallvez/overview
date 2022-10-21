@@ -34,7 +34,7 @@ class MediaDetailsRepositoryTest {
         MockKAnnotations.init(this)
         _repository = MediaDetailsRepository(
             _mediaSource,
-            _providerSource,
+            _providerDataSource = _providerSource,
             UnconfinedTestDispatcher()
         )
     }
@@ -45,7 +45,7 @@ class MediaDetailsRepositoryTest {
         coEvery { _providerSource.getProvidersResult(any(), any()) } returns
                 Success(data = ProviderResponse())
 
-        mockResponse(requestType = SUCCESS)
+        coEveryMediaDetailResponse(requestType = SUCCESS)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -55,7 +55,7 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverError() = runTest {
         //Arrange
-        mockResponse(requestType = SERVER_ERROR)
+        coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -65,7 +65,7 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_networkError() = runTest {
         //Arrange
-        mockResponse(requestType = NETWORK_ERROR)
+        coEveryMediaDetailResponse(requestType = NETWORK_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
@@ -75,14 +75,14 @@ class MediaDetailsRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_unknownError() = runTest {
         //Arrange
-        mockResponse(requestType = UNKNOWN_ERROR)
+        coEveryMediaDetailResponse(requestType = UNKNOWN_ERROR)
         //Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
         //Assert
         assertTrue(result is UnknownError)
     }
 
-    private fun mockResponse(requestType: ReturnType) = coEvery {
+    private fun coEveryMediaDetailResponse(requestType: ReturnType) = coEvery {
         _mediaSource.getMediaDetailsResult(any(), any())
     } returns createMediaDetailResponse(requestType)
 
