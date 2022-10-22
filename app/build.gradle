@@ -12,12 +12,11 @@ def apiProperties = new Properties()
 apiProperties.load(new FileInputStream(apiPropertiesFile))
 
 android {
-    compileSdk 31
-
+    compileSdk 33
     defaultConfig {
         applicationId "io.github.leoallvez.take"
         minSdk 26
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
