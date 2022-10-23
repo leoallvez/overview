@@ -13,7 +13,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.ScreenNav
 import io.github.leoallvez.take.ui.discover.DiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
-import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
+import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
 import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.util.MediaItemClick

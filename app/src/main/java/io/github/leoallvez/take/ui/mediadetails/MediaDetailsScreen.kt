@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.ui.media_details
+package io.github.leoallvez.take.ui.mediadetails
 
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
