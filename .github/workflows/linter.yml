@@ -5,7 +5,7 @@
 ## Super Linter GitHub Actions ##
 #################################
 #################################
-name: CI - Code Style
+name: CI - Lint
 
 #############################
 # Start the job on all push #

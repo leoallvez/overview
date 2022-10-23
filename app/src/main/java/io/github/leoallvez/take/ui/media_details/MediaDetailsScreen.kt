@@ -45,7 +45,7 @@ fun MediaDetailsScreen(
     logger: Logger,
     params: Pair<Long, String>,
     events: MediaDetailsScreenEvents,
-    viewModel: MediaDetailsViewModel= hiltViewModel(),
+    viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
 
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
