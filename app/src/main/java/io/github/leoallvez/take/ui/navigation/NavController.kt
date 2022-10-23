@@ -6,15 +6,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.Screen
-import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.discover.DiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.media_details.MediaDetailsScreen
+import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.util.MediaItemClick
 import io.github.leoallvez.take.util.getApiId

@@ -14,9 +14,7 @@
     <string name="back_to_home_icon">Ícone de voltar para home</string>
     <string name="app_offline_msg">Nenhuma conexão com a Internet disponível</string>
     <string name="release">Lançamento: %s</string>
-    <string name="loading">Carregando...</string>
-    <string name="runtime">Duração: %s</string>
-    <string name="similar">Similar</string>
+    <string name="loading">Carregando…</string>
 
     <string name="synopsis">Sinopse</string>
     <string name="biography">Biografia</string>

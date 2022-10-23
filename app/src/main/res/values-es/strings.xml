@@ -15,8 +15,6 @@
     <string name="app_offline_msg">No hay conexión a Internet disponible</string>
     <string name="release">Fecha de lanzamiento: %s</string>
     <string name="loading">Cargando…</string>
-    <string name="runtime">Duración: %s</string>
-    <string name="similar">Similar</string>
 
     <string name="synopsis">Sinopsis</string>
     <string name="biography">Biografía</string>
