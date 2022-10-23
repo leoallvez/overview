@@ -16,12 +16,12 @@ sealed class DataResult<T>(
     }
 }
 
-//TODO: log in crashlytics the NetworkResponse Error
+// TODO: log in crashlytics the NetworkResponse Error
 fun <T : Any> responseToResult(
     response: NetworkResponse<T, ErrorResponse>
-) = when(response) {
-    is NetworkResponse.Success      -> DataResult.Success(data = response.body)
-    is NetworkResponse.ServerError  -> DataResult.ServerError (message = response.body?.message)
+) = when (response) {
+    is NetworkResponse.Success -> DataResult.Success(data = response.body)
+    is NetworkResponse.ServerError -> DataResult.ServerError(message = response.body?.message)
     is NetworkResponse.NetworkError -> DataResult.NetworkError(message = response.error.message)
     is NetworkResponse.UnknownError -> DataResult.UnknownError(message = response.error.message)
 }

@@ -5,7 +5,7 @@ import io.github.leoallvez.take.BuildConfig
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.util.DateHelper
 
-data class PersonResponse (
+data class PersonResponse(
     val name: String = "",
     val biography: String = "",
     val birthday: String = "",
@@ -31,8 +31,7 @@ data class PersonResponse (
     fun getAge() = DateHelper(birthday).periodBetween(deathDay)
 }
 
-data class MediaCredits (
+data class MediaCredits(
     @field:Json(name = "cast")
     val mediaItems: List<MediaItem> = listOf()
 )
-

@@ -1,6 +1,6 @@
 package io.github.leoallvez.take.data.api
 
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 interface IApiLocale {
@@ -8,11 +8,11 @@ interface IApiLocale {
     val language: String
 }
 
-class ApiLocale @Inject constructor(): IApiLocale {
+class ApiLocale @Inject constructor() : IApiLocale {
 
     private val locale: Locale = Locale.getDefault()
 
     override val region: String = locale.country
-    override val language: String = locale.toLanguageTag()
 
+    override val language: String = locale.toLanguageTag()
 }

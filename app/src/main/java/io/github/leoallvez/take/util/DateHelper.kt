@@ -4,7 +4,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
+import java.util.Date
 
 class DateHelper(dateIn: String?) {
 
@@ -29,10 +30,10 @@ class DateHelper(dateIn: String?) {
         return SimpleDateFormat(datePattern, locale).format(date)
     }
 
-    fun periodBetween(dateEnd: String? = null): String = if (date.isNotEmpty())  {
+    fun periodBetween(dateEnd: String? = null): String = if (date.isNotEmpty()) {
         val formatter = DateTimeFormatter.ofPattern(API_DATE_PATTERN)
         val start = LocalDate.parse(date, formatter)
-        val end = if(dateEnd.isNullOrBlank().not()) {
+        val end = if (dateEnd.isNullOrBlank().not()) {
             LocalDate.parse(dateEnd, formatter)
         } else {
             LocalDate.now()
@@ -46,5 +47,4 @@ class DateHelper(dateIn: String?) {
         private const val DEFAULT_RETURN = ""
         private const val API_DATE_PATTERN = "yyyy-MM-dd"
     }
-    //./gradlew ktlintCheck
 }

@@ -8,7 +8,7 @@ import io.github.leoallvez.firebase.RemoteSource
 import io.github.leoallvez.take.abtest.AbTest
 import io.github.leoallvez.take.abtest.DisplayAdsAbTest
 import io.github.leoallvez.take.BuildConfig
-import io.github.leoallvez.take.data.model.*
+import io.github.leoallvez.take.data.model.Suggestion
 import io.github.leoallvez.take.abtest.SuggestionAbTest
 import io.github.leoallvez.take.util.IJsonFileReader
 

@@ -20,7 +20,7 @@ class MediaItemsRepository @Inject constructor(
     @IoDispatcher private val _ioDispatcher: CoroutineDispatcher,
     private val _localDataSource: MediaLocalDataSource,
     private val _remoteDataSource: IMediaRemoteDataSource,
-    private val _suggestionLocalDataSource: SuggestionLocalDataSource,
+    private val _suggestionLocalDataSource: SuggestionLocalDataSource
 ) {
 
     private val _suggestionsWithItems: Map<Suggestion, List<MediaItem>> by lazy {
@@ -29,7 +29,7 @@ class MediaItemsRepository @Inject constructor(
 
     suspend fun getData(): Flow<List<MediaSuggestion>> {
         return withContext(_ioDispatcher) {
-            val results = if(_suggestionsWithItems.isNotEmpty()) {
+            val results = if (_suggestionsWithItems.isNotEmpty()) {
                 getLocalData()
             } else {
                 getRemoteData()
@@ -42,7 +42,7 @@ class MediaItemsRepository @Inject constructor(
         val result = mutableListOf<MediaSuggestion>()
         getSuggestions().forEach { suggestion ->
             val response = doRequest(suggestion.apiPath)
-            if(response is DataResult.Success) {
+            if (response is DataResult.Success) {
                 response.data?.results?.let { items ->
                     setForeignKeyOnItems(items, suggestion.dbId)
                     saveItems(items)

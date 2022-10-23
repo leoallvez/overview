@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
-import io.github.leoallvez.take.ui.Screen
+import io.github.leoallvez.take.ui.ScreenNav
 import io.github.leoallvez.take.ui.TrackScreenView
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(logger: Logger, onNavigateToHome: () -> Unit) {
 
-    TrackScreenView(screen = Screen.Splash, logger)
+    TrackScreenView(screen = ScreenNav.Splash, logger)
 
     val scale = remember { Animatable(0f) }
 
@@ -51,7 +51,7 @@ fun SplashScreen(logger: Logger, onNavigateToHome: () -> Unit) {
 fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
     Box(
         modifier = Modifier.fillMaxSize().background(PrimaryBackground),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = stringResource(R.string.app_global_name),
@@ -60,7 +60,7 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
             modifier = Modifier
                 .align(Alignment.Center)
                 .scale(scale.value),
-            color = BlueTake,
+            color = BlueTake
         )
     }
 }

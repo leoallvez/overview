@@ -9,7 +9,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.leoallvez.firebase.*
+import io.github.leoallvez.firebase.RemoteSource
+import io.github.leoallvez.firebase.RemoteConfigWrapper
+import io.github.leoallvez.firebase.AnalyticsSource
+import io.github.leoallvez.firebase.AnalyticsWrapper
 import javax.inject.Singleton
 
 @Module

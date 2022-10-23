@@ -8,11 +8,13 @@ private val TakeColorPalette = lightColors(
     primary = Black200,
     primaryVariant = Black200,
     secondary = Black200,
-    surface = Black200,
+    surface = Black200
 )
 
 @Composable
-fun TakeTheme(content: @Composable () -> Unit) {
+fun TakeTheme(
+    content: @Composable () -> Unit
+) {
 
     MaterialTheme(
         colors = TakeColorPalette,

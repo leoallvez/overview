@@ -45,7 +45,7 @@ fun MediaDetailsScreen(
 ) {
 
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
-    TrackScreenView(screen = Screen.MediaDetails, logger)
+    TrackScreenView(screen = ScreenNav.MediaDetails, logger)
 
     val (apiId: Long, mediaType: String) = params
     viewModel.loadMediaDetails(apiId, mediaType)
@@ -122,7 +122,7 @@ fun MediaBody(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
-            .padding(dimensionResource(R.dimen.default_padding)),
+            .padding(dimensionResource(R.dimen.default_padding))
     ) {
         mediaDetails.apply {
             ScreenTitle(getLetter())
@@ -136,14 +136,14 @@ fun MediaBody(
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(
                 bannerId = R.string.banner_sample_id,
-                isVisible = showAds,
+                isVisible = showAds
             )
             CastList(getOrderedCast()) { apiId ->
                 events.onNavigateToCastDetails(apiId = apiId)
             }
             MediaItemList(
                 listTitle = stringResource(R.string.related),
-                items = similar.results,
+                items = similar.results
             ) { apiId, mediaType ->
                 events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType)
             }
@@ -229,8 +229,8 @@ fun GenreItem(name: String, onClick: () -> Unit) {
             .height(25.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = BlueTake,
-            backgroundColor = BlueTake,
-        ),
+            backgroundColor = BlueTake
+        )
     ) {
         Text(
             text = name,

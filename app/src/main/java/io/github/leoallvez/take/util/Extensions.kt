@@ -9,7 +9,7 @@ import com.squareup.moshi.Moshi
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.ui.Screen
+import io.github.leoallvez.take.ui.ScreenNav
 import okio.IOException
 import timber.log.Timber
 
@@ -25,13 +25,13 @@ inline fun <reified T> String.fromJson(): T? = try {
 
 inline fun <reified T> String.parseToList(): List<T> = try {
     val type = TypeToken.getParameterized(List::class.java, T::class.java).type
-    if(this.isNotEmpty()) Gson().fromJson(this, type) else listOf()
+    if (this.isNotEmpty()) Gson().fromJson(this, type) else listOf()
 } catch (e: JsonSyntaxException) {
     Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${e.stackTrace}")
     listOf()
 }
 
-//TODO: Finish unit tests for another functions
+// TODO: Finish unit tests for another functions
 fun Context.getStringByName(resource: String): String {
     val resourceId = this.resources
         .getIdentifier(resource, "string", this.packageName)
@@ -58,12 +58,11 @@ private infix fun MediaItem.equivalent(other: MediaItem): Boolean {
 }
 
 fun NavBackStackEntry.getParams(): Pair<Long, String> {
-    val id = arguments?.getLong(Screen.ID_PARAM)
-    val type = arguments?.getString(Screen.TYPE_PARAM)
+    val id = arguments?.getLong(ScreenNav.ID_PARAM)
+    val type = arguments?.getString(ScreenNav.TYPE_PARAM)
     return Pair(id ?: 0, type ?: "")
 }
 
-fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(Screen.ID_PARAM) ?: 0
+fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"
-

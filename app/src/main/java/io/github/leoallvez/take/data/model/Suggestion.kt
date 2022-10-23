@@ -1,6 +1,8 @@
 package io.github.leoallvez.take.data.model
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "suggestions")
@@ -15,7 +17,7 @@ data class Suggestion(
     val apiPath: String,
     @ColumnInfo(name = "title_resource_id")
     @SerializedName(value = "title_resource_id")
-    val titleResourceId: String,
+    val titleResourceId: String
 ) {
 
     fun toMediaSuggestion(items: List<MediaItem>): MediaSuggestion {

@@ -38,14 +38,14 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToMediaDetails: MediaItemClick
 ) {
-    TrackScreenView(screen = Screen.Home, logger)
+    TrackScreenView(screen = ScreenNav.Home, logger)
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featuredMediaItems = viewModel.featuredMediaItems.observeAsState(listOf()).value
     val loading = viewModel.loading.observeAsState(initial = true).value
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
-    if(loading) {
+    if (loading) {
         LoadingScreen()
     } else {
         if (suggestions.isNotEmpty()) {
@@ -57,7 +57,7 @@ fun HomeScreen(
                     HomeToolBar(items = featuredMediaItems) { item ->
                         onNavigateToMediaDetails.invoke(item.apiId, item.type)
                     }
-                },
+                }
             ) {
                 HomeScreenContent(
                     suggestions = suggestions,
@@ -75,7 +75,7 @@ fun HomeScreen(
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>,
-    callback: (MediaItem) -> Unit,
+    callback: (MediaItem) -> Unit
 ) {
     HorizontalCardSlider(items, callback)
     ToolbarButton(
@@ -90,7 +90,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
 @Composable
 private fun HorizontalCardSlider(
     items: List<MediaItem>,
-    callback: (MediaItem) -> Unit,
+    callback: (MediaItem) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = items.size)
 
@@ -143,7 +143,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
         modifier = modifier
             .padding(dimensionResource(R.dimen.screen_padding)),
         inactiveColor = Color.Gray,
-        activeColor = BlueTake,
+        activeColor = BlueTake
     )
 }
 
@@ -151,7 +151,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
 fun HomeScreenContent(
     suggestions: List<MediaSuggestion>,
     showAds: Boolean,
-    onNavigateToMediaDetails: MediaItemClick,
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -172,7 +172,7 @@ fun HomeScreenContent(
 @Composable
 fun SuggestionVerticalList(
     suggestions: List<MediaSuggestion>,
-    onClickItem: MediaItemClick,
+    onClickItem: MediaItemClick
 ) {
     LazyColumn {
         items(suggestions) {

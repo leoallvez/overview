@@ -5,7 +5,17 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -54,14 +64,14 @@ fun BasicTitle(title: String) {
                 top = 10.dp
             ),
         style = MaterialTheme.typography.h6,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Bold
     )
 }
 
 @SuppressLint("TrackScreenView")
 @Composable
-fun TrackScreenView(screen: Screen, logger: Logger) {
-    DisposableEffect(Unit){
+fun TrackScreenView(screen: ScreenNav, logger: Logger) {
+    DisposableEffect(Unit) {
         logger.logOpenScreen(screen.name)
         onDispose { logger.logExitScreen(screen.name) }
     }
@@ -74,7 +84,7 @@ fun LoadingScreen() {
             .background(PrimaryBackground)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column {
             IntermediateScreensText(text = stringResource(R.string.loading))
@@ -82,7 +92,7 @@ fun LoadingScreen() {
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = BlueTake,
                 animationDuration = 800,
-                animationDelay = 200,
+                animationDelay = 200
             )
         }
     }
@@ -95,7 +105,7 @@ fun ErrorScreen(refresh: () -> Unit) {
             .background(PrimaryBackground)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column {
             IntermediateScreensText(text = stringResource(R.string.error_on_loading))
@@ -135,7 +145,7 @@ fun StylizedButton(
         onClick = { onClick.invoke() },
         contentPadding = PaddingValues(
             horizontal = 20.dp,
-            vertical = 12.dp,
+            vertical = 12.dp
         )
     ) {
         Icon(
@@ -193,7 +203,7 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
 
 @Composable
 fun MediaItemList(
-    listTitle:String,
+    listTitle: String,
     items: List<MediaItem>,
     mediaType: String? = null,
     onClickItem: MediaItemClick
@@ -201,7 +211,7 @@ fun MediaItemList(
     if (items.isNotEmpty()) {
         Column {
             BasicTitle(listTitle)
-            LazyRow (
+            LazyRow(
                 Modifier.padding(
                     vertical = dimensionResource(R.dimen.default_padding)
                 ),
@@ -227,8 +237,8 @@ fun MediaItem(mediaItem: MediaItem, imageWithBorder: Boolean = false, onClick: (
         )
         BasicText(
             text = mediaItem.getLetter(),
-            style =  MaterialTheme.typography.caption,
-            isBold = true,
+            style = MaterialTheme.typography.caption,
+            isBold = true
         )
     }
 }
@@ -255,7 +265,7 @@ fun BasicImage(
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-                    then (if(withBorder) Modifier.border(
+                    then (if (withBorder) Modifier.border(
                             dimensionResource(R.dimen.border_width),
                             SecondaryBackground,
                             RoundedCornerShape(dimensionResource(R.dimen.corner))
@@ -263,7 +273,7 @@ fun BasicImage(
             contentScale = contentScale,
             placeholder = placeholder,
             contentDescription = contentDescription,
-            error = errorDefaultImage,
+            error = errorDefaultImage
         )
     }
 }
@@ -284,8 +294,8 @@ fun BasicText(
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
         textAlign = TextAlign.Center,
-        fontWeight = if(isBold) FontWeight.Bold else FontWeight.Normal,
-        style = style,
+        fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
+        style = style
     )
 }
 
@@ -338,7 +348,7 @@ fun <T> UiStateResult(
     onRefresh: () -> Unit,
     successContent: @Composable (T) -> Unit
 ) {
-    when(uiState) {
+    when (uiState) {
         is UiState.Loading -> LoadingScreen()
         is UiState.Success -> successContent(uiState.data)
         else -> ErrorScreen { onRefresh() }
