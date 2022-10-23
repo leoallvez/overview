@@ -47,7 +47,6 @@ fun MediaDetailsScreen(
     events: MediaDetailsScreenEvents,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
-
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
     TrackScreenView(screen = ScreenNav.MediaDetails, logger)
 

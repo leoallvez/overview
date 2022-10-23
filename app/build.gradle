@@ -51,13 +51,13 @@ android {
             applicationIdSuffix ".free"
             versionNameSuffix "-free"
             resValue 'string', 'app_name', 'Take'
-            buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'false'
+            buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
         }
-        paid {
+        premium {
             dimension "version"
-            applicationIdSuffix ".paid"
+            applicationIdSuffix ".premium"
             versionNameSuffix "-paid"
-            resValue 'string', 'app_name', 'Take'
+            resValue 'string', 'app_name', 'Take - Premium'
             buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'false'
         }
     }

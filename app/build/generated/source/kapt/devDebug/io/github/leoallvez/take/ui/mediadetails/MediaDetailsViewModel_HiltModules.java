@@ -29,7 +29,7 @@ public final class MediaDetailsViewModel_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("io.github.leoallvez.take.ui.media_details.MediaDetailsViewModel")
+    @StringKey("io.github.leoallvez.take.ui.mediadetails.MediaDetailsViewModel")
     @HiltViewModelMap
     public abstract ViewModel binds(MediaDetailsViewModel vm);
   }
@@ -44,7 +44,7 @@ public final class MediaDetailsViewModel_HiltModules {
     @IntoSet
     @HiltViewModelMap.KeySet
     public static String provide() {
-      return "io.github.leoallvez.take.ui.media_details.MediaDetailsViewModel";
+      return "io.github.leoallvez.take.ui.mediadetails.MediaDetailsViewModel";
     }
   }
 }
