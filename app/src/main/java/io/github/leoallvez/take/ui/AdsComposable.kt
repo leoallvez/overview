@@ -23,7 +23,7 @@ fun AdsBanner(@StringRes bannerId: Int, isVisible: Boolean, modifier: Modifier =
                 .height(dimensionResource(R.dimen.ads_banner_height)),
             factory = { context ->
                 AdView(context).apply {
-                    adSize = AdSize.BANNER
+                    setAdSize(AdSize.BANNER)
                     adUnitId = context.getString(bannerId)
                     loadAd(AdRequest.Builder().build())
                 }

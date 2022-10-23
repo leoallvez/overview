@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
      <string name="app_global_name">Take</string>
     <string name="banner_sample_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="movie_popular">Filmes mais populares</string>
-    <string name="movie_top_rated">Filmes mais votados</string>
-    <string name="discover_movie">Descubra</string>
-    <string name="movie_trending">Filmes tendência</string>
-    <string name="tv_trending">Tendência na TV</string>
-    <string name="tv_popular">Mais populares na TV</string>
+    <!-- Dynamic -->
+    <string tools:ignore="UnusedResources" name="movie_popular">Filmes mais populares</string>
+    <string tools:ignore="UnusedResources" name="movie_top_rated">Filmes mais votados</string>
+    <string tools:ignore="UnusedResources" name="discover_movie">Descubra</string>
+    <string tools:ignore="UnusedResources" name="movie_trending">Filmes tendência</string>
+    <string tools:ignore="UnusedResources" name="tv_trending">Tendência na TV</string>
+    <string tools:ignore="UnusedResources" name="tv_popular">Mais populares na TV</string>
+    <!-- Dynamic -->
     <string name="error_on_loading">Erro ao carregar :(</string>
     <string name="btn_try_again">Tentar novamente</string>
     <string name="refresh_icon">Ícone de recarregar</string>
     <string name="back_to_home_icon">Ícone de voltar para home</string>
     <string name="app_offline_msg">Nenhuma conexão com a Internet disponível</string>
-    <string name="release">Lançamento: %s</string>
-    <string name="loading">Carregando...</string>
-    <string name="runtime">Duração: %s</string>
-    <string name="similar">Similar</string>
+    <string name="loading">Carregando…</string>
 
     <string name="synopsis">Sinopse</string>
     <string name="biography">Biografia</string>

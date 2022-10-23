@@ -42,7 +42,7 @@ class MediaItem (
     @ColumnInfo(name = "media_type")
     var type: String? = ""
 ) {
-    fun getLetter() = name ?: title ?: ""
+    fun getLetter() = if(name != null && name.isNotEmpty()) name else title ?: ""
 
     fun getPosterImage() = "$IMG_URL/$posterPath"
 
