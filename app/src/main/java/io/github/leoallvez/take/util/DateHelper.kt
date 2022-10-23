@@ -46,4 +46,5 @@ class DateHelper(dateIn: String?) {
         private const val DEFAULT_RETURN = ""
         private const val API_DATE_PATTERN = "yyyy-MM-dd"
     }
+    //./gradlew ktlintCheck
 }
