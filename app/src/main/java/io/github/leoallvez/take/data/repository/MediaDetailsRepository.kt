@@ -14,7 +14,7 @@ import javax.inject.Inject
 class MediaDetailsRepository @Inject constructor(
     private val _mediaDataSource: IMediaRemoteDataSource,
     private val _providerDataSource: IProviderRemoteDataSource,
-    @IoDispatcher private val _dispatcher: CoroutineDispatcher,
+    @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) {
 
     suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) = withContext(_dispatcher) {
@@ -32,7 +32,7 @@ class MediaDetailsRepository @Inject constructor(
         val result = _providerDataSource.getProvidersResult(apiId, mediaType)
         val resultsMap = result.data?.results ?: mapOf()
         val entries = resultsMap.filter { it.key == "BR" }.entries
-        return if(entries.isNotEmpty()) {
+        return if (entries.isNotEmpty()) {
             entries.first().value.getOrderedFlatRate()
         } else {
             listOf()
@@ -40,6 +40,6 @@ class MediaDetailsRepository @Inject constructor(
     }
 
     private fun setSimilarType(mediaDetails: MediaDetailResponse?, mediaType: String) {
-        mediaDetails?.similar?.results?.forEach { it.type = mediaType  }
+        mediaDetails?.similar?.results?.forEach { it.type = mediaType }
     }
 }

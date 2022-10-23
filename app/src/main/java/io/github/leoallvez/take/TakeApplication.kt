@@ -13,7 +13,7 @@ class TakeApplication : Application() {
 
     private fun startLog() {
         if (BuildConfig.DEBUG) {
-            //TODO: create Timber Tree classes to get Crashlytics logs.
+            // TODO: create Timber Tree classes to get Crashlytics logs.
             Timber.plant(Timber.DebugTree())
         }
     }

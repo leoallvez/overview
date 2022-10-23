@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -26,8 +27,8 @@ class SuggestionRepository @Inject constructor(
         SimpleDateFormat(TIME_PATTERN, Locale.ENGLISH)
     }
 
-    suspend fun refresh() = withContext (_ioDispatcher) {
-        if(isTimeToRefreshCache()) {
+    suspend fun refresh() = withContext(_ioDispatcher) {
+        if (isTimeToRefreshCache()) {
             val suggestions = _remoteDataSource.get().toTypedArray()
             _localDataSource.update(*suggestions)
             saveLastCacheTime()
@@ -41,7 +42,7 @@ class SuggestionRepository @Inject constructor(
 
     private suspend fun isTimeToRefreshCache(): Boolean {
         val lastCacheDateFormatted = getLastCacheDateFormatted()
-        return if(lastCacheDateFormatted.isNotBlank()) {
+        return if (lastCacheDateFormatted.isNotBlank()) {
             val lastCacheDate = _formatter.parse(lastCacheDateFormatted) as Date
             return maximumCacheTimeHasPassed(lastCacheDate)
         } else {

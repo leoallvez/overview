@@ -40,4 +40,3 @@ abstract class ApiModule {
     @Binds
     abstract fun bindApiLocale(locale: ApiLocale): IApiLocale
 }
-

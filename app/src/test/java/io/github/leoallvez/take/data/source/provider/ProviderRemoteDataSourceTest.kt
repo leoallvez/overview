@@ -34,67 +34,67 @@ class ProviderRemoteDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProvidersResult_successResponse_dataResponseIsSameAsApi() = runTest {
-        //Arrange
+        // Arrange
         val response = createProviderResponseSuccess()
         coEveryProviderResponse(requestType = ReturnType.SUCCESS, response)
-        //Act
+        // Act
         val result = _dataSource.getProvidersResult(id = 1, type = "movie")
-        //Assert
+        // Assert
         Assert.assertEquals(response.body, result.data)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProvidersResult_successResponse_resultIsSuccess() = runTest {
-        //Arrange
+        // Arrange
         coEveryProviderResponse(requestType = ReturnType.SUCCESS)
-        //Act
+        // Act
         val result = _dataSource.getProvidersResult(id = 1, type = "movie")
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.Success)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProvidersResult_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
-        //Arrange
+        // Arrange
         coEveryProviderResponse(requestType = ReturnType.SERVER_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getProvidersResult(id = 1, type = "movie")
-        //Assert
+        // Assert
         Assert.assertEquals(ERROR_MSG, result.message)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProvidersResult_serverErrorResponse_resultIsServerError() = runTest {
-        //Arrange
+        // Arrange
         coEveryProviderResponse(requestType = ReturnType.SERVER_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getProvidersResult(id = 1, type = "movie")
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.ServerError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProvidersResult_networkErrorResponse_resultIsNetworkError() = runTest {
-        //Arrange
+        // Arrange
         coEveryProviderResponse(requestType = ReturnType.NETWORK_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getProvidersResult(id = 1, type = "movie")
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.NetworkError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProvidersResult_unknownErrorResponse_resultIsUnknownError() = runTest {
-        //Arrange
+        // Arrange
         coEveryProviderResponse(requestType = ReturnType.UNKNOWN_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getProvidersResult(id = 1, type = "movie")
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.UnknownError)
     }
 
@@ -107,5 +107,4 @@ class ProviderRemoteDataSourceTest {
 
     private fun createProviderResponseSuccess() =
         NetworkResponse.Success(body = ProviderResponse(), code = 200)
-
 }

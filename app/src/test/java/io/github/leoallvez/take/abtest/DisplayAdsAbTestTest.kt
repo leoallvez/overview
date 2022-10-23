@@ -27,72 +27,72 @@ class DisplayAdsAbTestTest {
 
     @Test
     fun onExecute_localIsTrueRemoteIsTrue_isTrue() {
-        //Arrange
+        // Arrange
         val experiment = DisplayAdsAbTest(
             _localPermission = true,
             _remoteSource = _remoteSource
         )
         every { _remoteConfig.getBoolean(any()) } returns true
-        //Act
+        // Act
         val result = experiment.execute()
-        //Assert
+        // Assert
         assertEquals(true, result)
     }
 
     @Test
     fun onExecute_localIsTrueRemoteIsFalse_isTrue() {
-        //Arrange
+        // Arrange
         val experiment = DisplayAdsAbTest(
             _localPermission = true,
             _remoteSource = _remoteSource
         )
         every { _remoteConfig.getBoolean(any()) } returns false
-        //Act
+        // Act
         val result = experiment.execute()
-        //Assert
+        // Assert
         assertEquals(false, result)
     }
 
     @Test
     fun onExecute_localIsFalseRemoteIsFalse_isFalse() {
-        //Arrange
+        // Arrange
         val experiment = DisplayAdsAbTest(
             _localPermission = false,
             _remoteSource = _remoteSource
         )
         every { _remoteConfig.getBoolean(any()) } returns false
-        //Act
+        // Act
         val result = experiment.execute()
-        //Assert
+        // Assert
         assertEquals(false, result)
     }
 
     @Test
     fun onExecute_localIsFalseRemoteIsTrue_isFalse() {
-        //Arrange
+        // Arrange
         val experiment = DisplayAdsAbTest(
             _localPermission = false,
             _remoteSource = _remoteSource
         )
         every { _remoteConfig.getBoolean(any()) } returns true
-        //Act
+        // Act
         val result = experiment.execute()
-        //Assert
+        // Assert
         assertEquals(false, result)
     }
 
     @Test
     fun onExecute_getBooleanIsCalled() {
-        //Arrange
+        // Arrange
         _remoteSource = mockk()
         val experiment = DisplayAdsAbTest(
             _localPermission = false,
             _remoteSource = _remoteSource
         )
         every { _remoteSource.getBoolean(any()) } returns true
-        //Act
+        // Act
         experiment.execute()
-        //Assert
+        // Assert
         verify { _remoteSource.getBoolean(any()) }
     }
 }

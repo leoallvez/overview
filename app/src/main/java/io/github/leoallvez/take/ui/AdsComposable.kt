@@ -15,7 +15,7 @@ import io.github.leoallvez.take.R
 
 @Composable
 fun AdsBanner(@StringRes bannerId: Int, isVisible: Boolean, modifier: Modifier = Modifier) {
-    if(isVisible) {
+    if (isVisible) {
         AndroidView(
             modifier = modifier
                 .fillMaxWidth()

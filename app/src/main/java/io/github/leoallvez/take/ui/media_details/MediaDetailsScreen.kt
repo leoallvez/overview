@@ -1,6 +1,10 @@
 package io.github.leoallvez.take.ui.media_details
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -45,7 +49,7 @@ fun MediaDetailsScreen(
 ) {
 
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
-    TrackScreenView(screen = Screen.MediaDetails, logger)
+    TrackScreenView(screen = ScreenNav.MediaDetails, logger)
 
     val (apiId: Long, mediaType: String) = params
     viewModel.loadMediaDetails(apiId, mediaType)
@@ -122,7 +126,7 @@ fun MediaBody(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
-            .padding(dimensionResource(R.dimen.default_padding)),
+            .padding(dimensionResource(R.dimen.default_padding))
     ) {
         mediaDetails.apply {
             ScreenTitle(getLetter())
@@ -136,14 +140,14 @@ fun MediaBody(
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(
                 bannerId = R.string.banner_sample_id,
-                isVisible = showAds,
+                isVisible = showAds
             )
             CastList(getOrderedCast()) { apiId ->
                 events.onNavigateToCastDetails(apiId = apiId)
             }
             MediaItemList(
                 listTitle = stringResource(R.string.related),
-                items = similar.results,
+                items = similar.results
             ) { apiId, mediaType ->
                 events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType)
             }
@@ -169,7 +173,7 @@ fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
     if (providers.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
-        LazyRow (
+        LazyRow(
             Modifier.padding(
                 vertical = 10.dp
             ),
@@ -229,8 +233,8 @@ fun GenreItem(name: String, onClick: () -> Unit) {
             .height(25.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = BlueTake,
-            backgroundColor = BlueTake,
-        ),
+            backgroundColor = BlueTake
+        )
     ) {
         Text(
             text = name,
@@ -246,11 +250,7 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
     if (cast.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
-            LazyRow (
-                Modifier.padding(
-                    vertical = dimensionResource(R.dimen.default_padding)
-                ),
-            ) {
+            LazyRow(Modifier.padding(vertical = dimensionResource(R.dimen.default_padding))) {
                 items(cast) { castPerson ->
                     CastItem(castPerson = castPerson) {
                         onClickItem.invoke(castPerson.apiId)
@@ -261,7 +261,7 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
     }
 }
 
-@Composable 
+@Composable
 fun CastItem(castPerson: Person, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -270,13 +270,13 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         PersonImageCircle(imageUrl = castPerson.getProfileImage(), contentDescription = castPerson.name)
         BasicText(
             text = castPerson.name,
-            style =  MaterialTheme.typography.caption,
-            isBold = true,
+            style = MaterialTheme.typography.caption,
+            isBold = true
         )
         BasicText(
             text = castPerson.character,
             style = MaterialTheme.typography.caption,
-            color = BlueTake,
+            color = BlueTake
         )
     }
 }

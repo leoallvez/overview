@@ -1,10 +1,12 @@
 package io.github.leoallvez.take
 
-import android.os.Bundle
 import io.github.leoallvez.firebase.AnalyticsEvent
-import io.github.leoallvez.firebase.AnalyticsEvent.*
+
+import io.github.leoallvez.firebase.AnalyticsEvent.OPEN_SCREEN
+import io.github.leoallvez.firebase.AnalyticsEvent.EXIT_SCREEN
 import io.github.leoallvez.firebase.AnalyticsParam.SCREEN_NAME
 import io.github.leoallvez.firebase.AnalyticsSource
+import android.os.Bundle
 import timber.log.Timber
 import javax.inject.Inject
 

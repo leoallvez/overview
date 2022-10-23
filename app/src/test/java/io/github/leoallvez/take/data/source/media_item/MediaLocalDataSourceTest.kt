@@ -10,7 +10,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-
 class MediaLocalDataSourceTest {
 
     @MockK(relaxed = true)
@@ -26,12 +25,11 @@ class MediaLocalDataSourceTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun update_updateMediaItem_daoUpdateMediaItemIsCalled() = runTest {
-        //Arrange
+        // Arrange
         val mediaItem = MediaItem()
-        //Act
+        // Act
         _source.update(mediaItem)
-        //Assert
+        // Assert
         coVerify { _dao.update(mediaItem) }
     }
-
 }

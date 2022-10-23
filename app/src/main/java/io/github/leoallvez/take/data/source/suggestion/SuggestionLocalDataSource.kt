@@ -1,7 +1,8 @@
 package io.github.leoallvez.take.data.source.suggestion
 
 import io.github.leoallvez.take.data.db.dao.SuggestionDao
-import io.github.leoallvez.take.data.model.*
+import io.github.leoallvez.take.data.model.Suggestion
+import io.github.leoallvez.take.data.model.MediaItem
 import javax.inject.Inject
 
 class SuggestionLocalDataSource @Inject constructor(
