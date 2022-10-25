@@ -134,7 +134,7 @@ fun MediaBody(
                 events.onNavigateToDiscover(apiId = apiId)
             }
             GenreList(genres) { apiId ->
-                events.onNavigateToCastDetails(apiId = apiId)
+                events.onNavigateToDiscover(apiId = apiId)
             }
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(
