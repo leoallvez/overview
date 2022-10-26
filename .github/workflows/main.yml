@@ -18,6 +18,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
   lint:
+    needs: [ buil ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
