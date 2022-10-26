@@ -2,6 +2,7 @@ name: CI
 on: ["push"]
 
 jobs:
+  # https://singhajit.com/android-ci-cd-using-github-actions/
   build:
     runs-on: ubuntu-latest
     steps:
