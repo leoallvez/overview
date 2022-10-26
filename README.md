@@ -1,7 +1,5 @@
 # Take
-[![CI - Build](https://github.com/leoallvez/take/actions/workflows/android.yml/badge.svg)](https://github.com/leoallvez/take/actions/workflows/android.yml)
-[![CI - Code Style](https://github.com/leoallvez/take/actions/workflows/linter.yml/badge.svg)](https://github.com/leoallvez/take/actions/workflows/linter.yml)
-
+[![CI](https://github.com/leoallvez/take/actions/workflows/main.yml/badge.svg)](https://github.com/leoallvez/take/actions/workflows/main.yml)
 
 Android application to know where to watch a movie or series on streaming services.
 
