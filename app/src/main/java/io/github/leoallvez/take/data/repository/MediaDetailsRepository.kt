@@ -17,7 +17,7 @@ class MediaDetailsRepository @Inject constructor(
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) = withContext(_dispatcher)  {
+    suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) = withContext(_dispatcher) {
         return@withContext flow {
             val result = _mediaDataSource.getMediaDetailsResult(apiId, mediaType)
             if (result is DataResult.Success) {
