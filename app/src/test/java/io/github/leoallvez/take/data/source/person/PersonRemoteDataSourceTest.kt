@@ -32,62 +32,62 @@ class PersonRemoteDataSourceTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_successResponse_dataResponseIsSameAsApi() = runTest {
-        //Arrange
+        // Arrange
         val response = createPersonResponseSuccess()
         coEveryPersonResponse(requestType = SUCCESS, response)
-        //Act
+        // Act
         val result = _dataSource.getPersonDetails(apiId = 1)
-        //Assert
+        // Assert
         Assert.assertEquals(response.body, result.data)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_successResponse_resultIsSuccess() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = SUCCESS)
-        //Act
+        // Act
         val result = _dataSource.getPersonDetails(apiId = 1)
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.Success)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getPersonDetails(apiId = 1)
-        //Assert
+        // Assert
         Assert.assertEquals(ERROR_MSG, result.message)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_serverErrorResponse_resultIsServerError() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getPersonDetails(apiId = 1)
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.ServerError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_networkErrorResponse_resultIsNetworkError() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getPersonDetails(apiId = 1)
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.NetworkError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_unknownErrorResponse_resultIsUnknownError() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getPersonDetails(apiId = 1)
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.UnknownError)
     }
 

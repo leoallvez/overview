@@ -34,45 +34,44 @@ class PersonRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getPersonDetails_success() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = SUCCESS)
-        //Act
+        // Act
         val result = _repository.getPersonDetails(apiId = 1).first()
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.Success)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_serverError() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
-        //Act
+        // Act
         val result = _repository.getPersonDetails(apiId = 1).first()
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.ServerError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_networkError() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
-        //Act
+        // Act
         val result = _repository.getPersonDetails(apiId = 1).first()
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.NetworkError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getPersonDetails_unknownError() = runTest {
-        //Arrange
+        // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
-        //Act
+        // Act
         val result = _repository.getPersonDetails(apiId = 1).first()
-        //Assert
+        // Assert
         Assert.assertTrue(result is DataResult.UnknownError)
     }
     private fun coEveryPersonResponse(requestType: ReturnType) = coEvery {
         _source.getPersonDetails(any())
     } returns mockResult(requestType, DataResult.Success(data = PersonResponse()))
-
 }

@@ -1,4 +1,6 @@
 # Take
+[![CI](https://github.com/leoallvez/take/actions/workflows/main.yml/badge.svg)](https://github.com/leoallvez/take/actions/workflows/main.yml)
+
 Android application to know where to watch a movie or series on streaming services.
 
 ## Configuration

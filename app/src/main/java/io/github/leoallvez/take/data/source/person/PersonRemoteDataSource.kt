@@ -14,7 +14,7 @@ interface IPersonRemoteDataSource {
 class PersonRemoteDataSource @Inject constructor(
     private val _api: ApiService,
     private val _locale: IApiLocale
-): IPersonRemoteDataSource {
+) : IPersonRemoteDataSource {
 
     override suspend fun getPersonDetails(apiId: Long) = responseToResult(
         _api.getPersonDetails(id = apiId, language = _locale.language, region = _locale.region)

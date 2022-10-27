@@ -7,90 +7,90 @@ import org.junit.Test
 
 class ExtensionsTest {
 
-    //fromJson method
+    // fromJson method
     @Test fun fromJson_parserValidJson_objectHasValidProperties() {
-        //Arrange
+        // Arrange
         val expectedId = 1
         val expectedName = "Job"
         val validJson = """{"id":"$expectedId","first_name":"$expectedName"}"""
-        //Act
+        // Act
         val model: MockPerson? = validJson.fromJson()
-        //Assert
+        // Assert
         assertEquals(expectedId, model?.id)
         assertEquals(expectedName, model?.firstName)
     }
 
     @Test fun fromJson_parserValidJson_returnsAnObject() {
-        //Arrange
+        // Arrange
         val id = 1
         val firstName = "Job"
         val expected = "id:$id,first_name:$firstName"
         val validJson = """{"id":"$id","first_name":"$firstName"}"""
-        //Act
+        // Act
         val model: MockPerson? = validJson.fromJson()
-        //Assert
+        // Assert
         assertEquals(expected, model?.toString())
     }
 
     @Test fun fromJson_parserInvalidJson_returnsNull() {
-        //Arrange
+        // Arrange
         val invalidJson = """{"id":1,@ERROR}"""
         val expected = null
-        //Act
+        // Act
         val result: Any? = invalidJson.fromJson()
-        //Assert
+        // Assert
         assertEquals(expected, result)
     }
 
     @Test fun fromJson_parserEmptyString_returnsNull() {
-        //Arrange
+        // Arrange
         val emptyString = ""
         val expected = null
-        //Act
+        // Act
         val result: Any? = emptyString.fromJson()
-        //Assert
+        // Assert
         assertEquals(expected, result)
     }
 
-    //parseToList
+    // parseToList
     @Test fun parseToList_parserJsonWithOneElement_listHasOneElement() {
-        //Arrange
+        // Arrange
         val validJSON = """[{"id":1,"first_name":"Ana"}]"""
         val expected = 1
-        //Act
+        // Act
         val list = validJSON.parseToList<MockPerson>()
-        //Assert
+        // Assert
         assertEquals(expected, list.size)
     }
 
     @Test fun parseToList_parserJsonWithOneElement_objectHasValidProperties() {
-        //Arrange
+        // Arrange
         val expectedId = 1
         val expectedName = "Ana"
         val validJSON = """[{"id":$expectedId,"first_name":"$expectedName"}]"""
-        //Act
+        // Act
         val list: List<MockPerson> = validJSON.parseToList()
         val model = list.first()
-        //Assert
+        // Assert
         assertEquals(expectedId, model.id)
         assertEquals(expectedName, model.firstName)
     }
 
     @Test fun parseToList_parserInvalidJson_listIsEmpty() {
-        //Arrange
+        // Arrange
         val invalidJSON = """[{"id":1,"first_name":"Ana"@ERROR}]"""
-        //Act
+        // Act
         val list: List<MockPerson> = invalidJSON.parseToList()
-        //Assert
+        // Assert
         assertTrue(list.isEmpty())
     }
 
     @Test fun parseToList_parserEmptyString_listIsEmpty() {
-        //Arrange
+        // Arrange
         val emptyString = ""
-        //Act
+        // Act
         val list: List<MockPerson> = emptyString.parseToList()
-        //Assert
+        // Assert
         assertTrue(list.isEmpty())
     }
 }

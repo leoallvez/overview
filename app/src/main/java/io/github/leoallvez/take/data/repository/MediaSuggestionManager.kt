@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class MediaSuggestionManager @Inject constructor(
     private val _suggestionRepository: SuggestionRepository,
-    private val _mediaItemsRepository: MediaItemsRepository,
+    private val _mediaItemsRepository: MediaItemsRepository
 ) {
 
     private val _featuredMediaItems = MutableLiveData<List<MediaItem>>()
@@ -25,7 +25,7 @@ class MediaSuggestionManager @Inject constructor(
 
     private suspend fun setAttributes() {
         val mediaSuggestions = getMediaSuggestions()
-        val result = if(mediaSuggestions.isNotEmpty()) {
+        val result = if (mediaSuggestions.isNotEmpty()) {
             _featuredMediaItems.value = sliceFeatured(mediaSuggestions)
             mediaSuggestions
         } else {

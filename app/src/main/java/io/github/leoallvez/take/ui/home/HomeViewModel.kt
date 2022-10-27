@@ -1,6 +1,10 @@
 package io.github.leoallvez.take.ui.home
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.leoallvez.take.abtest.AbTest
 import io.github.leoallvez.take.data.model.MediaItem
@@ -16,7 +20,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor (
     private val _manager: MediaSuggestionManager,
     @AbDisplayAds private val _experiment: AbTest<Boolean>,
-    @MainDispatcher private val _mainDispatcher: CoroutineDispatcher,
+    @MainDispatcher private val _mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _loading = MutableLiveData(true)

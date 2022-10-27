@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122440689292:android:235b9defbf520cf1823da9",
+        "android_client_info": {
+          "package_name": "io.github.leoallvez.take.premium"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122440689292-3n3768vfv5omf40ss1u5timrh7og2ntk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu5zSwgeJP8CL-yaS8GfYRNWnpu6atRrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122440689292-3n3768vfv5omf40ss1u5timrh7og2ntk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

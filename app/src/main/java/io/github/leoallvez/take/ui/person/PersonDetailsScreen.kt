@@ -2,7 +2,15 @@ package io.github.leoallvez.take.ui.person
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -27,7 +35,19 @@ import io.github.leoallvez.take.data.MediaType
 import io.github.leoallvez.take.data.MediaType.MOVIE
 import io.github.leoallvez.take.data.MediaType.TV
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.ui.PersonImageCircle
+import io.github.leoallvez.take.ui.ErrorScreen
+import io.github.leoallvez.take.ui.ToolbarButton
+import io.github.leoallvez.take.ui.ScreenNav
+import io.github.leoallvez.take.ui.TrackScreenView
+import io.github.leoallvez.take.ui.ScreenTitle
+import io.github.leoallvez.take.ui.BasicParagraph
+import io.github.leoallvez.take.ui.AdsBanner
+import io.github.leoallvez.take.ui.SimpleSubtitle
+import io.github.leoallvez.take.ui.PartingEmDash
+import io.github.leoallvez.take.ui.PartingPoint
+import io.github.leoallvez.take.ui.UiStateResult
+import io.github.leoallvez.take.ui.MediaItemList
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -41,11 +61,11 @@ fun CastDetailsScreen(
     logger: Logger,
     onNavigateToHome: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
-    viewModel: PersonDetailsViewModel = hiltViewModel(),
+    viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
-    TrackScreenView(screen = Screen.CastDetails, logger)
+    TrackScreenView(screen = ScreenNav.CastDetails, logger)
 
     viewModel.loadPersonDetails(apiId)
 
@@ -65,9 +85,9 @@ fun PersonDetailsContent(
     showAds: Boolean,
     onNavigateToHome: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
-    onRefresh: () -> Unit,
+    onRefresh: () -> Unit
 ) {
-    if(person == null) {
+    if (person == null) {
         ErrorScreen { onRefresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
@@ -122,7 +142,7 @@ fun PersonBody(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
-            .padding(dimensionResource(R.dimen.default_padding)),
+            .padding(dimensionResource(R.dimen.default_padding))
     ) {
         person.apply {
             ScreenTitle(name)
@@ -197,9 +217,8 @@ fun ParticipationList(
 ) {
     MediaItemList(
         listTitle = stringResource(listTitleRes),
-        items = mediaItems,
+        items = mediaItems
     ) { apiId, _ ->
         onClickItem.invoke(apiId, mediaType.key)
     }
 }
-

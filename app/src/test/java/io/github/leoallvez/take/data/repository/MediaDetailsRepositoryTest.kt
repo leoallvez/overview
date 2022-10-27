@@ -38,42 +38,42 @@ class MediaDetailsRepositoryTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_success() = runTest {
-        //Arrange
+        // Arrange
         coEveryProviderSuccessResponse()
         coEveryMediaDetailResponse(requestType = SUCCESS)
-        //Act
+        // Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
-        //Assert
+        // Assert
         assertTrue(result is Success)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverError() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = SERVER_ERROR)
-        //Act
+        // Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
-        //Assert
+        // Assert
         assertTrue(result is ServerError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_networkError() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = NETWORK_ERROR)
-        //Act
+        // Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
-        //Assert
+        // Assert
         assertTrue(result is NetworkError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_unknownError() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = UNKNOWN_ERROR)
-        //Act
+        // Act
         val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
-        //Assert
+        // Assert
         assertTrue(result is UnknownError)
     }
 

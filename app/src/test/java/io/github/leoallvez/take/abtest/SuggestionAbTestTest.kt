@@ -28,52 +28,52 @@ class SuggestionAbTestTest {
 
     @Test
     fun onExecute_parseValidJsonToList_listHasNoNullElement() {
-        //Arrange
+        // Arrange
         every { _jsonFileReader.read(any()) } returns JSON
-        //Act
+        // Act
         val list: List<Suggestion?> = _experiment.execute()
         val hasNoNullElement = list.any { it == null }.not()
-        //Assert
+        // Assert
         assertTrue(hasNoNullElement)
     }
 
     @Test
     fun onExecute_parseValidJsonToList_listIsNotEmpty() {
-        //Arrange
+        // Arrange
         every { _jsonFileReader.read(any()) } returns JSON
-        //Act
+        // Act
         val list: List<Suggestion> = _experiment.execute()
-        //Assert
+        // Assert
         assertTrue(list.isNotEmpty())
     }
 
     @Test
     fun onExecute_localReturnsEmptyStringRemoteReturnsJson_listIsNotEmpty() {
-        //Arrange
+        // Arrange
         everyLocalAndRemote(local = EMPTY, remote = JSON)
-        //Act
+        // Act
         val list: List<Suggestion> = _experiment.execute()
-        //Assert
+        // Assert
         assertTrue(list.isNotEmpty())
     }
 
     @Test
     fun onExecute_localReturnsEmptyStringRemoteReturnsEmptyString_listIsEmpty() {
-        //Arrange
+        // Arrange
         everyLocalAndRemote(local = EMPTY, remote = EMPTY)
-        //Act
+        // Act
         val list: List<Suggestion> = _experiment.execute()
-        //Assert
+        // Assert
         assertTrue(list.isEmpty())
     }
 
     @Test
     fun onExecute_localReturnsJsonRemoteReturnsEmptyString_listIsNotEmpty() {
-        //Arrange
+        // Arrange
         everyLocalAndRemote(local = JSON, remote = EMPTY)
-        //Act
+        // Act
         val list: List<Suggestion> = _experiment.execute()
-        //Assert
+        // Assert
         assertTrue(list.isNotEmpty())
     }
 

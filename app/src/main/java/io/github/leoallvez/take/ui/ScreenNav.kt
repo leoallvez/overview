@@ -1,25 +1,25 @@
 package io.github.leoallvez.take.ui
 
-sealed class Screen(val route: String, val name: String) {
-    object Splash : Screen(route = "splash_screen", name = "SplashScreen")
+sealed class ScreenNav(val route: String, val name: String) {
+    object Splash : ScreenNav(route = "splash_screen", name = "SplashScreen")
 
-    object Home : Screen(route = "home_screen", name = "HomeScreen")
+    object Home : ScreenNav(route = "home_screen", name = "HomeScreen")
 
-    object MediaDetails : Screen(
+    object MediaDetails : ScreenNav(
         route = "media_details/{$ID_PARAM}/{$TYPE_PARAM}",
         name = "MediaDetail"
     ) {
         fun editRoute(id: Long, type: String?) = "media_details/$id/$type"
     }
 
-    object CastDetails : Screen(
+    object CastDetails : ScreenNav(
         route = "cast_details/{$ID_PARAM}",
         name = "CastDetails"
     ) {
         fun editRoute(id: Long) = "cast_details/$id"
     }
 
-    object Discover : Screen(
+    object Discover : ScreenNav(
         route = "discover/{$ID_PARAM}",
         name = "Discover"
     ) {

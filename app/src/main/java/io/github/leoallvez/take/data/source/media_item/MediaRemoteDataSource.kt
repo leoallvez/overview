@@ -28,5 +28,4 @@ class MediaRemoteDataSource @Inject constructor(
             id = id, type = type, language = _locale.language, region = _locale.region
         )
     )
-
 }

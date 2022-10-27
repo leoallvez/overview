@@ -1,6 +1,9 @@
 package io.github.leoallvez.take.data.db.dao
 
-import androidx.room.*
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Insert
+import androidx.room.Dao
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.Suggestion
 

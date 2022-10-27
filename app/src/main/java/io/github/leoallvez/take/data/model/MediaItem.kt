@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
-import io.github.leoallvez.take.BuildConfig.*
+import io.github.leoallvez.take.BuildConfig.IMG_URL
 
 @Entity(
     tableName = "media_items",
@@ -13,12 +13,12 @@ import io.github.leoallvez.take.BuildConfig.*
         ForeignKey(
             entity = Suggestion::class,
             parentColumns = ["suggestion_db_id"],
-            childColumns =  ["suggestion_id"],
-            onDelete = ForeignKey.CASCADE,
+            childColumns = ["suggestion_id"],
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
-class MediaItem (
+class MediaItem(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "media_db_id")
     var dbId: Long = 0,
@@ -42,7 +42,7 @@ class MediaItem (
     @ColumnInfo(name = "media_type")
     var type: String? = ""
 ) {
-    fun getLetter() = if(name != null && name.isNotEmpty()) name else title ?: ""
+    fun getLetter() = if (name != null && name.isNotEmpty()) name else title ?: ""
 
     fun getPosterImage() = "$IMG_URL/$posterPath"
 

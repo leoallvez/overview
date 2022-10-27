@@ -19,7 +19,7 @@ import org.junit.Test
 
 typealias MediaDetailsSuccess = NetworkResponse.Success<MediaDetailResponse>
 
-//https://www.macoratti.net/20/12/net_unitconv1.htm
+// https://www.macoratti.net/20/12/net_unitconv1.htm
 class MediaRemoteDataSourceTest {
 
     @MockK(relaxed = true)
@@ -34,63 +34,62 @@ class MediaRemoteDataSourceTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_successResponse_dataResponseIsSameAsApi() = runTest {
-        //Arrange
+        // Arrange
         val response = createMediaDetailsSuccess()
         coEveryMediaDetailResponse(requestType = SUCCESS, response)
-        //Act
+        // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
-        //Assert
+        // Assert
         assertEquals(response.body, result.data)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_successResponse_resultIsSuccess() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = SUCCESS, createMediaDetailsSuccess())
-        //Act
+        // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
-        //Assert
+        // Assert
         assertTrue(result is Success)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = SERVER_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
-        //Assert
+        // Assert
         assertEquals(ERROR_MSG, result.message)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_serverErrorResponse_resultIsServerError() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = SERVER_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
-        //Assert
+        // Assert
         assertTrue(result is ServerError)
     }
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_networkErrorResponse_resultIsNetworkError() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = NETWORK_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
-        //Assert
+        // Assert
         assertTrue(result is NetworkError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test fun getMediaDetailsResult_unknownErrorResponse_resultIsUnknownError() = runTest {
-        //Arrange
+        // Arrange
         coEveryMediaDetailResponse(requestType = UNKNOWN_ERROR)
-        //Act
+        // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
-        //Assert
+        // Assert
         assertTrue(result is UnknownError)
     }
 
@@ -108,5 +107,4 @@ class MediaRemoteDataSourceTest {
         const val ID = 1L
         const val TYPE = "movie"
     }
-
 }

@@ -33,7 +33,7 @@ class ConnectivityLiveData(
     override fun onActive() {
         super.onActive()
         val builder = NetworkRequest.Builder()
-        _connectivityManager.registerNetworkCallback(builder.build(),_networkCallback)
+        _connectivityManager.registerNetworkCallback(builder.build(), _networkCallback)
     }
 
     override fun onInactive() {

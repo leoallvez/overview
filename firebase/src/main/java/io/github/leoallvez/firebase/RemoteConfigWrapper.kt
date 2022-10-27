@@ -38,6 +38,6 @@ class RemoteConfigWrapper(
     }
 
     private fun startLog(success: Boolean) {
-        Timber.i(message = "Remote Config ${if(success) "" else "not"} started")
+        Timber.i(message = "Remote Config ${if (success) "" else "not"} started")
     }
 }

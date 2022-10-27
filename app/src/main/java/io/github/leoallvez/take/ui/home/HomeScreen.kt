@@ -2,7 +2,11 @@ package io.github.leoallvez.take.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -16,12 +20,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.pager.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
-import io.github.leoallvez.take.ui.*
+import io.github.leoallvez.take.ui.TrackScreenView
+import io.github.leoallvez.take.ui.ScreenNav
+import io.github.leoallvez.take.ui.LoadingScreen
+import io.github.leoallvez.take.ui.ErrorScreen
+import io.github.leoallvez.take.ui.ToolbarButton
+import io.github.leoallvez.take.ui.ScreenTitle
+import io.github.leoallvez.take.ui.Backdrop
+import io.github.leoallvez.take.ui.AdsBanner
+import io.github.leoallvez.take.ui.MediaItemList
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.ui.theme.BlueTake
 import io.github.leoallvez.take.util.MediaItemClick
@@ -38,14 +54,14 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToMediaDetails: MediaItemClick
 ) {
-    TrackScreenView(screen = Screen.Home, logger)
+    TrackScreenView(screen = ScreenNav.Home, logger)
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featuredMediaItems = viewModel.featuredMediaItems.observeAsState(listOf()).value
     val loading = viewModel.loading.observeAsState(initial = true).value
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
-    if(loading) {
+    if (loading) {
         LoadingScreen()
     } else {
         if (suggestions.isNotEmpty()) {
@@ -57,7 +73,7 @@ fun HomeScreen(
                     HomeToolBar(items = featuredMediaItems) { item ->
                         onNavigateToMediaDetails.invoke(item.apiId, item.type)
                     }
-                },
+                }
             ) {
                 HomeScreenContent(
                     suggestions = suggestions,
@@ -75,7 +91,7 @@ fun HomeScreen(
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>,
-    callback: (MediaItem) -> Unit,
+    callback: (MediaItem) -> Unit
 ) {
     HorizontalCardSlider(items, callback)
     ToolbarButton(
@@ -90,7 +106,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
 @Composable
 private fun HorizontalCardSlider(
     items: List<MediaItem>,
-    callback: (MediaItem) -> Unit,
+    callback: (MediaItem) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = items.size)
 
@@ -143,7 +159,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
         modifier = modifier
             .padding(dimensionResource(R.dimen.screen_padding)),
         inactiveColor = Color.Gray,
-        activeColor = BlueTake,
+        activeColor = BlueTake
     )
 }
 
@@ -151,7 +167,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
 fun HomeScreenContent(
     suggestions: List<MediaSuggestion>,
     showAds: Boolean,
-    onNavigateToMediaDetails: MediaItemClick,
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -172,7 +188,7 @@ fun HomeScreenContent(
 @Composable
 fun SuggestionVerticalList(
     suggestions: List<MediaSuggestion>,
-    onClickItem: MediaItemClick,
+    onClickItem: MediaItemClick
 ) {
     LazyColumn {
         items(suggestions) {

@@ -7,7 +7,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class JsonFileReader @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context
 ) : IJsonFileReader {
 
     override fun read(filePath: String): String {
