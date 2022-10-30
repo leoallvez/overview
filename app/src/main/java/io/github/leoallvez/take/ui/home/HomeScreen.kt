@@ -108,7 +108,7 @@ private fun HorizontalCardSlider(
     items: List<MediaItem>,
     callback: (MediaItem) -> Unit
 ) {
-    val pagerState = rememberPagerState(pageCount = items.size)
+    val pagerState = rememberPagerState()
 
     Column(Modifier.background(PrimaryBackground)) {
         Box {
@@ -135,7 +135,7 @@ fun SlideImage(
     items: List<MediaItem>,
     onClick: (MediaItem) -> Unit
 ) {
-    HorizontalPager(state = pagerState) { page ->
+    HorizontalPager(state = pagerState, count = items.size) { page ->
         val item = items[page]
         Box(
             Modifier
