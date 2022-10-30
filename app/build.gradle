@@ -123,7 +123,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:21.3.0'
 
     // Paging Compose
-    implementation "com.google.accompanist:accompanist-pager:0.13.0"
+    implementation "com.google.accompanist:accompanist-pager:0.27.0"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.27.0"
 
     // Third party library
