@@ -120,9 +120,7 @@ private fun HorizontalCardSlider(
             ScreenTitle(
                 text = items[pagerState.currentPage].getLetter(),
                 maxLines = 1,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(dimensionResource(R.dimen.default_padding))
+                modifier = Modifier.align(Alignment.BottomStart)
             )
         }
     }
@@ -174,7 +172,6 @@ fun HomeScreenContent(
         modifier = Modifier
             .fillMaxSize()
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
         Column {
             AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAds)

@@ -103,7 +103,7 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .size(width = 140.dp, height = 200.dp)
-                    .padding(12.dp)
+                    .padding(dimensionResource(R.dimen.screen_padding))
                     .shadow(2.dp, shape = RoundedCornerShape(dimensionResource(R.dimen.corner)))
             )
             ToolbarButton(
@@ -128,7 +128,7 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         mediaDetails.apply {
-            ScreenTitle(getLetter())
+            ScreenTitle(text = getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
             ProvidersList(providers) { apiId ->
                 events.onNavigateToDiscover(apiId = apiId)
@@ -156,7 +156,12 @@ fun MediaBody(
 
 @Composable
 fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
-    Row(Modifier.padding(vertical = 10.dp)) {
+    Row(
+        modifier = Modifier.padding(
+            vertical = 10.dp,
+            horizontal = dimensionResource(R.dimen.screen_padding)
+        )
+    ) {
         val spacerModifier = Modifier.padding(horizontal = 2.dp)
         SimpleSubtitle(text = releaseYear)
         Spacer(modifier = spacerModifier)
@@ -176,8 +181,10 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
             Modifier.padding(
                 vertical = 10.dp
             ),
-            horizontalArrangement = Arrangement
-                .spacedBy(dimensionResource(R.dimen.default_padding))
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
+            contentPadding = PaddingValues(
+                horizontal = dimensionResource(R.dimen.screen_padding)
+            )
         ) {
             items(providers) { provider ->
                 ProviderItem(provider) {
@@ -207,8 +214,10 @@ fun GenreList(genres: List<Genre>, onClickItem: (Long) -> Unit) {
             Modifier.padding(
                 vertical = dimensionResource(R.dimen.default_padding)
             ),
-            horizontalArrangement = Arrangement
-                .spacedBy(dimensionResource(R.dimen.default_padding))
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
+            contentPadding = PaddingValues(
+                horizontal = dimensionResource(R.dimen.screen_padding)
+            )
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
@@ -249,7 +258,11 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
     if (cast.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
-            LazyRow(Modifier.padding(vertical = dimensionResource(R.dimen.default_padding))) {
+            LazyRow(
+                contentPadding = PaddingValues(
+                    vertical = dimensionResource(R.dimen.screen_padding)
+                )
+            ) {
                 items(cast) { castPerson ->
                     CastItem(castPerson = castPerson) {
                         onClickItem.invoke(castPerson.apiId)
@@ -273,7 +286,7 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
             isBold = true
         )
         BasicText(
-            text = castPerson.character,
+            text = castPerson.getCharacterName(),
             style = MaterialTheme.typography.caption,
             color = BlueTake
         )

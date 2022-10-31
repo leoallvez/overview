@@ -142,7 +142,6 @@ fun PersonBody(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
-            .padding(dimensionResource(R.dimen.default_padding))
     ) {
         person.apply {
             ScreenTitle(name)
@@ -160,7 +159,12 @@ fun PersonBody(
 fun PersonDates(person: Person) {
     person.apply {
         if (getFormattedBirthday().isNotEmpty()) {
-            Row(Modifier.padding(vertical = 10.dp)) {
+            Row(
+                modifier = Modifier.padding(
+                    vertical = 10.dp,
+                    horizontal = dimensionResource(R.dimen.screen_padding)
+                )
+            ) {
                 SimpleSubtitle(getFormattedBirthday())
                 PersonDeathDay(getFormattedDeathDay())
                 PersonAge(getAge())
@@ -172,7 +176,11 @@ fun PersonDates(person: Person) {
 @Composable
 fun PlaceOfBirth(placeOfBirth: String) {
     if (placeOfBirth.isNotEmpty()) {
-        Column {
+        Column(
+            modifier = Modifier.padding(
+                horizontal = dimensionResource(R.dimen.screen_padding)
+            )
+        ) {
             SimpleSubtitle(stringResource(R.string.place_of_birth), isBold = true)
             BasicParagraph(placeOfBirth)
         }

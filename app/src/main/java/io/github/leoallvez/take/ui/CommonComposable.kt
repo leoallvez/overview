@@ -65,6 +65,22 @@ fun BasicTitle(title: String) {
         modifier = Modifier
             .padding(
                 bottom = 5.dp,
+                top = 10.dp,
+                start = dimensionResource(R.dimen.screen_padding)
+            ),
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+fun SimpleTitle(title: String) {
+    Text(
+        text = title,
+        color = Color.White,
+        modifier = Modifier
+            .padding(
+                bottom = 5.dp,
                 top = 10.dp
             ),
         style = MaterialTheme.typography.h6,
@@ -199,7 +215,10 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
         color = BlueTake,
         style = MaterialTheme.typography.h5,
         fontWeight = FontWeight.Bold,
-        modifier = modifier,
+        modifier = modifier.padding(
+            horizontal = dimensionResource(R.dimen.screen_padding),
+            vertical = dimensionResource(R.dimen.default_padding)
+        ),
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis
     )
@@ -216,10 +235,15 @@ fun MediaItemList(
         Column {
             BasicTitle(listTitle)
             LazyRow(
-                Modifier.padding(
-                    vertical = dimensionResource(R.dimen.default_padding)
+                Modifier
+                    .padding(
+                        vertical = dimensionResource(R.dimen.default_padding)
+                    ),
+                contentPadding = PaddingValues(
+                    horizontal = dimensionResource(R.dimen.screen_padding)
                 ),
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding))
+                horizontalArrangement = Arrangement
+                    .spacedBy(dimensionResource(R.dimen.default_padding))
             ) {
                 items(items) { item ->
                     MediaItem(item, imageWithBorder = true) {
@@ -363,8 +387,12 @@ fun <T> UiStateResult(
 @Composable
 fun BasicParagraph(@StringRes paragraphTitle: Int, paragraph: String) {
     if (paragraph.isNotBlank()) {
-        Column {
-            BasicTitle(stringResource(paragraphTitle))
+        Column(
+            modifier = Modifier.padding(
+                horizontal = dimensionResource(R.dimen.screen_padding)
+            )
+        ) {
+            SimpleTitle(stringResource(paragraphTitle))
             BasicParagraph(paragraph)
         }
     }

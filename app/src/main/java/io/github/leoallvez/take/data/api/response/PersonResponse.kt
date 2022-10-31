@@ -10,7 +10,7 @@ data class PersonResponse(
     val biography: String = "",
     val birthday: String = "",
     val order: Int = 0,
-    val character: String = "",
+    private val character: String = "",
     @field:Json(name = "deathday")
     val deathDay: String? = null,
     @field:Json(name = "place_of_birth")
@@ -29,6 +29,10 @@ data class PersonResponse(
     fun getFormattedDeathDay() = DateHelper(deathDay).formattedDate()
     fun birthPlace() = placeOfBirth ?: ""
     fun getAge() = DateHelper(birthday).periodBetween(deathDay)
+    fun getCharacterName(): String {
+        val list = character.split("/")
+        return if (list.isNotEmpty()) list.first() else ""
+    }
 }
 
 data class MediaCredits(
