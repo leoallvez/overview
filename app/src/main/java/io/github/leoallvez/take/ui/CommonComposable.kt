@@ -293,11 +293,13 @@ fun BasicImage(
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-                    then (if (withBorder) Modifier.border(
-                            dimensionResource(R.dimen.border_width),
-                            SecondaryBackground,
-                            RoundedCornerShape(dimensionResource(R.dimen.corner))
-                    ) else Modifier),
+                then (
+                    if (withBorder) Modifier.border(
+                        dimensionResource(R.dimen.border_width),
+                        SecondaryBackground,
+                        RoundedCornerShape(dimensionResource(R.dimen.corner))
+                    ) else Modifier
+                    ),
             contentScale = contentScale,
             placeholder = placeholder,
             contentDescription = contentDescription,
@@ -375,7 +377,7 @@ fun <T> UiStateResult(
     uiState: UiState<T>,
     onRefresh: () -> Unit,
     successContent: @Composable
-        (T) -> Unit
+    (T) -> Unit
 ) {
     when (uiState) {
         is UiState.Loading -> LoadingScreen()

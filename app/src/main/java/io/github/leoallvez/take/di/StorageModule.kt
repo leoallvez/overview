@@ -22,10 +22,10 @@ class StorageModule {
     fun provideDatabase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(
-            context,
-            TakeDatabase::class.java,
-            DATABASE_NAME
-        ).build()
+        context,
+        TakeDatabase::class.java,
+        DATABASE_NAME
+    ).build()
 
     @Provides
     fun provideMediaItemDao(db: TakeDatabase) = db.mediaItemDao()

@@ -51,7 +51,8 @@ fun SplashScreen(logger: Logger, onNavigateToHome: () -> Unit) {
                 durationMillis = 800,
                 easing = {
                     OvershootInterpolator(4f).getInterpolation(it)
-                })
+                }
+            )
         )
         delay(1500L)
         onNavigateToHome.invoke()

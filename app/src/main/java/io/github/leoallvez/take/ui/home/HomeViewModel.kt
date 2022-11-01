@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor (
+class HomeViewModel @Inject constructor(
     private val _manager: MediaSuggestionManager,
     @AbDisplayAds private val _experiment: AbTest<Boolean>,
     @MainDispatcher private val _mainDispatcher: CoroutineDispatcher

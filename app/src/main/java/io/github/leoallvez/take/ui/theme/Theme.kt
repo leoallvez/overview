@@ -14,7 +14,7 @@ private val TakeColorPalette = lightColors(
 @Composable
 fun TakeTheme(
     content: @Composable
-        () -> Unit
+    () -> Unit
 ) {
 
     MaterialTheme(

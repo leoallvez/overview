@@ -13,8 +13,8 @@ interface MediaItemDao {
     @Transaction
     suspend fun update(vararg models: MediaItem) {
         val result = models
-                .removeRepeated(itemsToRemove = getAll())
-                .toTypedArray()
+            .removeRepeated(itemsToRemove = getAll())
+            .toTypedArray()
 
         insert(*result)
     }
