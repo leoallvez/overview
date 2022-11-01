@@ -119,7 +119,7 @@ dependencies {
     // DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
-    //Google Ads
+    // Google Ads
     implementation 'com.google.android.gms:play-services-ads:21.3.0'
 
     // Paging Compose
@@ -132,7 +132,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
     implementation 'com.google.code.gson:gson:2.10'
-    implementation "com.github.haroldadmin:NetworkResponseAdapter:4.0.1"
+    // noinspection GradleDependency
+    implementation "com.github.haroldadmin:NetworkResponseAdapter:4.1.0"
     implementation 'io.coil-kt:coil-compose:2.0.0-rc03'
     implementation "me.onebone:toolbar-compose:2.3.5"
     implementation "com.ehsanmsz:msz-progress-indicator:0.2.0"
