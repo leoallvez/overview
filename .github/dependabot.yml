@@ -16,3 +16,7 @@ updates:
     # Labels on pull requests for version updates only
     labels:
       - "upgrade dependencies"
+    ignore:
+      # Ignore some updates to the packages
+      - dependency-name: "exoplayer"
+      - dependency-name: "NetworkResponseAdapter"
