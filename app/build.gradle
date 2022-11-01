@@ -134,7 +134,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
     // noinspection GradleDependency
     implementation "com.github.haroldadmin:NetworkResponseAdapter:4.1.0"
-    implementation 'io.coil-kt:coil-compose:2.0.0-rc03'
+    implementation 'io.coil-kt:coil-compose:2.2.2'
     implementation "me.onebone:toolbar-compose:2.3.5"
     implementation "com.ehsanmsz:msz-progress-indicator:0.2.0"
 
