@@ -13,7 +13,11 @@ class DiscoverRepository @Inject constructor(
 ) {
 
     fun load(providerId: Long, scope: CoroutineScope) =
-        Pager(PagingConfig(pageSize = 20)) {
+        Pager(PagingConfig(pageSize = NETWORK_PAGE_SIZE)) {
             DiscoverPagingSource(providerId, _source)
         }.flow.cachedIn(scope)
+
+    companion object {
+        private const val NETWORK_PAGE_SIZE = 20
+    }
 }

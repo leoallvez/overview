@@ -81,6 +81,8 @@ interface ApiService {
         @Query(value = "language")
         language: String = "",
         @Query(value = "")
-        region: String = ""
+        region: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
     ): NetworkResponse<DiscoverResponse, ErrorResponse>
 }

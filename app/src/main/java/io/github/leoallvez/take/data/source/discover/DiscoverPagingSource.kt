@@ -5,9 +5,10 @@ import androidx.paging.PagingState
 import io.github.leoallvez.take.data.api.response.DiscoverResponse
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.source.DataResult
-import io.github.leoallvez.take.data.source.DataResult.Success
 import retrofit2.HttpException
 import java.io.IOException
+
+typealias DiscoverResult = DataResult<DiscoverResponse>
 
 class DiscoverPagingSource(
     private val _providerId: Long,
@@ -15,22 +16,24 @@ class DiscoverPagingSource(
 ) : PagingSource<Int, MediaItem>() {
 
     override suspend fun load(params: LoadParams<Int>) = try {
-        val pageNumber = params.key ?: 1
-        loadResult(response = _source.discoverOnTvByProvider(_providerId, pageNumber))
+        val pageNumber = params.key ?: STARTING_PAGE_INDEX
+        val response = _source.discoverOnTvByProvider(_providerId, pageNumber)
+        loadResult(response)
     } catch (e: IOException) {
         LoadResult.Error(e)
     } catch (e: HttpException) {
         LoadResult.Error(e)
     }
 
-    private fun loadResult(response: DataResult<DiscoverResponse>) = if (response is Success) {
-
-        val results = response.data?.results ?: listOf()
-        val page = response.data?.page ?: 1
-
-        LoadResult.Page(data = results, prevKey = null, nextKey = page + 1)
+    private fun loadResult(response: DiscoverResult) = if (response.data == null) {
+        LoadResult.Error(IOException())
     } else {
-        LoadResult.Error(Exception())
+        val data = response.data
+        LoadResult.Page(
+            data = data.results,
+            prevKey = data.prevPage(),
+            nextKey = data.nextPage()
+        )
     }
 
     override fun getRefreshKey(state: PagingState<Int, MediaItem>): Int? {
@@ -38,5 +41,9 @@ class DiscoverPagingSource(
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
+    }
+
+    companion object {
+        private const val STARTING_PAGE_INDEX = 1
     }
 }
