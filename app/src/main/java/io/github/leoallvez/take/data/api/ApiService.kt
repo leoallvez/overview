@@ -7,6 +7,7 @@ import io.github.leoallvez.take.data.api.response.ErrorResponse
 import io.github.leoallvez.take.data.api.response.MediaDetailResponse
 import io.github.leoallvez.take.data.api.response.ProviderResponse
 import io.github.leoallvez.take.data.api.response.PersonResponse
+import io.github.leoallvez.take.data.api.response.DiscoverResponse
 import io.github.leoallvez.take.data.model.MediaItem
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -70,4 +71,16 @@ interface ApiService {
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
     ): NetworkResponse<PersonResponse, ErrorResponse>
+
+    @GET(value = "tv/popular")
+    suspend fun discoverOnTvByProvider(
+        @Query(value = "with_watch_providers")
+        providerId: Long,
+        @Query(value = "page")
+        page: Int = 0,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "")
+        region: String = ""
+    ): NetworkResponse<DiscoverResponse, ErrorResponse>
 }

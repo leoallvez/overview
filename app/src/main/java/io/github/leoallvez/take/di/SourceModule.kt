@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.leoallvez.take.data.source.discover.DiscoverRemoteDataSource
+import io.github.leoallvez.take.data.source.discover.IDiscoverRemoteDataSource
 import io.github.leoallvez.take.data.source.media_item.IMediaRemoteDataSource
 import io.github.leoallvez.take.data.source.media_item.MediaRemoteDataSource
 import io.github.leoallvez.take.data.source.person.IPersonRemoteDataSource
@@ -26,7 +28,12 @@ abstract class SourceModule {
     ): IPersonRemoteDataSource
 
     @Binds
-    abstract fun bindProviderDataSource(
+    abstract fun bindProviderRemoteDataSource(
         source: ProviderRemoteDataSource
     ): IProviderRemoteDataSource
+
+    @Binds
+    abstract fun bindDiscoverRemoteDataSource(
+        source: DiscoverRemoteDataSource
+    ): IDiscoverRemoteDataSource
 }
