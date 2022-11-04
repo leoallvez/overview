@@ -26,6 +26,6 @@ class DiscoverViewModel @Inject constructor(
 
     fun loadDada(providerId: Long, mediaType: String) {
         _uiState.value = PagingUiState.Success
-        dataResult = _repository.discoverOnTvByProvider(providerId, mediaType ,viewModelScope)
+        dataResult = _repository.discoverOnTvByProvider(providerId, mediaType, viewModelScope)
     }
 }
