@@ -80,9 +80,11 @@ interface ApiService {
         page: Int = 0,
         @Query(value = "language")
         language: String = "",
-        @Query(value = "")
+        @Query(value = "region")
         region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<DiscoverResponse, ErrorResponse>
 }

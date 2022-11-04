@@ -54,14 +54,6 @@ fun NavController(logger: Logger, navController: NavHostController = rememberNav
             navController = navController,
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
-        composable(
-            route = ScreenNav.Discover.route,
-            arguments = listOf(
-                navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType }
-            )
-        ) {
-            DiscoverScreen(onNavigateToMediaDetails = onNavigateToMediaDetails)
-        }
     }
 }
 
@@ -93,6 +85,17 @@ fun NavGraphBuilder.mediaDetailsGraph(
             apiId = navBackStackEntry.getApiId(),
             logger = logger,
             onNavigateToHome = { navController.navigate(ScreenNav.Home.route) },
+            onNavigateToMediaDetails = onNavigateToMediaDetails
+        )
+    }
+    composable(
+        route = ScreenNav.Discover.route,
+        arguments = listOf(
+            navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType }
+        )
+    ) { navBackStackEntry ->
+        DiscoverScreen(
+            providerId = navBackStackEntry.getApiId(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
     }

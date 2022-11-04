@@ -20,11 +20,12 @@ import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
 fun DiscoverScreen(
+    providerId: Long,
     viewModel: DiscoverViewModel = hiltViewModel(),
     onNavigateToMediaDetails: MediaItemClick
 ) {
 
-    viewModel.loadDada(providerId = 337, mediaType = MediaType.TV.key)
+    viewModel.loadDada(providerId = providerId, mediaType = MediaType.TV.key)
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,

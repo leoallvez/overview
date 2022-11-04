@@ -1,8 +1,10 @@
 package io.github.leoallvez.take.data.source.discover
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.IApiLocale
 import io.github.leoallvez.take.data.api.response.DiscoverResponse
+import io.github.leoallvez.take.data.api.response.ErrorResponse
 import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.data.source.responseToResult
 import javax.inject.Inject
@@ -22,6 +24,11 @@ class DiscoverRemoteDataSource @Inject constructor(
     override suspend fun discoverOnTvByProvider(providerId: Long, page: Int) =
         responseToResult(discoverByProvider(providerId, page))
 
-    private suspend fun discoverByProvider(providerId: Long, page: Int) =
-        _api.discoverOnTvByProvider(providerId, page, _locale.language, _locale.region)
+    private suspend fun discoverByProvider(
+        providerId: Long,
+        page: Int
+    ): NetworkResponse<DiscoverResponse, ErrorResponse> {
+        val region = _locale.region
+        return _api.discoverOnTvByProvider(providerId, page, _locale.language, region, region)
+    }
 }
