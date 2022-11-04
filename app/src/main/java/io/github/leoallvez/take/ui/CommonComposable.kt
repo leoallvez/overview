@@ -272,6 +272,22 @@ fun MediaItem(mediaItem: MediaItem, imageWithBorder: Boolean = false, onClick: (
 }
 
 @Composable
+fun GridItemMedia(mediaItem: MediaItem, imageWithBorder: Boolean = false, onClick: () -> Unit) {
+    Column(Modifier.padding(2.dp).clickable { onClick.invoke() }) {
+        BasicImage(
+            url = mediaItem.getPosterImage(),
+            contentDescription = mediaItem.getLetter(),
+            withBorder = imageWithBorder
+        )
+//            BasicText(
+//                text = mediaItem.getLetter(),
+//                style = MaterialTheme.typography.caption,
+//                isBold = true
+//            )
+    }
+}
+
+@Composable
 fun BasicImage(
     url: String,
     contentDescription: String?,

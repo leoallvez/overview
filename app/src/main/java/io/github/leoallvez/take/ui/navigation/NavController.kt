@@ -60,7 +60,9 @@ fun NavController(logger: Logger, navController: NavHostController = rememberNav
                 navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType }
             )
         ) {
-            DiscoverScreen()
+            DiscoverScreen(
+                onNavigateToMediaDetails = onNavigateToMediaDetails
+            )
         }
     }
 }

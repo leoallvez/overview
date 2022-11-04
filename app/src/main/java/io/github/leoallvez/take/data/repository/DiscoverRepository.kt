@@ -12,9 +12,9 @@ class DiscoverRepository @Inject constructor(
     private val _source: IDiscoverRemoteDataSource
 ) {
 
-    fun load(providerId: Long, scope: CoroutineScope) =
+    fun discoverOnTvByProvider(providerId: Long, mediaType: String, scope: CoroutineScope) =
         Pager(PagingConfig(pageSize = NETWORK_PAGE_SIZE)) {
-            DiscoverPagingSource(providerId, _source)
+            DiscoverPagingSource(providerId, mediaType, _source)
         }.flow.cachedIn(scope)
 
     companion object {

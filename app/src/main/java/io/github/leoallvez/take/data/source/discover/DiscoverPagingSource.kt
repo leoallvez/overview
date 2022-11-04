@@ -12,6 +12,7 @@ typealias DiscoverResult = DataResult<DiscoverResponse>
 
 class DiscoverPagingSource(
     private val _providerId: Long,
+    private val _mediaType: String,
     private val _source: IDiscoverRemoteDataSource
 ) : PagingSource<Int, MediaItem>() {
 
@@ -29,11 +30,16 @@ class DiscoverPagingSource(
         LoadResult.Error(IOException())
     } else {
         val data = response.data
+        setMediaType(data, _mediaType)
         LoadResult.Page(
             data = data.results,
             prevKey = data.prevPage(),
             nextKey = data.nextPage()
         )
+    }
+
+    private fun setMediaType(mediaDetails: DiscoverResponse?, mediaType: String) {
+        mediaDetails?.results?.forEach { it.type = mediaType }
     }
 
     override fun getRefreshKey(state: PagingState<Int, MediaItem>): Int? {
