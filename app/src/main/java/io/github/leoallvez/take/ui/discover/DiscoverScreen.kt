@@ -14,8 +14,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.leoallvez.take.data.MediaType
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.GridItemMedia
-import io.github.leoallvez.take.ui.LoadingScreen
-import io.github.leoallvez.take.ui.PagingUiState
+import io.github.leoallvez.take.ui.UiStateResult
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 
@@ -27,10 +26,12 @@ fun DiscoverScreen(
 
     viewModel.loadDada(providerId = 337, mediaType = MediaType.TV.key)
 
-    when (viewModel.uiState.collectAsState().value) {
-        is PagingUiState.Loading -> LoadingScreen()
-        is PagingUiState.Success -> DiscoverContent(
-            pagingItems = viewModel.dataResult.collectAsLazyPagingItems(),
+    UiStateResult(
+        uiState = viewModel.uiState.collectAsState().value,
+        onRefresh = { /**viewModel.refresh(apiId, mediaType)*/ }
+    ) { dataResult ->
+        DiscoverContent(
+            pagingItems = dataResult.collectAsLazyPagingItems(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
     }
