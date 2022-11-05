@@ -130,11 +130,11 @@ fun MediaBody(
         mediaDetails.apply {
             ScreenTitle(text = getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
-            ProvidersList(providers) { apiId ->
-                events.onNavigateToDiscover(apiId = apiId)
+            ProvidersList(providers) { apiId, name ->
+                events.onNavigateToDiscover(apiId = apiId, name = name)
             }
-            GenreList(genres) { apiId ->
-                events.onNavigateToDiscover(apiId = apiId)
+            GenreList(genres) { apiId, name ->
+                events.onNavigateToDiscover(apiId = apiId, name = name)
             }
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(
@@ -174,7 +174,7 @@ fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
+fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long, String) -> Unit) {
     if (providers.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow(
@@ -188,7 +188,7 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
         ) {
             items(providers) { provider ->
                 ProviderItem(provider) {
-                    onClickItem.invoke(provider.apiId)
+                    onClickItem.invoke(provider.apiId, provider.providerName)
                 }
             }
         }
@@ -208,7 +208,7 @@ fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
 }
 
 @Composable
-fun GenreList(genres: List<Genre>, onClickItem: (Long) -> Unit) {
+fun GenreList(genres: List<Genre>, onClickItem: (Long, String) -> Unit) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -221,7 +221,7 @@ fun GenreList(genres: List<Genre>, onClickItem: (Long) -> Unit) {
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
-                    onClickItem.invoke(genre.apiId)
+                    onClickItem.invoke(genre.apiId, genre.name)
                 }
             }
         }

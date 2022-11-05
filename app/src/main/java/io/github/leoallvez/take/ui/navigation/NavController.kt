@@ -18,6 +18,7 @@ import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.util.MediaItemClick
 import io.github.leoallvez.take.util.getApiId
+import io.github.leoallvez.take.util.getName
 import io.github.leoallvez.take.util.getParams
 
 @ExperimentalPagerApi
@@ -91,11 +92,13 @@ fun NavGraphBuilder.mediaDetailsGraph(
     composable(
         route = ScreenNav.Discover.route,
         arguments = listOf(
-            navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType }
+            navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType },
+            navArgument(name = ScreenNav.NAME_PARAM) { type = NavType.StringType }
         )
     ) { navBackStackEntry ->
         DiscoverScreen(
             providerId = navBackStackEntry.getApiId(),
+            providerName = navBackStackEntry.getName(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
     }
