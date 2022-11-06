@@ -10,14 +10,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import io.github.leoallvez.take.Logger
-import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.ui.ScreenNav
 import io.github.leoallvez.take.ui.discover.DiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
 import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
-import io.github.leoallvez.take.util.*
+import io.github.leoallvez.take.util.MediaItemClick
+import io.github.leoallvez.take.util.getApiId
+import io.github.leoallvez.take.util.getDiscoverParams
+import io.github.leoallvez.take.util.getParams
 
 @ExperimentalPagerApi
 @Composable
@@ -94,7 +96,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     ) { navBackStackEntry ->
         DiscoverScreen(
-            params = navBackStackEntry.getJson().fromJson<DiscoverParams>(),
+            params = navBackStackEntry.getDiscoverParams(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
     }

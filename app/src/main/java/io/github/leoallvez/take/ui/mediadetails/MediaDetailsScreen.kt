@@ -132,24 +132,12 @@ fun MediaBody(
         mediaDetails.apply {
             ScreenTitle(text = getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
-            ProvidersList(providers) { apiId, name ->
-                // TODO: refactor this !!!!
-                val params = DiscoverParams(
-                    providerId = apiId,
-                    providerName = name,
-                    mediaId = mediaDetails.apiId,
-                    mediaType = mediaDetails.type ?: ""
-                )
+            ProvidersList(providers) { provider ->
+                val params = DiscoverParams.create(provider, mediaDetails)
                 events.onNavigateToDiscover(params.toJson())
             }
-            GenreList(genres) { apiId, name ->
-                // TODO: refactor this !!!!
-                val params = DiscoverParams(
-                    providerId = apiId,
-                    providerName = name,
-                    mediaId = mediaDetails.apiId,
-                    mediaType = mediaDetails.type ?: ""
-                )
+            GenreList(genres) { genre ->
+                val params = DiscoverParams.create(genre, mediaDetails)
                 events.onNavigateToDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)
@@ -190,7 +178,7 @@ fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long, String) -> Unit) {
+fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -> Unit) {
     if (providers.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow(
@@ -204,7 +192,7 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long, String) ->
         ) {
             items(providers) { provider ->
                 ProviderItem(provider) {
-                    onClickItem.invoke(provider.apiId, provider.providerName)
+                    onClickItem.invoke(provider)
                 }
             }
         }
@@ -224,7 +212,7 @@ fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
 }
 
 @Composable
-fun GenreList(genres: List<Genre>, onClickItem: (Long, String) -> Unit) {
+fun GenreList(genres: List<Genre>, onClickItem: (Genre) -> Unit) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -237,7 +225,7 @@ fun GenreList(genres: List<Genre>, onClickItem: (Long, String) -> Unit) {
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
-                    onClickItem.invoke(genre.apiId, genre.name)
+                    onClickItem.invoke(genre)
                 }
             }
         }
