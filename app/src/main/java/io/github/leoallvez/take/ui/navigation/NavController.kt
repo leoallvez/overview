@@ -10,16 +10,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import io.github.leoallvez.take.Logger
+import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.ui.ScreenNav
 import io.github.leoallvez.take.ui.discover.DiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
 import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
-import io.github.leoallvez.take.util.MediaItemClick
-import io.github.leoallvez.take.util.getApiId
-import io.github.leoallvez.take.util.getName
-import io.github.leoallvez.take.util.getParams
+import io.github.leoallvez.take.util.*
 
 @ExperimentalPagerApi
 @Composable
@@ -92,14 +90,11 @@ fun NavGraphBuilder.mediaDetailsGraph(
     composable(
         route = ScreenNav.Discover.route,
         arguments = listOf(
-            navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType },
-            navArgument(name = ScreenNav.NAME_PARAM) { type = NavType.StringType }
+            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType },
         )
     ) { navBackStackEntry ->
         DiscoverScreen(
-            providerId = navBackStackEntry.getApiId(),
-            providerName = navBackStackEntry.getName(),
-            onNavigatePopBackStack = { navController.popBackStack() },
+            params = navBackStackEntry.getJson().fromJson<DiscoverParams>(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
     }

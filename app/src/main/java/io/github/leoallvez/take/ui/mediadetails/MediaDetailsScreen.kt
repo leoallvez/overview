@@ -30,6 +30,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.data.api.response.ProviderPlace
+import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
 import io.github.leoallvez.take.ui.theme.BlueTake
@@ -56,8 +57,9 @@ fun MediaDetailsScreen(
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, mediaType) }
-    ) { dataResult ->
-        MediaDetailsContent(dataResult, showAds, events) {
+    ) { media ->
+        media?.type = mediaType
+        MediaDetailsContent(media, showAds, events) {
             viewModel.refresh(apiId, mediaType)
         }
     }
@@ -131,10 +133,24 @@ fun MediaBody(
             ScreenTitle(text = getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
             ProvidersList(providers) { apiId, name ->
-                events.onNavigateToDiscover(apiId = apiId, name = name)
+                // TODO: refactor this !!!!
+                val params = DiscoverParams(
+                    providerId = apiId,
+                    providerName = name,
+                    mediaId = mediaDetails.apiId,
+                    mediaType = mediaDetails.type ?: ""
+                )
+                events.onNavigateToDiscover(params.toJson())
             }
             GenreList(genres) { apiId, name ->
-                events.onNavigateToDiscover(apiId = apiId, name = name)
+                // TODO: refactor this !!!!
+                val params = DiscoverParams(
+                    providerId = apiId,
+                    providerName = name,
+                    mediaId = mediaDetails.apiId,
+                    mediaType = mediaDetails.type ?: ""
+                )
+                events.onNavigateToDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(

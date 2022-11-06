@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.MediaType
+import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
@@ -26,27 +28,31 @@ import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
 fun DiscoverScreen(
-    providerId: Long,
-    providerName: String,
-    viewModel: DiscoverViewModel = hiltViewModel(),
-    onNavigatePopBackStack: () -> Unit,
+    params: DiscoverParams?,
     onNavigateToMediaDetails: MediaItemClick,
+    viewModel: DiscoverViewModel = hiltViewModel(),
 ) {
+    val loadData = {
+        viewModel.loadDada(providerId = params?.providerId ?: 0, mediaType = MediaType.TV.key)
+    }
 
-    viewModel.loadDada(providerId = providerId, mediaType = MediaType.TV.key)
+    loadData.invoke()
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
-        onRefresh = {
-            viewModel.loadDada(providerId = providerId, mediaType = MediaType.TV.key)
-        }
+        onRefresh = { loadData.invoke() }
     ) { dataResult ->
         DiscoverContent(
-            providerName = providerName,
+            providerName = params?.providerName ?: "",
             pagingItems = dataResult.collectAsLazyPagingItems(),
-            onNavigateToMediaDetails = onNavigateToMediaDetails
+            onNavigatePopBackStack = {
+                val mediaId = params?.mediaId ?: 0
+                val mediaType = params?.mediaType ?: ""
+                onNavigateToMediaDetails.invoke(mediaId, mediaType)
+            },
+            onNavigateToMediaDetails = onNavigateToMediaDetails,
         ) {
-            viewModel.loadDada(providerId = providerId, mediaType = MediaType.TV.key)
+            loadData.invoke()
         }
     }
 }
@@ -55,6 +61,7 @@ fun DiscoverScreen(
 fun DiscoverContent(
     providerName: String,
     pagingItems: LazyPagingItems<MediaItem>,
+    onNavigatePopBackStack: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
     onRefresh: () -> Unit
 ) {
@@ -64,7 +71,7 @@ fun DiscoverContent(
         Scaffold(
             modifier = Modifier.background(Color.Black),
             topBar = {
-                DiscoverToolBar(providerName) {}
+                DiscoverToolBar(providerName, onNavigatePopBackStack)
             }
         ) { padding ->
             DiscoverBody(padding, pagingItems, onNavigateToMediaDetails)
@@ -97,11 +104,12 @@ fun DiscoverBody(
 
 @Composable
 fun DiscoverToolBar(providerName: String, backButtonAction: () -> Unit) {
-    Box(Modifier.fillMaxWidth()) {
+    Row(Modifier.fillMaxWidth().background(Color.Black)) {
         ToolbarButton(
             painter = Icons.Default.KeyboardArrowLeft,
             descriptionResource = R.string.back_to_home_icon
         ) { backButtonAction.invoke() }
+        Text(text = providerName)
     }
 }
 
@@ -109,7 +117,8 @@ fun DiscoverToolBar(providerName: String, backButtonAction: () -> Unit) {
 fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
     mediaItem?.apply {
         Column(
-            modifier = Modifier.padding(2.dp)
+            modifier = Modifier
+                .padding(2.dp)
                 .clickable { onClick(apiId, type) }
         ) {
             BasicImage(

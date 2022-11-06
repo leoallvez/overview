@@ -29,6 +29,8 @@ data class MediaDetailResponse(
     private val title: String? = null,
     private val name: String? = null,
 
+    var type: String? = null,
+
     val genres: List<Genre> = listOf(),
     private val credits: Credits = Credits(),
     val similar: Similar = Similar(),

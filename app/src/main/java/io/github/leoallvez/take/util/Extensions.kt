@@ -65,6 +65,6 @@ fun NavBackStackEntry.getParams(): Pair<Long, String> {
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
-fun NavBackStackEntry.getName(): String = arguments?.getString(ScreenNav.NAME_PARAM) ?: ""
+fun NavBackStackEntry.getJson(): String = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"
