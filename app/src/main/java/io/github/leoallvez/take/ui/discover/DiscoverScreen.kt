@@ -29,7 +29,7 @@ fun DiscoverScreen(
     providerId: Long,
     providerName: String,
     viewModel: DiscoverViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit,
+    onNavigatePopBackStack: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
 ) {
 
@@ -53,9 +53,6 @@ fun DiscoverScreen(
 
 @Composable
 fun DiscoverContent(
-//    mediaDetails: MediaDetailResponse?,
-//    showAds: Boolean,
-//    events: MediaDetailsScreenEvents,
     providerName: String,
     pagingItems: LazyPagingItems<MediaItem>,
     onNavigateToMediaDetails: MediaItemClick,
@@ -80,7 +77,6 @@ fun DiscoverBody(
     padding: PaddingValues,
     pagingItems: LazyPagingItems<MediaItem>,
     onNavigateToMediaDetails: MediaItemClick,
-    // backButtonAction: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -102,26 +98,10 @@ fun DiscoverBody(
 @Composable
 fun DiscoverToolBar(providerName: String, backButtonAction: () -> Unit) {
     Box(Modifier.fillMaxWidth()) {
-        //mediaDetails.apply {
-//            Backdrop(
-//                url = getBackdropImage(),
-//                contentDescription = getLetter(),
-//                modifier = Modifier.align(Alignment.CenterEnd)
-//            )
-//            BasicImage(
-//                url = getPosterImage(),
-//                contentDescription = getLetter(),
-//                modifier = Modifier
-//                    .align(Alignment.BottomStart)
-//                    .size(width = 140.dp, height = 200.dp)
-//                    .padding(dimensionResource(R.dimen.screen_padding))
-//                    .shadow(2.dp, shape = RoundedCornerShape(dimensionResource(R.dimen.corner)))
-//            )
-            ToolbarButton(
-                painter = Icons.Default.KeyboardArrowLeft,
-                descriptionResource = R.string.back_to_home_icon
-            ) { backButtonAction.invoke() }
-        //}
+        ToolbarButton(
+            painter = Icons.Default.KeyboardArrowLeft,
+            descriptionResource = R.string.back_to_home_icon
+        ) { backButtonAction.invoke() }
     }
 }
 

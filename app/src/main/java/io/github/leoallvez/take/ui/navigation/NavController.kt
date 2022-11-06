@@ -99,7 +99,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         DiscoverScreen(
             providerId = navBackStackEntry.getApiId(),
             providerName = navBackStackEntry.getName(),
-            onNavigateToHome = { navController.navigate(ScreenNav.Home.route) },
+            onNavigatePopBackStack = { navController.popBackStack() },
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
     }
