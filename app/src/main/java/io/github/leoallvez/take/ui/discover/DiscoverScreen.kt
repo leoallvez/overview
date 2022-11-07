@@ -7,10 +7,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -21,10 +21,7 @@ import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.MediaType
 import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.data.model.MediaItem
-import io.github.leoallvez.take.ui.BasicImage
-import io.github.leoallvez.take.ui.BasicText
-import io.github.leoallvez.take.ui.LoadingScreen
-import io.github.leoallvez.take.ui.ToolbarButton
+import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 
@@ -92,15 +89,18 @@ fun DiscoverBody(
 }
 
 @Composable
-fun DiscoverToolBar(providerName: String, backButtonAction: () -> Unit) {
+fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
     Row(
-        Modifier.fillMaxWidth().background(PrimaryBackground)
+        Modifier.fillMaxWidth().background(PrimaryBackground),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         ToolbarButton(
             painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon
+            descriptionResource = R.string.back_to_home_icon,
+            background = Color.White.copy(alpha = 0.1f)
+
         ) { backButtonAction.invoke() }
-        Text(text = providerName)
+        ScreenTitle(text = screenTitle)
     }
 }
 
