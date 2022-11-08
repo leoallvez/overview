@@ -30,12 +30,16 @@ class DiscoverPagingSource(
         LoadResult.Error(IOException())
     } else {
         val data = response.data
-        setMediaType(data, _mediaType)
-        LoadResult.Page(
-            data = data.results,
-            prevKey = data.prevPage(),
-            nextKey = data.nextPage()
-        )
+        if (data.results.isNotEmpty()) {
+            setMediaType(data, _mediaType)
+            LoadResult.Page(
+                data = data.results,
+                prevKey = data.prevPage(),
+                nextKey = data.nextPage()
+            )
+        } else {
+            LoadResult.Error(IOException())
+        }
     }
 
     private fun setMediaType(mediaDetails: DiscoverResponse?, mediaType: String) {

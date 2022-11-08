@@ -186,11 +186,12 @@ fun ToolbarButton(
     modifier: Modifier = Modifier,
     iconTint: Color = Color.White,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
-    onClick: () -> Unit
+    padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.screen_padding)),
+    onClick: () -> Unit,
 ) {
     Box(
         modifier
-            .padding(dimensionResource(R.dimen.screen_padding))
+            .padding(padding)
             .clip(CircleShape)
             .background(background)
             .size(45.dp)

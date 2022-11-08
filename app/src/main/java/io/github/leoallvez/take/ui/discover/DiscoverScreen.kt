@@ -9,12 +9,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.leoallvez.take.R
@@ -31,16 +35,17 @@ fun DiscoverScreen(
     onNavigateToMediaDetails: MediaItemClick,
     viewModel: DiscoverViewModel = hiltViewModel(),
 ) {
-
-    val uiResult = viewModel.loadDada(providerId = params.apiId, mediaType = MediaType.TV.key)
+    val loadData = { viewModel.loadDada(providerId = params.apiId, mediaType = MediaType.TV.key) }
+    var items by remember { mutableStateOf(value = loadData()) }
 
     DiscoverContent(
         providerName = params.screenTitle,
-        pagingItems = uiResult.collectAsLazyPagingItems(),
-        onNavigatePopBackStack = {
+        pagingItems = items.collectAsLazyPagingItems(),
+        onRefresh = { items = loadData() },
+        onPopBackStack = {
             onNavigateToMediaDetails.invoke(params.mediaId, params.mediaType)
         },
-        onNavigateToMediaDetails = onNavigateToMediaDetails,
+        onToMediaDetails = onNavigateToMediaDetails
     )
 }
 
@@ -48,20 +53,27 @@ fun DiscoverScreen(
 fun DiscoverContent(
     providerName: String,
     pagingItems: LazyPagingItems<MediaItem>,
-    onNavigatePopBackStack: () -> Unit,
-    onNavigateToMediaDetails: MediaItemClick
+    onRefresh: () -> Unit,
+    onPopBackStack: () -> Unit,
+    onToMediaDetails: MediaItemClick,
 ) {
-    if (pagingItems.itemCount == 0) {
-        LoadingScreen()
-    } else {
-        Scaffold(
-            modifier = Modifier.background(Color.Black),
-            topBar = {
-                DiscoverToolBar(providerName, onNavigatePopBackStack)
+    when (pagingItems.loadState.refresh) {
+        is LoadState.Loading -> LoadingScreen()
+        is LoadState.NotLoading -> {
+            Scaffold(
+                modifier = Modifier
+                    .background(Color.Black)
+                    .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+                topBar = { DiscoverToolBar(providerName, onPopBackStack) }
+            ) { padding ->
+                if (pagingItems.itemCount == 0) {
+                    ErrorOnLoading()
+                } else {
+                    DiscoverBody(padding, pagingItems, onToMediaDetails)
+                }
             }
-        ) { padding ->
-            DiscoverBody(padding, pagingItems, onNavigateToMediaDetails)
         }
+        else -> ErrorScreen(onRefresh)
     }
 }
 
@@ -91,14 +103,19 @@ fun DiscoverBody(
 @Composable
 fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
     Row(
-        Modifier.fillMaxWidth().background(PrimaryBackground),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground).padding(bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ToolbarButton(
             painter = Icons.Default.KeyboardArrowLeft,
             descriptionResource = R.string.back_to_home_icon,
-            background = Color.White.copy(alpha = 0.1f)
-
+            background = Color.White.copy(alpha = 0.1f),
+            padding = PaddingValues(
+                vertical = dimensionResource(R.dimen.screen_padding),
+                horizontal = 2.dp
+            )
         ) { backButtonAction.invoke() }
         ScreenTitle(text = screenTitle)
     }
@@ -116,13 +133,29 @@ fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
                 url = getPosterImage(),
                 contentDescription = getLetter(),
                 withBorder = true,
-                modifier = Modifier.padding(3.dp)
+                modifier = Modifier.padding(1.dp)
             )
             BasicText(
                 text = getLetter(),
                 style = MaterialTheme.typography.caption,
                 isBold = true
             )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ErrorOnLoading() {
+    Column(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column {
+            IntermediateScreensText(stringResource(R.string.error_on_loading))
         }
     }
 }
