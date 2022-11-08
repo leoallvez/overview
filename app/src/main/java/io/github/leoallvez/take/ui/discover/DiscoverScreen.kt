@@ -133,7 +133,9 @@ fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
                 url = getPosterImage(),
                 contentDescription = getLetter(),
                 withBorder = true,
-                modifier = Modifier.padding(1.dp)
+                modifier = Modifier
+                    .size(width = 125.dp, height = 180.dp)
+                    .padding(1.dp)
             )
             BasicText(
                 text = getLetter(),

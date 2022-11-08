@@ -242,9 +242,7 @@ fun MediaItemList(
                     ),
                 contentPadding = PaddingValues(
                     horizontal = dimensionResource(R.dimen.screen_padding)
-                ),
-                horizontalArrangement = Arrangement
-                    .spacedBy(dimensionResource(R.dimen.default_padding))
+                )
             ) {
                 items(items) { item ->
                     MediaItem(item, imageWithBorder = true) {
