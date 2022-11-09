@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.ui.discover
+package io.github.leoallvez.take.ui.discover.provider
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,6 @@ import io.github.leoallvez.take.data.MediaType
 import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.ui.*
-import io.github.leoallvez.take.ui.discover.provider.ProviderDiscoverViewModel
 import io.github.leoallvez.take.ui.theme.PrimaryBackground
 import io.github.leoallvez.take.util.MediaItemClick
 

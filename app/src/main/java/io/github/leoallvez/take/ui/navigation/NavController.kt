@@ -11,7 +11,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.ScreenNav
-import io.github.leoallvez.take.ui.discover.ProviderDiscoverScreen
+import io.github.leoallvez.take.ui.discover.provider.ProviderDiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
 import io.github.leoallvez.take.ui.person.CastDetailsScreen
