@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.ui.discover
+package io.github.leoallvez.take.ui.discover.provider
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,7 @@ import io.github.leoallvez.take.data.repository.DiscoverRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class DiscoverViewModel @Inject constructor(
+class ProviderDiscoverViewModel @Inject constructor(
     private val _repository: DiscoverRepository
 ) : ViewModel() {
 

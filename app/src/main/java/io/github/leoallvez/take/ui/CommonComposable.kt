@@ -5,17 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -26,6 +16,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -44,6 +35,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -423,4 +415,66 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
+}
+
+@Composable
+fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground).padding(bottom = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ToolbarButton(
+            painter = Icons.Default.KeyboardArrowLeft,
+            descriptionResource = R.string.back_to_home_icon,
+            background = Color.White.copy(alpha = 0.1f),
+            padding = PaddingValues(
+                vertical = dimensionResource(R.dimen.screen_padding),
+                horizontal = 2.dp
+            )
+        ) { backButtonAction.invoke() }
+        ScreenTitle(text = screenTitle)
+    }
+}
+
+@Composable
+fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
+    mediaItem?.apply {
+        Column(
+            modifier = Modifier
+                .padding(2.dp)
+                .clickable { onClick(apiId, type) }
+        ) {
+            BasicImage(
+                url = getPosterImage(),
+                contentDescription = getLetter(),
+                withBorder = true,
+                modifier = Modifier
+                    .size(width = 125.dp, height = 180.dp)
+                    .padding(1.dp)
+            )
+            BasicText(
+                text = getLetter(),
+                style = MaterialTheme.typography.caption,
+                isBold = true
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ErrorOnLoading() {
+    Column(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column {
+            IntermediateScreensText(stringResource(R.string.error_on_loading))
+        }
+    }
 }
