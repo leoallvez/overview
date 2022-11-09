@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.ui.discover.provider
+package io.github.leoallvez.take.ui.discover.genre
 
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -6,10 +6,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.leoallvez.take.data.MediaType
 import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.ui.DiscoverContent
+import io.github.leoallvez.take.ui.discover.provider.ProviderDiscoverViewModel
 import io.github.leoallvez.take.util.MediaItemClick
 
 @Composable
-fun ProviderDiscoverScreen(
+fun GenreDiscoverScreen(
     params: DiscoverParams,
     onNavigateToMediaDetails: MediaItemClick,
     viewModel: ProviderDiscoverViewModel = hiltViewModel(),

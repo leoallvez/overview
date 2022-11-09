@@ -7,14 +7,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
@@ -38,6 +36,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
@@ -415,6 +415,57 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
+}
+
+@Composable
+fun DiscoverContent(
+    providerName: String,
+    pagingItems: LazyPagingItems<MediaItem>,
+    onRefresh: () -> Unit,
+    onPopBackStack: () -> Unit,
+    onToMediaDetails: MediaItemClick,
+) {
+    when (pagingItems.loadState.refresh) {
+        is LoadState.Loading -> LoadingScreen()
+        is LoadState.NotLoading -> {
+            Scaffold(
+                modifier = Modifier
+                    .background(Color.Black)
+                    .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+                topBar = { DiscoverToolBar(providerName, onPopBackStack) }
+            ) { padding ->
+                if (pagingItems.itemCount == 0) {
+                    ErrorOnLoading()
+                } else {
+                    DiscoverBody(padding, pagingItems, onToMediaDetails)
+                }
+            }
+        }
+        else -> ErrorScreen(onRefresh)
+    }
+}
+
+@Composable
+fun DiscoverBody(
+    padding: PaddingValues,
+    pagingItems: LazyPagingItems<MediaItem>,
+    onNavigateToMediaDetails: MediaItemClick,
+) {
+    Column(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .padding(padding)
+            .fillMaxSize()
+    ) {
+        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+            items(pagingItems.itemCount) { index ->
+                GridItemMedia(
+                    mediaItem = pagingItems[index],
+                    onClick = onNavigateToMediaDetails
+                )
+            }
+        }
+    }
 }
 
 @Composable
