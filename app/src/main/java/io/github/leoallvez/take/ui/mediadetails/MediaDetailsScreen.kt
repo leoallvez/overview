@@ -134,11 +134,11 @@ fun MediaBody(
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
             ProvidersList(providers) { provider ->
                 val params = DiscoverParams.create(provider, mediaDetails)
-                events.onNavigateToDiscover(params.toJson())
+                events.onNavigateToProviderDiscover(params.toJson())
             }
             GenreList(genres) { genre ->
                 val params = DiscoverParams.create(genre, mediaDetails)
-                events.onNavigateToDiscover(params.toJson())
+                events.onNavigateToGenreDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(

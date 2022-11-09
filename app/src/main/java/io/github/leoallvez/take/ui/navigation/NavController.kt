@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.ScreenNav
+import io.github.leoallvez.take.ui.discover.genre.GenreDiscoverScreen
 import io.github.leoallvez.take.ui.discover.provider.ProviderDiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
@@ -90,12 +91,23 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     }
     composable(
-        route = ScreenNav.Discover.route,
+        route = ScreenNav.ProviderDiscover.route,
         arguments = listOf(
             navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType },
         )
     ) { navBackStackEntry ->
         ProviderDiscoverScreen(
+            params = navBackStackEntry.getDiscoverParams(),
+            onNavigateToMediaDetails = onNavigateToMediaDetails
+        )
+    }
+    composable(
+        route = ScreenNav.GenreDiscover.route,
+        arguments = listOf(
+            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType },
+        )
+    ) { navBackStackEntry ->
+        GenreDiscoverScreen(
             params = navBackStackEntry.getDiscoverParams(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
