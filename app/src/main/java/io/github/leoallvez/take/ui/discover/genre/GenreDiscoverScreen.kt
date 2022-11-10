@@ -3,7 +3,6 @@ package io.github.leoallvez.take.ui.discover.genre
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
-import io.github.leoallvez.take.data.MediaType
 import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.ui.DiscoverContent
 import io.github.leoallvez.take.util.MediaItemClick
@@ -14,7 +13,9 @@ fun GenreDiscoverScreen(
     onNavigateToMediaDetails: MediaItemClick,
     viewModel: GenreDiscoverViewModel = hiltViewModel(),
 ) {
-    val loadData = { viewModel.loadDada(providerId = params.apiId, mediaType = MediaType.TV.key) }
+
+    val loadData = { viewModel.loadDada(genreId = params.apiId, mediaType = params.mediaType) }
+
     var items by remember { mutableStateOf(value = loadData()) }
 
     DiscoverContent(

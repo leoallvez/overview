@@ -1,10 +1,8 @@
 package io.github.leoallvez.take.data.source.discover
 
-import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.leoallvez.take.data.api.ApiService
 import io.github.leoallvez.take.data.api.IApiLocale
 import io.github.leoallvez.take.data.api.response.DiscoverResponse
-import io.github.leoallvez.take.data.api.response.ErrorResponse
 import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.data.source.responseToResult
 import javax.inject.Inject
@@ -15,9 +13,10 @@ interface IDiscoverRemoteDataSource {
         page: Int
     ): DataResult<DiscoverResponse>
 
-    suspend fun discoverOnByGenre(
+    suspend fun discoverByGenre(
         genreId: Long,
-        page: Int
+        page: Int,
+        mediaType: String
     ): DataResult<DiscoverResponse>
 }
 
@@ -29,22 +28,16 @@ class DiscoverRemoteDataSource @Inject constructor(
     override suspend fun discoverOnTvByProvider(providerId: Long, page: Int) =
         responseToResult(discoverByProvider(providerId, page))
 
-    override suspend fun discoverOnByGenre(genreId: Long, page: Int) =
-        responseToResult(discoverOnTvWithGenre(genreId, page))
+    override suspend fun discoverByGenre(genreId: Long, page: Int, mediaType: String) =
+        responseToResult(discoverWithGenre(genreId, mediaType, page))
 
-    private suspend fun discoverByProvider(
-        providerId: Long,
-        page: Int
-    ): NetworkResponse<DiscoverResponse, ErrorResponse> {
-        val region = _locale.region
-        return _api.discoverOnTvByProvider(providerId, page, _locale.language, region, region)
-    }
+    private suspend fun discoverByProvider(providerId: Long, page: Int) =
+        _locale.run {
+            _api.discoverOnTvByProvider(providerId, page, language, region, region)
+        }
 
-    private suspend fun discoverOnTvWithGenre(
-        genreId: Long,
-        page: Int
-    ): NetworkResponse<DiscoverResponse, ErrorResponse> {
-        val region = _locale.region
-        return _api.discoverOnTvByGenre(genreId, page, _locale.language, region, region)
-    }
+    private suspend fun discoverWithGenre(genreId: Long, mediaType: String, page: Int) =
+        _locale.run {
+            _api.discoverByGenre(mediaType, genreId, page, language, region, region)
+        }
 }

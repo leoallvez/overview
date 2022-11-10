@@ -14,20 +14,19 @@ data class DiscoverParams(
     fun toJson(): String = Gson().toJson(this)
 
     companion object {
-        fun create(provider: Provider, media: Media) =
-            DiscoverParams(
-                apiId = provider.apiId,
-                screenTitle = provider.providerName,
-                mediaId = media.apiId,
-                mediaType = media.type ?: ""
-            )
 
-        fun create(genre: Genre, media: Media) =
-            DiscoverParams(
-                apiId = genre.apiId,
-                screenTitle = genre.name,
-                mediaId = media.apiId,
-                mediaType = media.type ?: ""
-            )
+        fun create(provider: Provider, media: Media) = DiscoverParams(
+            apiId = provider.apiId,
+            screenTitle = provider.providerName,
+            mediaId = media.apiId,
+            mediaType = media.type ?: ""
+        )
+
+        fun create(genre: Genre, media: Media) = DiscoverParams(
+            apiId = genre.apiId,
+            screenTitle = genre.name,
+            mediaId = media.apiId,
+            mediaType = media.type ?: ""
+        )
     }
 }

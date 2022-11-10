@@ -10,6 +10,6 @@ class GenreDiscoverViewModel @Inject constructor(
     private val _repository: DiscoverRepository
 ) : ViewModel() {
 
-    fun loadDada(providerId: Long, mediaType: String) =
-        _repository.discoverOnByGenre(providerId, mediaType)
+    fun loadDada(genreId: Long, mediaType: String) =
+        _repository.discoverByGenre(genreId, mediaType)
 }

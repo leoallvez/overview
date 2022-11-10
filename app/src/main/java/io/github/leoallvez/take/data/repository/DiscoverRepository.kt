@@ -10,7 +10,7 @@ import io.github.leoallvez.take.data.source.discover.IDiscoverRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-typealias OnDiscover = suspend (Long, Int) -> DataResult<DiscoverResponse>
+typealias OnDiscover = suspend (page: Int) -> DataResult<DiscoverResponse>
 
 class DiscoverRepository @Inject constructor(
     private val _coroutineScope: CoroutineScope,
@@ -19,21 +19,23 @@ class DiscoverRepository @Inject constructor(
 
     fun discoverOnTvByProvider(providerId: Long, mediaType: String) =
         makeDiscoverPaging(
-            apiId = providerId,
             mediaType = mediaType,
-            onRequest = _source::discoverOnTvByProvider
+            onRequest = { page: Int ->
+                _source.discoverOnTvByProvider(providerId, page)
+            }
         )
 
-    fun discoverOnByGenre(providerId: Long, mediaType: String) =
+    fun discoverByGenre(genreId: Long, mediaType: String) =
         makeDiscoverPaging(
-            apiId = providerId,
             mediaType = mediaType,
-            onRequest = _source::discoverOnByGenre
+            onRequest = { page: Int ->
+                _source.discoverByGenre(genreId, page, mediaType)
+            }
         )
 
-    private fun makeDiscoverPaging(apiId: Long, mediaType: String, onRequest: OnDiscover) =
+    private fun makeDiscoverPaging(mediaType: String, onRequest: OnDiscover) =
         Pager(PagingConfig(pageSize = NETWORK_PAGE_SIZE)) {
-            DiscoverPagingSource(apiId, mediaType, onRequest)
+            DiscoverPagingSource(mediaType, onRequest)
         }.flow.cachedIn(_coroutineScope)
 
     companion object {

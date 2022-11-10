@@ -88,8 +88,10 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<DiscoverResponse, ErrorResponse>
 
-    @GET(value = "discover/movie")
-    suspend fun discoverOnTvByGenre(
+    @GET(value = "discover/{media_type}")
+    suspend fun discoverByGenre(
+        @Path(value = "media_type", encoded = true)
+        type: String,
         @Query(value = "with_genres")
         genreId: Long,
         @Query(value = "page")
