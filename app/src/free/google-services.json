@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:773132116631:android:999357c24cb85118e0bfd2",
+        "mobilesdk_app_id": "1:773132116631:android:c61cfbbdfae1aa49e0bfd2",
         "android_client_info": {
-          "package_name": "io.github.leoallvez.take.free"
+          "package_name": "br.com.deepbyte.take.free"
         }
       },
       "oauth_client": [
