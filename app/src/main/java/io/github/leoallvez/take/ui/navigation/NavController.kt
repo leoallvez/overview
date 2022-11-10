@@ -97,6 +97,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     ) { navBackStackEntry ->
         ProviderDiscoverScreen(
+            logger = logger,
             params = navBackStackEntry.getDiscoverParams(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
@@ -108,6 +109,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     ) { navBackStackEntry ->
         GenreDiscoverScreen(
+            logger = logger,
             params = navBackStackEntry.getDiscoverParams(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
