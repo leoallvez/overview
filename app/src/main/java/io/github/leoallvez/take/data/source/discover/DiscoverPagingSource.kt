@@ -11,14 +11,14 @@ import java.io.IOException
 typealias DiscoverResult = DataResult<DiscoverResponse>
 
 class DiscoverPagingSource(
-    private val _providerId: Long,
+    private val _apiId: Long,
     private val _mediaType: String,
-    private val _source: IDiscoverRemoteDataSource
+    val _onRequest: suspend (apiId: Long, page: Int) -> DataResult<DiscoverResponse>
 ) : PagingSource<Int, MediaItem>() {
 
     override suspend fun load(params: LoadParams<Int>) = try {
         val pageNumber = params.key ?: STARTING_PAGE_INDEX
-        val response = _source.discoverOnTvByProvider(_providerId, pageNumber)
+        val response = _onRequest(_apiId, pageNumber)
         loadResult(response)
     } catch (e: IOException) {
         LoadResult.Error(e)

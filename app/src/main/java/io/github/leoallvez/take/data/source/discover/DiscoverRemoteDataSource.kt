@@ -14,6 +14,11 @@ interface IDiscoverRemoteDataSource {
         providerId: Long,
         page: Int
     ): DataResult<DiscoverResponse>
+
+    suspend fun discoverOnByGenre(
+        genreId: Long,
+        page: Int
+    ): DataResult<DiscoverResponse>
 }
 
 class DiscoverRemoteDataSource @Inject constructor(
@@ -24,11 +29,22 @@ class DiscoverRemoteDataSource @Inject constructor(
     override suspend fun discoverOnTvByProvider(providerId: Long, page: Int) =
         responseToResult(discoverByProvider(providerId, page))
 
+    override suspend fun discoverOnByGenre(genreId: Long, page: Int) =
+        responseToResult(discoverOnTvWithGenre(genreId, page))
+
     private suspend fun discoverByProvider(
         providerId: Long,
         page: Int
     ): NetworkResponse<DiscoverResponse, ErrorResponse> {
         val region = _locale.region
         return _api.discoverOnTvByProvider(providerId, page, _locale.language, region, region)
+    }
+
+    private suspend fun discoverOnTvWithGenre(
+        genreId: Long,
+        page: Int
+    ): NetworkResponse<DiscoverResponse, ErrorResponse> {
+        val region = _locale.region
+        return _api.discoverOnTvByGenre(genreId, page, _locale.language, region, region)
     }
 }

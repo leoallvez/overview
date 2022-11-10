@@ -87,4 +87,20 @@ interface ApiService {
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<DiscoverResponse, ErrorResponse>
+
+    @GET(value = "discover/movie")
+    suspend fun discoverOnTvByGenre(
+        @Query(value = "with_genres")
+        genreId: Long,
+        @Query(value = "page")
+        page: Int = 0,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<DiscoverResponse, ErrorResponse>
 }
