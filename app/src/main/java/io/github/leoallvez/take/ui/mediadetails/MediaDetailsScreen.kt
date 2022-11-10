@@ -30,6 +30,7 @@ import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.R
 import io.github.leoallvez.take.data.api.response.Genre
 import io.github.leoallvez.take.data.api.response.ProviderPlace
+import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.ui.*
 import io.github.leoallvez.take.ui.navigation.MediaDetailsScreenEvents
 import io.github.leoallvez.take.ui.theme.BlueTake
@@ -56,8 +57,9 @@ fun MediaDetailsScreen(
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, mediaType) }
-    ) { dataResult ->
-        MediaDetailsContent(dataResult, showAds, events) {
+    ) { media ->
+        media?.type = mediaType
+        MediaDetailsContent(media, showAds, events) {
             viewModel.refresh(apiId, mediaType)
         }
     }
@@ -130,11 +132,13 @@ fun MediaBody(
         mediaDetails.apply {
             ScreenTitle(text = getLetter())
             ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
-            ProvidersList(providers) { apiId ->
-                events.onNavigateToDiscover(apiId = apiId)
+            ProvidersList(providers) { provider ->
+                val params = DiscoverParams.create(provider, mediaDetails)
+                events.onNavigateToProviderDiscover(params.toJson())
             }
-            GenreList(genres) { apiId ->
-                events.onNavigateToDiscover(apiId = apiId)
+            GenreList(genres) { genre ->
+                val params = DiscoverParams.create(genre, mediaDetails)
+                events.onNavigateToGenreDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(
@@ -174,7 +178,7 @@ fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
+fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -> Unit) {
     if (providers.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow(
@@ -188,7 +192,7 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (Long) -> Unit) {
         ) {
             items(providers) { provider ->
                 ProviderItem(provider) {
-                    onClickItem.invoke(provider.apiId)
+                    onClickItem.invoke(provider)
                 }
             }
         }
@@ -208,7 +212,7 @@ fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
 }
 
 @Composable
-fun GenreList(genres: List<Genre>, onClickItem: (Long) -> Unit) {
+fun GenreList(genres: List<Genre>, onClickItem: (Genre) -> Unit) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -221,7 +225,7 @@ fun GenreList(genres: List<Genre>, onClickItem: (Long) -> Unit) {
         ) {
             items(genres) { genre ->
                 GenreItem(name = genre.name) {
-                    onClickItem.invoke(genre.apiId)
+                    onClickItem.invoke(genre)
                 }
             }
         }

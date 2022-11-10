@@ -7,8 +7,11 @@ class MediaDetailsScreenEvents(private val navigation: NavController) {
 
     fun onNavigateToHome() = navigation.navigate(ScreenNav.Home.route)
 
-    fun onNavigateToDiscover(apiId: Long) = navigation
-        .navigate(ScreenNav.Discover.editRoute(apiId))
+    fun onNavigateToProviderDiscover(json: String) = navigation
+        .navigate(ScreenNav.ProviderDiscover.editRoute(json))
+
+    fun onNavigateToGenreDiscover(json: String) = navigation
+        .navigate(ScreenNav.GenreDiscover.editRoute(json))
 
     fun onNavigateToCastDetails(apiId: Long) = navigation
         .navigate(ScreenNav.CastDetails.editRoute(apiId))

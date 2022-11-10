@@ -18,12 +18,14 @@ data class Provider(
 }
 
 class ProviderPlace(
+    @field:Json(name = "provider_id")
+    val apiId: Long = 0,
     @field:Json(name = "display_priority")
     val displayPriority: Int = 0,
     @field:Json(name = "logo_path")
     private val logoPath: String = "",
     @field:Json(name = "provider_name")
     val providerName: String = ""
-) : DataResponse() {
+) {
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
 }

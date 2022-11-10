@@ -11,13 +11,15 @@ import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import io.github.leoallvez.take.Logger
 import io.github.leoallvez.take.ui.ScreenNav
-import io.github.leoallvez.take.ui.discover.DiscoverScreen
+import io.github.leoallvez.take.ui.discover.genre.GenreDiscoverScreen
+import io.github.leoallvez.take.ui.discover.provider.ProviderDiscoverScreen
 import io.github.leoallvez.take.ui.home.HomeScreen
 import io.github.leoallvez.take.ui.mediadetails.MediaDetailsScreen
 import io.github.leoallvez.take.ui.person.CastDetailsScreen
 import io.github.leoallvez.take.ui.splash.SplashScreen
 import io.github.leoallvez.take.util.MediaItemClick
 import io.github.leoallvez.take.util.getApiId
+import io.github.leoallvez.take.util.getDiscoverParams
 import io.github.leoallvez.take.util.getParams
 
 @ExperimentalPagerApi
@@ -54,14 +56,6 @@ fun NavController(logger: Logger, navController: NavHostController = rememberNav
             navController = navController,
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
-        composable(
-            route = ScreenNav.Discover.route,
-            arguments = listOf(
-                navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType }
-            )
-        ) {
-            DiscoverScreen()
-        }
     }
 }
 
@@ -93,6 +87,28 @@ fun NavGraphBuilder.mediaDetailsGraph(
             apiId = navBackStackEntry.getApiId(),
             logger = logger,
             onNavigateToHome = { navController.navigate(ScreenNav.Home.route) },
+            onNavigateToMediaDetails = onNavigateToMediaDetails
+        )
+    }
+    composable(
+        route = ScreenNav.ProviderDiscover.route,
+        arguments = listOf(
+            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType },
+        )
+    ) { navBackStackEntry ->
+        ProviderDiscoverScreen(
+            params = navBackStackEntry.getDiscoverParams(),
+            onNavigateToMediaDetails = onNavigateToMediaDetails
+        )
+    }
+    composable(
+        route = ScreenNav.GenreDiscover.route,
+        arguments = listOf(
+            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType },
+        )
+    ) { navBackStackEntry ->
+        GenreDiscoverScreen(
+            params = navBackStackEntry.getDiscoverParams(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
     }

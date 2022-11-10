@@ -93,19 +93,16 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.activity:activity-compose:1.7.0-alpha01'
-
+    implementation 'androidx.activity:activity-compose:1.7.0-alpha02'
     //Firebase Module
     implementation project(path: ':firebase')
     // Lifecycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0-alpha02'
-
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0-alpha03'
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
-
     // Navigation
-    implementation "androidx.navigation:navigation-compose:2.6.0-alpha02"
+    implementation "androidx.navigation:navigation-compose:2.6.0-alpha03"
     // Hilt
     def hilt = '2.44'
     implementation "com.google.dagger:hilt-android:$hilt"
@@ -116,15 +113,18 @@ dependencies {
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
     kapt "androidx.room:room-compiler:$room"
+    // Paging
+    def paging_version = "3.1.1"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
     // DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
-
     // Google Ads
     implementation 'com.google.android.gms:play-services-ads:21.3.0'
-
-    // Paging Compose
-    implementation "com.google.accompanist:accompanist-pager:0.27.0"
-    implementation "com.google.accompanist:accompanist-pager-indicators:0.27.0"
+    // Accompanist
+    def accompanist = "0.27.0"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
 
     // Third party library
     implementation 'com.jakewharton.timber:timber:5.0.1'
@@ -143,6 +143,6 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.0-alpha01"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 }

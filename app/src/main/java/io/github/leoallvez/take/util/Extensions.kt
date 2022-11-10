@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
+import io.github.leoallvez.take.data.model.DiscoverParams
 import io.github.leoallvez.take.data.model.MediaItem
 import io.github.leoallvez.take.data.model.MediaSuggestion
 import io.github.leoallvez.take.data.model.Suggestion
@@ -64,5 +65,10 @@ fun NavBackStackEntry.getParams(): Pair<Long, String> {
 }
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
+
+fun NavBackStackEntry.getDiscoverParams(): DiscoverParams {
+    val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
+    return json.fromJson() ?: DiscoverParams()
+}
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

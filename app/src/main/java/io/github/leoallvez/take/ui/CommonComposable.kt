@@ -5,27 +5,16 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -44,8 +33,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
@@ -186,11 +178,12 @@ fun ToolbarButton(
     modifier: Modifier = Modifier,
     iconTint: Color = Color.White,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
-    onClick: () -> Unit
+    padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.screen_padding)),
+    onClick: () -> Unit,
 ) {
     Box(
         modifier
-            .padding(dimensionResource(R.dimen.screen_padding))
+            .padding(padding)
             .clip(CircleShape)
             .background(background)
             .size(45.dp)
@@ -241,9 +234,7 @@ fun MediaItemList(
                     ),
                 contentPadding = PaddingValues(
                     horizontal = dimensionResource(R.dimen.screen_padding)
-                ),
-                horizontalArrangement = Arrangement
-                    .spacedBy(dimensionResource(R.dimen.default_padding))
+                )
             ) {
                 items(items) { item ->
                     MediaItem(item, imageWithBorder = true) {
@@ -424,4 +415,117 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
+}
+
+@Composable
+fun DiscoverContent(
+    providerName: String,
+    pagingItems: LazyPagingItems<MediaItem>,
+    onRefresh: () -> Unit,
+    onPopBackStack: () -> Unit,
+    onToMediaDetails: MediaItemClick,
+) {
+    when (pagingItems.loadState.refresh) {
+        is LoadState.Loading -> LoadingScreen()
+        is LoadState.NotLoading -> {
+            Scaffold(
+                modifier = Modifier
+                    .background(Color.Black)
+                    .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+                topBar = { DiscoverToolBar(providerName, onPopBackStack) }
+            ) { padding ->
+                if (pagingItems.itemCount == 0) {
+                    ErrorOnLoading()
+                } else {
+                    DiscoverBody(padding, pagingItems, onToMediaDetails)
+                }
+            }
+        }
+        else -> ErrorScreen(onRefresh)
+    }
+}
+
+@Composable
+fun DiscoverBody(
+    padding: PaddingValues,
+    pagingItems: LazyPagingItems<MediaItem>,
+    onNavigateToMediaDetails: MediaItemClick,
+) {
+    Column(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .padding(padding)
+            .fillMaxSize()
+    ) {
+        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+            items(pagingItems.itemCount) { index ->
+                GridItemMedia(
+                    mediaItem = pagingItems[index],
+                    onClick = onNavigateToMediaDetails
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground).padding(bottom = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ToolbarButton(
+            painter = Icons.Default.KeyboardArrowLeft,
+            descriptionResource = R.string.back_to_home_icon,
+            background = Color.White.copy(alpha = 0.1f),
+            padding = PaddingValues(
+                vertical = dimensionResource(R.dimen.screen_padding),
+                horizontal = 2.dp
+            )
+        ) { backButtonAction.invoke() }
+        ScreenTitle(text = screenTitle)
+    }
+}
+
+@Composable
+fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
+    mediaItem?.apply {
+        Column(
+            modifier = Modifier
+                .padding(2.dp)
+                .clickable { onClick(apiId, type) }
+        ) {
+            BasicImage(
+                url = getPosterImage(),
+                contentDescription = getLetter(),
+                withBorder = true,
+                modifier = Modifier
+                    .size(width = 125.dp, height = 180.dp)
+                    .padding(1.dp)
+            )
+            BasicText(
+                text = getLetter(),
+                style = MaterialTheme.typography.caption,
+                isBold = true
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ErrorOnLoading() {
+    Column(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column {
+            IntermediateScreensText(stringResource(R.string.error_on_loading))
+        }
+    }
 }

@@ -19,15 +19,23 @@ sealed class ScreenNav(val route: String, val name: String) {
         fun editRoute(id: Long) = "cast_details/$id"
     }
 
-    object Discover : ScreenNav(
-        route = "discover/{$ID_PARAM}",
+    object ProviderDiscover : ScreenNav(
+        route = "provider_discover/{$JSON_PARAM}",
         name = "Discover"
     ) {
-        fun editRoute(id: Long) = "discover/$id"
+        fun editRoute(jsonParam: String) = "provider_discover/$jsonParam"
+    }
+
+    object GenreDiscover : ScreenNav(
+        route = "genre_discover/{$JSON_PARAM}",
+        name = "Discover"
+    ) {
+        fun editRoute(jsonParam: String) = "genre_discover/$jsonParam"
     }
 
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"
+        const val JSON_PARAM = "Json"
     }
 }
