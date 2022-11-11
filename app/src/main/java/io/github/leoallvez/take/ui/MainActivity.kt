@@ -86,4 +86,5 @@ fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
             )
         }
     }
+    Text("\n ")
 }
