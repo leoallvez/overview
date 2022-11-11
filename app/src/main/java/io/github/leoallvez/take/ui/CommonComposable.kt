@@ -2,6 +2,7 @@ package io.github.leoallvez.take.ui
 
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -528,4 +529,25 @@ fun ErrorOnLoading() {
             IntermediateScreensText(stringResource(R.string.error_on_loading))
         }
     }
+}
+
+@Composable
+fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
+    AnimatedVisibility(
+        visible = isNotOnline,
+        modifier = modifier
+    ) {
+        Snackbar(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.app_offline_msg),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+    // TODO: fix this app not launch composer on real device.
+    Text("\n ")
 }
