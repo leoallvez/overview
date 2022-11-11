@@ -1,9 +1,11 @@
 package io.github.leoallvez.take.data.source.provider
 
+import br.com.deepbyte.take.data.api.ApiService
+import br.com.deepbyte.take.data.api.response.ProviderResponse
+import br.com.deepbyte.take.data.source.DataResult
+import br.com.deepbyte.take.data.source.provider.IProviderRemoteDataSource
+import br.com.deepbyte.take.data.source.provider.ProviderRemoteDataSource
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.leoallvez.take.data.api.ApiService
-import io.github.leoallvez.take.data.api.response.ProviderResponse
-import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.util.mock.ERROR_MSG
 import io.github.leoallvez.take.util.mock.ReturnType
 import io.github.leoallvez.take.util.mock.mockResponse

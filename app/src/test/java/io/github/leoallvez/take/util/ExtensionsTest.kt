@@ -1,5 +1,7 @@
 package io.github.leoallvez.take.util
 
+import br.com.deepbyte.take.util.fromJson
+import br.com.deepbyte.take.util.parseToList
 import io.github.leoallvez.take.util.mock.MockPerson
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

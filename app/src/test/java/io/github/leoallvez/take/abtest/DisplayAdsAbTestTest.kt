@@ -1,5 +1,6 @@
 package io.github.leoallvez.take.abtest
 
+import br.com.deepbyte.take.abtest.DisplayAdsAbTest
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.github.leoallvez.firebase.RemoteConfigWrapper
 import io.github.leoallvez.firebase.RemoteSource

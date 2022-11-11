@@ -1,9 +1,11 @@
 package io.github.leoallvez.take.data.source.person
 
+import br.com.deepbyte.take.data.api.ApiService
+import br.com.deepbyte.take.data.api.response.PersonResponse
+import br.com.deepbyte.take.data.source.DataResult
+import br.com.deepbyte.take.data.source.person.IPersonRemoteDataSource
+import br.com.deepbyte.take.data.source.person.PersonRemoteDataSource
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.leoallvez.take.data.api.ApiService
-import io.github.leoallvez.take.data.api.response.PersonResponse
-import io.github.leoallvez.take.data.source.DataResult
 import io.github.leoallvez.take.util.mock.*
 import io.github.leoallvez.take.util.mock.ReturnType.*
 import io.mockk.MockKAnnotations

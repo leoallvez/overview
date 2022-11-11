@@ -1,9 +1,11 @@
 package io.github.leoallvez.take.data.source.media_item
 
+import br.com.deepbyte.take.data.api.ApiService
+import br.com.deepbyte.take.data.api.response.MediaDetailResponse
+import br.com.deepbyte.take.data.source.DataResult
+import br.com.deepbyte.take.data.source.media_item.IMediaRemoteDataSource
+import br.com.deepbyte.take.data.source.media_item.MediaRemoteDataSource
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.leoallvez.take.data.api.ApiService
-import io.github.leoallvez.take.data.api.response.MediaDetailResponse
-import io.github.leoallvez.take.data.source.DataResult.*
 import io.github.leoallvez.take.util.mock.*
 import io.github.leoallvez.take.util.mock.ReturnType.*
 import io.mockk.MockKAnnotations
@@ -50,7 +52,7 @@ class MediaRemoteDataSourceTest {
         // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         // Assert
-        assertTrue(result is Success)
+        assertTrue(result is DataResult.Success)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -70,7 +72,7 @@ class MediaRemoteDataSourceTest {
         // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         // Assert
-        assertTrue(result is ServerError)
+        assertTrue(result is DataResult.ServerError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -80,7 +82,7 @@ class MediaRemoteDataSourceTest {
         // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         // Assert
-        assertTrue(result is NetworkError)
+        assertTrue(result is DataResult.NetworkError)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -90,7 +92,7 @@ class MediaRemoteDataSourceTest {
         // Act
         val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
         // Assert
-        assertTrue(result is UnknownError)
+        assertTrue(result is DataResult.UnknownError)
     }
 
     private fun coEveryMediaDetailResponse(

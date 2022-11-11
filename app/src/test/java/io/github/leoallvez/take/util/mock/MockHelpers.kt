@@ -1,8 +1,8 @@
 package io.github.leoallvez.take.util.mock
 
+import br.com.deepbyte.take.data.api.response.ErrorResponse
+import br.com.deepbyte.take.data.source.DataResult
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.leoallvez.take.data.api.response.ErrorResponse
-import io.github.leoallvez.take.data.source.DataResult
 import java.io.IOException
 
 fun <T> mockResult(

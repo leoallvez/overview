@@ -1,8 +1,9 @@
 package io.github.leoallvez.take.data.repository
 
-import io.github.leoallvez.take.data.api.response.PersonResponse
-import io.github.leoallvez.take.data.source.DataResult
-import io.github.leoallvez.take.data.source.person.IPersonRemoteDataSource
+import br.com.deepbyte.take.data.api.response.PersonResponse
+import br.com.deepbyte.take.data.repository.PersonRepository
+import br.com.deepbyte.take.data.source.DataResult
+import br.com.deepbyte.take.data.source.person.IPersonRemoteDataSource
 import io.github.leoallvez.take.util.mock.ReturnType
 import io.github.leoallvez.take.util.mock.ReturnType.*
 import io.github.leoallvez.take.util.mock.mockResult

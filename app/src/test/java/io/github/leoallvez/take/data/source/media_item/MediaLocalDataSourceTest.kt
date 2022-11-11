@@ -1,7 +1,8 @@
 package io.github.leoallvez.take.data.source.media_item
 
-import io.github.leoallvez.take.data.db.dao.MediaItemDao
-import io.github.leoallvez.take.data.model.MediaItem
+import br.com.deepbyte.take.data.db.dao.MediaItemDao
+import br.com.deepbyte.take.data.model.MediaItem
+import br.com.deepbyte.take.data.source.media_item.MediaLocalDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

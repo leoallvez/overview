@@ -1,8 +1,10 @@
 package io.github.leoallvez.take.abtest
 
+import br.com.deepbyte.take.abtest.AbTest
+import br.com.deepbyte.take.abtest.SuggestionAbTest
+import br.com.deepbyte.take.data.model.Suggestion
+import br.com.deepbyte.take.util.IJsonFileReader
 import io.github.leoallvez.firebase.RemoteSource
-import io.github.leoallvez.take.data.model.Suggestion
-import io.github.leoallvez.take.util.IJsonFileReader
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
