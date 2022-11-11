@@ -1,13 +1,13 @@
-package io.github.leoallvez.take.data.source.media_item
+package br.com.deepbyte.take.data.source.media_item
 
 import br.com.deepbyte.take.data.api.ApiService
 import br.com.deepbyte.take.data.api.response.MediaDetailResponse
 import br.com.deepbyte.take.data.source.DataResult
-import br.com.deepbyte.take.data.source.media_item.IMediaRemoteDataSource
-import br.com.deepbyte.take.data.source.media_item.MediaRemoteDataSource
+import br.com.deepbyte.take.util.mock.ERROR_MSG
+import br.com.deepbyte.take.util.mock.ReturnType
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.leoallvez.take.util.mock.*
-import io.github.leoallvez.take.util.mock.ReturnType.*
+import br.com.deepbyte.take.util.mock.ReturnType.*
+import br.com.deepbyte.take.util.mock.mockResponse
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

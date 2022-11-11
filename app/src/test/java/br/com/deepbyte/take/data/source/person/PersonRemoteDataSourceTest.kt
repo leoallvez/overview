@@ -1,13 +1,13 @@
-package io.github.leoallvez.take.data.source.person
+package br.com.deepbyte.take.data.source.person
 
 import br.com.deepbyte.take.data.api.ApiService
 import br.com.deepbyte.take.data.api.response.PersonResponse
 import br.com.deepbyte.take.data.source.DataResult
-import br.com.deepbyte.take.data.source.person.IPersonRemoteDataSource
-import br.com.deepbyte.take.data.source.person.PersonRemoteDataSource
+import br.com.deepbyte.take.util.mock.ERROR_MSG
+import br.com.deepbyte.take.util.mock.ReturnType
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.leoallvez.take.util.mock.*
-import io.github.leoallvez.take.util.mock.ReturnType.*
+import br.com.deepbyte.take.util.mock.ReturnType.*
+import br.com.deepbyte.take.util.mock.mockResponse
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

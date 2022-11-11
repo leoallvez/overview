@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.util.mock
+package br.com.deepbyte.take.util.mock
 
 import br.com.deepbyte.take.data.api.response.ErrorResponse
 import br.com.deepbyte.take.data.source.DataResult

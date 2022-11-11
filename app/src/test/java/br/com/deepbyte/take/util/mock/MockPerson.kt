@@ -1,4 +1,4 @@
-package io.github.leoallvez.take.util.mock
+package br.com.deepbyte.take.util.mock
 
 import com.google.gson.annotations.SerializedName
 import com.squareup.moshi.Json

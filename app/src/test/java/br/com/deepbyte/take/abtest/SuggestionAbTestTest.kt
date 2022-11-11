@@ -1,7 +1,5 @@
-package io.github.leoallvez.take.abtest
+package br.com.deepbyte.take.abtest
 
-import br.com.deepbyte.take.abtest.AbTest
-import br.com.deepbyte.take.abtest.SuggestionAbTest
 import br.com.deepbyte.take.data.model.Suggestion
 import br.com.deepbyte.take.util.IJsonFileReader
 import io.github.leoallvez.firebase.RemoteSource
