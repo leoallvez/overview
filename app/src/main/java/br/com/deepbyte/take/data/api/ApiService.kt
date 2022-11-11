@@ -1,7 +1,12 @@
 package br.com.deepbyte.take.data.api
 
 import br.com.deepbyte.take.BuildConfig
-import br.com.deepbyte.take.data.api.response.*
+import br.com.deepbyte.take.data.api.response.ListContentResponse
+import br.com.deepbyte.take.data.api.response.ErrorResponse
+import br.com.deepbyte.take.data.api.response.MediaDetailResponse
+import br.com.deepbyte.take.data.api.response.PersonResponse
+import br.com.deepbyte.take.data.api.response.ProviderResponse
+import br.com.deepbyte.take.data.api.response.DiscoverResponse
 import br.com.deepbyte.take.data.model.MediaItem
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
