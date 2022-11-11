@@ -142,7 +142,7 @@ fun MediaBody(
             }
             BasicParagraph(R.string.synopsis, overview)
             AdsBanner(
-                bannerId = R.string.banner_sample_id,
+                prodBannerId = R.string.banner_sample_id,
                 isVisible = showAds
             )
             CastList(getOrderedCast()) { apiId ->

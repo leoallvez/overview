@@ -174,7 +174,7 @@ fun HomeScreenContent(
             .background(PrimaryBackground)
     ) {
         Column {
-            AdsBanner(bannerId = R.string.banner_sample_id, isVisible = showAds)
+            AdsBanner(prodBannerId = R.string.banner_sample_id, isVisible = showAds)
             SuggestionVerticalList(suggestions = suggestions) { apiId, mediaType ->
                 onNavigateToMediaDetails.invoke(apiId, mediaType)
             }

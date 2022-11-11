@@ -34,6 +34,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'DEBUG_BANNER_ID','""'
+        }
+        debug {
+            buildConfigField 'String', 'DEBUG_BANNER_ID', '"ca-app-pub-3940256099942544/6300978111"'
         }
     }
 
