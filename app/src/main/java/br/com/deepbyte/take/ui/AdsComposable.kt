@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import br.com.deepbyte.take.BuildConfig
 import br.com.deepbyte.take.R
@@ -26,6 +27,26 @@ fun AdsBanner(@StringRes prodBannerId: Int, isVisible: Boolean, modifier: Modifi
                 val debugBannerId = BuildConfig.DEBUG_BANNER_ID
                 AdView(context).apply {
                     setAdSize(AdSize.BANNER)
+                    adUnitId = debugBannerId.ifEmpty { context.getString(prodBannerId) }
+                    loadAd(AdRequest.Builder().build())
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun AdsMediumRectangle(@StringRes prodBannerId: Int, isVisible: Boolean, modifier: Modifier = Modifier) {
+    if (isVisible) {
+        AndroidView(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = dimensionResource(R.dimen.default_padding))
+                .height(250.dp),
+            factory = { context ->
+                val debugBannerId = BuildConfig.DEBUG_BANNER_ID
+                AdView(context).apply {
+                    setAdSize(AdSize.MEDIUM_RECTANGLE)
                     adUnitId = debugBannerId.ifEmpty { context.getString(prodBannerId) }
                     loadAd(AdRequest.Builder().build())
                 }

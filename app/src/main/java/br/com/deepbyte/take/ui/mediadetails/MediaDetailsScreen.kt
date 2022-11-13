@@ -141,7 +141,7 @@ fun MediaBody(
                 events.onNavigateToGenreDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)
-            AdsBanner(
+            AdsMediumRectangle(
                 prodBannerId = R.string.banner_sample_id,
                 isVisible = showAds
             )

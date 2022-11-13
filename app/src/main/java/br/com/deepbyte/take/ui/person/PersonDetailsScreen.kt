@@ -35,19 +35,7 @@ import br.com.deepbyte.take.data.MediaType
 import br.com.deepbyte.take.data.MediaType.MOVIE
 import br.com.deepbyte.take.data.MediaType.TV
 import br.com.deepbyte.take.data.model.MediaItem
-import br.com.deepbyte.take.ui.PersonImageCircle
-import br.com.deepbyte.take.ui.ErrorScreen
-import br.com.deepbyte.take.ui.ToolbarButton
-import br.com.deepbyte.take.ui.ScreenNav
-import br.com.deepbyte.take.ui.TrackScreenView
-import br.com.deepbyte.take.ui.ScreenTitle
-import br.com.deepbyte.take.ui.BasicParagraph
-import br.com.deepbyte.take.ui.AdsBanner
-import br.com.deepbyte.take.ui.SimpleSubtitle
-import br.com.deepbyte.take.ui.PartingEmDash
-import br.com.deepbyte.take.ui.PartingPoint
-import br.com.deepbyte.take.ui.UiStateResult
-import br.com.deepbyte.take.ui.MediaItemList
+import br.com.deepbyte.take.ui.*
 import br.com.deepbyte.take.ui.theme.PrimaryBackground
 import br.com.deepbyte.take.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -148,9 +136,9 @@ fun PersonBody(
             PersonDates(person)
             PlaceOfBirth(birthPlace())
             BasicParagraph(R.string.biography, biography)
+            AdsMediumRectangle(R.string.banner_sample_id, showAds)
             ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
             ParticipationList(R.string.tv_shows_participation, getTvShows(), TV, onClickItem)
-            AdsBanner(R.string.banner_sample_id, showAds)
         }
     }
 }
