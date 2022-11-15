@@ -1,10 +1,7 @@
 package br.com.deepbyte.take.ui.home
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import br.com.deepbyte.take.IAnalyticsTracker
 import br.com.deepbyte.take.abtest.AbTest
 import br.com.deepbyte.take.data.model.MediaItem
 import br.com.deepbyte.take.data.model.MediaSuggestion
@@ -18,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    val analyticsTracker: IAnalyticsTracker,
     private val _manager: MediaSuggestionManager,
     @AbDisplayAds private val _experiment: AbTest<Boolean>,
     @MainDispatcher private val _mainDispatcher: CoroutineDispatcher

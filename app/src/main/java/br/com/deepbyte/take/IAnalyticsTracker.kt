@@ -1,6 +1,6 @@
 package br.com.deepbyte.take
 
-interface Logger {
+interface IAnalyticsTracker {
     fun logOpenScreen(screenName: String)
     fun logExitScreen(screenName: String)
 }

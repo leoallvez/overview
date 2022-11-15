@@ -28,8 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.take.BuildConfig
-import br.com.deepbyte.take.Logger
 import br.com.deepbyte.take.R
 import br.com.deepbyte.take.ui.ScreenNav
 import br.com.deepbyte.take.ui.TrackScreenView
@@ -38,9 +38,9 @@ import br.com.deepbyte.take.ui.theme.PrimaryBackground
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(logger: Logger, onNavigateToHome: () -> Unit) {
+fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
 
-    TrackScreenView(screen = ScreenNav.Splash, logger)
+    TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
 
     val scale = remember { Animatable(0f) }
 

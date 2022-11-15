@@ -10,9 +10,9 @@ import android.os.Bundle
 import timber.log.Timber
 import javax.inject.Inject
 
-class AnalyticsLogger @Inject constructor(
+class AnalyticsTracker @Inject constructor(
     private val _source: AnalyticsSource
-) : Logger {
+) : IAnalyticsTracker {
     override fun logOpenScreen(screenName: String) {
         log(event = OPEN_SCREEN, screenName = screenName)
     }

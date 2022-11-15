@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import br.com.deepbyte.take.Logger
+import br.com.deepbyte.take.IAnalyticsTracker
 import br.com.deepbyte.take.R
 import br.com.deepbyte.take.data.model.MediaItem
 import br.com.deepbyte.take.ui.theme.BlueTake
@@ -83,10 +83,10 @@ fun SimpleTitle(title: String) {
 
 @SuppressLint("TrackScreenView")
 @Composable
-fun TrackScreenView(screen: ScreenNav, logger: Logger) {
+fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
     DisposableEffect(Unit) {
-        logger.logOpenScreen(screen.name)
-        onDispose { logger.logExitScreen(screen.name) }
+        tracker.logOpenScreen(screen.name)
+        onDispose { tracker.logExitScreen(screen.name) }
     }
 }
 

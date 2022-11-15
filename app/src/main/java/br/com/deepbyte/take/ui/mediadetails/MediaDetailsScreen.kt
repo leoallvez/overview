@@ -1,10 +1,6 @@
 package br.com.deepbyte.take.ui.mediadetails
 
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -26,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.deepbyte.take.Logger
+import br.com.deepbyte.take.R
 import br.com.deepbyte.take.data.api.response.Genre
 import br.com.deepbyte.take.data.api.response.ProviderPlace
 import br.com.deepbyte.take.data.model.DiscoverParams
@@ -39,17 +35,15 @@ import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import br.com.deepbyte.take.data.api.response.MediaDetailResponse as MediaDetails
 import br.com.deepbyte.take.data.api.response.PersonResponse as Person
-import br.com.deepbyte.take.R
 
 @Composable
 fun MediaDetailsScreen(
-    logger: Logger,
     params: Pair<Long, String>,
     events: MediaDetailsScreenEvents,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
-    TrackScreenView(screen = ScreenNav.MediaDetails, logger)
+    TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
 
     val (apiId: Long, mediaType: String) = params
     viewModel.loadMediaDetails(apiId, mediaType)

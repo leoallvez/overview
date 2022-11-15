@@ -8,8 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.accompanist.pager.ExperimentalPagerApi
-import br.com.deepbyte.take.Logger
 import br.com.deepbyte.take.ui.ScreenNav
 import br.com.deepbyte.take.ui.discover.genre.GenreDiscoverScreen
 import br.com.deepbyte.take.ui.discover.provider.ProviderDiscoverScreen
@@ -21,10 +19,11 @@ import br.com.deepbyte.take.util.MediaItemClick
 import br.com.deepbyte.take.util.getApiId
 import br.com.deepbyte.take.util.getDiscoverParams
 import br.com.deepbyte.take.util.getParams
+import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalPagerApi
 @Composable
-fun NavController(logger: Logger, navController: NavHostController = rememberNavController()) {
+fun NavController(navController: NavHostController = rememberNavController()) {
 
     val onNavigateToMediaDetails: MediaItemClick = { id, type ->
         navController.navigate(ScreenNav.MediaDetails.editRoute(id, type))
@@ -35,7 +34,6 @@ fun NavController(logger: Logger, navController: NavHostController = rememberNav
     ) {
         composable(route = ScreenNav.Splash.route) {
             SplashScreen(
-                logger = logger,
                 onNavigateToHome = {
                     navController.navigate(route = ScreenNav.Home.route) {
                         popUpTo(ScreenNav.Splash.route) {
@@ -47,12 +45,10 @@ fun NavController(logger: Logger, navController: NavHostController = rememberNav
         }
         composable(route = ScreenNav.Home.route) {
             HomeScreen(
-                logger = logger,
                 onNavigateToMediaDetails = onNavigateToMediaDetails
             )
         }
         mediaDetailsGraph(
-            logger = logger,
             navController = navController,
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
@@ -60,7 +56,6 @@ fun NavController(logger: Logger, navController: NavHostController = rememberNav
 }
 
 fun NavGraphBuilder.mediaDetailsGraph(
-    logger: Logger,
     navController: NavHostController,
     onNavigateToMediaDetails: MediaItemClick
 ) {
@@ -72,7 +67,6 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     ) { navBackStackEntry ->
         MediaDetailsScreen(
-            logger = logger,
             params = navBackStackEntry.getParams(),
             events = MediaDetailsScreenEvents(navController)
         )
@@ -85,7 +79,6 @@ fun NavGraphBuilder.mediaDetailsGraph(
     ) { navBackStackEntry ->
         CastDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
-            logger = logger,
             onNavigateToHome = { navController.navigate(ScreenNav.Home.route) },
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
@@ -93,11 +86,10 @@ fun NavGraphBuilder.mediaDetailsGraph(
     composable(
         route = ScreenNav.ProviderDiscover.route,
         arguments = listOf(
-            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType },
+            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType }
         )
     ) { navBackStackEntry ->
         ProviderDiscoverScreen(
-            logger = logger,
             params = navBackStackEntry.getDiscoverParams(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )
@@ -105,11 +97,10 @@ fun NavGraphBuilder.mediaDetailsGraph(
     composable(
         route = ScreenNav.GenreDiscover.route,
         arguments = listOf(
-            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType },
+            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType }
         )
     ) { navBackStackEntry ->
         GenreDiscoverScreen(
-            logger = logger,
             params = navBackStackEntry.getDiscoverParams(),
             onNavigateToMediaDetails = onNavigateToMediaDetails
         )

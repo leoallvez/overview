@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import br.com.deepbyte.take.IAnalyticsTracker
 import br.com.deepbyte.take.abtest.AbTest
 import br.com.deepbyte.take.data.repository.PersonRepository
 import br.com.deepbyte.take.data.source.DataResult
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonDetailsViewModel @Inject constructor(
+    val analyticsTracker: IAnalyticsTracker,
     @AbDisplayAds private val _experiment: AbTest<Boolean>,
     private val _repository: PersonRepository
 ) : ViewModel() {

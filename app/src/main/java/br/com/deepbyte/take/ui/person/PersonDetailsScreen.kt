@@ -2,15 +2,7 @@ package br.com.deepbyte.take.ui.person
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -29,7 +21,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.deepbyte.take.Logger
 import br.com.deepbyte.take.R
 import br.com.deepbyte.take.data.MediaType
 import br.com.deepbyte.take.data.MediaType.MOVIE
@@ -46,14 +37,13 @@ import br.com.deepbyte.take.data.api.response.PersonResponse as Person
 @Composable
 fun CastDetailsScreen(
     apiId: Long,
-    logger: Logger,
     onNavigateToHome: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
     val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
-    TrackScreenView(screen = ScreenNav.CastDetails, logger)
+    TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
 
     viewModel.loadPersonDetails(apiId)
 

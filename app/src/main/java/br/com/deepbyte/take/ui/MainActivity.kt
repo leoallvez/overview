@@ -11,7 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.LiveData
-import br.com.deepbyte.take.AnalyticsLogger
 import br.com.deepbyte.take.di.IsOnline
 import br.com.deepbyte.take.ui.navigation.NavController
 import br.com.deepbyte.take.ui.theme.TakeTheme
@@ -27,20 +26,12 @@ class MainActivity : ComponentActivity() {
     @IsOnline
     lateinit var isOnline: LiveData<Boolean>
 
-    @Inject
-    lateinit var analyticsLog: AnalyticsLogger
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             TakeTheme {
-                Surface(
-                    color = MaterialTheme.colors.background
-                ) {
-                    TakeApp(
-                        isOnline = isOnline.observeAsState(true).value,
-                        analyticsLog = analyticsLog
-                    )
+                Surface(color = MaterialTheme.colors.background) {
+                    TakeApp(isOnline = isOnline.observeAsState(initial = true).value)
                 }
             }
         }
@@ -49,9 +40,9 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalPagerApi
 @Composable
-fun TakeApp(isOnline: Boolean, analyticsLog: AnalyticsLogger) {
+fun TakeApp(isOnline: Boolean) {
     Box {
-        NavController(analyticsLog)
+        NavController()
         OfflineSnackBar(
             isNotOnline = isOnline.not(),
             modifier = Modifier.align(Alignment.BottomCenter)

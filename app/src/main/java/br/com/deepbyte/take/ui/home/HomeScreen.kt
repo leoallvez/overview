@@ -2,11 +2,7 @@ package br.com.deepbyte.take.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -20,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.deepbyte.take.Logger
 import br.com.deepbyte.take.R
 import br.com.deepbyte.take.data.model.MediaItem
 import br.com.deepbyte.take.data.model.MediaSuggestion
@@ -29,11 +24,7 @@ import br.com.deepbyte.take.ui.theme.BlueTake
 import br.com.deepbyte.take.ui.theme.PrimaryBackground
 import br.com.deepbyte.take.util.MediaItemClick
 import br.com.deepbyte.take.util.getStringByName
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.*
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScope
 import me.onebone.toolbar.ScrollStrategy
@@ -42,11 +33,11 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(
-    logger: Logger,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToMediaDetails: MediaItemClick
 ) {
-    TrackScreenView(screen = ScreenNav.Home, logger)
+
+    TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featuredMediaItems = viewModel.featuredMediaItems.observeAsState(listOf()).value

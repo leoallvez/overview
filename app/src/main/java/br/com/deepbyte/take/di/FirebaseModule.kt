@@ -1,9 +1,12 @@
 package br.com.deepbyte.take.di
 
 import android.content.Context
+import br.com.deepbyte.take.AnalyticsTracker
+import br.com.deepbyte.take.IAnalyticsTracker
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +20,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class FirebaseModule {
+class ProvidesFirebaseModule {
 
     @Singleton
     @Provides
@@ -34,4 +37,13 @@ class FirebaseModule {
     ): AnalyticsSource {
         return AnalyticsWrapper(FirebaseAnalytics.getInstance(context))
     }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindsFirebaseModule {
+    @Binds
+    abstract fun bindAnalyticsTracker(
+        locale: AnalyticsTracker
+    ): IAnalyticsTracker
 }
