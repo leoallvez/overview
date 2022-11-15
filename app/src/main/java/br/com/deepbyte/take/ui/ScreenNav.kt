@@ -7,28 +7,28 @@ sealed class ScreenNav(val route: String, val name: String) {
 
     object MediaDetails : ScreenNav(
         route = "media_details/{$ID_PARAM}/{$TYPE_PARAM}",
-        name = "MediaDetail"
+        name = "MediaDetailScreen"
     ) {
         fun editRoute(id: Long, type: String?) = "media_details/$id/$type"
     }
 
     object CastDetails : ScreenNav(
         route = "cast_details/{$ID_PARAM}",
-        name = "CastDetails"
+        name = "CastDetailsScreen"
     ) {
         fun editRoute(id: Long) = "cast_details/$id"
     }
 
     object ProviderDiscover : ScreenNav(
         route = "provider_discover/{$JSON_PARAM}",
-        name = "Discover"
+        name = "ProviderDiscoverScreen"
     ) {
         fun editRoute(jsonParam: String) = "provider_discover/$jsonParam"
     }
 
     object GenreDiscover : ScreenNav(
         route = "genre_discover/{$JSON_PARAM}",
-        name = "Discover"
+        name = "GenreDiscoverScreen"
     ) {
         fun editRoute(jsonParam: String) = "genre_discover/$jsonParam"
     }
