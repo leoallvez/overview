@@ -3,7 +3,7 @@ package br.com.deepbyte.take.data.repository
 import br.com.deepbyte.take.data.api.response.MediaDetailResponse
 import br.com.deepbyte.take.data.api.response.ProviderPlace
 import br.com.deepbyte.take.data.source.DataResult
-import br.com.deepbyte.take.data.source.media_item.IMediaRemoteDataSource
+import br.com.deepbyte.take.data.source.media.IMediaRemoteDataSource
 import br.com.deepbyte.take.data.source.provider.IProviderRemoteDataSource
 import br.com.deepbyte.take.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher

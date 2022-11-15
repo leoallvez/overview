@@ -2,8 +2,8 @@ package br.com.deepbyte.take.di
 
 import br.com.deepbyte.take.data.source.discover.DiscoverRemoteDataSource
 import br.com.deepbyte.take.data.source.discover.IDiscoverRemoteDataSource
-import br.com.deepbyte.take.data.source.media_item.IMediaRemoteDataSource
-import br.com.deepbyte.take.data.source.media_item.MediaRemoteDataSource
+import br.com.deepbyte.take.data.source.media.IMediaRemoteDataSource
+import br.com.deepbyte.take.data.source.media.MediaRemoteDataSource
 import br.com.deepbyte.take.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.take.data.source.person.PersonRemoteDataSource
 import br.com.deepbyte.take.data.source.provider.IProviderRemoteDataSource

@@ -1,4 +1,4 @@
-package br.com.deepbyte.take.ui.mediadetails
+package br.com.deepbyte.take.ui.media
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

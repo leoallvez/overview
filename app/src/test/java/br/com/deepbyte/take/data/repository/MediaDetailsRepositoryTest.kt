@@ -5,7 +5,7 @@ import br.com.deepbyte.take.data.api.response.ProviderResponse
 import br.com.deepbyte.take.data.source.DataResult
 import br.com.deepbyte.take.data.source.DataResult.NetworkError
 import br.com.deepbyte.take.data.source.DataResult.UnknownError
-import br.com.deepbyte.take.data.source.media_item.IMediaRemoteDataSource
+import br.com.deepbyte.take.data.source.media.IMediaRemoteDataSource
 import br.com.deepbyte.take.data.source.provider.IProviderRemoteDataSource
 import br.com.deepbyte.take.util.mock.ReturnType
 import br.com.deepbyte.take.util.mock.mockResult

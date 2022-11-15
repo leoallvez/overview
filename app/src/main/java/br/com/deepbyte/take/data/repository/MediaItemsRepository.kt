@@ -5,8 +5,8 @@ import br.com.deepbyte.take.data.model.MediaItem
 import br.com.deepbyte.take.data.model.MediaSuggestion
 import br.com.deepbyte.take.data.model.Suggestion
 import br.com.deepbyte.take.data.source.DataResult
-import br.com.deepbyte.take.data.source.media_item.IMediaRemoteDataSource
-import br.com.deepbyte.take.data.source.media_item.MediaLocalDataSource
+import br.com.deepbyte.take.data.source.media.IMediaRemoteDataSource
+import br.com.deepbyte.take.data.source.media.MediaLocalDataSource
 import br.com.deepbyte.take.data.source.suggestion.SuggestionLocalDataSource
 import br.com.deepbyte.take.di.IoDispatcher
 import br.com.deepbyte.take.util.toMediaSuggestion

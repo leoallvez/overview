@@ -1,4 +1,4 @@
-package br.com.deepbyte.take.data.source.media_item
+package br.com.deepbyte.take.data.source.media
 
 import br.com.deepbyte.take.data.api.ApiService
 import br.com.deepbyte.take.data.api.response.MediaDetailResponse

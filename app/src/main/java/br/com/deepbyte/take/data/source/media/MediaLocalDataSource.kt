@@ -1,4 +1,4 @@
-package br.com.deepbyte.take.data.source.media_item
+package br.com.deepbyte.take.data.source.media
 
 import br.com.deepbyte.take.data.db.dao.MediaItemDao
 import br.com.deepbyte.take.data.model.MediaItem

@@ -12,7 +12,7 @@ import br.com.deepbyte.take.ui.ScreenNav
 import br.com.deepbyte.take.ui.discover.genre.GenreDiscoverScreen
 import br.com.deepbyte.take.ui.discover.provider.ProviderDiscoverScreen
 import br.com.deepbyte.take.ui.home.HomeScreen
-import br.com.deepbyte.take.ui.mediadetails.MediaDetailsScreen
+import br.com.deepbyte.take.ui.media.MediaDetailsScreen
 import br.com.deepbyte.take.ui.person.CastDetailsScreen
 import br.com.deepbyte.take.ui.splash.SplashScreen
 import br.com.deepbyte.take.util.MediaItemClick
