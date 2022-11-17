@@ -344,6 +344,18 @@ fun SimpleSubtitle(text: String, display: Boolean = true, isBold: Boolean = true
 }
 
 @Composable
+fun SimpleSubtitle2(text: String, display: Boolean = true, isBold: Boolean = true) {
+    if (text.isNotEmpty() && display) {
+        Text(
+            text = text,
+            color = Color.White,
+            style = MaterialTheme.typography.subtitle2,
+            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
+        )
+    }
+}
+
+@Composable
 fun Backdrop(
     url: String?,
     contentDescription: String?,

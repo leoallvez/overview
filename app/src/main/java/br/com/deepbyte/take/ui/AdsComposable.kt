@@ -41,7 +41,7 @@ fun AdsMediumRectangle(@StringRes prodBannerId: Int, isVisible: Boolean, modifie
         AndroidView(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.default_padding))
+                .padding(vertical = 20.dp)
                 .height(250.dp),
             factory = { context ->
                 val debugBannerId = BuildConfig.DEBUG_BANNER_ID
