@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'com.google.firebase.crashlytics'
 }
 
 def apiPropertiesFile = rootProject.file("api.properties")
