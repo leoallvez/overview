@@ -199,17 +199,19 @@ fun NumberOfEpisodes(numberOfEpisodes: Int) {
 
 @Composable
 fun MovieReleaseYearAndRunTime(releaseYear: String, runtime: String) {
-    Row(
-        modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
-    ) {
-        val spacerModifier = Modifier.padding(horizontal = 2.dp)
-        SimpleSubtitle2(text = releaseYear)
-        Spacer(modifier = spacerModifier)
-        PartingPoint(
-            display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
-        )
-        Spacer(modifier = spacerModifier)
-        SimpleSubtitle2(text = runtime)
+    if (releaseYear.isNotEmpty().or(runtime.isNotEmpty())) {
+        Row(
+            modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
+        ) {
+            val spacerModifier = Modifier.padding(horizontal = 2.dp)
+            SimpleSubtitle2(text = releaseYear)
+            Spacer(modifier = spacerModifier)
+            PartingPoint(
+                display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
+            )
+            Spacer(modifier = spacerModifier)
+            SimpleSubtitle2(text = runtime)
+        }
     }
 }
 
