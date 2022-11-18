@@ -23,7 +23,17 @@ data class MediaDetailResponse(
     @field:Json(name = "release_date")
     private val releaseDate: String = "",
 
-    private val runtime: Long = 0,
+    @field:Json(name = "number_of_seasons")
+    val numberOfSeasons: Int = 0,
+
+    @field:Json(name = "number_of_episodes")
+    val numberOfEpisodes: Int = 0,
+
+    @field:Json(name = "runtime")
+    private val movieRuntime: Int = 0,
+
+    @field:Json(name = "episode_run_time")
+    private val episodeRuntime: List<Int> = listOf(),
 
     private val title: String? = null,
     private val name: String? = null,
@@ -51,15 +61,34 @@ data class MediaDetailResponse(
 
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
 
+    fun getDirectorName(): String {
+        val director = credits.crew.firstOrNull { it.job.uppercase() == DIRECTOR_JOB }
+        return director?.name ?: ""
+    }
+
     fun getReleaseYear() = DateHelper(releaseDate).getYear()
 
-    fun getRuntimeFormatted() = if (runtime > 0) {
-        "${runtime / 60}h ${runtime % 60}min"
+    fun getEpisodesRuntime() = runtimeTemplate(runtime = episodeRuntime.average().toInt())
+
+    fun getMovieRuntime() = runtimeTemplate(runtime = movieRuntime)
+
+    private fun runtimeTemplate(runtime: Int) = if (runtime > 0) {
+        val hours = runtime / 60
+        val minutes = runtime % 60
+        if (hours > 0) "${hours}h ${if (minutes > 0) "${minutes}min" else ""}" else "$minutes min"
     } else {
         ""
     }
+
+    companion object {
+        private const val DIRECTOR_JOB = "DIRECTOR"
+    }
 }
-data class Credits(val cast: List<PersonResponse> = listOf())
+
+data class Credits(
+    val cast: List<PersonResponse> = listOf(),
+    val crew: List<PersonResponse> = listOf()
+)
 
 data class Genre(val name: String = "") : DataResponse()
 

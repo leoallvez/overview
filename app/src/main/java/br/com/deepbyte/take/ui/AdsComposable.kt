@@ -16,7 +16,11 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 @Composable
-fun AdsBanner(@StringRes prodBannerId: Int, isVisible: Boolean, modifier: Modifier = Modifier) {
+fun AdsBanner(
+    @StringRes prodBannerId: Int,
+    isVisible: Boolean,
+    modifier: Modifier = Modifier
+) {
     if (isVisible) {
         AndroidView(
             modifier = modifier
@@ -36,12 +40,16 @@ fun AdsBanner(@StringRes prodBannerId: Int, isVisible: Boolean, modifier: Modifi
 }
 
 @Composable
-fun AdsMediumRectangle(@StringRes prodBannerId: Int, isVisible: Boolean, modifier: Modifier = Modifier) {
+fun AdsMediumRectangle(
+    @StringRes prodBannerId: Int,
+    isVisible: Boolean,
+    modifier: Modifier = Modifier
+) {
     if (isVisible) {
         AndroidView(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.default_padding))
+                .padding(vertical = 20.dp)
                 .height(250.dp),
             factory = { context ->
                 val debugBannerId = BuildConfig.DEBUG_BANNER_ID

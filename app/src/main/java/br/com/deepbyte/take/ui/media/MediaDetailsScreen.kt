@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.take.R
+import br.com.deepbyte.take.data.MediaType
 import br.com.deepbyte.take.data.api.response.Genre
 import br.com.deepbyte.take.data.api.response.ProviderPlace
 import br.com.deepbyte.take.data.model.DiscoverParams
@@ -125,10 +126,16 @@ fun MediaBody(
     ) {
         mediaDetails.apply {
             ScreenTitle(text = getLetter())
-            ReleaseYearAndRunTime(getReleaseYear(), getRuntimeFormatted())
             ProvidersList(providers) { provider ->
                 val params = DiscoverParams.create(provider, mediaDetails)
                 events.onNavigateToProviderDiscover(params.toJson())
+            }
+            if (mediaDetails.type == MediaType.MOVIE.key) {
+                MovieReleaseYearAndRunTime(getReleaseYear(), getMovieRuntime())
+                Director(getDirectorName())
+            } else {
+                NumberSeasonsAndEpisodes(numberOfSeasons, numberOfEpisodes)
+                EpisodesRunTime(getEpisodesRuntime())
             }
             GenreList(genres) { genre ->
                 val params = DiscoverParams.create(genre, mediaDetails)
@@ -153,21 +160,78 @@ fun MediaBody(
 }
 
 @Composable
-fun ReleaseYearAndRunTime(releaseYear: String, runtime: String) {
-    Row(
-        modifier = Modifier.padding(
-            vertical = 10.dp,
-            horizontal = dimensionResource(R.dimen.screen_padding)
+fun Director(directorNome: String) {
+    if (directorNome.isNotEmpty()) {
+        Text(
+            text = stringResource(R.string.director, directorNome),
+            color = BlueTake,
+            style = MaterialTheme.typography.subtitle2,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
         )
-    ) {
-        val spacerModifier = Modifier.padding(horizontal = 2.dp)
-        SimpleSubtitle(text = releaseYear)
-        Spacer(modifier = spacerModifier)
-        PartingPoint(
-            display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
-        )
-        Spacer(modifier = spacerModifier)
-        SimpleSubtitle(text = runtime)
+    }
+}
+
+@Composable
+fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
+    if (numberOfSeasons > 0) {
+        val padding = dimensionResource(R.dimen.screen_padding)
+        Row(
+            modifier = Modifier
+                .padding(horizontal = padding)
+                .padding(top = padding)
+        ) {
+            val spacerModifier = Modifier.padding(horizontal = 2.dp)
+            NumberOfSeasons(numberOfSeasons)
+            Spacer(modifier = spacerModifier)
+            PartingPoint()
+            Spacer(modifier = spacerModifier)
+            NumberOfEpisodes(numberOfEpisodes)
+        }
+    }
+}
+
+@Composable
+fun EpisodesRunTime(runtime: String) {
+    if (runtime.isNotEmpty()) {
+        val padding = dimensionResource(R.dimen.screen_padding)
+        Row(
+            modifier = Modifier
+                .padding(horizontal = padding)
+                .padding(bottom = 20.dp)
+        ) {
+            SimpleSubtitle2(text = stringResource(R.string.per_episode, runtime))
+        }
+    }
+}
+
+@Composable
+fun NumberOfSeasons(numberOfSeasons: Int) {
+    val seasonsLabel = if (numberOfSeasons > 1) R.string.n_seasons else R.string.one_season
+    SimpleSubtitle2(stringResource(id = seasonsLabel, numberOfSeasons))
+}
+
+@Composable
+fun NumberOfEpisodes(numberOfEpisodes: Int) {
+    val episodesLabel = if (numberOfEpisodes > 1) R.string.n_episodes else R.string.one_episode
+    SimpleSubtitle2(stringResource(id = episodesLabel, numberOfEpisodes))
+}
+
+@Composable
+fun MovieReleaseYearAndRunTime(releaseYear: String, runtime: String) {
+    if (releaseYear.isNotEmpty().or(runtime.isNotEmpty())) {
+        Row(
+            modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
+        ) {
+            val spacerModifier = Modifier.padding(horizontal = 2.dp)
+            SimpleSubtitle2(text = releaseYear)
+            Spacer(modifier = spacerModifier)
+            PartingPoint(
+                display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
+            )
+            Spacer(modifier = spacerModifier)
+            SimpleSubtitle2(text = runtime)
+        }
     }
 }
 

@@ -29,4 +29,10 @@
     <string name="movies_participation">Participación cinematográfica</string>
     <string name="age">%s años</string>
     <string name="place_of_birth">Lugar de nacimiento (en inglés)</string>
+    <string name="one_season">1 temporada</string>
+    <string name="n_seasons">%s temporadas</string>
+    <string name="one_episode">1 episodio</string>
+    <string name="n_episodes">%s episodios</string>
+    <string name="per_episode">%s por episodio</string>
+    <string name="director">Director: %s</string>
 </resources>

@@ -10,6 +10,7 @@ data class PersonResponse(
     val biography: String = "",
     val birthday: String = "",
     val order: Int = 0,
+    val job: String = "",
     private val character: String = "",
     @field:Json(name = "deathday")
     val deathDay: String? = null,
