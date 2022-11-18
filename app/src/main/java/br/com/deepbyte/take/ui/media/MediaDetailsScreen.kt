@@ -132,11 +132,11 @@ fun MediaBody(
             }
             if (mediaDetails.type == MediaType.MOVIE.key) {
                 MovieReleaseYearAndRunTime(getReleaseYear(), getMovieRuntime())
+                Director(getDirectorName())
             } else {
                 NumberSeasonsAndEpisodes(numberOfSeasons, numberOfEpisodes)
                 EpisodesRunTime(getEpisodesRuntime())
             }
-            Director(getDirectorName())
             GenreList(genres) { genre ->
                 val params = DiscoverParams.create(genre, mediaDetails)
                 events.onNavigateToGenreDiscover(params.toJson())

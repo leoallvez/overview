@@ -143,7 +143,7 @@ fun PersonDates(person: Person) {
                     horizontal = dimensionResource(R.dimen.screen_padding)
                 )
             ) {
-                SimpleSubtitle(getFormattedBirthday())
+                SimpleSubtitle1(getFormattedBirthday())
                 PersonDeathDay(getFormattedDeathDay())
                 PersonAge(getAge())
             }
@@ -159,7 +159,7 @@ fun PlaceOfBirth(placeOfBirth: String) {
                 horizontal = dimensionResource(R.dimen.screen_padding)
             )
         ) {
-            SimpleSubtitle(stringResource(R.string.place_of_birth), isBold = true)
+            SimpleSubtitle1(stringResource(R.string.place_of_birth), isBold = true)
             BasicParagraph(placeOfBirth)
         }
     }
@@ -171,7 +171,7 @@ fun PersonDeathDay(deathDay: String) {
         PersonSpace()
         PartingEmDash()
         PersonSpace()
-        SimpleSubtitle(deathDay)
+        SimpleSubtitle1(deathDay)
     }
 }
 
