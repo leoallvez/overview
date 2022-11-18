@@ -61,6 +61,11 @@ data class MediaDetailResponse(
 
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
 
+    fun getDirectorName(): String {
+        val director = credits.crew.firstOrNull { it.job.uppercase() == DIRECTOR_JOB }
+        return director?.name ?: ""
+    }
+
     fun getReleaseYear() = DateHelper(releaseDate).getYear()
 
     fun getEpisodesRuntime() = runtimeTemplate(runtime = episodeRuntime.average().toInt())
@@ -74,9 +79,16 @@ data class MediaDetailResponse(
     } else {
         ""
     }
+
+    companion object {
+        private const val DIRECTOR_JOB = "DIRECTOR"
+    }
 }
 
-data class Credits(val cast: List<PersonResponse> = listOf())
+data class Credits(
+    val cast: List<PersonResponse> = listOf(),
+    val crew: List<PersonResponse> = listOf()
+)
 
 data class Genre(val name: String = "") : DataResponse()
 

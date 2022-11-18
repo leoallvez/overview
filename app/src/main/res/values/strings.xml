@@ -34,4 +34,5 @@
     <string name="one_episode">1 episódio</string>
     <string name="n_episodes">%s episódios</string>
     <string name="per_episode">%s por episódio</string>
+    <string name="director">Diretor: %s</string>
 </resources>

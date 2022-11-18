@@ -136,6 +136,7 @@ fun MediaBody(
                 NumberSeasonsAndEpisodes(numberOfSeasons, numberOfEpisodes)
                 EpisodesRunTime(getEpisodesRuntime())
             }
+            Director(getDirectorName())
             GenreList(genres) { genre ->
                 val params = DiscoverParams.create(genre, mediaDetails)
                 events.onNavigateToGenreDiscover(params.toJson())
@@ -159,10 +160,27 @@ fun MediaBody(
 }
 
 @Composable
+fun Director(directorNome: String) {
+    if (directorNome.isNotEmpty()) {
+        Text(
+            text = stringResource(R.string.director, directorNome),
+            color = BlueTake,
+            style = MaterialTheme.typography.subtitle2,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
+        )
+    }
+}
+
+@Composable
 fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
     if (numberOfSeasons > 0) {
         val padding = dimensionResource(R.dimen.screen_padding)
-        Row(modifier = Modifier.padding(horizontal = padding).padding(top = padding)) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = padding)
+                .padding(top = padding)
+        ) {
             val spacerModifier = Modifier.padding(horizontal = 2.dp)
             NumberOfSeasons(numberOfSeasons)
             Spacer(modifier = spacerModifier)
@@ -178,7 +196,9 @@ fun EpisodesRunTime(runtime: String) {
     if (runtime.isNotEmpty()) {
         val padding = dimensionResource(R.dimen.screen_padding)
         Row(
-            modifier = Modifier.padding(horizontal = padding).padding(bottom = 20.dp)
+            modifier = Modifier
+                .padding(horizontal = padding)
+                .padding(bottom = 20.dp)
         ) {
             SimpleSubtitle2(text = stringResource(R.string.per_episode, runtime))
         }
