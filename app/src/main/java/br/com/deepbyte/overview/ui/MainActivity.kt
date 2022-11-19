@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.LiveData
 import br.com.deepbyte.overview.di.IsOnline
 import br.com.deepbyte.overview.ui.navigation.NavController
-import br.com.deepbyte.overview.ui.theme.TakeTheme
+import br.com.deepbyte.overview.ui.theme.AppTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,9 +29,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TakeTheme {
+            AppTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    TakeApp(isOnline = isOnline.observeAsState(initial = true).value)
+                    OverviewApp(isOnline = isOnline.observeAsState(initial = true).value)
                 }
             }
         }
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalPagerApi
 @Composable
-fun TakeApp(isOnline: Boolean) {
+fun OverviewApp(isOnline: Boolean) {
     Box {
         NavController()
         OfflineSnackBar(

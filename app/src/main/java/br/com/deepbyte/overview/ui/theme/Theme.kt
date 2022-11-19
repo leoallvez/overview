@@ -4,7 +4,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
-private val TakeColorPalette = lightColors(
+private val AppColorPalette = lightColors(
     primary = Black200,
     primaryVariant = Black200,
     secondary = Black200,
@@ -12,13 +12,13 @@ private val TakeColorPalette = lightColors(
 )
 
 @Composable
-fun TakeTheme(
+fun AppTheme(
     content: @Composable
     () -> Unit
 ) {
 
     MaterialTheme(
-        colors = TakeColorPalette,
+        colors = AppColorPalette,
         typography = Typography,
         shapes = Shapes,
         content = content

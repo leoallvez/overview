@@ -14,12 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:ignore="LockedOrientationActivity"
-        android:theme="@style/Theme.Take">
+        android:theme="@style/Theme.Overview">
         <activity
             android:name="br.com.deepbyte.overview.ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Take">
+            android:theme="@style/Theme.Overview">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
