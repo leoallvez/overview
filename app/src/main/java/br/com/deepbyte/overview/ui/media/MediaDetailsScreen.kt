@@ -294,11 +294,10 @@ fun GenreList(genres: List<Genre>, onClickItem: (Genre) -> Unit) {
 fun GenreItem(name: String, onClick: () -> Unit) {
     OutlinedButton(
         onClick = { onClick.invoke() },
-        shape = RoundedCornerShape(percent = 10),
+        shape = RoundedCornerShape(percent = 100),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
-        border = BorderStroke(1.dp, AccentColor),
         modifier = Modifier
             .height(25.dp),
         colors = ButtonDefaults.buttonColors(
