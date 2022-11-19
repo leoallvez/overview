@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
@@ -114,12 +115,14 @@ fun LoadingScreen() {
 fun ErrorScreen(refresh: () -> Unit) {
     Column(
         modifier = Modifier
-            .background(PrimaryBackground)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(PrimaryBackground),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             IntermediateScreensText(text = stringResource(R.string.error_on_loading))
             StylizedButton(
                 buttonText = stringResource(R.string.btn_try_again),
@@ -130,6 +133,12 @@ fun ErrorScreen(refresh: () -> Unit) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewErrorScreen() {
+    ErrorScreen {}
 }
 
 @Composable
@@ -153,21 +162,26 @@ fun StylizedButton(
     onClick: () -> Unit
 ) {
     Button(
-        modifier = Modifier.border(1.dp, AccentColor),
         onClick = { onClick.invoke() },
-        contentPadding = PaddingValues(
-            horizontal = 20.dp,
-            vertical = 12.dp
+        contentPadding = PaddingValues(20.dp),
+        shape = RoundedCornerShape(percent = 50),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = AccentColor
         )
     ) {
         Icon(
             iconImageVector,
             contentDescription = iconDescription,
-            modifier = Modifier.size(ButtonDefaults.IconSize),
-            tint = AccentColor
+            modifier = Modifier.size(30.dp),
+            tint = PrimaryBackground
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(text = buttonText, color = AccentColor)
+        Text(
+            text = buttonText,
+            color = PrimaryBackground,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
     }
 }
 
@@ -488,7 +502,8 @@ fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(PrimaryBackground).padding(bottom = 10.dp),
+            .background(PrimaryBackground)
+            .padding(bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ToolbarButton(
