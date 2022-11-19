@@ -15,7 +15,7 @@ apiProperties.load(new FileInputStream(apiPropertiesFile))
 android {
     compileSdk 33
     defaultConfig {
-        applicationId "br.com.deepbyte.take"
+        applicationId "br.com.deepbyte.overview"
         minSdk 26
         targetSdk 33
         versionCode 1
