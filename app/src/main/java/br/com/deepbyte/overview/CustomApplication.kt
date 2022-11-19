@@ -8,7 +8,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class TakeApplication : Application() {
+class CustomApplication : Application() {
 
     @Inject
     lateinit var crashlyticsSource: CrashlyticsSource

@@ -12,7 +12,7 @@ import br.com.deepbyte.overview.data.model.Suggestion
     version = 1,
     exportSchema = false
 )
-abstract class TakeDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaItemDao(): MediaItemDao
     abstract fun suggestionDao(): SuggestionDao
 }

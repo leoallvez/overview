@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
-import br.com.deepbyte.overview.data.db.TakeDatabase
+import br.com.deepbyte.overview.data.db.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,15 +23,15 @@ class StorageModule {
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(
         context,
-        TakeDatabase::class.java,
+        AppDatabase::class.java,
         DATABASE_NAME
     ).build()
 
     @Provides
-    fun provideMediaItemDao(db: TakeDatabase) = db.mediaItemDao()
+    fun provideMediaItemDao(db: AppDatabase) = db.mediaItemDao()
 
     @Provides
-    fun provideSuggestionDao(db: TakeDatabase) = db.suggestionDao()
+    fun provideSuggestionDao(db: AppDatabase) = db.suggestionDao()
 
     @Provides
     fun provideDataStore(
