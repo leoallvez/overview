@@ -20,7 +20,7 @@ import br.com.deepbyte.take.R
 import br.com.deepbyte.take.data.model.MediaItem
 import br.com.deepbyte.take.data.model.MediaSuggestion
 import br.com.deepbyte.take.ui.*
-import br.com.deepbyte.take.ui.theme.BlueTake
+import br.com.deepbyte.take.ui.theme.AccentColor
 import br.com.deepbyte.take.ui.theme.PrimaryBackground
 import br.com.deepbyte.take.util.MediaItemClick
 import br.com.deepbyte.take.util.getStringByName
@@ -80,7 +80,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
     ToolbarButton(
         painter = Icons.Filled.Search,
         descriptionResource = R.string.back_to_home_icon,
-        iconTint = BlueTake,
+        iconTint = AccentColor,
         modifier = Modifier.road(Alignment.TopEnd, Alignment.TopEnd)
     ) { }
 }
@@ -140,7 +140,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
         modifier = modifier
             .padding(dimensionResource(R.dimen.screen_padding)),
         inactiveColor = Color.Gray,
-        activeColor = BlueTake
+        activeColor = AccentColor
     )
 }
 

@@ -42,13 +42,13 @@ import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.take.IAnalyticsTracker
 import br.com.deepbyte.take.R
 import br.com.deepbyte.take.data.model.MediaItem
-import br.com.deepbyte.take.ui.theme.BlueTake
+import br.com.deepbyte.take.ui.theme.AccentColor
 import br.com.deepbyte.take.ui.theme.PrimaryBackground
 import br.com.deepbyte.take.ui.theme.SecondaryBackground
 import br.com.deepbyte.take.util.MediaItemClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.ehsanmsz.mszprogressindicator.progressindicator.SquareSpinProgressIndicator
+import com.ehsanmsz.mszprogressindicator.progressindicator.*
 
 @Composable
 fun BasicTitle(title: String) {
@@ -101,11 +101,10 @@ fun LoadingScreen() {
     ) {
         Column {
             IntermediateScreensText(text = stringResource(R.string.loading))
-            SquareSpinProgressIndicator(
+            BallScaleRippleMultipleProgressIndicator(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                color = BlueTake,
-                animationDuration = 800,
-                animationDelay = 200
+                color = AccentColor,
+                animationDuration = 900,
             )
         }
     }
@@ -137,11 +136,11 @@ fun ErrorScreen(refresh: () -> Unit) {
 fun IntermediateScreensText(text: String) {
     Text(
         text = text,
-        color = BlueTake,
+        color = AccentColor,
         style = MaterialTheme.typography.h6,
         textAlign = TextAlign.Center,
         modifier = Modifier
-            .padding(bottom = 40.dp)
+            .padding(bottom = 20.dp)
             .width(200.dp)
     )
 }
@@ -154,7 +153,7 @@ fun StylizedButton(
     onClick: () -> Unit
 ) {
     Button(
-        modifier = Modifier.border(1.dp, BlueTake),
+        modifier = Modifier.border(1.dp, AccentColor),
         onClick = { onClick.invoke() },
         contentPadding = PaddingValues(
             horizontal = 20.dp,
@@ -165,10 +164,10 @@ fun StylizedButton(
             iconImageVector,
             contentDescription = iconDescription,
             modifier = Modifier.size(ButtonDefaults.IconSize),
-            tint = BlueTake
+            tint = AccentColor
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(text = buttonText, color = BlueTake)
+        Text(text = buttonText, color = AccentColor)
     }
 }
 
@@ -206,7 +205,7 @@ fun ToolbarButton(
 fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int.MAX_VALUE) {
     Text(
         text = text,
-        color = BlueTake,
+        color = AccentColor,
         style = MaterialTheme.typography.h5,
         fontWeight = FontWeight.Bold,
         modifier = modifier.padding(

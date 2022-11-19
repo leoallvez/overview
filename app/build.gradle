@@ -44,25 +44,26 @@ android {
 
     flavorDimensions "version"
     productFlavors {
+        def appName = 'Overview'
         dev {
             dimension "version"
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
-            resValue 'string', 'app_name', 'Take - Dev'
+            resValue 'string', 'app_name', "$appName"
             buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
         }
         free {
             dimension "version"
             applicationIdSuffix ".free"
             versionNameSuffix ""
-            resValue 'string', 'app_name', 'Take'
+            resValue 'string', 'app_name', "$appName"
             buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
         }
         premium {
             dimension "version"
             applicationIdSuffix ".premium"
             versionNameSuffix "-premium"
-            resValue 'string', 'app_name', 'Take - Premium'
+            resValue 'string', 'app_name', "$appName"
             buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'false'
         }
     }

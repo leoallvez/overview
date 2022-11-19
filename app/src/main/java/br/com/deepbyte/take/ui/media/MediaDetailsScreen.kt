@@ -29,7 +29,7 @@ import br.com.deepbyte.take.data.api.response.ProviderPlace
 import br.com.deepbyte.take.data.model.DiscoverParams
 import br.com.deepbyte.take.ui.*
 import br.com.deepbyte.take.ui.navigation.MediaDetailsScreenEvents
-import br.com.deepbyte.take.ui.theme.BlueTake
+import br.com.deepbyte.take.ui.theme.AccentColor
 import br.com.deepbyte.take.ui.theme.PrimaryBackground
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -164,7 +164,7 @@ fun Director(directorNome: String) {
     if (directorNome.isNotEmpty()) {
         Text(
             text = stringResource(R.string.director, directorNome),
-            color = BlueTake,
+            color = AccentColor,
             style = MaterialTheme.typography.subtitle2,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
@@ -298,12 +298,12 @@ fun GenreItem(name: String, onClick: () -> Unit) {
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
-        border = BorderStroke(1.dp, BlueTake),
+        border = BorderStroke(1.dp, AccentColor),
         modifier = Modifier
             .height(25.dp),
         colors = ButtonDefaults.buttonColors(
-            contentColor = BlueTake,
-            backgroundColor = BlueTake
+            contentColor = AccentColor,
+            backgroundColor = AccentColor
         )
     ) {
         Text(
@@ -350,7 +350,7 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         BasicText(
             text = castPerson.getCharacterName(),
             style = MaterialTheme.typography.caption,
-            color = BlueTake
+            color = AccentColor
         )
     }
 }
