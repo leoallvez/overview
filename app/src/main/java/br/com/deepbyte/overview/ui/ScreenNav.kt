@@ -33,6 +33,11 @@ sealed class ScreenNav(val route: String, val name: String) {
         fun editRoute(jsonParam: String) = "genre_discover/$jsonParam"
     }
 
+    object Search : ScreenNav(
+        route = "search",
+        name = "SearchScreen"
+    )
+
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"

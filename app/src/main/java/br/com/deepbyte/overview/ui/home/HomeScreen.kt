@@ -34,7 +34,8 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateToMediaDetails: MediaItemClick
+    onNavigateToMediaDetails: MediaItemClick,
+    onNavigateToSearch: () -> Unit
 ) {
 
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
@@ -53,7 +54,10 @@ fun HomeScreen(
                 scrollStrategy = ScrollStrategy.EnterAlways,
                 state = rememberCollapsingToolbarScaffoldState(),
                 toolbar = {
-                    HomeToolBar(items = featuredMediaItems) { item ->
+                    HomeToolBar(
+                        items = featuredMediaItems,
+                        onNavigateToSearch = { onNavigateToSearch.invoke() }
+                    ) { item ->
                         onNavigateToMediaDetails.invoke(item.apiId, item.type)
                     }
                 }
@@ -74,6 +78,7 @@ fun HomeScreen(
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>,
+    onNavigateToSearch: () -> Unit,
     callback: (MediaItem) -> Unit
 ) {
     HorizontalCardSlider(items, callback)
@@ -82,7 +87,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
         descriptionResource = R.string.back_to_home_icon,
         iconTint = AccentColor,
         modifier = Modifier.road(Alignment.TopEnd, Alignment.TopEnd)
-    ) { }
+    ) { onNavigateToSearch.invoke() }
 }
 
 @ExperimentalPagerApi
