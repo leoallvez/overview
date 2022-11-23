@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.ui.home
 
 import androidx.lifecycle.*
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.abtest.AbTest
+import br.com.deepbyte.overview.abtesting.AbTesting
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.repository.MediaSuggestionManager
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     val analyticsTracker: IAnalyticsTracker,
     private val _manager: MediaSuggestionManager,
-    @AbDisplayAds private val _experiment: AbTest<Boolean>,
+    @AbDisplayAds private val _experiment: AbTesting<Boolean>,
     @MainDispatcher private val _mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 

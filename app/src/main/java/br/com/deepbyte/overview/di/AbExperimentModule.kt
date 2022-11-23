@@ -1,9 +1,9 @@
 package br.com.deepbyte.overview.di
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.abtest.AbTest
-import br.com.deepbyte.overview.abtest.DisplayAdsAbTest
-import br.com.deepbyte.overview.abtest.SuggestionAbTest
+import br.com.deepbyte.overview.abtesting.AbTesting
+import br.com.deepbyte.overview.abtesting.DisplayAdsAbTesting
+import br.com.deepbyte.overview.abtesting.SuggestionAbTesting
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.util.IJsonFileReader
 import dagger.Module
@@ -20,8 +20,8 @@ class AbExperimentModule {
     @Provides
     fun providerDisplayAdsExperiment(
         remote: RemoteSource
-    ): AbTest<Boolean> {
-        return DisplayAdsAbTest(
+    ): AbTesting<Boolean> {
+        return DisplayAdsAbTesting(
             _localPermission = BuildConfig.ADS_ARE_VISIBLES,
             _remoteSource = remote
         )
@@ -32,8 +32,8 @@ class AbExperimentModule {
     fun providerListSetupExperiment(
         jsonFileReader: IJsonFileReader,
         remote: RemoteSource
-    ): AbTest<List<Suggestion>> {
-        return SuggestionAbTest(
+    ): AbTesting<List<Suggestion>> {
+        return SuggestionAbTesting(
             _jsonFileReader = jsonFileReader,
             _remoteSource = remote
         )

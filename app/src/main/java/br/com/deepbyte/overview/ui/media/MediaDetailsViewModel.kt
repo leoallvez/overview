@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.abtest.AbTest
+import br.com.deepbyte.overview.abtesting.AbTesting
 import br.com.deepbyte.overview.data.repository.MediaDetailsRepository
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.di.AbDisplayAds
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MediaDetailsViewModel @Inject constructor(
     val analyticsTracker: IAnalyticsTracker,
-    @AbDisplayAds private val _experiment: AbTest<Boolean>,
+    @AbDisplayAds private val _experiment: AbTesting<Boolean>,
     private val _repository: MediaDetailsRepository
 ) : ViewModel() {
 

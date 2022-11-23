@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.abtest
+package br.com.deepbyte.overview.abtesting
 
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.util.IJsonFileReader
@@ -8,10 +8,10 @@ import io.github.leoallvez.firebase.RemoteSource
 
 import javax.inject.Inject
 
-class SuggestionAbTest @Inject constructor(
+class SuggestionAbTesting @Inject constructor(
     private val _jsonFileReader: IJsonFileReader,
     private val _remoteSource: RemoteSource
-) : AbTest<List<Suggestion>> {
+) : AbTesting<List<Suggestion>> {
 
     override fun execute(): List<Suggestion> {
         val list = getRemoteSuggestions()
