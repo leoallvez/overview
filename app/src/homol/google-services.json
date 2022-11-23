@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "623821007140",
+    "project_id": "homol-overview-deepbyte",
+    "storage_bucket": "homol-overview-deepbyte.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623821007140:android:69d6c2dba5185c41e92bb1",
+        "android_client_info": {
+          "package_name": "br.com.deepbyte.overview.homol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623821007140-rr3h4opi68pgjcldnev37nv1psu6jd1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTlNvKl67ohV9SEzDEXLOT5_7G6P93HKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623821007140-rr3h4opi68pgjcldnev37nv1psu6jd1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

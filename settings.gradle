@@ -6,6 +6,6 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "Take"
+rootProject.name = "Overview"
 include ':app'
 include ':firebase'

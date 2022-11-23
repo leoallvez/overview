@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "873834745107",
-    "project_id": "take-dev-331c7",
-    "storage_bucket": "take-dev-331c7.appspot.com"
+    "project_number": "562648394614",
+    "project_id": "dev-overview-deepbyte",
+    "storage_bucket": "dev-overview-deepbyte.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:873834745107:android:24d759d9bc2d6645f41ee6",
+        "mobilesdk_app_id": "1:562648394614:android:184ea5a24da640dbc0e857",
         "android_client_info": {
-          "package_name": "br.com.deepbyte.take.dev"
+          "package_name": "br.com.deepbyte.overview.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "873834745107-ojslt4s644r1itk7t1h7j515tkpevt4p.apps.googleusercontent.com",
+          "client_id": "562648394614-gh40qieu2l1aa15q0tm2ekmuv68r26k2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBY-LfVu2hsT0GubjSXc6wqznhyH7U1jDM"
+          "current_key": "AIzaSyBKks-xeRFAwAkeliKJbfFV6xT9bMwS-5g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "873834745107-ojslt4s644r1itk7t1h7j515tkpevt4p.apps.googleusercontent.com",
+              "client_id": "562648394614-gh40qieu2l1aa15q0tm2ekmuv68r26k2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Take" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Overview" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/black</item>
@@ -15,13 +15,13 @@
         <item name="android:windowDisablePreview">true</item>
     </style>
 
-    <style name="Theme.Take.NoActionBar">
+    <style name="Theme.Overview.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 
-    <style name="Theme.Take.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Overview.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Take.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Overview.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
