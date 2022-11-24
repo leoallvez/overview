@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.abtest
+package br.com.deepbyte.overview.abtesting
 
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.util.IJsonFileReader
@@ -10,7 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class SuggestionAbTestTest {
+class SuggestionAbTestingTest {
 
     @MockK(relaxed = true)
     private lateinit var _remoteSource: RemoteSource
@@ -18,12 +18,12 @@ class SuggestionAbTestTest {
     @MockK(relaxed = true)
     private lateinit var _jsonFileReader: IJsonFileReader
 
-    private lateinit var _experiment: AbTest<List<Suggestion>>
+    private lateinit var _experiment: AbTesting<List<Suggestion>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _experiment = SuggestionAbTest(_jsonFileReader, _remoteSource)
+        _experiment = SuggestionAbTesting(_jsonFileReader, _remoteSource)
     }
 
     @Test

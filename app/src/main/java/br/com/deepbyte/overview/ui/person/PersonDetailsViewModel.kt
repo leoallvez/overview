@@ -1,14 +1,11 @@
 package br.com.deepbyte.overview.ui.person
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.abtest.AbTest
 import br.com.deepbyte.overview.data.repository.PersonRepository
 import br.com.deepbyte.overview.data.source.DataResult
-import br.com.deepbyte.overview.di.AbDisplayAds
+import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.PersonUiState
 import br.com.deepbyte.overview.ui.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonDetailsViewModel @Inject constructor(
+    @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    @AbDisplayAds private val _experiment: AbTest<Boolean>,
     private val _repository: PersonRepository
 ) : ViewModel() {
 
@@ -37,9 +34,5 @@ class PersonDetailsViewModel @Inject constructor(
     fun refresh(apiId: Long) {
         _uiState.value = UiState.Loading()
         loadPersonDetails(apiId)
-    }
-
-    fun adsAreVisible(): LiveData<Boolean> = liveData {
-        emit(value = _experiment.execute())
     }
 }

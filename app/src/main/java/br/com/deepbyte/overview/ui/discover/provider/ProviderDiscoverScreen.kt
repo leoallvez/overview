@@ -22,6 +22,7 @@ fun ProviderDiscoverScreen(
     var items by remember { mutableStateOf(value = loadData()) }
 
     DiscoverContent(
+        showAds = viewModel.showAds,
         providerName = params.screenTitle,
         pagingItems = items.collectAsLazyPagingItems(),
         onRefresh = { items = loadData() },

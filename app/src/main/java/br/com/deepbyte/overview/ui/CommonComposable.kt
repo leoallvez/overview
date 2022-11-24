@@ -445,6 +445,7 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
 
 @Composable
 fun DiscoverContent(
+    showAds: Boolean,
     providerName: String,
     pagingItems: LazyPagingItems<MediaItem>,
     onRefresh: () -> Unit,
@@ -460,7 +461,7 @@ fun DiscoverContent(
                     .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
                 topBar = { DiscoverToolBar(providerName, onPopBackStack) },
                 bottomBar = {
-                    AdsBanner(R.string.banner_sample_id, true)
+                    AdsBanner(R.string.banner_sample_id, showAds)
                 }
             ) { padding ->
                 if (pagingItems.itemCount == 0) {

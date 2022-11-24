@@ -1,10 +1,13 @@
 package br.com.deepbyte.overview.ui.media
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
@@ -13,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -43,7 +45,6 @@ fun MediaDetailsScreen(
     events: MediaDetailsScreenEvents,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
-    val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
     TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
 
     val (apiId: Long, mediaType: String) = params
@@ -54,7 +55,7 @@ fun MediaDetailsScreen(
         onRefresh = { viewModel.refresh(apiId, mediaType) }
     ) { media ->
         media?.type = mediaType
-        MediaDetailsContent(media, showAds, events) {
+        MediaDetailsContent(media, viewModel.showAds, events) {
             viewModel.refresh(apiId, mediaType)
         }
     }

@@ -1,12 +1,12 @@
-package br.com.deepbyte.overview.abtest
+package br.com.deepbyte.overview.abtesting
 
 import io.github.leoallvez.firebase.RemoteConfigKey
 import io.github.leoallvez.firebase.RemoteSource
 
-class DisplayAdsAbTest(
+class DisplayAdsAbTesting(
     private val _localPermission: Boolean,
     private val _remoteSource: RemoteSource
-) : AbTest<Boolean> {
+) : AbTesting<Boolean> {
 
     override fun execute(): Boolean {
         val remotePermission = _remoteSource.getBoolean(RemoteConfigKey.DISPLAY_ADS_KEY)

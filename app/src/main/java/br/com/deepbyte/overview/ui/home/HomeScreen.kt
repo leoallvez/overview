@@ -34,7 +34,8 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateToMediaDetails: MediaItemClick
+    onNavigateToMediaDetails: MediaItemClick,
+    onNavigateToSearch: () -> Unit
 ) {
 
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
@@ -42,7 +43,6 @@ fun HomeScreen(
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featuredMediaItems = viewModel.featuredMediaItems.observeAsState(listOf()).value
     val loading = viewModel.loading.observeAsState(initial = true).value
-    val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
     if (loading) {
         LoadingScreen()
@@ -53,14 +53,17 @@ fun HomeScreen(
                 scrollStrategy = ScrollStrategy.EnterAlways,
                 state = rememberCollapsingToolbarScaffoldState(),
                 toolbar = {
-                    HomeToolBar(items = featuredMediaItems) { item ->
+                    HomeToolBar(
+                        items = featuredMediaItems,
+                        onNavigateToSearch = { onNavigateToSearch.invoke() }
+                    ) { item ->
                         onNavigateToMediaDetails.invoke(item.apiId, item.type)
                     }
                 }
             ) {
                 HomeScreenContent(
                     suggestions = suggestions,
-                    showAds = showAds,
+                    showAds = viewModel.showAds,
                     onNavigateToMediaDetails = onNavigateToMediaDetails
                 )
             }
@@ -74,6 +77,7 @@ fun HomeScreen(
 @Composable
 private fun CollapsingToolbarScope.HomeToolBar(
     items: List<MediaItem>,
+    onNavigateToSearch: () -> Unit,
     callback: (MediaItem) -> Unit
 ) {
     HorizontalCardSlider(items, callback)
@@ -82,7 +86,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
         descriptionResource = R.string.back_to_home_icon,
         iconTint = AccentColor,
         modifier = Modifier.road(Alignment.TopEnd, Alignment.TopEnd)
-    ) { }
+    ) { onNavigateToSearch.invoke() }
 }
 
 @ExperimentalPagerApi
