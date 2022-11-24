@@ -38,6 +38,11 @@ class RemoteConfigWrapper(
     }
 
     private fun startLog(success: Boolean) {
-        Timber.i(message = "Remote Config ${if (success) "" else "not"} started")
+        if (success) {
+            val environment = getString(key = RemoteConfigKey.FIREBASE_ENVIRONMENT)
+            Timber.i(message = "Remote Config started in environment: $environment")
+        } else {
+            Timber.i(message = "Remote Config not started")
+        }
     }
 }

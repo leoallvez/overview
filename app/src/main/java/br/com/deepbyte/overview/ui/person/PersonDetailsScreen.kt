@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,8 +40,6 @@ fun CastDetailsScreen(
     onNavigateToMediaDetails: MediaItemClick,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
-    val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
-
     TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
 
     viewModel.loadPersonDetails(apiId)
@@ -51,7 +48,12 @@ fun CastDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId) }
     ) { dataResult ->
-        PersonDetailsContent(dataResult, showAds, onNavigateToHome, onNavigateToMediaDetails) {
+        PersonDetailsContent(
+            person = dataResult,
+            showAds = viewModel.showAds,
+            onNavigateToHome,
+            onNavigateToMediaDetails
+        ) {
             viewModel.refresh(apiId)
         }
     }

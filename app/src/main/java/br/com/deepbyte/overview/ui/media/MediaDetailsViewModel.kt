@@ -1,14 +1,11 @@
 package br.com.deepbyte.overview.ui.media
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.abtesting.AbTesting
 import br.com.deepbyte.overview.data.repository.MediaDetailsRepository
 import br.com.deepbyte.overview.data.source.DataResult
-import br.com.deepbyte.overview.di.AbDisplayAds
+import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.MediaUiState
 import br.com.deepbyte.overview.ui.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MediaDetailsViewModel @Inject constructor(
+    @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    @AbDisplayAds private val _experiment: AbTesting<Boolean>,
     private val _repository: MediaDetailsRepository
 ) : ViewModel() {
 
@@ -37,9 +34,5 @@ class MediaDetailsViewModel @Inject constructor(
     fun refresh(apiId: Long, mediaType: String) {
         _uiState.value = UiState.Loading()
         loadMediaDetails(apiId, mediaType)
-    }
-
-    fun adsAreVisible(): LiveData<Boolean> = liveData {
-        emit(value = _experiment.execute())
     }
 }

@@ -43,7 +43,6 @@ fun HomeScreen(
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featuredMediaItems = viewModel.featuredMediaItems.observeAsState(listOf()).value
     val loading = viewModel.loading.observeAsState(initial = true).value
-    val showAds = viewModel.adsAreVisible().observeAsState(initial = false).value
 
     if (loading) {
         LoadingScreen()
@@ -64,7 +63,7 @@ fun HomeScreen(
             ) {
                 HomeScreenContent(
                     suggestions = suggestions,
-                    showAds = showAds,
+                    showAds = viewModel.showAds,
                     onNavigateToMediaDetails = onNavigateToMediaDetails
                 )
             }

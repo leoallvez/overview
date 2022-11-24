@@ -16,15 +16,15 @@ import io.github.leoallvez.firebase.RemoteSource
 @InstallIn(SingletonComponent::class)
 class AbExperimentModule {
 
-    @AbDisplayAds
+    @ShowAds
     @Provides
-    fun providerDisplayAdsExperiment(
+    fun providerShowAdsExperiment(
         remote: RemoteSource
-    ): AbTesting<Boolean> {
+    ): Boolean {
         return DisplayAdsAbTesting(
             _localPermission = BuildConfig.ADS_ARE_VISIBLES,
             _remoteSource = remote
-        )
+        ).execute()
     }
 
     @AbSuggestions
