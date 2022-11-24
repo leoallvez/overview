@@ -14,7 +14,7 @@ import br.com.deepbyte.overview.ui.discover.provider.ProviderDiscoverScreen
 import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
 import br.com.deepbyte.overview.ui.person.CastDetailsScreen
-import br.com.deepbyte.overview.ui.seach.SearchScreen
+import br.com.deepbyte.overview.ui.search.SearchScreen
 import br.com.deepbyte.overview.ui.splash.SplashScreen
 import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.getApiId

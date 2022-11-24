@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.ui.seach
+package br.com.deepbyte.overview.ui.search
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
