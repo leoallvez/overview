@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -95,18 +94,15 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
                 contentDescription = getLetter(),
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
-            BasicImage(
-                url = getPosterImage(),
-                contentDescription = getLetter(),
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .size(width = 140.dp, height = 200.dp)
-                    .padding(dimensionResource(R.dimen.screen_padding))
-                    .shadow(2.dp, shape = RoundedCornerShape(dimensionResource(R.dimen.corner)))
+            ToolbarTitle(
+                title = getLetter(),
+                textPadding = dimensionResource(R.dimen.default_padding),
+                modifier = Modifier.align(Alignment.BottomStart)
             )
             ToolbarButton(
                 painter = Icons.Default.KeyboardArrowLeft,
-                descriptionResource = R.string.back_to_home_icon
+                descriptionResource = R.string.back_to_home_icon,
+                modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
             ) { backButtonAction.invoke() }
         }
     }
@@ -126,7 +122,6 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         mediaDetails.apply {
-            ScreenTitle(text = getLetter())
             ProvidersList(providers) { provider ->
                 val params = DiscoverParams.create(provider, mediaDetails)
                 events.onNavigateToProviderDiscover(params.toJson())

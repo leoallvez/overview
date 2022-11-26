@@ -22,6 +22,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -382,9 +383,9 @@ fun Backdrop(
         modifier = modifier
             .background(SecondaryBackground)
             .fillMaxWidth()
-            .height(280.dp)
+            .height(dimensionResource(R.dimen.backdrop_height))
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
-        contentScale = ContentScale.FillHeight,
+        contentScale = ContentScale.Crop,
         contentDescription = contentDescription
     )
 }
@@ -580,4 +581,25 @@ fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
     }
     // TODO: fix this app not launch composer on real device.
     Text("\n ")
+}
+
+@Composable
+fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp = 0.dp) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, PrimaryBackground)
+                )
+            )
+    ) {
+        ScreenTitle(
+            text = title,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(textPadding)
+        )
+    }
 }

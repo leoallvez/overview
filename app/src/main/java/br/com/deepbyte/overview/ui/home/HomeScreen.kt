@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.MediaItem
@@ -104,11 +103,6 @@ private fun HorizontalCardSlider(
                 pagerState = pagerState,
                 modifier = Modifier.align(Alignment.TopCenter)
             )
-            ScreenTitle(
-                text = items[pagerState.currentPage].getLetter(),
-                maxLines = 1,
-                modifier = Modifier.align(Alignment.BottomStart)
-            )
         }
     }
 }
@@ -124,13 +118,17 @@ fun SlideImage(
         val item = items[page]
         Box(
             Modifier
-                .height(320.dp)
+                .height(dimensionResource(R.dimen.backdrop_height))
                 .clickable { onClick.invoke(item) }
         ) {
             Backdrop(
                 url = item.getBackdropImage(),
                 contentDescription = item.getLetter(),
                 modifier = Modifier.align(Alignment.TopCenter)
+            )
+            ToolbarTitle(
+                title = item.getLetter(),
+                modifier = Modifier.align(Alignment.BottomStart)
             )
         }
     }
