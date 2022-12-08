@@ -1,7 +1,8 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.api.response.SearchResponse
+import br.com.deepbyte.overview.data.api.response.SearchPersonResponse
+import br.com.deepbyte.overview.data.api.response.SearchMediaResponse
 import br.com.deepbyte.overview.data.api.response.ListContentResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
@@ -113,8 +114,6 @@ interface ApiService {
         type: String,
         @Query("query")
         query: String,
-        @Query(value = "page")
-        page: Int = 0,
         @Query(value = "language")
         language: String = "",
         @Query(value = "region")
@@ -123,5 +122,19 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<SearchResponse, ErrorResponse>
+    ): NetworkResponse<SearchMediaResponse, ErrorResponse>
+
+    @GET(value = "search/person")
+    suspend fun searchPerson(
+        @Query("query")
+        query: String,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<SearchPersonResponse, ErrorResponse>
 }
