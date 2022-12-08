@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.data.repository.SearchRepository
 import br.com.deepbyte.overview.di.ShowAds
+import br.com.deepbyte.overview.ui.SearchUiState
+import br.com.deepbyte.overview.ui.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,9 +18,13 @@ class SearchViewModel @Inject constructor(
     private val _repository: SearchRepository
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch {
-            _repository.search("A")
+    private val _uiState = MutableStateFlow<SearchUiState>(UiState.Loading())
+    val uiState: StateFlow<SearchUiState> = _uiState
+
+    fun search(query: String) = viewModelScope.launch {
+        _repository.search(query).collect { data ->
+            val hasSuccess = data.haveSuccessResult()
+            _uiState.value = if (hasSuccess) UiState.Success(data) else UiState.Empty()
         }
     }
 }

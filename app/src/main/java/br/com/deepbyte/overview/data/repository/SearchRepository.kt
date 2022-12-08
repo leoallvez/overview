@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.repository
 
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.repository.results.SearchResults
+import br.com.deepbyte.overview.data.repository.results.SearchResult
 import br.com.deepbyte.overview.data.source.search.ISearchRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,6 +26,6 @@ class SearchRepository @Inject constructor(
         val tvShowsResult = searchMedia(MediaType.TV.key, query)
         val personsResult = searchPerson(query)
 
-        return@run SearchResults(moviesResult, tvShowsResult, personsResult)
+        return@run SearchResult(moviesResult, tvShowsResult, personsResult)
     }
 }
