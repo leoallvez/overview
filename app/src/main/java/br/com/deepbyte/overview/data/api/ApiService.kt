@@ -1,6 +1,7 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
+import br.com.deepbyte.overview.data.api.response.SearchResponse
 import br.com.deepbyte.overview.data.api.response.ListContentResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
@@ -105,4 +106,22 @@ interface ApiService {
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<DiscoverResponse, ErrorResponse>
+
+    @GET(value = "search/{media_type}")
+    suspend fun searchMedia(
+        @Path(value = "media_type", encoded = true)
+        type: String,
+        @Query("query")
+        query: String,
+        @Query(value = "page")
+        page: Int = 0,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<SearchResponse, ErrorResponse>
 }
