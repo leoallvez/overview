@@ -2,7 +2,8 @@ package br.com.deepbyte.overview.data.repository
 
 import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.repository.results.SearchResult
-import br.com.deepbyte.overview.data.source.search.ISearchRemoteDataSource
+import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
+import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
@@ -10,7 +11,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SearchRepository @Inject constructor(
-    private val _source: ISearchRemoteDataSource,
+    private val _mediaSource: IMediaRemoteDataSource,
+    private val _personSource: IPersonRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) {
 
@@ -19,12 +21,12 @@ class SearchRepository @Inject constructor(
         flow { emit(results) }
     }
 
-    private suspend fun getSearchResults(query: String) = _source.run {
+    private suspend fun getSearchResults(query: String): SearchResult {
 
-        val moviesResult = searchMedia(MediaType.MOVIE.key, query)
-        val tvShowsResult = searchMedia(MediaType.TV.key, query)
-        val personsResult = searchPerson(query)
+        val moviesResult = _mediaSource.search(MediaType.MOVIE.key, query)
+        val tvShowsResult = _mediaSource.search(MediaType.TV.key, query)
+        val personsResult = _personSource.search(query)
 
-        SearchResult(moviesResult, tvShowsResult, personsResult)
+        return SearchResult(moviesResult, tvShowsResult, personsResult)
     }
 }

@@ -25,7 +25,7 @@ class PersonDetailsViewModel @Inject constructor(
     val uiState: StateFlow<PersonUiState> = _uiState
 
     fun loadPersonDetails(apiId: Long) = viewModelScope.launch {
-        _repository.getPersonDetails(apiId).collect { result ->
+        _repository.getDetails(apiId).collect { result ->
             val isSuccess = result is DataResult.Success
             _uiState.value = if (isSuccess) UiState.Success(result.data) else UiState.Error()
         }

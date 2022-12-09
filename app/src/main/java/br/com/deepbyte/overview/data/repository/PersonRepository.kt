@@ -12,9 +12,8 @@ class PersonRepository @Inject constructor(
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun getPersonDetails(apiId: Long) = withContext(_dispatcher) {
-        return@withContext flow {
-            emit(_remoteDataSource.getPersonDetails(apiId))
-        }
+    suspend fun getDetails(apiId: Long) = withContext(_dispatcher) {
+        val result = _remoteDataSource.getItem(apiId)
+        flow { emit(result) }
     }
 }

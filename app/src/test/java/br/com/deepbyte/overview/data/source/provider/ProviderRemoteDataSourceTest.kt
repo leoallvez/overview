@@ -38,7 +38,7 @@ class ProviderRemoteDataSourceTest {
         val response = createProviderResponseSuccess()
         coEveryProviderResponse(requestType = ReturnType.SUCCESS, response)
         // Act
-        val result = _dataSource.getProvidersResult(id = 1, type = "movie")
+        val result = _dataSource.getItems(id = 1, type = "movie")
         // Assert
         Assert.assertEquals(response.body, result.data)
     }
@@ -49,7 +49,7 @@ class ProviderRemoteDataSourceTest {
         // Arrange
         coEveryProviderResponse(requestType = ReturnType.SUCCESS)
         // Act
-        val result = _dataSource.getProvidersResult(id = 1, type = "movie")
+        val result = _dataSource.getItems(id = 1, type = "movie")
         // Assert
         Assert.assertTrue(result is DataResult.Success)
     }
@@ -60,7 +60,7 @@ class ProviderRemoteDataSourceTest {
         // Arrange
         coEveryProviderResponse(requestType = ReturnType.SERVER_ERROR)
         // Act
-        val result = _dataSource.getProvidersResult(id = 1, type = "movie")
+        val result = _dataSource.getItems(id = 1, type = "movie")
         // Assert
         Assert.assertEquals(ERROR_MSG, result.message)
     }
@@ -71,7 +71,7 @@ class ProviderRemoteDataSourceTest {
         // Arrange
         coEveryProviderResponse(requestType = ReturnType.SERVER_ERROR)
         // Act
-        val result = _dataSource.getProvidersResult(id = 1, type = "movie")
+        val result = _dataSource.getItems(id = 1, type = "movie")
         // Assert
         Assert.assertTrue(result is DataResult.ServerError)
     }
@@ -82,7 +82,7 @@ class ProviderRemoteDataSourceTest {
         // Arrange
         coEveryProviderResponse(requestType = ReturnType.NETWORK_ERROR)
         // Act
-        val result = _dataSource.getProvidersResult(id = 1, type = "movie")
+        val result = _dataSource.getItems(id = 1, type = "movie")
         // Assert
         Assert.assertTrue(result is DataResult.NetworkError)
     }
@@ -93,7 +93,7 @@ class ProviderRemoteDataSourceTest {
         // Arrange
         coEveryProviderResponse(requestType = ReturnType.UNKNOWN_ERROR)
         // Act
-        val result = _dataSource.getProvidersResult(id = 1, type = "movie")
+        val result = _dataSource.getItems(id = 1, type = "movie")
         // Assert
         Assert.assertTrue(result is DataResult.UnknownError)
     }

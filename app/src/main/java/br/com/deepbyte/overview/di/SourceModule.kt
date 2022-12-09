@@ -8,8 +8,6 @@ import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.overview.data.source.person.PersonRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.ProviderRemoteDataSource
-import br.com.deepbyte.overview.data.source.search.ISearchRemoteDataSource
-import br.com.deepbyte.overview.data.source.search.SearchRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -38,9 +36,10 @@ abstract class SourceModule {
     abstract fun bindDiscoverRemoteDataSource(
         source: DiscoverRemoteDataSource
     ): IDiscoverRemoteDataSource
-
+    /**
     @Binds
     abstract fun bindSearchRemoteDataSource(
         source: SearchRemoteDataSource
     ): ISearchRemoteDataSource
+    */
 }

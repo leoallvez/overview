@@ -38,7 +38,7 @@ class PersonRemoteDataSourceTest {
         val response = createPersonResponseSuccess()
         coEveryPersonResponse(requestType = SUCCESS, response)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertEquals(response.body, result.data)
     }
@@ -48,7 +48,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = SUCCESS)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.Success)
     }
@@ -58,7 +58,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertEquals(ERROR_MSG, result.message)
     }
@@ -68,7 +68,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.ServerError)
     }
@@ -78,7 +78,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.NetworkError)
     }
@@ -88,7 +88,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.UnknownError)
     }

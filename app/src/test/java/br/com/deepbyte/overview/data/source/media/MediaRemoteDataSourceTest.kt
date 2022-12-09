@@ -40,7 +40,7 @@ class MediaRemoteDataSourceTest {
         val response = createMediaDetailsSuccess()
         coEveryMediaDetailResponse(requestType = SUCCESS, response)
         // Act
-        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
+        val result = _dataSource.getItem(id = ID, type = TYPE)
         // Assert
         assertEquals(response.body, result.data)
     }
@@ -50,7 +50,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = SUCCESS, createMediaDetailsSuccess())
         // Act
-        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
+        val result = _dataSource.getItem(id = ID, type = TYPE)
         // Assert
         assertTrue(result is DataResult.Success)
     }
@@ -60,7 +60,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
+        val result = _dataSource.getItem(id = ID, type = TYPE)
         // Assert
         assertEquals(ERROR_MSG, result.message)
     }
@@ -70,7 +70,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
+        val result = _dataSource.getItem(id = ID, type = TYPE)
         // Assert
         assertTrue(result is DataResult.ServerError)
     }
@@ -80,7 +80,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = NETWORK_ERROR)
         // Act
-        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
+        val result = _dataSource.getItem(id = ID, type = TYPE)
         // Assert
         assertTrue(result is DataResult.NetworkError)
     }
@@ -90,7 +90,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = UNKNOWN_ERROR)
         // Act
-        val result = _dataSource.getMediaDetailsResult(id = ID, type = TYPE)
+        val result = _dataSource.getItem(id = ID, type = TYPE)
         // Assert
         assertTrue(result is DataResult.UnknownError)
     }

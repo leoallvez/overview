@@ -79,7 +79,7 @@ class MediaDetailsRepositoryTest {
     }
 
     private fun coEveryMediaDetailResponse(requestType: ReturnType) = coEvery {
-        _mediaSource.getMediaDetailsResult(any(), any())
+        _mediaSource.getItem(any(), any())
     } returns createMediaDetailResponse(requestType)
 
     private fun createMediaDetailResponse(
@@ -87,7 +87,7 @@ class MediaDetailsRepositoryTest {
     ) = mockResult(requestType, DataResult.Success(data = MediaDetailResponse()))
 
     private fun coEveryProviderSuccessResponse() = coEvery {
-        _providerSource.getProvidersResult(any(), any())
+        _providerSource.getItems(any(), any())
     } returns mockResult(ReturnType.SUCCESS, DataResult.Success(data = ProviderResponse()))
 
     private companion object {

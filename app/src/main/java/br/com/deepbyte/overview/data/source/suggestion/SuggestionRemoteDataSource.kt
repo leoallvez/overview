@@ -9,5 +9,5 @@ class SuggestionRemoteDataSource @Inject constructor(
     @AbSuggestions
     private val _experiment: AbTesting<List<Suggestion>>
 ) {
-    fun get() = _experiment.execute()
+    fun getItems() = _experiment.execute()
 }
