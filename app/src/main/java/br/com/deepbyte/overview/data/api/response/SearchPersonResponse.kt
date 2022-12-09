@@ -20,3 +20,4 @@ interface Person {
     val profilePath: String
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
 }
+
