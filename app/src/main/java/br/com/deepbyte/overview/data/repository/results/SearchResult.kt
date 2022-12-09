@@ -20,4 +20,3 @@ data class SearchResult(
 
     private fun <T> resultIsSuccess(result: DataResult<T>) = result is DataResult.Success
 }
-
