@@ -15,17 +15,16 @@ class SearchRepository @Inject constructor(
 ) {
 
     suspend fun search(query: String) = withContext(_dispatcher) {
-        return@withContext flow {
-            emit(searchRequests(query))
-        }
+        val results = getSearchResults(query)
+        flow { emit(results) }
     }
 
-    private suspend fun searchRequests(query: String) = _source.run {
+    private suspend fun getSearchResults(query: String) = _source.run {
 
         val moviesResult = searchMedia(MediaType.MOVIE.key, query)
         val tvShowsResult = searchMedia(MediaType.TV.key, query)
         val personsResult = searchPerson(query)
 
-        return@run SearchResult(moviesResult, tvShowsResult, personsResult)
+        SearchResult(moviesResult, tvShowsResult, personsResult)
     }
 }
