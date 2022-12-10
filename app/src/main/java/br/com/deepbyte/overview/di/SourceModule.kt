@@ -36,10 +36,4 @@ abstract class SourceModule {
     abstract fun bindDiscoverRemoteDataSource(
         source: DiscoverRemoteDataSource
     ): IDiscoverRemoteDataSource
-    /**
-    @Binds
-    abstract fun bindSearchRemoteDataSource(
-        source: SearchRemoteDataSource
-    ): ISearchRemoteDataSource
-    */
 }

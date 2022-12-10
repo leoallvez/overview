@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.ui.discover.genre
+package br.com.deepbyte.overview.ui.discover
 
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -7,17 +7,20 @@ import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.ui.DiscoverContent
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.TrackScreenView
+import br.com.deepbyte.overview.ui.discover.DiscoverViewModel
 import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
 fun GenreDiscoverScreen(
     params: DiscoverParams,
     onNavigateToMediaDetails: MediaItemClick,
-    viewModel: GenreDiscoverViewModel = hiltViewModel()
+    viewModel: DiscoverViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.GenreDiscover, viewModel.analyticsTracker)
 
-    val loadData = { viewModel.loadDada(genreId = params.apiId, mediaType = params.mediaType) }
+    val loadData = {
+        viewModel.loadDiscoverByGenre(genreId = params.apiId, mediaType = params.mediaType)
+    }
 
     var items by remember { mutableStateOf(value = loadData()) }
 
