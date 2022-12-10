@@ -7,7 +7,6 @@ import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.ui.DiscoverContent
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.TrackScreenView
-import br.com.deepbyte.overview.ui.discover.DiscoverViewModel
 import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
