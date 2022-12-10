@@ -38,7 +38,7 @@ class PersonRepositoryTest {
         // Arrange
         coEveryPersonResponse(requestType = SUCCESS)
         // Act
-        val result = _repository.getDetails(apiId = 1).first()
+        val result = _repository.getItem(apiId = 1).first()
         // Assert
         Assert.assertTrue(result is DataResult.Success)
     }
@@ -48,7 +48,7 @@ class PersonRepositoryTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _repository.getDetails(apiId = 1).first()
+        val result = _repository.getItem(apiId = 1).first()
         // Assert
         Assert.assertTrue(result is DataResult.ServerError)
     }
@@ -58,7 +58,7 @@ class PersonRepositoryTest {
         // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
         // Act
-        val result = _repository.getDetails(apiId = 1).first()
+        val result = _repository.getItem(apiId = 1).first()
         // Assert
         Assert.assertTrue(result is DataResult.NetworkError)
     }
@@ -68,7 +68,7 @@ class PersonRepositoryTest {
         // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         // Act
-        val result = _repository.getDetails(apiId = 1).first()
+        val result = _repository.getItem(apiId = 1).first()
         // Assert
         Assert.assertTrue(result is DataResult.UnknownError)
     }
