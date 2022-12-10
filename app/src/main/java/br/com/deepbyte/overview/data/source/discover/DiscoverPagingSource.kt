@@ -2,17 +2,17 @@ package br.com.deepbyte.overview.data.source.discover
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import br.com.deepbyte.overview.data.api.response.DiscoverResponse
+import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.source.DataResult
 import retrofit2.HttpException
 import java.io.IOException
 
-typealias DiscoverResult = DataResult<DiscoverResponse>
+typealias DiscoverResult = DataResult<PagingResponse<MediaItem>>
 
 class DiscoverPagingSource(
     private val _mediaType: String,
-    val _onRequest: suspend (page: Int) -> DataResult<DiscoverResponse>
+    val _onRequest: suspend (page: Int) -> DiscoverResult
 ) : PagingSource<Int, MediaItem>() {
 
     override suspend fun load(params: LoadParams<Int>) = try {
@@ -41,8 +41,8 @@ class DiscoverPagingSource(
         }
     }
 
-    private fun setMediaType(mediaDetails: DiscoverResponse?, mediaType: String) {
-        mediaDetails?.results?.forEach { it.type = mediaType }
+    private fun setMediaType(response: PagingResponse<MediaItem>?, mediaType: String) {
+        response?.results?.forEach { it.type = mediaType }
     }
 
     override fun getRefreshKey(state: PagingState<Int, MediaItem>): Int? {

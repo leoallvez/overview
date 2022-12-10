@@ -3,12 +3,12 @@ package br.com.deepbyte.overview.data.api
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.api.response.SearchPersonResponse
 import br.com.deepbyte.overview.data.api.response.SearchMediaResponse
-import br.com.deepbyte.overview.data.api.response.ListContentResponse
+import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
 import br.com.deepbyte.overview.data.api.response.PersonResponse
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
-import br.com.deepbyte.overview.data.api.response.DiscoverResponse
+import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.MediaItem
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
@@ -45,7 +45,7 @@ interface ApiService {
         language: String = "",
         @Query(value = "region")
         region: String = ""
-    ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
+    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
 
     @GET(value = "search/{media_type}")
     suspend fun searchMedia(
@@ -122,7 +122,7 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<DiscoverResponse, ErrorResponse>
+    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
 
     @GET(value = "discover/{media_type}")
     suspend fun discoverByGenre(
@@ -140,5 +140,5 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<DiscoverResponse, ErrorResponse>
+    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
 }

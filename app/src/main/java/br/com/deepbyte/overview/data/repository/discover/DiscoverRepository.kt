@@ -3,14 +3,15 @@ package br.com.deepbyte.overview.data.repository.discover
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import br.com.deepbyte.overview.data.api.response.DiscoverResponse
+import br.com.deepbyte.overview.data.api.response.PagingResponse
+import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.discover.DiscoverPagingSource
 import br.com.deepbyte.overview.data.source.discover.IDiscoverRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-typealias OnDiscover = suspend (page: Int) -> DataResult<DiscoverResponse>
+typealias OnDiscover = suspend (page: Int) -> DataResult<PagingResponse<MediaItem>>
 
 class DiscoverRepository @Inject constructor(
     private val _coroutineScope: CoroutineScope,
