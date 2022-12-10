@@ -1,7 +1,6 @@
-package br.com.deepbyte.overview.data.repository
+package br.com.deepbyte.overview.data.repository.search
 
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.repository.results.SearchResult
 import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
@@ -14,9 +13,9 @@ class SearchRepository @Inject constructor(
     private val _mediaSource: IMediaRemoteDataSource,
     private val _personSource: IPersonRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
-) {
+) : ISearchRepository {
 
-    suspend fun search(query: String) = withContext(_dispatcher) {
+    override suspend fun search(query: String) = withContext(_dispatcher) {
         val results = getSearchResults(query)
         flow { emit(results) }
     }

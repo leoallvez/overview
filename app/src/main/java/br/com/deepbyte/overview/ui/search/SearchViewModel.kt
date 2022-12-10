@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.deepbyte.overview.data.repository.SearchRepository
+import br.com.deepbyte.overview.data.repository.search.ISearchRepository
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.SearchUiState
 import br.com.deepbyte.overview.ui.UiState
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
-    private val _repository: SearchRepository
+    private val _repository: ISearchRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SearchUiState>(UiState.Loading())

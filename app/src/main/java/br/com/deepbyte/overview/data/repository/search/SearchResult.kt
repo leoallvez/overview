@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.data.repository.results
+package br.com.deepbyte.overview.data.repository.search
 
 import br.com.deepbyte.overview.data.api.response.SearchMediaResponse
 import br.com.deepbyte.overview.data.api.response.SearchPersonResponse

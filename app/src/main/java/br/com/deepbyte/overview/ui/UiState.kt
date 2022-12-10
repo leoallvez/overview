@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.ui
 
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
 import br.com.deepbyte.overview.data.api.response.PersonResponse
-import br.com.deepbyte.overview.data.repository.results.SearchResult
+import br.com.deepbyte.overview.data.repository.search.SearchResult
 
 typealias MediaUiState = UiState<MediaDetailResponse?>
 typealias PersonUiState = UiState<PersonResponse?>
