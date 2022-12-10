@@ -17,4 +17,3 @@ class PersonRepository @Inject constructor(
         flow { emit(result) }
     }
 }
-
