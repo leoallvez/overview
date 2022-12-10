@@ -10,17 +10,19 @@ class MediaRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IMediaRemoteDataSource {
 
-    override suspend fun getItems(url: String) = responseToResult(
-        _api.getMediaItems(url = url, language = _locale.language, region = _locale.region)
-    )
+    override suspend fun getItems(url: String) = _locale.run {
+        val response = _api.getMediaItems(url = url, language = language, region = region)
+        responseToResult(response)
+    }
 
-    override suspend fun getItem(id: Long, type: String) = responseToResult(
-        _locale.run {
-            _api.getMediaDetail(id = id, type = type, language = language, region = region)
-        }
-    )
+    override suspend fun getItem(id: Long, type: String) = _locale.run {
+        val response = _api
+            .getMediaItem(id = id, type = type, language = language, region = region)
+        responseToResult(response)
+    }
 
     override suspend fun search(mediaType: String, query: String) = _locale.run {
-        responseToResult(_api.searchMedia(mediaType, query, language, region, region))
+        val response = _api.searchMedia(mediaType, query, language, region, region)
+        responseToResult(response)
     }
 }

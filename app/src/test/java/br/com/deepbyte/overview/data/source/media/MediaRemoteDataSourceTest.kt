@@ -99,7 +99,7 @@ class MediaRemoteDataSourceTest {
         requestType: ReturnType,
         successResponse: MediaDetailsSuccess = createMediaDetailsSuccess()
     ) = coEvery {
-        _api.getMediaDetail(id = any(), type = any())
+        _api.getMediaItem(id = any(), type = any())
     } returns mockResponse(requestType, successResponse)
 
     private fun createMediaDetailsSuccess() =
