@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.data.repository
+package br.com.deepbyte.overview.data.repository.media
 
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
 import br.com.deepbyte.overview.data.api.response.Provider
@@ -12,21 +12,19 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MediaDetailsRepository @Inject constructor(
+class MediaRepository @Inject constructor(
     private val _mediaDataSource: IMediaRemoteDataSource,
     private val _providerDataSource: IProviderRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
-) {
+) : IMediaRepository {
 
-    suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) = withContext(_dispatcher) {
-        return@withContext flow {
-            val result = _mediaDataSource.getItem(apiId, mediaType)
-            if (result is DataResult.Success) {
-                setSimilarType(result.data, mediaType)
-                result.data?.providers = getProviders(apiId, mediaType)
-            }
-            emit(result)
+    override suspend fun getItem(apiId: Long, mediaType: String) = withContext(_dispatcher) {
+        val result = _mediaDataSource.getItem(apiId, mediaType)
+        if (result is DataResult.Success) {
+            setSimilarType(result.data, mediaType)
+            result.data?.providers = getProviders(apiId, mediaType)
         }
+        flow { emit(result) }
     }
 
     private suspend fun getProviders(apiId: Long, mediaType: String): List<ProviderPlace> {

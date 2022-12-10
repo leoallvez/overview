@@ -2,6 +2,7 @@ package br.com.deepbyte.overview.data.repository
 
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
+import br.com.deepbyte.overview.data.repository.media.MediaRepository
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.DataResult.NetworkError
 import br.com.deepbyte.overview.data.source.DataResult.UnknownError
@@ -28,13 +29,13 @@ class MediaDetailsRepositoryTest {
     @MockK(relaxed = true)
     private lateinit var _providerSource: IProviderRemoteDataSource
 
-    private lateinit var _repository: MediaDetailsRepository
+    private lateinit var _repository: MediaRepository
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before fun setup() {
         MockKAnnotations.init(this)
         val dispatcher = UnconfinedTestDispatcher()
-        _repository = MediaDetailsRepository(_mediaSource, _providerSource, dispatcher)
+        _repository = MediaRepository(_mediaSource, _providerSource, dispatcher)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,7 +44,7 @@ class MediaDetailsRepositoryTest {
         coEveryProviderSuccessResponse()
         coEveryMediaDetailResponse(requestType = ReturnType.SUCCESS)
         // Act
-        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
+        val result = _repository.getItem(apiId = ID, mediaType = TYPE).first()
         // Assert
         assertTrue(result is DataResult.Success)
     }
@@ -53,7 +54,7 @@ class MediaDetailsRepositoryTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = ReturnType.SERVER_ERROR)
         // Act
-        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
+        val result = _repository.getItem(apiId = ID, mediaType = TYPE).first()
         // Assert
         assertTrue(result is DataResult.ServerError)
     }
@@ -63,7 +64,7 @@ class MediaDetailsRepositoryTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = ReturnType.NETWORK_ERROR)
         // Act
-        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
+        val result = _repository.getItem(apiId = ID, mediaType = TYPE).first()
         // Assert
         assertTrue(result is NetworkError)
     }
@@ -73,7 +74,7 @@ class MediaDetailsRepositoryTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = ReturnType.UNKNOWN_ERROR)
         // Act
-        val result = _repository.getMediaDetailsResult(apiId = ID, mediaType = TYPE).first()
+        val result = _repository.getItem(apiId = ID, mediaType = TYPE).first()
         // Assert
         assertTrue(result is UnknownError)
     }
