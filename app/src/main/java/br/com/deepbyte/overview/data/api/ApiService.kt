@@ -2,7 +2,6 @@ package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.api.response.SearchPersonResponse
-import br.com.deepbyte.overview.data.api.response.SearchMediaResponse
 import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
@@ -61,7 +60,7 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<SearchMediaResponse, ErrorResponse>
+    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
 
     // Providers
     @GET(value = "{media_type}/{api_id}/watch/providers")

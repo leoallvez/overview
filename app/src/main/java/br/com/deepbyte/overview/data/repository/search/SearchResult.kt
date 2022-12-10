@@ -1,12 +1,15 @@
 package br.com.deepbyte.overview.data.repository.search
 
-import br.com.deepbyte.overview.data.api.response.SearchMediaResponse
+import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.SearchPersonResponse
+import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.source.DataResult
 
+private typealias MediaResult = DataResult<ListResponse<MediaItem>>
+
 data class SearchResult(
-    private val moviesResult: DataResult<SearchMediaResponse>,
-    private val tvShowsResult: DataResult<SearchMediaResponse>,
+    private val moviesResult: MediaResult,
+    private val tvShowsResult: MediaResult,
     private val personsResult: DataResult<SearchPersonResponse>
 ) {
     fun haveSuccessResult(): Boolean {
