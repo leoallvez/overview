@@ -17,18 +17,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET(value = "{url}")
-    suspend fun getMediaItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
-
+    // Media
     @GET(value = "{media_type}/{api_id}")
     suspend fun getMediaItem(
         @Path(value = "media_type", encoded = true)
@@ -46,6 +35,35 @@ interface ApiService {
 
     ): NetworkResponse<MediaDetailResponse, ErrorResponse>
 
+    @GET(value = "{url}")
+    suspend fun getMediaItems(
+        @Path(value = "url", encoded = true)
+        url: String,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = ""
+    ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
+
+    @GET(value = "search/{media_type}")
+    suspend fun searchMedia(
+        @Path(value = "media_type", encoded = true)
+        type: String,
+        @Query("query")
+        query: String,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<SearchMediaResponse, ErrorResponse>
+
+    // Providers
     @GET(value = "{media_type}/{api_id}/watch/providers")
     suspend fun getProviders(
         @Path(value = "media_type", encoded = true)
@@ -60,8 +78,9 @@ interface ApiService {
         region: String = ""
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
+    // Person
     @GET(value = "person/{api_id}")
-    suspend fun getPersonDetails(
+    suspend fun getPersonItem(
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
@@ -74,8 +93,23 @@ interface ApiService {
         appendToResponse: String = "tv_credits,movie_credits"
     ): NetworkResponse<PersonResponse, ErrorResponse>
 
+    @GET(value = "search/person")
+    suspend fun searchPerson(
+        @Query("query")
+        query: String,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<SearchPersonResponse, ErrorResponse>
+
+    // Discover
     @GET(value = "tv/popular")
-    suspend fun discoverOnTvByProvider(
+    suspend fun discoverByProvider(
         @Query(value = "with_watch_providers")
         providerId: Long,
         @Query(value = "page")
@@ -107,34 +141,4 @@ interface ApiService {
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<DiscoverResponse, ErrorResponse>
-
-    @GET(value = "search/{media_type}")
-    suspend fun searchMedia(
-        @Path(value = "media_type", encoded = true)
-        type: String,
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<SearchMediaResponse, ErrorResponse>
-
-    @GET(value = "search/person")
-    suspend fun searchPerson(
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<SearchPersonResponse, ErrorResponse>
 }

@@ -15,9 +15,9 @@ class MediaRemoteDataSource @Inject constructor(
         responseToResult(response)
     }
 
-    override suspend fun getItem(id: Long, type: String) = _locale.run {
+    override suspend fun getItem(apiId: Long, type: String) = _locale.run {
         val response = _api
-            .getMediaItem(id = id, type = type, language = language, region = region)
+            .getMediaItem(id = apiId, type = type, language = language, region = region)
         responseToResult(response)
     }
 

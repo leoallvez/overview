@@ -18,7 +18,7 @@ class DiscoverRemoteDataSource @Inject constructor(
 
     private suspend fun discoverByProvider(providerId: Long, page: Int) =
         _locale.run {
-            _api.discoverOnTvByProvider(providerId, page, language, region, region)
+            _api.discoverByProvider(providerId, page, language, region, region)
         }
 
     private suspend fun discoverWithGenre(genreId: Long, mediaType: String, page: Int) =

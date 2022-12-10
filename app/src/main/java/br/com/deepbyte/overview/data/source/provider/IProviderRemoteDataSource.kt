@@ -4,5 +4,5 @@ import br.com.deepbyte.overview.data.api.response.ProviderResponse
 import br.com.deepbyte.overview.data.source.DataResult
 
 interface IProviderRemoteDataSource {
-    suspend fun getItems(id: Long, type: String): DataResult<ProviderResponse>
+    suspend fun getItems(apiId: Long, type: String): DataResult<ProviderResponse>
 }

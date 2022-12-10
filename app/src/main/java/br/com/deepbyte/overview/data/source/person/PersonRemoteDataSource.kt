@@ -10,11 +10,13 @@ class PersonRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IPersonRemoteDataSource {
 
-    override suspend fun getItem(apiId: Long) = responseToResult(
-        _api.getPersonDetails(id = apiId, language = _locale.language, region = _locale.region)
-    )
+    override suspend fun getItem(apiId: Long) = _locale.run {
+        val response = _api.getPersonItem(id = apiId, language = language, region = region)
+        responseToResult(response)
+    }
 
     override suspend fun search(query: String) = _locale.run {
-        responseToResult(_api.searchPerson(query, language, region, region))
+        val response = _api.searchPerson(query, language, region, region)
+        responseToResult(response)
     }
 }

@@ -97,7 +97,7 @@ class PersonRemoteDataSourceTest {
         requestType: ReturnType,
         successResponse: PersonSuccess = createPersonResponseSuccess()
     ) = coEvery {
-        _api.getPersonDetails(id = any())
+        _api.getPersonItem(id = any())
     } returns mockResponse(requestType, successResponse)
 
     private fun createPersonResponseSuccess() =

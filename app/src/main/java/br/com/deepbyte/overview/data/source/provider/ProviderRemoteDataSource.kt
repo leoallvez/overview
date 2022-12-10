@@ -10,9 +10,9 @@ class ProviderRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IProviderRemoteDataSource {
 
-    override suspend fun getItems(id: Long, type: String) = responseToResult(
-        _locale.run {
-            _api.getProviders(id = id, type = type, language = language, region = region)
-        }
-    )
+    override suspend fun getItems(apiId: Long, type: String) = _locale.run {
+        val response = _api
+            .getProviders(id = apiId, type = type, language = language, region = region)
+        responseToResult(response)
+    }
 }
