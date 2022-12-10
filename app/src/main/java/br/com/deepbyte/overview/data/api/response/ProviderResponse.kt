@@ -1,6 +1,7 @@
 package br.com.deepbyte.overview.data.api.response
 
 import br.com.deepbyte.overview.BuildConfig
+import br.com.deepbyte.overview.data.model.DiscoverParams
 import com.squareup.moshi.Json
 
 data class ProviderResponse(
@@ -28,4 +29,13 @@ class ProviderPlace(
     val providerName: String = ""
 ) {
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
+
+    fun createDiscoverParams(
+        media: MediaDetailResponse
+    ) = DiscoverParams(
+        apiId = apiId,
+        screenTitle = providerName,
+        mediaId = media.apiId,
+        mediaType = media.type ?: ""
+    )
 }

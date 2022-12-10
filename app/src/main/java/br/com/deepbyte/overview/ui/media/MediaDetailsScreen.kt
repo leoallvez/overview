@@ -27,7 +27,6 @@ import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.api.response.Genre
 import br.com.deepbyte.overview.data.api.response.ProviderPlace
-import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -123,7 +122,7 @@ fun MediaBody(
     ) {
         mediaDetails.apply {
             ProvidersList(providers) { provider ->
-                val params = DiscoverParams.create(provider, mediaDetails)
+                val params = provider.createDiscoverParams(mediaDetails)
                 events.onNavigateToProviderDiscover(params.toJson())
             }
             if (mediaDetails.type == MediaType.MOVIE.key) {
@@ -134,7 +133,7 @@ fun MediaBody(
                 EpisodesRunTime(getEpisodesRuntime())
             }
             GenreList(genres) { genre ->
-                val params = DiscoverParams.create(genre, mediaDetails)
+                val params = genre.createDiscoverParams(mediaDetails)
                 events.onNavigateToGenreDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)

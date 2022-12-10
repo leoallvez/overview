@@ -1,6 +1,7 @@
 package br.com.deepbyte.overview.data.api.response
 
 import br.com.deepbyte.overview.BuildConfig.IMG_URL
+import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.util.DateHelper
 import com.squareup.moshi.Json
@@ -90,6 +91,16 @@ data class Credits(
     val crew: List<PersonResponse> = listOf()
 )
 
-data class Genre(val name: String = "") : DataResponse()
+data class Genre(val name: String = "") : DataResponse() {
+
+    fun createDiscoverParams(
+        media: MediaDetailResponse
+    ) = DiscoverParams(
+        apiId = apiId,
+        screenTitle = name,
+        mediaId = media.apiId,
+        mediaType = media.type ?: ""
+    )
+}
 
 data class Similar(val results: List<MediaItem> = listOf())
