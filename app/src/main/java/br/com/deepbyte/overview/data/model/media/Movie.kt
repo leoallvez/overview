@@ -14,5 +14,4 @@ class Movie() : Media() {
     override fun getRuntime() = runtimeTemplate(runtime = movieRuntime)
 
     override fun getLetter() = title ?: originalTitle ?: ""
-
 }

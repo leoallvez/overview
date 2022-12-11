@@ -1,8 +1,6 @@
 package br.com.deepbyte.overview.data.api.response
 
 import br.com.deepbyte.overview.BuildConfig.IMG_URL
-import br.com.deepbyte.overview.data.model.DiscoverParams
-import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Credits
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Similar
@@ -89,4 +87,3 @@ data class MediaDetailResponse(
         private const val DIRECTOR_JOB = "DIRECTOR"
     }
 }
-
