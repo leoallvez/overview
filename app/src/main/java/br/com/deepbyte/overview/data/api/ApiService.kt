@@ -5,7 +5,7 @@ import br.com.deepbyte.overview.data.api.response.PersonDetails
 import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
-import br.com.deepbyte.overview.data.api.response.Person
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
 import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.MediaItem

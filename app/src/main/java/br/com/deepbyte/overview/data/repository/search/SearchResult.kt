@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.repository.search
 
 import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.api.response.Person
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.source.DataResult
 

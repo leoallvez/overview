@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.data.api.response
+package br.com.deepbyte.overview.data.model.person
 
 import br.com.deepbyte.overview.BuildConfig
 import com.squareup.moshi.Json
