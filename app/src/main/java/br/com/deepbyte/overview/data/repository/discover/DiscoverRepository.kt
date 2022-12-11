@@ -1,35 +1,36 @@
-package br.com.deepbyte.overview.data.repository
+package br.com.deepbyte.overview.data.repository.discover
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import br.com.deepbyte.overview.data.api.response.DiscoverResponse
+import br.com.deepbyte.overview.data.api.response.PagingResponse
+import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.discover.DiscoverPagingSource
 import br.com.deepbyte.overview.data.source.discover.IDiscoverRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-typealias OnDiscover = suspend (page: Int) -> DataResult<DiscoverResponse>
+typealias OnDiscover = suspend (page: Int) -> DataResult<PagingResponse<MediaItem>>
 
 class DiscoverRepository @Inject constructor(
     private val _coroutineScope: CoroutineScope,
     private val _source: IDiscoverRemoteDataSource
-) {
+) : IDiscoverRepository {
 
-    fun discoverOnTvByProvider(providerId: Long, mediaType: String) =
+    override fun discoverByProvideId(providerId: Long, mediaType: String) =
         makeDiscoverPaging(
             mediaType = mediaType,
             onRequest = { page: Int ->
-                _source.discoverOnTvByProvider(providerId, page)
+                _source.discoverByProviderId(providerId, page)
             }
         )
 
-    fun discoverByGenre(genreId: Long, mediaType: String) =
+    override fun discoverByGenreId(genreId: Long, mediaType: String) =
         makeDiscoverPaging(
             mediaType = mediaType,
             onRequest = { page: Int ->
-                _source.discoverByGenre(genreId, page, mediaType)
+                _source.discoverByGenreId(genreId, page, mediaType)
             }
         )
 

@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.source.person
 
 import br.com.deepbyte.overview.data.api.ApiService
-import br.com.deepbyte.overview.data.api.response.PersonResponse
+import br.com.deepbyte.overview.data.api.response.PersonDetails
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import br.com.deepbyte.overview.util.mock.ReturnType
@@ -18,7 +18,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-typealias PersonSuccess = NetworkResponse.Success<PersonResponse>
+typealias PersonSuccess = NetworkResponse.Success<PersonDetails>
 
 class PersonRemoteDataSourceTest {
 
@@ -38,7 +38,7 @@ class PersonRemoteDataSourceTest {
         val response = createPersonResponseSuccess()
         coEveryPersonResponse(requestType = SUCCESS, response)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertEquals(response.body, result.data)
     }
@@ -48,7 +48,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = SUCCESS)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.Success)
     }
@@ -58,7 +58,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertEquals(ERROR_MSG, result.message)
     }
@@ -68,7 +68,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.ServerError)
     }
@@ -78,7 +78,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.NetworkError)
     }
@@ -88,7 +88,7 @@ class PersonRemoteDataSourceTest {
         // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         // Act
-        val result = _dataSource.getPersonDetails(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         Assert.assertTrue(result is DataResult.UnknownError)
     }
@@ -97,9 +97,9 @@ class PersonRemoteDataSourceTest {
         requestType: ReturnType,
         successResponse: PersonSuccess = createPersonResponseSuccess()
     ) = coEvery {
-        _api.getPersonDetails(id = any())
+        _api.getPersonItem(id = any())
     } returns mockResponse(requestType, successResponse)
 
     private fun createPersonResponseSuccess() =
-        NetworkResponse.Success(body = PersonResponse(), code = 200)
+        NetworkResponse.Success(body = PersonDetails(), code = 200)
 }

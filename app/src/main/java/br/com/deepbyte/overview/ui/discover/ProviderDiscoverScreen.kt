@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.ui.discover.provider
+package br.com.deepbyte.overview.ui.discover
 
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,11 +14,13 @@ import br.com.deepbyte.overview.util.MediaItemClick
 fun ProviderDiscoverScreen(
     params: DiscoverParams,
     onNavigateToMediaDetails: MediaItemClick,
-    viewModel: ProviderDiscoverViewModel = hiltViewModel(),
+    viewModel: DiscoverViewModel = hiltViewModel(),
 ) {
     TrackScreenView(screen = ScreenNav.ProviderDiscover, tracker = viewModel.analyticsTracker)
 
-    val loadData = { viewModel.loadDada(providerId = params.apiId, mediaType = MediaType.TV.key) }
+    val loadData = {
+        viewModel.loadDiscoverByProvide(providerId = params.apiId, mediaType = MediaType.TV.key)
+    }
     var items by remember { mutableStateOf(value = loadData()) }
 
     DiscoverContent(

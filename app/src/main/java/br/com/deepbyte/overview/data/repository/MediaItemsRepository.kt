@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository
 
-import br.com.deepbyte.overview.data.api.response.ListContentResponse
+import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
@@ -63,8 +63,8 @@ class MediaItemsRepository @Inject constructor(
             .map { it.toMediaSuggestion() }
     }
 
-    private suspend fun doRequest(apiPath: String): DataResult<ListContentResponse<MediaItem>> {
-        return _remoteDataSource.getMediaItemsResult(apiPath)
+    private suspend fun doRequest(apiPath: String): DataResult<ListResponse<MediaItem>> {
+        return _remoteDataSource.getItems(apiPath)
     }
 
     private fun setForeignKeyOnItems(

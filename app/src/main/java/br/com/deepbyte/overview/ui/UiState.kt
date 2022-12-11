@@ -1,17 +1,16 @@
 package br.com.deepbyte.overview.ui
 
-import androidx.paging.PagingData
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
-import br.com.deepbyte.overview.data.api.response.PersonResponse
-import br.com.deepbyte.overview.data.model.MediaItem
-import kotlinx.coroutines.flow.Flow
+import br.com.deepbyte.overview.data.api.response.PersonDetails
+import br.com.deepbyte.overview.data.repository.search.SearchResult
 
 typealias MediaUiState = UiState<MediaDetailResponse?>
-typealias PersonUiState = UiState<PersonResponse?>
-typealias DiscoverUiState = UiState<Flow<PagingData<MediaItem>>>
+typealias PersonUiState = UiState<PersonDetails?>
+typealias SearchUiState = UiState<SearchResult>
 
 sealed class UiState <T> {
-    class Error<T> : UiState<T>()
     class Loading<T> : UiState<T>()
     class Success<T>(val data: T) : UiState<T>()
+    class Empty<T> : UiState<T>()
+    class Error<T> : UiState<T>()
 }

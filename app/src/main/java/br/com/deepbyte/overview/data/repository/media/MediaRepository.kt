@@ -1,7 +1,7 @@
-package br.com.deepbyte.overview.data.repository
+package br.com.deepbyte.overview.data.repository.media
 
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
-import br.com.deepbyte.overview.data.api.response.ProviderPlace
+import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
@@ -11,25 +11,23 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MediaDetailsRepository @Inject constructor(
+class MediaRepository @Inject constructor(
     private val _mediaDataSource: IMediaRemoteDataSource,
     private val _providerDataSource: IProviderRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
-) {
+) : IMediaRepository {
 
-    suspend fun getMediaDetailsResult(apiId: Long, mediaType: String) = withContext(_dispatcher) {
-        return@withContext flow {
-            val result = _mediaDataSource.getMediaDetailsResult(apiId, mediaType)
-            if (result is DataResult.Success) {
-                setSimilarType(result.data, mediaType)
-                result.data?.providers = getProviders(apiId, mediaType)
-            }
-            emit(result)
+    override suspend fun getItem(apiId: Long, mediaType: String) = withContext(_dispatcher) {
+        val result = _mediaDataSource.getItem(apiId, mediaType)
+        if (result is DataResult.Success) {
+            setSimilarType(result.data, mediaType)
+            result.data?.providers = getProviders(apiId, mediaType)
         }
+        flow { emit(result) }
     }
 
     private suspend fun getProviders(apiId: Long, mediaType: String): List<ProviderPlace> {
-        val result = _providerDataSource.getProvidersResult(apiId, mediaType)
+        val result = _providerDataSource.getItems(apiId, mediaType)
         val resultsMap = result.data?.results ?: mapOf()
         val entries = resultsMap.filter { it.key == "BR" }.entries
         return if (entries.isNotEmpty()) {

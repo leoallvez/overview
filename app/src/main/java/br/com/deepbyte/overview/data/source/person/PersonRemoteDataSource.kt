@@ -2,21 +2,21 @@ package br.com.deepbyte.overview.data.source.person
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
-import br.com.deepbyte.overview.data.api.response.PersonResponse
-import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.responseToResult
 import javax.inject.Inject
-
-interface IPersonRemoteDataSource {
-    suspend fun getPersonDetails(apiId: Long): DataResult<PersonResponse>
-}
 
 class PersonRemoteDataSource @Inject constructor(
     private val _api: ApiService,
     private val _locale: IApiLocale
 ) : IPersonRemoteDataSource {
 
-    override suspend fun getPersonDetails(apiId: Long) = responseToResult(
-        _api.getPersonDetails(id = apiId, language = _locale.language, region = _locale.region)
-    )
+    override suspend fun getItem(apiId: Long) = _locale.run {
+        val response = _api.getPersonItem(id = apiId, language = language, region = region)
+        responseToResult(response)
+    }
+
+    override suspend fun search(query: String) = _locale.run {
+        val response = _api.searchPerson(query, language, region, region)
+        responseToResult(response)
+    }
 }

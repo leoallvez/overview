@@ -25,9 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.api.response.Genre
-import br.com.deepbyte.overview.data.api.response.ProviderPlace
-import br.com.deepbyte.overview.data.model.DiscoverParams
+import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -36,7 +35,7 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse as MediaDetails
-import br.com.deepbyte.overview.data.api.response.PersonResponse as Person
+import br.com.deepbyte.overview.data.api.response.PersonDetails as Person
 
 @Composable
 fun MediaDetailsScreen(
@@ -123,7 +122,7 @@ fun MediaBody(
     ) {
         mediaDetails.apply {
             ProvidersList(providers) { provider ->
-                val params = DiscoverParams.create(provider, mediaDetails)
+                val params = provider.createDiscoverParams(mediaDetails)
                 events.onNavigateToProviderDiscover(params.toJson())
             }
             if (mediaDetails.type == MediaType.MOVIE.key) {
@@ -134,7 +133,7 @@ fun MediaBody(
                 EpisodesRunTime(getEpisodesRuntime())
             }
             GenreList(genres) { genre ->
-                val params = DiscoverParams.create(genre, mediaDetails)
+                val params = genre.createDiscoverParams(mediaDetails)
                 events.onNavigateToGenreDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)

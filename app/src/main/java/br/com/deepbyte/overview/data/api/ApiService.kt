@@ -1,12 +1,13 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.api.response.ListContentResponse
+import br.com.deepbyte.overview.data.api.response.PersonDetails
+import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
-import br.com.deepbyte.overview.data.api.response.PersonResponse
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
-import br.com.deepbyte.overview.data.api.response.DiscoverResponse
+import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.MediaItem
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
@@ -15,20 +16,9 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET(value = "{url}")
-    suspend fun getMediaItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<ListContentResponse<MediaItem>, ErrorResponse>
-
+    // Media
     @GET(value = "{media_type}/{api_id}")
-    suspend fun getMediaDetail(
+    suspend fun getMediaItem(
         @Path(value = "media_type", encoded = true)
         type: String,
         @Path(value = "api_id", encoded = true)
@@ -44,6 +34,35 @@ interface ApiService {
 
     ): NetworkResponse<MediaDetailResponse, ErrorResponse>
 
+    @GET(value = "{url}")
+    suspend fun getMediaItems(
+        @Path(value = "url", encoded = true)
+        url: String,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = ""
+    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
+
+    @GET(value = "search/{media_type}")
+    suspend fun searchMedia(
+        @Path(value = "media_type", encoded = true)
+        type: String,
+        @Query("query")
+        query: String,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
+
+    // Providers
     @GET(value = "{media_type}/{api_id}/watch/providers")
     suspend fun getProviders(
         @Path(value = "media_type", encoded = true)
@@ -58,8 +77,9 @@ interface ApiService {
         region: String = ""
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
+    // Person
     @GET(value = "person/{api_id}")
-    suspend fun getPersonDetails(
+    suspend fun getPersonItem(
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
@@ -70,10 +90,25 @@ interface ApiService {
         region: String = "",
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
-    ): NetworkResponse<PersonResponse, ErrorResponse>
+    ): NetworkResponse<PersonDetails, ErrorResponse>
 
+    @GET(value = "search/person")
+    suspend fun searchPerson(
+        @Query("query")
+        query: String,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<ListResponse<Person>, ErrorResponse>
+
+    // Discover
     @GET(value = "tv/popular")
-    suspend fun discoverOnTvByProvider(
+    suspend fun discoverByProvider(
         @Query(value = "with_watch_providers")
         providerId: Long,
         @Query(value = "page")
@@ -86,7 +121,7 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<DiscoverResponse, ErrorResponse>
+    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
 
     @GET(value = "discover/{media_type}")
     suspend fun discoverByGenre(
@@ -104,5 +139,5 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<DiscoverResponse, ErrorResponse>
+    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
 }

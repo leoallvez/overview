@@ -1,7 +1,10 @@
 package br.com.deepbyte.overview.data.api.response
 
 import br.com.deepbyte.overview.BuildConfig.IMG_URL
-import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Credits
+import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.Similar
+import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.util.DateHelper
 import com.squareup.moshi.Json
 
@@ -84,12 +87,3 @@ data class MediaDetailResponse(
         private const val DIRECTOR_JOB = "DIRECTOR"
     }
 }
-
-data class Credits(
-    val cast: List<PersonResponse> = listOf(),
-    val crew: List<PersonResponse> = listOf()
-)
-
-data class Genre(val name: String = "") : DataResponse()
-
-data class Similar(val results: List<MediaItem> = listOf())
