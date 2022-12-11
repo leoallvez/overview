@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.api.response.Genre
+import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.MediaDetailsScreenEvents
