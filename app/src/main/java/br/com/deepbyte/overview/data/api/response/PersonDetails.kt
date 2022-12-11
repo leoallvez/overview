@@ -5,7 +5,7 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.util.DateHelper
 import com.squareup.moshi.Json
 
-data class PersonResponse(
+data class PersonDetails(
     val name: String = "",
     val biography: String = "",
     val birthday: String = "",

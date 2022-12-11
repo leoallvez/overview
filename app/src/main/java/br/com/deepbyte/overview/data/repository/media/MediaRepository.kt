@@ -1,8 +1,7 @@
 package br.com.deepbyte.overview.data.repository.media
 
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
-import br.com.deepbyte.overview.data.api.response.Provider
-import br.com.deepbyte.overview.data.api.response.ProviderPlace
+import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
@@ -29,7 +28,7 @@ class MediaRepository @Inject constructor(
 
     private suspend fun getProviders(apiId: Long, mediaType: String): List<ProviderPlace> {
         val result = _providerDataSource.getItems(apiId, mediaType)
-        val resultsMap = result.data?.results ?: mapOf<String, Provider>()
+        val resultsMap = result.data?.results ?: mapOf()
         val entries = resultsMap.filter { it.key == "BR" }.entries
         return if (entries.isNotEmpty()) {
             entries.first().value.getOrderedFlatRate()

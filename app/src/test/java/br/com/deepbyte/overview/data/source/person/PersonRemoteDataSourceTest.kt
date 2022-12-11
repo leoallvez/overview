@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.source.person
 
 import br.com.deepbyte.overview.data.api.ApiService
-import br.com.deepbyte.overview.data.api.response.PersonResponse
+import br.com.deepbyte.overview.data.api.response.PersonDetails
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import br.com.deepbyte.overview.util.mock.ReturnType
@@ -18,7 +18,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-typealias PersonSuccess = NetworkResponse.Success<PersonResponse>
+typealias PersonSuccess = NetworkResponse.Success<PersonDetails>
 
 class PersonRemoteDataSourceTest {
 
@@ -101,5 +101,5 @@ class PersonRemoteDataSourceTest {
     } returns mockResponse(requestType, successResponse)
 
     private fun createPersonResponseSuccess() =
-        NetworkResponse.Success(body = PersonResponse(), code = 200)
+        NetworkResponse.Success(body = PersonDetails(), code = 200)
 }

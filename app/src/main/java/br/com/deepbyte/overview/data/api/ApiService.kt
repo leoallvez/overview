@@ -1,11 +1,11 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.api.response.SearchPersonResponse
+import br.com.deepbyte.overview.data.api.response.PersonDetails
 import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
-import br.com.deepbyte.overview.data.api.response.PersonResponse
+import br.com.deepbyte.overview.data.api.response.Person
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
 import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.MediaItem
@@ -90,7 +90,7 @@ interface ApiService {
         region: String = "",
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
-    ): NetworkResponse<PersonResponse, ErrorResponse>
+    ): NetworkResponse<PersonDetails, ErrorResponse>
 
     @GET(value = "search/person")
     suspend fun searchPerson(
@@ -104,7 +104,7 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<SearchPersonResponse, ErrorResponse>
+    ): NetworkResponse<ListResponse<Person>, ErrorResponse>
 
     // Discover
     @GET(value = "tv/popular")

@@ -1,11 +1,11 @@
 package br.com.deepbyte.overview.ui
 
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
-import br.com.deepbyte.overview.data.api.response.PersonResponse
+import br.com.deepbyte.overview.data.api.response.PersonDetails
 import br.com.deepbyte.overview.data.repository.search.SearchResult
 
 typealias MediaUiState = UiState<MediaDetailResponse?>
-typealias PersonUiState = UiState<PersonResponse?>
+typealias PersonUiState = UiState<PersonDetails?>
 typealias SearchUiState = UiState<SearchResult>
 
 sealed class UiState <T> {

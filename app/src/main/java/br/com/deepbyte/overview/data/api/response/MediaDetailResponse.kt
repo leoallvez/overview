@@ -3,6 +3,7 @@ package br.com.deepbyte.overview.data.api.response
 import br.com.deepbyte.overview.BuildConfig.IMG_URL
 import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.util.DateHelper
 import com.squareup.moshi.Json
 
@@ -87,8 +88,8 @@ data class MediaDetailResponse(
 }
 
 data class Credits(
-    val cast: List<PersonResponse> = listOf(),
-    val crew: List<PersonResponse> = listOf()
+    val cast: List<PersonDetails> = listOf(),
+    val crew: List<PersonDetails> = listOf()
 )
 
 data class Genre(val name: String = "") : DataResponse() {

@@ -31,7 +31,7 @@ import br.com.deepbyte.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import br.com.deepbyte.overview.data.api.response.PersonResponse as Person
+import br.com.deepbyte.overview.data.api.response.PersonDetails
 
 @Composable
 fun CastDetailsScreen(
@@ -61,7 +61,7 @@ fun CastDetailsScreen(
 
 @Composable
 fun PersonDetailsContent(
-    person: Person?,
+    person: PersonDetails?,
     showAds: Boolean,
     onNavigateToHome: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
@@ -86,7 +86,7 @@ fun PersonDetailsContent(
 }
 
 @Composable
-fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
+fun PersonToolBar(person: PersonDetails, backButtonAction: () -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -113,7 +113,7 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
 
 @Composable
 fun PersonBody(
-    person: Person,
+    person: PersonDetails,
     showAds: Boolean,
     onClickItem: MediaItemClick
 ) {
@@ -136,7 +136,7 @@ fun PersonBody(
 }
 
 @Composable
-fun PersonDates(person: Person) {
+fun PersonDates(person: PersonDetails) {
     person.apply {
         if (getFormattedBirthday().isNotEmpty()) {
             Row(

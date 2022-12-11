@@ -26,7 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.api.response.Genre
-import br.com.deepbyte.overview.data.api.response.ProviderPlace
+import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -35,7 +35,7 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import br.com.deepbyte.overview.data.api.response.MediaDetailResponse as MediaDetails
-import br.com.deepbyte.overview.data.api.response.PersonResponse as Person
+import br.com.deepbyte.overview.data.api.response.PersonDetails as Person
 
 @Composable
 fun MediaDetailsScreen(
