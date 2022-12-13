@@ -17,22 +17,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    // Media
-    @GET(value = "movie/{api_id}")
-    suspend fun getMovie(
-        @Path(value = "api_id", encoded = true)
-        id: Long,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "append_to_response")
-        appendToResponse: String = "credits,similar"
-
-    ): NetworkResponse<Movie, ErrorResponse>
-
+    // TV
     @GET(value = "tv/{api_id}")
     suspend fun getTvShow(
         @Path(value = "api_id", encoded = true)
@@ -48,8 +33,22 @@ interface ApiService {
 
     ): NetworkResponse<TvShow, ErrorResponse>
 
+    @GET(value = "search/tv")
+    suspend fun searchTvShow(
+        @Query("query")
+        query: String,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
+
     @GET(value = "{url}")
-    suspend fun getMediaItems(
+    suspend fun getTvShowItems(
         @Path(value = "url", encoded = true)
         url: String,
         @Query(value = "api_key")
@@ -58,8 +57,51 @@ interface ApiService {
         language: String = "",
         @Query(value = "region")
         region: String = ""
-    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
+    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
+    // Movie
+    @GET(value = "movie/{api_id}")
+    suspend fun getMovie(
+        @Path(value = "api_id", encoded = true)
+        id: Long,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "append_to_response")
+        appendToResponse: String = "credits,similar"
+
+    ): NetworkResponse<Movie, ErrorResponse>
+
+    @GET(value = "search/movie")
+    suspend fun searchMovie(
+        @Query("query")
+        query: String,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
+
+    @GET(value = "{url}")
+    suspend fun getMovieItems(
+        @Path(value = "url", encoded = true)
+        url: String,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = ""
+    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
+
+    // Media Item
     @GET(value = "search/{media_type}")
     suspend fun searchMedia(
         @Path(value = "media_type", encoded = true)
@@ -74,6 +116,18 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
+
+    @GET(value = "{url}")
+    suspend fun getMediaItems(
+        @Path(value = "url", encoded = true)
+        url: String,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = ""
     ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
 
     // Providers
