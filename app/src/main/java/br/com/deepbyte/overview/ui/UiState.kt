@@ -1,10 +1,10 @@
 package br.com.deepbyte.overview.ui
 
-import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
 import br.com.deepbyte.overview.data.api.response.PersonDetails
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.repository.search.SearchResult
 
-typealias MediaUiState = UiState<MediaDetailResponse?>
+typealias MediaUiState = UiState<Media?>
 typealias PersonUiState = UiState<PersonDetails?>
 typealias SearchUiState = UiState<SearchResult>
 

@@ -9,6 +9,8 @@ import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
 import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Movie
+import br.com.deepbyte.overview.data.model.media.TvShow
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,10 +19,8 @@ import retrofit2.http.Query
 interface ApiService {
 
     // Media
-    @GET(value = "{media_type}/{api_id}")
-    suspend fun getMediaItem(
-        @Path(value = "media_type", encoded = true)
-        type: String,
+    @GET(value = "movie/{api_id}")
+    suspend fun getMovie(
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
@@ -32,7 +32,22 @@ interface ApiService {
         @Query(value = "append_to_response")
         appendToResponse: String = "credits,similar"
 
-    ): NetworkResponse<MediaDetailResponse, ErrorResponse>
+    ): NetworkResponse<Movie, ErrorResponse>
+
+    @GET(value = "tv/{api_id}")
+    suspend fun getTvShow(
+        @Path(value = "api_id", encoded = true)
+        id: Long,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "append_to_response")
+        appendToResponse: String = "credits,similar"
+
+    ): NetworkResponse<TvShow, ErrorResponse>
 
     @GET(value = "{url}")
     suspend fun getMediaItems(

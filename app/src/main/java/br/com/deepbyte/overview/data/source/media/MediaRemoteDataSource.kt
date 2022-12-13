@@ -21,6 +21,16 @@ class MediaRemoteDataSource @Inject constructor(
         responseToResult(response)
     }
 
+    override suspend fun getMovie(apiId: Long) = _locale.run {
+        val response = _api.getMovie(id = apiId, language = language, region = region)
+        responseToResult(response)
+    }
+
+    override suspend fun getTvShow(apiId: Long) = _locale.run {
+        val response = _api.getTvShow(id = apiId, language = language, region = region)
+        responseToResult(response)
+    }
+
     override suspend fun search(mediaType: String, query: String) = _locale.run {
         val response = _api.searchMedia(mediaType, query, language, region, region)
         responseToResult(response)

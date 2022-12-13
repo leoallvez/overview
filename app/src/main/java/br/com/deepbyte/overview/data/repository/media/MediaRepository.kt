@@ -1,8 +1,8 @@
 package br.com.deepbyte.overview.data.repository.media
 
-import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
+import br.com.deepbyte.overview.data.MediaType
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.ProviderPlace
-import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
@@ -17,13 +17,25 @@ class MediaRepository @Inject constructor(
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IMediaRepository {
 
-    override suspend fun getItem(apiId: Long, mediaType: String) = withContext(_dispatcher) {
-        val result = _mediaDataSource.getItem(apiId, mediaType)
-        if (result is DataResult.Success) {
-            setSimilarType(result.data, mediaType)
-            result.data?.providers = getProviders(apiId, mediaType)
+    override suspend fun getItem(apiId: Long, mediaType: String) = withContext(_dispatcher)  {
+        val result = requestMedia(apiId, mediaType)
+        result.data?.let {
+            setSimilarType(it, mediaType)
+            it.providers = getProviders(apiId, mediaType)
         }
         flow { emit(result) }
+    }
+
+    private suspend fun requestMedia(apiId: Long, type: String) =
+        if (type == MediaType.MOVIE.key) {
+            _mediaDataSource.getMovie(apiId)
+        } else {
+            _mediaDataSource.getTvShow(apiId)
+        }
+
+    private fun setSimilarType(media: Media, mediaType: String) {
+        val similar = media.similar.results
+        similar.forEach { it.type = mediaType }
     }
 
     private suspend fun getProviders(apiId: Long, mediaType: String): List<ProviderPlace> {
@@ -35,9 +47,5 @@ class MediaRepository @Inject constructor(
         } else {
             listOf()
         }
-    }
-
-    private fun setSimilarType(mediaDetails: MediaDetailResponse?, mediaType: String) {
-        mediaDetails?.similar?.results?.forEach { it.type = mediaType }
     }
 }

@@ -27,6 +27,8 @@ abstract class Media {
 
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
 
+    fun isMovieMedia() = this is Movie
+
     abstract fun getRuntime(): String
     abstract fun getLetter(): String
 

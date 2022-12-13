@@ -24,8 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.media.Movie
+import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.MediaDetailsScreenEvents
@@ -34,7 +36,6 @@ import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import br.com.deepbyte.overview.data.api.response.MediaDetailResponse as MediaDetails
 import br.com.deepbyte.overview.data.api.response.PersonDetails as Person
 
 @Composable
@@ -52,7 +53,6 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, mediaType) }
     ) { media ->
-        media?.type = mediaType
         MediaDetailsContent(media, viewModel.showAds, events) {
             viewModel.refresh(apiId, mediaType)
         }
@@ -61,12 +61,12 @@ fun MediaDetailsScreen(
 
 @Composable
 fun MediaDetailsContent(
-    mediaDetails: MediaDetails?,
+    media: Media?,
     showAds: Boolean,
     events: MediaDetailsScreenEvents,
     onRefresh: () -> Unit
 ) {
-    if (mediaDetails == null) {
+    if (media == null) {
         ErrorScreen { onRefresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
@@ -74,20 +74,20 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(mediaDetails) {
+                MediaToolBar(media) {
                     events.onNavigateToHome()
                 }
             }
         ) {
-            MediaBody(mediaDetails, showAds, events)
+            MediaBody(media, showAds, events)
         }
     }
 }
 
 @Composable
-fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
+fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
     Box(Modifier.fillMaxWidth()) {
-        mediaDetails.apply {
+        media.apply {
             Backdrop(
                 url = getBackdropImage(),
                 contentDescription = getLetter(),
@@ -109,7 +109,7 @@ fun MediaToolBar(mediaDetails: MediaDetails, backButtonAction: () -> Unit) {
 
 @Composable
 fun MediaBody(
-    mediaDetails: MediaDetails,
+    media: Media,
     showAds: Boolean,
     events: MediaDetailsScreenEvents
 ) {
@@ -120,20 +120,23 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        mediaDetails.apply {
+        media.apply {
             ProvidersList(providers) { provider ->
-                val params = provider.createDiscoverParams(mediaDetails)
+                val params = provider.createDiscoverParams(media)
                 events.onNavigateToProviderDiscover(params.toJson())
             }
-            if (mediaDetails.type == MediaType.MOVIE.key) {
-                MovieReleaseYearAndRunTime(getReleaseYear(), getMovieRuntime())
-                Director(getDirectorName())
-            } else {
-                NumberSeasonsAndEpisodes(numberOfSeasons, numberOfEpisodes)
-                EpisodesRunTime(getEpisodesRuntime())
+            when (media) {
+                is Movie -> {
+                    MovieReleaseYearAndRunTime(media.getReleaseYear(), media.getRuntime())
+                    Director(media.getDirectorName())
+                }
+                is TvShow -> {
+                    NumberSeasonsAndEpisodes(media.numberOfSeasons,media.numberOfEpisodes)
+                    EpisodesRunTime(media.getRuntime())
+                }
             }
             GenreList(genres) { genre ->
-                val params = genre.createDiscoverParams(mediaDetails)
+                val params = genre.createDiscoverParams(media)
                 events.onNavigateToGenreDiscover(params.toJson())
             }
             BasicParagraph(R.string.synopsis, overview)
