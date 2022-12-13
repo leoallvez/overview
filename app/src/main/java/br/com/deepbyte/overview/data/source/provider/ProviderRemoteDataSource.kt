@@ -12,14 +12,14 @@ class ProviderRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IProviderRemoteDataSource {
 
-    override suspend fun getItems(apiId: Long, type: String): List<ProviderPlace> = _locale.run {
-        val response = _api
-            .getProviders(id = apiId, type = type, language = language, region = region)
-
-        when (response) {
-            is Success -> filterResponseResults(response, region)
+    override suspend fun getItems(apiId: Long, type: String) =
+        when (val response = getProviders(apiId, type)) {
+            is Success -> filterResponseResults(response, _locale.region)
             else -> listOf()
         }
+
+    private suspend fun getProviders(apiId: Long, type: String) = _locale.run {
+        _api.getProviders(id = apiId, type = type, language = language, region = region)
     }
 
     private fun filterResponseResults(
