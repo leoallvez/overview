@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.data.api.response
+package br.com.deepbyte.overview.data.model.person
 
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.model.MediaItem
@@ -6,6 +6,8 @@ import br.com.deepbyte.overview.util.DateHelper
 import com.squareup.moshi.Json
 
 data class PersonDetails(
+    @field:Json(name = "id")
+    val apiId: Long = 0,
     val name: String = "",
     val biography: String = "",
     val birthday: String = "",
@@ -22,7 +24,7 @@ data class PersonDetails(
     private val tvShows: MediaCredits = MediaCredits(),
     @field:Json(name = "movie_credits")
     private val movies: MediaCredits = MediaCredits()
-) : DataResponse() {
+) {
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
     fun getFilmography() = movies.mediaItems
     fun getTvShows() = tvShows.mediaItems

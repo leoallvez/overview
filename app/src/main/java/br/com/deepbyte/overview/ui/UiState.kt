@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.ui
 
-import br.com.deepbyte.overview.data.api.response.PersonDetails
+import br.com.deepbyte.overview.data.model.person.PersonDetails
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.repository.search.SearchResult
 

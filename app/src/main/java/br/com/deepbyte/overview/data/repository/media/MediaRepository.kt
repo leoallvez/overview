@@ -1,8 +1,6 @@
 package br.com.deepbyte.overview.data.repository.media
 
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
@@ -17,12 +15,12 @@ class MediaRepository @Inject constructor(
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IMediaRepository {
 
-    override suspend fun getItem(apiId: Long, mediaType: String) = withContext(_dispatcher)  {
+    override suspend fun getItem(
+        apiId: Long,
+        mediaType: String
+    ) = withContext(_dispatcher) {
         val result = requestMedia(apiId, mediaType)
-        result.data?.let {
-            setSimilarType(it, mediaType)
-            it.providers = getProviders(apiId, mediaType)
-        }
+        result.data?.providers = getProviders(apiId, mediaType)
         flow { emit(result) }
     }
 
@@ -33,19 +31,6 @@ class MediaRepository @Inject constructor(
             _mediaDataSource.getTvShow(apiId)
         }
 
-    private fun setSimilarType(media: Media, mediaType: String) {
-        val similar = media.similar.results
-        similar.forEach { it.type = mediaType }
-    }
-
-    private suspend fun getProviders(apiId: Long, mediaType: String): List<ProviderPlace> {
-        val result = _providerDataSource.getItems(apiId, mediaType)
-        val resultsMap = result.data?.results ?: mapOf()
-        val entries = resultsMap.filter { it.key == "BR" }.entries
-        return if (entries.isNotEmpty()) {
-            entries.first().value.getOrderedFlatRate()
-        } else {
-            listOf()
-        }
-    }
+    private suspend fun getProviders(apiId: Long, mediaType: String) =
+        _providerDataSource.getItems(apiId, mediaType)
 }

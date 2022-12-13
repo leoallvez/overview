@@ -2,7 +2,6 @@ package br.com.deepbyte.overview.data.model.provider
 
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
 import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie

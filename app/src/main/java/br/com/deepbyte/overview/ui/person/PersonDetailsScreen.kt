@@ -31,7 +31,7 @@ import br.com.deepbyte.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import br.com.deepbyte.overview.data.api.response.PersonDetails
+import br.com.deepbyte.overview.data.model.person.PersonDetails
 
 @Composable
 fun CastDetailsScreen(

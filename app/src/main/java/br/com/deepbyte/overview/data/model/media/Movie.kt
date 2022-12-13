@@ -5,13 +5,20 @@ import com.squareup.moshi.Json
 
 data class Movie(
     private val title: String? = null,
+
     @field:Json(name = "original_title")
     private val originalTitle: String? = null,
+
     @field:Json(name = "runtime")
     private val movieRuntime: Int = 0,
+
     @field:Json(name = "release_date")
-    private val releaseDate: String = ""
+    private val releaseDate: String = "",
+
+    private val similar: Similar<Movie> = Similar()
 ) : Media() {
+
+    override fun getSimilarMedia() = similar.results
 
     override fun getRuntime() = runtimeTemplate(runtime = movieRuntime)
 

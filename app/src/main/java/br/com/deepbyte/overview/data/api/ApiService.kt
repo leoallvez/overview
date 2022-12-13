@@ -1,10 +1,9 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.api.response.PersonDetails
+import br.com.deepbyte.overview.data.model.person.PersonDetails
 import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
-import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
 import br.com.deepbyte.overview.data.api.response.PagingResponse

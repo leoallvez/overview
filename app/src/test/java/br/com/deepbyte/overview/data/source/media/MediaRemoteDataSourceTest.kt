@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.source.media
 
 import br.com.deepbyte.overview.data.api.ApiService
-import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
+import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import br.com.deepbyte.overview.util.mock.ReturnType
@@ -19,7 +19,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-typealias MediaDetailsSuccess = NetworkResponse.Success<MediaDetailResponse>
+typealias MediaDetailsSuccess = NetworkResponse.Success<Movie>
 
 // https://www.macoratti.net/20/12/net_unitconv1.htm
 class MediaRemoteDataSourceTest {
@@ -40,7 +40,7 @@ class MediaRemoteDataSourceTest {
         val response = createMediaDetailsSuccess()
         coEveryMediaDetailResponse(requestType = SUCCESS, response)
         // Act
-        val result = _dataSource.getItem(apiId = ID, type = TYPE)
+        val result = _dataSource.getMovie(apiId = ID)
         // Assert
         assertEquals(response.body, result.data)
     }
@@ -50,7 +50,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = SUCCESS, createMediaDetailsSuccess())
         // Act
-        val result = _dataSource.getItem(apiId = ID, type = TYPE)
+        val result = _dataSource.getMovie(apiId = ID)
         // Assert
         assertTrue(result is DataResult.Success)
     }
@@ -60,7 +60,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getItem(apiId = ID, type = TYPE)
+        val result = _dataSource.getMovie(apiId = ID)
         // Assert
         assertEquals(ERROR_MSG, result.message)
     }
@@ -70,7 +70,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.getItem(apiId = ID, type = TYPE)
+        val result = _dataSource.getMovie(apiId = ID)
         // Assert
         assertTrue(result is DataResult.ServerError)
     }
@@ -80,7 +80,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = NETWORK_ERROR)
         // Act
-        val result = _dataSource.getItem(apiId = ID, type = TYPE)
+        val result = _dataSource.getMovie(apiId = ID)
         // Assert
         assertTrue(result is DataResult.NetworkError)
     }
@@ -90,7 +90,7 @@ class MediaRemoteDataSourceTest {
         // Arrange
         coEveryMediaDetailResponse(requestType = UNKNOWN_ERROR)
         // Act
-        val result = _dataSource.getItem(apiId = ID, type = TYPE)
+        val result = _dataSource.getMovie(apiId = ID)
         // Assert
         assertTrue(result is DataResult.UnknownError)
     }
@@ -99,11 +99,11 @@ class MediaRemoteDataSourceTest {
         requestType: ReturnType,
         successResponse: MediaDetailsSuccess = createMediaDetailsSuccess()
     ) = coEvery {
-        _api.getMediaItem(id = any(), type = any())
+        _api.getMovie(id = any())
     } returns mockResponse(requestType, successResponse)
 
     private fun createMediaDetailsSuccess() =
-        NetworkResponse.Success(body = MediaDetailResponse(), code = 200)
+        NetworkResponse.Success(body = Movie(), code = 200)
 
     private companion object {
         const val ID = 1L

@@ -28,6 +28,7 @@ import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
+import br.com.deepbyte.overview.data.model.person.PersonDetails
 import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.MediaDetailsScreenEvents
@@ -36,7 +37,6 @@ import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import br.com.deepbyte.overview.data.api.response.PersonDetails as Person
 
 @Composable
 fun MediaDetailsScreen(
@@ -131,7 +131,7 @@ fun MediaBody(
                     Director(media.getDirectorName())
                 }
                 is TvShow -> {
-                    NumberSeasonsAndEpisodes(media.numberOfSeasons,media.numberOfEpisodes)
+                    NumberSeasonsAndEpisodes(media.numberOfSeasons, media.numberOfEpisodes)
                     EpisodesRunTime(media.getRuntime())
                 }
             }
@@ -147,9 +147,9 @@ fun MediaBody(
             CastList(getOrderedCast()) { apiId ->
                 events.onNavigateToCastDetails(apiId = apiId)
             }
-            MediaItemList(
+            MediaList(
                 listTitle = stringResource(R.string.related),
-                items = similar.results
+                medias = getSimilarMedia()
             ) { apiId, mediaType ->
                 events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType)
             }
@@ -313,7 +313,7 @@ fun GenreItem(name: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
+fun CastList(cast: List<PersonDetails>, onClickItem: (Long) -> Unit) {
     if (cast.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
@@ -333,7 +333,7 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 }
 
 @Composable
-fun CastItem(castPerson: Person, onClick: () -> Unit) {
+fun CastItem(castPerson: PersonDetails, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }

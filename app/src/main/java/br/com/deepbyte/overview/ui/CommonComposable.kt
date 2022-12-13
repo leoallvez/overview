@@ -44,6 +44,7 @@ import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
@@ -258,6 +259,50 @@ fun MediaItemList(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MediaList(
+    listTitle: String,
+    medias: List<Media>,
+    onClickItem: MediaItemClick
+) {
+    if (medias.isNotEmpty()) {
+        Column {
+            BasicTitle(listTitle)
+            LazyRow(
+                Modifier
+                    .padding(
+                        vertical = dimensionResource(R.dimen.default_padding)
+                    ),
+                contentPadding = PaddingValues(
+                    horizontal = dimensionResource(R.dimen.screen_padding)
+                )
+            ) {
+                items(medias) { media ->
+                    MediaItem(media, imageWithBorder = true) {
+                        onClickItem.invoke(media.apiId, media.getType())
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MediaItem(mediaItem: Media, imageWithBorder: Boolean = false, onClick: () -> Unit) {
+    Column(Modifier.clickable { onClick.invoke() }) {
+        BasicImage(
+            url = mediaItem.getPosterImage(),
+            contentDescription = mediaItem.getLetter(),
+            withBorder = imageWithBorder
+        )
+        BasicText(
+            text = mediaItem.getLetter(),
+            style = MaterialTheme.typography.caption,
+            isBold = true
+        )
     }
 }
 

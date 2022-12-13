@@ -15,8 +15,12 @@ data class TvShow(
     val numberOfEpisodes: Int = 0,
 
     @field:Json(name = "episode_run_time")
-    private val episodeRuntime: List<Int> = listOf()
+    private val episodeRuntime: List<Int> = listOf(),
+
+    private val similar: Similar<TvShow> = Similar()
 ) : Media() {
+
+    override fun getSimilarMedia() = similar.results
 
     override fun getRuntime() = runtimeTemplate(runtime = episodeRuntime.average().toInt())
 
