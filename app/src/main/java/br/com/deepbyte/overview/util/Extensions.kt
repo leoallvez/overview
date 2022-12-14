@@ -2,15 +2,18 @@ package br.com.deepbyte.overview.util
 
 import android.content.Context
 import androidx.navigation.NavBackStackEntry
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
-import com.squareup.moshi.Moshi
 import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
+import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.ScreenNav
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Moshi
 import okio.IOException
 import timber.log.Timber
 
@@ -70,5 +73,23 @@ fun NavBackStackEntry.getDiscoverParams(): DiscoverParams {
     val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
     return json.fromJson() ?: DiscoverParams()
 }
+
+fun ProviderPlace.createDiscoverParams(
+    media: Media
+) = DiscoverParams(
+    apiId = apiId,
+    screenTitle = name,
+    mediaId = media.apiId,
+    mediaType = media.getType()
+)
+
+fun Genre.createDiscoverParams(
+    media: Media
+) = DiscoverParams(
+    apiId = apiId,
+    screenTitle = name,
+    mediaId = media.apiId,
+    mediaType = media.getType()
+)
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

@@ -37,6 +37,7 @@ import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import br.com.deepbyte.overview.util.createDiscoverParams
 
 @Composable
 fun MediaDetailsScreen(
@@ -259,7 +260,7 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -
 fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
     BasicImage(
         url = provider.getLogoImage(),
-        contentDescription = provider.providerName,
+        contentDescription = provider.name,
         withBorder = true,
         modifier = Modifier
             .size(50.dp)
