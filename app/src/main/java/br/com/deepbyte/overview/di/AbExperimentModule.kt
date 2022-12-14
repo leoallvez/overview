@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.di
 
-import br.com.deepbyte.overview.BuildConfig
+import br.com.deepbyte.overview.BuildConfig.ADS_ARE_VISIBLES
 import br.com.deepbyte.overview.abtesting.AbTesting
 import br.com.deepbyte.overview.abtesting.DisplayAdsAbTesting
 import br.com.deepbyte.overview.abtesting.SuggestionAbTesting
@@ -22,7 +22,7 @@ class AbExperimentModule {
         remote: RemoteSource
     ): Boolean {
         return DisplayAdsAbTesting(
-            _localPermission = BuildConfig.ADS_ARE_VISIBLES,
+            _localPermission = ADS_ARE_VISIBLES,
             _remoteSource = remote
         ).execute()
     }
