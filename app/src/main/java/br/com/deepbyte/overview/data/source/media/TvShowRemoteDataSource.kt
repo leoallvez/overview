@@ -6,7 +6,7 @@ import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.responseToResult
 import javax.inject.Inject
 
-class TvShowRemoteDataSource @Inject constructor (
+class TvShowRemoteDataSource @Inject constructor(
     private val _api: ApiService,
     private val _locale: IApiLocale
 ) : IMediaRemoteDataSource <TvShow> {
