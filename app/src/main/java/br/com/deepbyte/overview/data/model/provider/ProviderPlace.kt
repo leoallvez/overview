@@ -1,8 +1,10 @@
 package br.com.deepbyte.overview.data.model.provider
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.api.response.MediaDetailResponse
+import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.DiscoverParams
+import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.media.Movie
 import com.squareup.moshi.Json
 
 class ProviderPlace(
@@ -18,11 +20,11 @@ class ProviderPlace(
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
 
     fun createDiscoverParams(
-        media: MediaDetailResponse
+        media: Media
     ) = DiscoverParams(
         apiId = apiId,
         screenTitle = providerName,
         mediaId = media.apiId,
-        mediaType = media.type ?: ""
+        mediaType = if (media is Movie) MediaType.MOVIE.key else MediaType.TV.key
     )
 }

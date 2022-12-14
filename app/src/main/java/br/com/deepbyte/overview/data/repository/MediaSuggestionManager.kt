@@ -7,9 +7,10 @@ import br.com.deepbyte.overview.data.model.MediaSuggestion
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
+// TODO: refactor to new patter
 class MediaSuggestionManager @Inject constructor(
     private val _suggestionRepository: SuggestionRepository,
-    private val _mediaItemsRepository: MediaItemsRepository
+    private val _mediaItemsRepository: MediaItemRepository
 ) {
 
     private val _featuredMediaItems = MutableLiveData<List<MediaItem>>()

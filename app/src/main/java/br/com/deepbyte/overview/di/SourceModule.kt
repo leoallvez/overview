@@ -1,9 +1,10 @@
 package br.com.deepbyte.overview.di
 
+import br.com.deepbyte.overview.data.model.media.Movie
+import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.discover.DiscoverRemoteDataSource
 import br.com.deepbyte.overview.data.source.discover.IDiscoverRemoteDataSource
-import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
-import br.com.deepbyte.overview.data.source.media.MediaRemoteDataSource
+import br.com.deepbyte.overview.data.source.media.*
 import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.overview.data.source.person.PersonRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
@@ -20,7 +21,7 @@ abstract class SourceModule {
     @Binds
     abstract fun bindMediaRemoteDataSource(
         source: MediaRemoteDataSource
-    ): IMediaRemoteDataSource
+    ): MediaItemRemoteDataSource
 
     @Binds
     abstract fun bindPersonRemoteDataSource(
@@ -36,4 +37,14 @@ abstract class SourceModule {
     abstract fun bindDiscoverRemoteDataSource(
         source: DiscoverRemoteDataSource
     ): IDiscoverRemoteDataSource
+
+    @Binds
+    abstract fun bindMovieRemoteDataSource(
+        source: MovieRemoteDataSource
+    ): IMediaRemoteDataSource<Movie>
+
+    @Binds
+    abstract fun bindTvShowRemoteDataSource(
+        source: TvShowRemoteDataSource
+    ): IMediaRemoteDataSource<TvShow>
 }

@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository
 
-import br.com.deepbyte.overview.data.api.response.PersonDetails
+import br.com.deepbyte.overview.data.model.person.PersonDetails
 import br.com.deepbyte.overview.data.repository.person.PersonRepository
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource

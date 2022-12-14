@@ -5,7 +5,7 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.source.DataResult
-import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
+import br.com.deepbyte.overview.data.source.media.MediaItemRemoteDataSource
 import br.com.deepbyte.overview.data.source.media.MediaLocalDataSource
 import br.com.deepbyte.overview.data.source.suggestion.SuggestionLocalDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
@@ -16,10 +16,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MediaItemsRepository @Inject constructor(
+// TODO: refactor to new patter
+class MediaItemRepository @Inject constructor(
     @IoDispatcher private val _ioDispatcher: CoroutineDispatcher,
     private val _localDataSource: MediaLocalDataSource,
-    private val _remoteDataSource: IMediaRemoteDataSource,
+    private val _remoteDataSource: MediaItemRemoteDataSource,
     private val _suggestionLocalDataSource: SuggestionLocalDataSource
 ) {
 
