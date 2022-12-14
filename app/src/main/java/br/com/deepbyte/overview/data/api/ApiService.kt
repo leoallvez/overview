@@ -101,23 +101,6 @@ interface ApiService {
         region: String = ""
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
-    // Media Item
-    @GET(value = "search/{media_type}")
-    suspend fun searchMedia(
-        @Path(value = "media_type", encoded = true)
-        type: String,
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
-
     @GET(value = "{url}")
     suspend fun getMediaItems(
         @Path(value = "url", encoded = true)

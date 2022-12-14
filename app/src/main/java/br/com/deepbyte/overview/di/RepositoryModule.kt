@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.di
 import br.com.deepbyte.overview.data.repository.discover.DiscoverRepository
 import br.com.deepbyte.overview.data.repository.discover.IDiscoverRepository
 import br.com.deepbyte.overview.data.repository.media.IMediaRepository
-import br.com.deepbyte.overview.data.repository.media.MediaRepositoryV2
+import br.com.deepbyte.overview.data.repository.media.MediaRepository
 import br.com.deepbyte.overview.data.repository.person.IPersonRepository
 import br.com.deepbyte.overview.data.repository.person.PersonRepository
 import br.com.deepbyte.overview.data.repository.search.ISearchRepository
@@ -24,7 +24,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun binMediaRepository(
-        repository: MediaRepositoryV2
+        repository: MediaRepository
     ): IMediaRepository
 
     @Binds

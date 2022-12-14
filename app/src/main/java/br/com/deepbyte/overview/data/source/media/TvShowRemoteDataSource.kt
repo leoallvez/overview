@@ -9,7 +9,7 @@ import javax.inject.Inject
 class TvShowRemoteDataSource @Inject constructor (
     private val _api: ApiService,
     private val _locale: IApiLocale
-) : IMediaRemoteDataSourceV2 <TvShow> {
+) : IMediaRemoteDataSource <TvShow> {
 
     override suspend fun find(apiId: Long) = _locale.run {
         val response = _api.getTvShow(id = apiId, language = language, region = region)

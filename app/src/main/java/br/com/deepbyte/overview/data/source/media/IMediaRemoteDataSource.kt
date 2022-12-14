@@ -1,14 +1,11 @@
 package br.com.deepbyte.overview.data.source.media
 
 import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.model.MediaItem
-import br.com.deepbyte.overview.data.model.media.Movie
-import br.com.deepbyte.overview.data.model.media.TvShow
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.source.DataResult
 
-interface IMediaRemoteDataSource {
-    suspend fun getMovie(apiId: Long): DataResult<Movie>
-    suspend fun getTvShow(apiId: Long): DataResult<TvShow>
-    suspend fun getItems(url: String): DataResult<ListResponse<MediaItem>>
-    suspend fun search(mediaType: String, query: String): DataResult<ListResponse<MediaItem>>
+interface IMediaRemoteDataSource <T : Media> {
+    suspend fun find(apiId: Long): DataResult<T>
+    suspend fun getItemsByUrl(url: String): DataResult<ListResponse<T>>
+    suspend fun search(query: String): DataResult<ListResponse<T>>
 }

@@ -21,7 +21,7 @@ abstract class SourceModule {
     @Binds
     abstract fun bindMediaRemoteDataSource(
         source: MediaRemoteDataSource
-    ): IMediaRemoteDataSource
+    ): MediaItemRemoteDataSource
 
     @Binds
     abstract fun bindPersonRemoteDataSource(
@@ -41,10 +41,10 @@ abstract class SourceModule {
     @Binds
     abstract fun bindMovieRemoteDataSource(
         source: MovieRemoteDataSource
-    ): IMediaRemoteDataSourceV2<Movie>
+    ): IMediaRemoteDataSource<Movie>
 
     @Binds
     abstract fun bindTvShowRemoteDataSource(
         source: TvShowRemoteDataSource
-    ): IMediaRemoteDataSourceV2<TvShow>
+    ): IMediaRemoteDataSource<TvShow>
 }
