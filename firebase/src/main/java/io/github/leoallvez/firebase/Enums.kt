@@ -5,7 +5,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 enum class RemoteConfigKey(val value: String) {
     DISPLAY_ADS_KEY(value = "display_ads"),
     SUGGESTIONS_LIST_KEY(value = "suggestions_list"),
-    FIREBASE_ENVIRONMENT(value = "firebase_environment")
+    FIREBASE_ENVIRONMENT_KEY(value = "firebase_environment")
 }
 
 enum class AnalyticsEvent(val value: String) {
