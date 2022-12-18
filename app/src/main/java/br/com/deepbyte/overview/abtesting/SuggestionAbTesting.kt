@@ -18,16 +18,16 @@ class SuggestionAbTesting(
 
     private fun getLocalSuggestions(): List<Suggestion> {
         val json = _jsonFileReader.read(SUGGESTIONS_FILE_NAME)
-        return parseJsonToSuggestions(json)
+        return json.toSuggestionList()
     }
 
     private fun getRemoteSuggestions(): List<Suggestion> {
         val json = _remoteSource.getString(SUGGESTIONS_LIST_KEY)
-        return parseJsonToSuggestions(json)
+        return json.toSuggestionList()
     }
 
-    private fun parseJsonToSuggestions(json: String) =
-        json.parseToList<Suggestion>()
+    private fun String.toSuggestionList() =
+        this.parseToList<Suggestion>()
 
     companion object {
         private const val SUGGESTIONS_FILE_NAME = "suggestions.json"
