@@ -3,7 +3,7 @@ package io.github.leoallvez.firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import io.github.leoallvez.firebase.BuildConfig.REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
-import io.github.leoallvez.firebase.RemoteConfigKey.*
+import io.github.leoallvez.firebase.RemoteConfigKey.FIREBASE_ENVIRONMENT_KEY
 import timber.log.Timber
 
 interface RemoteSource {
@@ -31,7 +31,7 @@ class RemoteConfigWrapper(
 
     private fun onCompleteListener() = with(_remote) {
         fetch().addOnCompleteListener { task ->
-            with (task) {
+            with(task) {
                 if (isSuccessful) { activate() }
                 log(isSuccessful)
             }

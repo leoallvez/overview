@@ -6,9 +6,7 @@ import br.com.deepbyte.overview.util.parseToList
 import io.github.leoallvez.firebase.RemoteConfigKey.SUGGESTIONS_LIST_KEY
 import io.github.leoallvez.firebase.RemoteSource
 
-import javax.inject.Inject
-
-class SuggestionAbTesting @Inject constructor(
+class SuggestionAbTesting(
     private val _jsonFileReader: IJsonFileReader,
     private val _remoteSource: RemoteSource
 ) : AbTesting<List<Suggestion>> {
