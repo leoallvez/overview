@@ -29,20 +29,19 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     val onNavigateToMediaDetails: MediaItemClick = { id, type ->
         navController.navigate(ScreenNav.MediaDetails.editRoute(id, type))
     }
+    val onNavigateToHome = {
+        navController.navigate(route = ScreenNav.Home.route) {
+            popUpTo(ScreenNav.Splash.route) {
+                inclusive = true
+            }
+        }
+    }
     NavHost(
         navController = navController,
         startDestination = ScreenNav.Splash.route
     ) {
         composable(route = ScreenNav.Splash.route) {
-            SplashScreen(
-                onNavigateToHome = {
-                    navController.navigate(route = ScreenNav.Home.route) {
-                        popUpTo(ScreenNav.Splash.route) {
-                            inclusive = true
-                        }
-                    }
-                }
-            )
+            SplashScreen(onNavigateToHome = onNavigateToHome)
         }
         composable(route = ScreenNav.Home.route) {
             HomeScreen(
@@ -53,7 +52,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             )
         }
         composable(route = ScreenNav.Search.route) {
-            SearchScreen()
+            SearchScreen(onNavigateToHome = onNavigateToHome)
         }
         mediaDetailsGraph(
             navController = navController,

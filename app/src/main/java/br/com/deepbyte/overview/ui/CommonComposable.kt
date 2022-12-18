@@ -165,7 +165,7 @@ fun StylizedButton(
 ) {
     Button(
         onClick = { onClick.invoke() },
-        contentPadding = PaddingValues(20.dp),
+        contentPadding = PaddingValues(10.dp),
         shape = RoundedCornerShape(percent = 50),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = AccentColor
@@ -503,7 +503,7 @@ fun DiscoverContent(
         is LoadState.NotLoading -> {
             Scaffold(
                 modifier = Modifier
-                    .background(Color.Black)
+                    .background(PrimaryBackground)
                     .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
                 topBar = { DiscoverToolBar(providerName, onPopBackStack) },
                 bottomBar = {
