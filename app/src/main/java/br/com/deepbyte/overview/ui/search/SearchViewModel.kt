@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.data.repository.search.ISearchRepository
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.SearchUiState
-import br.com.deepbyte.overview.ui.UiState
+import br.com.deepbyte.overview.ui.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,21 +18,21 @@ class SearchViewModel @Inject constructor(
     private val _repository: ISearchRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<SearchUiState>(UiState.Loading())
+    private val _uiState = MutableStateFlow<SearchUiState>(SearchState.NotStated())
     val uiState: StateFlow<SearchUiState> = _uiState
 
     fun search(query: String) = viewModelScope.launch {
         if (query.isNotEmpty()) {
             searchResults(query)
         } else {
-            _uiState.value = UiState.Empty()
+            _uiState.value = SearchState.Empty()
         }
     }
 
     private suspend fun searchResults(query: String) {
-        _uiState.value = UiState.Loading()
+        _uiState.value = SearchState.Loading()
         _repository.search(query).collect { data ->
-            _uiState.value = if (data.hasSuccess) UiState.Success(data) else UiState.Empty()
+            _uiState.value = if (data.hasSuccess) SearchState.Success(data) else SearchState.Empty()
         }
     }
 }
