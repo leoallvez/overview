@@ -24,10 +24,10 @@ class SearchRepository @Inject constructor(
 
     private suspend fun getSearchResults(query: String): SearchResult {
 
-        val moviesResult = _movieSource.search(query)
-        val tvShowsResult = _tvShowSource.search(query)
-        val personsResult = _personSource.search(query)
+        val movies = _movieSource.search(query)
+        val tvShows = _tvShowSource.search(query)
+        val persons = _personSource.search(query)
 
-        return SearchResult(moviesResult, tvShowsResult, personsResult)
+        return SearchResult(movies, tvShows, persons)
     }
 }

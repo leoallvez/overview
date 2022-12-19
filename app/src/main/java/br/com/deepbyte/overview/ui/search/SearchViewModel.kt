@@ -22,9 +22,17 @@ class SearchViewModel @Inject constructor(
     val uiState: StateFlow<SearchUiState> = _uiState
 
     fun search(query: String) = viewModelScope.launch {
+        if (query.isNotEmpty()) {
+            searchResults(query)
+        } else {
+            _uiState.value = UiState.Empty()
+        }
+    }
+
+    private suspend fun searchResults(query: String) {
+        _uiState.value = UiState.Loading()
         _repository.search(query).collect { data ->
-            val hasSuccess = data.haveSuccessResult()
-            _uiState.value = if (hasSuccess) UiState.Success(data) else UiState.Empty()
+            _uiState.value = if (data.hasSuccess) UiState.Success(data) else UiState.Empty()
         }
     }
 }
