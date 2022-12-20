@@ -13,12 +13,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +49,8 @@ import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.ui.search.ClearSearchIcon
+import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
@@ -202,7 +208,7 @@ fun ToolbarButton(
             .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(45.dp)
+            .size(dimensionResource(R.dimen.toolbar_element_size))
             .clickable { onClick.invoke() }
     ) {
 
@@ -647,4 +653,40 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
                 .padding(textPadding)
         )
     }
+}
+
+@Composable
+fun SearchField(onSearch: (query: String) -> Unit) {
+
+    val query = rememberSaveable { mutableStateOf(value = String()) }
+
+    OutlinedTextField(
+        value = query.value,
+        onValueChange = { value ->
+            onSearch(value)
+            query.value = value
+        },
+        maxLines = 1,
+        placeholder = {
+            Text(
+                text = stringResource(R.string.search_field_text),
+                color = AccentColor
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = dimensionResource(R.dimen.screen_padding)),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        textStyle = MaterialTheme.typography.subtitle1.copy(color = Color.White),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            cursorColor = Color.White,
+            backgroundColor = SecondaryBackground,
+            focusedBorderColor = SecondaryBackground,
+            unfocusedBorderColor = SecondaryBackground,
+        ),
+        leadingIcon = { SearchIcon() },
+        trailingIcon = { ClearSearchIcon(query.value) { query.value = "" } },
+        shape = RoundedCornerShape(100.dp),
+    )
 }

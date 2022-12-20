@@ -14,6 +14,8 @@
     <string name="btn_try_again">Intentar nuevamente</string>
     <string name="refresh_icon">Recargar icono</string>
     <string name="back_to_home_icon">Icono de regreso a casa</string>
+    <string name="search_icon">Icono de búsqueda</string>
+    <string name="search_clean_icon">Icono de limpiar pesquisa</string>
     <string name="app_offline_msg">No hay conexión a Internet disponible</string>
     <string name="loading">Cargando…</string>
 
@@ -34,4 +36,5 @@
     <string name="n_episodes">%s episodios</string>
     <string name="per_episode">%s por episodio</string>
     <string name="director">Director: %s</string>
+    <string name="search_field_text">Buscar</string>
 </resources>
