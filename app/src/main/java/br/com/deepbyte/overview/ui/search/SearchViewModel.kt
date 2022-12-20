@@ -31,8 +31,8 @@ class SearchViewModel @Inject constructor(
 
     private suspend fun searchResults(query: String) {
         _uiState.value = SearchState.Loading()
-        _repository.search(query).collect { data ->
-            _uiState.value = if (data.hasSuccess) SearchState.Success(data) else SearchState.Empty()
+        _repository.search(query).collect { result ->
+            _uiState.value = if (result.isNotEmpty) SearchState.Success(result) else SearchState.Empty()
         }
     }
 }

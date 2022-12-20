@@ -22,12 +22,12 @@ class SearchRepository @Inject constructor(
         flow { emit(results) }
     }
 
-    private suspend fun getSearchResults(query: String): SearchResult {
+    private suspend fun getSearchResults(query: String): SearchContents {
 
         val movies = _movieSource.search(query)
         val tvShows = _tvShowSource.search(query)
         val persons = _personSource.search(query)
 
-        return SearchResult(movies, tvShows, persons)
+        return SearchContents(movies, tvShows, persons)
     }
 }
