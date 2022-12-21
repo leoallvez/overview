@@ -11,4 +11,5 @@
     <dimen name="border_width">1dp</dimen>
 
     <dimen name="backdrop_height">320dp</dimen>
+    <dimen name="toolbar_element_size">56.dp</dimen>
 </resources>

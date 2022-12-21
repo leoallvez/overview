@@ -1,15 +1,14 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.model.person.PersonDetails
-import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
-import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.api.response.ProviderResponse
+import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.api.response.PagingResponse
+import br.com.deepbyte.overview.data.api.response.ProviderResponse
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
+import br.com.deepbyte.overview.data.model.person.PersonDetails
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -142,20 +141,6 @@ interface ApiService {
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
     ): NetworkResponse<PersonDetails, ErrorResponse>
-
-    @GET(value = "search/person")
-    suspend fun searchPerson(
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<ListResponse<Person>, ErrorResponse>
 
     // Discover
     @GET(value = "tv/popular")

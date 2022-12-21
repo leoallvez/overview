@@ -1,6 +1,5 @@
 package br.com.deepbyte.overview.ui
 
-import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -13,12 +12,16 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,11 +31,14 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +51,8 @@ import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.ui.search.ClearSearchIcon
+import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
@@ -52,6 +60,8 @@ import br.com.deepbyte.overview.util.MediaItemClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
 fun BasicTitle(title: String) {
@@ -84,7 +94,6 @@ fun SimpleTitle(title: String) {
     )
 }
 
-@SuppressLint("TrackScreenView")
 @Composable
 fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
     DisposableEffect(Unit) {
@@ -165,7 +174,7 @@ fun StylizedButton(
 ) {
     Button(
         onClick = { onClick.invoke() },
-        contentPadding = PaddingValues(20.dp),
+        contentPadding = PaddingValues(10.dp),
         shape = RoundedCornerShape(percent = 50),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = AccentColor
@@ -202,7 +211,7 @@ fun ToolbarButton(
             .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(45.dp)
+            .size(dimensionResource(R.dimen.toolbar_element_size))
             .clickable { onClick.invoke() }
     ) {
 
@@ -503,7 +512,7 @@ fun DiscoverContent(
         is LoadState.NotLoading -> {
             Scaffold(
                 modifier = Modifier
-                    .background(Color.Black)
+                    .background(PrimaryBackground)
                     .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
                 topBar = { DiscoverToolBar(providerName, onPopBackStack) },
                 bottomBar = {
@@ -566,6 +575,7 @@ fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
     }
 }
 
+// TODO: To refactor user Media class as parameter
 @Composable
 fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
     mediaItem?.apply {
@@ -573,6 +583,31 @@ fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
             modifier = Modifier
                 .padding(2.dp)
                 .clickable { onClick(apiId, type) }
+        ) {
+            BasicImage(
+                url = getPosterImage(),
+                contentDescription = getLetter(),
+                withBorder = true,
+                modifier = Modifier
+                    .size(width = 125.dp, height = 180.dp)
+                    .padding(1.dp)
+            )
+            BasicText(
+                text = getLetter(),
+                style = MaterialTheme.typography.caption,
+                isBold = true
+            )
+        }
+    }
+}
+
+@Composable
+fun GridItemMedia(media: Media, onClick: (Media) -> Unit) {
+    media.apply {
+        Column(
+            modifier = Modifier
+                .padding(2.dp)
+                .clickable { onClick(this) }
         ) {
             BasicImage(
                 url = getPosterImage(),
@@ -647,4 +682,40 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
                 .padding(textPadding)
         )
     }
+}
+
+@Composable
+fun SearchField(onSearch: (query: String) -> Unit) {
+
+    var query by rememberSaveable { mutableStateOf(value = String()) }
+    val focusManager = LocalFocusManager.current
+
+    OutlinedTextField(
+        value = query,
+        onValueChange = { value ->
+            query = value
+            onSearch(query)
+        },
+        maxLines = 1,
+        placeholder = { Text(text = stringResource(R.string.search_field_text), color = AccentColor) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = dimensionResource(R.dimen.screen_padding)),
+        singleLine = true,
+        keyboardActions = KeyboardActions(onSearch = {
+            focusManager.clearFocus()
+        }),
+        keyboardOptions = KeyboardOptions
+            .Default.copy(imeAction = ImeAction.Search, keyboardType = KeyboardType.Text),
+        textStyle = MaterialTheme.typography.subtitle1.copy(color = Color.White),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            cursorColor = Color.White,
+            backgroundColor = SecondaryBackground,
+            focusedBorderColor = SecondaryBackground,
+            unfocusedBorderColor = SecondaryBackground,
+        ),
+        leadingIcon = { SearchIcon() },
+        trailingIcon = { ClearSearchIcon(query) { query = "" } },
+        shape = RoundedCornerShape(100.dp),
+    )
 }

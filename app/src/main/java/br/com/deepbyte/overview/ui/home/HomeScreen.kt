@@ -82,7 +82,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
     HorizontalCardSlider(items, callback)
     ToolbarButton(
         painter = Icons.Filled.Search,
-        descriptionResource = R.string.back_to_home_icon,
+        descriptionResource = R.string.search_icon,
         iconTint = AccentColor,
         modifier = Modifier.road(Alignment.TopEnd, Alignment.TopEnd)
     ) { onNavigateToSearch.invoke() }

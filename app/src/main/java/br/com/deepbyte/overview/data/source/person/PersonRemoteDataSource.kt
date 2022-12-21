@@ -14,9 +14,4 @@ class PersonRemoteDataSource @Inject constructor(
         val response = _api.getPersonItem(id = apiId, language = language, region = region)
         responseToResult(response)
     }
-
-    override suspend fun search(query: String) = _locale.run {
-        val response = _api.searchPerson(query, language, region, region)
-        responseToResult(response)
-    }
 }
