@@ -2,6 +2,8 @@ package br.com.deepbyte.overview.ui.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -20,9 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.repository.search.SearchContents
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import timber.log.Timber
 
 @Composable
 fun SearchScreen(
@@ -49,7 +54,7 @@ fun SearchScreen(
             when (val uiState = viewModel.uiState.collectAsState().value) {
                 is SearchState.NotStated -> SearchNotStated()
                 is SearchState.Loading -> LoadingScreen()
-                is SearchState.Success -> SearchSuccess()
+                is SearchState.Success -> SearchSuccess(uiState.data)
                 is SearchState.Empty -> SearchEmpty()
             }
         }
@@ -86,8 +91,32 @@ fun SearchNotStated() {
 }
 
 @Composable
-fun SearchSuccess() {
-    Text("SearchSuccess", color = Color.White)
+fun SearchSuccess(contents: SearchContents) {
+    with(contents) {
+        Column {
+            // SearchMediaResults(title = "MOVIES", movies)
+            SearchMediaResults(title = "TV SHOW", tvShows)
+            // SearchPersonResults(title = "PERSON", persons)
+        }
+    }
+}
+
+@Composable
+fun SearchMediaResults(title: String, medias: List<Media>) {
+    if (medias.isNotEmpty()) {
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
+        Text(text = "$title [${medias.size}]", color = Color.White)
+        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+            items(medias.size) { index ->
+                GridItemMedia(
+                    media = medias[index],
+                    onClick = { media ->
+                        Timber.tag("click_media").i("media title: ${media.getLetter()}")
+                    }
+                )
+            }
+        }
+    }
 }
 
 @Composable
