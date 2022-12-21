@@ -1,6 +1,5 @@
 package br.com.deepbyte.overview.ui
 
-import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -13,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -31,11 +31,13 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,6 +60,8 @@ import br.com.deepbyte.overview.util.MediaItemClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
 fun BasicTitle(title: String) {
@@ -90,7 +94,6 @@ fun SimpleTitle(title: String) {
     )
 }
 
-@SuppressLint("TrackScreenView")
 @Composable
 fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
     DisposableEffect(Unit) {
@@ -684,26 +687,26 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 @Composable
 fun SearchField(onSearch: (query: String) -> Unit) {
 
-    val query = rememberSaveable { mutableStateOf(value = String()) }
+    var query by rememberSaveable { mutableStateOf(value = String()) }
+    val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
-        value = query.value,
+        value = query,
         onValueChange = { value ->
-            onSearch(value)
-            query.value = value
+            query = value
+            onSearch(query)
         },
         maxLines = 1,
-        placeholder = {
-            Text(
-                text = stringResource(R.string.search_field_text),
-                color = AccentColor
-            )
-        },
+        placeholder = { Text(text = stringResource(R.string.search_field_text), color = AccentColor) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = dimensionResource(R.dimen.screen_padding)),
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        keyboardActions = KeyboardActions(onSearch = {
+            focusManager.clearFocus()
+        }),
+        keyboardOptions = KeyboardOptions
+            .Default.copy(imeAction = ImeAction.Search, keyboardType = KeyboardType.Text),
         textStyle = MaterialTheme.typography.subtitle1.copy(color = Color.White),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             cursorColor = Color.White,
@@ -712,7 +715,7 @@ fun SearchField(onSearch: (query: String) -> Unit) {
             unfocusedBorderColor = SecondaryBackground,
         ),
         leadingIcon = { SearchIcon() },
-        trailingIcon = { ClearSearchIcon(query.value) { query.value = "" } },
+        trailingIcon = { ClearSearchIcon(query) { query = "" } },
         shape = RoundedCornerShape(100.dp),
     )
 }

@@ -2,7 +2,6 @@ package br.com.deepbyte.overview.ui
 
 import br.com.deepbyte.overview.data.model.person.PersonDetails
 import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.repository.search.SearchContents
 
 typealias MediaUiState = UiState<Media?>
 typealias PersonUiState = UiState<PersonDetails?>
@@ -13,7 +12,7 @@ sealed class UiState <T> {
     class Error<T> : UiState<T>()
 }
 
-typealias SearchUiState = SearchState<SearchContents>
+typealias SearchUiState = SearchState<Map<String, List<Media>>>
 
 sealed class SearchState <T> {
     class NotStated<T> : SearchState<T>()

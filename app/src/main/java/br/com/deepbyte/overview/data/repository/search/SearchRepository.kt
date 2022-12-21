@@ -1,10 +1,13 @@
 package br.com.deepbyte.overview.data.repository.search
 
+import br.com.deepbyte.overview.data.MediaType.MOVIE
+import br.com.deepbyte.overview.data.MediaType.TV
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
-import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
+import br.com.deepbyte.overview.util.toList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -13,21 +16,18 @@ import javax.inject.Inject
 class SearchRepository @Inject constructor(
     private val _movieSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>,
-    private val _personSource: IPersonRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ISearchRepository {
 
     override suspend fun search(query: String) = withContext(_dispatcher) {
-        val results = getSearchResults(query)
+        val results = createResults(query)
         flow { emit(results) }
     }
 
-    private suspend fun getSearchResults(query: String): SearchContents {
-
-        val movies = _movieSource.search(query)
-        val tvShows = _tvShowSource.search(query)
-        val persons = _personSource.search(query)
-
-        return SearchContents(movies, tvShows, persons)
+    private suspend fun createResults(query: String): Map<String, List<Media>> {
+        val map = mutableMapOf<String, List<Media>>()
+        map[MOVIE.key] = _movieSource.search(query).toList()
+        map[TV.key] = _tvShowSource.search(query).toList()
+        return map
     }
 }

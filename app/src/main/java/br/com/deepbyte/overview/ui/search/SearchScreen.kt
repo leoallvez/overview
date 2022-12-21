@@ -22,8 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.repository.search.SearchContents
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -91,29 +91,27 @@ fun SearchNotStated() {
 }
 
 @Composable
-fun SearchSuccess(contents: SearchContents) {
-    with(contents) {
-        Column {
-            // SearchMediaResults(title = "MOVIES", movies)
-            SearchMediaResults(title = "TV SHOW", tvShows)
-            // SearchPersonResults(title = "PERSON", persons)
-        }
-    }
+fun SearchSuccess(results: Map<String, List<Media>>) {
+
+    MediaGrind(title = "MOVIES", medias = results[MediaType.MOVIE.key])
+    // MediaGrind(title = "TV SHOW", medias = results[MediaType.TV.key])
 }
 
 @Composable
-fun SearchMediaResults(title: String, medias: List<Media>) {
-    if (medias.isNotEmpty()) {
-        Spacer(modifier = Modifier.padding(vertical = 10.dp))
-        Text(text = "$title [${medias.size}]", color = Color.White)
-        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
-            items(medias.size) { index ->
-                GridItemMedia(
-                    media = medias[index],
-                    onClick = { media ->
-                        Timber.tag("click_media").i("media title: ${media.getLetter()}")
-                    }
-                )
+fun MediaGrind(title: String, medias: List<Media>?) {
+    if (medias != null && medias.isNotEmpty()) {
+        Column {
+            Text(text = "$title [${medias.size}]", color = Color.White)
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+                items(medias.size) { index ->
+                    GridItemMedia(
+                        media = medias[index],
+                        onClick = { media ->
+                            Timber.tag("click_media").i("media title: ${media.getLetter()}")
+                        }
+                    )
+                }
             }
         }
     }
