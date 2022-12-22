@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.MediaType.MOVIE
-import br.com.deepbyte.overview.data.MediaType.TV
+import br.com.deepbyte.overview.data.MediaType.TV_SHOW
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -130,7 +130,7 @@ fun PersonBody(
             BasicParagraph(R.string.biography, biography)
             AdsMediumRectangle(R.string.banner_sample_id, showAds)
             ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
-            ParticipationList(R.string.tv_shows_participation, getTvShows(), TV, onClickItem)
+            ParticipationList(R.string.tv_shows_participation, getTvShows(), TV_SHOW, onClickItem)
         }
     }
 }

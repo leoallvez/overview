@@ -24,7 +24,7 @@ abstract class Media {
     fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
     fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
-    fun getType() = if (this is Movie) MediaType.MOVIE.key else MediaType.TV.key
+    fun getType() = if (this is Movie) MediaType.MOVIE.key else MediaType.TV_SHOW.key
 
     protected fun runtimeTemplate(runtime: Int) = if (runtime > 0) {
         val hours = runtime / 60

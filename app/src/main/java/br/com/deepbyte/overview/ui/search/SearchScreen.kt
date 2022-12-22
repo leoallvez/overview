@@ -23,7 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType.*
+import br.com.deepbyte.overview.data.MediaType.MOVIE
+import br.com.deepbyte.overview.data.MediaType.TV_SHOW
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -72,7 +73,7 @@ fun SearchToolBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = 10.dp),
+            .padding(bottom = dimensionResource(R.dimen.screen_padding)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ToolbarButton(
@@ -109,11 +110,13 @@ fun SearchSuccess(results: Map<String, List<Media>>) {
 
 @Composable
 fun MediaSelector(selector: String, onClick: (String) -> Unit) {
+    val options = listOf(MOVIE, TV_SHOW)
     Row(
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
-        MediaButton(R.string.movies, selector, MOVIE.key, onClick)
-        MediaButton(R.string.tv_show, selector, TV.key, onClick)
+        options.forEach { option ->
+            MediaButton(option.labelRes, selector, option.key, onClick)
+        }
     }
     Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
 }
@@ -141,14 +144,14 @@ fun MediaButton(
         modifier = Modifier
             .height(35.dp)
             .padding(end = dimensionResource(R.dimen.screen_padding)),
-        border = BorderStroke(1.dp, color),
+        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = if (isActivated) PrimaryBackground else SecondaryBackground
         )
     ) {
         Text(
             text = stringResource(labelResId),
-            color = (color),
+            color = color,
             style = MaterialTheme.typography.caption,
             fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal
         )

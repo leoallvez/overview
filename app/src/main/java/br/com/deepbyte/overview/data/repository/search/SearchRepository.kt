@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.repository.search
 
 import br.com.deepbyte.overview.data.MediaType.MOVIE
-import br.com.deepbyte.overview.data.MediaType.TV
+import br.com.deepbyte.overview.data.MediaType.TV_SHOW
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
@@ -27,7 +27,7 @@ class SearchRepository @Inject constructor(
     private suspend fun createResults(query: String): Map<String, List<Media>> {
         val map = mutableMapOf<String, List<Media>>()
         map[MOVIE.key] = _movieSource.search(query).toList()
-        map[TV.key] = _tvShowSource.search(query).toList()
+        map[TV_SHOW.key] = _tvShowSource.search(query).toList()
         return map
     }
 }
