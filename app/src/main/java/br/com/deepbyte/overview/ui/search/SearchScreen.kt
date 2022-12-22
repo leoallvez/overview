@@ -1,5 +1,6 @@
 package br.com.deepbyte.overview.ui.search
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +28,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import timber.log.Timber
 
 @Composable
@@ -61,8 +64,10 @@ fun SearchScreen(
 }
 
 @Composable
-fun SearchToolBar(backButtonAction: () -> Unit, onSearch: (String) -> Unit) {
-
+fun SearchToolBar(
+    backButtonAction: () -> Unit,
+    onSearch: (String) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -104,41 +109,45 @@ fun SearchSuccess(results: Map<String, List<Media>>) {
 
 @Composable
 fun MediaSelector(selector: String, onClick: (String) -> Unit) {
-    Spacer(modifier = Modifier.padding(vertical = 5.dp))
-    Row {
-        MediaButton("Movies", selector, MOVIE.key, onClick)
-        MediaButton("TV Shows", selector, TV.key, onClick)
+    Row(
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))
+    ) {
+        MediaButton(R.string.movies, selector, MOVIE.key, onClick)
+        MediaButton(R.string.tv_show, selector, TV.key, onClick)
     }
-    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+    Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
 }
 
 @Composable
 fun MediaButton(
-    name: String,
+    @StringRes labelResId: Int,
     selectedKey: String,
     mediaKey: String,
     onClick: (String) -> Unit
 ) {
-
     val isActivated = selectedKey == mediaKey
     val color = if (isActivated) AccentColor else Color.Gray
+    val focusManager = LocalFocusManager.current
 
     OutlinedButton(
-        onClick = { onClick.invoke(mediaKey) },
+        onClick = {
+            onClick.invoke(mediaKey)
+            focusManager.clearFocus()
+        },
         shape = RoundedCornerShape(percent = 100),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
         modifier = Modifier
             .height(35.dp)
-            .padding(end = 10.dp),
+            .padding(end = dimensionResource(R.dimen.screen_padding)),
         border = BorderStroke(1.dp, color),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = PrimaryBackground
+            backgroundColor = if (isActivated) PrimaryBackground else SecondaryBackground
         )
     ) {
         Text(
-            text = name,
+            text = stringResource(labelResId),
             color = (color),
             style = MaterialTheme.typography.caption,
             fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal
