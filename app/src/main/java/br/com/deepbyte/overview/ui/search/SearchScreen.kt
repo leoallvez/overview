@@ -1,28 +1,27 @@
 package br.com.deepbyte.overview.ui.search
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType
+import br.com.deepbyte.overview.data.MediaType.*
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -93,16 +92,64 @@ fun SearchNotStated() {
 @Composable
 fun SearchSuccess(results: Map<String, List<Media>>) {
 
-    MediaGrind(title = "MOVIES", medias = results[MediaType.MOVIE.key])
-    // MediaGrind(title = "TV SHOW", medias = results[MediaType.TV.key])
+    var selected by remember { mutableStateOf(MOVIE.key) }
+
+    Column {
+        MediaSelector(selected) { newSelected ->
+            selected = newSelected
+        }
+        MediaGrind(medias = results[selected])
+    }
 }
 
 @Composable
-fun MediaGrind(title: String, medias: List<Media>?) {
+fun MediaSelector(selector: String, onClick: (String) -> Unit) {
+    Spacer(modifier = Modifier.padding(vertical = 5.dp))
+    Row {
+        MediaButton("Movies", selector, MOVIE.key, onClick)
+        MediaButton("TV Shows", selector, TV.key, onClick)
+    }
+    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+}
+
+@Composable
+fun MediaButton(
+    name: String,
+    selectedKey: String,
+    mediaKey: String,
+    onClick: (String) -> Unit
+) {
+
+    val isActivated = selectedKey == mediaKey
+    val color = if (isActivated) AccentColor else Color.Gray
+
+    OutlinedButton(
+        onClick = { onClick.invoke(mediaKey) },
+        shape = RoundedCornerShape(percent = 100),
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(R.dimen.default_padding)
+        ),
+        modifier = Modifier
+            .height(35.dp)
+            .padding(end = 10.dp),
+        border = BorderStroke(1.dp, color),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = PrimaryBackground
+        )
+    ) {
+        Text(
+            text = name,
+            color = (color),
+            style = MaterialTheme.typography.caption,
+            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+fun MediaGrind(medias: List<Media>?) {
     if (medias != null && medias.isNotEmpty()) {
         Column {
-            Text(text = "$title [${medias.size}]", color = Color.White)
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
             LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
                 items(medias.size) { index ->
                     GridItemMedia(
