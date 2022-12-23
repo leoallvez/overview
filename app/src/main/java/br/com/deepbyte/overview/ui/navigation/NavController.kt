@@ -52,7 +52,10 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             )
         }
         composable(route = ScreenNav.Search.route) {
-            SearchScreen(onNavigateToHome = onNavigateToHome)
+            SearchScreen(
+                onNavigateToHome = onNavigateToHome,
+                onNavigateToMediaDetails = onNavigateToMediaDetails
+            )
         }
         mediaDetailsGraph(
             navController = navController,

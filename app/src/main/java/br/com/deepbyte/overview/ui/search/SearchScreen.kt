@@ -30,12 +30,13 @@ import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
-import timber.log.Timber
+import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     Scaffold(
         backgroundColor = PrimaryBackground,
@@ -57,7 +58,7 @@ fun SearchScreen(
             when (val uiState = viewModel.uiState.collectAsState().value) {
                 is SearchState.NotStated -> SearchNotStated()
                 is SearchState.Loading -> LoadingScreen()
-                is SearchState.Success -> SearchSuccess(uiState.data)
+                is SearchState.Success -> SearchSuccess(uiState.data, onNavigateToMediaDetails)
                 is SearchState.Empty -> SearchEmpty()
             }
         }
@@ -96,7 +97,10 @@ fun SearchNotStated() {
 }
 
 @Composable
-fun SearchSuccess(results: Map<String, List<Media>>) {
+fun SearchSuccess(
+    results: Map<String, List<Media>>,
+    onNavigateToMediaDetails: MediaItemClick
+) {
 
     var selected by remember { mutableStateOf(MOVIE.key) }
 
@@ -104,7 +108,7 @@ fun SearchSuccess(results: Map<String, List<Media>>) {
         MediaSelector(selected) { newSelected ->
             selected = newSelected
         }
-        MediaGrind(medias = results[selected])
+        MediaGrind(medias = results[selected], onNavigateToMediaDetails)
     }
 }
 
@@ -159,7 +163,7 @@ fun MediaButton(
 }
 
 @Composable
-fun MediaGrind(medias: List<Media>?) {
+fun MediaGrind(medias: List<Media>?, onNavigateToMediaDetails: MediaItemClick) {
     if (medias != null && medias.isNotEmpty()) {
         Column {
             LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
@@ -167,7 +171,7 @@ fun MediaGrind(medias: List<Media>?) {
                     GridItemMedia(
                         media = medias[index],
                         onClick = { media ->
-                            Timber.tag("click_media").i("media title: ${media.getLetter()}")
+                            onNavigateToMediaDetails.invoke(media.apiId, media.getType())
                         }
                     )
                 }
