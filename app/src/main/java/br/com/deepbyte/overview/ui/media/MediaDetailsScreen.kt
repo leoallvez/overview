@@ -31,7 +31,7 @@ import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.PersonDetails
 import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
-import br.com.deepbyte.overview.ui.navigation.MediaDetailsScreenEvents
+import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import me.onebone.toolbar.CollapsingToolbarScaffold

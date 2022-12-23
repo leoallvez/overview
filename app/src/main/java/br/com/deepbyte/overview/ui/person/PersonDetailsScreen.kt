@@ -32,12 +32,12 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import br.com.deepbyte.overview.data.model.person.PersonDetails
+import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 
 @Composable
 fun CastDetailsScreen(
     apiId: Long,
-    onNavigateToHome: () -> Unit,
-    onNavigateToMediaDetails: MediaItemClick,
+    events: BasicsMediaEvents,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
@@ -51,8 +51,8 @@ fun CastDetailsScreen(
         PersonDetailsContent(
             person = dataResult,
             showAds = viewModel.showAds,
-            onNavigateToHome,
-            onNavigateToMediaDetails
+            events::onNavigateToHome,
+            events::onNavigateToMediaDetails
         ) {
             viewModel.refresh(apiId)
         }
