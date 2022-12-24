@@ -8,6 +8,13 @@ data class Provider(
     private val flatRate: List<ProviderPlace>?
 ) {
     fun getOrderedFlatRate(): List<ProviderPlace> {
-        return flatRate?.sortedBy { it.displayPriority } ?: listOf()
+        val validFlatRate = flatRate?.filter { isValid(it.apiId) } ?: listOf()
+        return validFlatRate.sortedBy { it.displayPriority }
+    }
+
+    private fun isValid(apiId: Long) = (apiId == NETFLIX_WITH_ADS_ID).not()
+
+    companion object {
+        private const val NETFLIX_WITH_ADS_ID = 1796L
     }
 }
