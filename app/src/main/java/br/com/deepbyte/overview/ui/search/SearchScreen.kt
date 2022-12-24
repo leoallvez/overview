@@ -59,12 +59,12 @@ fun SearchScreen(
         Box(modifier = Modifier.padding(padding)) {
 
             when (val uiState = viewModel.uiState.collectAsState().value) {
-                is SearchState.NotStated -> SearchNotStated()
+                is SearchState.NotStated -> SearchIsNotStated()
                 is SearchState.Loading -> LoadingScreen()
                 is SearchState.Success -> {
                     SearchSuccess(uiState.data, events::onNavigateToMediaDetails)
                 }
-                is SearchState.Empty -> SearchEmpty()
+                is SearchState.Empty -> SearchIsEmpty()
             }
         }
     }
@@ -97,8 +97,30 @@ fun SearchToolBar(
 }
 
 @Composable
-fun SearchNotStated() {
-    Text("SearchNotStated", color = Color.White)
+fun SearchIsNotStated() {
+    CenteredTextString(R.string.search_not_started)
+}
+
+@Composable
+fun SearchIsEmpty() {
+    CenteredTextString(R.string.search_result_empty)
+}
+
+@Composable
+fun CenteredTextString(@StringRes textRes: Int) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            IntermediateScreensText(stringResource(textRes))
+        }
+    }
 }
 
 @Composable
@@ -169,7 +191,9 @@ fun MediaButton(
 
 @Composable
 fun MediaGrind(medias: List<Media>?, onNavigateToMediaDetails: MediaItemClick) {
-    if (medias != null && medias.isNotEmpty()) {
+    if (medias == null || medias.isEmpty()) {
+        SearchIsEmpty()
+    } else {
         Column {
             LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
                 items(medias.size) { index ->
@@ -183,11 +207,6 @@ fun MediaGrind(medias: List<Media>?, onNavigateToMediaDetails: MediaItemClick) {
             }
         }
     }
-}
-
-@Composable
-fun SearchEmpty() {
-    Text("SearchEmpty", color = Color.White)
 }
 
 @Composable

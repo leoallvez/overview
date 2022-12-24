@@ -40,4 +40,7 @@
 
     <string name="movies">Movies</string>
     <string name="tv_show">TV Shows</string>
+
+    <string name="search_not_started">Search results will appear here :)</string>
+    <string name="search_result_empty">no results found :(</string>
 </resources>
