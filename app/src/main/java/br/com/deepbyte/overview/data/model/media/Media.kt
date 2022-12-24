@@ -8,6 +8,7 @@ import com.squareup.moshi.Json
 abstract class Media {
     @field:Json(name = "id")
     val apiId: Long = 0
+    val adult: Boolean = false
     val overview: String = ""
     @field:Json(name = "backdrop_path")
     private val backdropPath: String = ""
