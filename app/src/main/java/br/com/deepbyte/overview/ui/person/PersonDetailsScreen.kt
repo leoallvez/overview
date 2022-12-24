@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.MediaType.MOVIE
-import br.com.deepbyte.overview.data.MediaType.TV
+import br.com.deepbyte.overview.data.MediaType.TV_SHOW
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -32,12 +32,12 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import br.com.deepbyte.overview.data.model.person.PersonDetails
+import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 
 @Composable
 fun CastDetailsScreen(
     apiId: Long,
-    onNavigateToHome: () -> Unit,
-    onNavigateToMediaDetails: MediaItemClick,
+    events: BasicsMediaEvents,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
@@ -51,8 +51,8 @@ fun CastDetailsScreen(
         PersonDetailsContent(
             person = dataResult,
             showAds = viewModel.showAds,
-            onNavigateToHome,
-            onNavigateToMediaDetails
+            events::onNavigateToHome,
+            events::onNavigateToMediaDetails
         ) {
             viewModel.refresh(apiId)
         }
@@ -130,7 +130,7 @@ fun PersonBody(
             BasicParagraph(R.string.biography, biography)
             AdsMediumRectangle(R.string.banner_sample_id, showAds)
             ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
-            ParticipationList(R.string.tv_shows_participation, getTvShows(), TV, onClickItem)
+            ParticipationList(R.string.tv_shows_participation, getTvShows(), TV_SHOW, onClickItem)
         }
     }
 }

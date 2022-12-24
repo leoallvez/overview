@@ -37,4 +37,10 @@
     <string name="per_episode">%s por episodio</string>
     <string name="director">Director: %s</string>
     <string name="search_field_text">Buscar</string>
+
+    <string name="movies">Películas</string>
+    <string name="tv_show">Televisión</string>
+
+    <string name="search_not_started">Los resultados de la búsqueda aparecerán aquí :)</string>
+    <string name="search_result_empty">Ningún resultado encontrado :(</string>
 </resources>

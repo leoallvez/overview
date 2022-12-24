@@ -3,20 +3,19 @@ package br.com.deepbyte.overview.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.discover.GenreDiscoverScreen
 import br.com.deepbyte.overview.ui.discover.ProviderDiscoverScreen
 import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
+import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.person.CastDetailsScreen
 import br.com.deepbyte.overview.ui.search.SearchScreen
 import br.com.deepbyte.overview.ui.splash.SplashScreen
-import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.getApiId
 import br.com.deepbyte.overview.util.getDiscoverParams
 import br.com.deepbyte.overview.util.getParams
@@ -25,52 +24,34 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @ExperimentalPagerApi
 @Composable
 fun NavController(navController: NavHostController = rememberNavController()) {
-
-    val onNavigateToMediaDetails: MediaItemClick = { id, type ->
-        navController.navigate(ScreenNav.MediaDetails.editRoute(id, type))
-    }
-    val onNavigateToHome = {
-        navController.navigate(route = ScreenNav.Home.route) {
-            popUpTo(ScreenNav.Splash.route) {
-                inclusive = true
-            }
-        }
-    }
     NavHost(
         navController = navController,
         startDestination = ScreenNav.Splash.route
     ) {
         composable(route = ScreenNav.Splash.route) {
-            SplashScreen(onNavigateToHome = onNavigateToHome)
+            SplashScreen(onNavigateToHome = onNavigateToHome(navController))
         }
         composable(route = ScreenNav.Home.route) {
             HomeScreen(
-                onNavigateToMediaDetails = onNavigateToMediaDetails,
+                onNavigateToMediaDetails = onNavigateToMediaDetails(navController),
                 onNavigateToSearch = {
                     navController.navigate(route = ScreenNav.Search.route)
                 }
             )
         }
         composable(route = ScreenNav.Search.route) {
-            SearchScreen(onNavigateToHome = onNavigateToHome)
+            SearchScreen(events = BasicsMediaEvents(navController))
         }
-        mediaDetailsGraph(
-            navController = navController,
-            onNavigateToMediaDetails = onNavigateToMediaDetails
-        )
+        mediaDetailsGraph(navController = navController)
     }
 }
 
 fun NavGraphBuilder.mediaDetailsGraph(
-    navController: NavHostController,
-    onNavigateToMediaDetails: MediaItemClick
+    navController: NavHostController
 ) {
     composable(
         route = ScreenNav.MediaDetails.route,
-        arguments = listOf(
-            navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType },
-            navArgument(name = ScreenNav.TYPE_PARAM) { type = NavType.StringType }
-        )
+        arguments = listOf(NavArgument.ID, NavArgument.TYPE)
     ) { navBackStackEntry ->
         MediaDetailsScreen(
             params = navBackStackEntry.getParams(),
@@ -79,36 +60,29 @@ fun NavGraphBuilder.mediaDetailsGraph(
     }
     composable(
         route = ScreenNav.CastDetails.route,
-        arguments = listOf(
-            navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType }
-        )
+        arguments = listOf(NavArgument.ID)
     ) { navBackStackEntry ->
         CastDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
-            onNavigateToHome = { navController.navigate(ScreenNav.Home.route) },
-            onNavigateToMediaDetails = onNavigateToMediaDetails
+            events = BasicsMediaEvents(navController)
         )
     }
     composable(
         route = ScreenNav.ProviderDiscover.route,
-        arguments = listOf(
-            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType }
-        )
+        arguments = listOf(NavArgument.ID)
     ) { navBackStackEntry ->
         ProviderDiscoverScreen(
             params = navBackStackEntry.getDiscoverParams(),
-            onNavigateToMediaDetails = onNavigateToMediaDetails
+            onNavigateToMediaDetails = onNavigateToMediaDetails(navController)
         )
     }
     composable(
         route = ScreenNav.GenreDiscover.route,
-        arguments = listOf(
-            navArgument(name = ScreenNav.JSON_PARAM) { type = NavType.StringType }
-        )
+        arguments = listOf(NavArgument.JSON)
     ) { navBackStackEntry ->
         GenreDiscoverScreen(
             params = navBackStackEntry.getDiscoverParams(),
-            onNavigateToMediaDetails = onNavigateToMediaDetails
+            onNavigateToMediaDetails = onNavigateToMediaDetails(navController)
         )
     }
 }

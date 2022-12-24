@@ -19,7 +19,7 @@ fun ProviderDiscoverScreen(
     TrackScreenView(screen = ScreenNav.ProviderDiscover, tracker = viewModel.analyticsTracker)
 
     val loadData = {
-        viewModel.loadDiscoverByProvide(providerId = params.apiId, mediaType = MediaType.TV.key)
+        viewModel.loadDiscoverByProvide(providerId = params.apiId, mediaType = MediaType.TV_SHOW.key)
     }
     var items by remember { mutableStateOf(value = loadData()) }
 

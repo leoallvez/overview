@@ -2,6 +2,7 @@ package br.com.deepbyte.overview.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.data.repository.search.ISearchRepository
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.SearchUiState
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
-    private val _repository: ISearchRepository
+    val analyticsTracker: IAnalyticsTracker,
+    private val _repository: ISearchRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SearchUiState>(SearchState.NotStated())
@@ -32,7 +34,8 @@ class SearchViewModel @Inject constructor(
     private suspend fun searchResults(query: String) {
         _uiState.value = SearchState.Loading()
         _repository.search(query).collect { data ->
-            _uiState.value = if (data.isNotEmpty()) SearchState.Success(data) else SearchState.Empty()
+            val success = data.values.flatten().any()
+            _uiState.value = if (success) SearchState.Success(data) else SearchState.Empty()
         }
     }
 }
