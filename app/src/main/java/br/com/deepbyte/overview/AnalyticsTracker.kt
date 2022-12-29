@@ -15,10 +15,9 @@ class AnalyticsTracker(
         Timber.i(message = "$screenName $className")
     }
 
-    private fun createScreenViewBundle(screenName: String, className: String) =
-        Bundle().apply {
-            putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
-            putString(FirebaseAnalytics.Param.SCREEN_CLASS, className)
-        }
+    private fun createScreenViewBundle(screenName: String, className: String) = Bundle().apply {
+        putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+        putString(FirebaseAnalytics.Param.SCREEN_CLASS, className)
+    }
 
 }
