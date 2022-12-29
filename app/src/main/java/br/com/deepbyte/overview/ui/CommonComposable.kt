@@ -97,8 +97,8 @@ fun SimpleTitle(title: String) {
 @Composable
 fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
     DisposableEffect(Unit) {
-        tracker.logOpenScreen(screen.name)
-        onDispose { tracker.logExitScreen(screen.name) }
+        tracker.screenViewEvent(screen.name, screen.name)
+        onDispose {}
     }
 }
 
