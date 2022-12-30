@@ -249,19 +249,17 @@ fun MediaItemList(
     mediaType: String? = null,
     onClickItem: MediaItemClick
 ) {
-    if (items.isNotEmpty()) {
+    val sortedItems = items.sortedBy { it.voteAverage }
+    if (sortedItems.isNotEmpty()) {
         Column {
             BasicTitle(listTitle)
             LazyRow(
-                Modifier
-                    .padding(
-                        vertical = dimensionResource(R.dimen.default_padding)
-                    ),
+                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)),
                 contentPadding = PaddingValues(
                     horizontal = dimensionResource(R.dimen.screen_padding)
                 )
             ) {
-                items(items) { item ->
+                items(sortedItems) { item ->
                     MediaItem(item, imageWithBorder = true) {
                         onClickItem.invoke(item.apiId, mediaType ?: item.type)
                     }
