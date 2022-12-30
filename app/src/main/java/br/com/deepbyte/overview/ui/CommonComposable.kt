@@ -491,8 +491,7 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
         contentScale = ContentScale.Crop,
         modifier = modifier
             .size(120.dp)
-            .clip(CircleShape)
-            .border(dimensionResource(R.dimen.border_width), SecondaryBackground, CircleShape),
+            .clip(CircleShape),
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
