@@ -10,9 +10,7 @@ interface AnalyticsSource {
 class AnalyticsWrapper(
     private val _firebaseAnalytics: FirebaseAnalytics?
 ) : AnalyticsSource {
-
     override fun screenViewEvent(bundle: Bundle) {
         _firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
-
 }

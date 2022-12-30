@@ -19,5 +19,4 @@ class AnalyticsTracker(
         putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
         putString(FirebaseAnalytics.Param.SCREEN_CLASS, className)
     }
-
 }
