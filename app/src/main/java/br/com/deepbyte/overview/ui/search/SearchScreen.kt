@@ -52,7 +52,7 @@ fun SearchScreen(
             }
         },
         bottomBar = {
-            AdsBanner(R.string.banner_sample_id, viewModel.showAds)
+            AdsBanner(R.string.search_banner, viewModel.showAds)
         }
     ) { padding ->
 

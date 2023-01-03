@@ -2,6 +2,7 @@ package br.com.deepbyte.overview
 
 import android.app.Application
 import br.com.deepbyte.overview.util.CrashlyticsReportingTree
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 import io.github.leoallvez.firebase.CrashlyticsSource
 import timber.log.Timber
@@ -15,6 +16,7 @@ class CustomApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        MobileAds.initialize(this)
         startLog()
     }
 

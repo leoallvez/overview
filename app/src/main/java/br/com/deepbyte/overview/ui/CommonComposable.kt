@@ -513,7 +513,7 @@ fun DiscoverContent(
                     .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
                 topBar = { DiscoverToolBar(providerName, onPopBackStack) },
                 bottomBar = {
-                    AdsBanner(R.string.banner_sample_id, showAds)
+                    AdsBanner(R.string.discover_banner, showAds)
                 }
             ) { padding ->
                 if (pagingItems.itemCount == 0) {

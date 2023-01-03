@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Remove and add prod ids -->
-    <string name="banner_sample_id">ca-app-pub-3940256099942544/6300978111</string>
     <!-- Dynamic -->
-    <string tools:ignore="UnusedResources" name="movie_popular">Filmes mais populares</string>
     <string tools:ignore="UnusedResources" name="movie_top_rated">Filmes mais votados</string>
-    <string tools:ignore="UnusedResources" name="discover_movie">Descubra</string>
+    <string tools:ignore="UnusedResources" name="discover_movie">Filmes que você pode curtir</string>
     <string tools:ignore="UnusedResources" name="movie_trending">Filmes tendência</string>
-    <string tools:ignore="UnusedResources" name="tv_trending">Tendência na TV</string>
-    <string tools:ignore="UnusedResources" name="tv_popular">Mais populares na TV</string>
+    <string tools:ignore="UnusedResources" name="movie_popular">Filmes populares</string>
+    <string tools:ignore="UnusedResources" name="tv_trending">Tendência no streaming</string>
+    <string tools:ignore="UnusedResources" name="tv_popular">Popular no streaming</string>
     <!-- Dynamic -->
     <string name="error_on_loading">Erro ao carregar :(</string>
     <string name="btn_try_again">Tentar novamente</string>

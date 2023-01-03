@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="home_banner" translatable="false">
+        ca-app-pub-3940256099942544/6300978111
+    </string>
+    <string name="media_details_banner">
+        ca-app-pub-2674167083358956/9898150716
+    </string>
+    <string name="discover_banner">
+        ca-app-pub-2674167083358956/3468473736
+    </string>
+    <string name="search_banner">
+        ca-app-pub-2674167083358956/1449062473
+    </string>
+    <string name="person_banner">
+        ca-app-pub-2674167083358956/6599686497
+    </string>
+</resources>
