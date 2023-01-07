@@ -14,7 +14,6 @@ apiProperties.load(new FileInputStream(apiPropertiesFile))
 
 android {
     compileSdk 33
-    def appName = "Overview"
     defaultConfig {
         applicationId "br.com.deepbyte.overview"
         minSdk 26
@@ -31,7 +30,7 @@ android {
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
         buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w780"'
         buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
-        resValue 'string', 'app_name', "$appName"
+        resValue 'string', 'app_name', "Overview"
     }
 
     buildTypes {
@@ -48,15 +47,17 @@ android {
     flavorDimensions "version"
     productFlavors {
         dev {
+            resValue 'string', 'app_name', "Over-DEV"
             dimension "version"
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
             buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
         }
         homol {
+            resValue 'string', 'app_name', "Over-HOM"
             dimension "version"
             applicationIdSuffix ".homol"
-            buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'false'
+            buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
         }
         prod {
             buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
