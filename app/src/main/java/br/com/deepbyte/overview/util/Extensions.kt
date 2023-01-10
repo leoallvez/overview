@@ -94,9 +94,10 @@ fun Genre.createDiscoverParams(
     mediaType = media.getType()
 )
 
-fun <T> DataResult<ListResponse<T>>.toList(): List<T> {
+fun <T : Media> DataResult<ListResponse<T>>.toList(): List<T> {
     val isValid = this is DataResult.Success
-    return (if (isValid) data?.results else listOf()) ?: listOf()
+    val medias = data?.results ?: listOf()
+    return (if (isValid) medias.filter { it.adult.not() } else listOf())
 }
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

@@ -97,8 +97,8 @@ fun SimpleTitle(title: String) {
 @Composable
 fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
     DisposableEffect(Unit) {
-        tracker.logOpenScreen(screen.name)
-        onDispose { tracker.logExitScreen(screen.name) }
+        tracker.screenViewEvent(screen.name, screen.name)
+        onDispose {}
     }
 }
 
@@ -249,19 +249,17 @@ fun MediaItemList(
     mediaType: String? = null,
     onClickItem: MediaItemClick
 ) {
-    if (items.isNotEmpty()) {
+    val sortedItems = items.sortedBy { it.voteAverage }
+    if (sortedItems.isNotEmpty()) {
         Column {
             BasicTitle(listTitle)
             LazyRow(
-                Modifier
-                    .padding(
-                        vertical = dimensionResource(R.dimen.default_padding)
-                    ),
+                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)),
                 contentPadding = PaddingValues(
                     horizontal = dimensionResource(R.dimen.screen_padding)
                 )
             ) {
-                items(items) { item ->
+                items(sortedItems) { item ->
                     MediaItem(item, imageWithBorder = true) {
                         onClickItem.invoke(item.apiId, mediaType ?: item.type)
                     }
@@ -491,8 +489,7 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
         contentScale = ContentScale.Crop,
         modifier = modifier
             .size(120.dp)
-            .clip(CircleShape)
-            .border(dimensionResource(R.dimen.border_width), SecondaryBackground, CircleShape),
+            .clip(CircleShape),
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
@@ -516,7 +513,7 @@ fun DiscoverContent(
                     .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
                 topBar = { DiscoverToolBar(providerName, onPopBackStack) },
                 bottomBar = {
-                    AdsBanner(R.string.banner_sample_id, showAds)
+                    AdsBanner(R.string.discover_banner, showAds)
                 }
             ) { padding ->
                 if (pagingItems.itemCount == 0) {

@@ -128,7 +128,7 @@ fun PersonBody(
             PersonDates(person)
             PlaceOfBirth(birthPlace())
             BasicParagraph(R.string.biography, biography)
-            AdsMediumRectangle(R.string.banner_sample_id, showAds)
+            AdsMediumRectangle(R.string.person_banner, showAds)
             ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
             ParticipationList(R.string.tv_shows_participation, getTvShows(), TV_SHOW, onClickItem)
         }

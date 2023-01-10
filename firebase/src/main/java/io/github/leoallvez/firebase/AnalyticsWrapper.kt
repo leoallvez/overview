@@ -4,14 +4,13 @@ import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 
 interface AnalyticsSource {
-    fun logEvent(event: AnalyticsEvent, bundle: Bundle)
+    fun screenViewEvent(bundle: Bundle)
 }
 
 class AnalyticsWrapper(
     private val _firebaseAnalytics: FirebaseAnalytics?
 ) : AnalyticsSource {
-
-    override fun logEvent(event: AnalyticsEvent, bundle: Bundle) {
-        _firebaseAnalytics?.logEvent(event.name, bundle)
+    override fun screenViewEvent(bundle: Bundle) {
+        _firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
 }

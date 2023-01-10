@@ -69,7 +69,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
     }
     composable(
         route = ScreenNav.ProviderDiscover.route,
-        arguments = listOf(NavArgument.ID)
+        arguments = listOf(NavArgument.JSON)
     ) { navBackStackEntry ->
         ProviderDiscoverScreen(
             params = navBackStackEntry.getDiscoverParams(),

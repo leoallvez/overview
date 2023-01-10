@@ -142,7 +142,7 @@ fun MediaBody(
             }
             BasicParagraph(R.string.synopsis, overview)
             AdsMediumRectangle(
-                prodBannerId = R.string.banner_sample_id,
+                prodBannerId = R.string.media_details_banner,
                 isVisible = showAds
             )
             CastList(getOrderedCast()) { apiId ->
