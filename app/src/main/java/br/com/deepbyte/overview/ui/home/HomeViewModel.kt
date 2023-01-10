@@ -41,8 +41,4 @@ class HomeViewModel @Inject constructor(
             _loading.value = false
         }
     }
-
-//    fun adsAreVisible(): LiveData<Boolean> = liveData {
-//        emit(value = _experiment.execute())
-//    }
 }
