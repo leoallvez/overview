@@ -5,6 +5,9 @@
     <string tools:ignore="UnusedResources" name="discover_movie">Filmes que você pode curtir</string>
     <string tools:ignore="UnusedResources" name="movie_trending">Filmes tendência</string>
     <string tools:ignore="UnusedResources" name="movie_popular">Filmes populares</string>
+
+    <string tools:ignore="UnusedResources" name="tv_top_rated">Mais votados no streaming</string>
+    <string tools:ignore="UnusedResources" name="discover_tv">Você pode curtir no streaming</string>
     <string tools:ignore="UnusedResources" name="tv_trending">Tendência no streaming</string>
     <string tools:ignore="UnusedResources" name="tv_popular">Popular no streaming</string>
     <!-- Dynamic -->
