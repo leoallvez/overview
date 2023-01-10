@@ -9,6 +9,7 @@ import timber.log.Timber
 interface RemoteSource {
     fun getString(key: RemoteConfigKey): String
     fun getBoolean(key: RemoteConfigKey): Boolean
+    fun start()
 }
 
 class RemoteConfigWrapper(
@@ -21,7 +22,7 @@ class RemoteConfigWrapper(
     override fun getBoolean(key: RemoteConfigKey) =
         _remote.getBoolean(key.value)
 
-    fun start() {
+    override fun start() {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
         }
