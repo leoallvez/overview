@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-     <string name="app_global_name">Take</string>
-    <string name="banner_sample_id">ca-app-pub-3940256099942544/6300978111</string>
     <!-- Dynamic -->
-    <string tools:ignore="UnusedResources" name="movie_popular">Filmes mais populares</string>
     <string tools:ignore="UnusedResources" name="movie_top_rated">Filmes mais votados</string>
-    <string tools:ignore="UnusedResources" name="discover_movie">Descubra</string>
+    <string tools:ignore="UnusedResources" name="discover_movie">Filmes que você pode curtir</string>
     <string tools:ignore="UnusedResources" name="movie_trending">Filmes tendência</string>
-    <string tools:ignore="UnusedResources" name="tv_trending">Tendência na TV</string>
-    <string tools:ignore="UnusedResources" name="tv_popular">Mais populares na TV</string>
+    <string tools:ignore="UnusedResources" name="movie_popular">Filmes populares</string>
+
+    <string tools:ignore="UnusedResources" name="tv_top_rated">Mais votados no streaming</string>
+    <string tools:ignore="UnusedResources" name="discover_tv">Você pode curtir no streaming</string>
+    <string tools:ignore="UnusedResources" name="tv_trending">Tendência no streaming</string>
+    <string tools:ignore="UnusedResources" name="tv_popular">Popular no streaming</string>
     <!-- Dynamic -->
     <string name="error_on_loading">Erro ao carregar :(</string>
     <string name="btn_try_again">Tentar novamente</string>
     <string name="refresh_icon">Ícone de recarregar</string>
     <string name="back_to_home_icon">Ícone de voltar para home</string>
+    <string name="search_icon">Ícone de pesquisar</string>
+    <string name="search_clean_icon">Ícone de limpar pesquisa</string>
     <string name="app_offline_msg">Nenhuma conexão com a Internet disponível</string>
     <string name="loading">Carregando…</string>
 
@@ -28,4 +31,17 @@
     <string name="movies_participation">Participações no cinema</string>
     <string name="age">%s anos</string>
     <string name="place_of_birth">Local de nascimento (em inglês)</string>
+    <string name="one_season">1 temporada</string>
+    <string name="n_seasons">%s temporadas</string>
+    <string name="one_episode">1 episódio</string>
+    <string name="n_episodes">%s episódios</string>
+    <string name="per_episode">%s por episódio</string>
+    <string name="director">Diretor: %s</string>
+    <string name="search_field_text">Pesquisar</string>
+
+    <string name="movies">Filmes</string>
+    <string name="tv_show">Séries</string>
+
+    <string name="search_not_started">Os resultados da pesquisa irão aparecer aqui :)</string>
+    <string name="search_result_empty">Nenhum resultado encontrado :(</string>
 </resources>

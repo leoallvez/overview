@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_global_name">Take</string>
-    <string name="banner_sample_id">ca-app-pub-3940256099942544/6300978111</string>
     <!-- Dynamic -->
-    <string tools:ignore="UnusedResources" name="movie_popular">Most popular movies</string>
     <string tools:ignore="UnusedResources" name="movie_top_rated">Top rated movies</string>
-    <string tools:ignore="UnusedResources" name="discover_movie">Discover</string>
+    <string tools:ignore="UnusedResources" name="discover_movie">Movies you can enjoy</string>
     <string tools:ignore="UnusedResources" name="movie_trending">Trending movies</string>
-    <string tools:ignore="UnusedResources" name="tv_trending">TV trend</string>
-    <string tools:ignore="UnusedResources" name="tv_popular">Most popular on TV</string>
+    <string tools:ignore="UnusedResources" name="movie_popular">Popular movies</string>
+
+    <string tools:ignore="UnusedResources" name="tv_top_rated">Top rated on streaming</string>
+    <string tools:ignore="UnusedResources" name="discover_tv">You can enjoy it on streaming</string>
+    <string tools:ignore="UnusedResources" name="tv_trending">Streaming trends</string>
+    <string tools:ignore="UnusedResources" name="tv_popular">Popular on streaming</string>
     <!-- Dynamic -->
     <string name="error_on_loading">Error loading :(</string>
     <string name="btn_try_again">Try again</string>
     <string name="refresh_icon">Reload icon</string>
     <string name="back_to_home_icon">Back home icon</string>
+    <string name="search_icon">Search icon</string>
+    <string name="search_clean_icon">Clear search icon</string>
     <string name="app_offline_msg">No internet connection available</string>
     <string name="loading">Loading…</string>
 
@@ -28,4 +31,17 @@
     <string name="movies_participation">Film participation</string>
     <string name="age">%s years</string>
     <string name="place_of_birth">Place of birth</string>
+    <string name="one_season">1 season</string>
+    <string name="n_seasons">%s season</string>
+    <string name="one_episode">1 episode</string>
+    <string name="n_episodes">%s episodes</string>
+    <string name="per_episode">%s per episode</string>
+    <string name="director">Director: %s</string>
+    <string name="search_field_text">Search</string>
+
+    <string name="movies">Movies</string>
+    <string name="tv_show">TV Shows</string>
+
+    <string name="search_not_started">Search results will appear here :)</string>
+    <string name="search_result_empty">no results found :(</string>
 </resources>
