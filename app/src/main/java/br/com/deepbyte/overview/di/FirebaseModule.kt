@@ -23,7 +23,7 @@ class FirebaseModule {
     @Provides
     fun provideRemoteSource(): RemoteSource {
         val remote = Firebase.remoteConfig
-        return RemoteConfigWrapper(remote).apply { start() }
+        return RemoteConfigWrapper(remote)
     }
 
     @Singleton

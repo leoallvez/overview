@@ -42,7 +42,8 @@ fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hilt
                 }
             )
         )
-        delay(1500L)
+        viewModel.remoteConfig.start()
+        delay(2000L)
         onNavigateToHome.invoke()
     }
     SplashScreenContent(scale)
