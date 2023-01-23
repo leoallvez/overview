@@ -12,12 +12,12 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.ui.ScreenNav
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import okio.IOException
 import timber.log.Timber
+import java.lang.reflect.Type
 
 typealias MediaItemClick = (apiId: Long, mediaType: String?) -> Unit
 
@@ -30,9 +30,11 @@ inline fun <reified T> String.fromJson(): T? = try {
 }
 
 inline fun <reified T> String.parseToList(): List<T> = try {
-    val type = TypeToken.getParameterized(List::class.java, T::class.java).type
-    if (this.isNotEmpty()) Gson().fromJson(this, type) else listOf()
-} catch (e: JsonSyntaxException) {
+    val type: Type = Types.newParameterizedType(List::class.java, T::class.java)
+    val moshi = Moshi.Builder().build()
+    val adapter: JsonAdapter<List<T>> = moshi.adapter(type)
+    adapter.fromJson(this) ?: listOf()
+} catch (e: Exception) {
     Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${e.stackTrace}")
     listOf()
 }
