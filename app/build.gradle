@@ -94,19 +94,9 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.0"
     implementation platform('androidx.compose:compose-bom:2022.12.00')
     implementation "androidx.compose.ui:ui"
-    implementation "androidx.compose.material3:material3"
-    implementation "androidx.compose.ui:ui-tooling-preview"
     implementation "androidx.compose.runtime:runtime-livedata"
-
-    implementation "androidx.lifecycle:lifecycle-runtime"
-    implementation "androidx.activity:activity-compose:1.7.0-alpha03"
     // Firebase Module
     implementation project(path: ':firebase')
-    // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0-alpha04"
-    // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     // Navigation
     implementation "androidx.navigation:navigation-compose:2.6.0-alpha04"
     // Hilt
@@ -120,8 +110,6 @@ dependencies {
     implementation "androidx.room:room-ktx:$room"
     kapt "androidx.room:room-compiler:$room"
     // Paging
-    def paging_version = "3.1.1"
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     implementation "androidx.paging:paging-compose:1.0.0-alpha17"
     // DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
@@ -129,7 +117,6 @@ dependencies {
     implementation "com.google.android.gms:play-services-ads:21.4.0"
     // Accompanist
     def accompanist = "0.28.0"
-    implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
 
     // Third party library
