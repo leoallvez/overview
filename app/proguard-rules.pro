@@ -10,3 +10,7 @@
 
 -keep class br.com.deepbyte.overview.data.model.** { <fields>; }
 -keep class br.com.deepbyte.overview.data.api.response.** { <fields>; }
+
+-dontwarn org.conscrypt.**
+-dontwarn org.bouncycastle.**
+-dontwarn org.openjsse.**
