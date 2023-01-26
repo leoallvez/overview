@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 @Entity(tableName = "suggestions")
 data class Suggestion(
@@ -13,10 +13,10 @@ data class Suggestion(
     val type: String,
     val order: Int,
     @ColumnInfo(name = "api_path")
-    @SerializedName(value = "api_path")
+    @field:Json(name = "api_path")
     val apiPath: String,
     @ColumnInfo(name = "title_resource_id")
-    @SerializedName(value = "title_resource_id")
+    @field:Json(name = "title_resource_id")
     val titleResourceId: String
 ) {
 

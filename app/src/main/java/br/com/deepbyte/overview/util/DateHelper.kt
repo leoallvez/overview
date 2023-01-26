@@ -1,18 +1,15 @@
 package br.com.deepbyte.overview.util
 
+import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.Period
-import java.time.format.DateTimeFormatter
-import java.util.Locale
-import java.util.Date
+import java.util.*
 
 class DateHelper(dateIn: String?) {
 
     private val date: String = dateIn ?: DEFAULT_RETURN
 
     fun getYear(): String = if (date.isNotEmpty()) {
-        date.split("-").first()
+        date.split(DATE_SEPARATOR).first()
     } else {
         DEFAULT_RETURN
     }
@@ -31,19 +28,31 @@ class DateHelper(dateIn: String?) {
     }
 
     fun periodBetween(dateEnd: String? = null): String = if (date.isNotEmpty()) {
-        val formatter = DateTimeFormatter.ofPattern(API_DATE_PATTERN)
-        val start = LocalDate.parse(date, formatter)
-        val end = if (dateEnd.isNullOrBlank().not()) {
-            LocalDate.parse(dateEnd, formatter)
+        val end = dateEnd?.toCalendar()
+        if (end == null) {
+            DEFAULT_RETURN
         } else {
-            LocalDate.now()
+            val start = date.toCalendar()
+            var diff = end.get(Calendar.YEAR) - start.get(Calendar.YEAR)
+            if (end.get(Calendar.DAY_OF_YEAR) < start.get(Calendar.DAY_OF_YEAR)) {
+                diff--
+            }
+            diff.toString()
         }
-        Period.between(start, end).years.toString()
     } else {
         DEFAULT_RETURN
     }
 
+    private fun String.toCalendar() = try {
+        val (year, mouth, day) = this.split(DATE_SEPARATOR).map { it.toInt() }
+        Calendar.getInstance().apply { set(year, mouth, day) }
+    } catch (e: NumberFormatException) {
+        Timber.e(e, "error on parse date to calendar")
+        Calendar.getInstance()
+    }
+
     companion object {
+        private const val DATE_SEPARATOR = "-"
         private const val DEFAULT_RETURN = ""
         private const val API_DATE_PATTERN = "yyyy-MM-dd"
     }
