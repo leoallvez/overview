@@ -33,7 +33,7 @@ android {
         resValue 'string', 'app_name', "Overview"
         resConfigs "pt", "en", "es"
     }
-
+    /**
     signingConfigs {
         prod {
             storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
@@ -41,16 +41,14 @@ android {
             keyAlias System.getenv("OVER_PROD_KEY_ALIAS")
             keyPassword = System.getenv("OVER_PROD_PASSWORD")
         }
-        /**
         homol {
             storeFile rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
             storePassword System.getenv("OVER_HOMOL_PASSWORD")
             keyAlias System.getenv("OVER_HOMOL_KEY_ALIAS")
             keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
         }
-        */
     }
-
+    */
     buildTypes {
         release {
             minifyEnabled true
@@ -81,7 +79,7 @@ android {
             // signingConfig signingConfigs.homol
         }
         prod {
-            signingConfig signingConfigs.prod
+            // signingConfig signingConfigs.prod
         }
     }
 
