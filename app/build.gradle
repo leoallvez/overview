@@ -36,21 +36,19 @@ android {
 
     signingConfigs {
         prod {
-            if (project.hasProperty('OVER_PROD_STORE_FILE')) {
-                storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
-                storePassword System.getenv("OVER_PROD_PASSWORD")
-                keyAlias System.getenv("OVER_PROD_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_PROD_PASSWORD")
-            }
+            storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
+            storePassword System.getenv("OVER_PROD_PASSWORD")
+            keyAlias System.getenv("OVER_PROD_KEY_ALIAS")
+            keyPassword = System.getenv("OVER_PROD_PASSWORD")
         }
+        /**
         homol {
-            if (project.hasProperty('OVER_HOMOL_STORE_FILE')) {
-                storeFile rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
-                storePassword System.getenv("OVER_HOMOL_PASSWORD")
-                keyAlias System.getenv("OVER_HOMOL_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
-            }
+            storeFile rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
+            storePassword System.getenv("OVER_HOMOL_PASSWORD")
+            keyAlias System.getenv("OVER_HOMOL_KEY_ALIAS")
+            keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
         }
+        */
     }
 
     buildTypes {
@@ -80,7 +78,7 @@ android {
             dimension "version"
             applicationIdSuffix ".homol"
             versionNameSuffix "-homol"
-            signingConfig signingConfigs.homol
+            // signingConfig signingConfigs.homol
         }
         prod {
             signingConfig signingConfigs.prod
