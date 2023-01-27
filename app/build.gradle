@@ -34,23 +34,22 @@ android {
         resConfigs "pt", "en", "es"
     }
 
-    ext.getenvOrDefault = { key ->
-        def value = System.getenv(key)
-        (value) ? value : ""
-    }
-
     signingConfigs {
         prod {
-            storeFile rootProject.file(getenvOrDefault("OVER_PROD_STORE_FILE"))
-            storePassword getenvOrDefault("OVER_PROD_PASSWORD")
-            keyAlias getenvOrDefault("OVER_PROD_KEY_ALIAS")
-            keyPassword = System.getenv("OVER_PROD_PASSWORD")
+            if (project.hasProperty('OVER_PROD_STORE_FILE')) {
+                storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
+                storePassword System.getenv("OVER_PROD_PASSWORD")
+                keyAlias System.getenv("OVER_PROD_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_PROD_PASSWORD")
+            }
         }
         homol {
-            storeFile rootProject.file(getenvOrDefault("OVER_HOMOL_STORE_FILE"))
-            storePassword getenvOrDefault("OVER_HOMOL_PASSWORD")
-            keyAlias getenvOrDefault("OVER_HOMOL_KEY_ALIAS")
-            keyPassword = getenvOrDefault("OVER_HOMOL_PASSWORD")
+            if (project.hasProperty('OVER_HOMOL_STORE_FILE')) {
+                storeFile rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
+                storePassword System.getenv("OVER_HOMOL_PASSWORD")
+                keyAlias System.getenv("OVER_HOMOL_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
+            }
         }
     }
 
