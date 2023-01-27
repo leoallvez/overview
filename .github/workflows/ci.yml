@@ -14,6 +14,7 @@ jobs:
           encodedString: ${{ secrets.OVER_PROD_STORE_FILE_BASE64 }}
 
       - name: Build & deploy Android release
+        uses: timheuer/base64-to-file@v1
         env:
           OVER_PROD_STORE_FILE: ${{ steps.android_keystore.outputs.filePath }}
           OVER_PROD_PASSWORD: ${{ secrets.OVER_PROD_PASSWORD }}
