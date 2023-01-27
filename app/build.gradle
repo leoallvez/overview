@@ -8,6 +8,7 @@ plugins {
     id "kotlin-kapt"
 }
 
+def signingActive = false
 def apiPropertiesFile = rootProject.file("api.properties")
 def apiProperties = new Properties()
 apiProperties.load(new FileInputStream(apiPropertiesFile))
@@ -33,7 +34,6 @@ android {
         resValue 'string', 'app_name', "Overview"
         resConfigs "pt", "en", "es"
     }
-    def signingActive = false
     if (signingActive) {
         signingConfigs {
             prod {
