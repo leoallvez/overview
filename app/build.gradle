@@ -33,22 +33,24 @@ android {
         resValue 'string', 'app_name', "Overview"
         resConfigs "pt", "en", "es"
     }
-    /**
-    signingConfigs {
-        prod {
-            storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
-            storePassword System.getenv("OVER_PROD_PASSWORD")
-            keyAlias System.getenv("OVER_PROD_KEY_ALIAS")
-            keyPassword = System.getenv("OVER_PROD_PASSWORD")
-        }
-        homol {
-            storeFile rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
-            storePassword System.getenv("OVER_HOMOL_PASSWORD")
-            keyAlias System.getenv("OVER_HOMOL_KEY_ALIAS")
-            keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
+    def signingActive = false
+    if (signingActive) {
+        signingConfigs {
+            prod {
+                storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
+                storePassword System.getenv("OVER_PROD_PASSWORD")
+                keyAlias System.getenv("OVER_PROD_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_PROD_PASSWORD")
+            }
+            homol {
+                storeFile rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
+                storePassword System.getenv("OVER_HOMOL_PASSWORD")
+                keyAlias System.getenv("OVER_HOMOL_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
+            }
         }
     }
-    */
+
     buildTypes {
         release {
             minifyEnabled true
@@ -76,10 +78,10 @@ android {
             dimension "version"
             applicationIdSuffix ".homol"
             versionNameSuffix "-homol"
-            // signingConfig signingConfigs.homol
+            if (signingActive) { signingConfig signingConfigs.homol }
         }
         prod {
-            // signingConfig signingConfigs.prod
+            if (signingActive) {  signingConfig signingConfigs.prod }
         }
     }
 
