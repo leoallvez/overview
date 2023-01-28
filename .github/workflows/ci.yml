@@ -18,6 +18,7 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew build
   lint:
@@ -34,20 +35,18 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Run ktlint
-        env:
-          API_KEY: ${{ vars.API_KEY }}
         run: ./gradlew ktlintCheck
   unit-test:
     needs: [ lint ]
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout the code
         uses: actions/checkout@v2
 
       - name: Run unit tests
-        env:
-          API_KEY: ${{ vars.API_KEY }}
         run: ./gradlew test
 
       - name: Upload test report
