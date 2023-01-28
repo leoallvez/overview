@@ -40,6 +40,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run ktlint
+        env:
+          API_KEY: ${{ vars.API_KEY }}
         run: ./gradlew ktlintCheck
   unit-test:
     needs: [ lint ]
