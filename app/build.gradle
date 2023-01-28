@@ -8,9 +8,8 @@ plugins {
     id "kotlin-kapt"
 }
 
-def apiPropertiesFile = rootProject.file("api.properties")
-def apiProperties = new Properties()
-apiProperties.load(new FileInputStream(apiPropertiesFile))
+def activeSigning = System.getenv("ACTIVE_SIGNING") ? true : false
+println("Is active signing: $activeSigning")
 
 android {
     compileSdk 33
@@ -18,20 +17,36 @@ android {
         applicationId "br.com.deepbyte.overview"
         minSdk 21
         targetSdk 33
-        versionCode 15
-        versionName "2.5"
+        versionCode 2
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
         }
 
-        buildConfigField 'String', 'API_KEY', apiProperties['API_KEY']
+        buildConfigField 'String', 'API_KEY', System.getenv("API_KEY") ? System.getenv("API_KEY") : '""'
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
         buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w780"'
         buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
         resValue 'string', 'app_name', "Overview"
         resConfigs "pt", "en", "es"
+    }
+    if (activeSigning) {
+        signingConfigs {
+            prod {
+                storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
+                storePassword System.getenv("OVER_PROD_PASSWORD")
+                keyAlias System.getenv("OVER_PROD_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_PROD_PASSWORD")
+            }
+            homol {
+                storeFile rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
+                storePassword System.getenv("OVER_HOMOL_PASSWORD")
+                keyAlias System.getenv("OVER_HOMOL_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
@@ -61,9 +76,10 @@ android {
             dimension "version"
             applicationIdSuffix ".homol"
             versionNameSuffix "-homol"
+            if (activeSigning) { signingConfig signingConfigs.homol }
         }
         prod {
-
+            if (activeSigning) { signingConfig signingConfigs.prod }
         }
     }
 
