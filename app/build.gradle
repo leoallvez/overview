@@ -8,7 +8,8 @@ plugins {
     id "kotlin-kapt"
 }
 
-def activeSigning = false //System.getenv("ACTIVE_SIGNING")
+def activeSigning = System.getenv("ACTIVE_SIGNING") ? true : false
+println("Is active signing: $activeSigning")
 
 android {
     compileSdk 33
