@@ -49,6 +49,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run unit tests
+        env:
+          API_KEY: ${{ vars.API_KEY }}
         run: ./gradlew test
 
       - name: Upload test report
