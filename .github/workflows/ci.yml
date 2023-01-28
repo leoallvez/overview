@@ -4,6 +4,7 @@ jobs:
   # https://singhajit.com/android-ci-cd-using-github-actions/
   build:
     runs-on: ubuntu-latest
+    environment: overview
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
