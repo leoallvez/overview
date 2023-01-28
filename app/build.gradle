@@ -8,10 +8,7 @@ plugins {
     id "kotlin-kapt"
 }
 
-def signingActive = false
-def apiPropertiesFile = rootProject.file("api.properties")
-def apiProperties = new Properties()
-apiProperties.load(new FileInputStream(apiPropertiesFile))
+def activeSigning = false //System.getenv("ACTIVE_SIGNING")
 
 android {
     compileSdk 33
@@ -27,14 +24,15 @@ android {
             useSupportLibrary true
         }
 
-        buildConfigField 'String', 'API_KEY', apiProperties['API_KEY']
+        // buildConfigField 'String', 'API_KEY', '"' + System.getenv("API_KEY") + '"'
+        buildConfigField 'String', 'API_KEY', System.getenv("API_KEY")
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
         buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w780"'
         buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
         resValue 'string', 'app_name', "Overview"
         resConfigs "pt", "en", "es"
     }
-    if (signingActive) {
+    if (activeSigning) {
         signingConfigs {
             prod {
                 storeFile rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
@@ -78,10 +76,10 @@ android {
             dimension "version"
             applicationIdSuffix ".homol"
             versionNameSuffix "-homol"
-            if (signingActive) { signingConfig signingConfigs.homol }
+            if (activeSigning) { signingConfig signingConfigs.homol }
         }
         prod {
-            if (signingActive) {  signingConfig signingConfigs.prod }
+            if (activeSigning) { signingConfig signingConfigs.prod }
         }
     }
 
