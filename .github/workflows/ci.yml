@@ -16,7 +16,7 @@ jobs:
       - name: Using Variables
         env:
           API_KEY: ${{ secrets.API_KEY }}
-      - run: echo $API_KEY
+        run: echo $API_KEY
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
