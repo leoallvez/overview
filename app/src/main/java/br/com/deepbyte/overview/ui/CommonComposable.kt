@@ -18,9 +18,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,9 +57,7 @@ import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.ehsanmsz.mszprogressindicator.progressindicator.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
 
 @Composable
 fun BasicTitle(title: String) {
@@ -656,8 +652,6 @@ fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
             )
         }
     }
-    // TODO: fix this app not launch composer on real device.
-    Text("\n ")
 }
 
 @Composable

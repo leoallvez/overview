@@ -11,7 +11,6 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -38,7 +37,7 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
 
     //Firebase
     api platform('com.google.firebase:firebase-bom:31.0.1')
@@ -47,9 +46,8 @@ dependencies {
     api 'com.google.firebase:firebase-analytics-ktx'
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
-    implementation 'com.google.code.gson:gson:2.10.1'
 
-    testImplementation 'io.mockk:mockk:1.13.3'
+    testImplementation 'io.mockk:mockk:1.13.4'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'org.mockito:mockito-core:5.1.1'
 }
