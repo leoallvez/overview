@@ -1,6 +1,10 @@
 package br.com.deepbyte.overview.ui.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,6 +20,7 @@ import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.person.CastDetailsScreen
 import br.com.deepbyte.overview.ui.search.SearchScreen
 import br.com.deepbyte.overview.ui.splash.SplashScreen
+import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.getApiId
 import br.com.deepbyte.overview.util.getDiscoverParams
 import br.com.deepbyte.overview.util.getParams
@@ -26,7 +31,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 fun NavController(navController: NavHostController = rememberNavController()) {
     NavHost(
         navController = navController,
-        startDestination = ScreenNav.Splash.route
+        startDestination = ScreenNav.Splash.route,
+        modifier = Modifier.background(PrimaryBackground).padding(bottom = 20.dp)
     ) {
         composable(route = ScreenNav.Splash.route) {
             SplashScreen(onNavigateToHome = onNavigateToHome(navController))
