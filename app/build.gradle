@@ -17,8 +17,8 @@ android {
         applicationId "br.com.deepbyte.overview"
         minSdk 21
         targetSdk 33
-        versionCode 17
-        versionName "2.7"
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
