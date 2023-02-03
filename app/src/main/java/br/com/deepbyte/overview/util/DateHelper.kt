@@ -27,20 +27,21 @@ class DateHelper(dateIn: String?) {
         return SimpleDateFormat(datePattern, locale).format(date)
     }
 
-    fun periodBetween(dateEnd: String? = null): String = if (date.isNotEmpty()) {
-        val end = dateEnd?.toCalendar()
-        if (end == null) {
-            DEFAULT_RETURN
-        } else {
-            val start = date.toCalendar()
-            var diff = end.get(Calendar.YEAR) - start.get(Calendar.YEAR)
-            if (end.get(Calendar.DAY_OF_YEAR) < start.get(Calendar.DAY_OF_YEAR)) {
-                diff--
-            }
-            diff.toString()
-        }
+    fun periodBetween(dateEnd: String?): String = if (date.isNotEmpty()) {
+        calculatePeriod(
+            start = date.toCalendar(),
+            end = dateEnd?.toCalendar() ?: Calendar.getInstance()
+        )
     } else {
         DEFAULT_RETURN
+    }
+
+    private fun calculatePeriod(start: Calendar, end: Calendar): String {
+        var diff = end.get(Calendar.YEAR) - start.get(Calendar.YEAR)
+        if (end.get(Calendar.DAY_OF_YEAR) < start.get(Calendar.DAY_OF_YEAR)) {
+            diff--
+        }
+        return diff.toString()
     }
 
     private fun String.toCalendar() = try {
