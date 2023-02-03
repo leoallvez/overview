@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -53,22 +54,21 @@ class MainActivity : ComponentActivity() {
 fun OverviewApp(isOnline: Boolean) {
     Box {
         NavController()
-        OfflineSnackBar(
-            isNotOnline = isOnline.not(),
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-        AppVersion(Modifier.align(Alignment.BottomCenter))
+        Column(Modifier.align(Alignment.BottomCenter)) {
+            OfflineSnackBar(isNotOnline = isOnline.not())
+            AppVersion()
+        }
     }
 }
 
 @Composable
-fun AppVersion(modifier: Modifier) {
+fun AppVersion() {
     Text(
         text = "v${BuildConfig.VERSION_NAME}",
         color = Color.DarkGray,
         textAlign = TextAlign.Center,
         fontSize = 12.sp,
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .background(color = PrimaryBackground)
             .padding(2.dp)
