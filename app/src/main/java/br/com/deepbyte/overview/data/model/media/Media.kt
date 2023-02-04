@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.data.model.media
 
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.model.provider.ProviderPlace
+import br.com.deepbyte.overview.data.model.provider.StreamingService
 import com.squareup.moshi.Json
 
 abstract class Media {
@@ -16,7 +16,8 @@ abstract class Media {
     private val posterPath: String = ""
     val genres: List<Genre> = listOf()
     protected val credits: Credits = Credits()
-    var providers: List<ProviderPlace> = listOf()
+    @field:Json(name = "providers")
+    var streamingServices: List<StreamingService> = listOf()
 
     abstract fun getSimilarMedia(): List<Media>
     abstract fun getRuntime(): String

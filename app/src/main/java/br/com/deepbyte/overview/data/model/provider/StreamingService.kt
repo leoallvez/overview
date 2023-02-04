@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.data.model.provider
 import br.com.deepbyte.overview.BuildConfig
 import com.squareup.moshi.Json
 
-class ProviderPlace(
+class StreamingService(
     @field:Json(name = "provider_id")
     val apiId: Long = 0,
     @field:Json(name = "display_priority")

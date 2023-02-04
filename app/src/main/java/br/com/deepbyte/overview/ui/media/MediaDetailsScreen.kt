@@ -29,7 +29,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.PersonDetails
-import br.com.deepbyte.overview.data.model.provider.ProviderPlace
+import br.com.deepbyte.overview.data.model.provider.StreamingService
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -122,7 +122,7 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         media.apply {
-            ProvidersList(providers) { provider ->
+            StreamingServicesList(streamingServices) { provider ->
                 val params = provider.createDiscoverParams(media)
                 events.onNavigateToProviderDiscover(params.toJson())
             }
@@ -235,7 +235,7 @@ fun MovieReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -> Unit) {
+fun StreamingServicesList(providers: List<StreamingService>, onClickItem: (StreamingService) -> Unit) {
     if (providers.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow(
@@ -257,7 +257,7 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -
 }
 
 @Composable
-fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
+fun ProviderItem(provider: StreamingService, onClick: () -> Unit) {
     BasicImage(
         url = provider.getLogoImage(),
         contentDescription = provider.name,

@@ -9,7 +9,7 @@ import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.model.provider.ProviderPlace
+import br.com.deepbyte.overview.data.model.provider.StreamingService
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.ui.ScreenNav
 import com.squareup.moshi.JsonAdapter
@@ -78,7 +78,7 @@ fun NavBackStackEntry.getDiscoverParams(): DiscoverParams {
     return json.fromJson() ?: DiscoverParams()
 }
 
-fun ProviderPlace.createDiscoverParams(
+fun StreamingService.createDiscoverParams(
     media: Media
 ) = DiscoverParams(
     apiId = apiId,

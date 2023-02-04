@@ -23,7 +23,7 @@ class MediaRepository @Inject constructor(
         mediaType: String
     ) = withContext(_dispatcher) {
         val result = requestMedia(apiId, mediaType)
-        result.data?.providers = getProviders(apiId, mediaType)
+        result.data?.streamingServices = getStreamingServices(apiId, mediaType)
         flow { emit(result) }
     }
 
@@ -34,6 +34,6 @@ class MediaRepository @Inject constructor(
             _tvShowDataSource.find(apiId)
         }
 
-    private suspend fun getProviders(apiId: Long, mediaType: String) =
+    private suspend fun getStreamingServices(apiId: Long, mediaType: String) =
         _providerDataSource.getItems(apiId, mediaType)
 }
