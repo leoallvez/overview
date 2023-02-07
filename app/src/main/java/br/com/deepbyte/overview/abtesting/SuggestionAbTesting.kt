@@ -11,10 +11,8 @@ class SuggestionAbTesting(
     private val _remoteSource: RemoteSource
 ) : AbTesting<List<Suggestion>> {
 
-    override fun execute(): List<Suggestion> {
-        val suggestions = getRemoteSuggestions()
-        return suggestions.ifEmpty { getLocalSuggestions() }
-    }
+    override fun execute() = getRemoteSuggestions()
+        .ifEmpty { getLocalSuggestions() }
 
     private fun getLocalSuggestions(): List<Suggestion> {
         val json = _jsonFileReader.read(SUGGESTIONS_FILE_NAME)
@@ -26,8 +24,7 @@ class SuggestionAbTesting(
         return json.toSuggestionList()
     }
 
-    private fun String.toSuggestionList() =
-        this.parseToList<Suggestion>()
+    private fun String.toSuggestionList() = parseToList<Suggestion>()
 
     companion object {
         private const val SUGGESTIONS_FILE_NAME = "suggestions.json"

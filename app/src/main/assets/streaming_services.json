@@ -1,0 +1,37 @@
+[
+  {
+    "display_priority":1,
+    "provider_name":"Netflix",
+    "provider_id":8
+  },
+  {
+    "display_priority": 2,
+    "provider_name": "Disney Plus",
+    "provider_id": 337
+  },
+  {
+    "display_priority": 3,
+    "provider_name": "HBO Max",
+    "provider_id": 384
+  },
+  {
+    "display_priority": 4,
+    "provider_name": "Amazon Prime",
+    "provider_id": 9
+  },
+  {
+    "display_priority": 5,
+    "provider_name": "Star Plus",
+    "provider_id": 619
+  },
+  {
+    "display_priority": 6,
+    "provider_name": "Apple TV",
+    "provider_id": 350
+  },
+  {
+    "display_priority": 7,
+    "provider_name": "Hulu",
+    "provider_id": 15
+  }
+]

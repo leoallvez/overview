@@ -1,27 +1,27 @@
 package br.com.deepbyte.overview.abtesting
 
-import br.com.deepbyte.overview.data.model.Suggestion
+import br.com.deepbyte.overview.data.model.provider.StreamingService
 import io.mockk.MockKAnnotations
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class SuggestionAbTestingTest : LocalAndRemoteTest() {
+class StreamingServicesAbTestingTest : LocalAndRemoteTest() {
 
-    private lateinit var _experiment: AbTesting<List<Suggestion>>
+    private lateinit var _streaming: AbTesting<List<StreamingService>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _experiment = SuggestionAbTesting(jsonFileReader, remoteSource)
+        _streaming = StreamingServicesAbTesting(jsonFileReader, remoteSource)
     }
 
     @Test
     fun execute_localIsNotEmptyAndRemoteIsEmpty_listIsNotEmpty() {
         // Arrange
-        everyLocalAndRemote(local = JSON, remote = EMPTY)
+        everyLocalAndRemote(local = VALID_JSON, remote = EMPTY)
         // Act
-        val list = _experiment.execute()
+        val list = _streaming.execute()
         // Assert
         Assert.assertTrue(list.isNotEmpty())
     }
@@ -29,9 +29,9 @@ class SuggestionAbTestingTest : LocalAndRemoteTest() {
     @Test
     fun execute_localIsEmptyAndRemoteNotIsEmpty_listIsNotEmpty() {
         // Arrange
-        everyLocalAndRemote(local = EMPTY, remote = JSON)
+        everyLocalAndRemote(local = EMPTY, remote = VALID_JSON)
         // Act
-        val list = _experiment.execute()
+        val list = _streaming.execute()
         // Assert
         Assert.assertTrue(list.isNotEmpty())
     }
@@ -41,7 +41,7 @@ class SuggestionAbTestingTest : LocalAndRemoteTest() {
         // Arrange
         everyLocalAndRemote(local = EMPTY, remote = EMPTY)
         // Act
-        val list = _experiment.execute()
+        val list = _streaming.execute()
         // Assert
         Assert.assertTrue(list.isEmpty())
     }
@@ -51,21 +51,20 @@ class SuggestionAbTestingTest : LocalAndRemoteTest() {
         // Arrange
         everyLocalAndRemote(local = INVALID_JSON, remote = INVALID_JSON)
         // Act
-        val list = _experiment.execute()
+        val list = _streaming.execute()
         // Assert
         Assert.assertTrue(list.isEmpty())
     }
 
     companion object {
-        const val JSON = """
-        [
-            {
-                "order": 1, 
-                "title_resource_id": "comedy_title",
-                "api_path": "api/path"
-            }
-        ]
+        const val VALID_JSON = """
+            [
+                {
+                    "display_priority": 4,
+                    "provider_name": "Amazon Prime",
+                    "provider_id": 9
+                }
+            ]
         """
-        const val EMPTY = ""
     }
 }
