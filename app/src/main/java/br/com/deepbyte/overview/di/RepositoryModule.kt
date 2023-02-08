@@ -8,6 +8,8 @@ import br.com.deepbyte.overview.data.repository.person.IPersonRepository
 import br.com.deepbyte.overview.data.repository.person.PersonRepository
 import br.com.deepbyte.overview.data.repository.search.ISearchRepository
 import br.com.deepbyte.overview.data.repository.search.SearchRepository
+import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
+import br.com.deepbyte.overview.data.repository.streaming.StreamingRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,4 +38,9 @@ abstract class RepositoryModule {
     abstract fun binSearchRepository(
         repository: SearchRepository
     ): ISearchRepository
+
+    @Binds
+    abstract fun binStreamingRepository(
+        repository: StreamingRepository
+    ): IStreamingRepository
 }

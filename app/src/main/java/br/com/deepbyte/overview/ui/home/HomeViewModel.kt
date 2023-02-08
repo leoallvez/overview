@@ -8,6 +8,7 @@ import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.repository.MediaSuggestionManager
+import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +21,15 @@ class HomeViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
     private val _manager: MediaSuggestionManager,
+    private val _repository: IStreamingRepository,
     @MainDispatcher private val _mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            _repository.getItems()
+        }
+    }
 
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading

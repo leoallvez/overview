@@ -9,6 +9,8 @@ import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.overview.data.source.person.PersonRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
 import br.com.deepbyte.overview.data.source.provider.ProviderRemoteDataSource
+import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
+import br.com.deepbyte.overview.data.source.streaming.StreamingRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -47,4 +49,10 @@ abstract class SourceModule {
     abstract fun bindTvShowRemoteDataSource(
         source: TvShowRemoteDataSource
     ): IMediaRemoteDataSource<TvShow>
+
+    @Binds
+    abstract fun bindStreamingRemoteDataSource(
+        source: StreamingRemoteDataSource
+    ): IStreamingRemoteDataSource
+
 }
