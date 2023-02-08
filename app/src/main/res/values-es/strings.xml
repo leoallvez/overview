@@ -41,6 +41,7 @@
 
     <string name="movies">Películas</string>
     <string name="tv_show">Televisión</string>
+    <string name="all">Todo</string>
 
     <string name="search_not_started">Los resultados de la búsqueda aparecerán aquí :)</string>
     <string name="search_result_empty">Ningún resultado encontrado :(</string>

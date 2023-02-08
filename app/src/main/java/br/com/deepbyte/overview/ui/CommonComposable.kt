@@ -683,7 +683,10 @@ fun SearchField(onSearch: (query: String) -> Unit) {
 
     OutlinedTextField(
         value = query,
-        onValueChange = { value -> query = value },
+        onValueChange = { value ->
+            query = value
+            onSearch(query)
+        },
         maxLines = 1,
         placeholder = { Text(text = stringResource(R.string.search_field_text), color = AccentColor) },
         modifier = Modifier
