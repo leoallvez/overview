@@ -4,7 +4,7 @@ import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
-import br.com.deepbyte.overview.data.source.provider.IProviderRemoteDataSource
+import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class MediaRepository @Inject constructor(
     private val _movieDataSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowDataSource: IMediaRemoteDataSource<TvShow>,
-    private val _providerDataSource: IProviderRemoteDataSource,
+    private val _streamingDataSource: IStreamingRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IMediaRepository {
 
@@ -35,5 +35,5 @@ class MediaRepository @Inject constructor(
         }
 
     private suspend fun getStreamingServices(apiId: Long, mediaType: String) =
-        _providerDataSource.getItems(apiId, mediaType)
+        _streamingDataSource.getItems(apiId, mediaType)
 }
