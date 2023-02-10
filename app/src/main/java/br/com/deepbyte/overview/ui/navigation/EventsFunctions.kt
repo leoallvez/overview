@@ -4,8 +4,11 @@ import androidx.navigation.NavController
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.util.MediaItemClick
 
-fun onNavigateToMediaDetails(navigation: NavController): MediaItemClick = { id, type ->
-    navigation.navigate(ScreenNav.MediaDetails.editRoute(id, type))
+fun onNavigateToMediaDetails(
+    navigation: NavController,
+    backToHome: Boolean = false
+): MediaItemClick = { id, type ->
+    navigation.navigate(ScreenNav.MediaDetails.editRoute(id, type, backToHome))
 }
 
 fun onNavigateToHome(navigation: NavController): () -> Unit = {
