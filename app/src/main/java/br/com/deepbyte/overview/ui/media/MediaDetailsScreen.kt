@@ -75,9 +75,7 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(media) {
-                    events.onNavigateToHome()
-                }
+                MediaToolBar(media) { events.onPopBackStack() }
             }
         ) {
             MediaBody(media, showAds, events)
@@ -152,7 +150,7 @@ fun MediaBody(
                 listTitle = stringResource(R.string.related),
                 medias = getSimilarMedia()
             ) { apiId, mediaType ->
-                events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType)
+                events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
             }
         }
     }
@@ -253,6 +251,8 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -
                 }
             }
         }
+    } else {
+        Text(text = "Não disponível para streaming", Modifier.padding(start = 10.dp)) // stringResource(R.string.no_providers)
     }
 }
 
