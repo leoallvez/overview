@@ -1,19 +1,14 @@
 package br.com.deepbyte.overview.ui.media
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -21,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
@@ -34,10 +30,10 @@ import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import br.com.deepbyte.overview.util.createDiscoverParams
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import br.com.deepbyte.overview.util.createDiscoverParams
 
 @Composable
 fun MediaDetailsScreen(
@@ -234,12 +230,10 @@ fun MovieReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 
 @Composable
 fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -> Unit) {
+    BasicTitle(stringResource(R.string.where_to_watch))
     if (providers.isNotEmpty()) {
-        BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow(
-            Modifier.padding(
-                vertical = 10.dp
-            ),
+            Modifier.padding(vertical = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
             contentPadding = PaddingValues(
                 horizontal = dimensionResource(R.dimen.screen_padding)
@@ -252,9 +246,44 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -
             }
         }
     } else {
-        Text(text = "Não disponível para streaming", Modifier.padding(start = 10.dp)) // stringResource(R.string.no_providers)
+        EmptyListProvidersMsg()
     }
 }
+
+@Composable
+fun EmptyListProvidersMsg() {
+    Row(
+        modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.screen_padding))
+            .height(50.dp)
+            .border(
+                dimensionResource(R.dimen.border_width),
+                AccentColor,
+                RoundedCornerShape(dimensionResource(R.dimen.corner))
+            ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            Icons.Filled.Warning,
+            tint = AccentColor,
+            contentDescription = stringResource(R.string.empty_list_providers),
+            modifier = Modifier.emptyListPadding(end = 0.dp)
+        )
+        Text(
+            text = stringResource(R.string.empty_list_providers),
+            modifier = Modifier.emptyListPadding(start = 3.dp),
+            color = AccentColor
+        )
+    }
+}
+
+@Composable
+private fun Modifier.emptyListPadding(
+    start: Dp = dimensionResource(id = R.dimen.screen_padding),
+    top: Dp = 5.dp,
+    end: Dp = dimensionResource(id = R.dimen.screen_padding),
+    bottom: Dp = 5.dp
+): Modifier = padding(start, top, end, bottom)
 
 @Composable
 fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {

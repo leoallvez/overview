@@ -45,4 +45,5 @@
 
     <string name="search_not_started">Search results will appear here :)</string>
     <string name="search_result_empty">no results found :(</string>
+    <string name="empty_list_providers">Not available for streaming</string>
 </resources>
