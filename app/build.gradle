@@ -130,7 +130,7 @@ dependencies {
     // Navigation
     implementation "androidx.navigation:navigation-compose:2.6.0-alpha04"
     // Hilt
-    def hilt = "2.44.2"
+    def hilt = "2.45"
     implementation "com.google.dagger:hilt-android:$hilt"
     kapt "com.google.dagger:hilt-android-compiler:$hilt"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
