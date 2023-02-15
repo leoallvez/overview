@@ -350,7 +350,7 @@ fun BasicImage(
                 then (
                     if (withBorder) Modifier.border(
                         dimensionResource(R.dimen.border_width),
-                        SecondaryBackground,
+                        Color.DarkGray,
                         RoundedCornerShape(dimensionResource(R.dimen.corner))
                     ) else Modifier
                     ),

@@ -8,12 +8,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -29,7 +29,9 @@ import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.createDiscoverParams
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -258,21 +260,21 @@ fun EmptyListProvidersMsg() {
             .height(50.dp)
             .border(
                 dimensionResource(R.dimen.border_width),
-                AccentColor,
+                Gray,
                 RoundedCornerShape(dimensionResource(R.dimen.corner))
-            ),
+            ).background(SecondaryBackground),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            Icons.Filled.Warning,
-            tint = AccentColor,
-            contentDescription = stringResource(R.string.empty_list_providers),
-            modifier = Modifier.emptyListPadding(end = 0.dp)
-        )
         Text(
             text = stringResource(R.string.empty_list_providers),
-            modifier = Modifier.emptyListPadding(start = 3.dp),
-            color = AccentColor
+            modifier = Modifier.emptyListPadding(end = 0.dp),
+            color = Gray
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.outline_alert),
+            tint = Gray,
+            contentDescription = stringResource(R.string.empty_list_providers),
+            modifier = Modifier.emptyListPadding()
         )
     }
 }

@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
@@ -21,6 +20,7 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.getStringByName
@@ -142,7 +142,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
         pagerState = pagerState,
         modifier = modifier
             .padding(dimensionResource(R.dimen.screen_padding)),
-        inactiveColor = Color.Gray,
+        inactiveColor = Gray,
         activeColor = AccentColor
     )
 }
