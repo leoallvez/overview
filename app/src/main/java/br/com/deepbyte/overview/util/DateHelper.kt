@@ -44,9 +44,20 @@ class DateHelper(dateIn: String?) {
         return diff.toString()
     }
 
+    fun isFutureDate() = if (date.isNotEmpty()) {
+        val today = Calendar.getInstance()
+        date.toCalendar() > today
+    } else {
+        false
+    }
+
     private fun String.toCalendar() = try {
-        val (year, mouth, day) = this.split(DATE_SEPARATOR).map { it.toInt() }
-        Calendar.getInstance().apply { set(year, mouth, day) }
+        if (isNotEmpty()) {
+            val (year, mouth, day) = split(DATE_SEPARATOR).map { it.toInt() }
+            Calendar.getInstance().apply { set(year, mouth, day) }
+        } else {
+            Calendar.getInstance()
+        }
     } catch (e: NumberFormatException) {
         Timber.e(e, "error on parse date to calendar")
         Calendar.getInstance()

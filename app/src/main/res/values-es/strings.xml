@@ -46,4 +46,5 @@
     <string name="search_not_started">Los resultados de la búsqueda aparecerán aquí :)</string>
     <string name="search_result_empty">Ningún resultado encontrado :(</string>
     <string name="empty_list_providers">No disponible para transmisión</string>
+    <string name="not_yet_released">Aún no publicado</string>
 </resources>

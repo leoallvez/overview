@@ -1,5 +1,6 @@
 package br.com.deepbyte.overview.ui.media
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -118,7 +119,7 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         media.apply {
-            ProvidersList(providers) { provider ->
+            ProvidersList(providers, isReleased()) { provider ->
                 val params = provider.createDiscoverParams(media)
                 events.onNavigateToProviderDiscover(params.toJson())
             }
@@ -231,7 +232,11 @@ fun MovieReleaseYearAndRunTime(releaseYear: String, runtime: String) {
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -> Unit) {
+fun ProvidersList(
+    providers: List<ProviderPlace>,
+    isReleased: Boolean,
+    onClickItem: (ProviderPlace) -> Unit
+) {
     BasicTitle(stringResource(R.string.where_to_watch))
     if (providers.isNotEmpty()) {
         LazyRow(
@@ -248,12 +253,14 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -
             }
         }
     } else {
-        EmptyListProvidersMsg()
+        EmptyListProvidersMsg(
+            if (isReleased) { R.string.empty_list_providers } else { R.string.not_yet_released }
+        )
     }
 }
 
 @Composable
-fun EmptyListProvidersMsg() {
+fun EmptyListProvidersMsg(@StringRes stringResource: Int) {
     Row(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.screen_padding))
@@ -266,14 +273,14 @@ fun EmptyListProvidersMsg() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(R.string.empty_list_providers),
+            text = stringResource(stringResource),
             modifier = Modifier.emptyListPadding(end = 0.dp),
             color = Gray
         )
         Icon(
             painter = painterResource(id = R.drawable.outline_alert),
             tint = Gray,
-            contentDescription = stringResource(R.string.empty_list_providers),
+            contentDescription = stringResource(stringResource),
             modifier = Modifier.emptyListPadding()
         )
     }
