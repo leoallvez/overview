@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name_prod">Overview</string>
     <!-- Dynamic -->
     <string tools:ignore="UnusedResources" name="movie_top_rated">Top rated movies</string>
     <string tools:ignore="UnusedResources" name="discover_movie">Movies you can enjoy</string>
