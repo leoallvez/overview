@@ -29,7 +29,6 @@ android {
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
         buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w780"'
         buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
-        resValue 'string', 'app_name', "Overview"
         resConfigs "pt", "en", "es"
     }
     if (activeSigning) {
@@ -66,19 +65,20 @@ android {
     flavorDimensions "version"
     productFlavors {
         dev {
-            resValue 'string', 'app_name', "Over-DEV"
+            resValue "string", "app_name", "@string/app_name_dev"
             dimension "version"
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
         }
         homol {
-            resValue 'string', 'app_name', "Over-HOM"
+            resValue "string", "app_name", "@string/app_name_homol"
             dimension "version"
             applicationIdSuffix ".homol"
             versionNameSuffix "-homol"
             if (activeSigning) { signingConfig signingConfigs.homol }
         }
         prod {
+            resValue "string", "app_name", "@string/app_name_prod"
             if (activeSigning) { signingConfig signingConfigs.prod }
         }
     }

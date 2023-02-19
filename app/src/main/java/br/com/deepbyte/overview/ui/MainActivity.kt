@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +23,7 @@ import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.di.IsOnline
 import br.com.deepbyte.overview.ui.navigation.NavController
 import br.com.deepbyte.overview.ui.theme.AppTheme
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,7 +65,7 @@ fun OverviewApp(isOnline: Boolean) {
 fun AppVersion() {
     Text(
         text = "v${BuildConfig.VERSION_NAME}",
-        color = Color.DarkGray,
+        color = Gray,
         textAlign = TextAlign.Center,
         fontSize = 12.sp,
         modifier = Modifier

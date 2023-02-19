@@ -1,5 +1,6 @@
 package br.com.deepbyte.overview.ui.media
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -8,12 +9,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -29,6 +31,7 @@ import br.com.deepbyte.overview.data.model.provider.ProviderPlace
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.createDiscoverParams
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -115,54 +118,47 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        media.apply {
-            ProvidersList(providers) { provider ->
-                val params = provider.createDiscoverParams(media)
-                events.onNavigateToProviderDiscover(params.toJson())
+        ProvidersList(media.providers, media.isReleased()) { provider ->
+            val params = provider.createDiscoverParams(media)
+            events.onNavigateToProviderDiscover(params.toJson())
+        }
+        MediaSpace()
+        Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())
+        when (media) {
+            is Movie -> {
+                Info(stringResource(R.string.runtime), media.getRuntime())
+                Info(stringResource(R.string.director), media.getDirectorName(), AccentColor)
             }
-            when (media) {
-                is Movie -> {
-                    MovieReleaseYearAndRunTime(media.getReleaseYear(), media.getRuntime())
-                    Director(media.getDirectorName())
-                }
-                is TvShow -> {
-                    NumberSeasonsAndEpisodes(media.numberOfSeasons, media.numberOfEpisodes)
-                    EpisodesRunTime(media.getRuntime())
-                }
+            is TvShow -> {
+                NumberSeasonsAndEpisodes(media.numberOfSeasons, media.numberOfEpisodes)
+                EpisodesRunTime(media.getRuntime())
             }
-            GenreList(genres) { genre ->
-                val params = genre.createDiscoverParams(media)
-                events.onNavigateToGenreDiscover(params.toJson())
-            }
-            BasicParagraph(R.string.synopsis, overview)
-            AdsMediumRectangle(
-                prodBannerId = R.string.media_details_banner,
-                isVisible = showAds
-            )
-            CastList(getOrderedCast()) { apiId ->
-                events.onNavigateToCastDetails(apiId = apiId)
-            }
-            MediaList(
-                listTitle = stringResource(R.string.related),
-                medias = getSimilarMedia()
-            ) { apiId, mediaType ->
-                events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
-            }
+        }
+        MediaSpace()
+        GenreList(media.genres) { genre ->
+            val params = genre.createDiscoverParams(media)
+            events.onNavigateToGenreDiscover(params.toJson())
+        }
+        BasicParagraph(R.string.synopsis, media.overview)
+        AdsMediumRectangle(
+            prodBannerId = R.string.media_details_banner,
+            isVisible = showAds
+        )
+        CastList(media.getOrderedCast()) { apiId ->
+            events.onNavigateToCastDetails(apiId = apiId)
+        }
+        MediaList(
+            listTitle = stringResource(R.string.related),
+            medias = media.getSimilarMedia()
+        ) { apiId, mediaType ->
+            events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
         }
     }
 }
 
 @Composable
-fun Director(directorNome: String) {
-    if (directorNome.isNotEmpty()) {
-        Text(
-            text = stringResource(R.string.director, directorNome),
-            color = AccentColor,
-            style = MaterialTheme.typography.subtitle2,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
-        )
-    }
+fun MediaSpace() {
+    Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
 }
 
 @Composable
@@ -172,7 +168,7 @@ fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
         Row(
             modifier = Modifier
                 .padding(horizontal = padding)
-                .padding(top = padding)
+                .padding(top = 2.dp)
         ) {
             val spacerModifier = Modifier.padding(horizontal = 2.dp)
             NumberOfSeasons(numberOfSeasons)
@@ -188,12 +184,8 @@ fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
 fun EpisodesRunTime(runtime: String) {
     if (runtime.isNotEmpty()) {
         val padding = dimensionResource(R.dimen.screen_padding)
-        Row(
-            modifier = Modifier
-                .padding(horizontal = padding)
-                .padding(bottom = 20.dp)
-        ) {
-            SimpleSubtitle2(text = stringResource(R.string.per_episode, runtime))
+        Row(modifier = Modifier.padding(horizontal = padding)) {
+            SimpleSubtitle2(text = stringResource(R.string.runtime_per_episode, runtime))
         }
     }
 }
@@ -211,25 +203,27 @@ fun NumberOfEpisodes(numberOfEpisodes: Int) {
 }
 
 @Composable
-fun MovieReleaseYearAndRunTime(releaseYear: String, runtime: String) {
-    if (releaseYear.isNotEmpty().or(runtime.isNotEmpty())) {
+fun Info(label: String = "", info: String, color: Color = Color.White) {
+    if (info.isNotEmpty()) {
         Row(
-            modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding))
-        ) {
-            val spacerModifier = Modifier.padding(horizontal = 2.dp)
-            SimpleSubtitle2(text = releaseYear)
-            Spacer(modifier = spacerModifier)
-            PartingPoint(
-                display = releaseYear.isNotEmpty().and(runtime.isNotEmpty())
+            Modifier.padding(
+                horizontal = dimensionResource(R.dimen.screen_padding),
+                vertical = 2.dp
             )
-            Spacer(modifier = spacerModifier)
-            SimpleSubtitle2(text = runtime)
+        ) {
+            SimpleSubtitle2(
+                text = if (label.isNotEmpty()) "$label: $info" else info, color = color
+            )
         }
     }
 }
 
 @Composable
-fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -> Unit) {
+fun ProvidersList(
+    providers: List<ProviderPlace>,
+    isReleased: Boolean,
+    onClickItem: (ProviderPlace) -> Unit
+) {
     BasicTitle(stringResource(R.string.where_to_watch))
     if (providers.isNotEmpty()) {
         LazyRow(
@@ -246,33 +240,39 @@ fun ProvidersList(providers: List<ProviderPlace>, onClickItem: (ProviderPlace) -
             }
         }
     } else {
-        EmptyListProvidersMsg()
+        EmptyListProvidersMsg(
+            if (isReleased) { R.string.empty_list_providers } else { R.string.not_yet_released }
+        )
     }
 }
 
 @Composable
-fun EmptyListProvidersMsg() {
+fun EmptyListProvidersMsg(@StringRes stringResource: Int) {
     Row(
         modifier = Modifier
-            .padding(dimensionResource(id = R.dimen.screen_padding))
-            .height(50.dp)
+            .padding(
+                horizontal = dimensionResource(R.dimen.screen_padding),
+                vertical = dimensionResource(R.dimen.default_padding)
+            )
+            .height(40.dp)
             .border(
                 dimensionResource(R.dimen.border_width),
-                AccentColor,
+                Gray,
                 RoundedCornerShape(dimensionResource(R.dimen.corner))
-            ),
+            )
+            .background(PrimaryBackground),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            Icons.Filled.Warning,
-            tint = AccentColor,
-            contentDescription = stringResource(R.string.empty_list_providers),
-            modifier = Modifier.emptyListPadding(end = 0.dp)
-        )
         Text(
-            text = stringResource(R.string.empty_list_providers),
-            modifier = Modifier.emptyListPadding(start = 3.dp),
-            color = AccentColor
+            text = stringResource(stringResource),
+            modifier = Modifier.emptyListPadding(end = 0.dp),
+            color = Gray
+        )
+        Icon(
+            painter = painterResource(R.drawable.outline_alert),
+            tint = Gray,
+            contentDescription = stringResource(stringResource),
+            modifier = Modifier.emptyListPadding()
         )
     }
 }

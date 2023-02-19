@@ -28,6 +28,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
@@ -159,7 +160,7 @@ fun MediaButton(
     onClick: (String) -> Unit
 ) {
     val isActivated = selectedKey == mediaKey
-    val color = if (isActivated) AccentColor else Color.Gray
+    val color = if (isActivated) AccentColor else Gray
     val focusManager = LocalFocusManager.current
 
     OutlinedButton(
