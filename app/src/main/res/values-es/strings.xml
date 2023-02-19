@@ -36,8 +36,10 @@
     <string name="n_seasons">%s temporadas</string>
     <string name="one_episode">1 episodio</string>
     <string name="n_episodes">%s episodios</string>
-    <string name="per_episode">%s por episodio</string>
-    <string name="director">Director: %s</string>
+    <string name="runtime_per_episode">Duración: %s por episodio</string>
+    <string name="director">Director</string>
+    <string name="release_date">Estreno</string>
+    <string name="runtime">Duración</string>
     <string name="search_field_text">Buscar</string>
 
     <string name="movies">Películas</string>

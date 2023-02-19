@@ -24,14 +24,14 @@ data class Movie(
 
     override fun getLetter() = title ?: originalTitle ?: ""
 
-    override fun isReleased() = DateHelper(releaseDate).isFutureDate().not()
-
     fun getDirectorName(): String {
         val director = credits.crew.firstOrNull { it.job.uppercase() == DIRECTOR_JOB }
         return director?.name ?: ""
     }
 
-    fun getReleaseYear() = DateHelper(releaseDate).getYear()
+    override fun isReleased() = DateHelper(releaseDate).isFutureDate().not()
+
+    override fun getFormattedReleaseDate() = DateHelper(releaseDate).formattedDate()
 
     companion object {
         private const val DIRECTOR_JOB = "DIRECTOR"

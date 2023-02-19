@@ -52,6 +52,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
@@ -350,7 +351,7 @@ fun BasicImage(
                 then (
                     if (withBorder) Modifier.border(
                         dimensionResource(R.dimen.border_width),
-                        Color.DarkGray,
+                        Gray,
                         RoundedCornerShape(dimensionResource(R.dimen.corner))
                     ) else Modifier
                     ),
@@ -363,12 +364,7 @@ fun BasicImage(
 }
 
 @Composable
-fun BasicText(
-    text: String,
-    style: TextStyle,
-    color: Color = Color.White,
-    isBold: Boolean = false
-) {
+fun BasicText(text: String, style: TextStyle, color: Color = Color.White, isBold: Boolean = false) {
     Text(
         color = color,
         text = text,
@@ -406,11 +402,16 @@ fun SimpleSubtitle1(text: String, display: Boolean = true, isBold: Boolean = tru
 }
 
 @Composable
-fun SimpleSubtitle2(text: String, display: Boolean = true, isBold: Boolean = true) {
+fun SimpleSubtitle2(
+    text: String,
+    display: Boolean = true,
+    isBold: Boolean = true,
+    color: Color = Color.White
+) {
     if (text.isNotEmpty() && display) {
         Text(
             text = text,
-            color = Color.White,
+            color = color,
             style = MaterialTheme.typography.subtitle2,
             fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
         )

@@ -19,7 +19,7 @@ data class TvShow(
     private val episodeRuntime: List<Int> = listOf(),
 
     @field:Json(name = "first_air_date")
-    val firstAirDate: String = "",
+    private val firstAirDate: String = "",
 
     private val similar: Similar<TvShow> = Similar()
 ) : Media() {
@@ -30,4 +30,5 @@ data class TvShow(
 
     override fun getLetter() = name ?: originalName ?: ""
     override fun isReleased() = DateHelper(firstAirDate).isFutureDate().not()
+    override fun getFormattedReleaseDate() = DateHelper(firstAirDate).formattedDate()
 }
