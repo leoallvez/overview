@@ -6,25 +6,25 @@ import br.com.deepbyte.overview.util.parseToList
 import io.github.leoallvez.firebase.RemoteConfigKey.STREAMING_LIST_KEY
 import io.github.leoallvez.firebase.RemoteSource
 
-class StreamingServicesAbTesting(
+class StreamingAbTesting(
     private val _jsonFileReader: IJsonFileReader,
     private val _remoteSource: RemoteSource
 ) : AbTesting<List<Streaming>> {
 
-    override fun execute() = getRemoteStreamingServices()
-        .ifEmpty { getLocalStreamingServices() }
+    override fun execute() = getRemoteStreamings()
+        .ifEmpty { getLocalStreamings() }
 
-    private fun getLocalStreamingServices(): List<Streaming> {
+    private fun getLocalStreamings(): List<Streaming> {
         val json = _jsonFileReader.read(STREAMING_FILE_NAME)
-        return json.toStreamingServices()
+        return json.toStreamings()
     }
 
-    private fun getRemoteStreamingServices(): List<Streaming> {
+    private fun getRemoteStreamings(): List<Streaming> {
         val json = _remoteSource.getString(STREAMING_LIST_KEY)
-        return json.toStreamingServices()
+        return json.toStreamings()
     }
 
-    private fun String.toStreamingServices() = parseToList<Streaming>()
+    private fun String.toStreamings() = this.parseToList<Streaming>()
 
     companion object {
         private const val STREAMING_FILE_NAME = "streaming_services.json"

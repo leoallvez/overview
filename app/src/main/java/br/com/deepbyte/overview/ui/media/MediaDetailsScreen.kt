@@ -118,7 +118,7 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        StreamingServicesList(media.streamings, media.isReleased()) { streaming ->
+        StreamingList(media.streamings, media.isReleased()) { streaming ->
             val params = streaming.createDiscoverParams(media)
             events.onNavigateToProviderDiscover(params.toJson())
         }
@@ -215,7 +215,7 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
 }
 
 @Composable
-fun StreamingServicesList(
+fun StreamingList(
     streamings: List<Streaming>,
     isReleased: Boolean,
     onClickItem: (Streaming) -> Unit

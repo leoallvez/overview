@@ -6,14 +6,14 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class StreamingServicesAbTestingTest : LocalAndRemoteTest() {
+class StreamingsAbTestingTest : LocalAndRemoteTest() {
 
     private lateinit var _streaming: AbTesting<List<Streaming>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _streaming = StreamingServicesAbTesting(jsonFileReader, remoteSource)
+        _streaming = StreamingAbTesting(jsonFileReader, remoteSource)
     }
 
     @Test
