@@ -52,7 +52,9 @@ fun CastDetailsScreen(
             person = dataResult,
             showAds = viewModel.showAds,
             events::onNavigateToHome,
-            events::onNavigateToMediaDetails
+            { apiId, mediaType ->
+                events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+            }
         ) {
             viewModel.refresh(apiId)
         }

@@ -1,18 +1,11 @@
 package br.com.deepbyte.overview.util
 
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DateHelper(dateIn: String?) {
 
     private val date: String = dateIn ?: DEFAULT_RETURN
-
-    fun getYear(): String = if (date.isNotEmpty()) {
-        date.split(DATE_SEPARATOR).first()
-    } else {
-        DEFAULT_RETURN
-    }
 
     fun formattedDate(): String = if (date.isNotEmpty()) {
         val format = SimpleDateFormat(API_DATE_PATTERN, Locale.getDefault())
@@ -28,10 +21,13 @@ class DateHelper(dateIn: String?) {
     }
 
     fun periodBetween(dateEnd: String?): String = if (date.isNotEmpty()) {
-        calculatePeriod(
-            start = date.toCalendar(),
-            end = dateEnd?.toCalendar() ?: Calendar.getInstance()
-        )
+        when (val start = date.toCalendar()) {
+            null -> DEFAULT_RETURN
+            else -> {
+                val end = dateEnd?.toCalendar() ?: Calendar.getInstance()
+                calculatePeriod(start = start, end = end)
+            }
+        }
     } else {
         DEFAULT_RETURN
     }
@@ -44,12 +40,27 @@ class DateHelper(dateIn: String?) {
         return diff.toString()
     }
 
+    fun isFutureDate() = if (date.isNotEmpty()) {
+        when (val date = date.toCalendar()) {
+            null -> false
+            else -> {
+                val today = Calendar.getInstance()
+                date > today
+            }
+        }
+    } else {
+        false
+    }
+
     private fun String.toCalendar() = try {
-        val (year, mouth, day) = this.split(DATE_SEPARATOR).map { it.toInt() }
-        Calendar.getInstance().apply { set(year, mouth, day) }
+        if (isNotEmpty()) {
+            val (year, month, day) = split(DATE_SEPARATOR).map { it.toInt() }
+            Calendar.getInstance().apply { set(year, month - 1, day) }
+        } else {
+            null
+        }
     } catch (e: NumberFormatException) {
-        Timber.e(e, "error on parse date to calendar")
-        Calendar.getInstance()
+        null
     }
 
     companion object {

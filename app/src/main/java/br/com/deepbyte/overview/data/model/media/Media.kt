@@ -22,6 +22,8 @@ abstract class Media {
     abstract fun getSimilarMedia(): List<Media>
     abstract fun getRuntime(): String
     abstract fun getLetter(): String
+    abstract fun isReleased(): Boolean
+    abstract fun getFormattedReleaseDate(): String
 
     fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
     fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"

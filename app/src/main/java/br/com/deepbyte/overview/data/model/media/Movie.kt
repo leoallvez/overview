@@ -29,7 +29,9 @@ data class Movie(
         return director?.name ?: ""
     }
 
-    fun getReleaseYear() = DateHelper(releaseDate).getYear()
+    override fun isReleased() = DateHelper(releaseDate).isFutureDate().not()
+
+    override fun getFormattedReleaseDate() = DateHelper(releaseDate).formattedDate()
 
     companion object {
         private const val DIRECTOR_JOB = "DIRECTOR"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name_prod">Onde Assistir</string>
     <!-- Dynamic -->
     <string tools:ignore="UnusedResources" name="movie_top_rated">Filmes mais votados</string>
     <string tools:ignore="UnusedResources" name="discover_movie">Filmes que você pode curtir</string>
@@ -35,13 +36,18 @@
     <string name="n_seasons">%s temporadas</string>
     <string name="one_episode">1 episódio</string>
     <string name="n_episodes">%s episódios</string>
-    <string name="per_episode">%s por episódio</string>
-    <string name="director">Diretor: %s</string>
+    <string name="runtime_per_episode">Duração: %s por episódio</string>
+    <string name="director">Diretor</string>
+    <string name="release_date">Lançamento</string>
+    <string name="runtime">Duração</string>
     <string name="search_field_text">Pesquisar</string>
 
     <string name="movies">Filmes</string>
     <string name="tv_show">Séries</string>
+    <string name="all">Tudo</string>
 
     <string name="search_not_started">Os resultados da pesquisa irão aparecer aqui :)</string>
     <string name="search_result_empty">Nenhum resultado encontrado :(</string>
+    <string name="empty_list_providers">Não disponível nos streamings</string>
+    <string name="not_yet_released">Ainda não lançado</string>
 </resources>

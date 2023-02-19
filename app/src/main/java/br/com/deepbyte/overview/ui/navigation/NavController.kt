@@ -22,6 +22,7 @@ import br.com.deepbyte.overview.ui.search.SearchScreen
 import br.com.deepbyte.overview.ui.splash.SplashScreen
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.getApiId
+import br.com.deepbyte.overview.util.getBackToHome
 import br.com.deepbyte.overview.util.getDiscoverParams
 import br.com.deepbyte.overview.util.getParams
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -57,11 +58,15 @@ fun NavGraphBuilder.mediaDetailsGraph(
 ) {
     composable(
         route = ScreenNav.MediaDetails.route,
-        arguments = listOf(NavArgument.ID, NavArgument.TYPE)
+        arguments = listOf(NavArgument.ID, NavArgument.TYPE, NavArgument.BACK_TO_HOME)
     ) { navBackStackEntry ->
+        val events = MediaDetailsScreenEvents(
+            navigation = navController,
+            backToHome = navBackStackEntry.getBackToHome()
+        )
         MediaDetailsScreen(
             params = navBackStackEntry.getParams(),
-            events = MediaDetailsScreenEvents(navController)
+            events = events
         )
     }
     composable(
@@ -78,8 +83,8 @@ fun NavGraphBuilder.mediaDetailsGraph(
         arguments = listOf(NavArgument.JSON)
     ) { navBackStackEntry ->
         ProviderDiscoverScreen(
-            params = navBackStackEntry.getDiscoverParams(),
-            onNavigateToMediaDetails = onNavigateToMediaDetails(navController)
+            events = BasicsMediaEvents(navController),
+            params = navBackStackEntry.getDiscoverParams()
         )
     }
     composable(
@@ -87,8 +92,8 @@ fun NavGraphBuilder.mediaDetailsGraph(
         arguments = listOf(NavArgument.JSON)
     ) { navBackStackEntry ->
         GenreDiscoverScreen(
-            params = navBackStackEntry.getDiscoverParams(),
-            onNavigateToMediaDetails = onNavigateToMediaDetails(navController)
+            events = BasicsMediaEvents(navController),
+            params = navBackStackEntry.getDiscoverParams()
         )
     }
 }
