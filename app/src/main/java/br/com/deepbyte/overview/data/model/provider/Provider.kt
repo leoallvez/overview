@@ -5,9 +5,9 @@ import com.squareup.moshi.Json
 data class Provider(
     private val link: String,
     @field:Json(name = "flatrate")
-    private val flatRate: List<StreamingService>?
+    private val flatRate: List<Streaming>?
 ) {
-    fun getOrderedFlatRate(): List<StreamingService> {
+    fun getOrderedFlatRate(): List<Streaming> {
         val validFlatRate = flatRate?.filter { isValid(it.apiId) } ?: listOf()
         return validFlatRate.sortedBy { it.displayPriority }
     }

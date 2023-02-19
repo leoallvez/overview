@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.abtesting
 
-import br.com.deepbyte.overview.data.model.provider.StreamingService
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import io.mockk.MockKAnnotations
 import org.junit.Assert
 import org.junit.Before
@@ -8,7 +8,7 @@ import org.junit.Test
 
 class StreamingServicesAbTestingTest : LocalAndRemoteTest() {
 
-    private lateinit var _streaming: AbTesting<List<StreamingService>>
+    private lateinit var _streaming: AbTesting<List<Streaming>>
 
     @Before
     fun setup() {

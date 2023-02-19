@@ -27,7 +27,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.PersonDetails
-import br.com.deepbyte.overview.data.model.provider.StreamingService
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -118,7 +118,7 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        StreamingServicesList(media.streamingServices, media.isReleased()) { streaming ->
+        StreamingServicesList(media.streamings, media.isReleased()) { streaming ->
             val params = streaming.createDiscoverParams(media)
             events.onNavigateToProviderDiscover(params.toJson())
         }
@@ -165,11 +165,7 @@ fun MediaSpace() {
 fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
     if (numberOfSeasons > 0) {
         val padding = dimensionResource(R.dimen.screen_padding)
-        Row(
-            modifier = Modifier
-                .padding(horizontal = padding)
-                .padding(top = 2.dp)
-        ) {
+        Row(modifier = Modifier.padding(horizontal = padding).padding(top = 2.dp)) {
             val spacerModifier = Modifier.padding(horizontal = 2.dp)
             NumberOfSeasons(numberOfSeasons)
             Spacer(modifier = spacerModifier)
@@ -220,9 +216,9 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
 
 @Composable
 fun StreamingServicesList(
-    streamings: List<StreamingService>,
+    streamings: List<Streaming>,
     isReleased: Boolean,
-    onClickItem: (StreamingService) -> Unit
+    onClickItem: (Streaming) -> Unit
 ) {
     if (streamings.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
@@ -288,7 +284,7 @@ private fun Modifier.emptyListPadding(
 ): Modifier = padding(start, top, end, bottom)
 
 @Composable
-fun ProviderItem(provider: StreamingService, onClick: () -> Unit) {
+fun ProviderItem(provider: Streaming, onClick: () -> Unit) {
     BasicImage(
         url = provider.getLogoImage(),
         contentDescription = provider.name,

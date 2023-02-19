@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.data.source.streaming
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
-import br.com.deepbyte.overview.data.model.provider.StreamingService
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
@@ -12,8 +12,8 @@ class StreamingRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IStreamingRemoteDataSource {
 
-    override suspend fun getItems(): List<StreamingService> =
-        when (val response = getStreamingServices()) {
+    override suspend fun getItems(): List<Streaming> =
+        when (val response = getStreamings()) {
             is NetworkResponse.Success -> {
                 // TODO: create filter logic
                 response.body.results.filter { it.apiId > 0 }
@@ -21,7 +21,7 @@ class StreamingRemoteDataSource @Inject constructor(
             else -> listOf()
         }
 
-    private suspend fun getStreamingServices() = _locale.run {
+    private suspend fun getStreamings() = _locale.run {
         _api.getStreamingItems(language = language, region = region)
     }
 
@@ -38,7 +38,7 @@ class StreamingRemoteDataSource @Inject constructor(
     private fun mapToStreaming(
         response: NetworkResponse.Success<ProviderResponse>,
         region: String
-    ): List<StreamingService> {
+    ): List<Streaming> {
         val resultsMap = response.body.results
         val entries = resultsMap.filter { it.key == region }.entries
         return if (entries.isNotEmpty()) {

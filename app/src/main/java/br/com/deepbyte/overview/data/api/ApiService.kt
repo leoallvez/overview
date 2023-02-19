@@ -9,7 +9,7 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.PersonDetails
-import br.com.deepbyte.overview.data.model.provider.StreamingService
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -187,5 +187,5 @@ interface ApiService {
         language: String = "",
         @Query(value = "region")
         region: String = ""
-    ): NetworkResponse<ListResponse<StreamingService>, ErrorResponse>
+    ): NetworkResponse<ListResponse<Streaming>, ErrorResponse>
 }
