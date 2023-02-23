@@ -36,7 +36,7 @@ import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.createDiscoverParams
-import br.com.deepbyte.overview.util.defaultBackground
+import br.com.deepbyte.overview.util.defaultBorder
 import br.com.deepbyte.overview.util.emptyListPadding
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -225,8 +225,8 @@ fun StreamingList(
     isReleased: Boolean,
     onClickItem: (Streaming) -> Unit
 ) {
+    BasicTitle(stringResource(R.string.where_to_watch))
     if (streamings.isNotEmpty()) {
-        BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow(
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
@@ -256,8 +256,7 @@ fun StreamingListEmptyMsg(@StringRes stringResource: Int) {
                 vertical = dimensionResource(R.dimen.default_padding)
             )
             .height(40.dp)
-            .defaultBackground()
-            .background(PrimaryBackground),
+            .defaultBorder(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(

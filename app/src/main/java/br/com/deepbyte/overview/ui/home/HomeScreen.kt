@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -15,9 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -171,20 +174,22 @@ fun HomeScreenContent(
     ) {
         Column {
             AdsBanner(prodBannerId = R.string.home_banner, isVisible = showAds)
-            OverviewStreaming(streamings = mockStreaming(), {}, {})
             SuggestionVerticalList(suggestions = suggestions) { apiId, mediaType ->
                 onNavigateToMediaDetails.invoke(apiId, mediaType)
             }
         }
     }
 }
-
+//TODO: rename composable function
 @Composable
 fun SuggestionVerticalList(
     suggestions: List<MediaSuggestion>,
     onClickItem: MediaItemClick
 ) {
     LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
+        item {
+            OverviewStreaming(streamings = mockStreaming(), {}, {})
+        }
         items(suggestions) {
             val title = LocalContext.current.getStringByName(it.titleResourceId)
             MediaItemList(
@@ -210,13 +215,12 @@ fun OverviewStreaming(
     onItemClick: () -> Unit,
     onEditClick: () -> Unit
 ) {
-    Column {
-        BasicTitle("Streaming Preview")
+    Column(Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))) {
+        OverviewStreamingTitle()
         LazyRow(
             horizontalArrangement = Arrangement
                 .spacedBy(dimensionResource(R.dimen.default_padding)),
             contentPadding = PaddingValues(
-                vertical = dimensionResource(R.dimen.default_padding),
                 horizontal = dimensionResource(R.dimen.screen_padding)
             )
         ) {
@@ -228,6 +232,17 @@ fun OverviewStreaming(
             }
         }
     }
+}
+
+@Composable
+fun OverviewStreamingTitle() {
+    Text(
+        text = "Descubra nos seus streamings",
+        color = Color.White,
+        modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding)),
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold
+    )
 }
 
 @Composable
