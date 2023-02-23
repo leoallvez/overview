@@ -180,7 +180,8 @@ fun HomeScreenContent(
         }
     }
 }
-//TODO: rename composable function
+
+// TODO: rename composable function
 @Composable
 fun SuggestionVerticalList(
     suggestions: List<MediaSuggestion>,
