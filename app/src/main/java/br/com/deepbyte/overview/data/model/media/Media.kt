@@ -16,8 +16,10 @@ abstract class Media {
 
     @field:Json(name = "poster_path")
     private val posterPath: String = ""
+
     val genres: List<Genre> = listOf()
     protected val credits: Credits = Credits()
+
     @field:Json(name = "providers")
     var streamings: List<Streaming> = listOf()
 
