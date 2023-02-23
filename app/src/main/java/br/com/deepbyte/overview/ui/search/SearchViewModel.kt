@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    private val _repository: ISearchRepository,
+    private val _repository: ISearchRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SearchUiState>(SearchState.NotStated())

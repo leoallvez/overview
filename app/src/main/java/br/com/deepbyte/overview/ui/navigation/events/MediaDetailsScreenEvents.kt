@@ -5,7 +5,7 @@ import br.com.deepbyte.overview.ui.ScreenNav
 
 class MediaDetailsScreenEvents(
     private val navigation: NavController,
-    backToHome: Boolean = false,
+    backToHome: Boolean = false
 ) : BasicsMediaEvents(navigation, backToHome) {
 
     fun onNavigateToProviderDiscover(json: String) =

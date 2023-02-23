@@ -212,7 +212,8 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
             )
         ) {
             SimpleSubtitle2(
-                text = if (label.isNotEmpty()) "$label: $info" else info, color = color
+                text = if (label.isNotEmpty()) "$label: $info" else info,
+                color = color
             )
         }
     }

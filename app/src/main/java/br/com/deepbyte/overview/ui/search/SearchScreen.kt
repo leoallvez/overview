@@ -36,9 +36,8 @@ import br.com.deepbyte.overview.util.MediaItemClick
 @Composable
 fun SearchScreen(
     events: BasicsMediaEvents,
-    viewModel: SearchViewModel = hiltViewModel(),
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
-
     TrackScreenView(screen = ScreenNav.Search, viewModel.analyticsTracker)
 
     Scaffold(
@@ -57,7 +56,6 @@ fun SearchScreen(
     ) { padding ->
 
         Box(modifier = Modifier.padding(padding)) {
-
             when (val uiState = viewModel.uiState.collectAsState().value) {
                 is SearchState.NotStated -> SearchIsNotStated()
                 is SearchState.Loading -> LoadingScreen()
@@ -128,7 +126,6 @@ fun SearchSuccess(
     results: Map<String, List<Media>>,
     onNavigateToMediaDetails: MediaItemClick
 ) {
-
     var selected by remember { mutableStateOf(ALL.key) }
 
     Column {
@@ -227,6 +224,6 @@ fun SearchIcon() {
     Icon(
         tint = AccentColor,
         imageVector = Icons.Rounded.Search,
-        contentDescription = stringResource(R.string.search_icon),
+        contentDescription = stringResource(R.string.search_icon)
     )
 }

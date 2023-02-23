@@ -27,7 +27,6 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
-
     TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
 
     val scale = remember { Animatable(0f) }
@@ -62,7 +61,6 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
 
 @Composable
 fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
-
     Box(
         modifier = Modifier
             .scale(scale.value)

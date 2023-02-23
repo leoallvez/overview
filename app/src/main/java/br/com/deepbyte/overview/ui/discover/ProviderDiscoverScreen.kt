@@ -14,7 +14,7 @@ import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 fun ProviderDiscoverScreen(
     params: DiscoverParams,
     events: BasicsMediaEvents,
-    viewModel: DiscoverViewModel = hiltViewModel(),
+    viewModel: DiscoverViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.ProviderDiscover, tracker = viewModel.analyticsTracker)
 

@@ -8,7 +8,7 @@ sealed class DataResult<T>(
     val message: String? = null
 ) {
     class Success<T>(data: T) : DataResult<T>(data = data)
-    class ServerError <T>(message: String? = DEFAULT_MSG) : DataResult<T>(message = message)
+    class ServerError<T>(message: String? = DEFAULT_MSG) : DataResult<T>(message = message)
     class NetworkError<T>(message: String? = DEFAULT_MSG) : DataResult<T>(message = message)
     class UnknownError<T>(message: String? = DEFAULT_MSG) : DataResult<T>(message = message)
     companion object {

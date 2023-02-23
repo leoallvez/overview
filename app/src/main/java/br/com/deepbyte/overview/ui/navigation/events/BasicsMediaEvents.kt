@@ -6,7 +6,7 @@ import br.com.deepbyte.overview.ui.navigation.onNavigateToMediaDetails
 
 open class BasicsMediaEvents(
     private val navigation: NavController,
-    private val backToHome: Boolean = false,
+    private val backToHome: Boolean = false
 ) {
     fun onNavigateToHome() = onNavigateToHome(navigation).invoke()
 
