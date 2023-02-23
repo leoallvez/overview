@@ -7,7 +7,7 @@ class Streaming(
     @field:Json(name = "provider_id")
     val apiId: Long = 0,
     @field:Json(name = "display_priority")
-    val displayPriority: Int = 0,
+    val priority: Int = 0,
     @field:Json(name = "logo_path")
     private val logoPath: String = "",
     @field:Json(name = "provider_name")

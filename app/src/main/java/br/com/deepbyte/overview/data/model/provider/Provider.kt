@@ -9,7 +9,7 @@ data class Provider(
 ) {
     fun getOrderedFlatRate(): List<Streaming> {
         val validFlatRate = flatRate?.filter { isValid(it.apiId) } ?: listOf()
-        return validFlatRate.sortedBy { it.displayPriority }
+        return validFlatRate.sortedBy { it.priority }
     }
 
     private fun isValid(apiId: Long) = (apiId == NETFLIX_WITH_ADS_ID).not()

@@ -1,11 +1,14 @@
 package br.com.deepbyte.overview.ui.media
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -18,7 +21,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
@@ -34,6 +36,8 @@ import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.createDiscoverParams
+import br.com.deepbyte.overview.util.defaultBackground
+import br.com.deepbyte.overview.util.emptyListPadding
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -223,29 +227,27 @@ fun StreamingList(
     if (streamings.isNotEmpty()) {
         BasicTitle(stringResource(R.string.where_to_watch))
         LazyRow(
-            Modifier.padding(
-                vertical = 10.dp
-            ),
+            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
             contentPadding = PaddingValues(
                 horizontal = dimensionResource(R.dimen.screen_padding)
             )
         ) {
             items(streamings) { streaming ->
-                ProviderItem(streaming) {
+                StreamingItem(streaming) {
                     onClickItem.invoke(streaming)
                 }
             }
         }
     } else {
-        EmptyListProvidersMsg(
+        StreamingListEmptyMsg(
             if (isReleased) { R.string.empty_list_providers } else { R.string.not_yet_released }
         )
     }
 }
 
 @Composable
-fun EmptyListProvidersMsg(@StringRes stringResource: Int) {
+fun StreamingListEmptyMsg(@StringRes stringResource: Int) {
     Row(
         modifier = Modifier
             .padding(
@@ -253,11 +255,7 @@ fun EmptyListProvidersMsg(@StringRes stringResource: Int) {
                 vertical = dimensionResource(R.dimen.default_padding)
             )
             .height(40.dp)
-            .border(
-                dimensionResource(R.dimen.border_width),
-                Gray,
-                RoundedCornerShape(dimensionResource(R.dimen.corner))
-            )
+            .defaultBackground()
             .background(PrimaryBackground),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -276,18 +274,10 @@ fun EmptyListProvidersMsg(@StringRes stringResource: Int) {
 }
 
 @Composable
-private fun Modifier.emptyListPadding(
-    start: Dp = dimensionResource(id = R.dimen.screen_padding),
-    top: Dp = 5.dp,
-    end: Dp = dimensionResource(id = R.dimen.screen_padding),
-    bottom: Dp = 5.dp
-): Modifier = padding(start, top, end, bottom)
-
-@Composable
-fun ProviderItem(provider: Streaming, onClick: () -> Unit) {
+fun StreamingItem(streaming: Streaming, onClick: () -> Unit) {
     BasicImage(
-        url = provider.getLogoImage(),
-        contentDescription = provider.name,
+        url = streaming.getLogoImage(),
+        contentDescription = streaming.name,
         withBorder = true,
         modifier = Modifier
             .size(50.dp)

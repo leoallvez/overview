@@ -50,4 +50,6 @@
     <string name="search_result_empty">Nenhum resultado encontrado :(</string>
     <string name="empty_list_providers">Não disponível nos streamings</string>
     <string name="not_yet_released">Ainda não lançado</string>
+
+    <string name="edit">Editar</string>
 </resources>

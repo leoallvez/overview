@@ -50,4 +50,6 @@
     <string name="search_result_empty">Ningún resultado encontrado :(</string>
     <string name="empty_list_providers">No disponible para transmisión</string>
     <string name="not_yet_released">Aún no publicado</string>
+
+    <string name="edit">Editar</string>
 </resources>
