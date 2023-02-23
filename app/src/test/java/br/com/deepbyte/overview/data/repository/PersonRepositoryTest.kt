@@ -44,7 +44,8 @@ class PersonRepositoryTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_serverError() = runTest {
+    @Test
+    fun getPersonDetails_serverError() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
@@ -54,7 +55,8 @@ class PersonRepositoryTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_networkError() = runTest {
+    @Test
+    fun getPersonDetails_networkError() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
         // Act
@@ -64,7 +66,8 @@ class PersonRepositoryTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_unknownError() = runTest {
+    @Test
+    fun getPersonDetails_unknownError() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         // Act

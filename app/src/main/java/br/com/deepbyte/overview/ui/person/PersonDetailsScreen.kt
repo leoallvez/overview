@@ -96,7 +96,6 @@ fun PersonToolBar(person: PersonDetails, backButtonAction: () -> Unit) {
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
             .background(PrimaryBackground)
     ) {
-
         PersonImageCircle(
             imageUrl = person.getProfileImage(),
             contentDescription = person.name,

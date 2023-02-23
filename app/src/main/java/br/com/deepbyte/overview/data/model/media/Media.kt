@@ -10,8 +10,10 @@ abstract class Media {
     val apiId: Long = 0
     val adult: Boolean = false
     val overview: String = ""
+
     @field:Json(name = "backdrop_path")
     private val backdropPath: String = ""
+
     @field:Json(name = "poster_path")
     private val posterPath: String = ""
     val genres: List<Genre> = listOf()

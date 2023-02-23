@@ -29,6 +29,6 @@ fun GenreDiscoverScreen(
         pagingItems = items.collectAsLazyPagingItems(),
         onRefresh = { items = loadData() },
         onPopBackStack = { events.onPopBackStack() },
-        onToMediaDetails = events::onNavigateToMediaDetails,
+        onToMediaDetails = events::onNavigateToMediaDetails
     )
 }

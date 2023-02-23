@@ -48,7 +48,6 @@ fun HomeScreen(
     onNavigateToMediaDetails: MediaItemClick,
     onNavigateToSearch: () -> Unit
 ) {
-
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
 
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
@@ -189,7 +188,9 @@ fun SuggestionVerticalList(
         items(suggestions) {
             val title = LocalContext.current.getStringByName(it.titleResourceId)
             MediaItemList(
-                listTitle = title, items = it.items, mediaType = it.type
+                listTitle = title,
+                items = it.items,
+                mediaType = it.type
             ) { apiId, mediaType ->
                 onClickItem.invoke(apiId, mediaType)
             }
