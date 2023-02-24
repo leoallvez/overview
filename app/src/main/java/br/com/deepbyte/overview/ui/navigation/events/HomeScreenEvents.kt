@@ -10,4 +10,10 @@ class HomeScreenEvents(private val navigation: NavController) {
         onNavigateToMediaDetails(navigation).invoke(apiId, mediaType)
 
     fun onNavigateToSearch() = navigation.navigate(route = ScreenNav.Search.route)
+
+    fun onNavigateToStreamingOverview(apiId: Long) =
+        navigation.navigate(route = ScreenNav.StreamingOverview.editRoute(apiId))
+
+    fun onNavigateToStreamingOverviewEdit() =
+        navigation.navigate(route = ScreenNav.StreamingOverviewEdit.route)
 }
