@@ -37,7 +37,7 @@ import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.createDiscoverParams
 import br.com.deepbyte.overview.util.defaultBorder
-import br.com.deepbyte.overview.util.emptyListPadding
+import br.com.deepbyte.overview.util.defaultPadding
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -122,7 +122,7 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        StreamingList(media.streamings, media.isReleased()) { streaming ->
+        StreamingsOverview(media.streamings, media.isReleased()) { streaming ->
             val params = streaming.createDiscoverParams(media)
             events.onNavigateToProviderDiscover(params.toJson())
         }
@@ -220,7 +220,7 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
 }
 
 @Composable
-fun StreamingList(
+fun StreamingsOverview(
     streamings: List<Streaming>,
     isReleased: Boolean,
     onClickItem: (Streaming) -> Unit
@@ -241,14 +241,14 @@ fun StreamingList(
             }
         }
     } else {
-        StreamingListEmptyMsg(
+        StreamingsNotFound(
             if (isReleased) { R.string.empty_list_providers } else { R.string.not_yet_released }
         )
     }
 }
 
 @Composable
-fun StreamingListEmptyMsg(@StringRes stringResource: Int) {
+fun StreamingsNotFound(@StringRes stringResource: Int) {
     Row(
         modifier = Modifier
             .padding(
@@ -261,14 +261,14 @@ fun StreamingListEmptyMsg(@StringRes stringResource: Int) {
     ) {
         Text(
             text = stringResource(stringResource),
-            modifier = Modifier.emptyListPadding(end = 0.dp),
+            modifier = Modifier.defaultPadding(end = 0.dp),
             color = Gray
         )
         Icon(
             painter = painterResource(R.drawable.outline_alert),
             tint = Gray,
             contentDescription = stringResource(stringResource),
-            modifier = Modifier.emptyListPadding()
+            modifier = Modifier.defaultPadding()
         )
     }
 }

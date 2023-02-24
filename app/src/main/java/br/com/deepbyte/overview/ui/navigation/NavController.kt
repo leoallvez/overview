@@ -16,6 +16,7 @@ import br.com.deepbyte.overview.ui.discover.ProviderDiscoverScreen
 import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.person.CastDetailsScreen
 import br.com.deepbyte.overview.ui.search.SearchScreen
@@ -39,12 +40,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             SplashScreen(onNavigateToHome = onNavigateToHome(navController))
         }
         composable(route = ScreenNav.Home.route) {
-            HomeScreen(
-                onNavigateToMediaDetails = onNavigateToMediaDetails(navController),
-                onNavigateToSearch = {
-                    navController.navigate(route = ScreenNav.Search.route)
-                }
-            )
+            HomeScreen(events = HomeScreenEvents(navController))
         }
         composable(route = ScreenNav.Search.route) {
             SearchScreen(events = BasicsMediaEvents(navController))

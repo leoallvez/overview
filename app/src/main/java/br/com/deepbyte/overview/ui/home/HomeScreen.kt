@@ -31,6 +31,7 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.*
+import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -47,9 +48,8 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateToMediaDetails: MediaItemClick,
-    onNavigateToSearch: () -> Unit
+    events: HomeScreenEvents,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
 
@@ -68,16 +68,16 @@ fun HomeScreen(
                 toolbar = {
                     HomeToolBar(
                         items = featuredMediaItems,
-                        onNavigateToSearch = { onNavigateToSearch.invoke() }
+                        onNavigateToSearch = { events.onNavigateToSearch() }
                     ) { item ->
-                        onNavigateToMediaDetails.invoke(item.apiId, item.type)
+                        events.onNavigateToMediaDetails(item.apiId, item.type)
                     }
                 }
             ) {
                 HomeScreenContent(
                     suggestions = suggestions,
                     showAds = viewModel.showAds,
-                    onNavigateToMediaDetails = onNavigateToMediaDetails
+                    onNavigateToMediaDetails = events::onNavigateToMediaDetails
                 )
             }
         } else {
@@ -174,7 +174,7 @@ fun HomeScreenContent(
     ) {
         Column {
             AdsBanner(prodBannerId = R.string.home_banner, isVisible = showAds)
-            SuggestionVerticalList(suggestions = suggestions) { apiId, mediaType ->
+            HomeLists(suggestions = suggestions) { apiId, mediaType ->
                 onNavigateToMediaDetails.invoke(apiId, mediaType)
             }
         }
@@ -183,7 +183,7 @@ fun HomeScreenContent(
 
 // TODO: rename composable function
 @Composable
-fun SuggestionVerticalList(
+fun HomeLists(
     suggestions: List<MediaSuggestion>,
     onClickItem: MediaItemClick
 ) {
