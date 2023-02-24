@@ -22,7 +22,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,7 +34,6 @@ import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.defaultBackground
 import br.com.deepbyte.overview.util.defaultBorder
 import br.com.deepbyte.overview.util.getStringByName
@@ -75,9 +73,10 @@ fun HomeScreen(
                 }
             ) {
                 HomeScreenContent(
-                    suggestions = suggestions,
                     showAds = viewModel.showAds,
-                    onNavigateToMediaDetails = events::onNavigateToMediaDetails
+                    events = events,
+                    suggestions = suggestions,
+                    streamings = mockStreaming()
                 )
             }
         } else {
@@ -162,9 +161,10 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
 
 @Composable
 fun HomeScreenContent(
-    suggestions: List<MediaSuggestion>,
     showAds: Boolean,
-    onNavigateToMediaDetails: MediaItemClick
+    events: HomeScreenEvents,
+    streamings: List<Streaming>,
+    suggestions: List<MediaSuggestion>
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -174,22 +174,24 @@ fun HomeScreenContent(
     ) {
         Column {
             AdsBanner(prodBannerId = R.string.home_banner, isVisible = showAds)
-            HomeLists(suggestions = suggestions) { apiId, mediaType ->
-                onNavigateToMediaDetails.invoke(apiId, mediaType)
-            }
+            HomeLists(events = events, suggestions = suggestions, streamings = streamings)
         }
     }
 }
 
-// TODO: rename composable function
 @Composable
 fun HomeLists(
-    suggestions: List<MediaSuggestion>,
-    onClickItem: MediaItemClick
+    events: HomeScreenEvents,
+    streamings: List<Streaming>,
+    suggestions: List<MediaSuggestion>
 ) {
     LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
         item {
-            OverviewStreaming(streamings = mockStreaming(), {}, {})
+            OverviewStreaming(
+                streamings = streamings,
+                onItemClick = events::onNavigateToStreamingOverview,
+                onEditClick = events::onNavigateToStreamingOverviewEdit
+            )
         }
         items(suggestions) {
             val title = LocalContext.current.getStringByName(it.titleResourceId)
@@ -198,22 +200,16 @@ fun HomeLists(
                 items = it.items,
                 mediaType = it.type
             ) { apiId, mediaType ->
-                onClickItem.invoke(apiId, mediaType)
+                events.onNavigateToMediaDetails(apiId, mediaType)
             }
         }
     }
 }
 
-@Preview
-@Composable
-fun StreamingPreview() {
-    OverviewStreaming(streamings = mockStreaming(), {}, {})
-}
-
 @Composable
 fun OverviewStreaming(
     streamings: List<Streaming>,
-    onItemClick: () -> Unit,
+    onItemClick: (Long) -> Unit,
     onEditClick: () -> Unit
 ) {
     Column(Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))) {
@@ -238,7 +234,7 @@ fun OverviewStreaming(
 @Composable
 fun OverviewStreamingTitle() {
     Text(
-        text = "Descubra nos seus streamings",
+        text = stringResource(R.string.your_streamings),
         color = Color.White,
         modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding)),
         style = MaterialTheme.typography.h6,
@@ -247,21 +243,15 @@ fun OverviewStreamingTitle() {
 }
 
 @Composable
-fun OverviewItem(streaming: Streaming, onClick: () -> Unit) {
+fun OverviewItem(streaming: Streaming, onClick: (Long) -> Unit) {
     BasicImage(
         url = streaming.getLogoImage(),
         contentDescription = streaming.name,
         withBorder = true,
         modifier = Modifier
             .size(dimensionResource(R.dimen.streaming_item_size))
-            .clickable { onClick.invoke() }
+            .clickable { onClick.invoke(streaming.apiId) }
     )
-}
-
-@Composable
-@Preview
-fun EditItemPreview() {
-    EditItem {}
 }
 
 @Composable
@@ -318,23 +308,9 @@ fun mockStreaming() = listOf(
         priority = 4
     ),
     Streaming(
-        apiId = 619,
-        logoPath = "/hR9vWd8hWEVQKD6eOnBneKRFEW3.jpg",
-        name = "Star Plus",
+        apiId = 350,
+        logoPath = "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
+        name = "Apple TV",
         priority = 5
-    ),
-    /**
-     Streaming(
-     apiId = 350,
-     logoPath = "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
-     name = "Apple TV Plus",
-     priority = 5
-     ),
-     Streaming(
-     apiId = 15,
-     logoPath = "/zxrVdFjIjLqkfnwyghnfywTn3Lh.jpg",
-     name = "Hulu",
-     priority = 7
-     ),
-     */
+    )
 ).sortedBy { it.priority }

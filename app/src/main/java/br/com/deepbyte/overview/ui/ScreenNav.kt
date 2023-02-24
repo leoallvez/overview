@@ -39,6 +39,18 @@ sealed class ScreenNav(val route: String, val name: String) {
         name = "SearchScreen"
     )
 
+    object StreamingOverview : ScreenNav(
+        route = "streaming_overview/{$ID_PARAM}",
+        name = "StreamingOverviewScreen"
+    ) {
+        fun editRoute(id: Long) = "streaming_overview/$id"
+    }
+
+    object StreamingOverviewEdit : ScreenNav(
+        route = "streaming_overview_edit",
+        name = "StreamingOverviewEditScreen"
+    )
+
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"
