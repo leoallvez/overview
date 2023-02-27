@@ -7,3 +7,6 @@ annotation class ShowAds
 
 @Qualifier
 annotation class AbSuggestions
+
+@Qualifier
+annotation class AbStreamings

@@ -6,7 +6,7 @@ import androidx.work.Configuration
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import br.com.deepbyte.overview.util.CrashlyticsReportingTree
-import br.com.deepbyte.overview.work.StreamingWork
+import br.com.deepbyte.overview.work.StreamingDefaultSetupWork
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 import io.github.leoallvez.firebase.CrashlyticsSource
@@ -35,7 +35,7 @@ class CustomApplication : Application(), Configuration.Provider {
             .build()
 
     private fun initWorker() {
-        val request = OneTimeWorkRequestBuilder<StreamingWork>().build()
+        val request = OneTimeWorkRequestBuilder<StreamingDefaultSetupWork>().build()
         WorkManager.getInstance(applicationContext).enqueue(request)
     }
 
