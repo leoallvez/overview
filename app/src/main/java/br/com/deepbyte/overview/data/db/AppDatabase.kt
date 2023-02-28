@@ -14,7 +14,7 @@ import br.com.deepbyte.overview.data.model.provider.Streaming
     entities = [MediaItem::class, Suggestion::class, Streaming::class],
     version = 2,
     exportSchema = true,
-    autoMigrations = [ AutoMigration (from = 1, to = 2) ]
+    autoMigrations = [ AutoMigration(from = 1, to = 2) ]
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaItemDao(): MediaItemDao
