@@ -34,6 +34,9 @@ class StorageModule {
     fun provideSuggestionDao(db: AppDatabase) = db.suggestionDao()
 
     @Provides
+    fun provideStreamingDao(db: AppDatabase) = db.streamingDao()
+
+    @Provides
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.dataStore
