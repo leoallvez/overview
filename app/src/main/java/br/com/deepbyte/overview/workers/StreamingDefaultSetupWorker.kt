@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.work
+package br.com.deepbyte.overview.workers
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
@@ -13,7 +13,7 @@ import dagger.assisted.AssistedInject
 import timber.log.Timber
 
 @HiltWorker
-class StreamingDefaultSetupWork @AssistedInject constructor(
+class StreamingDefaultSetupWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val _source: StreamingLocalDataSource,
@@ -27,6 +27,7 @@ class StreamingDefaultSetupWork @AssistedInject constructor(
             _source.insert(*streamings.toTypedArray())
         }
         Timber.i(message = "doWork is called - success")
+        Timber.tag("work_manager_calls").i("StreamingDefaultSetupWork")
         Result.success()
     } else {
         Timber.i(message = "doWork is called - failure")

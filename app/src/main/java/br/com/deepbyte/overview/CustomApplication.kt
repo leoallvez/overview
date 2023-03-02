@@ -2,15 +2,15 @@ package br.com.deepbyte.overview
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import br.com.deepbyte.overview.util.CrashlyticsReportingTree
-import br.com.deepbyte.overview.work.StreamingDefaultSetupWork
+import br.com.deepbyte.overview.workers.StreamingDefaultSetupWorker
+import br.com.deepbyte.overview.workers.StreamingUpdateWorker
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 import io.github.leoallvez.firebase.CrashlyticsSource
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -25,7 +25,7 @@ class CustomApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         MobileAds.initialize(this)
-        initWorker()
+        initWorkers()
         initTimber()
     }
 
@@ -34,9 +34,27 @@ class CustomApplication : Application(), Configuration.Provider {
             .setWorkerFactory(workerFactory)
             .build()
 
-    private fun initWorker() {
-        val request = OneTimeWorkRequestBuilder<StreamingDefaultSetupWork>().build()
-        WorkManager.getInstance(applicationContext).enqueue(request)
+    private fun initWorkers() {
+        scheduleStreamingDefaultTask()
+        scheduleStreamingUpdateTask()
+    }
+
+    private fun scheduleStreamingDefaultTask() {
+        val workerRequest = OneTimeWorkRequestBuilder<StreamingDefaultSetupWorker>().build()
+        WorkManager.getInstance(applicationContext).enqueue(workerRequest)
+    }
+
+    private fun scheduleStreamingUpdateTask() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val workerRequest = OneTimeWorkRequestBuilder<StreamingUpdateWorker>()
+            .setInitialDelay(duration = 1, TimeUnit.MINUTES)
+            .setConstraints(constraints = constraints)
+            .build()
+        WorkManager.getInstance(applicationContext).enqueue(workerRequest)
     }
 
     private fun initTimber() {
