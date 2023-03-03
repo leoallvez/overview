@@ -19,10 +19,8 @@ class StreamingUpdateWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         if (locals.isNotEmpty()) {
-            val diffs = filterSalved()
-            val toUpdate = diffs.map { transform(it) }
-            // TODO : update local data
-            println(toUpdate)
+            val toUpdate = filterSalved().mapNotNull { transform(it) }
+            _source.update(*toUpdate.toTypedArray())
         }
         return Result.success()
     }
