@@ -10,7 +10,6 @@ import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
 import br.com.deepbyte.overview.di.AbStreamings
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import timber.log.Timber
 
 @HiltWorker
 class StreamingDefaultSetupWorker @AssistedInject constructor(
@@ -26,11 +25,8 @@ class StreamingDefaultSetupWorker @AssistedInject constructor(
         if (_source.isEmpty()) {
             _source.insert(*streamings.toTypedArray())
         }
-        Timber.i(message = "doWork is called - success")
-        Timber.tag("work_manager_calls").i("StreamingDefaultSetupWork")
         Result.success()
     } else {
-        Timber.i(message = "doWork is called - failure")
         Result.failure()
     }
 }

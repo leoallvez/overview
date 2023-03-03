@@ -7,7 +7,7 @@ import br.com.deepbyte.overview.BuildConfig
 import com.squareup.moshi.Json
 
 @Entity(tableName = "streamings")
-class Streaming(
+data class Streaming(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "streaming_db_id")
     @field:Json(name = "provider_id")
@@ -30,4 +30,10 @@ class Streaming(
     val selected: Boolean = false
 ) {
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
+
+    override fun equals(other: Any?) = if (other is Streaming) {
+        other.name == name && other.logoPath == logoPath
+    } else {
+        false
+    }
 }

@@ -57,11 +57,9 @@ class CustomApplication : Application(), Configuration.Provider {
         WorkManager.getInstance(applicationContext).enqueue(workerRequest)
     }
 
-    private fun initTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        } else {
-            Timber.plant(CrashlyticsReportingTree(crashlytics))
-        }
+    private fun initTimber() = if (BuildConfig.DEBUG) {
+        Timber.plant(Timber.DebugTree())
+    } else {
+        Timber.plant(CrashlyticsReportingTree(crashlytics))
     }
 }

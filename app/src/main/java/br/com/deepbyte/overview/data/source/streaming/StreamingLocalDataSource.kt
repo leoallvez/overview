@@ -10,4 +10,6 @@ class StreamingLocalDataSource @Inject constructor(
     fun insert(vararg streaming: Streaming) = _dao.insert(*streaming)
 
     fun isEmpty(): Boolean = _dao.getAll().isEmpty()
+
+    fun getAll(): List<Streaming> = _dao.getAll()
 }
