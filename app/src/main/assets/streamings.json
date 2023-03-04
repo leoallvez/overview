@@ -40,12 +40,5 @@
     "provider_name": "Apple TV Plus",
     "provider_id": 350,
     "selected": true
-  },
-  {
-    "display_priority": 7,
-    "logo_path": "/zxrVdFjIjLqkfnwyghnfywTn3Lh.jpg",
-    "provider_name": "Hulu",
-    "provider_id": 15,
-    "selected": true
   }
 ]

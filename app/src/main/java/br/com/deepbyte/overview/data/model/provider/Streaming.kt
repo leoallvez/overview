@@ -30,10 +30,4 @@ data class Streaming(
     val selected: Boolean = false
 ) {
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
-
-    override fun equals(other: Any?) = if (other is Streaming) {
-        other.name == name && other.logoPath == logoPath
-    } else {
-        false
-    }
 }

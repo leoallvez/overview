@@ -27,6 +27,6 @@ class StreamingAbTesting(
     private fun String.toStreamings() = this.parseToList<Streaming>()
 
     companion object {
-        private const val STREAMING_FILE_NAME = "streaming_services.json"
+        private const val STREAMING_FILE_NAME = "streamings.json"
     }
 }

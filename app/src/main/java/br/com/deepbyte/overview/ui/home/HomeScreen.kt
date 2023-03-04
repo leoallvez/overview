@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +52,7 @@ fun HomeScreen(
 ) {
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
 
+    val streamings = viewModel.streaming.collectAsState(listOf()).value
     val suggestions = viewModel.suggestions.observeAsState(listOf()).value
     val featuredMediaItems = viewModel.featuredMediaItems.observeAsState(listOf()).value
     val loading = viewModel.loading.observeAsState(initial = true).value
@@ -76,7 +78,7 @@ fun HomeScreen(
                     showAds = viewModel.showAds,
                     events = events,
                     suggestions = suggestions,
-                    streamings = mockStreaming()
+                    streamings = streamings
                 )
             }
         } else {
@@ -212,20 +214,22 @@ fun OverviewStreaming(
     onItemClick: (Long) -> Unit,
     onEditClick: () -> Unit
 ) {
-    Column(Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))) {
-        OverviewStreamingTitle()
-        LazyRow(
-            horizontalArrangement = Arrangement
-                .spacedBy(dimensionResource(R.dimen.default_padding)),
-            contentPadding = PaddingValues(
-                horizontal = dimensionResource(R.dimen.screen_padding)
-            )
-        ) {
-            items(streamings) { streaming ->
-                OverviewItem(streaming, onItemClick)
-            }
-            item {
-                EditItem(onEditClick)
+    if (streamings.isNotEmpty()) {
+        Column(Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))) {
+            OverviewStreamingTitle()
+            LazyRow(
+                horizontalArrangement = Arrangement
+                    .spacedBy(dimensionResource(R.dimen.default_padding)),
+                contentPadding = PaddingValues(
+                    horizontal = dimensionResource(R.dimen.screen_padding)
+                )
+            ) {
+                items(streamings) { streaming ->
+                    OverviewItem(streaming, onItemClick)
+                }
+                item {
+                    EditItem(onEditClick)
+                }
             }
         }
     }
@@ -281,36 +285,3 @@ fun EditItem(onClick: () -> Unit) {
         }
     }
 }
-
-fun mockStreaming() = listOf(
-    Streaming(
-        apiId = 8,
-        logoPath = "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
-        name = "Netflix",
-        priority = 1
-    ),
-    Streaming(
-        apiId = 337,
-        logoPath = "/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg",
-        name = "Disney Plus",
-        priority = 2
-    ),
-    Streaming(
-        apiId = 384,
-        logoPath = "/Ajqyt5aNxNGjmF9uOfxArGrdf3X.jpg",
-        name = "HBO Max",
-        priority = 3
-    ),
-    Streaming(
-        apiId = 9,
-        logoPath = "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
-        name = "Amazon Prime Video",
-        priority = 4
-    ),
-    Streaming(
-        apiId = 350,
-        logoPath = "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
-        name = "Apple TV",
-        priority = 5
-    )
-).sortedBy { it.priority }
