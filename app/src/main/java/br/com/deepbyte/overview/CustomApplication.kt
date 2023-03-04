@@ -2,10 +2,13 @@ package br.com.deepbyte.overview
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.*
+import androidx.work.Configuration
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import br.com.deepbyte.overview.data.source.workers.StreamingDefaultSetupWorker
+import br.com.deepbyte.overview.data.source.workers.StreamingSelectedUpdateWorker
 import br.com.deepbyte.overview.util.CrashlyticsReportingTree
-import br.com.deepbyte.overview.workers.StreamingDefaultSetupWorker
-import br.com.deepbyte.overview.workers.StreamingUpdateWorker
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 import io.github.leoallvez.firebase.CrashlyticsSource
@@ -45,14 +48,8 @@ class CustomApplication : Application(), Configuration.Provider {
     }
 
     private fun scheduleStreamingUpdateTask() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
-            .build()
-
-        val workerRequest = OneTimeWorkRequestBuilder<StreamingUpdateWorker>()
-            .setInitialDelay(duration = 1, TimeUnit.MINUTES)
-            .setConstraints(constraints = constraints)
+        val workerRequest = PeriodicWorkRequest
+            .Builder(StreamingSelectedUpdateWorker::class.java, repeatInterval = 24, TimeUnit.HOURS)
             .build()
         WorkManager.getInstance(applicationContext).enqueue(workerRequest)
     }

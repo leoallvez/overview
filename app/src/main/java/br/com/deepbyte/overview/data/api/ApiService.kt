@@ -178,7 +178,7 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
 
-    // Streaming Overview
+    // Streaming
     @GET(value = "watch/providers/tv")
     suspend fun getStreamingItems(
         @Query(value = "api_key")

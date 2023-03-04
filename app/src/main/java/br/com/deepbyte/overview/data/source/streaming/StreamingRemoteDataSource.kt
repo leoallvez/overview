@@ -15,8 +15,7 @@ class StreamingRemoteDataSource @Inject constructor(
     override suspend fun getItems(): List<Streaming> =
         when (val response = getStreamings()) {
             is NetworkResponse.Success -> {
-                // TODO: create filter logic
-                response.body.results.filter { it.apiId > 0 }
+                response.body.results
             }
             else -> listOf()
         }

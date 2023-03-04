@@ -1,27 +1,32 @@
-package br.com.deepbyte.overview.workers
+package br.com.deepbyte.overview.data.source.workers
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import timber.log.Timber
 
-class StreamingUpdateWorker @AssistedInject constructor(
+@HiltWorker
+class StreamingSelectedUpdateWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val _source: StreamingLocalDataSource
+    private val _sourceLocal: StreamingLocalDataSource,
+    private val _sourceRemote: IStreamingRemoteDataSource
 ) : CoroutineWorker(context, params) {
-    // TODO: get remote data
-    private val remotes: List<Streaming> by lazy { listOf() }
-    private val locals: List<Streaming> by lazy { _source.getAll() }
+
+    private val locals: List<Streaming> by lazy { _sourceLocal.getAll() }
 
     override suspend fun doWork(): Result {
         if (locals.isNotEmpty()) {
             val toUpdate = filterSalved().mapNotNull { transform(it) }
-            _source.update(*toUpdate.toTypedArray())
+            _sourceLocal.update(*toUpdate.toTypedArray())
         }
+        Timber.tag("work_manager").i(message = "StreamingSelectedUpdateWorker done")
         return Result.success()
     }
 
@@ -30,6 +35,8 @@ class StreamingUpdateWorker @AssistedInject constructor(
         return result?.copy(name = stream.name, logoPath = stream.logoPath)
     }
 
-    private fun filterSalved() =
-        locals.flatMap { l -> remotes.filter { r -> l.apiId == r.apiId } }
+    private suspend fun filterSalved() = locals.flatMap { local ->
+        val remotes = _sourceRemote.getItems()
+        remotes.filter { remote -> local.apiId == remote.apiId }
+    }
 }
