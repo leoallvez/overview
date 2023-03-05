@@ -106,4 +106,6 @@ fun <T : Media> DataResult<ListResponse<T>>.toList(): List<T> {
     return (if (isValid) medias.filter { it.adult.not() } else listOf())
 }
 
+fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
+
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

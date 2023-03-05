@@ -197,7 +197,7 @@ interface ApiService {
         @Path(value = "url_suffix", encoded = true)
         urlSuffix: String,
         @Query(value = "with_watch_providers")
-        providerId: Long? = null,
+        watchProviders: String = "",
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "language")
@@ -215,7 +215,7 @@ interface ApiService {
         @Path(value = "url_suffix", encoded = true)
         urlSuffix: String,
         @Query(value = "with_watch_providers")
-        providerId: Long? = null,
+        watchProviders: String = "",
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "language")

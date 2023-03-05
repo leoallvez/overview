@@ -11,7 +11,7 @@ interface IMediaRemoteDataSource<T : Media> {
     suspend fun pagingAllBySuffix(
         page: Int,
         urlSuffix: String,
-        providerId: Long? = null
+        watchProviders: List<Long> = emptyList()
     ): DataResult<PagingResponse<T>>
 
     suspend fun search(query: String): DataResult<ListResponse<T>>

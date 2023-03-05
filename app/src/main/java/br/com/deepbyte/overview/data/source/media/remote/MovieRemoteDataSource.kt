@@ -6,6 +6,7 @@ import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.responseToResult
+import br.com.deepbyte.overview.util.joinToStringWithPipe
 import javax.inject.Inject
 
 class MovieRemoteDataSource @Inject constructor(
@@ -21,18 +22,19 @@ class MovieRemoteDataSource @Inject constructor(
     override suspend fun pagingAllBySuffix(
         page: Int,
         urlSuffix: String,
-        providerId: Long?
+        watchProviders: List<Long>
     ): DataResult<PagingResponse<Movie>> {
-        val response = getBySuffix(page, urlSuffix, providerId)
+        val providers = watchProviders.joinToStringWithPipe()
+        val response = getBySuffix(page, urlSuffix, providers)
         return responseToResult(response)
     }
 
     private suspend fun getBySuffix(
         page: Int,
         urlSuffix: String,
-        providerId: Long?
+        watchProviders: String
     ) = _locale.run {
-        _api.getMoviesBySuffix(urlSuffix, providerId, page, language, region, region)
+        _api.getMoviesBySuffix(urlSuffix, watchProviders, page, language, region, region)
     }
 
     override suspend fun search(query: String) = _locale.run {
