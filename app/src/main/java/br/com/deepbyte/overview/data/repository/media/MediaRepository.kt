@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.data.repository.media
 import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.source.media.IMediaRemoteDataSource
+import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher

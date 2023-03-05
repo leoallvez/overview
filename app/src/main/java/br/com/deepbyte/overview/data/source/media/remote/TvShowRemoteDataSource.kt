@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.data.source.media
+package br.com.deepbyte.overview.data.source.media.remote
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale

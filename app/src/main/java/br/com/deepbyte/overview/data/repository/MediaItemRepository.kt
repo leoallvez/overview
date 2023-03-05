@@ -5,8 +5,8 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.source.DataResult
-import br.com.deepbyte.overview.data.source.media.MediaItemRemoteDataSource
-import br.com.deepbyte.overview.data.source.media.MediaLocalDataSource
+import br.com.deepbyte.overview.data.source.media.local.MediaLocalDataSource
+import br.com.deepbyte.overview.data.source.media.v1.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.suggestion.SuggestionLocalDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
 import br.com.deepbyte.overview.util.toMediaSuggestion
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class MediaItemRepository @Inject constructor(
     @IoDispatcher private val _ioDispatcher: CoroutineDispatcher,
     private val _localDataSource: MediaLocalDataSource,
-    private val _remoteDataSource: MediaItemRemoteDataSource,
+    private val _remoteDataSource: IMediaRemoteDataSource,
     private val _suggestionLocalDataSource: SuggestionLocalDataSource
 ) {
 
