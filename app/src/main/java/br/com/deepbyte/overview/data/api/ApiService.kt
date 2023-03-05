@@ -75,6 +75,7 @@ interface ApiService {
 
     ): NetworkResponse<Movie, ErrorResponse>
 
+    // TODO: refactor - this will be deleted
     @GET(value = "search/movie")
     suspend fun searchMovie(
         @Query("query")
@@ -89,6 +90,7 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
+    // TODO: refactor - this will be deleted
     @GET(value = "{url}")
     suspend fun getMovieItems(
         @Path(value = "url", encoded = true)
@@ -188,4 +190,41 @@ interface ApiService {
         @Query(value = "region")
         region: String = ""
     ): NetworkResponse<ListResponse<Streaming>, ErrorResponse>
+
+    // New requests & labs
+    @GET(value = "tv/{url_suffix}")
+    suspend fun getTvShowsBySuffix(
+        @Path(value = "url_suffix", encoded = true)
+        urlSuffix: String,
+        @Query(value = "with_watch_providers")
+        providerId: Long? = null,
+        @Query(value = "page")
+        page: Int = 0,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<PagingResponse<TvShow>, ErrorResponse>
+
+    @GET(value = "movie/{url_suffix}")
+    suspend fun getMoviesBySuffix(
+        @Path(value = "url_suffix", encoded = true)
+        urlSuffix: String,
+        @Query(value = "with_watch_providers")
+        providerId: Long? = null,
+        @Query(value = "page")
+        page: Int = 0,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<PagingResponse<Movie>, ErrorResponse>
 }

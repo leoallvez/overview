@@ -2,7 +2,9 @@ package br.com.deepbyte.overview.data.source.media
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
+import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Movie
+import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.responseToResult
 import javax.inject.Inject
 
@@ -16,10 +18,21 @@ class MovieRemoteDataSource @Inject constructor(
         responseToResult(response)
     }
 
-    // to use in future
-    override suspend fun getItemsByUrl(url: String) = _locale.run {
-        val response = _api.getMovieItems(url = url, language = language, region = region)
-        responseToResult(response)
+    override suspend fun pagingAllBySuffix(
+        page: Int,
+        urlSuffix: String,
+        providerId: Long?
+    ): DataResult<PagingResponse<Movie>> {
+        val response = getBySuffix(page, urlSuffix, providerId)
+        return responseToResult(response)
+    }
+
+    private suspend fun getBySuffix(
+        page: Int,
+        urlSuffix: String,
+        providerId: Long?
+    ) = _locale.run {
+        _api.getMoviesBySuffix(urlSuffix, providerId, page, language, region, region)
     }
 
     override suspend fun search(query: String) = _locale.run {
