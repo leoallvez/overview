@@ -2,8 +2,10 @@ package br.com.deepbyte.overview.di
 
 import br.com.deepbyte.overview.data.repository.discover.DiscoverRepository
 import br.com.deepbyte.overview.data.repository.discover.IDiscoverRepository
-import br.com.deepbyte.overview.data.repository.media.IMediaRepository
-import br.com.deepbyte.overview.data.repository.media.MediaRepository
+import br.com.deepbyte.overview.data.repository.media.MediaItemRepository
+import br.com.deepbyte.overview.data.repository.media.MediaPagingRepository
+import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaItemRepository
+import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.com.deepbyte.overview.data.repository.person.IPersonRepository
 import br.com.deepbyte.overview.data.repository.person.PersonRepository
 import br.com.deepbyte.overview.data.repository.search.ISearchRepository
@@ -25,9 +27,14 @@ abstract class RepositoryModule {
     ): IDiscoverRepository
 
     @Binds
-    abstract fun binMediaRepository(
-        repository: MediaRepository
-    ): IMediaRepository
+    abstract fun binMediaItemRepository(
+        repository: MediaItemRepository
+    ): IMediaItemRepository
+
+    @Binds
+    abstract fun bindMediaPagingRepository(
+        repository: MediaPagingRepository
+    ): IMediaPagingRepository
 
     @Binds
     abstract fun binPersonRepository(

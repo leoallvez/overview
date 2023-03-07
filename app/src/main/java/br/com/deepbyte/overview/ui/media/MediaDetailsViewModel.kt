@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.ui.media
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.repository.media.IMediaRepository
+import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaItemRepository
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.MediaUiState
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class MediaDetailsViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    private val _repository: IMediaRepository
+    private val _repository: IMediaItemRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MediaUiState>(UiState.Loading())
