@@ -27,7 +27,7 @@ class MovieRemoteDataSource @Inject constructor(
     }
 
     private suspend fun paging(page: Int, streamingsIds: String) = _locale.run {
-        _api.getMoviesBySuffix(streamingsIds, page, language, region, region)
+        _api.getMoviesPaging(streamingsIds, page, language, region, region)
     }
 
     override suspend fun search(query: String) = _locale.run {

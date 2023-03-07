@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.api.response.PagingMediaResponse
+import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-typealias PagingMediaResult = DataResult<PagingMediaResponse<Media>>
+typealias PagingMediaResult = DataResult<PagingResponse<Media>>
 
 class MediaRepository @Inject constructor(
     private val _movieSource: IMediaRemoteDataSource<Movie>,
@@ -58,7 +58,7 @@ class MediaRepository @Inject constructor(
                 val tvShows = _tvShowSource.getPaging(page, streamingsIds)
 
                 val result = movies.plus(tvShows).sortedByDescending { it.voteAverage }
-                DataResult.Success(data = PagingMediaResponse(page, result))
+                DataResult.Success(data = PagingResponse(page, result))
             }
         )
 

@@ -2,13 +2,13 @@ package br.com.deepbyte.overview.data.source.media
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import br.com.deepbyte.overview.data.api.response.PagingMediaResponse
+import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.source.DataResult
 import retrofit2.HttpException
 import java.io.IOException
 
-private typealias PagingMediaResult = DataResult<PagingMediaResponse<Media>>
+private typealias PagingMediaResult = DataResult<PagingResponse<Media>>
 
 class MediaPagingSource(
     private val _onRequest: suspend (page: Int) -> PagingMediaResult

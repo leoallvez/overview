@@ -27,7 +27,7 @@ class TvShowRemoteDataSource @Inject constructor(
     }
 
     private suspend fun paging(page: Int, streamingsIds: String) = _locale.run {
-        _api.getTvShowsBySuffix(streamingsIds, page, language, region, region)
+        _api.getTvShowsPaging(streamingsIds, page, language, region, region)
     }
 
     override suspend fun search(query: String) = _locale.run {

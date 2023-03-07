@@ -44,18 +44,6 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
-    @GET(value = "{url}")
-    suspend fun getTvShowItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
-
     // Movie
     @GET(value = "movie/{api_id}")
     suspend fun getMovie(
@@ -85,19 +73,6 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
-
-    // TODO: refactor - this will be deleted
-    @GET(value = "{url}")
-    suspend fun getMovieItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
     @GET(value = "{url}")
@@ -190,7 +165,7 @@ interface ApiService {
 
     // New requests & labs
     @GET(value = "discover/tv")
-    suspend fun getTvShowsBySuffix(
+    suspend fun getTvShowsPaging(
         @Query(value = "with_watch_providers")
         streamingsIds: String = "",
         @Query(value = "page")
@@ -203,10 +178,10 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingMediaResponse<TvShow>, ErrorResponse>
+    ): NetworkResponse<PagingResponse<TvShow>, ErrorResponse>
 
     @GET(value = "discover/movie")
-    suspend fun getMoviesBySuffix(
+    suspend fun getMoviesPaging(
         @Query(value = "with_watch_providers")
         streamingsIds: String = "",
         @Query(value = "page")
@@ -219,5 +194,5 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingMediaResponse<Movie>, ErrorResponse>
+    ): NetworkResponse<PagingResponse<Movie>, ErrorResponse>
 }
