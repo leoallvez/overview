@@ -1,10 +1,7 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.api.response.ErrorResponse
-import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.api.response.PagingResponse
-import br.com.deepbyte.overview.data.api.response.ProviderResponse
+import br.com.deepbyte.overview.data.api.response.*
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
@@ -192,10 +189,8 @@ interface ApiService {
     ): NetworkResponse<ListResponse<Streaming>, ErrorResponse>
 
     // New requests & labs
-    @GET(value = "tv/{url_suffix}")
+    @GET(value = "discover/tv")
     suspend fun getTvShowsBySuffix(
-        @Path(value = "url_suffix", encoded = true)
-        urlSuffix: String,
         @Query(value = "with_watch_providers")
         watchProviders: String = "",
         @Query(value = "page")
@@ -208,12 +203,10 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingResponse<TvShow>, ErrorResponse>
+    ): NetworkResponse<PagingMediaResponse<TvShow>, ErrorResponse>
 
-    @GET(value = "movie/{url_suffix}")
+    @GET(value = "discover/movie")
     suspend fun getMoviesBySuffix(
-        @Path(value = "url_suffix", encoded = true)
-        urlSuffix: String,
         @Query(value = "with_watch_providers")
         watchProviders: String = "",
         @Query(value = "page")
@@ -226,5 +219,5 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingResponse<Movie>, ErrorResponse>
+    ): NetworkResponse<PagingMediaResponse<Movie>, ErrorResponse>
 }

@@ -39,7 +39,7 @@ sealed class ScreenNav(val route: String, val name: String) {
         name = "SearchScreen"
     )
 
-    object StreamingOverview : ScreenNav(
+    object StreamingExplore : ScreenNav(
         route = "streaming_overview/{$ID_PARAM}",
         name = "StreamingOverviewScreen"
     ) {

@@ -12,7 +12,7 @@ class HomeScreenEvents(private val navigation: NavController) {
     fun onNavigateToSearch() = navigation.navigate(route = ScreenNav.Search.route)
 
     fun onNavigateToStreamingOverview(apiId: Long) =
-        navigation.navigate(route = ScreenNav.StreamingOverview.editRoute(apiId))
+        navigation.navigate(route = ScreenNav.StreamingExplore.editRoute(apiId))
 
     fun onNavigateToStreamingOverviewEdit() =
         navigation.navigate(route = ScreenNav.StreamingOverviewEdit.route)

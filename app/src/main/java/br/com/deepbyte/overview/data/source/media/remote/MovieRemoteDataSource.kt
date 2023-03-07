@@ -2,11 +2,10 @@ package br.com.deepbyte.overview.data.source.media.remote
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
-import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Movie
-import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.responseToResult
 import br.com.deepbyte.overview.util.joinToStringWithPipe
+import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
 class MovieRemoteDataSource @Inject constructor(
@@ -19,22 +18,19 @@ class MovieRemoteDataSource @Inject constructor(
         responseToResult(response)
     }
 
-    override suspend fun pagingAllBySuffix(
+    override suspend fun getAllBySuffix(
         page: Int,
-        urlSuffix: String,
         watchProviders: List<Long>
-    ): DataResult<PagingResponse<Movie>> {
+    ): List<Movie> {
         val providers = watchProviders.joinToStringWithPipe()
-        val response = getBySuffix(page, urlSuffix, providers)
-        return responseToResult(response)
+        return when (val response = pagingAllBySuffix(page, providers)) {
+            is NetworkResponse.Success -> { response.body.results }
+            else -> listOf()
+        }
     }
 
-    private suspend fun getBySuffix(
-        page: Int,
-        urlSuffix: String,
-        watchProviders: String
-    ) = _locale.run {
-        _api.getMoviesBySuffix(urlSuffix, watchProviders, page, language, region, region)
+    private suspend fun pagingAllBySuffix(page: Int, watchProviders: String) = _locale.run {
+        _api.getMoviesBySuffix(watchProviders, page, language, region, region)
     }
 
     override suspend fun search(query: String) = _locale.run {

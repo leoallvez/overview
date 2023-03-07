@@ -599,8 +599,8 @@ fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
 }
 
 @Composable
-fun GridItemMedia(media: Media, onClick: (Media) -> Unit) {
-    media.apply {
+fun GridItemMedia(media: Media?, onClick: (Media) -> Unit) {
+    media?.apply {
         Column(
             modifier = Modifier
                 .padding(2.dp)

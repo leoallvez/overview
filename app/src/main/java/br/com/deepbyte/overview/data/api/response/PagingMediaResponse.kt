@@ -10,11 +10,6 @@ data class PagingMediaResponse<T : Media>(
 
     fun nextPage() = page.plus(other = FIRST_PAGE)
 
-    fun merge(other: PagingMediaResponse<T>): PagingResponse<T> {
-        val newResults = results.plus(other.results).sortedByDescending { it.voteAverage }
-        return PagingResponse(page, newResults)
-    }
-
     companion object {
         private const val FIRST_PAGE = 1
     }
