@@ -18,19 +18,16 @@ class TvShowRemoteDataSource @Inject constructor(
         responseToResult(response)
     }
 
-    override suspend fun getAllBySuffix(
-        page: Int,
-        watchProviders: List<Long>
-    ): List<TvShow> {
-        val providers = watchProviders.joinToStringWithPipe()
-        return when (val response = pagingAllBySuffix(page, providers)) {
+    override suspend fun getPaging(page: Int, streamingsIds: List<Long>): List<TvShow> {
+        val ids = streamingsIds.joinToStringWithPipe()
+        return when (val response = paging(page, streamingsIds = ids)) {
             is NetworkResponse.Success -> { response.body.results }
             else -> listOf()
         }
     }
 
-    private suspend fun pagingAllBySuffix(page: Int, watchProviders: String) = _locale.run {
-        _api.getTvShowsBySuffix(watchProviders, page, language, region, region)
+    private suspend fun paging(page: Int, streamingsIds: String) = _locale.run {
+        _api.getTvShowsBySuffix(streamingsIds, page, language, region, region)
     }
 
     override suspend fun search(query: String) = _locale.run {

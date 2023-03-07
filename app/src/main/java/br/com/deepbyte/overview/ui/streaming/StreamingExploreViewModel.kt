@@ -10,5 +10,5 @@ class StreamingExploreViewModel @Inject constructor(
     private val _repository: MediaRepository
 ) : ViewModel() {
 
-    fun pagingAllBySuffix(apiId: Long) = _repository.pagingAllBySuffix(listOf(apiId))
+    fun getPaging(streamingApiId: Long) = _repository.getPaging(listOf(streamingApiId))
 }

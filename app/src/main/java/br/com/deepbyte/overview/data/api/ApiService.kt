@@ -192,7 +192,7 @@ interface ApiService {
     @GET(value = "discover/tv")
     suspend fun getTvShowsBySuffix(
         @Query(value = "with_watch_providers")
-        watchProviders: String = "",
+        streamingsIds: String = "",
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "language")
@@ -208,7 +208,7 @@ interface ApiService {
     @GET(value = "discover/movie")
     suspend fun getMoviesBySuffix(
         @Query(value = "with_watch_providers")
-        watchProviders: String = "",
+        streamingsIds: String = "",
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "language")

@@ -24,9 +24,9 @@ import javax.inject.Inject
 typealias PagingMediaResult = DataResult<PagingMediaResponse<Media>>
 
 class MediaRepository @Inject constructor(
-    private val _movieDataSource: IMediaRemoteDataSource<Movie>,
-    private val _tvShowDataSource: IMediaRemoteDataSource<TvShow>,
-    private val _streamingDataSource: IStreamingRemoteDataSource,
+    private val _movieSource: IMediaRemoteDataSource<Movie>,
+    private val _tvShowSource: IMediaRemoteDataSource<TvShow>,
+    private val _streamingSource: IStreamingRemoteDataSource,
     @IoDispatcher
     private val _dispatcher: CoroutineDispatcher,
     private val _coroutineScope: CoroutineScope
@@ -34,34 +34,35 @@ class MediaRepository @Inject constructor(
 
     override suspend fun getItem(apiId: Long, mediaType: String) =
         withContext(_dispatcher) {
-            val result = requestMedia(apiId, mediaType)
-            result.data?.streamings = getStreamings(apiId, mediaType)
+            val result = getMedia(apiId, mediaType)
+            result.data?.apply { streamings = getStreamings(apiId, mediaType) }
             flow { emit(result) }
         }
 
-    private suspend fun requestMedia(apiId: Long, type: String) =
-        if (type == MediaType.MOVIE.key) {
-            _movieDataSource.find(apiId)
-        } else {
-            _tvShowDataSource.find(apiId)
+    private suspend fun getMedia(apiId: Long, type: String) = when (type) {
+        MediaType.MOVIE.key -> _movieSource.find(apiId)
+        MediaType.TV_SHOW.key -> _tvShowSource.find(apiId)
+        else -> {
+            throw IllegalArgumentException("Unsupported media type")
         }
+    }
 
     private suspend fun getStreamings(apiId: Long, mediaType: String) =
-        _streamingDataSource.getItems(apiId, mediaType)
+        _streamingSource.getItems(apiId, mediaType)
 
-    fun pagingAllBySuffix(watchProviders: List<Long>) =
-        makePaging(
+    override fun getPaging(streamingsIds: List<Long>) =
+        createPaging(
             onRequest = { page: Int ->
 
-                val movies = _movieDataSource.getAllBySuffix(page, watchProviders)
-                val tvShows = _tvShowDataSource.getAllBySuffix(page, watchProviders)
+                val movies = _movieSource.getPaging(page, streamingsIds)
+                val tvShows = _tvShowSource.getPaging(page, streamingsIds)
 
                 val result = movies.plus(tvShows).sortedByDescending { it.voteAverage }
                 DataResult.Success(data = PagingMediaResponse(page, result))
             }
         )
 
-    private fun makePaging(
+    private fun createPaging(
         onRequest: suspend (page: Int) -> PagingMediaResult
     ): Flow<PagingData<Media>> {
         return Pager(PagingConfig(pageSize = NETWORK_PAGE_SIZE)) {

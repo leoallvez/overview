@@ -31,7 +31,7 @@ fun StreamingExploreScreen(
 ) {
     // TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    val loadData = { viewModel.pagingAllBySuffix(apiId) }
+    val loadData = { viewModel.getPaging(streamingApiId = apiId) }
     var items by remember { mutableStateOf(value = loadData()) }
 
     MediaExploreContent(
