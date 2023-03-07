@@ -1,7 +1,6 @@
 package br.com.deepbyte.overview.data.repository.media
 
 import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
@@ -15,8 +14,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-typealias PagingMediaResult = DataResult<PagingResponse<Media>>
-
 class MediaItemRepository @Inject constructor(
     @IoDispatcher
     private val _dispatcher: CoroutineDispatcher,
@@ -25,18 +22,16 @@ class MediaItemRepository @Inject constructor(
     private val _streamingSource: IStreamingRemoteDataSource
 ) : IMediaItemRepository {
 
-    override suspend fun getItem(apiId: Long, mediaType: String) = withContext(_dispatcher) {
-        val result = getMedia(apiId, mediaType)
+    override suspend fun getItem(apiId: Long, type: MediaType) = withContext(_dispatcher) {
+        val result = getMedia(apiId, type)
         setStreamings(result)
         flow { emit(result) }
     }
 
-    private suspend fun getMedia(apiId: Long, type: String) = when (type) {
-        MediaType.MOVIE.key -> _movieSource.find(apiId)
-        MediaType.TV_SHOW.key -> _tvShowSource.find(apiId)
-        else -> {
-            throw IllegalArgumentException("Unsupported media type")
-        }
+    private suspend fun getMedia(apiId: Long, type: MediaType) = when (type) {
+        MediaType.MOVIE -> _movieSource.find(apiId)
+        MediaType.TV_SHOW -> _tvShowSource.find(apiId)
+        else -> throw IllegalArgumentException("Unsupported media type")
     }
 
     private suspend fun setStreamings(result: DataResult<out Media>) {

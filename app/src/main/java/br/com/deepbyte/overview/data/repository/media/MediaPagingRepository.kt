@@ -12,6 +12,7 @@ import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRep
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.MediaPagingSource
 import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
+import br.com.deepbyte.overview.util.PagingMediaResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

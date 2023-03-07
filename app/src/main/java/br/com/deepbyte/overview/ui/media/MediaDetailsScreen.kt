@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
@@ -51,14 +52,15 @@ fun MediaDetailsScreen(
     TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
 
     val (apiId: Long, mediaType: String) = params
-    viewModel.loadMediaDetails(apiId, mediaType)
+    val type = MediaType.getByKey(mediaType)
+    viewModel.loadMediaDetails(apiId, type)
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
-        onRefresh = { viewModel.refresh(apiId, mediaType) }
+        onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
         MediaDetailsContent(media, viewModel.showAds, events) {
-            viewModel.refresh(apiId, mediaType)
+            viewModel.refresh(apiId, type)
         }
     }
 }

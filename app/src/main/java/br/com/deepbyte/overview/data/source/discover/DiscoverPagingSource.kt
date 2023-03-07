@@ -4,11 +4,9 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.MediaItem
-import br.com.deepbyte.overview.data.source.DataResult
+import br.com.deepbyte.overview.util.DiscoverResult
 import retrofit2.HttpException
 import java.io.IOException
-
-typealias DiscoverResult = DataResult<PagingResponse<MediaItem>>
 
 class DiscoverPagingSource(
     private val _mediaType: String,

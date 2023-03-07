@@ -5,9 +5,9 @@ import br.com.deepbyte.overview.data.model.person.PersonDetails
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import br.com.deepbyte.overview.util.mock.ReturnType
-import com.haroldadmin.cnradapter.NetworkResponse
 import br.com.deepbyte.overview.util.mock.ReturnType.*
 import br.com.deepbyte.overview.util.mock.mockResponse
+import com.haroldadmin.cnradapter.NetworkResponse
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -18,7 +18,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-typealias PersonSuccess = NetworkResponse.Success<PersonDetails>
+private typealias PersonSuccess = NetworkResponse.Success<PersonDetails>
 
 class PersonRemoteDataSourceTest {
 
