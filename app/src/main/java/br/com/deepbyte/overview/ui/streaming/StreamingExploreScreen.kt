@@ -22,6 +22,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
 fun StreamingExploreScreen(
@@ -29,20 +30,18 @@ fun StreamingExploreScreen(
     events: BasicsMediaEvents,
     viewModel: StreamingExploreViewModel = hiltViewModel()
 ) {
-    // TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
+    TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
     val loadData = { viewModel.getPaging(streamingApiId = apiId) }
     var items by remember { mutableStateOf(value = loadData()) }
 
     MediaExploreContent(
-        showAds = true, // viewModel.showAds,
+        showAds = viewModel.showAds,
         providerName = "Streaming Name",
         pagingItems = items.collectAsLazyPagingItems(),
         onRefresh = { items = loadData() },
         onPopBackStack = { events.onPopBackStack() },
-        onClickItem = {
-            events.onNavigateToMediaDetails(0, "")
-        }
+        onClickMediaItem = events::onNavigateToMediaDetails
     )
 }
 
@@ -53,7 +52,7 @@ fun MediaExploreContent(
     pagingItems: LazyPagingItems<Media>,
     onRefresh: () -> Unit,
     onPopBackStack: () -> Unit,
-    onClickItem: () -> Unit
+    onClickMediaItem: MediaItemClick
 ) {
     when (pagingItems.loadState.refresh) {
         is LoadState.Loading -> LoadingScreen()
@@ -70,34 +69,11 @@ fun MediaExploreContent(
                 if (pagingItems.itemCount == 0) {
                     ErrorOnLoading()
                 } else {
-                    MediaExploreBody(padding, pagingItems, onClickItem)
+                    MediaPagingVerticalGrid(padding, pagingItems, onClickMediaItem)
                 }
             }
         }
         else -> ErrorScreen(onRefresh)
-    }
-}
-
-@Composable
-fun MediaExploreBody(
-    padding: PaddingValues,
-    pagingItems: LazyPagingItems<Media>,
-    onClickItem: () -> Unit = {}
-) {
-    Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(padding)
-            .fillMaxSize()
-    ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
-            items(pagingItems.itemCount) { index ->
-                GridItemMedia(
-                    media = pagingItems[index] as Media,
-                    onClick = { onClickItem.invoke() }
-                )
-            }
-        }
     }
 }
 

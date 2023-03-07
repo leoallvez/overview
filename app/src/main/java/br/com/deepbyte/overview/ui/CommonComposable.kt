@@ -495,6 +495,7 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
     )
 }
 
+// TODO("Remove this function")
 @Composable
 fun DiscoverContent(
     showAds: Boolean,
@@ -527,6 +528,7 @@ fun DiscoverContent(
     }
 }
 
+// TODO("Remove this function")
 @Composable
 fun DiscoverBody(
     padding: PaddingValues,
@@ -544,6 +546,32 @@ fun DiscoverBody(
                 GridItemMedia(
                     mediaItem = pagingItems[index],
                     onClick = onNavigateToMediaDetails
+                )
+            }
+        }
+    }
+}
+
+
+@Composable
+fun MediaPagingVerticalGrid(
+    padding: PaddingValues,
+    pagingItems: LazyPagingItems<Media>,
+    onClickMediaItem: MediaItemClick
+) {
+    Column(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .padding(padding)
+            .fillMaxSize()
+    ) {
+        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+            items(pagingItems.itemCount) { index ->
+                GridItemMedia(
+                    media = pagingItems[index],
+                    onClick = {
+                        onClickMediaItem.invoke(it.apiId, it.getType())
+                    }
                 )
             }
         }
@@ -604,7 +632,7 @@ fun GridItemMedia(media: Media?, onClick: (Media) -> Unit) {
         Column(
             modifier = Modifier
                 .padding(2.dp)
-                .clickable { onClick(this) }
+                .clickable { onClick(media) }
         ) {
             BasicImage(
                 url = getPosterImage(),
