@@ -552,7 +552,6 @@ fun DiscoverBody(
     }
 }
 
-
 @Composable
 fun MediaPagingVerticalGrid(
     padding: PaddingValues,
