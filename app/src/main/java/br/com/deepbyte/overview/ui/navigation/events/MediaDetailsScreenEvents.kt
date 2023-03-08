@@ -8,8 +8,8 @@ class MediaDetailsScreenEvents(
     backToHome: Boolean = false
 ) : BasicsMediaEvents(navigation, backToHome) {
 
-    fun onNavigateToProviderDiscover(json: String) =
-        navigation.navigate(ScreenNav.ProviderDiscover.editRoute(json))
+    fun onNavigateToStreamingExplore(json: String) =
+        navigation.navigate(ScreenNav.StreamingExplore.editRoute(json))
 
     fun onNavigateToGenreDiscover(json: String) =
         navigation.navigate(ScreenNav.GenreDiscover.editRoute(json))

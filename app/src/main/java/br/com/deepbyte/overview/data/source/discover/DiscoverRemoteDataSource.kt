@@ -10,16 +10,8 @@ class DiscoverRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IDiscoverRemoteDataSource {
 
-    override suspend fun discoverByProviderId(providerId: Long, page: Int) =
-        responseToResult(discoverByProvider(providerId, page))
-
     override suspend fun discoverByGenreId(genreId: Long, page: Int, mediaType: String) =
         responseToResult(discoverWithGenre(genreId, mediaType, page))
-
-    private suspend fun discoverByProvider(providerId: Long, page: Int) =
-        _locale.run {
-            _api.discoverByProvider(providerId, page, language, region, region)
-        }
 
     private suspend fun discoverWithGenre(genreId: Long, mediaType: String, page: Int) =
         _locale.run {

@@ -13,7 +13,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.discover.GenreDiscoverScreen
-import br.com.deepbyte.overview.ui.discover.ProviderDiscoverScreen
 import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
 import br.com.deepbyte.overview.ui.navigation.args.StreamingArgType
@@ -73,15 +72,6 @@ fun NavGraphBuilder.mediaDetailsGraph(
         CastDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
             events = BasicsMediaEvents(navController)
-        )
-    }
-    composable(
-        route = ScreenNav.ProviderDiscover.route,
-        arguments = listOf(NavArgument.JSON)
-    ) { navBackStackEntry ->
-        ProviderDiscoverScreen(
-            events = BasicsMediaEvents(navController),
-            params = navBackStackEntry.getDiscoverParams()
         )
     }
     composable(

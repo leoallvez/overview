@@ -5,11 +5,6 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.source.DataResult
 
 interface IDiscoverRemoteDataSource {
-    suspend fun discoverByProviderId(
-        providerId: Long,
-        page: Int
-    ): DataResult<PagingResponse<MediaItem>>
-
     suspend fun discoverByGenreId(
         genreId: Long,
         page: Int,

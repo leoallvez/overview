@@ -16,7 +16,4 @@ class DiscoverViewModel @Inject constructor(
 
     fun loadDiscoverByGenre(genreId: Long, mediaType: String) =
         _repository.discoverByGenreId(genreId, mediaType)
-
-    fun loadDiscoverByProvide(providerId: Long, mediaType: String) =
-        _repository.discoverByProvideId(providerId, mediaType)
 }

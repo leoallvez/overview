@@ -39,6 +39,7 @@ import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.createDiscoverParams
 import br.com.deepbyte.overview.util.defaultBorder
 import br.com.deepbyte.overview.util.defaultPadding
+import br.com.deepbyte.overview.util.toJson
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -125,8 +126,7 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         StreamingsOverview(media.streamings, media.isReleased()) { streaming ->
-            val params = streaming.createDiscoverParams(media)
-            events.onNavigateToProviderDiscover(params.toJson())
+            events.onNavigateToStreamingExplore(streaming.toJson())
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())

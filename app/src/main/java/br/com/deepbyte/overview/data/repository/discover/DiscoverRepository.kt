@@ -18,14 +18,6 @@ class DiscoverRepository @Inject constructor(
     private val _source: IDiscoverRemoteDataSource
 ) : IDiscoverRepository {
 
-    override fun discoverByProvideId(providerId: Long, mediaType: String) =
-        makeDiscoverPaging(
-            mediaType = mediaType,
-            onRequest = { page: Int ->
-                _source.discoverByProviderId(providerId, page)
-            }
-        )
-
     override fun discoverByGenreId(genreId: Long, mediaType: String) =
         makeDiscoverPaging(
             mediaType = mediaType,

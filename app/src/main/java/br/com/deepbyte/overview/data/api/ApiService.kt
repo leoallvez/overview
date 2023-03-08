@@ -118,22 +118,6 @@ interface ApiService {
     ): NetworkResponse<PersonDetails, ErrorResponse>
 
     // Discover
-    @GET(value = "tv/popular")
-    suspend fun discoverByProvider(
-        @Query(value = "with_watch_providers")
-        providerId: Long,
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
-
     @GET(value = "discover/{media_type}")
     suspend fun discoverByGenre(
         @Path(value = "media_type", encoded = true)

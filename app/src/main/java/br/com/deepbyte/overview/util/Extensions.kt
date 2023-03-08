@@ -93,15 +93,6 @@ fun Streaming.toJson(): String {
     return jsonAdapter.toJson(this)
 }
 
-fun Streaming.createDiscoverParams(
-    media: Media
-) = DiscoverParams(
-    apiId = apiId,
-    screenTitle = name,
-    mediaId = media.apiId,
-    mediaType = media.getType()
-)
-
 fun Genre.createDiscoverParams(
     media: Media
 ) = DiscoverParams(

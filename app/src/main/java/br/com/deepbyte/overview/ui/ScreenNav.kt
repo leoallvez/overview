@@ -22,13 +22,6 @@ sealed class ScreenNav(val route: String, val name: String) {
         fun editRoute(id: Long) = "cast_details/$id"
     }
 
-    object ProviderDiscover : ScreenNav(
-        route = "provider_discover/{$JSON_PARAM}",
-        name = "ProviderDiscoverScreen"
-    ) {
-        fun editRoute(json: String) = "provider_discover/$json"
-    }
-
     object GenreDiscover : ScreenNav(
         route = "genre_discover/{$JSON_PARAM}",
         name = "GenreDiscoverScreen"
