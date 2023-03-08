@@ -38,6 +38,7 @@ import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.defaultBackground
 import br.com.deepbyte.overview.util.defaultBorder
 import br.com.deepbyte.overview.util.getStringByName
+import br.com.deepbyte.overview.util.toJson
 import com.google.accompanist.pager.*
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScope
@@ -211,7 +212,7 @@ fun HomeLists(
 @Composable
 fun OverviewStreaming(
     streamings: List<Streaming>,
-    onItemClick: (Long) -> Unit,
+    onItemClick: (String) -> Unit,
     onEditClick: () -> Unit
 ) {
     if (streamings.isNotEmpty()) {
@@ -247,14 +248,14 @@ fun OverviewStreamingTitle() {
 }
 
 @Composable
-fun OverviewItem(streaming: Streaming, onClick: (Long) -> Unit) {
+fun OverviewItem(streaming: Streaming, onClick: (String) -> Unit) {
     BasicImage(
         url = streaming.getLogoImage(),
         contentDescription = streaming.name,
         withBorder = true,
         modifier = Modifier
             .size(dimensionResource(R.dimen.streaming_item_size))
-            .clickable { onClick.invoke(streaming.apiId) }
+            .clickable { onClick.invoke(streaming.toJson()) }
     )
 }
 

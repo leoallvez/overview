@@ -1,9 +1,10 @@
 package br.com.deepbyte.overview.ui.streaming
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -19,6 +20,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -26,18 +28,18 @@ import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
 fun StreamingExploreScreen(
-    apiId: Long,
+    streaming: Streaming,
     events: BasicsMediaEvents,
     viewModel: StreamingExploreViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    val loadData = { viewModel.getPaging(streamingApiId = apiId) }
+    val loadData = { viewModel.getPaging(streamingApiId = streaming.apiId) }
     var items by remember { mutableStateOf(value = loadData()) }
 
     MediaExploreContent(
         showAds = viewModel.showAds,
-        providerName = "Streaming Name",
+        providerName = streaming.name,
         pagingItems = items.collectAsLazyPagingItems(),
         onRefresh = { items = loadData() },
         onPopBackStack = { events.onPopBackStack() },

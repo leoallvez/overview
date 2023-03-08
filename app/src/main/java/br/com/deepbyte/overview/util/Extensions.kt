@@ -82,6 +82,17 @@ fun NavBackStackEntry.getDiscoverParams(): DiscoverParams {
     return json.fromJson() ?: DiscoverParams()
 }
 
+fun NavBackStackEntry.getStreamingParams(): Streaming {
+    val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
+    return json.fromJson() ?: Streaming()
+}
+
+fun Streaming.toJson(): String {
+    val moshi = Moshi.Builder().build()
+    val jsonAdapter = moshi.adapter<Any>(Streaming::class.java)
+    return jsonAdapter.toJson(this)
+}
+
 fun Streaming.createDiscoverParams(
     media: Media
 ) = DiscoverParams(

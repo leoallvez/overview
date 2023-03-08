@@ -10,11 +10,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.discover.GenreDiscoverScreen
 import br.com.deepbyte.overview.ui.discover.ProviderDiscoverScreen
 import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
+import br.com.deepbyte.overview.ui.navigation.args.StreamingArgType
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
@@ -24,10 +26,7 @@ import br.com.deepbyte.overview.ui.splash.SplashScreen
 import br.com.deepbyte.overview.ui.streaming.StreamingExploreScreen
 import br.com.deepbyte.overview.ui.streaming.StreamingOverviewEditScreen
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.util.getApiId
-import br.com.deepbyte.overview.util.getBackToHome
-import br.com.deepbyte.overview.util.getDiscoverParams
-import br.com.deepbyte.overview.util.getParams
+import br.com.deepbyte.overview.util.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalPagerApi
@@ -96,10 +95,10 @@ fun NavGraphBuilder.mediaDetailsGraph(
     }
     composable(
         route = ScreenNav.StreamingExplore.route,
-        arguments = listOf(NavArgument.ID)
+        arguments = listOf(navArgument(ScreenNav.JSON_PARAM) { type = StreamingArgType() })
     ) { navBackStackEntry ->
         StreamingExploreScreen(
-            apiId = navBackStackEntry.getApiId(),
+            streaming = navBackStackEntry.getStreamingParams(),
             events = BasicsMediaEvents(navController)
         )
     }
