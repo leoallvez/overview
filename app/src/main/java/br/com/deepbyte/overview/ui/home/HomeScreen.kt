@@ -100,7 +100,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
         painter = Icons.Filled.Search,
         descriptionResource = R.string.search_icon,
         iconTint = AccentColor,
-        modifier = Modifier.road(Alignment.TopEnd, Alignment.TopEnd)
+        modifier = Modifier.road(Alignment.TopStart, Alignment.TopStart)
     ) { onNavigateToSearch.invoke() }
 }
 
@@ -239,7 +239,7 @@ fun OverviewStreaming(
 @Composable
 fun OverviewStreamingTitle() {
     Text(
-        text = stringResource(R.string.your_streamings),
+        text = stringResource(R.string.yours_streaming),
         color = Color.White,
         modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding)),
         style = MaterialTheme.typography.h6,

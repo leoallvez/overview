@@ -170,7 +170,7 @@ fun MediaButton(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
         modifier = Modifier
-            .height(35.dp)
+            .height(25.dp)
             .padding(end = dimensionResource(R.dimen.screen_padding)),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
