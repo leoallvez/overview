@@ -117,25 +117,6 @@ interface ApiService {
         appendToResponse: String = "tv_credits,movie_credits"
     ): NetworkResponse<PersonDetails, ErrorResponse>
 
-    // Discover
-    @GET(value = "discover/{media_type}")
-    suspend fun discoverByGenre(
-        @Path(value = "media_type", encoded = true)
-        type: String,
-        @Query(value = "with_genres")
-        genreId: Long,
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
-
     // Streaming
     @GET(value = "watch/providers/tv")
     suspend fun getStreamingItems(

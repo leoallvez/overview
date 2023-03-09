@@ -3,11 +3,9 @@ package br.com.deepbyte.overview.util
 import android.content.Context
 import androidx.navigation.NavBackStackEntry
 import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
-import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.DataResult
@@ -77,11 +75,6 @@ fun NavBackStackEntry.getBackToHome(): Boolean {
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
-fun NavBackStackEntry.getDiscoverParams(): DiscoverParams {
-    val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
-    return json.fromJson() ?: DiscoverParams()
-}
-
 fun NavBackStackEntry.getStreamingParams(): Streaming {
     val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
     return json.fromJson() ?: Streaming()
@@ -92,15 +85,6 @@ fun Streaming.toJson(): String {
     val jsonAdapter = moshi.adapter<Any>(Streaming::class.java)
     return jsonAdapter.toJson(this)
 }
-
-fun Genre.createDiscoverParams(
-    media: Media
-) = DiscoverParams(
-    apiId = apiId,
-    screenTitle = name,
-    mediaId = media.apiId,
-    mediaType = media.getType()
-)
 
 fun <T : Media> DataResult<ListResponse<T>>.toList(): List<T> {
     val isValid = this is DataResult.Success

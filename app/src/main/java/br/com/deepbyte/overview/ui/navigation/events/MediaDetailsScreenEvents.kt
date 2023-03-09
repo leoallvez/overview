@@ -11,9 +11,6 @@ class MediaDetailsScreenEvents(
     fun onNavigateToStreamingExplore(json: String) =
         navigation.navigate(ScreenNav.StreamingExplore.editRoute(json))
 
-    fun onNavigateToGenreDiscover(json: String) =
-        navigation.navigate(ScreenNav.GenreDiscover.editRoute(json))
-
     fun onNavigateToCastDetails(apiId: Long) =
         navigation.navigate(ScreenNav.CastDetails.editRoute(apiId))
 }

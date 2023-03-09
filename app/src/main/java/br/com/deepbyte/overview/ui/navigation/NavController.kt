@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.deepbyte.overview.ui.ScreenNav
-import br.com.deepbyte.overview.ui.discover.GenreDiscoverScreen
 import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
 import br.com.deepbyte.overview.ui.navigation.args.StreamingArgType
@@ -25,7 +24,10 @@ import br.com.deepbyte.overview.ui.splash.SplashScreen
 import br.com.deepbyte.overview.ui.streaming.StreamingExploreScreen
 import br.com.deepbyte.overview.ui.streaming.StreamingOverviewEditScreen
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.util.*
+import br.com.deepbyte.overview.util.getApiId
+import br.com.deepbyte.overview.util.getBackToHome
+import br.com.deepbyte.overview.util.getParams
+import br.com.deepbyte.overview.util.getStreamingParams
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalPagerApi
@@ -72,15 +74,6 @@ fun NavGraphBuilder.mediaDetailsGraph(
         CastDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
             events = BasicsMediaEvents(navController)
-        )
-    }
-    composable(
-        route = ScreenNav.GenreDiscover.route,
-        arguments = listOf(NavArgument.JSON)
-    ) { navBackStackEntry ->
-        GenreDiscoverScreen(
-            events = BasicsMediaEvents(navController),
-            params = navBackStackEntry.getDiscoverParams()
         )
     }
     composable(

@@ -36,7 +36,6 @@ import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.util.createDiscoverParams
 import br.com.deepbyte.overview.util.defaultBorder
 import br.com.deepbyte.overview.util.defaultPadding
 import br.com.deepbyte.overview.util.toJson
@@ -141,10 +140,7 @@ fun MediaBody(
             }
         }
         MediaSpace()
-        GenreList(media.genres) { genre ->
-            val params = genre.createDiscoverParams(media)
-            events.onNavigateToGenreDiscover(params.toJson())
-        }
+        GenreList(media.genres)
         BasicParagraph(R.string.synopsis, media.overview)
         AdsMediumRectangle(
             prodBannerId = R.string.media_details_banner,
@@ -288,7 +284,7 @@ fun StreamingItem(streaming: Streaming, onClick: () -> Unit) {
 }
 
 @Composable
-fun GenreList(genres: List<Genre>, onClickItem: (Genre) -> Unit) {
+fun GenreList(genres: List<Genre>) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -300,18 +296,16 @@ fun GenreList(genres: List<Genre>, onClickItem: (Genre) -> Unit) {
             )
         ) {
             items(genres) { genre ->
-                GenreItem(name = genre.name) {
-                    onClickItem.invoke(genre)
-                }
+                GenreItem(name = genre.name)
             }
         }
     }
 }
 
 @Composable
-fun GenreItem(name: String, onClick: () -> Unit) {
+fun GenreItem(name: String) {
     OutlinedButton(
-        onClick = { onClick.invoke() },
+        onClick = {},
         shape = RoundedCornerShape(percent = 100),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)

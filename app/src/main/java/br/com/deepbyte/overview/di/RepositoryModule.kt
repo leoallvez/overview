@@ -1,7 +1,5 @@
 package br.com.deepbyte.overview.di
 
-import br.com.deepbyte.overview.data.repository.discover.DiscoverRepository
-import br.com.deepbyte.overview.data.repository.discover.IDiscoverRepository
 import br.com.deepbyte.overview.data.repository.media.MediaItemRepository
 import br.com.deepbyte.overview.data.repository.media.MediaPagingRepository
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaItemRepository
@@ -20,11 +18,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-
-    @Binds
-    abstract fun binDiscoverRepository(
-        repository: DiscoverRepository
-    ): IDiscoverRepository
 
     @Binds
     abstract fun binMediaItemRepository(

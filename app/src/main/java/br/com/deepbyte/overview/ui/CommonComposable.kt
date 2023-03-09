@@ -16,7 +16,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,7 +42,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
@@ -495,63 +493,6 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
     )
 }
 
-// TODO("Remove this function")
-@Composable
-fun DiscoverContent(
-    showAds: Boolean,
-    providerName: String,
-    pagingItems: LazyPagingItems<MediaItem>,
-    onRefresh: () -> Unit,
-    onPopBackStack: () -> Unit,
-    onToMediaDetails: MediaItemClick
-) {
-    when (pagingItems.loadState.refresh) {
-        is LoadState.Loading -> LoadingScreen()
-        is LoadState.NotLoading -> {
-            Scaffold(
-                modifier = Modifier
-                    .background(PrimaryBackground)
-                    .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
-                topBar = { DiscoverToolBar(providerName, onPopBackStack) },
-                bottomBar = {
-                    AdsBanner(R.string.discover_banner, showAds)
-                }
-            ) { padding ->
-                if (pagingItems.itemCount == 0) {
-                    ErrorOnLoading()
-                } else {
-                    DiscoverBody(padding, pagingItems, onToMediaDetails)
-                }
-            }
-        }
-        else -> ErrorScreen(onRefresh)
-    }
-}
-
-// TODO("Remove this function")
-@Composable
-fun DiscoverBody(
-    padding: PaddingValues,
-    pagingItems: LazyPagingItems<MediaItem>,
-    onNavigateToMediaDetails: MediaItemClick
-) {
-    Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(padding)
-            .fillMaxSize()
-    ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
-            items(pagingItems.itemCount) { index ->
-                GridItemMedia(
-                    mediaItem = pagingItems[index],
-                    onClick = onNavigateToMediaDetails
-                )
-            }
-        }
-    }
-}
-
 @Composable
 fun MediaPagingVerticalGrid(
     padding: PaddingValues,
@@ -574,28 +515,6 @@ fun MediaPagingVerticalGrid(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(bottom = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        ToolbarButton(
-            painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon,
-            background = Color.White.copy(alpha = 0.1f),
-            padding = PaddingValues(
-                vertical = dimensionResource(R.dimen.screen_padding),
-                horizontal = 2.dp
-            )
-        ) { backButtonAction.invoke() }
-        ScreenTitle(text = screenTitle)
     }
 }
 
