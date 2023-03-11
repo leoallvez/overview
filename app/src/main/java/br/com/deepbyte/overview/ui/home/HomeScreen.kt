@@ -254,7 +254,7 @@ fun OverviewItem(streaming: Streaming, onClick: (String) -> Unit) {
         contentDescription = streaming.name,
         withBorder = true,
         modifier = Modifier
-            .size(dimensionResource(R.dimen.streaming_item_size))
+            .size(dimensionResource(R.dimen.streaming_item_lager_size))
             .clickable { onClick.invoke(streaming.toJson()) }
     )
 }
@@ -264,7 +264,7 @@ fun EditItem(onClick: () -> Unit) {
     val color = AccentColor
     Box(
         Modifier
-            .size(dimensionResource(R.dimen.streaming_item_size))
+            .size(dimensionResource(R.dimen.streaming_item_lager_size))
             .defaultBackground()
             .clickable { onClick.invoke() }
             .defaultBorder(color = color)

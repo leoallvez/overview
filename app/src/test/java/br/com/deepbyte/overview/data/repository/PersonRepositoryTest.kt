@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository
 
-import br.com.deepbyte.overview.data.model.person.PersonDetails
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.repository.person.PersonRepository
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
@@ -77,5 +77,5 @@ class PersonRepositoryTest {
     }
     private fun coEveryPersonResponse(requestType: ReturnType) = coEvery {
         _source.getItem(any())
-    } returns mockResult(requestType, DataResult.Success(data = PersonDetails()))
+    } returns mockResult(requestType, DataResult.Success(data = Person()))
 }

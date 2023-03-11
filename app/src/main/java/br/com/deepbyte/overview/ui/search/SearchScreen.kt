@@ -1,13 +1,13 @@
 package br.com.deepbyte.overview.ui.search
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Clear
@@ -16,21 +16,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType.*
+import br.com.deepbyte.overview.data.MediaType.ALL
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
-import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
@@ -129,60 +125,11 @@ fun SearchSuccess(
     var selected by remember { mutableStateOf(ALL.key) }
 
     Column {
-        MediaSelector(selected) { newSelected ->
+        MediaTypeSelector(selected) { newSelected ->
             selected = newSelected
         }
         Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
         MediaGrind(medias = results[selected], onNavigateToMediaDetails)
-    }
-}
-
-@Composable
-fun MediaSelector(selector: String, onClick: (String) -> Unit) {
-    val options = listOf(ALL, MOVIE, TV_SHOW)
-    Row(
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))
-    ) {
-        options.forEach { option ->
-            MediaButton(option.labelRes, selector, option.key, onClick)
-        }
-    }
-}
-
-@Composable
-fun MediaButton(
-    @StringRes labelResId: Int,
-    selectedKey: String,
-    mediaKey: String,
-    onClick: (String) -> Unit
-) {
-    val isActivated = selectedKey == mediaKey
-    val color = if (isActivated) AccentColor else Gray
-    val focusManager = LocalFocusManager.current
-
-    OutlinedButton(
-        onClick = {
-            onClick.invoke(mediaKey)
-            focusManager.clearFocus()
-        },
-        shape = RoundedCornerShape(percent = 100),
-        contentPadding = PaddingValues(
-            horizontal = dimensionResource(R.dimen.default_padding)
-        ),
-        modifier = Modifier
-            .height(25.dp)
-            .padding(end = dimensionResource(R.dimen.screen_padding)),
-        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (isActivated) PrimaryBackground else SecondaryBackground
-        )
-    ) {
-        Text(
-            text = stringResource(labelResId),
-            color = color,
-            style = MaterialTheme.typography.caption,
-            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal
-        )
     }
 }
 
@@ -220,9 +167,10 @@ fun ClearSearchIcon(query: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun SearchIcon() {
+fun SearchIcon(modifier: Modifier = Modifier) {
     Icon(
         tint = AccentColor,
+        modifier = modifier,
         imageVector = Icons.Rounded.Search,
         contentDescription = stringResource(R.string.search_icon)
     )

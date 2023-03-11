@@ -1,6 +1,7 @@
 package br.com.deepbyte.overview.ui.streaming
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -24,9 +25,8 @@ import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.*
-import br.com.deepbyte.overview.ui.media.StreamingIcon
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
-import br.com.deepbyte.overview.ui.search.MediaSelector
+import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 
@@ -66,7 +66,11 @@ fun MediaExploreContent(
                     .background(PrimaryBackground)
                     .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
                 topBar = {
-                    StreamingToolBar(streaming, events::onPopBackStack)
+                    StreamingToolBar(
+                        streaming = streaming,
+                        onClickBackIcon = events::onPopBackStack,
+                        onClickSearchIcon = {}
+                    )
                 },
                 bottomBar = {
                     AdsBanner(R.string.discover_banner, showAds)
@@ -77,16 +81,15 @@ fun MediaExploreContent(
                 } else {
                     var selected by remember { mutableStateOf(MediaType.ALL.key) }
                     Column(Modifier.background(PrimaryBackground)) {
-                        MediaSelector(selected) { newSelected ->
+                        MediaTypeSelector(selected) { newSelected ->
                             selected = newSelected
                         }
-                        VerticalSpacer()
+                        VerticalSpacer(dimensionResource(R.dimen.screen_padding))
                         MediaPagingVerticalGrid(
                             padding,
                             pagingItems,
                             events::onNavigateToMediaDetails
                         )
-                        VerticalSpacer()
                     }
                 }
             }
@@ -97,27 +100,38 @@ fun MediaExploreContent(
 @Composable
 fun StreamingToolBar(
     streaming: Streaming,
-    backButtonAction: () -> Unit
+    onClickBackIcon: () -> Unit,
+    onClickSearchIcon: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
             .padding(bottom = dimensionResource(R.dimen.screen_padding)),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        ToolbarButton(
-            painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon,
-            background = Color.White.copy(alpha = 0.1f),
-            padding = PaddingValues(
-                vertical = dimensionResource(R.dimen.screen_padding),
-                horizontal = 2.dp
-            )
-        ) { backButtonAction.invoke() }
-        Spacer(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding)))
-        StreamingIcon(streaming = streaming, size = 40.dp, withBorder = false)
-        StreamingScreamTitle(streamingName = streaming.name)
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ToolbarButton(
+                painter = Icons.Default.KeyboardArrowLeft,
+                descriptionResource = R.string.back_to_home_icon,
+                background = Color.White.copy(alpha = 0.1f),
+                padding = PaddingValues(
+                    vertical = dimensionResource(R.dimen.screen_padding),
+                    horizontal = 2.dp
+                )
+            ) { onClickBackIcon.invoke() }
+            HorizontalSpacer()
+            StreamingIcon(streaming = streaming, withBorder = false)
+            StreamingScreamTitle(streamingName = streaming.name)
+        }
+        SearchIcon(
+            modifier = Modifier
+                .padding(dimensionResource(R.dimen.screen_padding))
+                .clickable { onClickSearchIcon.invoke() }
+        )
     }
 }
 

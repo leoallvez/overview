@@ -5,7 +5,7 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.util.DateHelper
 import com.squareup.moshi.Json
 
-data class PersonDetails(
+data class Person(
     @field:Json(name = "id")
     val apiId: Long = 0,
     val name: String = "",

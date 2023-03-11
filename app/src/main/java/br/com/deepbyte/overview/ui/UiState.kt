@@ -1,10 +1,10 @@
 package br.com.deepbyte.overview.ui
 
-import br.com.deepbyte.overview.data.model.person.PersonDetails
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.media.Media
 
 typealias MediaUiState = UiState<Media?>
-typealias PersonUiState = UiState<PersonDetails?>
+typealias PersonUiState = UiState<Person?>
 
 sealed class UiState<T> {
     class Loading<T> : UiState<T>()

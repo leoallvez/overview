@@ -5,7 +5,7 @@ import br.com.deepbyte.overview.data.api.response.*
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.model.person.PersonDetails
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
@@ -115,7 +115,7 @@ interface ApiService {
         region: String = "",
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
-    ): NetworkResponse<PersonDetails, ErrorResponse>
+    ): NetworkResponse<Person, ErrorResponse>
 
     // Streaming
     @GET(value = "watch/providers/tv")

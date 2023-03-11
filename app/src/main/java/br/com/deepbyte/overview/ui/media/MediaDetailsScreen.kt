@@ -21,7 +21,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
@@ -30,7 +29,7 @@ import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.model.person.PersonDetails
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
@@ -254,7 +253,7 @@ fun StreamingsNotFound(@StringRes stringResource: Int) {
                 horizontal = dimensionResource(R.dimen.screen_padding),
                 vertical = dimensionResource(R.dimen.default_padding)
             )
-            .height(40.dp)
+            .height(dimensionResource(R.dimen.streaming_item_small_size))
             .defaultBorder(),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -270,24 +269,6 @@ fun StreamingsNotFound(@StringRes stringResource: Int) {
             modifier = Modifier.defaultPadding()
         )
     }
-}
-
-@Composable
-fun StreamingIcon(
-    modifier: Modifier = Modifier,
-    streaming: Streaming,
-    size: Dp = 50.dp,
-    withBorder: Boolean = true,
-    onClick: () -> Unit = {}
-) {
-    BasicImage(
-        url = streaming.getLogoImage(),
-        contentDescription = streaming.name,
-        withBorder = withBorder,
-        modifier = modifier
-            .size(size)
-            .clickable { onClick.invoke() }
-    )
 }
 
 @Composable
@@ -334,7 +315,7 @@ fun GenreItem(name: String) {
 }
 
 @Composable
-fun CastList(cast: List<PersonDetails>, onClickItem: (Long) -> Unit) {
+fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
     if (cast.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
@@ -354,12 +335,12 @@ fun CastList(cast: List<PersonDetails>, onClickItem: (Long) -> Unit) {
 }
 
 @Composable
-fun CastItem(castPerson: PersonDetails, onClick: () -> Unit) {
+fun CastItem(castPerson: Person, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
-        PersonImageCircle(imageUrl = castPerson.getProfileImage(), contentDescription = castPerson.name)
+        PersonImageCircle(castPerson)
         BasicText(
             text = castPerson.name,
             style = MaterialTheme.typography.caption,

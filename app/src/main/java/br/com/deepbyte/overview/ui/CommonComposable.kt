@@ -2,6 +2,7 @@ package br.com.deepbyte.overview.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,8 +46,11 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.person.Person
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -480,10 +484,10 @@ fun BasicParagraph(paragraph: String) {
 }
 
 @Composable
-fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Modifier = Modifier) {
+fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
     BasicImage(
-        url = imageUrl,
-        contentDescription = contentDescription,
+        url = person.getProfileImage(),
+        contentDescription = person.name,
         contentScale = ContentScale.Crop,
         modifier = modifier
             .size(120.dp)
@@ -662,6 +666,75 @@ fun SearchField(onSearch: (query: String) -> Unit) {
 }
 
 @Composable
-fun VerticalSpacer() {
-    Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
+fun StreamingIcon(
+    modifier: Modifier = Modifier,
+    streaming: Streaming,
+    size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
+    withBorder: Boolean = true,
+    onClick: () -> Unit = {}
+) {
+    BasicImage(
+        url = streaming.getLogoImage(),
+        contentDescription = streaming.name,
+        withBorder = withBorder,
+        modifier = modifier
+            .size(size)
+            .clickable { onClick.invoke() }
+    )
+}
+
+@Composable
+fun MediaTypeSelector(selectedKey: String, onClick: (String) -> Unit) {
+    val options = listOf(MediaType.ALL, MediaType.MOVIE, MediaType.TV_SHOW)
+    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+        options.forEach { mediaType ->
+            MediaTypeButton(mediaType, selectedKey, onClick)
+        }
+    }
+}
+
+@Composable
+fun MediaTypeButton(
+    mediaType: MediaType,
+    selectedKey: String,
+    onClick: (String) -> Unit
+) {
+    val isActivated = selectedKey == mediaType.key
+    val color = if (isActivated) AccentColor else Gray
+    val focusManager = LocalFocusManager.current
+
+    OutlinedButton(
+        onClick = {
+            onClick.invoke(mediaType.key)
+            focusManager.clearFocus()
+        },
+        shape = RoundedCornerShape(percent = 100),
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(R.dimen.default_padding)
+        ),
+        modifier = Modifier
+            .height(25.dp)
+            .padding(end = dimensionResource(R.dimen.screen_padding)),
+        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (isActivated) PrimaryBackground else SecondaryBackground
+        )
+    ) {
+        Text(
+            text = stringResource(mediaType.labelRes),
+            color = color,
+            style = MaterialTheme.typography.caption,
+            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+fun VerticalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
+    Spacer(modifier = Modifier.padding(vertical = padding))
+}
+
+@Composable
+fun HorizontalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
+    Spacer(modifier = Modifier.padding(horizontal = padding))
 }
