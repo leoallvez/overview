@@ -116,7 +116,7 @@ fun StreamingToolBar(
             )
         ) { backButtonAction.invoke() }
         Spacer(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding)))
-        StreamingIcon(streaming, size = 40.dp, withBorder = false)
+        StreamingIcon(streaming = streaming, size = 40.dp, withBorder = false)
         StreamingScreamTitle(streamingName = streaming.name)
     }
 }

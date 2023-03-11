@@ -234,7 +234,7 @@ fun StreamingsOverview(
             )
         ) {
             items(streamings) { streaming ->
-                StreamingIcon(streaming) {
+                StreamingIcon(streaming = streaming) {
                     onClickItem.invoke(streaming)
                 }
             }
@@ -274,10 +274,10 @@ fun StreamingsNotFound(@StringRes stringResource: Int) {
 
 @Composable
 fun StreamingIcon(
+    modifier: Modifier = Modifier,
     streaming: Streaming,
     size: Dp = 50.dp,
     withBorder: Boolean = true,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
     BasicImage(
