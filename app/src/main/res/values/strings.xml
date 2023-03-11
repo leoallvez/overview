@@ -53,4 +53,5 @@
 
     <string name="edit">Editar</string>
     <string name="yours_streaming">Seus streamings</string>
+    <string name="search_on_streaming">Pesquisar na s%</string>
 </resources>

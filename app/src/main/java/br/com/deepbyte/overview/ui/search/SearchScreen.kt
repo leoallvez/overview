@@ -132,6 +132,7 @@ fun SearchSuccess(
         MediaSelector(selected) { newSelected ->
             selected = newSelected
         }
+        Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
         MediaGrind(medias = results[selected], onNavigateToMediaDetails)
     }
 }
@@ -146,7 +147,6 @@ fun MediaSelector(selector: String, onClick: (String) -> Unit) {
             MediaButton(option.labelRes, selector, option.key, onClick)
         }
     }
-    Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
 }
 
 @Composable

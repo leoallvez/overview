@@ -21,6 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
@@ -233,7 +234,7 @@ fun StreamingsOverview(
             )
         ) {
             items(streamings) { streaming ->
-                StreamingItem(streaming) {
+                StreamingIcon(streaming) {
                     onClickItem.invoke(streaming)
                 }
             }
@@ -272,13 +273,19 @@ fun StreamingsNotFound(@StringRes stringResource: Int) {
 }
 
 @Composable
-fun StreamingItem(streaming: Streaming, onClick: () -> Unit) {
+fun StreamingIcon(
+    streaming: Streaming,
+    size: Dp = 50.dp,
+    withBorder: Boolean = true,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     BasicImage(
         url = streaming.getLogoImage(),
         contentDescription = streaming.name,
-        withBorder = true,
-        modifier = Modifier
-            .size(50.dp)
+        withBorder = withBorder,
+        modifier = modifier
+            .size(size)
             .clickable { onClick.invoke() }
     )
 }

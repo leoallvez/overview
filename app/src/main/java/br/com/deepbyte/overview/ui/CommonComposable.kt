@@ -206,7 +206,7 @@ fun ToolbarButton(
             .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(dimensionResource(R.dimen.toolbar_element_size))
+            .size(40.dp)
             .clickable { onClick.invoke() }
     ) {
         Icon(
@@ -609,7 +609,7 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(50.dp)
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(Color.Transparent, PrimaryBackground)
@@ -659,4 +659,9 @@ fun SearchField(onSearch: (query: String) -> Unit) {
         trailingIcon = { ClearSearchIcon(query) { query = "" } },
         shape = RoundedCornerShape(100.dp)
     )
+}
+
+@Composable
+fun VerticalSpacer() {
+    Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
 }

@@ -1,11 +1,10 @@
 package br.com.deepbyte.overview.ui.streaming
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.*
@@ -13,18 +12,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.*
+import br.com.deepbyte.overview.ui.media.StreamingIcon
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.search.MediaSelector
+import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
 fun StreamingExploreScreen(
@@ -38,23 +42,21 @@ fun StreamingExploreScreen(
     var items by remember { mutableStateOf(value = loadData()) }
 
     MediaExploreContent(
+        events = events,
+        streaming = streaming,
         showAds = viewModel.showAds,
-        providerName = streaming.name,
-        pagingItems = items.collectAsLazyPagingItems(),
         onRefresh = { items = loadData() },
-        onPopBackStack = { events.onPopBackStack() },
-        onClickMediaItem = events::onNavigateToMediaDetails
+        pagingItems = items.collectAsLazyPagingItems()
     )
 }
 
 @Composable
 fun MediaExploreContent(
     showAds: Boolean,
-    providerName: String,
-    pagingItems: LazyPagingItems<Media>,
+    streaming: Streaming,
     onRefresh: () -> Unit,
-    onPopBackStack: () -> Unit,
-    onClickMediaItem: MediaItemClick
+    events: BasicsMediaEvents,
+    pagingItems: LazyPagingItems<Media>
 ) {
     when (pagingItems.loadState.refresh) {
         is LoadState.Loading -> LoadingScreen()
@@ -63,7 +65,9 @@ fun MediaExploreContent(
                 modifier = Modifier
                     .background(PrimaryBackground)
                     .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
-                topBar = { DiscoverToolBar(providerName, onPopBackStack) },
+                topBar = {
+                    StreamingToolBar(streaming, events::onPopBackStack)
+                },
                 bottomBar = {
                     AdsBanner(R.string.discover_banner, showAds)
                 }
@@ -71,21 +75,35 @@ fun MediaExploreContent(
                 if (pagingItems.itemCount == 0) {
                     ErrorOnLoading()
                 } else {
-                    MediaPagingVerticalGrid(padding, pagingItems, onClickMediaItem)
+                    var selected by remember { mutableStateOf(MediaType.ALL.key) }
+                    Column(Modifier.background(PrimaryBackground)) {
+                        MediaSelector(selected) { newSelected ->
+                            selected = newSelected
+                        }
+                        VerticalSpacer()
+                        MediaPagingVerticalGrid(
+                            padding,
+                            pagingItems,
+                            events::onNavigateToMediaDetails
+                        )
+                        VerticalSpacer()
+                    }
                 }
             }
-        }
-        else -> ErrorScreen(onRefresh)
+        } else -> ErrorScreen(onRefresh)
     }
 }
 
 @Composable
-fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
+fun StreamingToolBar(
+    streaming: Streaming,
+    backButtonAction: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = 10.dp),
+            .padding(bottom = dimensionResource(R.dimen.screen_padding)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ToolbarButton(
@@ -97,6 +115,23 @@ fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
                 horizontal = 2.dp
             )
         ) { backButtonAction.invoke() }
-        ScreenTitle(text = screenTitle)
+        Spacer(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding)))
+        StreamingIcon(streaming, size = 40.dp, withBorder = false)
+        StreamingScreamTitle(streamingName = streaming.name)
     }
+}
+
+@Composable
+fun StreamingScreamTitle(streamingName: String) {
+    Text(
+        text = streamingName,
+        color = AccentColor,
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(R.dimen.screen_padding),
+            vertical = dimensionResource(R.dimen.default_padding)
+        ),
+        overflow = TextOverflow.Ellipsis
+    )
 }
