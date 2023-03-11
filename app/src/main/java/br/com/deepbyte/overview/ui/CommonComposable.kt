@@ -522,32 +522,6 @@ fun MediaPagingVerticalGrid(
     }
 }
 
-// TODO: To refactor user Media class as parameter
-@Composable
-fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
-    mediaItem?.apply {
-        Column(
-            modifier = Modifier
-                .padding(2.dp)
-                .clickable { onClick(apiId, type) }
-        ) {
-            BasicImage(
-                url = getPosterImage(),
-                contentDescription = getLetter(),
-                withBorder = true,
-                modifier = Modifier
-                    .size(width = 125.dp, height = 180.dp)
-                    .padding(1.dp)
-            )
-            BasicText(
-                text = getLetter(),
-                style = MaterialTheme.typography.caption,
-                isBold = true
-            )
-        }
-    }
-}
-
 @Composable
 fun GridItemMedia(media: Media?, onClick: (Media) -> Unit) {
     media?.apply {
@@ -685,8 +659,8 @@ fun StreamingIcon(
 
 @Composable
 fun MediaTypeSelector(selectedKey: String, onClick: (String) -> Unit) {
-    val options = listOf(MediaType.ALL, MediaType.MOVIE, MediaType.TV_SHOW)
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+        val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
             MediaTypeButton(mediaType, selectedKey, onClick)
         }

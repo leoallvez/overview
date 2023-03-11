@@ -100,7 +100,7 @@ private fun CollapsingToolbarScope.HomeToolBar(
         painter = Icons.Filled.Search,
         descriptionResource = R.string.search_icon,
         iconTint = AccentColor,
-        modifier = Modifier.road(Alignment.TopStart, Alignment.TopStart)
+        modifier = Modifier.road(Alignment.TopEnd, Alignment.TopEnd)
     ) { onNavigateToSearch.invoke() }
 }
 
