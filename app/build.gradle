@@ -18,7 +18,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 3
-        versionName "1.2"
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -31,7 +31,8 @@ android {
             }
         }
 
-        buildConfigField 'String', 'API_KEY', System.getenv("API_KEY") ? System.getenv("API_KEY") : '""'
+        def api_key = System.getenv("API_KEY")
+        buildConfigField 'String', 'API_KEY', api_key ? "\"$api_key\"" : '""'
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
         buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w780"'
         buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
