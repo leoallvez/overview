@@ -7,12 +7,12 @@ import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.ui.DiscoverContent
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.TrackScreenView
-import br.com.deepbyte.overview.util.MediaItemClick
+import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 
 @Composable
 fun GenreDiscoverScreen(
     params: DiscoverParams,
-    onNavigateToMediaDetails: MediaItemClick,
+    events: BasicsMediaEvents,
     viewModel: DiscoverViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.GenreDiscover, viewModel.analyticsTracker)
@@ -28,9 +28,7 @@ fun GenreDiscoverScreen(
         providerName = params.screenTitle,
         pagingItems = items.collectAsLazyPagingItems(),
         onRefresh = { items = loadData() },
-        onPopBackStack = {
-            onNavigateToMediaDetails.invoke(params.mediaId, params.mediaType)
-        },
-        onToMediaDetails = onNavigateToMediaDetails
+        onPopBackStack = { events.onPopBackStack() },
+        onToMediaDetails = events::onNavigateToMediaDetails
     )
 }

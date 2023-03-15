@@ -6,10 +6,11 @@ sealed class ScreenNav(val route: String, val name: String) {
     object Home : ScreenNav(route = "home_screen", name = "HomeScreen")
 
     object MediaDetails : ScreenNav(
-        route = "media_details/{$ID_PARAM}/{$TYPE_PARAM}",
+        route = "media_details/{$ID_PARAM}/{$TYPE_PARAM}/{$BACK_TO_HOME_PARAM}",
         name = "MediaDetailScreen"
     ) {
-        fun editRoute(id: Long, type: String?) = "media_details/$id/$type"
+        fun editRoute(id: Long, type: String?, backToHome: Boolean = false) =
+            "media_details/$id/$type/$backToHome"
     }
 
     object CastDetails : ScreenNav(
@@ -42,5 +43,6 @@ sealed class ScreenNav(val route: String, val name: String) {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"
         const val JSON_PARAM = "Json"
+        const val BACK_TO_HOME_PARAM = "back_to_home"
     }
 }

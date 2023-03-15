@@ -23,12 +23,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType.MOVIE
-import br.com.deepbyte.overview.data.MediaType.TV_SHOW
+import br.com.deepbyte.overview.data.MediaType.*
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
@@ -36,9 +36,8 @@ import br.com.deepbyte.overview.util.MediaItemClick
 @Composable
 fun SearchScreen(
     events: BasicsMediaEvents,
-    viewModel: SearchViewModel = hiltViewModel(),
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
-
     TrackScreenView(screen = ScreenNav.Search, viewModel.analyticsTracker)
 
     Scaffold(
@@ -57,7 +56,6 @@ fun SearchScreen(
     ) { padding ->
 
         Box(modifier = Modifier.padding(padding)) {
-
             when (val uiState = viewModel.uiState.collectAsState().value) {
                 is SearchState.NotStated -> SearchIsNotStated()
                 is SearchState.Loading -> LoadingScreen()
@@ -128,8 +126,7 @@ fun SearchSuccess(
     results: Map<String, List<Media>>,
     onNavigateToMediaDetails: MediaItemClick
 ) {
-
-    var selected by remember { mutableStateOf(MOVIE.key) }
+    var selected by remember { mutableStateOf(ALL.key) }
 
     Column {
         MediaSelector(selected) { newSelected ->
@@ -141,7 +138,7 @@ fun SearchSuccess(
 
 @Composable
 fun MediaSelector(selector: String, onClick: (String) -> Unit) {
-    val options = listOf(MOVIE, TV_SHOW)
+    val options = listOf(ALL, MOVIE, TV_SHOW)
     Row(
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
@@ -160,7 +157,7 @@ fun MediaButton(
     onClick: (String) -> Unit
 ) {
     val isActivated = selectedKey == mediaKey
-    val color = if (isActivated) AccentColor else Color.Gray
+    val color = if (isActivated) AccentColor else Gray
     val focusManager = LocalFocusManager.current
 
     OutlinedButton(
@@ -227,6 +224,6 @@ fun SearchIcon() {
     Icon(
         tint = AccentColor,
         imageVector = Icons.Rounded.Search,
-        contentDescription = stringResource(R.string.search_icon),
+        contentDescription = stringResource(R.string.search_icon)
     )
 }

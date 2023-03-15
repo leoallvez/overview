@@ -1,7 +1,6 @@
 package br.com.deepbyte.overview.data.repository.search
 
-import br.com.deepbyte.overview.data.MediaType.MOVIE
-import br.com.deepbyte.overview.data.MediaType.TV_SHOW
+import br.com.deepbyte.overview.data.MediaType.*
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
@@ -28,6 +27,11 @@ class SearchRepository @Inject constructor(
         val map = mutableMapOf<String, List<Media>>()
         map[MOVIE.key] = _movieSource.search(query).toList()
         map[TV_SHOW.key] = _tvShowSource.search(query).toList()
+        map[ALL.key] = mergeMedia(map[MOVIE.key], map[TV_SHOW.key])
         return map
+    }
+
+    private fun mergeMedia(list1: List<Media>?, list2: List<Media>?): List<Media> {
+        return (list1 ?: listOf()) + (list2 ?: listOf())
     }
 }

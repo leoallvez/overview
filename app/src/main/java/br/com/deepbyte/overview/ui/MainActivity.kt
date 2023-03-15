@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -14,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +23,7 @@ import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.di.IsOnline
 import br.com.deepbyte.overview.ui.navigation.NavController
 import br.com.deepbyte.overview.ui.theme.AppTheme
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,22 +54,21 @@ class MainActivity : ComponentActivity() {
 fun OverviewApp(isOnline: Boolean) {
     Box {
         NavController()
-        OfflineSnackBar(
-            isNotOnline = isOnline.not(),
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-        AppVersion(Modifier.align(Alignment.BottomCenter))
+        Column(Modifier.align(Alignment.BottomCenter)) {
+            OfflineSnackBar(isNotOnline = isOnline.not())
+            AppVersion()
+        }
     }
 }
 
 @Composable
-fun AppVersion(modifier: Modifier) {
+fun AppVersion() {
     Text(
         text = "v${BuildConfig.VERSION_NAME}",
-        color = Color.DarkGray,
+        color = Gray,
         textAlign = TextAlign.Center,
         fontSize = 12.sp,
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .background(color = PrimaryBackground)
             .padding(2.dp)

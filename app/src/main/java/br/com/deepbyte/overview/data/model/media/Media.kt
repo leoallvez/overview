@@ -10,8 +10,10 @@ abstract class Media {
     val apiId: Long = 0
     val adult: Boolean = false
     val overview: String = ""
+
     @field:Json(name = "backdrop_path")
     private val backdropPath: String = ""
+
     @field:Json(name = "poster_path")
     private val posterPath: String = ""
     val genres: List<Genre> = listOf()
@@ -21,6 +23,8 @@ abstract class Media {
     abstract fun getSimilarMedia(): List<Media>
     abstract fun getRuntime(): String
     abstract fun getLetter(): String
+    abstract fun isReleased(): Boolean
+    abstract fun getFormattedReleaseDate(): String
 
     fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
     fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"

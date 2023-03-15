@@ -14,7 +14,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         color = Color.White
-    ),
+    )
     /*
     overline = TextStyle(
         fontFamily = Poppins,

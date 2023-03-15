@@ -33,7 +33,8 @@ class PersonRemoteDataSourceTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_successResponse_dataResponseIsSameAsApi() = runTest {
+    @Test
+    fun getPersonDetails_successResponse_dataResponseIsSameAsApi() = runTest {
         // Arrange
         val response = createPersonResponseSuccess()
         coEveryPersonResponse(requestType = SUCCESS, response)
@@ -44,7 +45,8 @@ class PersonRemoteDataSourceTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_successResponse_resultIsSuccess() = runTest {
+    @Test
+    fun getPersonDetails_successResponse_resultIsSuccess() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = SUCCESS)
         // Act
@@ -54,7 +56,8 @@ class PersonRemoteDataSourceTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
+    @Test
+    fun getPersonDetails_serverErrorResponse_messageResponseIsSameAsApi() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
@@ -64,7 +67,8 @@ class PersonRemoteDataSourceTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_serverErrorResponse_resultIsServerError() = runTest {
+    @Test
+    fun getPersonDetails_serverErrorResponse_resultIsServerError() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
@@ -74,7 +78,8 @@ class PersonRemoteDataSourceTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_networkErrorResponse_resultIsNetworkError() = runTest {
+    @Test
+    fun getPersonDetails_networkErrorResponse_resultIsNetworkError() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
         // Act
@@ -84,7 +89,8 @@ class PersonRemoteDataSourceTest {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Test fun getPersonDetails_unknownErrorResponse_resultIsUnknownError() = runTest {
+    @Test
+    fun getPersonDetails_unknownErrorResponse_resultIsUnknownError() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         // Act

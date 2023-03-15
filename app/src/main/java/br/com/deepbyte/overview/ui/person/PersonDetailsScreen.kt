@@ -52,7 +52,9 @@ fun CastDetailsScreen(
             person = dataResult,
             showAds = viewModel.showAds,
             events::onNavigateToHome,
-            events::onNavigateToMediaDetails
+            { apiId, mediaType ->
+                events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+            }
         ) {
             viewModel.refresh(apiId)
         }
@@ -94,7 +96,6 @@ fun PersonToolBar(person: PersonDetails, backButtonAction: () -> Unit) {
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
             .background(PrimaryBackground)
     ) {
-
         PersonImageCircle(
             imageUrl = person.getProfileImage(),
             contentDescription = person.name,

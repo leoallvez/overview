@@ -52,6 +52,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
@@ -112,7 +113,7 @@ fun LoadingScreen() {
             BallScaleRippleMultipleProgressIndicator(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = AccentColor,
-                animationDuration = 900,
+                animationDuration = 900
             )
         }
     }
@@ -200,7 +201,7 @@ fun ToolbarButton(
     iconTint: Color = Color.White,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
     padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.screen_padding)),
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Box(
         modifier
@@ -210,7 +211,6 @@ fun ToolbarButton(
             .size(dimensionResource(R.dimen.toolbar_element_size))
             .clickable { onClick.invoke() }
     ) {
-
         Icon(
             painter,
             contentDescription = stringResource(descriptionResource),
@@ -348,11 +348,15 @@ fun BasicImage(
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
                 then (
-                    if (withBorder) Modifier.border(
-                        dimensionResource(R.dimen.border_width),
-                        SecondaryBackground,
-                        RoundedCornerShape(dimensionResource(R.dimen.corner))
-                    ) else Modifier
+                    if (withBorder) {
+                        Modifier.border(
+                            dimensionResource(R.dimen.border_width),
+                            Gray,
+                            RoundedCornerShape(dimensionResource(R.dimen.corner))
+                        )
+                    } else {
+                        Modifier
+                    }
                     ),
             contentScale = contentScale,
             placeholder = placeholder,
@@ -363,12 +367,7 @@ fun BasicImage(
 }
 
 @Composable
-fun BasicText(
-    text: String,
-    style: TextStyle,
-    color: Color = Color.White,
-    isBold: Boolean = false
-) {
+fun BasicText(text: String, style: TextStyle, color: Color = Color.White, isBold: Boolean = false) {
     Text(
         color = color,
         text = text,
@@ -406,11 +405,16 @@ fun SimpleSubtitle1(text: String, display: Boolean = true, isBold: Boolean = tru
 }
 
 @Composable
-fun SimpleSubtitle2(text: String, display: Boolean = true, isBold: Boolean = true) {
+fun SimpleSubtitle2(
+    text: String,
+    display: Boolean = true,
+    isBold: Boolean = true,
+    color: Color = Color.White
+) {
     if (text.isNotEmpty() && display) {
         Text(
             text = text,
-            color = Color.White,
+            color = color,
             style = MaterialTheme.typography.subtitle2,
             fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
         )
@@ -498,7 +502,7 @@ fun DiscoverContent(
     pagingItems: LazyPagingItems<MediaItem>,
     onRefresh: () -> Unit,
     onPopBackStack: () -> Unit,
-    onToMediaDetails: MediaItemClick,
+    onToMediaDetails: MediaItemClick
 ) {
     when (pagingItems.loadState.refresh) {
         is LoadState.Loading -> LoadingScreen()
@@ -527,7 +531,7 @@ fun DiscoverContent(
 fun DiscoverBody(
     padding: PaddingValues,
     pagingItems: LazyPagingItems<MediaItem>,
-    onNavigateToMediaDetails: MediaItemClick,
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     Column(
         modifier = Modifier
@@ -677,13 +681,15 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 
 @Composable
 fun SearchField(onSearch: (query: String) -> Unit) {
-
     var query by rememberSaveable { mutableStateOf(value = String()) }
     val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
         value = query,
-        onValueChange = { value -> query = value },
+        onValueChange = { value ->
+            query = value
+            onSearch(query)
+        },
         maxLines = 1,
         placeholder = { Text(text = stringResource(R.string.search_field_text), color = AccentColor) },
         modifier = Modifier
@@ -701,10 +707,10 @@ fun SearchField(onSearch: (query: String) -> Unit) {
             cursorColor = Color.White,
             backgroundColor = SecondaryBackground,
             focusedBorderColor = SecondaryBackground,
-            unfocusedBorderColor = SecondaryBackground,
+            unfocusedBorderColor = SecondaryBackground
         ),
         leadingIcon = { SearchIcon() },
         trailingIcon = { ClearSearchIcon(query) { query = "" } },
-        shape = RoundedCornerShape(100.dp),
+        shape = RoundedCornerShape(100.dp)
     )
 }
