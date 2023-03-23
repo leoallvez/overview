@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.ui.ScreenNav
@@ -32,7 +33,7 @@ fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hilt
     val scale = remember { Animatable(0f) }
     LaunchedEffect(key1 = true) {
         scale.animateTo(
-            targetValue = 0.5f,
+            targetValue = 0.9f,
             animationSpec = tween(
                 durationMillis = 900,
                 easing = {
@@ -61,23 +62,21 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
 
 @Composable
 fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
+    val colors = listOf(Color.Cyan, AccentColor, AccentColor)
+    val brush = Brush.linearGradient(colors = colors)
+    val onDraw: DrawScope.() -> Unit = {
+        drawCircle(brush = brush)
+    }
     Box(
         modifier = Modifier
             .scale(scale.value)
             .size(350.dp),
         contentAlignment = Alignment.Center
     ) {
-        Canvas(modifier = Modifier.size(350.dp), onDraw = {
-            drawCircle(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(AccentColor, Color.White),
-                    startX = 0.dp.toPx(),
-                    endX = 800.dp.toPx()
-                )
-            )
-        })
-        Canvas(modifier = Modifier.size(250.dp), onDraw = {
+        Canvas(modifier = Modifier.size(375.dp), onDraw)
+        Canvas(modifier = Modifier.size(275.dp), onDraw = {
             drawCircle(color = Color.Black)
         })
+        Canvas(modifier = Modifier.size(175.dp), onDraw)
     }
 }
