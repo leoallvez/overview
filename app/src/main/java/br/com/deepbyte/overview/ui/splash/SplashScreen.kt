@@ -42,7 +42,7 @@ fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hilt
         )
         viewModel.remoteConfig.start()
         delay(2000L)
-        onNavigateToHome.invoke()
+        //onNavigateToHome.invoke()
     }
     SplashScreenContent(scale)
 }
@@ -61,23 +61,22 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
 
 @Composable
 fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
+    val colors = listOf(Color.Cyan, Color.Cyan, AccentColor)
+    val brush = Brush.linearGradient(colors = colors)
     Box(
         modifier = Modifier
             .scale(scale.value)
             .size(350.dp),
         contentAlignment = Alignment.Center
     ) {
-        Canvas(modifier = Modifier.size(350.dp), onDraw = {
-            drawCircle(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(AccentColor, Color.White),
-                    startX = 0.dp.toPx(),
-                    endX = 800.dp.toPx()
-                )
-            )
+        Canvas(modifier = Modifier.size(375.dp), onDraw = {
+            drawCircle(brush = brush)
         })
-        Canvas(modifier = Modifier.size(250.dp), onDraw = {
+        Canvas(modifier = Modifier.size(275.dp), onDraw = {
             drawCircle(color = Color.Black)
+        })
+        Canvas(modifier = Modifier.size(175.dp), onDraw = {
+            drawCircle(brush = brush)
         })
     }
 }
