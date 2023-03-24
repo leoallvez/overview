@@ -27,22 +27,30 @@ class MediaPagingRepository @Inject constructor(
 
     override fun getMediasPaging(mediaType: MediaType, streamingsIds: List<Long>) = createPaging(
         onRequest = { page: Int ->
-
-            val result = when (mediaType) {
-                MOVIE -> _movieSource.getPaging(page, streamingsIds)
-                TV_SHOW -> _tvShowSource.getPaging(page, streamingsIds)
-                ALL -> mergeMediaPaging(page, streamingsIds)
+            if (page > 0) {
+                val result = when (mediaType) {
+                    MOVIE -> getMovies(page, streamingsIds)
+                    TV_SHOW -> getTVShows(page, streamingsIds)
+                    ALL -> mergeMedias(page, streamingsIds)
+                }
+                DataResult.Success(data = PagingResponse(page, result))
+            } else {
+                DataResult.UnknownError()
             }
-
-            DataResult.Success(data = PagingResponse(page, result))
         }
     )
 
-    private suspend fun mergeMediaPaging(page: Int, streamingsIds: List<Long>): List<Media> {
-        val movies = _movieSource.getPaging(page, streamingsIds)
-        val tvShows = _tvShowSource.getPaging(page, streamingsIds)
+    private suspend fun mergeMedias(page: Int, streamingsIds: List<Long>): List<Media> {
+        val movies = getMovies(page, streamingsIds)
+        val tvShows = getTVShows(page, streamingsIds)
         return movies.plus(tvShows).sortedByDescending { it.voteAverage }
     }
+
+    private suspend fun getMovies(page: Int, streamingsIds: List<Long>) =
+        _movieSource.getPaging(page, streamingsIds)
+
+    private suspend fun getTVShows(page: Int, streamingsIds: List<Long>) =
+        _tvShowSource.getPaging(page, streamingsIds)
 
     private fun createPaging(
         onRequest: suspend (page: Int) -> PagingMediaResult
