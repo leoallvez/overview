@@ -4,6 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import br.com.deepbyte.overview.data.MediaType
+import br.com.deepbyte.overview.data.MediaType.*
 import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
@@ -23,16 +25,24 @@ class MediaPagingRepository @Inject constructor(
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
 ) : IMediaPagingRepository {
 
-    override fun getPaging(streamingsIds: List<Long>) = createPaging(
+    override fun getMediasPaging(mediaType: MediaType, streamingsIds: List<Long>) = createPaging(
         onRequest = { page: Int ->
 
-            val movies = _movieSource.getPaging(page, streamingsIds)
-            val tvShows = _tvShowSource.getPaging(page, streamingsIds)
+            val result = when (mediaType) {
+                MOVIE -> _movieSource.getPaging(page, streamingsIds)
+                TV_SHOW -> _tvShowSource.getPaging(page, streamingsIds)
+                ALL -> mergeMediaPaging(page, streamingsIds)
+            }
 
-            val result = movies.plus(tvShows).sortedByDescending { it.voteAverage }
             DataResult.Success(data = PagingResponse(page, result))
         }
     )
+
+    private suspend fun mergeMediaPaging(page: Int, streamingsIds: List<Long>): List<Media> {
+        val movies = _movieSource.getPaging(page, streamingsIds)
+        val tvShows = _tvShowSource.getPaging(page, streamingsIds)
+        return movies.plus(tvShows).sortedByDescending { it.voteAverage }
+    }
 
     private fun createPaging(
         onRequest: suspend (page: Int) -> PagingMediaResult

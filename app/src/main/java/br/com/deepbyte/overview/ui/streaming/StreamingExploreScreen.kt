@@ -38,15 +38,23 @@ fun StreamingExploreScreen(
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    val loadData = { viewModel.getPaging(streamingApiId = streaming.apiId) }
-    var items by remember { mutableStateOf(value = loadData()) }
+    val loadMediaData = { mediaType: MediaType ->
+        viewModel.getMediasPaging(mediaType, streaming.apiId)
+    }
+    var mediaTypeSelected by remember { mutableStateOf(MediaType.ALL.key) }
+    var items by remember { mutableStateOf(value = loadMediaData(MediaType.ALL)) }
 
     MediaExploreContent(
         events = events,
         streaming = streaming,
         showAds = viewModel.showAds,
-        onRefresh = { items = loadData() },
-        pagingItems = items.collectAsLazyPagingItems()
+        onRefresh = { items = loadMediaData(MediaType.ALL) },
+        mediaTypeSelected = mediaTypeSelected,
+        pagingItems = items.collectAsLazyPagingItems(),
+        onSelectMediaType = { mediaType ->
+            mediaTypeSelected = mediaType.key
+            items = loadMediaData(mediaType)
+        }
     )
 }
 
@@ -56,7 +64,9 @@ fun MediaExploreContent(
     streaming: Streaming,
     onRefresh: () -> Unit,
     events: BasicsMediaEvents,
-    pagingItems: LazyPagingItems<Media>
+    pagingItems: LazyPagingItems<Media>,
+    mediaTypeSelected: String,
+    onSelectMediaType: (mediaType: MediaType) -> Unit
 ) {
     when (pagingItems.loadState.refresh) {
         is LoadState.Loading -> LoadingScreen()
@@ -79,11 +89,8 @@ fun MediaExploreContent(
                 if (pagingItems.itemCount == 0) {
                     ErrorOnLoading()
                 } else {
-                    var selected by remember { mutableStateOf(MediaType.ALL.key) }
                     Column(Modifier.background(PrimaryBackground)) {
-                        MediaTypeSelector(selected) { newSelected ->
-                            selected = newSelected
-                        }
+                        MediaTypeSelector(mediaTypeSelected, onSelectMediaType)
                         VerticalSpacer(dimensionResource(R.dimen.screen_padding))
                         MediaPagingVerticalGrid(
                             padding,

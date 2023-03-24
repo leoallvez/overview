@@ -126,7 +126,7 @@ fun SearchSuccess(
 
     Column {
         MediaTypeSelector(selected) { newSelected ->
-            selected = newSelected
+            selected = newSelected.key
         }
         Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
         MediaGrind(medias = results[selected], onNavigateToMediaDetails)

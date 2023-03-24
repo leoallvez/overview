@@ -658,7 +658,7 @@ fun StreamingIcon(
 }
 
 @Composable
-fun MediaTypeSelector(selectedKey: String, onClick: (String) -> Unit) {
+fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
         val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
@@ -671,7 +671,7 @@ fun MediaTypeSelector(selectedKey: String, onClick: (String) -> Unit) {
 fun MediaTypeButton(
     mediaType: MediaType,
     selectedKey: String,
-    onClick: (String) -> Unit
+    onClick: (MediaType) -> Unit
 ) {
     val isActivated = selectedKey == mediaType.key
     val color = if (isActivated) AccentColor else Gray
@@ -679,7 +679,7 @@ fun MediaTypeButton(
 
     OutlinedButton(
         onClick = {
-            onClick.invoke(mediaType.key)
+            onClick.invoke(mediaType)
             focusManager.clearFocus()
         },
         shape = RoundedCornerShape(percent = 100),
