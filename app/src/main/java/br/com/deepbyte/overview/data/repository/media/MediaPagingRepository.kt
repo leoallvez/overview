@@ -25,20 +25,21 @@ class MediaPagingRepository @Inject constructor(
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
 ) : IMediaPagingRepository {
 
-    override fun getMediasPaging(mediaType: MediaType, streamingsIds: List<Long>) = createPaging(
-        onRequest = { page: Int ->
-            if (page > 0) {
-                val result = when (mediaType) {
-                    MOVIE -> getMovies(page, streamingsIds)
-                    TV_SHOW -> getTVShows(page, streamingsIds)
-                    ALL -> mergeMedias(page, streamingsIds)
+    override fun getMediasPaging(mediaType: MediaType, streamingsIds: List<Long>) =
+        createPaging(
+            onRequest = { page: Int ->
+                if (page > 0) {
+                    val result = when (mediaType) {
+                        MOVIE -> getMovies(page, streamingsIds)
+                        TV_SHOW -> getTVShows(page, streamingsIds)
+                        ALL -> mergeMedias(page, streamingsIds)
+                    }
+                    DataResult.Success(data = PagingResponse(page, result))
+                } else {
+                    DataResult.UnknownError()
                 }
-                DataResult.Success(data = PagingResponse(page, result))
-            } else {
-                DataResult.UnknownError()
             }
-        }
-    )
+        )
 
     private suspend fun mergeMedias(page: Int, streamingsIds: List<Long>): List<Media> {
         val movies = getMovies(page, streamingsIds)
