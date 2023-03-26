@@ -37,6 +37,12 @@ class StorageModule {
     fun provideStreamingDao(db: AppDatabase) = db.streamingDao()
 
     @Provides
+    fun provideGenreTypeDao(db: AppDatabase) = db.genreTypeDao()
+
+    @Provides
+    fun provideGenre(db: AppDatabase) = db.genreDao()
+
+    @Provides
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.dataStore
