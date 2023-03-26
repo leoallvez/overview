@@ -16,7 +16,7 @@ import br.com.deepbyte.overview.data.model.provider.Streaming
         Streaming::class,
         GenreType::class,
         MediaItem::class,
-        Suggestion::class,
+        Suggestion::class
     ],
     version = 3,
     exportSchema = true,

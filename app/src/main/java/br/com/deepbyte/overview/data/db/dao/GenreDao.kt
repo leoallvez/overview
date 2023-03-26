@@ -8,7 +8,7 @@ import br.com.deepbyte.overview.data.model.media.Genre
 @Dao
 interface GenreDao {
     @Insert
-    fun insert(genre: Genre)
+    fun insert(vararg genre: Genre)
 
     @Query("SELECT * FROM genres")
     fun getAll(): List<Genre>

@@ -1,0 +1,15 @@
+package br.com.deepbyte.overview.data.source.genre
+
+import br.com.deepbyte.overview.data.db.dao.GenreDao
+import br.com.deepbyte.overview.data.model.media.Genre
+import javax.inject.Inject
+
+class GenreLocalDataSource @Inject constructor(
+    private val _dao: GenreDao
+) {
+    fun insert(vararg genre: Genre) = _dao.insert(*genre)
+
+    fun isEmpty(): Boolean = _dao.getAll().isEmpty()
+
+    fun getAll(): List<Genre> = _dao.getAll()
+}
