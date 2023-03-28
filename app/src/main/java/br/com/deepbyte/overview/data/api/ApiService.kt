@@ -91,7 +91,7 @@ interface ApiService {
     @GET(value = "{media_type}/{api_id}/watch/providers")
     suspend fun getProviders(
         @Path(value = "media_type", encoded = true)
-        type: String,
+        mediaType: String,
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
@@ -160,4 +160,17 @@ interface ApiService {
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<PagingResponse<Movie>, ErrorResponse>
+
+    // Genre
+    @GET(value = "genre/{media_type}/list")
+    suspend fun getGenreByMediaType(
+        @Path(value = "media_type", encoded = true)
+        mediaType: String,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = ""
+    ): NetworkResponse<GenreListResponse, ErrorResponse>
 }

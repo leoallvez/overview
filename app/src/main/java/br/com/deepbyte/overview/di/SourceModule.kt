@@ -2,6 +2,8 @@ package br.com.deepbyte.overview.di
 
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
+import br.com.deepbyte.overview.data.source.genre.GenreRemoteDataSource
+import br.com.deepbyte.overview.data.source.genre.IGenreRemoteDataSource
 import br.com.deepbyte.overview.data.source.media.*
 import br.com.deepbyte.overview.data.source.media.remote.*
 import br.com.deepbyte.overview.data.source.media.v1.MediaRemoteDataSource
@@ -43,4 +45,9 @@ abstract class SourceModule {
     abstract fun bindStreamingRemoteDataSource(
         source: StreamingRemoteDataSource
     ): IStreamingRemoteDataSource
+
+    @Binds
+    abstract fun bindGenreDataSource(
+        source: GenreRemoteDataSource
+    ): IGenreRemoteDataSource
 }

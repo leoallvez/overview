@@ -31,7 +31,7 @@ class StreamingRemoteDataSource @Inject constructor(
         }
 
     private suspend fun getProviders(apiId: Long, type: String) = _locale.run {
-        _api.getProviders(id = apiId, type = type, language = language, region = region)
+        _api.getProviders(id = apiId, mediaType = type, language = language, region = region)
     }
 
     private fun mapToStreaming(
