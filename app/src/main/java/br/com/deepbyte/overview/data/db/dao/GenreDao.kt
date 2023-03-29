@@ -20,9 +20,6 @@ interface GenreDao {
                 ids.add(id)
             }
         }
-        ids.forEach {
-
-        }
     }
 
     @Insert
