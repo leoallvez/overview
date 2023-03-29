@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.GenreType
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
 import br.com.deepbyte.overview.util.IJsonFileReader
@@ -28,6 +29,8 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
             _genreRepository.insertGenreType(*genreType.toTypedArray())
         }
 
+        _genreRepository.cacheGenre(MediaType.TV_SHOW)
+
         return Result.success()
     }
 
@@ -40,3 +43,10 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
         const val GENRE_TYPE_FILE_NAME = "genre_type.json"
     }
 }
+
+/**
+  1 - Verifica se o genero não existe na base.
+    a) Se não existe, salva o genero e relação.
+    b) Se sim salva apenas a relação
+
+ */

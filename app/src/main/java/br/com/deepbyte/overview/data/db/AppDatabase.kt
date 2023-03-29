@@ -8,6 +8,7 @@ import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.GenreType
+import br.com.deepbyte.overview.data.model.media.GenreTypeCrossRef
 import br.com.deepbyte.overview.data.model.provider.Streaming
 
 @Database(
@@ -16,13 +17,15 @@ import br.com.deepbyte.overview.data.model.provider.Streaming
         Streaming::class,
         GenreType::class,
         MediaItem::class,
-        Suggestion::class
+        Suggestion::class,
+        GenreTypeCrossRef::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
-        AutoMigration(from = 2, to = 3)
+        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 3, to = 4)
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
