@@ -5,28 +5,36 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreTypeCrossRef
+import br.com.deepbyte.overview.data.model.media.GenreTypeWithGenres
 
 @Dao
 interface GenreDao {
 
     @Transaction
-    fun save(vararg genres: Genre, genreTypeId: Long) {
-        val genresDb = getAll()
-        val ids = mutableListOf<Long>()
-        genres.forEach { genreApi: Genre ->
-            val genreDb = genresDb.find { it.apiId == genreApi.apiId }
-            genreDb?.let {
-                val id = insert(genreApi)
-                ids.add(id)
+    fun saveGenres(models: List<Genre>, genreType: String) {
+        val cached = getGenreTypeWithGenres(genreType)
+        models.forEach { genreApi: Genre ->
+            val genreCache = cached.genres.find { it.apiId == genreApi.apiId }
+            if (genreCache == null) {
+                val genreId = insert(genreApi)
+                val genreTypeCross = GenreTypeCrossRef(cached.genreType.dbId, genreId)
+                saveGenreTypeCross(genreTypeCross)
             }
         }
     }
 
-    @Insert
-    fun insert(vararg genre: Genre)
+    @Query("SELECT * FROM genre_types WHERE key = :genreType")
+    fun getGenreTypeWithGenres(genreType: String): GenreTypeWithGenres
 
     @Insert
-    fun insert(genreApi: Genre): Long
+    fun saveGenreTypeCross(model: GenreTypeCrossRef)
+
+    @Insert
+    fun insert(vararg model: Genre)
+
+    @Insert
+    fun insert(model: Genre): Long
 
     @Query("SELECT * FROM genres")
     fun getAll(): List<Genre>

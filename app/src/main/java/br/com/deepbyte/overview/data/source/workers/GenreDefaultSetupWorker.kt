@@ -12,24 +12,23 @@ import br.com.deepbyte.overview.util.parseToList
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-// https://developer.android.com/training/data-storage/room/relationships?hl=pt-br
 @HiltWorker
 class GenreDefaultSetupWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val _jsonFileReader: IJsonFileReader,
-    private val _genreRepository: IGenreRepository
+    private val _repository: IGenreRepository
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val genreTypeIsEmpty = _genreRepository.localGenreTypeIsEmpty()
+        val genreTypeIsEmpty = _repository.localGenreTypeIsEmpty()
 
         if (genreTypeIsEmpty) {
             val genreType = getGenreTypeInDefault()
-            _genreRepository.insertGenreType(*genreType.toTypedArray())
+            _repository.insertGenreType(genreType)
         }
-
-        _genreRepository.cacheGenre(MediaType.TV_SHOW)
+        _repository.cacheGenre(MediaType.TV_SHOW)
+        _repository.cacheGenre(MediaType.MOVIE)
 
         return Result.success()
     }
@@ -43,10 +42,3 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
         const val GENRE_TYPE_FILE_NAME = "genre_type.json"
     }
 }
-
-/**
-  1 - Verifica se o genero não existe na base.
-    a) Se não existe, salva o genero e relação.
-    b) Se sim salva apenas a relação
-
- */

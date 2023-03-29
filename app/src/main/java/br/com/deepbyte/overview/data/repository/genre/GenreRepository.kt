@@ -19,15 +19,15 @@ class GenreRepository @Inject constructor(
 ) : IGenreRepository {
     override suspend fun cacheGenre(mediaType: MediaType) {
         val genres = requestGenre(mediaType)
-        _genreLocalSource.insert(*genres.toTypedArray())
+        _genreLocalSource.save(genres, mediaType.key)
     }
 
     override suspend fun localGenreTypeIsEmpty(): Boolean {
         return _genreTypeLocalSource.isEmpty()
     }
 
-    override suspend fun insertGenreType(vararg genreType: GenreType) {
-        _genreTypeLocalSource.insert(*genreType)
+    override suspend fun insertGenreType(genreType: List<GenreType>) {
+        _genreTypeLocalSource.insert(genreType)
     }
 
     private suspend fun requestGenre(type: MediaType): List<Genre> {

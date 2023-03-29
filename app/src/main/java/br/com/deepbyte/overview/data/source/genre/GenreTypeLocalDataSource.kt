@@ -8,7 +8,7 @@ class GenreTypeLocalDataSource @Inject constructor(
     private val _dao: GenreTypeDao
 ) {
 
-    fun insert(vararg genreType: GenreType) = _dao.insert(*genreType)
+    fun insert(genreType: List<GenreType>) = _dao.insert(genreType)
 
     fun isEmpty(): Boolean = _dao.getAll().isEmpty()
 

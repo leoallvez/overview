@@ -4,7 +4,7 @@ import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.model.media.GenreType
 
 interface IGenreRepository {
-    suspend fun cacheGenre(mediaType: MediaType)
     suspend fun localGenreTypeIsEmpty(): Boolean
-    suspend fun insertGenreType(vararg genreType: GenreType)
+    suspend fun insertGenreType(genreType: List<GenreType>)
+    suspend fun cacheGenre(mediaType: MediaType)
 }
