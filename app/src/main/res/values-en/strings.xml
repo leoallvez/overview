@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name_prod">Overview</string>
-    <!-- Dynamic -->
+    <!-- Home list title -->
     <string tools:ignore="UnusedResources" name="movie_top_rated">Top rated movies</string>
     <string tools:ignore="UnusedResources" name="discover_movie">Movies you can enjoy</string>
     <string tools:ignore="UnusedResources" name="movie_trending">Trending movies</string>
     <string tools:ignore="UnusedResources" name="movie_popular">Popular movies</string>
-
     <string tools:ignore="UnusedResources" name="tv_top_rated">Top rated on streaming</string>
     <string tools:ignore="UnusedResources" name="discover_tv">You can enjoy it on streaming</string>
     <string tools:ignore="UnusedResources" name="tv_trending">Streaming trends</string>
     <string tools:ignore="UnusedResources" name="tv_popular">Popular on streaming</string>
-    <!-- Dynamic -->
+    <!-- Genre -->
+    <string tools:ignore="UnusedResources" name="genre_10759"/>
+    <string tools:ignore="UnusedResources" name="genre_10762"/>
+    <string tools:ignore="UnusedResources" name="genre_10763"/>
+    <string tools:ignore="UnusedResources" name="genre_10764"/>
+    <string tools:ignore="UnusedResources" name="genre_10765"/>
+    <string tools:ignore="UnusedResources" name="genre_10766"/>
+    <string tools:ignore="UnusedResources" name="genre_10767"/>
+    <string tools:ignore="UnusedResources" name="genre_10768"/>
+
     <string name="error_on_loading">Error loading :(</string>
     <string name="btn_try_again">Try again</string>
     <string name="refresh_icon">Reload icon</string>
@@ -54,14 +62,4 @@
     <string name="edit">Edit</string>
     <string name="yours_streaming">Yours streaming</string>
     <string name="search_on_streaming">Search on s%</string>
-    <!-- Genre -->
-    <string name="genre_10759"/>
-    <string name="genre_10762"/>
-    <string name="genre_10763"/>
-    <string name="genre_10764"/>
-    <string name="genre_10765"/>
-    <string name="genre_10766"/>
-    <string name="genre_10767"/>
-    <string name="genre_10768"/>
-    <!-- Genre -->
 </resources>

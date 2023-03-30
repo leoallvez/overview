@@ -1,6 +1,7 @@
 package br.com.deepbyte.overview.util
 
 import android.content.Context
+import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
 import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.model.MediaItem
@@ -38,10 +39,14 @@ inline fun <reified T> String.parseToList(): List<T> = try {
 }
 
 // TODO: Finish unit tests for another functions
-fun Context.getStringByName(resource: String): String {
-    val resourceId = this.resources
-        .getIdentifier(resource, "string", this.packageName)
-    return this.getString(resourceId)
+fun Context.getStringByName(resource: String): String? {
+    return try {
+        val resourceId = this.resources
+            .getIdentifier(resource, "string", this.packageName)
+        return this.getString(resourceId)
+    } catch (e: NotFoundException) {
+        null
+    }
 }
 
 fun Map.Entry<Suggestion, List<MediaItem>>.toMediaSuggestion(): MediaSuggestion {

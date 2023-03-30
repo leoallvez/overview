@@ -199,7 +199,7 @@ fun HomeLists(
         items(suggestions) {
             val title = LocalContext.current.getStringByName(it.titleResourceId)
             MediaItemList(
-                listTitle = title,
+                listTitle = title ?: "",
                 items = it.items,
                 mediaType = it.type
             ) { apiId, mediaType ->
