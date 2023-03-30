@@ -7,31 +7,29 @@ import br.com.deepbyte.overview.data.db.dao.*
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.model.media.Genre
-import br.com.deepbyte.overview.data.model.media.GenreType
-import br.com.deepbyte.overview.data.model.media.GenreTypeCrossRef
+import br.com.deepbyte.overview.data.model.media.MediaType
+import br.com.deepbyte.overview.data.model.media.MediaTypeGenresCrossRef
 import br.com.deepbyte.overview.data.model.provider.Streaming
 
 @Database(
     entities = [
         Genre::class,
         Streaming::class,
-        GenreType::class,
+        MediaType::class,
         MediaItem::class,
         Suggestion::class,
-        GenreTypeCrossRef::class
+        MediaTypeGenresCrossRef::class
     ],
-    version = 4,
+    version = 2,
     exportSchema = true,
     autoMigrations = [
-        AutoMigration(from = 1, to = 2),
-        AutoMigration(from = 2, to = 3),
-        AutoMigration(from = 3, to = 4)
+        AutoMigration(from = 1, to = 2)
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaItemDao(): MediaItemDao
     abstract fun suggestionDao(): SuggestionDao
     abstract fun streamingDao(): StreamingDao
-    abstract fun genreTypeDao(): GenreTypeDao
+    abstract fun mediaTypeDao(): MediaTypeDao
     abstract fun genreDao(): GenreDao
 }

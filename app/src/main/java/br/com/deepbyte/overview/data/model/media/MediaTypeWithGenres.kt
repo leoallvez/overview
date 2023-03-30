@@ -4,12 +4,12 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
-data class GenreTypeWithGenres(
-    @Embedded val genreType: GenreType,
+data class MediaTypeWithGenres(
+    @Embedded val mediaType: MediaType,
     @Relation(
-        parentColumn = "genre_type_db_id",
+        parentColumn = "media_type_db_id",
         entityColumn = "genre_db_id",
-        associateBy = Junction(GenreTypeCrossRef::class)
+        associateBy = Junction(MediaTypeGenresCrossRef::class)
     )
     val genres: List<Genre>
 )

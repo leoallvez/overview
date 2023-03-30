@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository.search
 
-import br.com.deepbyte.overview.data.MediaType.*
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.*
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow

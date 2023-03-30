@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.MediaType.*
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.*
 import br.com.deepbyte.overview.data.api.response.PagingResponse
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
@@ -25,7 +25,7 @@ class MediaPagingRepository @Inject constructor(
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
 ) : IMediaPagingRepository {
 
-    override fun getMediasPaging(mediaType: MediaType, streamingsIds: List<Long>) =
+    override fun getMediasPaging(mediaType: MediaTypeEnum, streamingsIds: List<Long>) =
         createPaging(
             onRequest = { page: Int ->
                 if (page > 0) {

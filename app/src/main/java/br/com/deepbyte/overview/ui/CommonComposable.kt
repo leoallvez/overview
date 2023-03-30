@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
@@ -658,9 +658,9 @@ fun StreamingIcon(
 }
 
 @Composable
-fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
+fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-        val options = MediaType.getAllOrdered()
+        val options = MediaTypeEnum.getAllOrdered()
         options.forEach { mediaType ->
             MediaTypeButton(mediaType, selectedKey, onClick)
         }
@@ -669,9 +669,9 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
 
 @Composable
 fun MediaTypeButton(
-    mediaType: MediaType,
+    mediaType: MediaTypeEnum,
     selectedKey: String,
-    onClick: (MediaType) -> Unit
+    onClick: (MediaTypeEnum) -> Unit
 ) {
     val isActivated = selectedKey == mediaType.key
     val color = if (isActivated) AccentColor else Gray

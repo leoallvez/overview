@@ -37,7 +37,7 @@ class StorageModule {
     fun provideStreamingDao(db: AppDatabase) = db.streamingDao()
 
     @Provides
-    fun provideGenreTypeDao(db: AppDatabase) = db.genreTypeDao()
+    fun provideMediaTypeDao(db: AppDatabase) = db.mediaTypeDao()
 
     @Provides
     fun provideGenre(db: AppDatabase) = db.genreDao()

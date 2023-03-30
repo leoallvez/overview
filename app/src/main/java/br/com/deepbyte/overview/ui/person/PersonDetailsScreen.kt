@@ -21,9 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.MediaType.MOVIE
-import br.com.deepbyte.overview.data.MediaType.TV_SHOW
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.MOVIE
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.TV_SHOW
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.ui.*
@@ -200,7 +200,7 @@ fun PersonSpace() {
 fun ParticipationList(
     @StringRes listTitleRes: Int,
     mediaItems: List<MediaItem>,
-    mediaType: MediaType,
+    mediaType: MediaTypeEnum,
     onClickItem: MediaItemClick
 ) {
     MediaItemList(

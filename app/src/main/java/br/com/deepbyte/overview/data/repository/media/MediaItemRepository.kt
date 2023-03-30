@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository.media
 
-import br.com.deepbyte.overview.data.MediaType
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
@@ -22,15 +22,15 @@ class MediaItemRepository @Inject constructor(
     private val _streamingSource: IStreamingRemoteDataSource
 ) : IMediaItemRepository {
 
-    override suspend fun getItem(apiId: Long, type: MediaType) = withContext(_dispatcher) {
+    override suspend fun getItem(apiId: Long, type: MediaTypeEnum) = withContext(_dispatcher) {
         val result = getMedia(apiId, type)
         setStreamings(result)
         flow { emit(result) }
     }
 
-    private suspend fun getMedia(apiId: Long, type: MediaType) = when (type) {
-        MediaType.MOVIE -> _movieSource.find(apiId)
-        MediaType.TV_SHOW -> _tvShowSource.find(apiId)
+    private suspend fun getMedia(apiId: Long, type: MediaTypeEnum) = when (type) {
+        MediaTypeEnum.MOVIE -> _movieSource.find(apiId)
+        MediaTypeEnum.TV_SHOW -> _tvShowSource.find(apiId)
         else -> throw IllegalArgumentException("Unsupported media type")
     }
 

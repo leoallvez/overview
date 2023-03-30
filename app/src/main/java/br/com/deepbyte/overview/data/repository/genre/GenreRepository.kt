@@ -1,13 +1,13 @@
 package br.com.deepbyte.overview.data.repository.genre
 
-import br.com.deepbyte.overview.data.MediaType
 import br.com.deepbyte.overview.data.api.response.GenreListResponse
 import br.com.deepbyte.overview.data.model.media.Genre
-import br.com.deepbyte.overview.data.model.media.GenreType
+import br.com.deepbyte.overview.data.model.media.MediaType
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.genre.GenreLocalDataSource
-import br.com.deepbyte.overview.data.source.genre.GenreTypeLocalDataSource
 import br.com.deepbyte.overview.data.source.genre.IGenreRemoteDataSource
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.source.media.local.MediaTypeLocalDataSource
 import javax.inject.Inject
 
 private typealias GenreListResult = DataResult<GenreListResponse>
@@ -15,22 +15,23 @@ private typealias GenreListResult = DataResult<GenreListResponse>
 class GenreRepository @Inject constructor(
     private val _genreLocalSource: GenreLocalDataSource,
     private val _genreRemoteSource: IGenreRemoteDataSource,
-    private val _genreTypeLocalSource: GenreTypeLocalDataSource
+    private val _mediaTypeLocalSource: MediaTypeLocalDataSource
 ) : IGenreRepository {
-    override suspend fun cacheGenre(mediaType: MediaType) {
-        val genres = requestGenre(mediaType)
-        _genreLocalSource.save(genres, mediaType.key)
+
+    override suspend fun cacheGenreWithType(type: MediaTypeEnum) {
+        val genres = requestGenre(type)
+        _genreLocalSource.save(genres, type.key)
     }
 
-    override suspend fun localGenreTypeIsEmpty(): Boolean {
-        return _genreTypeLocalSource.isEmpty()
+    override suspend fun mediaTypeNotCached(): Boolean {
+        return _mediaTypeLocalSource.isEmpty()
     }
 
-    override suspend fun insertGenreType(genreType: List<GenreType>) {
-        _genreTypeLocalSource.insert(genreType)
+    override suspend fun insertMediaTypes(mediaTypes: List<MediaType>) {
+        _mediaTypeLocalSource.insert(mediaTypes)
     }
 
-    private suspend fun requestGenre(type: MediaType): List<Genre> {
+    private suspend fun requestGenre(type: MediaTypeEnum): List<Genre> {
         val result = _genreRemoteSource.getItemByMediaType(type)
         return getGenreList(result)
     }

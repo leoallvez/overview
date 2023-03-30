@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.model.media.GenreType
+import br.com.deepbyte.overview.data.model.media.MediaType
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.util.IJsonFileReader
 import br.com.deepbyte.overview.util.parseToList
 import dagger.assisted.Assisted
@@ -20,20 +20,18 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
     private val _repository: IGenreRepository
 ) : CoroutineWorker(context, params) {
 
-    override suspend fun doWork(): Result {
-        val genreTypeIsEmpty = _repository.localGenreTypeIsEmpty()
-
-        if (genreTypeIsEmpty) {
-            val genreType = getGenreTypeInDefault()
-            _repository.insertGenreType(genreType)
+    override suspend fun doWork(): Result = with(_repository) {
+        val notCached = mediaTypeNotCached()
+        if (notCached) {
+            val mediaType = getMediaTypeInDefault()
+            insertMediaTypes(mediaType)
         }
-        _repository.cacheGenre(MediaType.TV_SHOW)
-        _repository.cacheGenre(MediaType.MOVIE)
-
-        return Result.success()
+        cacheGenreWithType(MediaTypeEnum.TV_SHOW)
+        cacheGenreWithType(MediaTypeEnum.MOVIE)
+        Result.success()
     }
 
-    private fun getGenreTypeInDefault(): List<GenreType> {
+    private fun getMediaTypeInDefault(): List<MediaType> {
         val json = _jsonFileReader.read(GENRE_TYPE_FILE_NAME)
         return json.parseToList()
     }

@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.ui.media
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.MediaType
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaItemRepository
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.di.ShowAds
@@ -25,14 +25,14 @@ class MediaDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<MediaUiState>(UiState.Loading())
     val uiState: StateFlow<MediaUiState> = _uiState
 
-    fun loadMediaDetails(apiId: Long, type: MediaType) = viewModelScope.launch {
+    fun loadMediaDetails(apiId: Long, type: MediaTypeEnum) = viewModelScope.launch {
         _repository.getItem(apiId, type).collect { result ->
             val isSuccess = result is DataResult.Success
             _uiState.value = if (isSuccess) UiState.Success(result.data) else UiState.Error()
         }
     }
 
-    fun refresh(apiId: Long, type: MediaType) {
+    fun refresh(apiId: Long, type: MediaTypeEnum) {
         _uiState.value = UiState.Loading()
         loadMediaDetails(apiId, type)
     }

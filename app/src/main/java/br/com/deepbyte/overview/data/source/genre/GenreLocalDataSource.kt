@@ -13,6 +13,6 @@ class GenreLocalDataSource @Inject constructor(
 
     fun getAll(): List<Genre> = _dao.getAll()
 
-    fun save(models: List<Genre>, genreType: String) =
-        _dao.saveGenres(models, genreType)
+    fun save(models: List<Genre>, mediaType: String) =
+        _dao.saveGenres(models, mediaType)
 }

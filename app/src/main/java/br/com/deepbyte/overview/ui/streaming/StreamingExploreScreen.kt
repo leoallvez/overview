@@ -21,7 +21,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.*
@@ -38,17 +38,17 @@ fun StreamingExploreScreen(
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    val loadMediaData = { mediaType: MediaType ->
+    val loadMediaData = { mediaType: MediaTypeEnum ->
         viewModel.getMediasPaging(mediaType, streaming.apiId)
     }
-    var mediaTypeSelected by remember { mutableStateOf(MediaType.ALL.key) }
-    var items by remember { mutableStateOf(value = loadMediaData(MediaType.ALL)) }
+    var mediaTypeSelected by remember { mutableStateOf(MediaTypeEnum.ALL.key) }
+    var items by remember { mutableStateOf(value = loadMediaData(MediaTypeEnum.ALL)) }
 
     MediaExploreContent(
         events = events,
         streaming = streaming,
         showAds = viewModel.showAds,
-        onRefresh = { items = loadMediaData(MediaType.ALL) },
+        onRefresh = { items = loadMediaData(MediaTypeEnum.ALL) },
         mediaTypeSelected = mediaTypeSelected,
         pagingItems = items.collectAsLazyPagingItems(),
         onSelectMediaType = { mediaType ->
@@ -66,7 +66,7 @@ fun MediaExploreContent(
     events: BasicsMediaEvents,
     pagingItems: LazyPagingItems<Media>,
     mediaTypeSelected: String,
-    onSelectMediaType: (mediaType: MediaType) -> Unit
+    onSelectMediaType: (mediaType: MediaTypeEnum) -> Unit
 ) {
     when (pagingItems.loadState.refresh) {
         is LoadState.Loading -> LoadingScreen()
