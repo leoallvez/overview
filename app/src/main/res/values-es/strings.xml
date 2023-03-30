@@ -54,4 +54,14 @@
     <string name="edit">Editar</string>
     <string name="yours_streaming">Tus streaming</string>
     <string name="search_on_streaming">Buscando en s%</string>
+    <!-- Genre -->
+    <string name="genre_10759">Acción y Aventura</string>
+    <string name="genre_10762">Niños</string>
+    <string name="genre_10763">Noticias</string>
+    <string name="genre_10764">Realidad</string>
+    <string name="genre_10765">Ciencia Ficción y Fantasía</string>
+    <string name="genre_10766">Ficción Cómica</string>
+    <string name="genre_10767">Talk</string>
+    <string name="genre_10768">War And Politics</string>
+    <!-- Genre -->
 </resources>

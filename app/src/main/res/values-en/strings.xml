@@ -54,4 +54,14 @@
     <string name="edit">Edit</string>
     <string name="yours_streaming">Yours streaming</string>
     <string name="search_on_streaming">Search on s%</string>
+    <!-- Genre -->
+    <string name="genre_10759"/>
+    <string name="genre_10762"/>
+    <string name="genre_10763"/>
+    <string name="genre_10764"/>
+    <string name="genre_10765"/>
+    <string name="genre_10766"/>
+    <string name="genre_10767"/>
+    <string name="genre_10768"/>
+    <!-- Genre -->
 </resources>
