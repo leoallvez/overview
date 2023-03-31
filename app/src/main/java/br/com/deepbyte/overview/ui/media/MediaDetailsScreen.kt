@@ -17,7 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,7 +38,6 @@ import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.defaultBorder
 import br.com.deepbyte.overview.util.defaultPadding
-import br.com.deepbyte.overview.util.getStringByName
 import br.com.deepbyte.overview.util.toJson
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -286,8 +284,8 @@ fun GenreList(genres: List<Genre>) {
             )
         ) {
             items(genres) { genre ->
-                val name = LocalContext.current.getStringByName("genre_${genre.apiId}")
-                GenreItem(name = name ?: genre.name)
+                val translatedName = getGenreTranslation.invoke(genre.apiId)
+                GenreItem(name = translatedName ?: genre.name)
             }
         }
     }

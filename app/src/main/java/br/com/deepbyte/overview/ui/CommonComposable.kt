@@ -46,11 +46,11 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
@@ -58,9 +58,15 @@ import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
+import br.com.deepbyte.overview.util.getStringByName
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
+
+val getGenreTranslation = @Composable { apiId: Long ->
+    val current = LocalContext.current
+    current.getStringByName(resource = "genre_$apiId")
+}
 
 @Composable
 fun BasicTitle(title: String) {
