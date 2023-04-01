@@ -70,10 +70,10 @@ fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
     Box(
         modifier = Modifier
             .scale(scale.value)
-            .size(350.dp),
+            .size(575.dp),
         contentAlignment = Alignment.Center
     ) {
-        Canvas(modifier = Modifier.size(375.dp), onDraw)
+        Canvas(modifier = Modifier.size(575.dp), onDraw)
         Canvas(modifier = Modifier.size(275.dp), onDraw = {
             drawCircle(color = Color.Black)
         })
