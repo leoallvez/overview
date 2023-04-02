@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import br.com.deepbyte.overview.data.model.media.MediaType
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
+import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.util.IJsonFileReader
 import br.com.deepbyte.overview.util.parseToList
@@ -17,18 +18,19 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val _jsonFileReader: IJsonFileReader,
-    private val _repository: IGenreRepository
+    private val _genreRepository: IGenreRepository,
+    private val _mediaTypeRepository: IMediaTypeRepository
 ) : CoroutineWorker(context, params) {
 
-    override suspend fun doWork(): Result = with(_repository) {
-        val notCached = mediaTypeNotCached()
+    override suspend fun doWork(): Result {
+        val notCached = _mediaTypeRepository.notCached()
         if (notCached) {
             val mediaType = getMediaTypeInDefault()
-            insertMediaTypes(mediaType)
+            _mediaTypeRepository.insert(mediaType)
         }
-        cacheGenreWithType(MediaTypeEnum.TV_SHOW)
-        cacheGenreWithType(MediaTypeEnum.MOVIE)
-        Result.success()
+        _genreRepository.cacheWithType(MediaTypeEnum.TV_SHOW)
+        _genreRepository.cacheWithType(MediaTypeEnum.MOVIE)
+        return Result.success()
     }
 
     private fun getMediaTypeInDefault(): List<MediaType> {
