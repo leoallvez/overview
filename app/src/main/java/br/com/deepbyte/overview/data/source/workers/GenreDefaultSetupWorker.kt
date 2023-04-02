@@ -23,14 +23,22 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val notCached = _mediaTypeRepository.notCached()
-        if (notCached) {
-            val mediaType = getMediaTypeInDefault()
-            _mediaTypeRepository.insert(mediaType)
+        val mediaTypeNotCached = _mediaTypeRepository.notCached()
+        if (mediaTypeNotCached) {
+            cacheMediaType()
         }
+        cacheGenre()
+        return Result.success()
+    }
+
+    private suspend fun cacheMediaType() {
+        val mediaType = getMediaTypeInDefault()
+        _mediaTypeRepository.insert(mediaType)
+    }
+
+    private suspend fun cacheGenre() {
         _genreRepository.cacheWithType(MediaTypeEnum.TV_SHOW)
         _genreRepository.cacheWithType(MediaTypeEnum.MOVIE)
-        return Result.success()
     }
 
     private fun getMediaTypeInDefault(): List<MediaType> {
