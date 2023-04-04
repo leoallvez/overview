@@ -62,4 +62,5 @@
     <string name="edit">Edit</string>
     <string name="yours_streaming">Yours streaming</string>
     <string name="search_on_streaming">Search on s%</string>
+    <string name="genres">Genres</string>
 </resources>

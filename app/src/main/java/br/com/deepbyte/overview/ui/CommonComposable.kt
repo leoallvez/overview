@@ -663,6 +663,7 @@ fun StreamingIcon(
     )
 }
 
+// TODO: remove this when finish StreamingExploreScreen;
 @Composable
 fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
@@ -674,20 +675,61 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
 }
 
 @Composable
+fun MediaFilters(
+    mediaTypeSelected: String,
+    onSelectMediaType: (MediaTypeEnum) -> Unit
+) {
+    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+        val options = MediaTypeEnum.getAllOrdered()
+        options.forEach { mediaType ->
+            MediaTypeButton(mediaType, mediaTypeSelected, onSelectMediaType)
+        }
+        GenreButton(isActivated = true) { }
+    }
+}
+
+@Composable
 fun MediaTypeButton(
     mediaType: MediaTypeEnum,
     selectedKey: String,
     onClick: (MediaTypeEnum) -> Unit
 ) {
     val isActivated = selectedKey == mediaType.key
-    val color = if (isActivated) AccentColor else Gray
     val focusManager = LocalFocusManager.current
 
-    OutlinedButton(
+    FilterButton(
         onClick = {
             onClick.invoke(mediaType)
             focusManager.clearFocus()
         },
+        isActivated = isActivated,
+        buttonTextRes = mediaType.labelRes,
+        color = if (isActivated) AccentColor else Gray
+    )
+}
+
+@Composable
+fun GenreButton(
+    isActivated: Boolean = false,
+    onClick: () -> Unit
+) {
+    FilterButton(
+        onClick = { onClick.invoke() },
+        isActivated = isActivated,
+        buttonTextRes = R.string.genres,
+        color = if (isActivated) AccentColor else Gray
+    )
+}
+
+@Composable
+fun FilterButton(
+    onClick: () -> Unit,
+    color: Color = Gray,
+    isActivated: Boolean = false,
+    @StringRes buttonTextRes: Int
+) {
+    OutlinedButton(
+        onClick = { onClick.invoke() },
         shape = RoundedCornerShape(percent = 100),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
@@ -701,7 +743,7 @@ fun MediaTypeButton(
         )
     ) {
         Text(
-            text = stringResource(mediaType.labelRes),
+            text = stringResource(buttonTextRes),
             color = color,
             style = MaterialTheme.typography.caption,
             fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal

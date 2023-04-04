@@ -21,9 +21,9 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.search.SearchIcon
@@ -38,69 +38,89 @@ fun StreamingExploreScreen(
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    val loadMediaData = { mediaType: MediaTypeEnum ->
-        viewModel.getMediasPaging(mediaType, streaming.apiId)
+    val loadData = { type: MediaTypeEnum ->
+        viewModel.loadGenresByMediaType(type)
+        viewModel.getMediasPaging(type, streaming.apiId)
     }
     var mediaTypeSelected by remember { mutableStateOf(MediaTypeEnum.ALL.key) }
-    var items by remember { mutableStateOf(value = loadMediaData(MediaTypeEnum.ALL)) }
+    var items by remember { mutableStateOf(value = loadData(MediaTypeEnum.ALL)) }
 
-    MediaExploreContent(
+    StreamingExploreContent(
         events = events,
         streaming = streaming,
         showAds = viewModel.showAds,
-        onRefresh = { items = loadMediaData(MediaTypeEnum.ALL) },
+        onRefresh = { items = loadData(MediaTypeEnum.ALL) },
         mediaTypeSelected = mediaTypeSelected,
-        pagingItems = items.collectAsLazyPagingItems(),
+        pagingMediaItems = items.collectAsLazyPagingItems(),
         onSelectMediaType = { mediaType ->
             mediaTypeSelected = mediaType.key
-            items = loadMediaData(mediaType)
+            items = loadData(mediaType)
         }
     )
 }
 
 @Composable
-fun MediaExploreContent(
+fun StreamingExploreContent(
     showAds: Boolean,
     streaming: Streaming,
     onRefresh: () -> Unit,
     events: BasicsMediaEvents,
-    pagingItems: LazyPagingItems<Media>,
     mediaTypeSelected: String,
+    pagingMediaItems: LazyPagingItems<Media>,
     onSelectMediaType: (mediaType: MediaTypeEnum) -> Unit
 ) {
-    when (pagingItems.loadState.refresh) {
+    when (pagingMediaItems.loadState.refresh) {
         is LoadState.Loading -> LoadingScreen()
         is LoadState.NotLoading -> {
-            Scaffold(
-                modifier = Modifier
-                    .background(PrimaryBackground)
-                    .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
-                topBar = {
-                    StreamingToolBar(
-                        streaming = streaming,
-                        onClickBackIcon = events::onPopBackStack,
-                        onClickSearchIcon = {}
-                    )
-                },
-                bottomBar = {
-                    AdsBanner(R.string.discover_banner, showAds)
-                }
-            ) { padding ->
-                if (pagingItems.itemCount == 0) {
-                    ErrorOnLoading()
-                } else {
-                    Column(Modifier.background(PrimaryBackground)) {
-                        MediaTypeSelector(mediaTypeSelected, onSelectMediaType)
-                        VerticalSpacer(dimensionResource(R.dimen.screen_padding))
-                        MediaPagingVerticalGrid(
-                            padding,
-                            pagingItems,
-                            events::onNavigateToMediaDetails
-                        )
-                    }
-                }
-            }
+            ScreenResult(
+                events = events,
+                showAds = showAds,
+                streaming = streaming,
+                pagingMediaItems = pagingMediaItems,
+                mediaTypeSelected = mediaTypeSelected,
+                onSelectMediaType = onSelectMediaType
+            )
         } else -> ErrorScreen(onRefresh)
+    }
+}
+
+@Composable
+fun ScreenResult(
+    showAds: Boolean,
+    streaming: Streaming,
+    events: BasicsMediaEvents,
+    mediaTypeSelected: String,
+    pagingMediaItems: LazyPagingItems<Media>,
+    onSelectMediaType: (mediaType: MediaTypeEnum) -> Unit
+) {
+    Scaffold(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+        topBar = {
+            StreamingToolBar(
+                streaming = streaming,
+                onClickBackIcon = events::onPopBackStack,
+                onClickSearchIcon = {}
+            )
+        },
+        bottomBar = {
+            AdsBanner(R.string.discover_banner, showAds)
+        }
+    ) { padding ->
+        if (pagingMediaItems.itemCount == 0) {
+            ErrorOnLoading()
+        } else {
+            Column(Modifier.background(PrimaryBackground)) {
+                MediaFilters(mediaTypeSelected, onSelectMediaType)
+                VerticalSpacer(dimensionResource(R.dimen.screen_padding))
+                MediaPagingVerticalGrid(
+                    padding,
+                    pagingMediaItems,
+                    events::onNavigateToMediaDetails
+                )
+            }
+        }
     }
 }
 
