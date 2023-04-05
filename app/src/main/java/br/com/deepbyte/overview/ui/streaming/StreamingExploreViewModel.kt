@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,9 +29,9 @@ class StreamingExploreViewModel @Inject constructor(
     fun getMediasPaging(mediaType: MediaTypeEnum, streamingApiId: Long) =
         _mediaRepository.getMediasPaging(mediaType, listOf(streamingApiId))
 
-    fun loadGenresByMediaType(mediaType: MediaTypeEnum) =
-        viewModelScope.launch(Dispatchers.IO) {
-            _genres.value = _mediaTypeRepository.getItemWithGenres(mediaType)
-            Timber.i("genres size ${_genres.value.size}")
-        }
+    fun loadGenresByMediaType(
+        mediaType: MediaTypeEnum
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        _genres.value = _mediaTypeRepository.getItemWithGenres(mediaType)
+    }
 }

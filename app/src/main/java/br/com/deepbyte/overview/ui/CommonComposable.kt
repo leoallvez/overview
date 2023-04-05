@@ -62,6 +62,7 @@ import br.com.deepbyte.overview.util.getStringByName
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
+import kotlinx.coroutines.Job
 
 val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
@@ -676,15 +677,19 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
 
 @Composable
 fun MediaFilters(
-    mediaTypeSelected: String,
+    onGenreButtonClick: () -> Job,
+    mediaTypeSelected: MediaTypeEnum,
     onSelectMediaType: (MediaTypeEnum) -> Unit
 ) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
         val options = MediaTypeEnum.getAllOrdered()
         options.forEach { mediaType ->
-            MediaTypeButton(mediaType, mediaTypeSelected, onSelectMediaType)
+            MediaTypeButton(mediaType, mediaTypeSelected.key, onSelectMediaType)
         }
-        GenreButton(isActivated = true) { }
+        val showGenreFilter = (mediaTypeSelected == MediaTypeEnum.ALL).not()
+        if (showGenreFilter) {
+            GenreButton(isActivated = true) { onGenreButtonClick.invoke() }
+        }
     }
 }
 
@@ -703,7 +708,7 @@ fun MediaTypeButton(
             focusManager.clearFocus()
         },
         isActivated = isActivated,
-        buttonTextRes = mediaType.labelRes,
+        buttonText = stringResource(mediaType.labelRes),
         color = if (isActivated) AccentColor else Gray
     )
 }
@@ -716,7 +721,7 @@ fun GenreButton(
     FilterButton(
         onClick = { onClick.invoke() },
         isActivated = isActivated,
-        buttonTextRes = R.string.genres,
+        buttonText = stringResource(R.string.genres),
         color = if (isActivated) AccentColor else Gray
     )
 }
@@ -726,7 +731,7 @@ fun FilterButton(
     onClick: () -> Unit,
     color: Color = Gray,
     isActivated: Boolean = false,
-    @StringRes buttonTextRes: Int
+    buttonText: String
 ) {
     OutlinedButton(
         onClick = { onClick.invoke() },
@@ -743,10 +748,11 @@ fun FilterButton(
         )
     ) {
         Text(
-            text = stringResource(buttonTextRes),
+            text = buttonText,
             color = color,
             style = MaterialTheme.typography.caption,
-            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
+            modifier = Modifier.padding(5.dp)
         )
     }
 }
