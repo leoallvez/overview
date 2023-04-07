@@ -63,4 +63,6 @@
     <string name="yours_streaming">Tus streaming</string>
     <string name="search_on_streaming">Buscando en s%</string>
     <string name="genres">Géneros</string>
+    <string name="type">Tipo</string>
+    <string name="filters">Filtros</string>
 </resources>

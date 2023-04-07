@@ -47,6 +47,7 @@ import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.provider.Streaming
@@ -62,9 +63,14 @@ import br.com.deepbyte.overview.util.getStringByName
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
-import kotlinx.coroutines.Job
 
-val getGenreTranslation = @Composable { apiId: Long ->
+@Composable
+fun Genre.nameTranslation(): String {
+    val translationName = getGenreTranslation.invoke(apiId)
+    return if (translationName.isNullOrEmpty()) name else translationName
+}
+
+private val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
     current.getStringByName(resource = "genre_$apiId")
 }
@@ -670,69 +676,41 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
         val options = MediaTypeEnum.getAllOrdered()
         options.forEach { mediaType ->
-            MediaTypeButton(mediaType, selectedKey, onClick)
+            MediaTypeFilterButton(mediaType, selectedKey) {
+                onClick.invoke(mediaType)
+            }
         }
     }
 }
 
 @Composable
-fun MediaFilters(
-    onGenreButtonClick: () -> Job,
-    mediaTypeSelected: MediaTypeEnum,
-    onSelectMediaType: (MediaTypeEnum) -> Unit
-) {
-    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-        val options = MediaTypeEnum.getAllOrdered()
-        options.forEach { mediaType ->
-            MediaTypeButton(mediaType, mediaTypeSelected.key, onSelectMediaType)
-        }
-        val showGenreFilter = (mediaTypeSelected == MediaTypeEnum.ALL).not()
-        if (showGenreFilter) {
-            GenreButton(isActivated = true) { onGenreButtonClick.invoke() }
-        }
-    }
-}
-
-@Composable
-fun MediaTypeButton(
+fun MediaTypeFilterButton(
     mediaType: MediaTypeEnum,
     selectedKey: String,
-    onClick: (MediaTypeEnum) -> Unit
+    onClick: () -> Unit
 ) {
     val isActivated = selectedKey == mediaType.key
     val focusManager = LocalFocusManager.current
 
     FilterButton(
         onClick = {
-            onClick.invoke(mediaType)
+            onClick.invoke()
             focusManager.clearFocus()
         },
         isActivated = isActivated,
-        buttonText = stringResource(mediaType.labelRes),
-        color = if (isActivated) AccentColor else Gray
-    )
-}
-
-@Composable
-fun GenreButton(
-    isActivated: Boolean = false,
-    onClick: () -> Unit
-) {
-    FilterButton(
-        onClick = { onClick.invoke() },
-        isActivated = isActivated,
-        buttonText = stringResource(R.string.genres),
-        color = if (isActivated) AccentColor else Gray
+        backgroundColor = SecondaryBackground,
+        buttonText = stringResource(mediaType.labelRes)
     )
 }
 
 @Composable
 fun FilterButton(
-    onClick: () -> Unit,
-    color: Color = Gray,
+    buttonText: String?,
     isActivated: Boolean = false,
-    buttonText: String
+    backgroundColor: Color = PrimaryBackground,
+    onClick: () -> Unit
 ) {
+    val color = if (isActivated) AccentColor else Gray
     OutlinedButton(
         onClick = { onClick.invoke() },
         shape = RoundedCornerShape(percent = 100),
@@ -744,16 +722,18 @@ fun FilterButton(
             .padding(end = dimensionResource(R.dimen.screen_padding)),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (isActivated) PrimaryBackground else SecondaryBackground
+            backgroundColor = backgroundColor
         )
     ) {
-        Text(
-            text = buttonText,
-            color = color,
-            style = MaterialTheme.typography.caption,
-            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
-            modifier = Modifier.padding(5.dp)
-        )
+        buttonText?.let {
+            Text(
+                text = it,
+                color = color,
+                style = MaterialTheme.typography.caption,
+                fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
+                modifier = Modifier.padding(5.dp)
+            )
+        }
     }
 }
 

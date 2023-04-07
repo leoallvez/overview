@@ -284,8 +284,7 @@ fun GenreList(genres: List<Genre>) {
             )
         ) {
             items(genres) { genre ->
-                val translatedName = getGenreTranslation.invoke(genre.apiId)
-                GenreItem(name = translatedName ?: genre.name)
+                GenreItem(name = genre.nameTranslation())
             }
         }
     }
