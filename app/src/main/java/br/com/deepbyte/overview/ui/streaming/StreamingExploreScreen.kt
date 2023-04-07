@@ -8,10 +8,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -20,6 +22,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.data.model.Filters
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
@@ -28,10 +31,10 @@ import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
-import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,20 +49,22 @@ fun StreamingExploreScreen(
         viewModel.loadGenresByMediaType(type)
         viewModel.getMediasPaging(type, streaming.apiId)
     }
-    var mediaTypeSelected by remember { mutableStateOf(MediaTypeEnum.ALL) }
-    var items by remember { mutableStateOf(value = loadData(MediaTypeEnum.ALL)) }
+
+    var items by remember { mutableStateOf(value = loadData(MediaTypeEnum.MOVIE)) }
+
+    var filters by rememberSaveable { mutableStateOf(Filters()) }
 
     StreamingExploreContent(
         events = events,
+        filters = filters,
         streaming = streaming,
         showAds = viewModel.showAds,
-        mediaTypeSelected = mediaTypeSelected,
         onRefresh = { items = loadData(MediaTypeEnum.ALL) },
         pagingMediaItems = items.collectAsLazyPagingItems(),
         genresItems = viewModel.genres.collectAsState().value,
-        onSelectMediaType = { mediaType ->
-            mediaTypeSelected = mediaType
-            items = loadData(mediaType)
+        inFiltering = { _filters ->
+            filters = _filters
+            items = loadData(filters.mediaType)
         }
     )
 }
@@ -67,13 +72,13 @@ fun StreamingExploreScreen(
 @Composable
 fun StreamingExploreContent(
     showAds: Boolean,
+    filters: Filters,
     streaming: Streaming,
     onRefresh: () -> Unit,
     genresItems: List<Genre>,
     events: BasicsMediaEvents,
-    mediaTypeSelected: MediaTypeEnum,
     pagingMediaItems: LazyPagingItems<Media>,
-    onSelectMediaType: (mediaType: MediaTypeEnum) -> Unit
+    inFiltering: (Filters) -> Unit
 ) {
     when (pagingMediaItems.loadState.refresh) {
         is LoadState.Loading -> LoadingScreen()
@@ -81,11 +86,11 @@ fun StreamingExploreContent(
             ScreenResult(
                 events = events,
                 showAds = showAds,
+                filters = filters,
                 streaming = streaming,
                 genresItems = genresItems,
                 pagingMediaItems = pagingMediaItems,
-                mediaTypeSelected = mediaTypeSelected,
-                onSelectMediaType = onSelectMediaType
+                inFiltering = inFiltering
             )
         } else -> ErrorScreen(onRefresh)
     }
@@ -96,15 +101,15 @@ fun StreamingExploreContent(
 fun ScreenResult(
     showAds: Boolean,
     streaming: Streaming,
+    filters: Filters,
     genresItems: List<Genre>,
     events: BasicsMediaEvents,
-    mediaTypeSelected: MediaTypeEnum,
     pagingMediaItems: LazyPagingItems<Media>,
-    onSelectMediaType: (mediaType: MediaTypeEnum) -> Unit
+    inFiltering: (Filters) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded }
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -114,7 +119,7 @@ fun ScreenResult(
 
     ModalBottomSheetLayout(
         sheetState = sheetState,
-        sheetContent = { SelectGenresBottomSheet(genresItems) },
+        sheetContent = { SelectGenresBottomSheet(filters, genresItems, inFiltering) },
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
@@ -136,7 +141,7 @@ fun ScreenResult(
                 ErrorOnLoading()
             } else {
                 Column(Modifier.background(PrimaryBackground)) {
-                    val onGenreButtonClick = {
+                    FiltersArea(filters, onClick = {
                         coroutineScope.launch {
                             if (sheetState.isVisible) {
                                 sheetState.hide()
@@ -144,8 +149,7 @@ fun ScreenResult(
                                 sheetState.show()
                             }
                         }
-                    }
-                    MediaFilters(onGenreButtonClick, mediaTypeSelected, onSelectMediaType)
+                    })
                     VerticalSpacer(dimensionResource(R.dimen.screen_padding))
                     MediaPagingVerticalGrid(
                         padding,
@@ -155,6 +159,20 @@ fun ScreenResult(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun FiltersArea(
+    filters: Filters,
+    onClick: () -> Job
+) {
+    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+        FilterButton(
+            onClick = { onClick.invoke() },
+            isActivated = filters.genresIsEmpty(),
+            buttonText = stringResource(R.string.genres)
+        )
     }
 }
 
@@ -212,13 +230,30 @@ fun StreamingScreamTitle(streamingName: String) {
 }
 
 @Composable
-fun SelectGenresBottomSheet(genres: List<Genre>) {
+fun SelectGenresBottomSheet(
+    filters: Filters,
+    genres: List<Genre>,
+    inFiltering: (Filters) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.screen_padding))
     ) {
+        val options = MediaTypeEnum.getAllOrdered()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(R.dimen.screen_padding))
+        ) {
+            options.forEach { mediaType ->
+                MediaTypeFilterButton(mediaType, filters.mediaType.key) {
+                    filters.mediaType = mediaType
+                    inFiltering.invoke(filters)
+                }
+            }
+        }
         Text(
             text = "Size ${genres.size}",
             style = MaterialTheme.typography.h6,
@@ -237,9 +272,8 @@ fun SelectGenresBottomSheet(genres: List<Genre>) {
                 val translatedName = getGenreTranslation.invoke(genre.apiId)
                 FilterButton(
                     onClick = {},
-                    isActivated = true,
-                    buttonText = translatedName ?: genre.name,
-                    color = if (false) AccentColor else Gray
+                    isActivated = false,
+                    buttonText = translatedName ?: genre.name
                 )
             }
         }

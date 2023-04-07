@@ -62,7 +62,6 @@ import br.com.deepbyte.overview.util.getStringByName
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
-import kotlinx.coroutines.Job
 
 val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
@@ -670,69 +669,39 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
         val options = MediaTypeEnum.getAllOrdered()
         options.forEach { mediaType ->
-            MediaTypeButton(mediaType, selectedKey, onClick)
+            MediaTypeFilterButton(mediaType, selectedKey) {
+                onClick.invoke(mediaType)
+            }
         }
     }
 }
 
 @Composable
-fun MediaFilters(
-    onGenreButtonClick: () -> Job,
-    mediaTypeSelected: MediaTypeEnum,
-    onSelectMediaType: (MediaTypeEnum) -> Unit
-) {
-    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-        val options = MediaTypeEnum.getAllOrdered()
-        options.forEach { mediaType ->
-            MediaTypeButton(mediaType, mediaTypeSelected.key, onSelectMediaType)
-        }
-        val showGenreFilter = (mediaTypeSelected == MediaTypeEnum.ALL).not()
-        if (showGenreFilter) {
-            GenreButton(isActivated = true) { onGenreButtonClick.invoke() }
-        }
-    }
-}
-
-@Composable
-fun MediaTypeButton(
+fun MediaTypeFilterButton(
     mediaType: MediaTypeEnum,
     selectedKey: String,
-    onClick: (MediaTypeEnum) -> Unit
+    onClick: () -> Unit
 ) {
     val isActivated = selectedKey == mediaType.key
     val focusManager = LocalFocusManager.current
 
     FilterButton(
         onClick = {
-            onClick.invoke(mediaType)
+            onClick.invoke()
             focusManager.clearFocus()
         },
         isActivated = isActivated,
-        buttonText = stringResource(mediaType.labelRes),
-        color = if (isActivated) AccentColor else Gray
-    )
-}
-
-@Composable
-fun GenreButton(
-    isActivated: Boolean = false,
-    onClick: () -> Unit
-) {
-    FilterButton(
-        onClick = { onClick.invoke() },
-        isActivated = isActivated,
-        buttonText = stringResource(R.string.genres),
-        color = if (isActivated) AccentColor else Gray
+        buttonText = stringResource(mediaType.labelRes)
     )
 }
 
 @Composable
 fun FilterButton(
     onClick: () -> Unit,
-    color: Color = Gray,
     isActivated: Boolean = false,
     buttonText: String
 ) {
+    val color = if (isActivated) AccentColor else Gray
     OutlinedButton(
         onClick = { onClick.invoke() },
         shape = RoundedCornerShape(percent = 100),
