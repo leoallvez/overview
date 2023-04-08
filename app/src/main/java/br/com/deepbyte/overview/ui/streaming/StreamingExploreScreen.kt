@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
@@ -50,20 +51,21 @@ fun StreamingExploreScreen(
         viewModel.getMediasPaging(type, streaming.apiId)
     }
 
-    var items by remember { mutableStateOf(value = loadData(MediaTypeEnum.ALL)) }
-
     var filters by rememberSaveable { mutableStateOf(Filters()) }
+    var items by remember { mutableStateOf(value = loadData(filters.mediaType)) }
+    val loadingMediaItems = { items = loadData(filters.mediaType) }
 
     StreamingExploreContent(
         events = events,
         filters = filters,
         streaming = streaming,
         showAds = viewModel.showAds,
+        onRefresh = loadingMediaItems,
         pagingMediaItems = items.collectAsLazyPagingItems(),
         genresItems = viewModel.genres.collectAsState().value,
-        inFiltering = {
-            filters = it
-            items = loadData(it.mediaType)
+        inFiltering = { filtersResult ->
+            filters = filtersResult
+            loadingMediaItems()
         }
     )
 }
@@ -73,6 +75,7 @@ fun StreamingExploreContent(
     showAds: Boolean,
     filters: Filters,
     streaming: Streaming,
+    onRefresh: () -> Unit,
     genresItems: List<Genre>,
     events: BasicsMediaEvents,
     pagingMediaItems: LazyPagingItems<Media>,
@@ -83,9 +86,10 @@ fun StreamingExploreContent(
         showAds = showAds,
         filters = filters,
         streaming = streaming,
+        onRefresh = onRefresh,
+        inFiltering = inFiltering,
         genresItems = genresItems,
-        pagingMediaItems = pagingMediaItems,
-        inFiltering = inFiltering
+        pagingMediaItems = pagingMediaItems
     )
 }
 
@@ -93,8 +97,9 @@ fun StreamingExploreContent(
 @Composable
 fun StreamingExploreBody(
     showAds: Boolean,
-    streaming: Streaming,
     filters: Filters,
+    onRefresh: () -> Unit,
+    streaming: Streaming,
     genresItems: List<Genre>,
     events: BasicsMediaEvents,
     pagingMediaItems: LazyPagingItems<Media>,
@@ -131,26 +136,31 @@ fun StreamingExploreBody(
                 AdsBanner(R.string.discover_banner, showAds)
             }
         ) { padding ->
-            if (pagingMediaItems.itemCount == 0) {
-                ErrorOnLoading()
-            } else {
-                Column(Modifier.background(PrimaryBackground)) {
-                    FiltersArea(filters, onClick = {
-                        coroutineScope.launch {
-                            if (sheetState.isVisible) {
-                                sheetState.hide()
-                            } else {
-                                sheetState.show()
-                            }
+            when (pagingMediaItems.loadState.refresh) {
+                is LoadState.Loading -> LoadingScreen()
+                is LoadState.NotLoading -> {
+                    if (pagingMediaItems.itemCount == 0) {
+                        ErrorOnLoading()
+                    } else {
+                        Column(Modifier.background(PrimaryBackground)) {
+                            FiltersArea(filters, onClick = {
+                                coroutineScope.launch {
+                                    if (sheetState.isVisible) {
+                                        sheetState.hide()
+                                    } else {
+                                        sheetState.show()
+                                    }
+                                }
+                            })
+                            VerticalSpacer(dimensionResource(R.dimen.screen_padding))
+                            MediaPagingVerticalGrid(
+                                padding,
+                                pagingMediaItems,
+                                events::onNavigateToMediaDetails
+                            )
                         }
-                    })
-                    VerticalSpacer(dimensionResource(R.dimen.screen_padding))
-                    MediaPagingVerticalGrid(
-                        padding,
-                        pagingMediaItems,
-                        events::onNavigateToMediaDetails
-                    )
-                }
+                    }
+                } else -> ErrorScreen(onRefresh)
             }
         }
     }
@@ -250,7 +260,7 @@ fun FilterBottomSheet(
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
