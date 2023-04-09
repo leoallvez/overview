@@ -708,6 +708,7 @@ fun FilterButton(
     buttonText: String?,
     isActivated: Boolean = false,
     backgroundColor: Color = PrimaryBackground,
+    padding: PaddingValues = PaddingValues(end = dimensionResource(R.dimen.screen_padding)),
     onClick: () -> Unit
 ) {
     val color = if (isActivated) AccentColor else Gray
@@ -717,9 +718,7 @@ fun FilterButton(
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
-        modifier = Modifier
-            .height(25.dp)
-            .padding(end = dimensionResource(R.dimen.screen_padding)),
+        modifier = Modifier.height(25.dp).padding(padding),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor
@@ -740,9 +739,4 @@ fun FilterButton(
 @Composable
 fun VerticalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
     Spacer(modifier = Modifier.padding(vertical = padding))
-}
-
-@Composable
-fun HorizontalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
-    Spacer(modifier = Modifier.padding(horizontal = padding))
 }

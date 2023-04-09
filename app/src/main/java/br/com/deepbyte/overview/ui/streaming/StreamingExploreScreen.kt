@@ -127,7 +127,6 @@ fun StreamingExploreBody(
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
                 StreamingToolBar(
-                    streaming = streaming,
                     onClickBackIcon = events::onPopBackStack,
                     onClickSearchIcon = {}
                 )
@@ -143,7 +142,10 @@ fun StreamingExploreBody(
                         ErrorOnLoading()
                     } else {
                         Column(Modifier.background(PrimaryBackground)) {
-                            FiltersArea(filters, onClick = {
+                            FiltersArea(
+                                filters = filters,
+                                streaming = streaming
+                            ) {
                                 coroutineScope.launch {
                                     if (sheetState.isVisible) {
                                         sheetState.hide()
@@ -151,7 +153,7 @@ fun StreamingExploreBody(
                                         sheetState.show()
                                     }
                                 }
-                            })
+                            }
                             VerticalSpacer(dimensionResource(R.dimen.screen_padding))
                             MediaPagingVerticalGrid(
                                 padding,
@@ -169,20 +171,36 @@ fun StreamingExploreBody(
 @Composable
 fun FiltersArea(
     filters: Filters,
+    streaming: Streaming,
     onClick: () -> Job
 ) {
-    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground)
+            .padding(horizontal = dimensionResource(R.dimen.default_padding)),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            StreamingIcon(streaming = streaming, withBorder = true)
+            StreamingScreamTitle(streamingName = streaming.name)
+        }
+
         FilterButton(
-            onClick = { onClick.invoke() },
+            padding = PaddingValues(),
             isActivated = filters.genresIsEmpty(),
             buttonText = stringResource(R.string.filters)
-        )
+        ) {
+            onClick.invoke()
+        }
     }
 }
 
 @Composable
 fun StreamingToolBar(
-    streaming: Streaming,
     onClickBackIcon: () -> Unit,
     onClickSearchIcon: () -> Unit
 ) {
@@ -206,9 +224,6 @@ fun StreamingToolBar(
                     horizontal = 2.dp
                 )
             ) { onClickBackIcon.invoke() }
-            HorizontalSpacer()
-            StreamingIcon(streaming = streaming, withBorder = false)
-            StreamingScreamTitle(streamingName = streaming.name)
         }
         SearchIcon(
             modifier = Modifier
