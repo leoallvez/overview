@@ -22,8 +22,8 @@ import javax.inject.Inject
 class StreamingExploreViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    private val _mediaRepository: IMediaPagingRepository,
-    private val _mediaTypeRepository: IMediaTypeRepository
+    private val _typeRepository: IMediaTypeRepository,
+    private val _mediaRepository: IMediaPagingRepository
 ) : ViewModel() {
 
     private val _filters = MutableStateFlow(Filters())
@@ -32,14 +32,14 @@ class StreamingExploreViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<Genre>>(listOf())
     val genres: StateFlow<List<Genre>> = _genres
 
-    fun getMediasPaging(streamingApiId: Long): Flow<PagingData<Media>> {
-        val mediaType = filters.value.mediaType
-        return _mediaRepository.getMediasPaging(mediaType, listOf(streamingApiId))
+    fun getMediasPaging(streamingId: Long): Flow<PagingData<Media>> {
+        filters.value.streamingsIds = listOf(streamingId)
+        return _mediaRepository.getMediasPaging(filters.value)
     }
 
-    fun loadGenresByMediaType() = viewModelScope.launch(Dispatchers.IO) {
-        val mediaType = filters.value.mediaType
-        _genres.value = _mediaTypeRepository.getItemWithGenres(mediaType)
+    fun loadGenres() = viewModelScope.launch(Dispatchers.IO) {
+        val type = filters.value.mediaType
+        _genres.value = _typeRepository.getItemWithGenres(type)
     }
 
     fun updateFilters(filters: Filters) {

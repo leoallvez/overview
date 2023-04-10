@@ -46,25 +46,25 @@ fun StreamingExploreScreen(
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
     val loadData = {
-        viewModel.loadGenresByMediaType()
+        viewModel.loadGenres()
         viewModel.getMediasPaging(streaming.apiId)
     }
 
     val filters = viewModel.filters.collectAsState().value
-    var items by remember { mutableStateOf(value = loadData()) }
-    val loadingMediaItems = { items = loadData() }
+    var mediaItems by remember { mutableStateOf(value = loadData()) }
+    val setMediaItems = { mediaItems = loadData() }
 
     StreamingExploreContent(
         events = events,
         filters = filters,
         streaming = streaming,
         showAds = viewModel.showAds,
-        onRefresh = loadingMediaItems,
-        pagingMediaItems = items.collectAsLazyPagingItems(),
+        onRefresh = setMediaItems,
+        pagingMediaItems = mediaItems.collectAsLazyPagingItems(),
         genresItems = viewModel.genres.collectAsState().value,
         inFiltering = {
             viewModel.updateFilters(it)
-            loadingMediaItems()
+            setMediaItems()
         }
     )
 }
@@ -190,7 +190,7 @@ fun FiltersArea(
 
         FilterButton(
             padding = PaddingValues(),
-            isActivated = filters.genresIsEmpty(),
+            isActivated = filters.genresIsNotEmpty(),
             buttonText = stringResource(R.string.filters)
         ) {
             onClick.invoke()
@@ -274,16 +274,14 @@ fun FilterBottomSheet(
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 20.dp),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
                 FilterButton(
                     buttonText = genre.nameTranslation(),
                     backgroundColor = SecondaryBackground,
-                    isActivated = filters.hasGenreIds(genre.apiId)
+                    isActivated = filters.hasGenreWithId(genre.apiId)
                 ) {
                     filters.updateGenreIds(genre.apiId)
                     inFiltering.invoke(filters)
