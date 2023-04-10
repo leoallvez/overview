@@ -25,14 +25,17 @@ class MediaPagingRepository @Inject constructor(
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
 ) : IMediaPagingRepository {
 
+    private lateinit var _filters: Filters
+
     override fun getMediasPaging(filters: Filters) =
         createPaging(
             onRequest = { page: Int ->
                 if (page > 0) {
-                    val result = when (filters.mediaType) {
-                        MOVIE -> getMovies(page, filters)
-                        TV_SHOW -> getTVShows(page, filters)
-                        ALL -> mergeMedias(page, filters)
+                    _filters = filters
+                    val result = when (_filters.mediaType) {
+                        MOVIE -> getMovies(page)
+                        TV_SHOW -> getTVShows(page)
+                        ALL -> getMergedMedias(page)
                     }
                     DataResult.Success(data = PagingResponse(page, result))
                 } else {
@@ -41,17 +44,15 @@ class MediaPagingRepository @Inject constructor(
             }
         )
 
-    private suspend fun mergeMedias(page: Int, filters: Filters): List<Media> {
-        val movies = getMovies(page, filters)
-        val tvShows = getTVShows(page, filters)
+    private suspend fun getMergedMedias(page: Int): List<Media> {
+        val movies = getMovies(page)
+        val tvShows = getTVShows(page)
         return movies.plus(tvShows).sortedByDescending { it.voteAverage }
     }
 
-    private suspend fun getMovies(page: Int, filters: Filters) =
-        _movieSource.getPaging(page, filters.streamingsIds)
+    private suspend fun getMovies(page: Int) = _movieSource.getPaging(page, _filters)
 
-    private suspend fun getTVShows(page: Int, filters: Filters) =
-        _tvShowSource.getPaging(page, filters.streamingsIds)
+    private suspend fun getTVShows(page: Int) = _tvShowSource.getPaging(page, _filters)
 
     private fun createPaging(
         onRequest: suspend (page: Int) -> PagingMediaResult
