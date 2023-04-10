@@ -3,6 +3,7 @@ package br.com.deepbyte.overview.ui.streaming
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
+import br.com.deepbyte.overview.data.model.Filters
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
@@ -23,6 +24,9 @@ class StreamingExploreViewModel @Inject constructor(
     private val _mediaTypeRepository: IMediaTypeRepository
 ) : ViewModel() {
 
+    private val _filters = MutableStateFlow(Filters())
+    val filters: StateFlow<Filters> = _filters
+
     private val _genres = MutableStateFlow<List<Genre>>(listOf())
     val genres: StateFlow<List<Genre>> = _genres
 
@@ -33,5 +37,9 @@ class StreamingExploreViewModel @Inject constructor(
         mediaType: MediaTypeEnum
     ) = viewModelScope.launch(Dispatchers.IO) {
         _genres.value = _mediaTypeRepository.getItemWithGenres(mediaType)
+    }
+
+    fun updateFilters(filters: Filters) {
+        _filters.value = filters
     }
 }

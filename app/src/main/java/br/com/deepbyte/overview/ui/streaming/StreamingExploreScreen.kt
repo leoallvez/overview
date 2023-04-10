@@ -8,7 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,7 +50,7 @@ fun StreamingExploreScreen(
         viewModel.getMediasPaging(type, streaming.apiId)
     }
 
-    var filters by rememberSaveable { mutableStateOf(Filters()) }
+    val filters = viewModel.filters.collectAsState().value
     var items by remember { mutableStateOf(value = loadData(filters.mediaType)) }
     val loadingMediaItems = { items = loadData(filters.mediaType) }
 
@@ -63,8 +62,8 @@ fun StreamingExploreScreen(
         onRefresh = loadingMediaItems,
         pagingMediaItems = items.collectAsLazyPagingItems(),
         genresItems = viewModel.genres.collectAsState().value,
-        inFiltering = { filtersResult ->
-            filters = filtersResult
+        inFiltering = {
+            viewModel.updateFilters(it)
             loadingMediaItems()
         }
     )
@@ -275,7 +274,9 @@ fun FilterBottomSheet(
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
-            modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
