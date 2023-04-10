@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.model
 
 import android.os.Parcelable
-import br.com.deepbyte.overview.util.joinToStringWithPipe
+import br.com.deepbyte.overview.util.joinToStringWithComma
 import kotlinx.parcelize.Parcelize
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum as MediaType
 
@@ -23,7 +23,7 @@ class Filters(
         }
     }
 
-    fun getGenreIdsSeparatedWithPipe() = genresIds.joinToStringWithPipe()
+    fun getGenreIdsSeparatedWithComma() = genresIds.joinToStringWithComma()
 
     fun genresIsNotEmpty() = genresIds.isEmpty().not()
 }

@@ -28,7 +28,8 @@ class MovieRemoteDataSource @Inject constructor(
 
     private suspend fun paging(page: Int, filters: Filters) = _locale.run {
         val streamingsIds = filters.streamingsIds.joinToStringWithPipe()
-        _api.getMoviesPaging(streamingsIds, page, language, region, region)
+        val genresIds = filters.getGenreIdsSeparatedWithComma()
+        _api.getMoviesPaging(streamingsIds, genresIds, page, language, region, region)
     }
 
     override suspend fun search(query: String) = _locale.run {

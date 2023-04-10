@@ -98,5 +98,6 @@ fun <T : Media> DataResult<ListResponse<T>>.toList(): List<T> {
 }
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
+fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

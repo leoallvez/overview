@@ -133,6 +133,8 @@ interface ApiService {
     suspend fun getTvShowsPaging(
         @Query(value = "with_watch_providers")
         streamingsIds: String = "",
+        @Query(value = "with_genres")
+        withGenres: String = "",
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "language")
@@ -149,6 +151,8 @@ interface ApiService {
     suspend fun getMoviesPaging(
         @Query(value = "with_watch_providers")
         streamingsIds: String = "",
+        @Query(value = "with_genres")
+        withGenres: String = "",
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "language")
