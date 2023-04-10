@@ -45,14 +45,14 @@ fun StreamingExploreScreen(
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    val loadData = { type: MediaTypeEnum ->
-        viewModel.loadGenresByMediaType(type)
-        viewModel.getMediasPaging(type, streaming.apiId)
+    val loadData = {
+        viewModel.loadGenresByMediaType()
+        viewModel.getMediasPaging(streaming.apiId)
     }
 
     val filters = viewModel.filters.collectAsState().value
-    var items by remember { mutableStateOf(value = loadData(filters.mediaType)) }
-    val loadingMediaItems = { items = loadData(filters.mediaType) }
+    var items by remember { mutableStateOf(value = loadData()) }
+    val loadingMediaItems = { items = loadData() }
 
     StreamingExploreContent(
         events = events,

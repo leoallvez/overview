@@ -2,15 +2,17 @@ package br.com.deepbyte.overview.ui.streaming
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.data.model.Filters
 import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.di.ShowAds
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,12 +32,13 @@ class StreamingExploreViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<Genre>>(listOf())
     val genres: StateFlow<List<Genre>> = _genres
 
-    fun getMediasPaging(mediaType: MediaTypeEnum, streamingApiId: Long) =
-        _mediaRepository.getMediasPaging(mediaType, listOf(streamingApiId))
+    fun getMediasPaging(streamingApiId: Long): Flow<PagingData<Media>> {
+        val mediaType = filters.value.mediaType
+        return _mediaRepository.getMediasPaging(mediaType, listOf(streamingApiId))
+    }
 
-    fun loadGenresByMediaType(
-        mediaType: MediaTypeEnum
-    ) = viewModelScope.launch(Dispatchers.IO) {
+    fun loadGenresByMediaType() = viewModelScope.launch(Dispatchers.IO) {
+        val mediaType = filters.value.mediaType
         _genres.value = _mediaTypeRepository.getItemWithGenres(mediaType)
     }
 
