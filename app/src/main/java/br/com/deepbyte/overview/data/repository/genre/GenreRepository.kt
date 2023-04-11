@@ -5,8 +5,9 @@ import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.genre.GenreLocalDataSource
 import br.com.deepbyte.overview.data.source.genre.IGenreRemoteDataSource
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.*
 import javax.inject.Inject
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum as MediaType
 
 private typealias GenreListResult = DataResult<GenreListResponse>
 
@@ -15,16 +16,24 @@ class GenreRepository @Inject constructor(
     private val _remoteSource: IGenreRemoteDataSource
 ) : IGenreRepository {
 
-    override suspend fun cacheWithType(type: MediaTypeEnum) {
+    override suspend fun cacheWithType(type: MediaType) {
         val genres = requestData(type)
         _localSource.save(genres, type.key)
     }
 
-    override suspend fun getItemsByMediaType(type: MediaTypeEnum): List<Genre> {
-        return _localSource.getGenresWithMediaType(type.key).flatMap { it.genres }
+    override suspend fun getItemsByMediaType(type: MediaType) = if (type == ALL) {
+        getMergedGenres()
+    } else {
+        filterGenres(type.key)
     }
 
-    private suspend fun requestData(type: MediaTypeEnum): List<Genre> {
+    private fun getMergedGenres() = filterGenres(MOVIE.key)
+        .filter { filterGenres(TV_SHOW.key).contains(it) }
+
+    private fun filterGenres(type: String) =
+        _localSource.getGenresWithMediaType(type).flatMap { it.genres }
+
+    private suspend fun requestData(type: MediaType): List<Genre> {
         val result = _remoteSource.getItemByMediaType(type)
         return getGenreList(result)
     }
