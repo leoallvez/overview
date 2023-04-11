@@ -20,6 +20,10 @@ class GenreRepository @Inject constructor(
         _localSource.save(genres, type.key)
     }
 
+    override suspend fun getItemsByMediaType(type: MediaTypeEnum): List<Genre> {
+        return _localSource.getGenresWithMediaType(type.key).flatMap { it.genres }
+    }
+
     private suspend fun requestData(type: MediaTypeEnum): List<Genre> {
         val result = _remoteSource.getItemByMediaType(type)
         return getGenreList(result)

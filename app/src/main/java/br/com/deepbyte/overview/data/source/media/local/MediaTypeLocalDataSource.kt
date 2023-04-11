@@ -10,5 +10,4 @@ class MediaTypeLocalDataSource @Inject constructor(
     fun getAll() = _dao.getAll()
     fun isEmpty() = _dao.getAll().isEmpty()
     fun insert(mediaType: List<MediaType>) = _dao.insert(mediaType)
-    fun getItemWithGenres(key: String) = _dao.getItemWithGenres(key)
 }

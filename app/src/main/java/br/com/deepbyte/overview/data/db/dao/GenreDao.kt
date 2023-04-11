@@ -27,6 +27,10 @@ interface GenreDao {
     @Query("SELECT * FROM media_types WHERE key = :mediaType")
     fun getMediaTypeWithGenres(mediaType: String): MediaTypeWithGenres
 
+    @Transaction
+    @Query("SELECT * FROM media_types WHERE key = :mediaType")
+    fun getGenresWithMediaType(mediaType: String): List<MediaTypeWithGenres>
+
     @Insert
     fun saveMediaTypeGenresCross(model: MediaTypeGenresCrossRef)
 

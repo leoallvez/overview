@@ -7,8 +7,8 @@ import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.data.model.Filters
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRepository
-import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
 import br.com.deepbyte.overview.di.ShowAds
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class StreamingExploreViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    private val _typeRepository: IMediaTypeRepository,
+    private val _genreRepository: IGenreRepository,
     private val _mediaRepository: IMediaPagingRepository
 ) : ViewModel() {
 
@@ -39,7 +39,7 @@ class StreamingExploreViewModel @Inject constructor(
 
     fun loadGenres() = viewModelScope.launch(Dispatchers.IO) {
         val type = filters.value.mediaType
-        _genres.value = _typeRepository.getItemWithGenres(type)
+        _genres.value = _genreRepository.getItemsByMediaType(type)
     }
 
     fun updateFilters(filters: Filters) {
