@@ -44,11 +44,8 @@ class MediaPagingRepository @Inject constructor(
             }
         )
 
-    private suspend fun getMergedMedias(page: Int): List<Media> {
-        val movies = getMovies(page)
-        val tvShows = getTVShows(page)
-        return movies.plus(tvShows).sortedByDescending { it.voteAverage }
-    }
+    private suspend fun getMergedMedias(page: Int) =
+        getMovies(page).plus(getTVShows(page)).sortedByDescending { it.voteAverage }
 
     private suspend fun getMovies(page: Int) = _movieSource.getPaging(page, _filters)
 
