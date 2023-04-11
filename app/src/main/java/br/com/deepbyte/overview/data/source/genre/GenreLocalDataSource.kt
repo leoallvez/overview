@@ -7,8 +7,6 @@ import javax.inject.Inject
 class GenreLocalDataSource @Inject constructor(
     private val _dao: GenreDao
 ) {
-    fun insert(vararg genre: Genre) = _dao.insert(*genre)
-
     fun isEmpty(): Boolean = _dao.getAll().isEmpty()
 
     fun getAll(): List<Genre> = _dao.getAll()

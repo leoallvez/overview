@@ -26,8 +26,8 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
         val mediaTypeNotCached = _mediaTypeRepository.notCached()
         if (mediaTypeNotCached) {
             cacheMediaType()
+            cacheGenre()
         }
-        cacheGenre()
         return Result.success()
     }
 
