@@ -27,8 +27,8 @@ class GenreRepository @Inject constructor(
         filterGenres(type.key)
     }
 
-    private fun getMergedGenres() = filterGenres(MOVIE.key)
-        .filter { filterGenres(TV_SHOW.key).contains(it) }
+    private fun getMergedGenres() =
+        (filterGenres(MOVIE.key) + filterGenres(TV_SHOW.key)).distinctBy { it.apiId }
 
     private fun filterGenres(type: String) =
         _localSource.getGenresWithMediaType(type).flatMap { it.genres }

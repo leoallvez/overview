@@ -190,7 +190,7 @@ fun FiltersArea(
 
         FilterButton(
             padding = PaddingValues(),
-            isActivated = filters.genresIsNotEmpty(),
+            isActivated = filters.genresIsIsNotEmpty(),
             buttonText = stringResource(R.string.filters)
         ) {
             onClick.invoke()
@@ -256,26 +256,45 @@ fun FilterBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(550.dp)
+            .height(400.dp)
             .background(SecondaryBackground)
-            .padding(vertical = 5.dp, horizontal = 15.dp)
+            .padding(vertical = 2.dp, horizontal = 15.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             FilterTitle(stringResource(R.string.type))
         }
-        val options = MediaTypeEnum.getAllOrdered()
-        Row(modifier = Modifier.fillMaxWidth()) {
-            options.forEach { mediaType ->
-                MediaTypeFilterButton(mediaType, filters.mediaType.key) {
-                    filters.mediaType = mediaType
-                    inFiltering.invoke(filters)
+        FilterMediaType(filters, inFiltering)
+        FilterGenres(genres, filters, inFiltering)
+    }
+}
+
+@Composable
+fun FilterMediaType(filters: Filters, onClick: (Filters) -> Unit) {
+    val options = MediaTypeEnum.getAllOrdered()
+    Row(modifier = Modifier.fillMaxWidth()) {
+        options.forEach { type ->
+            MediaTypeFilterButton(type, filters.mediaType.key) {
+                with(filters) {
+                    if (mediaType != type) {
+                        mediaType = type
+                        clearGenresIds()
+                        onClick.invoke(filters)
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun FilterGenres(genres: List<Genre>, filters: Filters, onClick: (Filters) -> Unit) {
+    Column {
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
-            modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
@@ -285,7 +304,7 @@ fun FilterBottomSheet(
                     isActivated = filters.hasGenreWithId(genre.apiId)
                 ) {
                     filters.updateGenreIds(genre.apiId)
-                    inFiltering.invoke(filters)
+                    onClick.invoke(filters)
                 }
             }
         }
@@ -297,7 +316,7 @@ fun FilterTitle(title: String) {
     Text(
         text = title,
         color = Color.White,
-        modifier = Modifier.padding(vertical = 15.dp),
+        modifier = Modifier.padding(vertical = 10.dp),
         style = MaterialTheme.typography.h6,
         fontWeight = FontWeight.Bold
     )
