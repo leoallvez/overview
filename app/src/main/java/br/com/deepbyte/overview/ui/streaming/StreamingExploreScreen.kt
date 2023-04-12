@@ -256,6 +256,7 @@ fun FilterBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .height(550.dp)
             .background(SecondaryBackground)
             .padding(vertical = 5.dp, horizontal = 15.dp)
     ) {
