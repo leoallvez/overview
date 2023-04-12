@@ -149,7 +149,7 @@ dependencies {
     // Google Ads
     implementation "com.google.android.gms:play-services-ads:21.4.0"
     // Accompanist
-    def accompanist = "0.30.0"
+    def accompanist = "0.30.1"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
 
