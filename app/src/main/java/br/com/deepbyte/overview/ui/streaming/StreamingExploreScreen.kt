@@ -1,12 +1,14 @@
 package br.com.deepbyte.overview.ui.streaming
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +36,6 @@ import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @Composable
@@ -105,7 +106,9 @@ fun StreamingExploreBody(
     inFiltering: (Filters) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
+        skipHalfExpanded = true,
         initialValue = ModalBottomSheetValue.Hidden,
+        animationSpec = TweenSpec(durationMillis = 300, delay = 10),
         confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded }
     )
 
@@ -115,9 +118,22 @@ fun StreamingExploreBody(
         coroutineScope.launch { sheetState.hide() }
     }
 
+    val closeFilterBottomSheet = {
+        coroutineScope.launch {
+            if (sheetState.isVisible) {
+                sheetState.hide()
+            } else {
+                sheetState.show()
+            }
+        }
+        Unit
+    }
+
     ModalBottomSheetLayout(
         sheetState = sheetState,
-        sheetContent = { FilterBottomSheet(filters, genresItems, inFiltering) },
+        sheetContent = {
+            FilterBottomSheet(filters, genresItems, closeFilterBottomSheet, inFiltering)
+        },
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
@@ -143,16 +159,9 @@ fun StreamingExploreBody(
                         Column(Modifier.background(PrimaryBackground)) {
                             FiltersArea(
                                 filters = filters,
-                                streaming = streaming
-                            ) {
-                                coroutineScope.launch {
-                                    if (sheetState.isVisible) {
-                                        sheetState.hide()
-                                    } else {
-                                        sheetState.show()
-                                    }
-                                }
-                            }
+                                streaming = streaming,
+                                closeFilterBottomSheet
+                            )
                             VerticalSpacer(dimensionResource(R.dimen.screen_padding))
                             MediaPagingVerticalGrid(
                                 padding,
@@ -171,7 +180,7 @@ fun StreamingExploreBody(
 fun FiltersArea(
     filters: Filters,
     streaming: Streaming,
-    onClick: () -> Job
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -251,6 +260,7 @@ fun StreamingScreamTitle(streamingName: String) {
 fun FilterBottomSheet(
     filters: Filters,
     genres: List<Genre>,
+    closeAction: () -> Unit,
     inFiltering: (Filters) -> Unit
 ) {
     Column(
@@ -258,20 +268,35 @@ fun FilterBottomSheet(
             .fillMaxWidth()
             .height(400.dp)
             .background(SecondaryBackground)
-            .padding(vertical = 2.dp, horizontal = 15.dp)
+            .padding(vertical = 5.dp, horizontal = 15.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            FilterTitle(stringResource(R.string.type))
-        }
+        CloseIcon(closeAction)
         FilterMediaType(filters, inFiltering)
         FilterGenres(genres, filters, inFiltering)
     }
 }
 
 @Composable
+fun CloseIcon(onClick: () -> Unit) {
+    Box(
+        Modifier.fillMaxWidth().height(25.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Icon(
+            tint = Color.White,
+            modifier = Modifier.size(25.dp).clickable { onClick.invoke() },
+            imageVector = Icons.Rounded.Close,
+            contentDescription = stringResource(R.string.close)
+        )
+    }
+}
+
+@Composable
 fun FilterMediaType(filters: Filters, onClick: (Filters) -> Unit) {
     val options = MediaTypeEnum.getAllOrdered()
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        modifier = Modifier.fillMaxWidth().background(SecondaryBackground)
+    ) {
         options.forEach { type ->
             MediaTypeFilterButton(type, filters.mediaType.key) {
                 with(filters) {
@@ -292,9 +317,7 @@ fun FilterGenres(genres: List<Genre>, filters: Filters, onClick: (Filters) -> Un
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 20.dp),
+            modifier = Modifier.fillMaxWidth(),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->

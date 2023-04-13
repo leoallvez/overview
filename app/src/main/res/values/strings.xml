@@ -52,7 +52,7 @@
 
     <string name="movies">Filmes</string>
     <string name="tv_show">Séries</string>
-    <string name="all">Tudo</string>
+    <string name="all">Filmes e Séries</string>
 
     <string name="search_not_started">Os resultados da pesquisa irão aparecer aqui :)</string>
     <string name="search_result_empty">Nenhum resultado encontrado :(</string>
@@ -65,4 +65,5 @@
     <string name="genres">Gêneros</string>
     <string name="type">Tipo</string>
     <string name="filters">Filtros</string>
+    <string name="close">Ícone para fechar</string>
 </resources>
