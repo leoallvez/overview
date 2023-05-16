@@ -10,4 +10,12 @@ data class MockPerson(
     override fun toString(): String {
         return "id:$id,first_name:$firstName"
     }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is MockPerson) {
+            other.id == id && other.firstName == firstName
+        } else {
+            false
+        }
+    }
 }

@@ -14,7 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Before
 import org.junit.Test
 
@@ -32,50 +32,49 @@ class PersonRepositoryTest {
         _repository = PersonRepository(_source, UnconfinedTestDispatcher())
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getPersonDetails_success() = runTest {
+    fun `should be instance of success when request type is success`() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = SUCCESS)
         // Act
         val result = _repository.getItem(apiId = 1).first()
         // Assert
-        Assert.assertTrue(result is DataResult.Success)
+        result.shouldBeInstanceOf<DataResult.Success<Person>>()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getPersonDetails_serverError() = runTest {
+    fun `should be instance of serve error when request type is serve error`() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
         val result = _repository.getItem(apiId = 1).first()
         // Assert
-        Assert.assertTrue(result is DataResult.ServerError)
+        result.shouldBeInstanceOf<DataResult.ServerError<Person>>()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getPersonDetails_networkError() = runTest {
+    fun `should be instance of network error when request type is network error`() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = NETWORK_ERROR)
         // Act
         val result = _repository.getItem(apiId = 1).first()
         // Assert
-        Assert.assertTrue(result is DataResult.NetworkError)
+        result.shouldBeInstanceOf<DataResult.NetworkError<Person>>()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getPersonDetails_unknownError() = runTest {
+    fun `should be instance of unknown error when request type is unknown error`() = runTest {
         // Arrange
         coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         // Act
         val result = _repository.getItem(apiId = 1).first()
         // Assert
-        Assert.assertTrue(result is DataResult.UnknownError)
+        result.shouldBeInstanceOf<DataResult.UnknownError<Person>>()
     }
-    private fun coEveryPersonResponse(requestType: ReturnType) = coEvery {
+
+    private fun coEveryPersonResponse(
+        requestType: ReturnType
+    ) = coEvery {
         _source.getItem(any())
     } returns mockResult(requestType, DataResult.Success(data = Person()))
 }
