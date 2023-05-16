@@ -17,6 +17,7 @@ import org.junit.Test
 class DisplayAdsAbTestingTest {
 
     private lateinit var _experiment: DisplayAdsAbTesting
+
     @MockK
     private lateinit var _remoteConfig: FirebaseRemoteConfig
 

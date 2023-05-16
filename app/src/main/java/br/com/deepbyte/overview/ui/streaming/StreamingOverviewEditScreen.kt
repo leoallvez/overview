@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 fun StreamingOverviewEditScreen() {
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded }
     )
     val coroutineScope = rememberCoroutineScope()
 

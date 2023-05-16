@@ -7,7 +7,6 @@ data class DisplayAdsAbTesting(
     private val _localPermission: Boolean,
     private val _remoteSource: RemoteSource
 ) : AbTesting<Boolean> {
-
     override fun execute(): Boolean {
         val remotePermission = _remoteSource.getBoolean(DISPLAY_ADS_KEY)
         return _localPermission && remotePermission
