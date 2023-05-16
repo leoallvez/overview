@@ -2,7 +2,8 @@ package br.com.deepbyte.overview.abtesting
 
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import io.mockk.MockKAnnotations
-import org.junit.Assert
+import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldNotBeEmpty
 import org.junit.Before
 import org.junit.Test
 
@@ -17,47 +18,47 @@ class StreamingsAbTestingTest : LocalAndRemoteTest() {
     }
 
     @Test
-    fun execute_localIsNotEmptyAndRemoteIsEmpty_listIsNotEmpty() {
+    fun `should be a non-empty list when local is not empty and remote is empty`() {
         // Arrange
-        everyLocalAndRemote(local = VALID_JSON, remote = EMPTY)
+        everyLocalAndRemote(local = JSON, remote = EMPTY)
         // Act
         val list = _streaming.execute()
         // Assert
-        Assert.assertTrue(list.isNotEmpty())
+        list.shouldNotBeEmpty()
     }
 
     @Test
-    fun execute_localIsEmptyAndRemoteNotIsEmpty_listIsNotEmpty() {
+    fun `should be a non-empty list when local is empty and remote is not empty`() {
         // Arrange
-        everyLocalAndRemote(local = EMPTY, remote = VALID_JSON)
+        everyLocalAndRemote(local = EMPTY, remote = JSON)
         // Act
         val list = _streaming.execute()
         // Assert
-        Assert.assertTrue(list.isNotEmpty())
+        list.shouldNotBeEmpty()
     }
 
     @Test
-    fun execute_localIsEmptyAndRemoteIsEmpty_listIsEmpty() {
+    fun `should be an empty list when local is empty and remote is empty`() {
         // Arrange
         everyLocalAndRemote(local = EMPTY, remote = EMPTY)
         // Act
         val list = _streaming.execute()
         // Assert
-        Assert.assertTrue(list.isEmpty())
+        list.shouldBeEmpty()
     }
 
     @Test
-    fun execute_localIsInvalidAndRemoteIsValid_listIsEmpty() {
+    fun `should be an empty list when local is an invalid json and remote is invalid json`() {
         // Arrange
         everyLocalAndRemote(local = INVALID_JSON, remote = INVALID_JSON)
         // Act
         val list = _streaming.execute()
         // Assert
-        Assert.assertTrue(list.isEmpty())
+        list.shouldBeEmpty()
     }
 
     companion object {
-        const val VALID_JSON = """
+        const val JSON = """
             [
                 {
                     "display_priority": 4,
