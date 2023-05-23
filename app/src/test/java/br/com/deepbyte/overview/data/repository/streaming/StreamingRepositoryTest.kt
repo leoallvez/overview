@@ -21,6 +21,7 @@ class StreamingRepositoryTest {
 
     @MockK(relaxed = true)
     private lateinit var _remoteDataSource: IStreamingRemoteDataSource
+
     @MockK(relaxed = true)
     private lateinit var _localDataSource: StreamingLocalDataSource
 
