@@ -29,13 +29,13 @@ class GenreRepositoryTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _repository = GenreRepository(_localSource,_remoteSource)
+        _repository = GenreRepository(_localSource, _remoteSource)
     }
 
     @Test
     fun `should be an empty list when local return empty`() = runTest {
         // Arrange
-        coEvery {_localSource.getGenresWithMediaType(any()) } returns listOf()
+        coEvery { _localSource.getGenresWithMediaType(any()) } returns listOf()
         // Act
         val result = _repository.getItemsByMediaType(ALL)
         // Assert
@@ -49,7 +49,7 @@ class GenreRepositoryTest {
             mediaType = MediaType(key = ALL.key),
             genres = listOf(Genre())
         )
-        coEvery {_localSource.getGenresWithMediaType(any()) } returns listOf(content)
+        coEvery { _localSource.getGenresWithMediaType(any()) } returns listOf(content)
         // Act
         val result = _repository.getItemsByMediaType(ALL)
         // Assert
