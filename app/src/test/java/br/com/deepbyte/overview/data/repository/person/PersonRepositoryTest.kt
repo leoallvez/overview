@@ -1,7 +1,6 @@
-package br.com.deepbyte.overview.data.repository
+package br.com.deepbyte.overview.data.repository.person
 
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.repository.person.PersonRepository
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.person.IPersonRemoteDataSource
 import br.com.deepbyte.overview.util.mock.ReturnType
