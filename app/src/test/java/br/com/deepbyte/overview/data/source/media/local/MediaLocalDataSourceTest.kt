@@ -1,8 +1,7 @@
-package br.com.deepbyte.overview.data.source.media
+package br.com.deepbyte.overview.data.source.media.local
 
 import br.com.deepbyte.overview.data.db.dao.MediaItemDao
 import br.com.deepbyte.overview.data.model.MediaItem
-import br.com.deepbyte.overview.data.source.media.local.MediaLocalDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
