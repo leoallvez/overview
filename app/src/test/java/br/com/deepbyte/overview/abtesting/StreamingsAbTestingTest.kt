@@ -58,7 +58,7 @@ class StreamingsAbTestingTest : LocalAndRemoteTest() {
     }
 
     companion object {
-        const val JSON = """
+        private const val JSON = """
             [
                 {
                     "display_priority": 4,

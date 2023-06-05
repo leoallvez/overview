@@ -58,7 +58,7 @@ class SuggestionAbTestingTest : LocalAndRemoteTest() {
     }
 
     companion object {
-        const val JSON = """
+        private const val JSON = """
         [
             {
                 "order": 1, 

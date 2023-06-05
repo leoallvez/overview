@@ -51,7 +51,7 @@ class GenreRemoteDataSourceTest {
         // Act
         val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.Success<Person>>()
+        result.shouldBeInstanceOf<DataResult.Success<GenreListResponse>>()
     }
 
     @Test
@@ -71,7 +71,7 @@ class GenreRemoteDataSourceTest {
         // Act
         val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.ServerError<Person>>()
+        result.shouldBeInstanceOf<DataResult.ServerError<GenreListResponse>>()
     }
 
     @Test
@@ -81,7 +81,7 @@ class GenreRemoteDataSourceTest {
         // Act
         val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.NetworkError<Person>>()
+        result.shouldBeInstanceOf<DataResult.NetworkError<GenreListResponse>>()
     }
 
     @Test
@@ -91,7 +91,7 @@ class GenreRemoteDataSourceTest {
         // Act
         val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.UnknownError<Person>>()
+        result.shouldBeInstanceOf<DataResult.UnknownError<GenreListResponse>>()
     }
 
     private fun coEveryGenreResponse(

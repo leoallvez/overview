@@ -2,7 +2,6 @@ package br.com.deepbyte.overview.data.source.media.remote
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import br.com.deepbyte.overview.util.mock.ReturnType
@@ -50,7 +49,7 @@ class TvShowRemoteDataSourceTest {
         // Act
         val result = _dataSource.find(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.Success<Person>>()
+        result.shouldBeInstanceOf<DataResult.Success<TvShow>>()
     }
 
     @Test
@@ -70,7 +69,7 @@ class TvShowRemoteDataSourceTest {
         // Act
         val result = _dataSource.find(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.ServerError<Person>>()
+        result.shouldBeInstanceOf<DataResult.ServerError<TvShow>>()
     }
 
     @Test
@@ -80,7 +79,7 @@ class TvShowRemoteDataSourceTest {
         // Act
         val result = _dataSource.find(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.NetworkError<Person>>()
+        result.shouldBeInstanceOf<DataResult.NetworkError<TvShow>>()
     }
 
     @Test
@@ -90,7 +89,7 @@ class TvShowRemoteDataSourceTest {
         // Act
         val result = _dataSource.find(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.UnknownError<Person>>()
+        result.shouldBeInstanceOf<DataResult.UnknownError<TvShow>>()
     }
 
     private fun coEveryTvShowResponse(
