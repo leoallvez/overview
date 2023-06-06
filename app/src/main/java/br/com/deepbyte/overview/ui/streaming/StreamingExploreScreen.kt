@@ -151,7 +151,7 @@ fun StreamingExploreBody(
             }
         ) { padding ->
             when (pagingMediaItems.loadState.refresh) {
-                is LoadState.Loading -> LoadingScreen()
+                is LoadState.Loading -> LoadingScreen(showOnTop = sheetState.isVisible)
                 is LoadState.NotLoading -> {
                     if (pagingMediaItems.itemCount == 0) {
                         ErrorOnLoading()
@@ -170,7 +170,10 @@ fun StreamingExploreBody(
                             )
                         }
                     }
-                } else -> ErrorScreen(onRefresh)
+                } else -> ErrorScreen(
+                    showOnTop = sheetState.isVisible,
+                    refresh = onRefresh
+                )
             }
         }
     }

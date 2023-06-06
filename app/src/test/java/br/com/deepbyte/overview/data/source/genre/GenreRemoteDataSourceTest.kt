@@ -2,7 +2,6 @@ package br.com.deepbyte.overview.data.source.genre
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.response.GenreListResponse
-import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
 import br.com.deepbyte.overview.util.mock.ERROR_MSG

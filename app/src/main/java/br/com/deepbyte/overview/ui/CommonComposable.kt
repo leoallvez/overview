@@ -115,12 +115,16 @@ fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
 }
 
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(showOnTop: Boolean = false) {
+    val padding = if (showOnTop) {
+        dimensionResource(id = R.dimen.transition_screen_top_padding)
+    } else { 0.dp }
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+            .fillMaxSize()
+            .padding(top = padding),
+        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column {
@@ -135,12 +139,16 @@ fun LoadingScreen() {
 }
 
 @Composable
-fun ErrorScreen(refresh: () -> Unit) {
+fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
+    val padding = if (showOnTop) {
+        dimensionResource(id = R.dimen.transition_screen_top_padding)
+    } else { 0.dp }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(PrimaryBackground),
-        verticalArrangement = Arrangement.Center,
+            .background(PrimaryBackground)
+            .padding(top = padding),
+        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
@@ -156,12 +164,6 @@ fun ErrorScreen(refresh: () -> Unit) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewErrorScreen() {
-    ErrorScreen {}
 }
 
 @Composable
@@ -718,7 +720,9 @@ fun FilterButton(
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
-        modifier = Modifier.height(25.dp).padding(padding),
+        modifier = Modifier
+            .height(25.dp)
+            .padding(padding),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor
