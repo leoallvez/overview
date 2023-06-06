@@ -183,7 +183,6 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
     }
 }
 
-
 @Composable
 fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = false) {
     val padding = if (showOnTop) {
@@ -203,7 +202,7 @@ fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = fals
                 text = stringResource(id = R.string.check_filters),
                 color = Color.White,
                 style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             )
         }
     }
