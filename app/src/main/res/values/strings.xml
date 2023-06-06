@@ -66,4 +66,6 @@
     <string name="type">Tipo</string>
     <string name="filters">Filtros</string>
     <string name="close">Ícone para fechar</string>
+    <string name="not_found">Nenhum resultado encontrado :(</string>
+    <string name="check_filters">Verifique os filtros e tente novamente</string>
 </resources>

@@ -6,7 +6,18 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -15,11 +26,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Snackbar
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -127,14 +150,12 @@ fun LoadingScreen(showOnTop: Boolean = false) {
         verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column {
-            IntermediateScreensText(text = stringResource(R.string.loading))
-            BallScaleRippleMultipleProgressIndicator(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                color = AccentColor,
-                animationDuration = 900
-            )
-        }
+        IntermediateScreensText(text = stringResource(R.string.loading))
+        BallScaleRippleMultipleProgressIndicator(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color = AccentColor,
+            animationDuration = 900
+        )
     }
 }
 
@@ -151,17 +172,39 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
         verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+        IntermediateScreensText(text = stringResource(R.string.error_on_loading))
+        StylizedButton(
+            buttonText = stringResource(R.string.btn_try_again),
+            iconDescription = stringResource(R.string.refresh_icon),
+            iconImageVector = Icons.Filled.Refresh
         ) {
-            IntermediateScreensText(text = stringResource(R.string.error_on_loading))
-            StylizedButton(
-                buttonText = stringResource(R.string.btn_try_again),
-                iconDescription = stringResource(R.string.refresh_icon),
-                iconImageVector = Icons.Filled.Refresh
-            ) {
-                refresh.invoke()
-            }
+            refresh.invoke()
+        }
+    }
+}
+
+
+@Composable
+fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = false) {
+    val padding = if (showOnTop) {
+        dimensionResource(id = R.dimen.transition_screen_top_padding)
+    } else { 0.dp }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground)
+            .padding(top = padding),
+        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        IntermediateScreensText(text = stringResource(R.string.not_found))
+        if (hasFilters) {
+            Text(
+                text = stringResource(id = R.string.check_filters),
+                color = Color.White,
+                style = MaterialTheme.typography.body1,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }

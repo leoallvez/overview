@@ -14,5 +14,5 @@
     <dimen name="toolbar_element_size">56.dp</dimen>
     <dimen name="streaming_item_lager_size">60.dp</dimen>
     <dimen name="streaming_item_small_size">40.dp</dimen>
-    <dimen name="transition_screen_top_padding">140.dp</dimen>
+    <dimen name="transition_screen_top_padding">80.dp</dimen>
 </resources>

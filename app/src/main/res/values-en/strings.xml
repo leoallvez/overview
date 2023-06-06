@@ -66,4 +66,6 @@
     <string name="type">Type</string>
     <string name="filters">Filters</string>
     <string name="close">to close icon</string>
+    <string name="not_found">No results found :(</string>
+    <string name="check_filters">Check the filters and try again</string>
 </resources>

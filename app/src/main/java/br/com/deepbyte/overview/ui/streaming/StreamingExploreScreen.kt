@@ -150,19 +150,23 @@ fun StreamingExploreBody(
                 AdsBanner(R.string.discover_banner, showAds)
             }
         ) { padding ->
-            when (pagingMediaItems.loadState.refresh) {
-                is LoadState.Loading -> LoadingScreen(showOnTop = sheetState.isVisible)
-                is LoadState.NotLoading -> {
-                    if (pagingMediaItems.itemCount == 0) {
-                        ErrorOnLoading()
-                    } else {
-                        Column(Modifier.background(PrimaryBackground)) {
-                            FiltersArea(
-                                filters = filters,
-                                streaming = streaming,
-                                closeFilterBottomSheet
+            val filterIsVisible = sheetState.isVisible
+            Column(Modifier.background(PrimaryBackground)) {
+                FiltersArea(
+                    filters = filters,
+                    streaming = streaming,
+                    closeFilterBottomSheet
+                )
+                VerticalSpacer(dimensionResource(R.dimen.screen_padding))
+                when (pagingMediaItems.loadState.refresh) {
+                    is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
+                    is LoadState.NotLoading -> {
+                        if (pagingMediaItems.itemCount == 0) {
+                            ErrorScreen(
+                                showOnTop = filterIsVisible,
+                                refresh = onRefresh
                             )
-                            VerticalSpacer(dimensionResource(R.dimen.screen_padding))
+                        } else {
                             MediaPagingVerticalGrid(
                                 padding,
                                 pagingMediaItems,
@@ -170,10 +174,13 @@ fun StreamingExploreBody(
                             )
                         }
                     }
-                } else -> ErrorScreen(
-                    showOnTop = sheetState.isVisible,
-                    refresh = onRefresh
-                )
+                    else -> {
+                        NotFoundContentScreen(
+                            showOnTop = filterIsVisible,
+                            hasFilters = filters.genresIsIsNotEmpty()
+                        )
+                    }
+                }
             }
         }
     }
