@@ -753,6 +753,7 @@ fun FilterButton(
     isActivated: Boolean = false,
     backgroundColor: Color = PrimaryBackground,
     padding: PaddingValues = PaddingValues(end = dimensionResource(R.dimen.screen_padding)),
+    complement: @Composable () -> Unit = {},
     onClick: () -> Unit
 ) {
     val color = if (isActivated) AccentColor else Gray
@@ -779,6 +780,7 @@ fun FilterButton(
                 modifier = Modifier.padding(5.dp)
             )
         }
+        complement()
     }
 }
 

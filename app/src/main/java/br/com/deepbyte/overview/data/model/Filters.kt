@@ -28,4 +28,10 @@ class Filters(
     fun genresIsIsNotEmpty() = genresIds.isEmpty().not()
 
     fun clearGenresIds() = genresIds.clear()
+
+    fun genreQuantity(): String = if (genresIds.isNotEmpty()) {
+        genresIds.size.toString()
+    } else {
+        ""
+    }
 }

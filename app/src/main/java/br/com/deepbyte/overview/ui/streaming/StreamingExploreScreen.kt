@@ -210,7 +210,14 @@ fun FiltersArea(
         FilterButton(
             padding = PaddingValues(),
             isActivated = filters.genresIsIsNotEmpty(),
-            buttonText = stringResource(R.string.filters)
+            buttonText = stringResource(R.string.filters),
+            complement = {
+                Text(
+                    text = filters.genreQuantity(),
+                    modifier = Modifier.padding(1.dp),
+                    color = Color.White
+                )
+            }
         ) {
             onClick.invoke()
         }
@@ -289,12 +296,16 @@ fun FilterBottomSheet(
 @Composable
 fun CloseIcon(onClick: () -> Unit) {
     Box(
-        Modifier.fillMaxWidth().height(25.dp),
+        Modifier
+            .fillMaxWidth()
+            .height(25.dp),
         contentAlignment = Alignment.TopEnd
     ) {
         Icon(
             tint = Color.White,
-            modifier = Modifier.size(25.dp).clickable { onClick.invoke() },
+            modifier = Modifier
+                .size(25.dp)
+                .clickable { onClick.invoke() },
             imageVector = Icons.Rounded.Close,
             contentDescription = stringResource(R.string.close)
         )
@@ -305,7 +316,9 @@ fun CloseIcon(onClick: () -> Unit) {
 fun FilterMediaType(filters: Filters, onClick: (Filters) -> Unit) {
     val options = MediaTypeEnum.getAllOrdered()
     Row(
-        modifier = Modifier.fillMaxWidth().background(SecondaryBackground)
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(SecondaryBackground)
     ) {
         options.forEach { type ->
             MediaTypeFilterButton(type, filters.mediaType.key) {
