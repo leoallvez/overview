@@ -68,4 +68,5 @@
     <string name="close">to close icon</string>
     <string name="not_found">No results found :(</string>
     <string name="check_filters">Check the filters and try again</string>
+    <string name="clear_filters">Clear filters</string>
 </resources>

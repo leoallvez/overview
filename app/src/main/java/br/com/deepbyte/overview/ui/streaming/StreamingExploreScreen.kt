@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -285,12 +286,55 @@ fun FilterBottomSheet(
             .fillMaxWidth()
             .height(400.dp)
             .background(SecondaryBackground)
-            .padding(vertical = 5.dp, horizontal = 15.dp)
+            .padding(
+                vertical = dimensionResource(R.dimen.default_padding),
+                horizontal = 15.dp
+            )
     ) {
         CloseIcon(closeAction)
         FilterMediaType(filters, inFiltering)
         FilterGenres(genres, filters, inFiltering)
+        ClearFilterGenres(filters, inFiltering, Modifier.align(Alignment.End))
     }
+}
+
+@Composable
+fun ClearFilterGenres(
+    filters: Filters,
+    inFiltering: (Filters) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (filters.genresIsIsNotEmpty()) {
+        Column(
+            modifier = modifier
+                .fillMaxHeight()
+                .padding(bottom = dimensionResource(R.dimen.screen_padding)),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            FilterButton(
+                isActivated = true,
+                backgroundColor = SecondaryBackground,
+                buttonText = stringResource(R.string.clear_filters),
+                complement = {
+                    CleanFilterIcon()
+                }
+
+            ) {
+                filters.clearGenresIds()
+                inFiltering.invoke(filters)
+            }
+        }
+    }
+}
+
+@Composable
+private fun CleanFilterIcon() {
+    Icon(
+        tint = Color.White,
+        modifier = Modifier.size(15.dp).padding(1.dp),
+        painter = painterResource(id = R.drawable.delete_outline),
+        contentDescription = stringResource(R.string.clear_filters)
+    )
 }
 
 @Composable
