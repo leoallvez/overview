@@ -78,6 +78,7 @@ import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
@@ -172,7 +173,7 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
         verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IntermediateScreensText(text = stringResource(R.string.error_on_loading))
+        IntermediateScreensText(text = stringResource(R.string.error_on_loading), color = AlertColor)
         StylizedButton(
             buttonText = stringResource(R.string.btn_try_again),
             iconDescription = stringResource(R.string.refresh_icon),
@@ -196,11 +197,14 @@ fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = fals
         verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IntermediateScreensText(text = stringResource(R.string.not_found))
+        IntermediateScreensText(
+            text = stringResource(R.string.not_found),
+            color = AlertColor
+        )
         if (hasFilters) {
             Text(
                 text = stringResource(id = R.string.check_filters),
-                color = Color.White,
+                color = AccentColor,
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center
             )
@@ -209,10 +213,10 @@ fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = fals
 }
 
 @Composable
-fun IntermediateScreensText(text: String) {
+fun IntermediateScreensText(text: String, color: Color = AccentColor) {
     Text(
         text = text,
-        color = AccentColor,
+        color = color,
         style = MaterialTheme.typography.h6,
         textAlign = TextAlign.Center,
         modifier = Modifier
@@ -751,12 +755,13 @@ fun MediaTypeFilterButton(
 fun FilterButton(
     buttonText: String?,
     isActivated: Boolean = false,
+    colorActivated: Color = AccentColor,
     backgroundColor: Color = PrimaryBackground,
     padding: PaddingValues = PaddingValues(end = dimensionResource(R.dimen.screen_padding)),
     complement: @Composable () -> Unit = {},
     onClick: () -> Unit
 ) {
-    val color = if (isActivated) AccentColor else Gray
+    val color = if (isActivated) colorActivated else Gray
     OutlinedButton(
         onClick = { onClick.invoke() },
         shape = RoundedCornerShape(percent = 100),

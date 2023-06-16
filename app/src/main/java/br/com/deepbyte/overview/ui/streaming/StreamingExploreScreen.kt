@@ -33,6 +33,7 @@ import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import com.google.accompanist.flowlayout.FlowRow
@@ -284,7 +285,7 @@ fun FilterBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(400.dp)
+            .height(450.dp)
             .background(SecondaryBackground)
             .padding(
                 vertical = dimensionResource(R.dimen.default_padding),
@@ -313,6 +314,7 @@ fun ClearFilterGenres(
         ) {
             FilterButton(
                 isActivated = true,
+                colorActivated = AlertColor,
                 backgroundColor = SecondaryBackground,
                 buttonText = stringResource(R.string.clear_filters),
                 complement = {
@@ -330,8 +332,8 @@ fun ClearFilterGenres(
 @Composable
 private fun CleanFilterIcon() {
     Icon(
-        tint = Color.White,
-        modifier = Modifier.size(15.dp).padding(1.dp),
+        tint = AlertColor,
+        modifier = Modifier.size(20.dp).padding(1.dp),
         painter = painterResource(id = R.drawable.delete_outline),
         contentDescription = stringResource(R.string.clear_filters)
     )

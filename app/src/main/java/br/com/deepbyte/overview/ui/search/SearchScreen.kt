@@ -26,6 +26,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 
@@ -97,11 +98,11 @@ fun SearchIsNotStated() {
 
 @Composable
 fun SearchIsEmpty() {
-    CenteredTextString(R.string.search_result_empty)
+    CenteredTextString(R.string.search_result_empty, AlertColor)
 }
 
 @Composable
-fun CenteredTextString(@StringRes textRes: Int) {
+fun CenteredTextString(@StringRes textRes: Int, color: Color = AccentColor) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -112,7 +113,7 @@ fun CenteredTextString(@StringRes textRes: Int) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IntermediateScreensText(stringResource(textRes))
+            IntermediateScreensText(stringResource(textRes), color)
         }
     }
 }
