@@ -9,7 +9,7 @@ import br.com.deepbyte.overview.data.source.media.MediaTypeEnum as MediaType
 class Filters(
     var mediaType: MediaType = MediaType.ALL,
     var streamingsIds: List<Long> = emptyList(),
-    private val genresIds: MutableList<Long> = mutableListOf()
+    val genresIds: MutableList<Long> = mutableListOf()
 ) : Parcelable {
 
     fun hasGenreWithId(genreId: Long) = genresIds.any { it == genreId }

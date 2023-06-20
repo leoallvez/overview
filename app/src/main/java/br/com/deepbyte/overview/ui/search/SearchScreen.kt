@@ -2,7 +2,15 @@ package br.com.deepbyte.overview.ui.search
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Icon
@@ -12,7 +20,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,9 +34,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
 import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.ui.*
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
+import br.com.deepbyte.overview.ui.AdsBanner
+import br.com.deepbyte.overview.ui.GridItemMedia
+import br.com.deepbyte.overview.ui.IntermediateScreensText
+import br.com.deepbyte.overview.ui.LoadingScreen
+import br.com.deepbyte.overview.ui.MediaTypeSelector
+import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.SearchField
+import br.com.deepbyte.overview.ui.SearchState
+import br.com.deepbyte.overview.ui.ToolbarButton
+import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.AlertColor
@@ -135,8 +157,11 @@ fun SearchSuccess(
 }
 
 @Composable
-fun MediaGrind(medias: List<Media>?, onNavigateToMediaDetails: MediaItemClick) {
-    if (medias == null || medias.isEmpty()) {
+fun MediaGrind(
+    medias: List<Media>?,
+    onNavigateToMediaDetails: MediaItemClick
+) {
+    if (medias.isNullOrEmpty()) {
         SearchIsEmpty()
     } else {
         Column {

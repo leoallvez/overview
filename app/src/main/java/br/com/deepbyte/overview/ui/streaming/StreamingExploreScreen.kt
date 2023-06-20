@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -156,6 +157,7 @@ fun StreamingExploreBody(
             Column(Modifier.background(PrimaryBackground)) {
                 FiltersArea(
                     filters = filters,
+                    genres = genresItems,
                     streaming = streaming,
                     closeFilterBottomSheet
                 )
@@ -191,38 +193,87 @@ fun StreamingExploreBody(
 @Composable
 fun FiltersArea(
     filters: Filters,
+    genres: List<Genre>,
     streaming: Streaming,
     onClick: () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.default_padding)),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
+    Column {
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(PrimaryBackground)
+                .padding(horizontal = dimensionResource(R.dimen.default_padding)),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            StreamingIcon(streaming = streaming, withBorder = true)
-            StreamingScreamTitle(streamingName = streaming.name)
-        }
-
-        FilterButton(
-            padding = PaddingValues(),
-            isActivated = filters.genresIsIsNotEmpty(),
-            buttonText = stringResource(R.string.filters),
-            complement = {
-                Text(
-                    text = filters.genreQuantity(),
-                    modifier = Modifier.padding(1.dp),
-                    color = Color.White
-                )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                StreamingIcon(streaming = streaming, withBorder = true)
+                StreamingScreamTitle(streamingName = streaming.name)
             }
-        ) {
-            onClick.invoke()
+
+            FilterButton(
+                padding = PaddingValues(),
+                isActivated = filters.genresIsIsNotEmpty(),
+                buttonText = stringResource(R.string.filters),
+                complement = {
+                    Text(
+                        text = filters.genreQuantity(),
+                        modifier = Modifier.padding(1.dp),
+                        color = Color.White
+                    )
+                }
+            ) {
+                onClick.invoke()
+            }
         }
+        Text(
+            text = filterDescription(filters, genres),
+            color = AccentColor,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 5.dp, vertical = 10.dp)
+        )
+    }
+}
+
+@Composable
+private fun filterDescription(filters: Filters, genres: List<Genre>): String {
+    val mediaDescription = mediaTypeDescription(filters.mediaType)
+    val genresDescription = genresDescription(filters.genresIds, genres)
+
+    return "$mediaDescription $genresDescription"
+}
+
+@Composable
+private fun mediaTypeDescription(mediaType: MediaTypeEnum): String = when (mediaType) {
+    MediaTypeEnum.ALL -> stringResource(id = R.string.all)
+    MediaTypeEnum.TV_SHOW -> stringResource(id = R.string.tv_show)
+    else -> stringResource(id = R.string.movies)
+}
+
+@Composable
+private fun genresDescription(genresSelectedIds: List<Long>, genres: List<Genre>): String {
+    return if (genresSelectedIds.isNotEmpty()) {
+        var result = ""
+        val filtered = genres.filter { it.apiId in genresSelectedIds }
+
+        for ((index: Int, genre: Genre) in filtered.withIndex()) {
+            val genreName: String = genre.nameTranslation()
+
+            result += if (filtered.lastIndex == index) {
+                "$genreName."
+            } else {
+                if (index == filtered.lastIndex - 1) {
+                    "$genreName & "
+                } else {
+                    "$genreName${if (filtered.size > 1) ", " else ""}"
+                }
+            }
+        }
+        ": ${result.lowercase().replaceFirstChar { it.uppercase() }}"
+    } else {
+        ""
     }
 }
 
@@ -333,7 +384,9 @@ fun ClearFilterGenres(
 private fun CleanFilterIcon() {
     Icon(
         tint = AlertColor,
-        modifier = Modifier.size(20.dp).padding(1.dp),
+        modifier = Modifier
+            .size(20.dp)
+            .padding(1.dp),
         painter = painterResource(id = R.drawable.delete_outline),
         contentDescription = stringResource(R.string.clear_filters)
     )
