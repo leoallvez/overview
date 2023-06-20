@@ -161,7 +161,7 @@ fun StreamingExploreBody(
                     streaming = streaming,
                     closeFilterBottomSheet
                 )
-                VerticalSpacer(dimensionResource(R.dimen.screen_padding))
+                VerticalSpacer(dimensionResource(R.dimen.default_padding))
                 when (pagingMediaItems.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
                     is LoadState.NotLoading -> {
@@ -232,7 +232,10 @@ fun FiltersArea(
             text = filterDescription(filters, genres),
             color = AccentColor,
             fontSize = 14.sp,
-            modifier = Modifier.padding(horizontal = 5.dp, vertical = 10.dp)
+            modifier = Modifier.padding(
+                horizontal = dimensionResource(R.dimen.default_padding),
+                vertical = dimensionResource(R.dimen.screen_padding)
+            )
         )
     }
 }
