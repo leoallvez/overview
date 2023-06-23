@@ -32,7 +32,6 @@ import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
-import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -144,10 +143,7 @@ fun StreamingExploreBody(
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
-                StreamingToolBar(
-                    onClickBackIcon = events::onPopBackStack,
-                    onClickSearchIcon = {}
-                )
+                StreamingToolBar(onClickBackIcon = events::onPopBackStack)
             },
             bottomBar = {
                 AdsBanner(R.string.discover_banner, showAds)
@@ -281,10 +277,7 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<Genre>
 }
 
 @Composable
-fun StreamingToolBar(
-    onClickBackIcon: () -> Unit,
-    onClickSearchIcon: () -> Unit
-) {
+fun StreamingToolBar(onClickBackIcon: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -306,11 +299,7 @@ fun StreamingToolBar(
                 )
             ) { onClickBackIcon.invoke() }
         }
-        SearchIcon(
-            modifier = Modifier
-                .padding(dimensionResource(R.dimen.screen_padding))
-                .clickable { onClickSearchIcon.invoke() }
-        )
+        SearchField(placeholder = "placeholder") {}
     }
 }
 

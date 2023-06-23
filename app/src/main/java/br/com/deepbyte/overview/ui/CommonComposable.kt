@@ -24,17 +24,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
@@ -48,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -58,8 +57,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -665,39 +662,57 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 }
 
 @Composable
-fun SearchField(onSearch: (query: String) -> Unit) {
-    var query by rememberSaveable { mutableStateOf(value = String()) }
-    val focusManager = LocalFocusManager.current
+fun SearchField(
+    placeholder: String,
+    onSearch: (query: String) -> Unit
+) {
+    var query by rememberSaveable { mutableStateOf("") }
+    Box(modifier = Modifier.padding(start = 13.dp, end = 5.dp)) {
+        BasicTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
+            value = query,
+            textStyle = MaterialTheme.typography.body2.copy(color = Color.White),
+            onValueChange = { value ->
+                query = value
+                onSearch(query)
+            },
+            singleLine = true,
+            cursorBrush = SolidColor(Color.White),
+            decorationBox = { innerTextField ->
+                Row(
+                    Modifier
+                        .border(
+                            width = 1.dp,
+                            color = Color.Gray,
+                            shape = RoundedCornerShape(size = 50.dp)
+                        ).padding(start = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    SearchIcon(
+                        modifier = Modifier.padding(5.dp)
+                    )
+                    Box(Modifier.weight(1f)) {
+                        if (query.isEmpty()) {
+                            Text(
+                                placeholder,
+                                style = LocalTextStyle.current.copy(
+                                    color = Color.Gray,
+                                    fontSize = MaterialTheme.typography.body2.fontSize
+                                )
+                            )
+                        }
+                        innerTextField()
+                    }
 
-    OutlinedTextField(
-        value = query,
-        onValueChange = { value ->
-            query = value
-            onSearch(query)
-        },
-        maxLines = 1,
-        placeholder = { Text(text = stringResource(R.string.search_field_text), color = AccentColor) },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = dimensionResource(R.dimen.screen_padding)),
-        singleLine = true,
-        keyboardActions = KeyboardActions(onSearch = {
-            onSearch(query)
-            focusManager.clearFocus()
-        }),
-        keyboardOptions = KeyboardOptions
-            .Default.copy(imeAction = ImeAction.Search, keyboardType = KeyboardType.Text),
-        textStyle = MaterialTheme.typography.subtitle1.copy(color = Color.White),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            cursorColor = Color.White,
-            backgroundColor = SecondaryBackground,
-            focusedBorderColor = SecondaryBackground,
-            unfocusedBorderColor = SecondaryBackground
-        ),
-        leadingIcon = { SearchIcon() },
-        trailingIcon = { ClearSearchIcon(query) { query = "" } },
-        shape = RoundedCornerShape(100.dp)
-    )
+                    if (query.isNotEmpty()) {
+                        ClearSearchIcon(query) { query = "" }
+                    }
+                }
+            }
+        )
+    }
 }
 
 @Composable

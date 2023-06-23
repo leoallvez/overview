@@ -108,8 +108,7 @@ fun SearchToolBar(
                 horizontal = 2.dp
             )
         ) { backButtonAction.invoke() }
-
-        SearchField(onSearch)
+        SearchField(placeholder = "placeholder", onSearch)
     }
 }
 
