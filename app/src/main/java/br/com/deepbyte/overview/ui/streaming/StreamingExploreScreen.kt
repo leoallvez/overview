@@ -143,7 +143,11 @@ fun StreamingExploreBody(
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
-                StreamingToolBar(onClickBackIcon = events::onPopBackStack)
+                StreamingToolBar(
+                    stringResource(R.string.search_on_streaming, streaming.name),
+                    backButtonAction = events::onPopBackStack,
+                    onSearch = {}
+                )
             },
             bottomBar = {
                 AdsBanner(R.string.discover_banner, showAds)
@@ -277,7 +281,11 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<Genre>
 }
 
 @Composable
-fun StreamingToolBar(onClickBackIcon: () -> Unit) {
+fun StreamingToolBar(
+    placeholder: String,
+    backButtonAction: () -> Unit,
+    onSearch: (String) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -297,9 +305,9 @@ fun StreamingToolBar(onClickBackIcon: () -> Unit) {
                     vertical = dimensionResource(R.dimen.screen_padding),
                     horizontal = 2.dp
                 )
-            ) { onClickBackIcon.invoke() }
+            ) { backButtonAction.invoke() }
         }
-        SearchField(placeholder = "placeholder") {}
+        SearchField(placeholder = placeholder, onSearch = onSearch)
     }
 }
 
