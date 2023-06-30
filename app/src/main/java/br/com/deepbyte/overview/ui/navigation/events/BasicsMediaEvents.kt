@@ -8,7 +8,7 @@ open class BasicsMediaEvents(
     private val navigation: NavController,
     private val backToHome: Boolean = false
 ) {
-    fun onNavigateToHome() = onNavigateToHome(navigation).invoke()
+    private fun onNavigateToHome() = onNavigateToHome(navigation).invoke()
 
     fun onNavigateToMediaDetails(apiId: Long, mediaType: String?, backToHome: Boolean = false) =
         onNavigateToMediaDetails(navigation, backToHome).invoke(apiId, mediaType)

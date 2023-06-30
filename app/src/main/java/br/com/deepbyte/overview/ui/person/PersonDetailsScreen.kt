@@ -51,7 +51,7 @@ fun CastDetailsScreen(
         PersonDetailsContent(
             person = dataResult,
             showAds = viewModel.showAds,
-            events::onNavigateToHome,
+            events::onPopBackStack,
             { apiId, mediaType ->
                 events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
             }

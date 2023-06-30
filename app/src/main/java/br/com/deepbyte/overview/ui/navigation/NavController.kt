@@ -74,7 +74,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
     ) { navBackStackEntry ->
         CastDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
-            events = BasicsMediaEvents(navController)
+            events = BasicsMediaEvents(navController, backToHome = true)
         )
     }
     composable(
