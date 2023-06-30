@@ -664,15 +664,20 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 @Composable
 fun SearchField(
     placeholder: String,
-    onSearch: (query: String) -> Unit
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
+    onSearch: (query: String) -> Unit = {}
 ) {
     var query by rememberSaveable { mutableStateOf("") }
-    Box(modifier = Modifier.padding(start = 13.dp, end = 5.dp)) {
+    Box(
+        modifier = Modifier
+            .padding(start = 13.dp, end = 5.dp)
+            .clickable { onClick() }
+    ) {
         BasicTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp),
             value = query,
+            enabled = enabled,
+            modifier = Modifier.fillMaxWidth().height(40.dp),
             textStyle = MaterialTheme.typography.body2.copy(color = Color.White),
             onValueChange = { value ->
                 query = value
@@ -685,7 +690,7 @@ fun SearchField(
                     Modifier
                         .border(
                             width = 1.dp,
-                            color = Color.Gray,
+                            color = if (query.isEmpty()) Color.Gray else AccentColor,
                             shape = RoundedCornerShape(size = 50.dp)
                         ).padding(start = 5.dp),
                     verticalAlignment = Alignment.CenterVertically

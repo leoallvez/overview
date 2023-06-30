@@ -18,6 +18,7 @@ import br.com.deepbyte.overview.ui.navigation.args.StreamingArgType
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
+import br.com.deepbyte.overview.ui.navigation.events.StreamingEvents
 import br.com.deepbyte.overview.ui.person.CastDetailsScreen
 import br.com.deepbyte.overview.ui.search.SearchScreen
 import br.com.deepbyte.overview.ui.splash.SplashScreen
@@ -82,7 +83,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
     ) { navBackStackEntry ->
         StreamingExploreScreen(
             streaming = navBackStackEntry.getStreamingParams(),
-            events = BasicsMediaEvents(navController)
+            events = StreamingEvents(navController)
         )
     }
     composable(

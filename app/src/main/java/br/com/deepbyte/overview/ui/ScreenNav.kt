@@ -22,13 +22,6 @@ sealed class ScreenNav(val route: String, val name: String) {
         fun editRoute(id: Long) = "cast_details/$id"
     }
 
-    object GenreDiscover : ScreenNav(
-        route = "genre_discover/{$JSON_PARAM}",
-        name = "GenreDiscoverScreen"
-    ) {
-        fun editRoute(json: String) = "genre_discover/$json"
-    }
-
     object Search : ScreenNav(
         route = "search",
         name = "SearchScreen"
@@ -36,7 +29,7 @@ sealed class ScreenNav(val route: String, val name: String) {
 
     object StreamingExplore : ScreenNav(
         route = "streaming/{$JSON_PARAM}",
-        name = "StreamingOverviewScreen"
+        name = "StreamingExploreScreen"
     ) {
         fun editRoute(json: String) = "streaming/${Uri.encode(json)}"
     }

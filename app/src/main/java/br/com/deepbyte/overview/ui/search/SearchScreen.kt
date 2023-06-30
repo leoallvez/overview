@@ -65,7 +65,7 @@ fun SearchScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            SearchToolBar(events::onNavigateToHome) { query ->
+            SearchToolBar(events::onPopBackStack) { query ->
                 viewModel.search(query)
             }
         },
@@ -108,7 +108,10 @@ fun SearchToolBar(
                 horizontal = 2.dp
             )
         ) { backButtonAction.invoke() }
-        SearchField(placeholder = "placeholder", onSearch)
+        SearchField(
+            onSearch = onSearch,
+            placeholder = stringResource(R.string.search_in_all_places)
+        )
     }
 }
 

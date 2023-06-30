@@ -31,7 +31,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.*
-import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.navigation.events.StreamingEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun StreamingExploreScreen(
     streaming: Streaming,
-    events: BasicsMediaEvents,
+    events: StreamingEvents,
     viewModel: StreamingExploreViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
@@ -79,7 +79,7 @@ fun StreamingExploreContent(
     streaming: Streaming,
     onRefresh: () -> Unit,
     genresItems: List<Genre>,
-    events: BasicsMediaEvents,
+    events: StreamingEvents,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (Filters) -> Unit
 ) {
@@ -103,7 +103,7 @@ fun StreamingExploreBody(
     onRefresh: () -> Unit,
     streaming: Streaming,
     genresItems: List<Genre>,
-    events: BasicsMediaEvents,
+    events: StreamingEvents,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (Filters) -> Unit
 ) {
@@ -144,9 +144,8 @@ fun StreamingExploreBody(
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
                 StreamingToolBar(
-                    stringResource(R.string.search_on_streaming, streaming.name),
                     backButtonAction = events::onPopBackStack,
-                    onSearch = {}
+                    onNavigateToSearch = events::onNavigateToSearch
                 )
             },
             bottomBar = {
@@ -282,9 +281,8 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<Genre>
 
 @Composable
 fun StreamingToolBar(
-    placeholder: String,
     backButtonAction: () -> Unit,
-    onSearch: (String) -> Unit
+    onNavigateToSearch: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -307,7 +305,11 @@ fun StreamingToolBar(
                 )
             ) { backButtonAction.invoke() }
         }
-        SearchField(placeholder = placeholder, onSearch = onSearch)
+        SearchField(
+            enabled = false,
+            onClick = onNavigateToSearch,
+            placeholder = stringResource(R.string.search_in_all_places)
+        )
     }
 }
 
