@@ -1,14 +1,12 @@
 package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.api.response.ErrorResponse
-import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.api.response.PagingResponse
-import br.com.deepbyte.overview.data.api.response.ProviderResponse
+import br.com.deepbyte.overview.data.api.response.*
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.model.person.PersonDetails
+import br.com.deepbyte.overview.data.model.person.Person
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -46,18 +44,6 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
-    @GET(value = "{url}")
-    suspend fun getTvShowItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
-
     // Movie
     @GET(value = "movie/{api_id}")
     suspend fun getMovie(
@@ -74,6 +60,7 @@ interface ApiService {
 
     ): NetworkResponse<Movie, ErrorResponse>
 
+    // TODO: refactor - this will be deleted
     @GET(value = "search/movie")
     suspend fun searchMovie(
         @Query("query")
@@ -86,18 +73,6 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
-
-    @GET(value = "{url}")
-    suspend fun getMovieItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
     @GET(value = "{url}")
@@ -116,7 +91,7 @@ interface ApiService {
     @GET(value = "{media_type}/{api_id}/watch/providers")
     suspend fun getProviders(
         @Path(value = "media_type", encoded = true)
-        type: String,
+        mediaType: String,
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
@@ -140,31 +115,26 @@ interface ApiService {
         region: String = "",
         @Query(value = "append_to_response")
         appendToResponse: String = "tv_credits,movie_credits"
-    ): NetworkResponse<PersonDetails, ErrorResponse>
+    ): NetworkResponse<Person, ErrorResponse>
 
-    // Discover
-    @GET(value = "tv/popular")
-    suspend fun discoverByProvider(
+    // Streaming
+    @GET(value = "watch/providers/tv")
+    suspend fun getStreamingItems(
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = ""
+    ): NetworkResponse<ListResponse<Streaming>, ErrorResponse>
+
+    // New requests & labs
+    @GET(value = "discover/tv")
+    suspend fun getTvShowsPaging(
         @Query(value = "with_watch_providers")
-        providerId: Long,
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
-
-    @GET(value = "discover/{media_type}")
-    suspend fun discoverByGenre(
-        @Path(value = "media_type", encoded = true)
-        type: String,
+        streamingsIds: String = "",
         @Query(value = "with_genres")
-        genreId: Long,
+        withGenres: String = "",
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "language")
@@ -175,5 +145,36 @@ interface ApiService {
         watchRegion: String = "",
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<PagingResponse<MediaItem>, ErrorResponse>
+    ): NetworkResponse<PagingResponse<TvShow>, ErrorResponse>
+
+    @GET(value = "discover/movie")
+    suspend fun getMoviesPaging(
+        @Query(value = "with_watch_providers")
+        streamingsIds: String = "",
+        @Query(value = "with_genres")
+        withGenres: String = "",
+        @Query(value = "page")
+        page: Int = 0,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<PagingResponse<Movie>, ErrorResponse>
+
+    // Genre
+    @GET(value = "genre/{media_type}/list")
+    suspend fun getGenreByMediaType(
+        @Path(value = "media_type", encoded = true)
+        mediaType: String,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = ""
+    ): NetworkResponse<GenreListResponse, ErrorResponse>
 }

@@ -21,18 +21,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.MediaType.MOVIE
-import br.com.deepbyte.overview.data.MediaType.TV_SHOW
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.MOVIE
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.TV_SHOW
 import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.ui.*
+import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import br.com.deepbyte.overview.data.model.person.PersonDetails
-import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 
 @Composable
 fun CastDetailsScreen(
@@ -51,7 +51,7 @@ fun CastDetailsScreen(
         PersonDetailsContent(
             person = dataResult,
             showAds = viewModel.showAds,
-            events::onNavigateToHome,
+            events::onPopBackStack,
             { apiId, mediaType ->
                 events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
             }
@@ -63,7 +63,7 @@ fun CastDetailsScreen(
 
 @Composable
 fun PersonDetailsContent(
-    person: PersonDetails?,
+    person: Person?,
     showAds: Boolean,
     onNavigateToHome: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
@@ -88,7 +88,7 @@ fun PersonDetailsContent(
 }
 
 @Composable
-fun PersonToolBar(person: PersonDetails, backButtonAction: () -> Unit) {
+fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -97,8 +97,7 @@ fun PersonToolBar(person: PersonDetails, backButtonAction: () -> Unit) {
             .background(PrimaryBackground)
     ) {
         PersonImageCircle(
-            imageUrl = person.getProfileImage(),
-            contentDescription = person.name,
+            person,
             modifier = Modifier
                 .size(300.dp)
                 .padding(dimensionResource(R.dimen.screen_padding))
@@ -114,7 +113,7 @@ fun PersonToolBar(person: PersonDetails, backButtonAction: () -> Unit) {
 
 @Composable
 fun PersonBody(
-    person: PersonDetails,
+    person: Person,
     showAds: Boolean,
     onClickItem: MediaItemClick
 ) {
@@ -137,7 +136,7 @@ fun PersonBody(
 }
 
 @Composable
-fun PersonDates(person: PersonDetails) {
+fun PersonDates(person: Person) {
     person.apply {
         if (getFormattedBirthday().isNotEmpty()) {
             Row(
@@ -201,7 +200,7 @@ fun PersonSpace() {
 fun ParticipationList(
     @StringRes listTitleRes: Int,
     mediaItems: List<MediaItem>,
-    mediaType: MediaType,
+    mediaType: MediaTypeEnum,
     onClickItem: MediaItemClick
 ) {
     MediaItemList(

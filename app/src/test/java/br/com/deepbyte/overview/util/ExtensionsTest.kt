@@ -1,96 +1,86 @@
 package br.com.deepbyte.overview.util
 
 import br.com.deepbyte.overview.util.mock.MockPerson
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeNull
+import org.amshove.kluent.shouldHaveSingleItem
 import org.junit.Test
 
 class ExtensionsTest {
 
     // fromJson method
-    @Test fun fromJson_parserValidJson_objectHasValidProperties() {
+    @Test
+    fun `should create a model with same values when parse from json`() {
         // Arrange
-        val expectedId = 1
-        val expectedName = "Job"
-        val validJson = """{"id":"$expectedId","first_name":"$expectedName"}"""
+        val modelExpected = MockPerson(1, "David")
+        val validJson = """{"id":1,"first_name":"David"}"""
         // Act
-        val model: MockPerson? = validJson.fromJson()
+        val modelResult: MockPerson? = validJson.fromJson()
         // Assert
-        assertEquals(expectedId, model?.id)
-        assertEquals(expectedName, model?.firstName)
+        modelResult.shouldBeEqualTo(modelExpected)
     }
 
-    @Test fun fromJson_parserValidJson_returnsAnObject() {
-        // Arrange
-        val id = 1
-        val firstName = "Job"
-        val expected = "id:$id,first_name:$firstName"
-        val validJson = """{"id":"$id","first_name":"$firstName"}"""
-        // Act
-        val model: MockPerson? = validJson.fromJson()
-        // Assert
-        assertEquals(expected, model?.toString())
-    }
-
-    @Test fun fromJson_parserInvalidJson_returnsNull() {
+    @Test
+    fun `should be null when try parse from an invalid json`() {
         // Arrange
         val invalidJson = """{"id":1,@ERROR}"""
-        val expected = null
         // Act
         val result: Any? = invalidJson.fromJson()
         // Assert
-        assertEquals(expected, result)
+        result.shouldBeNull()
     }
 
-    @Test fun fromJson_parserEmptyString_returnsNull() {
+    @Test
+    fun `should be null when try parse from an empty string`() {
         // Arrange
         val emptyString = ""
-        val expected = null
         // Act
         val result: Any? = emptyString.fromJson()
         // Assert
-        assertEquals(expected, result)
+        result.shouldBeNull()
     }
 
     // parseToList
-    @Test fun parseToList_parserJsonWithOneElement_listHasOneElement() {
+    @Test
+    fun `should have single item when parse to list a valid array json with one item`() {
         // Arrange
-        val validJSON = """[{"id":1,"first_name":"Ana"}]"""
-        val expected = 1
+        val validJson = """[{"id":1,"first_name":"Ana"}]"""
         // Act
-        val list = validJSON.parseToList<MockPerson>()
+        val list = validJson.parseToList<MockPerson>()
         // Assert
-        assertEquals(expected, list.size)
+        list.shouldHaveSingleItem()
     }
 
-    @Test fun parseToList_parserJsonWithOneElement_objectHasValidProperties() {
+    @Test
+    fun `should create a model with same values when parse from json array with one item`() {
         // Arrange
-        val expectedId = 1
-        val expectedName = "Ana"
-        val validJSON = """[{"id":$expectedId,"first_name":"$expectedName"}]"""
+        val modelExpected = MockPerson(1, "Ana")
+        val validJSON = """[{"id":1,"first_name":"Ana"}]"""
         // Act
         val list: List<MockPerson> = validJSON.parseToList()
-        val model = list.first()
+        val modelResult = list.first()
         // Assert
-        assertEquals(expectedId, model.id)
-        assertEquals(expectedName, model.firstName)
+        modelResult.shouldBeEqualTo(modelExpected)
     }
 
-    @Test fun parseToList_parserInvalidJson_listIsEmpty() {
+    @Test
+    fun `should create an empty list when try parse an invalid json`() {
         // Arrange
         val invalidJSON = """[{"id":1,"first_name":"Ana"@ERROR}]"""
         // Act
         val list: List<MockPerson> = invalidJSON.parseToList()
         // Assert
-        assertTrue(list.isEmpty())
+        list.shouldBeEmpty()
     }
 
-    @Test fun parseToList_parserEmptyString_listIsEmpty() {
+    @Test
+    fun `should create an empty list when try parse an empty string`() {
         // Arrange
         val emptyString = ""
         // Act
         val list: List<MockPerson> = emptyString.parseToList()
         // Assert
-        assertTrue(list.isEmpty())
+        list.shouldBeEmpty()
     }
 }

@@ -1,8 +1,8 @@
 package br.com.deepbyte.overview.data.model.media
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.MediaType
-import br.com.deepbyte.overview.data.model.provider.ProviderPlace
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import com.squareup.moshi.Json
 
 abstract class Media {
@@ -16,9 +16,15 @@ abstract class Media {
 
     @field:Json(name = "poster_path")
     private val posterPath: String = ""
+
+    @field:Json(name = "vote_average")
+    val voteAverage: Double = 0.0
+
     val genres: List<Genre> = listOf()
     protected val credits: Credits = Credits()
-    var providers: List<ProviderPlace> = listOf()
+
+    @field:Json(name = "providers")
+    var streamings: List<Streaming> = listOf()
 
     abstract fun getSimilarMedia(): List<Media>
     abstract fun getRuntime(): String
@@ -29,7 +35,7 @@ abstract class Media {
     fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
     fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
-    fun getType() = if (this is Movie) MediaType.MOVIE.key else MediaType.TV_SHOW.key
+    fun getType() = if (this is Movie) MediaTypeEnum.MOVIE.key else MediaTypeEnum.TV_SHOW.key
 
     protected fun runtimeTemplate(runtime: Int) = if (runtime > 0) {
         val hours = runtime / 60

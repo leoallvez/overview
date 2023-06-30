@@ -25,6 +25,12 @@ android {
             useSupportLibrary true
         }
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
         def api_key = System.getenv("API_KEY")
         buildConfigField 'String', 'API_KEY', api_key ? "\"$api_key\"" : '""'
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
@@ -112,7 +118,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.6.0"
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation platform('androidx.compose:compose-bom:2022.12.00')
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.material3:material3"
@@ -120,38 +126,44 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata"
 
     implementation "androidx.lifecycle:lifecycle-runtime"
-    implementation "androidx.activity:activity-compose:1.7.0-alpha03"
+    implementation "androidx.activity:activity-compose:1.7.0-beta02"
     // Firebase Module
     implementation project(path: ':firebase')
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0-alpha04"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
     // Navigation
-    implementation "androidx.navigation:navigation-compose:2.6.0-alpha04"
+    implementation "androidx.navigation:navigation-compose:2.7.0-beta01"
     // Hilt
     def hilt = "2.46.1"
     implementation "com.google.dagger:hilt-android:$hilt"
     kapt "com.google.dagger:hilt-android-compiler:$hilt"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     // Room
-    def room = "2.5.0"
+    def room = "2.5.1"
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
     kapt "androidx.room:room-compiler:$room"
     // Paging
-    def paging_version = "3.1.1"
+    def paging_version = "3.2.0-beta01"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
+    implementation "androidx.paging:paging-compose:3.2.0-beta01"
+    // WorkManager
+    def work_version = "2.8.1"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation 'androidx.hilt:hilt-work:1.0.0'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
     // DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     // Google Ads
-    implementation "com.google.android.gms:play-services-ads:21.4.0"
+    implementation "com.google.android.gms:play-services-ads:22.1.0"
     // Accompanist
     def accompanist = "0.30.1"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
 
     // Third party library
     implementation "com.jakewharton.timber:timber:5.0.1"
@@ -165,10 +177,11 @@ dependencies {
     implementation "com.ehsanmsz:msz-progress-indicator:0.2.0"
 
     testImplementation "junit:junit:4.13.2"
-    testImplementation "io.mockk:mockk:1.13.4"
+    testImplementation "io.mockk:mockk:1.13.5"
+    testImplementation 'org.amshove.kluent:kluent-android:1.72'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.0-alpha04"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.0-beta02"
     debugImplementation "androidx.compose.ui:ui-tooling"
 }

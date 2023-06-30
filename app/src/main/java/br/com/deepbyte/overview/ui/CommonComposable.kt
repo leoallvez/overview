@@ -2,29 +2,51 @@ package br.com.deepbyte.overview.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Snackbar
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -35,30 +57,44 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.person.Person
+import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
 import br.com.deepbyte.overview.ui.theme.AccentColor
+import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
+import br.com.deepbyte.overview.util.getStringByName
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
+
+@Composable
+fun Genre.nameTranslation(): String {
+    val translationName = getGenreTranslation.invoke(apiId)
+    return if (translationName.isNullOrEmpty()) name else translationName
+}
+
+private val getGenreTranslation = @Composable { apiId: Long ->
+    val current = LocalContext.current
+    current.getStringByName(resource = "genre_$apiId")
+}
 
 @Composable
 fun BasicTitle(title: String) {
@@ -100,60 +136,84 @@ fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
 }
 
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(showOnTop: Boolean = false) {
+    val padding = if (showOnTop) {
+        dimensionResource(id = R.dimen.transition_screen_top_padding)
+    } else { 0.dp }
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+            .fillMaxSize()
+            .padding(top = padding),
+        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column {
-            IntermediateScreensText(text = stringResource(R.string.loading))
-            BallScaleRippleMultipleProgressIndicator(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+        IntermediateScreensText(text = stringResource(R.string.loading))
+        BallScaleRippleMultipleProgressIndicator(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color = AccentColor,
+            animationDuration = 900
+        )
+    }
+}
+
+@Composable
+fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
+    val padding = if (showOnTop) {
+        dimensionResource(id = R.dimen.transition_screen_top_padding)
+    } else { 0.dp }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground)
+            .padding(top = padding),
+        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        IntermediateScreensText(text = stringResource(R.string.error_on_loading), color = AlertColor)
+        StylizedButton(
+            buttonText = stringResource(R.string.btn_try_again),
+            iconDescription = stringResource(R.string.refresh_icon),
+            iconImageVector = Icons.Filled.Refresh
+        ) {
+            refresh.invoke()
+        }
+    }
+}
+
+@Composable
+fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = false) {
+    val padding = if (showOnTop) {
+        dimensionResource(id = R.dimen.transition_screen_top_padding)
+    } else { 0.dp }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground)
+            .padding(top = padding),
+        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        IntermediateScreensText(
+            text = stringResource(R.string.not_found),
+            color = AlertColor
+        )
+        if (hasFilters) {
+            Text(
+                text = stringResource(id = R.string.check_filters),
                 color = AccentColor,
-                animationDuration = 900
+                style = MaterialTheme.typography.body1,
+                textAlign = TextAlign.Center
             )
         }
     }
 }
 
 @Composable
-fun ErrorScreen(refresh: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            IntermediateScreensText(text = stringResource(R.string.error_on_loading))
-            StylizedButton(
-                buttonText = stringResource(R.string.btn_try_again),
-                iconDescription = stringResource(R.string.refresh_icon),
-                iconImageVector = Icons.Filled.Refresh
-            ) {
-                refresh.invoke()
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewErrorScreen() {
-    ErrorScreen {}
-}
-
-@Composable
-fun IntermediateScreensText(text: String) {
+fun IntermediateScreensText(text: String, color: Color = AccentColor) {
     Text(
         text = text,
-        color = AccentColor,
+        color = color,
         style = MaterialTheme.typography.h6,
         textAlign = TextAlign.Center,
         modifier = Modifier
@@ -208,7 +268,7 @@ fun ToolbarButton(
             .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(dimensionResource(R.dimen.toolbar_element_size))
+            .size(40.dp)
             .clickable { onClick.invoke() }
     ) {
         Icon(
@@ -482,10 +542,10 @@ fun BasicParagraph(paragraph: String) {
 }
 
 @Composable
-fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Modifier = Modifier) {
+fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
     BasicImage(
-        url = imageUrl,
-        contentDescription = contentDescription,
+        url = person.getProfileImage(),
+        contentDescription = person.name,
         contentScale = ContentScale.Crop,
         modifier = modifier
             .size(120.dp)
@@ -496,42 +556,10 @@ fun PersonImageCircle(imageUrl: String, contentDescription: String, modifier: Mo
 }
 
 @Composable
-fun DiscoverContent(
-    showAds: Boolean,
-    providerName: String,
-    pagingItems: LazyPagingItems<MediaItem>,
-    onRefresh: () -> Unit,
-    onPopBackStack: () -> Unit,
-    onToMediaDetails: MediaItemClick
-) {
-    when (pagingItems.loadState.refresh) {
-        is LoadState.Loading -> LoadingScreen()
-        is LoadState.NotLoading -> {
-            Scaffold(
-                modifier = Modifier
-                    .background(PrimaryBackground)
-                    .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
-                topBar = { DiscoverToolBar(providerName, onPopBackStack) },
-                bottomBar = {
-                    AdsBanner(R.string.discover_banner, showAds)
-                }
-            ) { padding ->
-                if (pagingItems.itemCount == 0) {
-                    ErrorOnLoading()
-                } else {
-                    DiscoverBody(padding, pagingItems, onToMediaDetails)
-                }
-            }
-        }
-        else -> ErrorScreen(onRefresh)
-    }
-}
-
-@Composable
-fun DiscoverBody(
+fun MediaPagingVerticalGrid(
     padding: PaddingValues,
-    pagingItems: LazyPagingItems<MediaItem>,
-    onNavigateToMediaDetails: MediaItemClick
+    pagingItems: LazyPagingItems<Media>,
+    onClickMediaItem: MediaItemClick
 ) {
     Column(
         modifier = Modifier
@@ -542,8 +570,10 @@ fun DiscoverBody(
         LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
             items(pagingItems.itemCount) { index ->
                 GridItemMedia(
-                    mediaItem = pagingItems[index],
-                    onClick = onNavigateToMediaDetails
+                    media = pagingItems[index],
+                    onClick = {
+                        onClickMediaItem.invoke(it.apiId, it.getType())
+                    }
                 )
             }
         }
@@ -551,60 +581,12 @@ fun DiscoverBody(
 }
 
 @Composable
-fun DiscoverToolBar(screenTitle: String, backButtonAction: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(bottom = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        ToolbarButton(
-            painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon,
-            background = Color.White.copy(alpha = 0.1f),
-            padding = PaddingValues(
-                vertical = dimensionResource(R.dimen.screen_padding),
-                horizontal = 2.dp
-            )
-        ) { backButtonAction.invoke() }
-        ScreenTitle(text = screenTitle)
-    }
-}
-
-// TODO: To refactor user Media class as parameter
-@Composable
-fun GridItemMedia(mediaItem: MediaItem?, onClick: MediaItemClick) {
-    mediaItem?.apply {
+fun GridItemMedia(media: Media?, onClick: (Media) -> Unit) {
+    media?.apply {
         Column(
             modifier = Modifier
                 .padding(2.dp)
-                .clickable { onClick(apiId, type) }
-        ) {
-            BasicImage(
-                url = getPosterImage(),
-                contentDescription = getLetter(),
-                withBorder = true,
-                modifier = Modifier
-                    .size(width = 125.dp, height = 180.dp)
-                    .padding(1.dp)
-            )
-            BasicText(
-                text = getLetter(),
-                style = MaterialTheme.typography.caption,
-                isBold = true
-            )
-        }
-    }
-}
-
-@Composable
-fun GridItemMedia(media: Media, onClick: (Media) -> Unit) {
-    media.apply {
-        Column(
-            modifier = Modifier
-                .padding(2.dp)
-                .clickable { onClick(this) }
+                .clickable { onClick(media) }
         ) {
             BasicImage(
                 url = getPosterImage(),
@@ -663,7 +645,7 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(50.dp)
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(Color.Transparent, PrimaryBackground)
@@ -680,37 +662,154 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 }
 
 @Composable
-fun SearchField(onSearch: (query: String) -> Unit) {
-    var query by rememberSaveable { mutableStateOf(value = String()) }
+fun SearchField(
+    placeholder: String,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
+    onSearch: (query: String) -> Unit = {}
+) {
+    var query by rememberSaveable { mutableStateOf("") }
+    Box(
+        modifier = Modifier
+            .padding(start = 13.dp, end = 5.dp)
+            .clickable { onClick() }
+    ) {
+        BasicTextField(
+            value = query,
+            enabled = enabled,
+            modifier = Modifier.fillMaxWidth().height(40.dp),
+            textStyle = MaterialTheme.typography.body2.copy(color = Color.White),
+            onValueChange = { value ->
+                query = value
+                onSearch(query)
+            },
+            singleLine = true,
+            cursorBrush = SolidColor(Color.White),
+            decorationBox = { innerTextField ->
+                Row(
+                    Modifier
+                        .border(
+                            width = 1.dp,
+                            color = if (query.isEmpty()) Color.Gray else AccentColor,
+                            shape = RoundedCornerShape(size = 50.dp)
+                        ).padding(start = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    SearchIcon(
+                        modifier = Modifier.padding(5.dp)
+                    )
+                    Box(Modifier.weight(1f)) {
+                        if (query.isEmpty()) {
+                            Text(
+                                placeholder,
+                                style = LocalTextStyle.current.copy(
+                                    color = Color.Gray,
+                                    fontSize = MaterialTheme.typography.body2.fontSize
+                                )
+                            )
+                        }
+                        innerTextField()
+                    }
+
+                    if (query.isNotEmpty()) {
+                        ClearSearchIcon(query) { query = "" }
+                    }
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun StreamingIcon(
+    modifier: Modifier = Modifier,
+    streaming: Streaming,
+    size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
+    withBorder: Boolean = true,
+    onClick: () -> Unit = {}
+) {
+    BasicImage(
+        url = streaming.getLogoImage(),
+        contentDescription = streaming.name,
+        withBorder = withBorder,
+        modifier = modifier
+            .size(size)
+            .clickable { onClick.invoke() }
+    )
+}
+
+// TODO: remove this when finish StreamingExploreScreen;
+@Composable
+fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
+    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+        val options = MediaTypeEnum.getAllOrdered()
+        options.forEach { mediaType ->
+            MediaTypeFilterButton(mediaType, selectedKey) {
+                onClick.invoke(mediaType)
+            }
+        }
+    }
+}
+
+@Composable
+fun MediaTypeFilterButton(
+    mediaType: MediaTypeEnum,
+    selectedKey: String,
+    onClick: () -> Unit
+) {
+    val isActivated = selectedKey == mediaType.key
     val focusManager = LocalFocusManager.current
 
-    OutlinedTextField(
-        value = query,
-        onValueChange = { value ->
-            query = value
-            onSearch(query)
-        },
-        maxLines = 1,
-        placeholder = { Text(text = stringResource(R.string.search_field_text), color = AccentColor) },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = dimensionResource(R.dimen.screen_padding)),
-        singleLine = true,
-        keyboardActions = KeyboardActions(onSearch = {
-            onSearch(query)
+    FilterButton(
+        onClick = {
+            onClick.invoke()
             focusManager.clearFocus()
-        }),
-        keyboardOptions = KeyboardOptions
-            .Default.copy(imeAction = ImeAction.Search, keyboardType = KeyboardType.Text),
-        textStyle = MaterialTheme.typography.subtitle1.copy(color = Color.White),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            cursorColor = Color.White,
-            backgroundColor = SecondaryBackground,
-            focusedBorderColor = SecondaryBackground,
-            unfocusedBorderColor = SecondaryBackground
-        ),
-        leadingIcon = { SearchIcon() },
-        trailingIcon = { ClearSearchIcon(query) { query = "" } },
-        shape = RoundedCornerShape(100.dp)
+        },
+        isActivated = isActivated,
+        backgroundColor = SecondaryBackground,
+        buttonText = stringResource(mediaType.labelRes)
     )
+}
+
+@Composable
+fun FilterButton(
+    buttonText: String?,
+    isActivated: Boolean = false,
+    colorActivated: Color = AccentColor,
+    backgroundColor: Color = PrimaryBackground,
+    padding: PaddingValues = PaddingValues(end = dimensionResource(R.dimen.screen_padding)),
+    complement: @Composable () -> Unit = {},
+    onClick: () -> Unit
+) {
+    val color = if (isActivated) colorActivated else Gray
+    OutlinedButton(
+        onClick = { onClick.invoke() },
+        shape = RoundedCornerShape(percent = 100),
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(R.dimen.default_padding)
+        ),
+        modifier = Modifier
+            .height(25.dp)
+            .padding(padding),
+        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor
+        )
+    ) {
+        buttonText?.let {
+            Text(
+                text = it,
+                color = color,
+                style = MaterialTheme.typography.caption,
+                fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
+                modifier = Modifier.padding(5.dp)
+            )
+        }
+        complement()
+    }
+}
+
+@Composable
+fun VerticalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
+    Spacer(modifier = Modifier.padding(vertical = padding))
 }

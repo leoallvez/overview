@@ -1,36 +1,55 @@
 package br.com.deepbyte.overview.ui.search
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.MediaType.*
 import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.ui.*
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
+import br.com.deepbyte.overview.ui.AdsBanner
+import br.com.deepbyte.overview.ui.GridItemMedia
+import br.com.deepbyte.overview.ui.IntermediateScreensText
+import br.com.deepbyte.overview.ui.LoadingScreen
+import br.com.deepbyte.overview.ui.MediaTypeSelector
+import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.SearchField
+import br.com.deepbyte.overview.ui.SearchState
+import br.com.deepbyte.overview.ui.ToolbarButton
+import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
-import br.com.deepbyte.overview.ui.theme.Gray
+import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
@@ -46,7 +65,7 @@ fun SearchScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            SearchToolBar(events::onNavigateToHome) { query ->
+            SearchToolBar(events::onPopBackStack) { query ->
                 viewModel.search(query)
             }
         },
@@ -89,8 +108,10 @@ fun SearchToolBar(
                 horizontal = 2.dp
             )
         ) { backButtonAction.invoke() }
-
-        SearchField(onSearch)
+        SearchField(
+            onSearch = onSearch,
+            placeholder = stringResource(R.string.search_in_all_places)
+        )
     }
 }
 
@@ -101,11 +122,11 @@ fun SearchIsNotStated() {
 
 @Composable
 fun SearchIsEmpty() {
-    CenteredTextString(R.string.search_result_empty)
+    CenteredTextString(R.string.search_result_empty, AlertColor)
 }
 
 @Composable
-fun CenteredTextString(@StringRes textRes: Int) {
+fun CenteredTextString(@StringRes textRes: Int, color: Color = AccentColor) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -116,7 +137,7 @@ fun CenteredTextString(@StringRes textRes: Int) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IntermediateScreensText(stringResource(textRes))
+            IntermediateScreensText(stringResource(textRes), color)
         }
     }
 }
@@ -129,66 +150,20 @@ fun SearchSuccess(
     var selected by remember { mutableStateOf(ALL.key) }
 
     Column {
-        MediaSelector(selected) { newSelected ->
-            selected = newSelected
+        MediaTypeSelector(selected) { newSelected ->
+            selected = newSelected.key
         }
+        Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
         MediaGrind(medias = results[selected], onNavigateToMediaDetails)
     }
 }
 
 @Composable
-fun MediaSelector(selector: String, onClick: (String) -> Unit) {
-    val options = listOf(ALL, MOVIE, TV_SHOW)
-    Row(
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))
-    ) {
-        options.forEach { option ->
-            MediaButton(option.labelRes, selector, option.key, onClick)
-        }
-    }
-    Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
-}
-
-@Composable
-fun MediaButton(
-    @StringRes labelResId: Int,
-    selectedKey: String,
-    mediaKey: String,
-    onClick: (String) -> Unit
+fun MediaGrind(
+    medias: List<Media>?,
+    onNavigateToMediaDetails: MediaItemClick
 ) {
-    val isActivated = selectedKey == mediaKey
-    val color = if (isActivated) AccentColor else Gray
-    val focusManager = LocalFocusManager.current
-
-    OutlinedButton(
-        onClick = {
-            onClick.invoke(mediaKey)
-            focusManager.clearFocus()
-        },
-        shape = RoundedCornerShape(percent = 100),
-        contentPadding = PaddingValues(
-            horizontal = dimensionResource(R.dimen.default_padding)
-        ),
-        modifier = Modifier
-            .height(35.dp)
-            .padding(end = dimensionResource(R.dimen.screen_padding)),
-        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (isActivated) PrimaryBackground else SecondaryBackground
-        )
-    ) {
-        Text(
-            text = stringResource(labelResId),
-            color = color,
-            style = MaterialTheme.typography.caption,
-            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal
-        )
-    }
-}
-
-@Composable
-fun MediaGrind(medias: List<Media>?, onNavigateToMediaDetails: MediaItemClick) {
-    if (medias == null || medias.isEmpty()) {
+    if (medias.isNullOrEmpty()) {
         SearchIsEmpty()
     } else {
         Column {
@@ -220,9 +195,10 @@ fun ClearSearchIcon(query: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun SearchIcon() {
+fun SearchIcon(modifier: Modifier = Modifier) {
     Icon(
         tint = AccentColor,
+        modifier = modifier,
         imageVector = Icons.Rounded.Search,
         contentDescription = stringResource(R.string.search_icon)
     )

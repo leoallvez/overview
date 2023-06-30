@@ -1,5 +1,7 @@
 package br.com.deepbyte.overview.ui
 
+import android.net.Uri
+
 sealed class ScreenNav(val route: String, val name: String) {
     object Splash : ScreenNav(route = "splash_screen", name = "SplashScreen")
 
@@ -20,29 +22,27 @@ sealed class ScreenNav(val route: String, val name: String) {
         fun editRoute(id: Long) = "cast_details/$id"
     }
 
-    object ProviderDiscover : ScreenNav(
-        route = "provider_discover/{$JSON_PARAM}",
-        name = "ProviderDiscoverScreen"
-    ) {
-        fun editRoute(jsonParam: String) = "provider_discover/$jsonParam"
-    }
-
-    object GenreDiscover : ScreenNav(
-        route = "genre_discover/{$JSON_PARAM}",
-        name = "GenreDiscoverScreen"
-    ) {
-        fun editRoute(jsonParam: String) = "genre_discover/$jsonParam"
-    }
-
     object Search : ScreenNav(
         route = "search",
         name = "SearchScreen"
     )
 
+    object StreamingExplore : ScreenNav(
+        route = "streaming/{$JSON_PARAM}",
+        name = "StreamingExploreScreen"
+    ) {
+        fun editRoute(json: String) = "streaming/${Uri.encode(json)}"
+    }
+
+    object StreamingOverviewEdit : ScreenNav(
+        route = "streaming_overview_edit",
+        name = "StreamingOverviewEditScreen"
+    )
+
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"
-        const val JSON_PARAM = "Json"
+        const val JSON_PARAM = "json"
         const val BACK_TO_HOME_PARAM = "back_to_home"
     }
 }

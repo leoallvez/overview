@@ -6,12 +6,20 @@
     <string tools:ignore="UnusedResources" name="discover_movie">Películas que puedes disfrutar</string>
     <string tools:ignore="UnusedResources" name="movie_trending">Películas de tendencia</string>
     <string tools:ignore="UnusedResources" name="movie_popular">Películas populares</string>
-
     <string tools:ignore="UnusedResources" name="tv_top_rated">Mejor valorados en streaming</string>
     <string tools:ignore="UnusedResources" name="discover_tv">Puedes disfrutarlo en streaming</string>
     <string tools:ignore="UnusedResources" name="tv_trending">Tendencia de streaming</string>
     <string tools:ignore="UnusedResources" name="tv_popular">Lo más popular de streaming</string>
-    <!-- Dynamic -->
+    <!-- Genre -->
+    <string tools:ignore="UnusedResources" name="genre_10759">Ação e Aventura</string>
+    <string tools:ignore="UnusedResources" name="genre_10762">Infantil</string>
+    <string tools:ignore="UnusedResources" name="genre_10763">Notiticias</string>
+    <string tools:ignore="UnusedResources" name="genre_10764">Reality Show</string>
+    <string tools:ignore="UnusedResources" name="genre_10765">Ficção Científica e Fantasia</string>
+    <string tools:ignore="UnusedResources" name="genre_10766">Ficção Cómica</string>
+    <string tools:ignore="UnusedResources" name="genre_10767">Entrevista</string>
+    <string tools:ignore="UnusedResources" name="genre_10768">Guerra y Politica</string>
+
     <string name="error_on_loading">Error al cargar :(</string>
     <string name="btn_try_again">Intentar nuevamente</string>
     <string name="refresh_icon">Recargar icono</string>
@@ -43,11 +51,22 @@
     <string name="search_field_text">Buscar</string>
 
     <string name="movies">Películas</string>
-    <string name="tv_show">Televisión</string>
-    <string name="all">Todo</string>
+    <string name="tv_show">Series</string>
+    <string name="all">Películas y Series</string>
 
     <string name="search_not_started">Los resultados de la búsqueda aparecerán aquí :)</string>
     <string name="search_result_empty">Ningún resultado encontrado :(</string>
     <string name="empty_list_providers">No disponible para transmisión</string>
     <string name="not_yet_released">Aún no publicado</string>
+
+    <string name="edit">Editar</string>
+    <string name="yours_streaming">Tus streaming</string>
+    <string name="search_in_all_places">Procure em todos os lugares</string>
+    <string name="genres">Géneros</string>
+    <string name="type">Tipo</string>
+    <string name="filters">Filtros</string>
+    <string name="close">Para cerrar icono</string>
+    <string name="not_found">Ningún resultado encontrado :(</string>
+    <string name="check_filters">Revisa los filtros e inténtalo de nuevo</string>
+    <string name="clear_filters">Borrar todos los filtros</string>
 </resources>

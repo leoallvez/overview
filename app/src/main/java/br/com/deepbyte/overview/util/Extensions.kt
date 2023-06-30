@@ -1,15 +1,14 @@
 package br.com.deepbyte.overview.util
 
 import android.content.Context
+import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
 import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.model.DiscoverParams
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
-import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.model.provider.ProviderPlace
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.ui.ScreenNav
 import com.squareup.moshi.JsonAdapter
@@ -40,10 +39,14 @@ inline fun <reified T> String.parseToList(): List<T> = try {
 }
 
 // TODO: Finish unit tests for another functions
-fun Context.getStringByName(resource: String): String {
-    val resourceId = this.resources
-        .getIdentifier(resource, "string", this.packageName)
-    return this.getString(resourceId)
+fun Context.getStringByName(resource: String): String? {
+    return try {
+        val resourceId = this.resources
+            .getIdentifier(resource, "string", this.packageName)
+        return this.getString(resourceId)
+    } catch (e: NotFoundException) {
+        null
+    }
 }
 
 fun Map.Entry<Suggestion, List<MediaItem>>.toMediaSuggestion(): MediaSuggestion {
@@ -77,33 +80,24 @@ fun NavBackStackEntry.getBackToHome(): Boolean {
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
-fun NavBackStackEntry.getDiscoverParams(): DiscoverParams {
+fun NavBackStackEntry.getStreamingParams(): Streaming {
     val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
-    return json.fromJson() ?: DiscoverParams()
+    return json.fromJson() ?: Streaming()
 }
 
-fun ProviderPlace.createDiscoverParams(
-    media: Media
-) = DiscoverParams(
-    apiId = apiId,
-    screenTitle = name,
-    mediaId = media.apiId,
-    mediaType = media.getType()
-)
-
-fun Genre.createDiscoverParams(
-    media: Media
-) = DiscoverParams(
-    apiId = apiId,
-    screenTitle = name,
-    mediaId = media.apiId,
-    mediaType = media.getType()
-)
+fun Streaming.toJson(): String {
+    val moshi = Moshi.Builder().build()
+    val jsonAdapter = moshi.adapter<Any>(Streaming::class.java)
+    return jsonAdapter.toJson(this)
+}
 
 fun <T : Media> DataResult<ListResponse<T>>.toList(): List<T> {
     val isValid = this is DataResult.Success
     val medias = data?.results ?: listOf()
     return (if (isValid) medias.filter { it.adult.not() } else listOf())
 }
+
+fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
+fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

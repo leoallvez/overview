@@ -10,21 +10,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.com.deepbyte.overview.ui.ScreenNav
-import br.com.deepbyte.overview.ui.discover.GenreDiscoverScreen
-import br.com.deepbyte.overview.ui.discover.ProviderDiscoverScreen
 import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
+import br.com.deepbyte.overview.ui.navigation.args.StreamingArgType
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
+import br.com.deepbyte.overview.ui.navigation.events.StreamingEvents
 import br.com.deepbyte.overview.ui.person.CastDetailsScreen
 import br.com.deepbyte.overview.ui.search.SearchScreen
 import br.com.deepbyte.overview.ui.splash.SplashScreen
+import br.com.deepbyte.overview.ui.streaming.StreamingExploreScreen
+import br.com.deepbyte.overview.ui.streaming.StreamingOverviewEditScreen
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.getApiId
 import br.com.deepbyte.overview.util.getBackToHome
-import br.com.deepbyte.overview.util.getDiscoverParams
 import br.com.deepbyte.overview.util.getParams
+import br.com.deepbyte.overview.util.getStreamingParams
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalPagerApi
@@ -39,12 +43,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             SplashScreen(onNavigateToHome = onNavigateToHome(navController))
         }
         composable(route = ScreenNav.Home.route) {
-            HomeScreen(
-                onNavigateToMediaDetails = onNavigateToMediaDetails(navController),
-                onNavigateToSearch = {
-                    navController.navigate(route = ScreenNav.Search.route)
-                }
-            )
+            HomeScreen(events = HomeScreenEvents(navController))
         }
         composable(route = ScreenNav.Search.route) {
             SearchScreen(events = BasicsMediaEvents(navController))
@@ -75,25 +74,21 @@ fun NavGraphBuilder.mediaDetailsGraph(
     ) { navBackStackEntry ->
         CastDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
-            events = BasicsMediaEvents(navController)
+            events = BasicsMediaEvents(navController, backToHome = true)
         )
     }
     composable(
-        route = ScreenNav.ProviderDiscover.route,
-        arguments = listOf(NavArgument.JSON)
+        route = ScreenNav.StreamingExplore.route,
+        arguments = listOf(navArgument(ScreenNav.JSON_PARAM) { type = StreamingArgType() })
     ) { navBackStackEntry ->
-        ProviderDiscoverScreen(
-            events = BasicsMediaEvents(navController),
-            params = navBackStackEntry.getDiscoverParams()
+        StreamingExploreScreen(
+            streaming = navBackStackEntry.getStreamingParams(),
+            events = StreamingEvents(navController)
         )
     }
     composable(
-        route = ScreenNav.GenreDiscover.route,
-        arguments = listOf(NavArgument.JSON)
-    ) { navBackStackEntry ->
-        GenreDiscoverScreen(
-            events = BasicsMediaEvents(navController),
-            params = navBackStackEntry.getDiscoverParams()
-        )
+        route = ScreenNav.StreamingOverviewEdit.route
+    ) {
+        StreamingOverviewEditScreen()
     }
 }

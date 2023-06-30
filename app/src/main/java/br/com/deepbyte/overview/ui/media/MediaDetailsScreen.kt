@@ -1,11 +1,14 @@
 package br.com.deepbyte.overview.ui.media
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -18,7 +21,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
@@ -26,14 +28,17 @@ import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.model.person.PersonDetails
-import br.com.deepbyte.overview.data.model.provider.ProviderPlace
+import br.com.deepbyte.overview.data.model.person.Person
+import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.util.createDiscoverParams
+import br.com.deepbyte.overview.util.defaultBorder
+import br.com.deepbyte.overview.util.defaultPadding
+import br.com.deepbyte.overview.util.toJson
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -47,14 +52,15 @@ fun MediaDetailsScreen(
     TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
 
     val (apiId: Long, mediaType: String) = params
-    viewModel.loadMediaDetails(apiId, mediaType)
+    val type = MediaTypeEnum.getByKey(mediaType)
+    viewModel.loadMediaDetails(apiId, type)
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
-        onRefresh = { viewModel.refresh(apiId, mediaType) }
+        onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
         MediaDetailsContent(media, viewModel.showAds, events) {
-            viewModel.refresh(apiId, mediaType)
+            viewModel.refresh(apiId, type)
         }
     }
 }
@@ -118,9 +124,8 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        ProvidersList(media.providers, media.isReleased()) { provider ->
-            val params = provider.createDiscoverParams(media)
-            events.onNavigateToProviderDiscover(params.toJson())
+        StreamingsOverview(media.streamings, media.isReleased()) { streaming ->
+            events.onNavigateToStreamingExplore(streaming.toJson())
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())
@@ -135,10 +140,7 @@ fun MediaBody(
             }
         }
         MediaSpace()
-        GenreList(media.genres) { genre ->
-            val params = genre.createDiscoverParams(media)
-            events.onNavigateToGenreDiscover(params.toJson())
-        }
+        GenreList(media.genres)
         BasicParagraph(R.string.synopsis, media.overview)
         AdsMediumRectangle(
             prodBannerId = R.string.media_details_banner,
@@ -158,18 +160,14 @@ fun MediaBody(
 
 @Composable
 fun MediaSpace() {
-    Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
+    Spacer(Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
 }
 
 @Composable
 fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
     if (numberOfSeasons > 0) {
         val padding = dimensionResource(R.dimen.screen_padding)
-        Row(
-            modifier = Modifier
-                .padding(horizontal = padding)
-                .padding(top = 2.dp)
-        ) {
+        Row(modifier = Modifier.padding(horizontal = padding).padding(top = 2.dp)) {
             val spacerModifier = Modifier.padding(horizontal = 2.dp)
             NumberOfSeasons(numberOfSeasons)
             Spacer(modifier = spacerModifier)
@@ -220,86 +218,61 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
 }
 
 @Composable
-fun ProvidersList(
-    providers: List<ProviderPlace>,
+fun StreamingsOverview(
+    streamings: List<Streaming>,
     isReleased: Boolean,
-    onClickItem: (ProviderPlace) -> Unit
+    onClickItem: (Streaming) -> Unit
 ) {
     BasicTitle(stringResource(R.string.where_to_watch))
-    if (providers.isNotEmpty()) {
+    if (streamings.isNotEmpty()) {
         LazyRow(
-            Modifier.padding(vertical = 10.dp),
+            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
             contentPadding = PaddingValues(
                 horizontal = dimensionResource(R.dimen.screen_padding)
             )
         ) {
-            items(providers) { provider ->
-                ProviderItem(provider) {
-                    onClickItem.invoke(provider)
+            items(streamings) { streaming ->
+                StreamingIcon(streaming = streaming) {
+                    onClickItem.invoke(streaming)
                 }
             }
         }
     } else {
-        EmptyListProvidersMsg(
+        StreamingsNotFound(
             if (isReleased) { R.string.empty_list_providers } else { R.string.not_yet_released }
         )
     }
 }
 
 @Composable
-fun EmptyListProvidersMsg(@StringRes stringResource: Int) {
+fun StreamingsNotFound(@StringRes stringResource: Int) {
     Row(
         modifier = Modifier
             .padding(
                 horizontal = dimensionResource(R.dimen.screen_padding),
                 vertical = dimensionResource(R.dimen.default_padding)
             )
-            .height(40.dp)
-            .border(
-                dimensionResource(R.dimen.border_width),
-                Gray,
-                RoundedCornerShape(dimensionResource(R.dimen.corner))
-            )
-            .background(PrimaryBackground),
+            .height(dimensionResource(R.dimen.streaming_item_small_size))
+            .defaultBorder(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = stringResource(stringResource),
-            modifier = Modifier.emptyListPadding(end = 0.dp),
+            modifier = Modifier.defaultPadding(end = 0.dp),
             color = Gray
         )
         Icon(
             painter = painterResource(R.drawable.outline_alert),
             tint = Gray,
             contentDescription = stringResource(stringResource),
-            modifier = Modifier.emptyListPadding()
+            modifier = Modifier.defaultPadding()
         )
     }
 }
 
 @Composable
-private fun Modifier.emptyListPadding(
-    start: Dp = dimensionResource(id = R.dimen.screen_padding),
-    top: Dp = 5.dp,
-    end: Dp = dimensionResource(id = R.dimen.screen_padding),
-    bottom: Dp = 5.dp
-): Modifier = padding(start, top, end, bottom)
-
-@Composable
-fun ProviderItem(provider: ProviderPlace, onClick: () -> Unit) {
-    BasicImage(
-        url = provider.getLogoImage(),
-        contentDescription = provider.name,
-        withBorder = true,
-        modifier = Modifier
-            .size(50.dp)
-            .clickable { onClick.invoke() }
-    )
-}
-
-@Composable
-fun GenreList(genres: List<Genre>, onClickItem: (Genre) -> Unit) {
+fun GenreList(genres: List<Genre>) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -311,18 +284,16 @@ fun GenreList(genres: List<Genre>, onClickItem: (Genre) -> Unit) {
             )
         ) {
             items(genres) { genre ->
-                GenreItem(name = genre.name) {
-                    onClickItem.invoke(genre)
-                }
+                GenreItem(name = genre.nameTranslation())
             }
         }
     }
 }
 
 @Composable
-fun GenreItem(name: String, onClick: () -> Unit) {
+fun GenreItem(name: String) {
     OutlinedButton(
-        onClick = { onClick.invoke() },
+        onClick = {},
         shape = RoundedCornerShape(percent = 100),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)
@@ -344,7 +315,7 @@ fun GenreItem(name: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun CastList(cast: List<PersonDetails>, onClickItem: (Long) -> Unit) {
+fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
     if (cast.isNotEmpty()) {
         Column {
             BasicTitle(title = stringResource(R.string.cast))
@@ -364,12 +335,12 @@ fun CastList(cast: List<PersonDetails>, onClickItem: (Long) -> Unit) {
 }
 
 @Composable
-fun CastItem(castPerson: PersonDetails, onClick: () -> Unit) {
+fun CastItem(castPerson: Person, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
-        PersonImageCircle(imageUrl = castPerson.getProfileImage(), contentDescription = castPerson.name)
+        PersonImageCircle(castPerson)
         BasicText(
             text = castPerson.name,
             style = MaterialTheme.typography.caption,

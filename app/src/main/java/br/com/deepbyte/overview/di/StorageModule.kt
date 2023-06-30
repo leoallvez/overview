@@ -34,6 +34,15 @@ class StorageModule {
     fun provideSuggestionDao(db: AppDatabase) = db.suggestionDao()
 
     @Provides
+    fun provideStreamingDao(db: AppDatabase) = db.streamingDao()
+
+    @Provides
+    fun provideMediaTypeDao(db: AppDatabase) = db.mediaTypeDao()
+
+    @Provides
+    fun provideGenre(db: AppDatabase) = db.genreDao()
+
+    @Provides
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.dataStore
