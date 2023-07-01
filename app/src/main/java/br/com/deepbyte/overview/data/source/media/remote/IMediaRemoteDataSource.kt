@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.source.media.remote
 
 import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.model.Filters
+import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.source.DataResult
 

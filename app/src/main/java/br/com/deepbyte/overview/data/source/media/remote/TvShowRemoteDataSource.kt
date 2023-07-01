@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.data.source.media.remote
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
-import br.com.deepbyte.overview.data.model.Filters
+import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.responseToResult
 import br.com.deepbyte.overview.util.joinToStringWithPipe
