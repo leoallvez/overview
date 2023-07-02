@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.model.Filters
+import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository

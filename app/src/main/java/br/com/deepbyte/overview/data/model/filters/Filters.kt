@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.data.model
+package br.com.deepbyte.overview.data.model.filters
 
 import android.os.Parcelable
 import br.com.deepbyte.overview.util.joinToStringWithComma
@@ -7,6 +7,7 @@ import br.com.deepbyte.overview.data.source.media.MediaTypeEnum as MediaType
 
 @Parcelize
 class Filters(
+    var query: String = "",
     var mediaType: MediaType = MediaType.ALL,
     var streamingsIds: List<Long> = emptyList(),
     val genresIds: MutableList<Long> = mutableListOf()

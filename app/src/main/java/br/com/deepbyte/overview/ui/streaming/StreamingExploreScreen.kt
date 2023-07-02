@@ -25,7 +25,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.Filters
+import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming

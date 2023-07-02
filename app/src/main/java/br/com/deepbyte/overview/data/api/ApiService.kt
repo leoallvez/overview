@@ -40,6 +40,8 @@ interface ApiService {
         region: String = "",
         @Query(value = "watch_region")
         watchRegion: String = "",
+        @Query(value = "page")
+        page: Int = 0,
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
@@ -60,7 +62,6 @@ interface ApiService {
 
     ): NetworkResponse<Movie, ErrorResponse>
 
-    // TODO: refactor - this will be deleted
     @GET(value = "search/movie")
     suspend fun searchMovie(
         @Query("query")
@@ -71,6 +72,8 @@ interface ApiService {
         region: String = "",
         @Query(value = "watch_region")
         watchRegion: String = "",
+        @Query(value = "page")
+        page: Int = 0,
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>

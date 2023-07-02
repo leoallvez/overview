@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.data.source.media.remote
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
-import br.com.deepbyte.overview.data.model.Filters
+import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.responseToResult
 import br.com.deepbyte.overview.util.joinToStringWithPipe
@@ -20,20 +20,26 @@ class TvShowRemoteDataSource @Inject constructor(
     }
 
     override suspend fun getPaging(page: Int, filters: Filters): List<TvShow> {
-        return when (val response = paging(page, filters)) {
+        return when (val response = makePaging(page, filters)) {
             is NetworkResponse.Success -> { response.body.results }
             else -> listOf()
         }
     }
 
-    private suspend fun paging(page: Int, filters: Filters) = _locale.run {
+    private suspend fun makePaging(page: Int, filters: Filters) = _locale.run {
         val streamingsIds = filters.streamingsIds.joinToStringWithPipe()
         val genresIds = filters.getGenreIdsSeparatedWithComma()
         _api.getTvShowsPaging(streamingsIds, genresIds, page, language, region, region)
     }
 
-    override suspend fun search(query: String) = _locale.run {
-        val response = _api.searchTvShow(query, language, region, region)
-        responseToResult(response)
+    override suspend fun searchPaging(page: Int, filters: Filters): List<TvShow> {
+        return when (val response = makeSearchPaging(page, filters)) {
+            is NetworkResponse.Success -> { response.body.results }
+            else -> listOf()
+        }
+    }
+
+    private suspend fun makeSearchPaging(page: Int, filters: Filters) = _locale.run {
+        _api.searchTvShow(filters.query, language, region, region, page)
     }
 }

@@ -10,8 +10,8 @@ import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
 import br.com.deepbyte.overview.data.repository.mediatype.MediaTypeRepository
 import br.com.deepbyte.overview.data.repository.person.IPersonRepository
 import br.com.deepbyte.overview.data.repository.person.PersonRepository
-import br.com.deepbyte.overview.data.repository.search.ISearchRepository
-import br.com.deepbyte.overview.data.repository.search.SearchRepository
+import br.com.deepbyte.overview.data.repository.search.ISearchPagingRepository
+import br.com.deepbyte.overview.data.repository.search.SearchPagingRepository
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.data.repository.streaming.StreamingRepository
 import dagger.Binds
@@ -24,7 +24,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun binMediaItemRepository(
+    abstract fun bindMediaItemRepository(
         repository: MediaItemRepository
     ): IMediaItemRepository
 
@@ -34,27 +34,27 @@ abstract class RepositoryModule {
     ): IMediaPagingRepository
 
     @Binds
-    abstract fun binPersonRepository(
+    abstract fun bindPersonRepository(
         repository: PersonRepository
     ): IPersonRepository
 
     @Binds
-    abstract fun binSearchRepository(
-        repository: SearchRepository
-    ): ISearchRepository
+    abstract fun bindSearchPagingRepository(
+        repository: SearchPagingRepository
+    ): ISearchPagingRepository
 
     @Binds
-    abstract fun binStreamingRepository(
+    abstract fun bindStreamingRepository(
         repository: StreamingRepository
     ): IStreamingRepository
 
     @Binds
-    abstract fun binGenreRepository(
+    abstract fun bindGenreRepository(
         repository: GenreRepository
     ): IGenreRepository
 
     @Binds
-    abstract fun binMediaTypeRepository(
+    abstract fun bindMediaTypeRepository(
         repository: MediaTypeRepository
     ): IMediaTypeRepository
 }
