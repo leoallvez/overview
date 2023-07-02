@@ -1,16 +1,13 @@
 package br.com.deepbyte.overview.ui.search
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
+import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.repository.search.ISearchPagingRepository
 import br.com.deepbyte.overview.di.ShowAds
-import br.com.deepbyte.overview.ui.SearchUiState
-import br.com.deepbyte.overview.ui.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,24 +17,8 @@ class SearchViewModel @Inject constructor(
     private val _repository: ISearchPagingRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<SearchUiState>(SearchState.NotStated())
-    val uiState: StateFlow<SearchUiState> = _uiState
+    private val _filters = MutableStateFlow(Filters())
+    val filters: StateFlow<Filters> = _filters
 
-    fun search(query: String) = viewModelScope.launch {
-        if (query.isNotEmpty()) {
-            searchResults(query)
-        } else {
-            _uiState.value = SearchState.Empty()
-        }
-    }
-
-    private suspend fun searchResults(query: String) {
-        _uiState.value = SearchState.Loading()
-        /**
-        _repository.search(query).collect { data ->
-            val success = data.values.flatten().any()
-            _uiState.value = if (success) SearchState.Success(data) else SearchState.Empty()
-        }
-        */
-    }
+    fun searchPaging() = _repository.searchPaging(filters.value)
 }

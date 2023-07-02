@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -33,24 +31,22 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
 import br.com.deepbyte.overview.ui.AdsBanner
-import br.com.deepbyte.overview.ui.GridItemMedia
 import br.com.deepbyte.overview.ui.IntermediateScreensText
 import br.com.deepbyte.overview.ui.LoadingScreen
+import br.com.deepbyte.overview.ui.MediaPagingVerticalGrid
 import br.com.deepbyte.overview.ui.MediaTypeSelector
+import br.com.deepbyte.overview.ui.NotFoundContentScreen
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.SearchField
-import br.com.deepbyte.overview.ui.SearchState
 import br.com.deepbyte.overview.ui.ToolbarButton
 import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
-import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.util.MediaItemClick
 
 @Composable
 fun SearchScreen(
@@ -59,6 +55,18 @@ fun SearchScreen(
 ) {
     TrackScreenView(screen = ScreenNav.Search, viewModel.analyticsTracker)
 
+    val loadData = {
+        viewModel.searchPaging()
+    }
+
+    val filters = viewModel.filters.collectAsState().value
+    var started: Boolean by remember { mutableStateOf(value = false) }
+    var mediaItems by remember { mutableStateOf(value = loadData()) }
+    val setMediaItems = {
+        mediaItems = loadData()
+        started = true
+    }
+
     Scaffold(
         backgroundColor = PrimaryBackground,
         modifier = Modifier
@@ -66,22 +74,36 @@ fun SearchScreen(
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
             SearchToolBar(events::onPopBackStack) { query ->
-                viewModel.search(query)
+                filters.query = query
+                setMediaItems()
             }
         },
         bottomBar = {
             AdsBanner(R.string.search_banner, viewModel.showAds)
         }
     ) { padding ->
-
-        Box(modifier = Modifier.padding(padding)) {
-            when (val uiState = viewModel.uiState.collectAsState().value) {
-                is SearchState.NotStated -> SearchIsNotStated()
-                is SearchState.Loading -> LoadingScreen()
-                is SearchState.Success -> {
-                    SearchSuccess(uiState.data, events::onNavigateToMediaDetails)
+        Column {
+            if (started) {
+                MediaTypeSelector(filters.mediaType.key) { mediaType ->
+                    filters.mediaType = mediaType
+                    setMediaItems()
                 }
-                is SearchState.Empty -> SearchIsEmpty()
+            }
+            Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
+            Box {
+                val items = mediaItems.collectAsLazyPagingItems()
+                when (items.loadState.refresh) {
+                    is LoadState.Loading -> LoadingScreen()
+                    is LoadState.NotLoading -> {
+                        MediaPagingVerticalGrid(padding, items, events::onNavigateToMediaDetails)
+                    } else -> {
+                        if (started) {
+                            NotFoundContentScreen()
+                        } else {
+                            SearchIsNotStated()
+                        }
+                    }
+                }
             }
         }
     }
@@ -121,11 +143,6 @@ fun SearchIsNotStated() {
 }
 
 @Composable
-fun SearchIsEmpty() {
-    CenteredTextString(R.string.search_result_empty, AlertColor)
-}
-
-@Composable
 fun CenteredTextString(@StringRes textRes: Int, color: Color = AccentColor) {
     Column(
         modifier = Modifier
@@ -138,45 +155,6 @@ fun CenteredTextString(@StringRes textRes: Int, color: Color = AccentColor) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             IntermediateScreensText(stringResource(textRes), color)
-        }
-    }
-}
-
-@Composable
-fun SearchSuccess(
-    results: Map<String, List<Media>>,
-    onNavigateToMediaDetails: MediaItemClick
-) {
-    var selected by remember { mutableStateOf(ALL.key) }
-
-    Column {
-        MediaTypeSelector(selected) { newSelected ->
-            selected = newSelected.key
-        }
-        Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
-        MediaGrind(medias = results[selected], onNavigateToMediaDetails)
-    }
-}
-
-@Composable
-fun MediaGrind(
-    medias: List<Media>?,
-    onNavigateToMediaDetails: MediaItemClick
-) {
-    if (medias.isNullOrEmpty()) {
-        SearchIsEmpty()
-    } else {
-        Column {
-            LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
-                items(medias.size) { index ->
-                    GridItemMedia(
-                        media = medias[index],
-                        onClick = { media ->
-                            onNavigateToMediaDetails.invoke(media.apiId, media.getType())
-                        }
-                    )
-                }
-            }
         }
     }
 }
