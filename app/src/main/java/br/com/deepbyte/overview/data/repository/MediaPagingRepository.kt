@@ -16,7 +16,7 @@ import br.com.deepbyte.overview.util.PagingMediaResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
-abstract class PagingRepository(
+abstract class MediaPagingRepository(
     private val _coroutineScope: CoroutineScope
 ) {
 

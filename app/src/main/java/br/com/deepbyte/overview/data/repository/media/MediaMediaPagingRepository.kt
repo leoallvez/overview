@@ -3,17 +3,17 @@ package br.com.deepbyte.overview.data.repository.media
 import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.repository.PagingRepository
+import br.com.deepbyte.overview.data.repository.MediaPagingRepository
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-class MediaPagingRepository @Inject constructor(
+class MediaMediaPagingRepository @Inject constructor(
     _coroutineScope: CoroutineScope,
     private val _movieSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
-) : PagingRepository(_coroutineScope), IMediaPagingRepository {
+) : MediaPagingRepository(_coroutineScope), IMediaPagingRepository {
 
     override fun getMediasPaging(filters: Filters) = filterPaging(filters)
 

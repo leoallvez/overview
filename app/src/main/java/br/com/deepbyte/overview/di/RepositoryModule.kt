@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.di
 import br.com.deepbyte.overview.data.repository.genre.GenreRepository
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
 import br.com.deepbyte.overview.data.repository.media.MediaItemRepository
-import br.com.deepbyte.overview.data.repository.media.MediaPagingRepository
+import br.com.deepbyte.overview.data.repository.media.MediaMediaPagingRepository
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaItemRepository
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
@@ -11,7 +11,7 @@ import br.com.deepbyte.overview.data.repository.mediatype.MediaTypeRepository
 import br.com.deepbyte.overview.data.repository.person.IPersonRepository
 import br.com.deepbyte.overview.data.repository.person.PersonRepository
 import br.com.deepbyte.overview.data.repository.search.ISearchPagingRepository
-import br.com.deepbyte.overview.data.repository.search.SearchPagingRepository
+import br.com.deepbyte.overview.data.repository.search.SearchMediaPagingRepository
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.data.repository.streaming.StreamingRepository
 import dagger.Binds
@@ -30,7 +30,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindMediaPagingRepository(
-        repository: MediaPagingRepository
+        repository: MediaMediaPagingRepository
     ): IMediaPagingRepository
 
     @Binds
@@ -40,7 +40,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindSearchPagingRepository(
-        repository: SearchPagingRepository
+        repository: SearchMediaPagingRepository
     ): ISearchPagingRepository
 
     @Binds

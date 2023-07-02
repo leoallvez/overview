@@ -3,16 +3,16 @@ package br.com.deepbyte.overview.data.repository.search
 import br.com.deepbyte.overview.data.model.filters.Filters
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.repository.PagingRepository
+import br.com.deepbyte.overview.data.repository.MediaPagingRepository
 import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-class SearchPagingRepository @Inject constructor(
+class SearchMediaPagingRepository @Inject constructor(
     _coroutineScope: CoroutineScope,
     private val _movieSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
-) : PagingRepository(_coroutineScope), ISearchPagingRepository {
+) : MediaPagingRepository(_coroutineScope), ISearchPagingRepository {
 
     override fun searchPaging(filters: Filters) = filterPaging(filters)
 
