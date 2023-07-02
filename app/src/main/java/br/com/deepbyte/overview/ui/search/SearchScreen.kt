@@ -25,8 +25,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,6 +51,7 @@ import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 
 @Composable
+@ExperimentalComposeUiApi
 fun SearchScreen(
     events: BasicsMediaEvents,
     viewModel: SearchViewModel = hiltViewModel()
@@ -60,12 +63,14 @@ fun SearchScreen(
     }
 
     val filters = viewModel.filters.collectAsState().value
-    var started: Boolean by remember { mutableStateOf(value = false) }
     var mediaItems by remember { mutableStateOf(value = loadData()) }
     val setMediaItems = {
         mediaItems = loadData()
-        started = true
+        viewModel.start()
     }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    keyboardController?.show()
 
     Scaffold(
         backgroundColor = PrimaryBackground,
@@ -83,7 +88,7 @@ fun SearchScreen(
         }
     ) { padding ->
         Column {
-            if (started) {
+            if (viewModel.started) {
                 MediaTypeSelector(filters.mediaType.key) { mediaType ->
                     filters.mediaType = mediaType
                     setMediaItems()
@@ -97,7 +102,7 @@ fun SearchScreen(
                     is LoadState.NotLoading -> {
                         MediaPagingVerticalGrid(padding, items, events::onNavigateToMediaDetails)
                     } else -> {
-                        if (started) {
+                        if (viewModel.started) {
                             NotFoundContentScreen()
                         } else {
                             SearchIsNotStated()

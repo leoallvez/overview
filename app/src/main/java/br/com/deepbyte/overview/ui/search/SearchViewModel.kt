@@ -17,8 +17,15 @@ class SearchViewModel @Inject constructor(
     private val _repository: ISearchPagingRepository
 ) : ViewModel() {
 
+    var started: Boolean = false
+        private set
+
     private val _filters = MutableStateFlow(Filters())
     val filters: StateFlow<Filters> = _filters
 
     fun searchPaging() = _repository.searchPaging(filters.value)
+
+    fun start() {
+        started = true
+    }
 }

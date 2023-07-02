@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -37,13 +38,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -57,6 +62,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction.Companion
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -84,6 +90,7 @@ import br.com.deepbyte.overview.util.getStringByName
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
+import kotlinx.coroutines.delay
 
 @Composable
 fun Genre.nameTranslation(): String {
@@ -669,6 +676,11 @@ fun SearchField(
     onSearch: (query: String) -> Unit = {}
 ) {
     var query by rememberSaveable { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        delay(200)
+        focusRequester.requestFocus()
+    }
     Box(
         modifier = Modifier
             .padding(start = 13.dp, end = 5.dp)
@@ -677,12 +689,13 @@ fun SearchField(
         BasicTextField(
             value = query,
             enabled = enabled,
-            modifier = Modifier.fillMaxWidth().height(40.dp),
+            modifier = Modifier.focusRequester(focusRequester).fillMaxWidth().height(40.dp),
             textStyle = MaterialTheme.typography.body2.copy(color = Color.White),
             onValueChange = { value ->
                 query = value
                 onSearch(query)
             },
+            keyboardOptions = KeyboardOptions(imeAction = Companion.Search),
             singleLine = true,
             cursorBrush = SolidColor(Color.White),
             decorationBox = { innerTextField ->
