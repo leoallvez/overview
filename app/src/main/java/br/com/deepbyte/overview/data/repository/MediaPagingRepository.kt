@@ -11,7 +11,7 @@ import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.MediaPagingSource
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.*
 import br.com.deepbyte.overview.util.PagingMediaResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -22,15 +22,15 @@ abstract class MediaPagingRepository(
 
     protected lateinit var filters: Filters
 
-    protected fun filterPaging(filters: Filters) =
+    protected fun filterPaging(newFilters: Filters) =
         createPaging(
             onRequest = { page: Int ->
                 if (page > 0) {
-                    this.filters = filters
+                    filters = newFilters
                     val result = when (filters.mediaType) {
-                        MediaTypeEnum.MOVIE -> getMovies(page)
-                        MediaTypeEnum.TV_SHOW -> getTVShows(page)
-                        MediaTypeEnum.ALL -> getMergedMedias(page)
+                        MOVIE -> getMovies(page)
+                        TV_SHOW -> getTVShows(page)
+                        ALL -> getMergedMedias(page)
                     }
                     DataResult.Success(data = PagingResponse(page, result))
                 } else {
