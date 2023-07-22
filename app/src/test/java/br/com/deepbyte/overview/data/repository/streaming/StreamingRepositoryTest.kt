@@ -1,5 +1,6 @@
 package br.com.deepbyte.overview.data.repository.streaming
 
+import br.com.deepbyte.overview.data.api.IApiLocale
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
@@ -20,10 +21,13 @@ import org.junit.Test
 class StreamingRepositoryTest {
 
     @MockK(relaxed = true)
-    private lateinit var _remoteDataSource: IStreamingRemoteDataSource
+    private lateinit var _remoteSource: IStreamingRemoteDataSource
 
     @MockK(relaxed = true)
-    private lateinit var _localDataSource: StreamingLocalDataSource
+    private lateinit var _localSource: StreamingLocalDataSource
+
+    @MockK(relaxed = true)
+    private lateinit var _apiLocale: IApiLocale
 
     private lateinit var _repository: StreamingRepository
 
@@ -32,13 +36,13 @@ class StreamingRepositoryTest {
     fun setup() {
         MockKAnnotations.init(this)
         val dispatcher = UnconfinedTestDispatcher()
-        _repository = StreamingRepository(_remoteDataSource, _localDataSource, dispatcher)
+        _repository = StreamingRepository(_apiLocale, _remoteSource, _localSource, dispatcher)
     }
 
     @Test
     fun `should be empty result when remote data source is empty`() = runTest {
         // Arrange
-        coEvery { _remoteDataSource.getItems() } returns listOf()
+        coEvery { _remoteSource.getItems() } returns listOf()
         // Act
         val result = _repository.getItems().first()
         // Assert
@@ -48,7 +52,7 @@ class StreamingRepositoryTest {
     @Test
     fun `should not be empty result when remote data source is not empty`() = runTest {
         // Arrange
-        coEvery { _remoteDataSource.getItems() } returns listOf(Streaming())
+        coEvery { _remoteSource.getItems() } returns listOf(Streaming())
         // Act
         val result = _repository.getItems().first()
         // Assert
@@ -58,26 +62,26 @@ class StreamingRepositoryTest {
     @Test
     fun `should be empty result when local data source is empty`() = runTest {
         // Arrange
-        coEvery { _localDataSource.getAllSelected() } returns flow {
+        coEvery { _localSource.getAllSelected() } returns flow {
             emit(listOf())
         }
         // Act
         val result = _repository.getAllSelected().first()
         // Assert
-        verify { _localDataSource.getAllSelected() }
+        verify { _localSource.getAllSelected() }
         result.shouldBeEmpty()
     }
 
     @Test
     fun `should not be empty result when local data source is not empty`() = runTest {
         // Arrange
-        coEvery { _localDataSource.getAllSelected() } returns flow {
+        coEvery { _localSource.getAllSelected() } returns flow {
             emit(listOf(Streaming()))
         }
         // Act
         val result = _repository.getAllSelected().first()
         // Assert
-        verify { _localDataSource.getAllSelected() }
+        verify { _localSource.getAllSelected() }
         result.shouldNotBeEmpty()
     }
 }

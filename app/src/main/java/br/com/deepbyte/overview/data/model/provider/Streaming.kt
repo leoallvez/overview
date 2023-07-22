@@ -2,6 +2,7 @@ package br.com.deepbyte.overview.data.model.provider
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import br.com.deepbyte.overview.BuildConfig
 import com.squareup.moshi.Json
@@ -26,8 +27,11 @@ data class Streaming(
     val name: String = "",
 
     @ColumnInfo(name = "selected")
-    @field:Json(name = "selected")
-    val selected: Boolean = false
+    var selected: Boolean = false
 ) {
+    @Ignore
+    @field:Json(name = "display_priorities")
+    val displayPriorities: Map<String, Int> = mapOf()
+
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
 }
