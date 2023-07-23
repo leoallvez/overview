@@ -3,11 +3,16 @@ package br.com.deepbyte.overview.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
+import br.com.deepbyte.overview.ui.StreamingUiState
+import br.com.deepbyte.overview.ui.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,9 +24,26 @@ class NewHomeViewModel @Inject constructor(
     @MainDispatcher private val _mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private val _uiState = MutableStateFlow<StreamingUiState>(UiState.Loading())
+    val uiState: StateFlow<StreamingUiState> = _uiState
+
     init {
+        loadStreamings()
+    }
+
+    private val _streaming = MutableStateFlow<List<Streaming>>(listOf())
+    val streaming: StateFlow<List<Streaming>> = _streaming
+
+    fun refresh() = loadStreamings()
+
+    private fun loadStreamings() {
         viewModelScope.launch(_mainDispatcher) {
-            _repository.itemsFilteredByCurrentCountry()
+            _repository.itemsFilteredByCurrentCountry().collect { streamingsList ->
+                _uiState.value = streamingsList.toUiState()
+            }
         }
     }
+
+    private fun List<Streaming>.toUiState(): StreamingUiState =
+        if (this.isNotEmpty()) UiState.Success(data = this) else UiState.Error()
 }

@@ -226,7 +226,7 @@ fun OverviewStreaming(
                 )
             ) {
                 items(streamings) { streaming ->
-                    OverviewItem(streaming, onItemClick)
+                    StreamingItem(streaming, onItemClick)
                 }
                 item {
                     EditItem(onEditClick)
@@ -248,7 +248,7 @@ fun OverviewStreamingTitle() {
 }
 
 @Composable
-fun OverviewItem(streaming: Streaming, onClick: (String) -> Unit) {
+fun StreamingItem(streaming: Streaming, onClick: (String) -> Unit) {
     BasicImage(
         url = streaming.getLogoImage(),
         contentDescription = streaming.name,
