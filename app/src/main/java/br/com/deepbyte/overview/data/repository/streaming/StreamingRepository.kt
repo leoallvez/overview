@@ -11,11 +11,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class StreamingRepository @Inject constructor(
-    private val _locale: IApiLocale,
-    private val _remoteDataSource: IStreamingRemoteDataSource,
+    _locale: IApiLocale,
     private val _localDataSource: StreamingLocalDataSource,
+    private val _remoteDataSource: IStreamingRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IStreamingRepository {
+
+    private val _country: String by lazy { _locale.region }
 
     override suspend fun getItems() = withContext(_dispatcher) {
         val result = _remoteDataSource.getItems()
@@ -28,7 +30,8 @@ class StreamingRepository @Inject constructor(
     }
 
     private fun List<Streaming>.filterByCountry() =
-        filter { it.displayPriorities.any { d -> d.key == _locale.region } }
+        filter { it.displayPriorities.any { d -> d.key == _country } }
+            .sortedBy { it.displayPriorities[_country] }
 
     override suspend fun getAllSelected() = _localDataSource.getAllSelected()
 }
