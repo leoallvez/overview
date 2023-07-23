@@ -36,7 +36,7 @@ class StreamingRepositoryTest {
     fun setup() {
         MockKAnnotations.init(this)
         val dispatcher = UnconfinedTestDispatcher()
-        _repository = StreamingRepository(_apiLocale, _remoteSource, _localSource, dispatcher)
+        _repository = StreamingRepository(_apiLocale, _localSource, _remoteSource, dispatcher)
     }
 
     @Test
