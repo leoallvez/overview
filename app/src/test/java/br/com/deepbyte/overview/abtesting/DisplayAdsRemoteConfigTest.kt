@@ -13,9 +13,9 @@ import org.amshove.kluent.shouldBeTrue
 import org.junit.Before
 import org.junit.Test
 
-class DisplayAdsAbTestingTest {
+class DisplayAdsRemoteConfigTest {
 
-    private lateinit var _experiment: DisplayAdsAbTesting
+    private lateinit var _remote: DisplayAdsRemoteConfig
 
     @MockK
     private lateinit var _remoteConfig: FirebaseRemoteConfig
@@ -23,7 +23,7 @@ class DisplayAdsAbTestingTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _experiment = DisplayAdsAbTesting(
+        _remote = DisplayAdsRemoteConfig(
             _localPermission = true,
             _remoteSource = RemoteConfigWrapper(_remoteConfig)
         )
@@ -32,7 +32,7 @@ class DisplayAdsAbTestingTest {
     @Test
     fun `should be true result when local is true and remote is true`() {
         // Arrange
-        val experiment = _experiment.copy(_localPermission = true)
+        val experiment = _remote.copy(_localPermission = true)
         every { _remoteConfig.getBoolean(any()) } returns true
         // Act
         val result = experiment.execute()
@@ -43,7 +43,7 @@ class DisplayAdsAbTestingTest {
     @Test
     fun `should be false result when local is true and remote is false`() {
         // Arrange
-        val experiment = _experiment.copy(_localPermission = true)
+        val experiment = _remote.copy(_localPermission = true)
         every { _remoteConfig.getBoolean(any()) } returns false
         // Act
         val result = experiment.execute()
@@ -54,7 +54,7 @@ class DisplayAdsAbTestingTest {
     @Test
     fun `should be false result when local is false and remote is false`() {
         // Arrange
-        val experiment = _experiment.copy(_localPermission = false)
+        val experiment = _remote.copy(_localPermission = false)
         every { _remoteConfig.getBoolean(any()) } returns false
         // Act
         val result = experiment.execute()
@@ -65,7 +65,7 @@ class DisplayAdsAbTestingTest {
     @Test
     fun `should be false result when local is false and remote is true`() {
         // Arrange
-        val experiment = _experiment.copy(_localPermission = false)
+        val experiment = _remote.copy(_localPermission = false)
         every { _remoteConfig.getBoolean(any()) } returns true
         // Act
         val result = experiment.execute()
@@ -77,7 +77,7 @@ class DisplayAdsAbTestingTest {
     fun `should be call getBoolean() when call on execute()`() {
         // Arrange
         val remoteSource: RemoteSource = mockk()
-        val experiment = DisplayAdsAbTesting(
+        val experiment = DisplayAdsRemoteConfig(
             _localPermission = false,
             _remoteSource = remoteSource
         )

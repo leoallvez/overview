@@ -6,10 +6,10 @@ import br.com.deepbyte.overview.util.parseToList
 import io.github.leoallvez.firebase.RemoteConfigKey.SUGGESTIONS_LIST_KEY
 import io.github.leoallvez.firebase.RemoteSource
 
-class SuggestionAbTesting(
+class SuggestionRemoteConfig(
     private val _jsonFileReader: IJsonFileReader,
     private val _remoteSource: RemoteSource
-) : AbTesting<List<Suggestion>> {
+) : RemoteConfig<List<Suggestion>> {
 
     override fun execute() = getRemoteSuggestions()
         .ifEmpty { getLocalSuggestions() }

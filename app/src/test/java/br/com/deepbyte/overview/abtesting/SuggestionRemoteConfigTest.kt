@@ -1,20 +1,20 @@
 package br.com.deepbyte.overview.abtesting
 
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.Suggestion
 import io.mockk.MockKAnnotations
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldNotBeEmpty
 import org.junit.Before
 import org.junit.Test
 
-class StreamingsAbTestingTest : LocalAndRemoteTest() {
+class SuggestionRemoteConfigTest : LocalAndRemoteConfigTest() {
 
-    private lateinit var _streaming: AbTesting<List<Streaming>>
+    private lateinit var _remote: RemoteConfig<List<Suggestion>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _streaming = StreamingAbTesting(jsonFileReader, remoteSource)
+        _remote = SuggestionRemoteConfig(jsonFileReader, remoteSource)
     }
 
     @Test
@@ -22,7 +22,7 @@ class StreamingsAbTestingTest : LocalAndRemoteTest() {
         // Arrange
         everyLocalAndRemote(local = JSON, remote = EMPTY)
         // Act
-        val list = _streaming.execute()
+        val list = _remote.execute()
         // Assert
         list.shouldNotBeEmpty()
     }
@@ -32,7 +32,7 @@ class StreamingsAbTestingTest : LocalAndRemoteTest() {
         // Arrange
         everyLocalAndRemote(local = EMPTY, remote = JSON)
         // Act
-        val list = _streaming.execute()
+        val list = _remote.execute()
         // Assert
         list.shouldNotBeEmpty()
     }
@@ -42,7 +42,7 @@ class StreamingsAbTestingTest : LocalAndRemoteTest() {
         // Arrange
         everyLocalAndRemote(local = EMPTY, remote = EMPTY)
         // Act
-        val list = _streaming.execute()
+        val list = _remote.execute()
         // Assert
         list.shouldBeEmpty()
     }
@@ -52,20 +52,21 @@ class StreamingsAbTestingTest : LocalAndRemoteTest() {
         // Arrange
         everyLocalAndRemote(local = INVALID_JSON, remote = INVALID_JSON)
         // Act
-        val list = _streaming.execute()
+        val list = _remote.execute()
         // Assert
         list.shouldBeEmpty()
     }
 
     companion object {
         private const val JSON = """
-            [
-                {
-                    "display_priority": 4,
-                    "provider_name": "Amazon Prime",
-                    "provider_id": 9
-                }
-            ]
+        [
+            {
+                "order": 1, 
+                "title_resource_id": "comedy_title",
+                "api_path": "api/path"
+            }
+        ]
         """
+        const val EMPTY = ""
     }
 }

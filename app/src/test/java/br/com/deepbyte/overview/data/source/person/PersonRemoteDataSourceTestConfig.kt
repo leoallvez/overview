@@ -1,10 +1,14 @@
-package br.com.deepbyte.overview.data.source.media.remote
+package br.com.deepbyte.overview.data.source.person
 
 import br.com.deepbyte.overview.data.api.ApiService
-import br.com.deepbyte.overview.data.model.media.Movie
+import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import br.com.deepbyte.overview.util.mock.ReturnType
+import br.com.deepbyte.overview.util.mock.ReturnType.NETWORK_ERROR
+import br.com.deepbyte.overview.util.mock.ReturnType.SERVER_ERROR
+import br.com.deepbyte.overview.util.mock.ReturnType.SUCCESS
+import br.com.deepbyte.overview.util.mock.ReturnType.UNKNOWN_ERROR
 import br.com.deepbyte.overview.util.mock.mockResponse
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.mockk.MockKAnnotations
@@ -17,27 +21,27 @@ import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Before
 import org.junit.Test
 
-private typealias MovieSuccess = NetworkResponse.Success<Movie>
+private typealias PersonSuccess = NetworkResponse.Success<Person>
 
-class MovieRemoteDataSourceTest {
+class PersonRemoteDataSourceTestConfig {
 
     @MockK(relaxed = true)
     private lateinit var _api: ApiService
-    private lateinit var _dataSource: IMediaRemoteDataSource<Movie>
+    private lateinit var _dataSource: IPersonRemoteDataSource
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _dataSource = MovieRemoteDataSource(_api, _locale = mockk(relaxed = true))
+        _dataSource = PersonRemoteDataSource(_api, _locale = mockk(relaxed = true))
     }
 
     @Test
     fun `should be equals response and result when call get item`() = runTest {
         // Arrange
-        val response = createMovieResponseSuccess()
-        coEveryMovieResponse(requestType = ReturnType.SUCCESS, response)
+        val response = createPersonResponseSuccess()
+        coEveryPersonResponse(requestType = SUCCESS, response)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         response.body.shouldBeEqualTo(result.data)
     }
@@ -45,19 +49,19 @@ class MovieRemoteDataSourceTest {
     @Test
     fun `should be instance of success when request type is success`() = runTest {
         // Arrange
-        coEveryMovieResponse(requestType = ReturnType.SUCCESS)
+        coEveryPersonResponse(requestType = SUCCESS)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.Success<Movie>>()
+        result.shouldBeInstanceOf<DataResult.Success<Person>>()
     }
 
     @Test
     fun `should have a message error when result is serve error`() = runTest {
         // Arrange
-        coEveryMovieResponse(requestType = ReturnType.SERVER_ERROR)
+        coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
         ERROR_MSG.shouldBeEqualTo(result.message)
     }
@@ -65,40 +69,40 @@ class MovieRemoteDataSourceTest {
     @Test
     fun `should be instance of serve error when request type is serve error`() = runTest {
         // Arrange
-        coEveryMovieResponse(requestType = ReturnType.SERVER_ERROR)
+        coEveryPersonResponse(requestType = SERVER_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.ServerError<Movie>>()
+        result.shouldBeInstanceOf<DataResult.ServerError<Person>>()
     }
 
     @Test
     fun `should be instance of network error when request type is network error`() = runTest {
         // Arrange
-        coEveryMovieResponse(requestType = ReturnType.NETWORK_ERROR)
+        coEveryPersonResponse(requestType = NETWORK_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.NetworkError<Movie>>()
+        result.shouldBeInstanceOf<DataResult.NetworkError<Person>>()
     }
 
     @Test
     fun `should be instance of unknown error when request type is unknown error`() = runTest {
         // Arrange
-        coEveryMovieResponse(requestType = ReturnType.UNKNOWN_ERROR)
+        coEveryPersonResponse(requestType = UNKNOWN_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItem(apiId = 1)
         // Assert
-        result.shouldBeInstanceOf<DataResult.UnknownError<Movie>>()
+        result.shouldBeInstanceOf<DataResult.UnknownError<Person>>()
     }
 
-    private fun coEveryMovieResponse(
+    private fun coEveryPersonResponse(
         requestType: ReturnType,
-        successResponse: MovieSuccess = createMovieResponseSuccess()
+        successResponse: PersonSuccess = createPersonResponseSuccess()
     ) = coEvery {
-        _api.getMovie(id = any(), language = any(), region = any())
+        _api.getPersonItem(id = any())
     } returns mockResponse(requestType, successResponse)
 
-    private fun createMovieResponseSuccess() =
-        NetworkResponse.Success(body = Movie(), code = 200)
+    private fun createPersonResponseSuccess() =
+        NetworkResponse.Success(body = Person(), code = 200)
 }

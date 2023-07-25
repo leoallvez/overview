@@ -6,10 +6,10 @@ import br.com.deepbyte.overview.util.parseToList
 import io.github.leoallvez.firebase.RemoteConfigKey.STREAMING_LIST_KEY
 import io.github.leoallvez.firebase.RemoteSource
 
-class StreamingAbTesting(
+class StreamingRemoteConfig(
     private val _jsonFileReader: IJsonFileReader,
     private val _remoteSource: RemoteSource
-) : AbTesting<List<Streaming>> {
+) : RemoteConfig<List<Streaming>> {
 
     override fun execute() = getRemoteStreamings()
         .ifEmpty { getLocalStreamings() }

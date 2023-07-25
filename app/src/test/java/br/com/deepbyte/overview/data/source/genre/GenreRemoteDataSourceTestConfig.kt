@@ -1,8 +1,9 @@
-package br.com.deepbyte.overview.data.source.media.remote
+package br.com.deepbyte.overview.data.source.genre
 
 import br.com.deepbyte.overview.data.api.ApiService
-import br.com.deepbyte.overview.data.model.media.TvShow
+import br.com.deepbyte.overview.data.api.response.GenreListResponse
 import br.com.deepbyte.overview.data.source.DataResult
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import br.com.deepbyte.overview.util.mock.ReturnType
 import br.com.deepbyte.overview.util.mock.mockResponse
@@ -17,27 +18,27 @@ import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Before
 import org.junit.Test
 
-private typealias TvShowSuccess = NetworkResponse.Success<TvShow>
+private typealias GenreSuccess = NetworkResponse.Success<GenreListResponse>
 
-class TvShowRemoteDataSourceTest {
+class GenreRemoteDataSourceTestConfig {
 
     @MockK(relaxed = true)
     private lateinit var _api: ApiService
-    private lateinit var _dataSource: IMediaRemoteDataSource<TvShow>
+    private lateinit var _dataSource: IGenreRemoteDataSource
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        _dataSource = TvShowRemoteDataSource(_api, _locale = mockk(relaxed = true))
+        _dataSource = GenreRemoteDataSource(_api, _locale = mockk(relaxed = true))
     }
 
     @Test
     fun `should be equals response and result when call get item`() = runTest {
         // Arrange
-        val response = createTvShowResponseSuccess()
-        coEveryTvShowResponse(requestType = ReturnType.SUCCESS, response)
+        val response = createGenreResponseSuccess()
+        coEveryGenreResponse(requestType = ReturnType.SUCCESS, response)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
         response.body.shouldBeEqualTo(result.data)
     }
@@ -45,19 +46,19 @@ class TvShowRemoteDataSourceTest {
     @Test
     fun `should be instance of success when request type is success`() = runTest {
         // Arrange
-        coEveryTvShowResponse(requestType = ReturnType.SUCCESS)
+        coEveryGenreResponse(requestType = ReturnType.SUCCESS)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.Success<TvShow>>()
+        result.shouldBeInstanceOf<DataResult.Success<GenreListResponse>>()
     }
 
     @Test
     fun `should have a message error when result is serve error`() = runTest {
         // Arrange
-        coEveryTvShowResponse(requestType = ReturnType.SERVER_ERROR)
+        coEveryGenreResponse(requestType = ReturnType.SERVER_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
         ERROR_MSG.shouldBeEqualTo(result.message)
     }
@@ -65,40 +66,40 @@ class TvShowRemoteDataSourceTest {
     @Test
     fun `should be instance of serve error when request type is serve error`() = runTest {
         // Arrange
-        coEveryTvShowResponse(requestType = ReturnType.SERVER_ERROR)
+        coEveryGenreResponse(requestType = ReturnType.SERVER_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.ServerError<TvShow>>()
+        result.shouldBeInstanceOf<DataResult.ServerError<GenreListResponse>>()
     }
 
     @Test
     fun `should be instance of network error when request type is network error`() = runTest {
         // Arrange
-        coEveryTvShowResponse(requestType = ReturnType.NETWORK_ERROR)
+        coEveryGenreResponse(requestType = ReturnType.NETWORK_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.NetworkError<TvShow>>()
+        result.shouldBeInstanceOf<DataResult.NetworkError<GenreListResponse>>()
     }
 
     @Test
     fun `should be instance of unknown error when request type is unknown error`() = runTest {
         // Arrange
-        coEveryTvShowResponse(requestType = ReturnType.UNKNOWN_ERROR)
+        coEveryGenreResponse(requestType = ReturnType.UNKNOWN_ERROR)
         // Act
-        val result = _dataSource.find(apiId = 1)
+        val result = _dataSource.getItemByMediaType(type = ALL)
         // Assert
-        result.shouldBeInstanceOf<DataResult.UnknownError<TvShow>>()
+        result.shouldBeInstanceOf<DataResult.UnknownError<GenreListResponse>>()
     }
 
-    private fun coEveryTvShowResponse(
+    private fun coEveryGenreResponse(
         requestType: ReturnType,
-        successResponse: TvShowSuccess = createTvShowResponseSuccess()
+        successResponse: GenreSuccess = createGenreResponseSuccess()
     ) = coEvery {
-        _api.getTvShow(id = any(), language = any(), region = any())
+        _api.getGenreByMediaType(any(), any(), any())
     } returns mockResponse(requestType, successResponse)
 
-    private fun createTvShowResponseSuccess() =
-        NetworkResponse.Success(body = TvShow(), code = 200)
+    private fun createGenreResponseSuccess() =
+        NetworkResponse.Success(body = GenreListResponse(), code = 200)
 }

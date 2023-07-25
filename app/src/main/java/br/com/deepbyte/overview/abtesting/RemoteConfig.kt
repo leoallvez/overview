@@ -1,5 +1,5 @@
 package br.com.deepbyte.overview.abtesting
 
-interface AbTesting<T> {
+interface RemoteConfig<T> {
     fun execute(): T
 }

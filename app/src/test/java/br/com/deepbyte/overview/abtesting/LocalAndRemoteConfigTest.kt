@@ -5,7 +5,7 @@ import io.github.leoallvez.firebase.RemoteSource
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 
-open class LocalAndRemoteTest {
+open class LocalAndRemoteConfigTest {
 
     @MockK(relaxed = true)
     protected lateinit var remoteSource: RemoteSource

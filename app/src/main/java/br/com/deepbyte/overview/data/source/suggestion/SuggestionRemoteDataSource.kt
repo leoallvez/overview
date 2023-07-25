@@ -1,13 +1,13 @@
 package br.com.deepbyte.overview.data.source.suggestion
 
-import br.com.deepbyte.overview.abtesting.AbTesting
+import br.com.deepbyte.overview.abtesting.RemoteConfig
 import br.com.deepbyte.overview.data.model.Suggestion
-import br.com.deepbyte.overview.di.AbSuggestions
+import br.com.deepbyte.overview.di.SuggestionsRemote
 import javax.inject.Inject
 
 class SuggestionRemoteDataSource @Inject constructor(
-    @AbSuggestions
-    private val _experiment: AbTesting<List<Suggestion>>
+    @SuggestionsRemote
+    private val _remoteConfig: RemoteConfig<List<Suggestion>>
 ) {
-    fun getItems() = _experiment.execute()
+    fun getItems() = _remoteConfig.execute()
 }
