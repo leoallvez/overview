@@ -38,7 +38,7 @@ class NewHomeViewModel @Inject constructor(
 
     private fun loadStreamings() {
         viewModelScope.launch(_mainDispatcher) {
-            _repository.itemsFilteredByCurrentCountry().collect { streamingsList ->
+            _repository.getItems().collect { streamingsList ->
                 _uiState.value = streamingsList.toUiState()
             }
         }

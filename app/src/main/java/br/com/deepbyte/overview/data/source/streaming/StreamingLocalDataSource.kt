@@ -12,9 +12,9 @@ class StreamingLocalDataSource @Inject constructor(
 
     fun update(vararg streaming: Streaming) = _dao.update(*streaming)
 
-    fun isEmpty(): Boolean = _dao.getAll().isEmpty()
-
-    fun getAll(): List<Streaming> = _dao.getAll()
+    fun getItems(): List<Streaming> = _dao.getAll()
 
     fun getAllSelected(): Flow<List<Streaming>> = _dao.getAllSelected()
+
+    fun deleteAll() = _dao.deleteAll()
 }

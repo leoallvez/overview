@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadStreaming() {
         viewModelScope.launch(_mainDispatcher) {
-            _repository.getAllSelected().collect { streamings ->
+            _repository.getItems().collect { streamings ->
                 _streaming.value = streamings
             }
         }

@@ -20,4 +20,7 @@ interface StreamingDao {
 
     @Query("SELECT * FROM streamings WHERE selected = 1 ORDER BY display_priority")
     fun getAllSelected(): Flow<List<Streaming>>
+
+    @Query("DELETE FROM streamings")
+    fun deleteAll()
 }

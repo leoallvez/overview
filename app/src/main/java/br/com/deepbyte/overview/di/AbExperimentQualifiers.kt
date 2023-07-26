@@ -10,6 +10,3 @@ annotation class SuggestionsRemote
 
 @Qualifier
 annotation class StreamingsRemote
-
-@Qualifier
-annotation class StreamingsRemoteV2

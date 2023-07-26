@@ -19,7 +19,6 @@ open class LocalAndRemoteConfigTest {
     }
 
     companion object {
-        const val EMPTY = ""
         const val INVALID_JSON = "{/x/}"
     }
 }

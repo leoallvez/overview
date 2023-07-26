@@ -19,7 +19,7 @@ class StreamingSelectedUpdateWorker @AssistedInject constructor(
     private val _sourceRemote: IStreamingRemoteDataSource
 ) : CoroutineWorker(context, params) {
 
-    private val locals: List<Streaming> by lazy { _sourceLocal.getAll() }
+    private val locals: List<Streaming> by lazy { _sourceLocal.getItems() }
 
     override suspend fun doWork(): Result {
         if (locals.isNotEmpty()) {
