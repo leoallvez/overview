@@ -3,10 +3,10 @@ package br.com.deepbyte.overview.di
 import br.com.deepbyte.overview.BuildConfig.ADS_ARE_VISIBLES
 import br.com.deepbyte.overview.abtesting.RemoteConfig
 import br.com.deepbyte.overview.abtesting.DisplayAdsRemoteConfig
-import br.com.deepbyte.overview.abtesting.StreamingRemoteConfig
+import br.com.deepbyte.overview.abtesting.StreamingOptionsRemoteConfig
 import br.com.deepbyte.overview.abtesting.SuggestionRemoteConfig
 import br.com.deepbyte.overview.data.model.Suggestion
-import br.com.deepbyte.overview.data.model.provider.StreamingConfig
+import br.com.deepbyte.overview.data.StreamingOptions
 import br.com.deepbyte.overview.util.IJsonFileReader
 import dagger.Module
 import dagger.Provides
@@ -41,8 +41,9 @@ class RemoteModule {
     @StreamingsRemote
     @Provides
     fun providerStreamingRemote(
+        jsonFileReader: IJsonFileReader,
         remoteSource: RemoteSource
-    ): RemoteConfig<StreamingConfig> {
-        return StreamingRemoteConfig(remoteSource)
+    ): RemoteConfig<StreamingOptions> {
+        return StreamingOptionsRemoteConfig(jsonFileReader, remoteSource)
     }
 }

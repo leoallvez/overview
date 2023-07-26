@@ -34,4 +34,13 @@ data class Streaming(
     val displayPriorities: Map<String, Int> = mapOf()
 
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
+
+    override fun toString(): String {
+        return """{"apiId":"$apiId", 
+                "priority":"$priority", 
+                "logoPath":"$logoPath", 
+                "name":"$name", 
+                "selected": $selected, 
+                "displayPriorities":[]}"""
+    }
 }

@@ -9,26 +9,13 @@ class WorkManagerFacade constructor(
 ) {
     fun init() {
         scheduleStreamingSaveDefaultTask()
-        // scheduleStreamingUpdateTask()
         scheduleGenreDefaultTask()
     }
 
     private fun scheduleStreamingSaveDefaultTask() {
-        val workerRequest = OneTimeWorkRequestBuilder<StreamingSaveDefaultWorker>().build()
+        val workerRequest = OneTimeWorkRequestBuilder<StreamingOptionsSaveWorker>().build()
         WorkManager.getInstance(_context).enqueue(workerRequest)
     }
-
-    /*
-    private fun scheduleStreamingUpdateTask() {
-        val workerRequest = PeriodicWorkRequest
-            .Builder(
-                StreamingSelectedUpdateWorker::class.java,
-                repeatInterval = 24,
-                TimeUnit.HOURS
-            ).build()
-        WorkManager.getInstance(_context).enqueue(workerRequest)
-    }
-     */
 
     private fun scheduleGenreDefaultTask() {
         val workerRequest = OneTimeWorkRequestBuilder<GenreDefaultSetupWorker>().build()
