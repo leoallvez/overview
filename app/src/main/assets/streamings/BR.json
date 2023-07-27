@@ -1,10 +1,10 @@
 [
   {
-  "display_priority": 0,
-  "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
-  "provider_id": 8,
-  "provider_name": "Netflix",
-  "selected": false
+    "display_priority": 0,
+    "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+    "provider_id": 8,
+    "provider_name": "Netflix",
+    "selected": false
   },
   {
     "display_priority": 1,
