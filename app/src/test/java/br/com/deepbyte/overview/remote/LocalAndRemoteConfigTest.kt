@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.abtesting
+package br.com.deepbyte.overview.remote
 
 import br.com.deepbyte.overview.util.IJsonFileReader
 import io.github.leoallvez.firebase.RemoteSource

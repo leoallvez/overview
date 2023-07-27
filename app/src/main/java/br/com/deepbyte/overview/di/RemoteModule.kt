@@ -1,10 +1,10 @@
 package br.com.deepbyte.overview.di
 
 import br.com.deepbyte.overview.BuildConfig.ADS_ARE_VISIBLES
-import br.com.deepbyte.overview.abtesting.RemoteConfig
-import br.com.deepbyte.overview.abtesting.DisplayAdsRemoteConfig
-import br.com.deepbyte.overview.abtesting.StreamingOptionsRemoteConfig
-import br.com.deepbyte.overview.abtesting.SuggestionRemoteConfig
+import br.com.deepbyte.overview.remote.RemoteConfig
+import br.com.deepbyte.overview.remote.DisplayAdsRemoteConfig
+import br.com.deepbyte.overview.remote.StreamingOptionsRemoteConfig
+import br.com.deepbyte.overview.remote.SuggestionRemoteConfig
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.StreamingOptions
 import br.com.deepbyte.overview.util.IJsonFileReader

@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.abtesting
+package br.com.deepbyte.overview.remote
 
 import br.com.deepbyte.overview.data.StreamingOptions
 import br.com.deepbyte.overview.util.IJsonFileReader

@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.abtesting
+package br.com.deepbyte.overview.remote
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.github.leoallvez.firebase.RemoteConfigWrapper

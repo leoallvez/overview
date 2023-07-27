@@ -1,4 +1,4 @@
-package br.com.deepbyte.overview.abtesting
+package br.com.deepbyte.overview.remote
 
 import io.github.leoallvez.firebase.RemoteConfigKey.DISPLAY_ADS_KEY
 import io.github.leoallvez.firebase.RemoteSource

@@ -8,11 +8,11 @@ class WorkManagerFacade constructor(
     private val _context: Context
 ) {
     fun init() {
-        scheduleStreamingSaveDefaultTask()
+        scheduleStreamingOptionsSaveTask()
         scheduleGenreDefaultTask()
     }
 
-    private fun scheduleStreamingSaveDefaultTask() {
+    private fun scheduleStreamingOptionsSaveTask() {
         val workerRequest = OneTimeWorkRequestBuilder<StreamingOptionsSaveWorker>().build()
         WorkManager.getInstance(_context).enqueue(workerRequest)
     }
