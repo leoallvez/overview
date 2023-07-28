@@ -19,7 +19,7 @@ interface StreamingDao {
     @Update
     fun update(vararg streaming: Streaming)
 
-    @Query("SELECT * FROM streamings")
+    @Query("SELECT * FROM streamings ORDER BY display_priority")
     fun getAll(): List<Streaming>
 
     @Query("SELECT * FROM streamings WHERE selected = 1 ORDER BY display_priority")

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import br.com.deepbyte.overview.data.api.ApiLocale
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
@@ -14,6 +15,7 @@ import dagger.assisted.AssistedInject
 
 @HiltWorker
 class StreamingsSaveWorker @AssistedInject constructor(
+    locale: ApiLocale,
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val _sourceLocal: StreamingLocalDataSource,
@@ -22,6 +24,8 @@ class StreamingsSaveWorker @AssistedInject constructor(
     private val _remoteConfig: RemoteConfig<List<Streaming>>
 ) : CoroutineWorker(context, params) {
 
+    private val _region: String = locale.region
+
     private val _streamingsCustom: List<Streaming> by lazy { _remoteConfig.execute() }
 
     override suspend fun doWork(): Result {
@@ -29,7 +33,7 @@ class StreamingsSaveWorker @AssistedInject constructor(
             _sourceLocal.upgrade(_streamingsCustom)
             return Result.success()
         } else {
-            val streamingsApi = _sourceRemote.getItems()
+            val streamingsApi = getApiStreamings()
             if (streamingsApi.isNotEmpty()) {
                 _sourceLocal.upgrade(streamingsApi)
                 return Result.success()
@@ -37,4 +41,8 @@ class StreamingsSaveWorker @AssistedInject constructor(
         }
         return Result.failure()
     }
+
+    private suspend fun getApiStreamings() = _sourceRemote.getItems()
+        .filter { it.displayPriorities.containsKey(_region) }
+        .sortedBy { it.displayPriorities[_region] }
 }
