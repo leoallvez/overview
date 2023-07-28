@@ -1,12 +1,13 @@
 package br.com.deepbyte.overview.di
 
 import br.com.deepbyte.overview.BuildConfig.ADS_ARE_VISIBLES
-import br.com.deepbyte.overview.remote.RemoteConfig
-import br.com.deepbyte.overview.remote.DisplayAdsRemoteConfig
-import br.com.deepbyte.overview.remote.StreamingOptionsRemoteConfig
-import br.com.deepbyte.overview.remote.SuggestionRemoteConfig
+import br.com.deepbyte.overview.data.api.ApiLocale
 import br.com.deepbyte.overview.data.model.Suggestion
-import br.com.deepbyte.overview.data.StreamingOptions
+import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.remote.DisplayAdsRemoteConfig
+import br.com.deepbyte.overview.remote.RemoteConfig
+import br.com.deepbyte.overview.remote.StreamingsRemoteConfig
+import br.com.deepbyte.overview.remote.SuggestionRemoteConfig
 import br.com.deepbyte.overview.util.IJsonFileReader
 import dagger.Module
 import dagger.Provides
@@ -40,10 +41,12 @@ class RemoteModule {
 
     @StreamingsRemote
     @Provides
-    fun providerStreamingRemote(
-        jsonFileReader: IJsonFileReader,
-        remoteSource: RemoteSource
-    ): RemoteConfig<StreamingOptions> {
-        return StreamingOptionsRemoteConfig(jsonFileReader, remoteSource)
+    fun providerStreamingsRemote(
+        apiLocale: ApiLocale,
+        remoteSource: RemoteSource,
+        jsonFileReader: IJsonFileReader
+    ): RemoteConfig<List<Streaming>> {
+        val region = apiLocale.region
+        return StreamingsRemoteConfig(region, remoteSource, jsonFileReader)
     }
 }
