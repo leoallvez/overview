@@ -1,16 +1,17 @@
-[{
-  "display_priority": 0,
-  "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
-  "provider_id": 8,
-  "provider_name": "Netflix",
-  "selected": false
-},
+[
+  {
+    "display_priority": 0,
+    "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+    "provider_id": 8,
+    "provider_name": "Netflix",
+    "selected": true
+  },
   {
     "display_priority": 1,
     "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
     "provider_id": 9,
     "provider_name": "Amazon Prime Video",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 2,
@@ -24,14 +25,14 @@
     "logo_path": "/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg",
     "provider_id": 337,
     "provider_name": "Disney Plus",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 9,
     "logo_path": "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
     "provider_id": 350,
     "provider_name": "Apple TV Plus",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 5,
@@ -45,28 +46,28 @@
     "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
     "provider_id": 2,
     "provider_name": "Apple TV",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 7,
     "logo_path": "/zxrVdFjIjLqkfnwyghnfywTn3Lh.jpg",
     "provider_id": 15,
     "provider_name": "Hulu",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 8,
     "logo_path": "/Ajqyt5aNxNGjmF9uOfxArGrdf3X.jpg",
     "provider_id": 384,
     "provider_name": "HBO Max",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 8,
     "logo_path": "/6Q3ZYUNA9Hsgj6iWnVsw2gR5V6z.jpg",
     "provider_id": 1899,
     "provider_name": "Max",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 31,
