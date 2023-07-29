@@ -683,6 +683,7 @@ fun SearchField(
     }
     Box(
         modifier = Modifier
+            .background(PrimaryBackground)
             .padding(start = 13.dp, end = 5.dp)
             .clickable { onClick() }
     ) {

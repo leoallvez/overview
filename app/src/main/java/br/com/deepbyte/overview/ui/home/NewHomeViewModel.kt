@@ -42,9 +42,5 @@ class NewHomeViewModel @Inject constructor(
     }
 
     private fun StreamingsWrap.toUiState() =
-        if (isNotEmpty()) {
-            UiState.Success(data = this)
-        } else {
-            UiState.Error()
-        }
+        if (isNotEmpty()) { UiState.Success(data = this) } else { UiState.Error() }
 }
