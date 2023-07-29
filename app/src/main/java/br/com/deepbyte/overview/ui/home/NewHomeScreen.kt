@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
 import br.com.deepbyte.overview.ui.BasicImage
 import br.com.deepbyte.overview.ui.ErrorScreen
 import br.com.deepbyte.overview.ui.ScreenNav
-import br.com.deepbyte.overview.ui.StreamingsWrap
 import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.UiStateResult
 import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
@@ -36,10 +36,13 @@ fun NewHomeScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh() }
     ) { data ->
-        if (data.isEmpty()) {
-            ErrorScreen(refresh = { viewModel.refresh() })
+        if (data.isNotEmpty()) {
+            StreamingVerticalGrid(
+                wrap = data,
+                onClick = events::onNavigateToStreamingOverview
+            )
         } else {
-            StreamingVerticalGrid(wrap = data, onClick = events::onNavigateToStreamingOverview)
+            ErrorScreen(refresh = { viewModel.refresh() })
         }
     }
 }

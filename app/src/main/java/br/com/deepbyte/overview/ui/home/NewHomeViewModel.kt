@@ -3,12 +3,11 @@ package br.com.deepbyte.overview.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.StreamingUiState
-import br.com.deepbyte.overview.ui.StreamingsWrap
 import br.com.deepbyte.overview.ui.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -36,18 +35,16 @@ class NewHomeViewModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(_mainDispatcher) {
-            _repository.getItems().collect { streamings ->
-                _uiState.value = streamings.toUiState()
+            _repository.getStreamingsWrap().collect { wrap ->
+                _uiState.value = wrap.toUiState()
             }
         }
     }
 
-    private fun List<Streaming>.toUiState() = if (isNotEmpty()) {
-        UiState.Success(data = toStreamingsWrap())
-    } else {
-        UiState.Error()
-    }
-
-    private fun List<Streaming>.toStreamingsWrap() =
-        StreamingsWrap(selected = filter { it.selected }, unselected = filter { !it.selected })
+    private fun StreamingsWrap.toUiState() =
+        if (isNotEmpty()) {
+            UiState.Success(data = this)
+        } else {
+            UiState.Error()
+        }
 }
