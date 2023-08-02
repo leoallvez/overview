@@ -1,6 +1,5 @@
 package br.com.deepbyte.overview.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,14 +46,10 @@ fun HomeContent(
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
             Box(
-                modifier = Modifier
-                    .background(PrimaryBackground)
-                    .padding(top = dimensionResource(R.dimen.screen_padding))
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.screen_padding))
             ) {
                 SearchField(
                     enabled = false,
@@ -65,13 +60,10 @@ fun HomeContent(
         },
         bottomBar = {
             AdsBanner(R.string.home_banner, isVisible = viewModel.showAds)
-        }
+        },
+        backgroundColor = PrimaryBackground
     ) { padding ->
-        Box(
-            modifier = Modifier
-                .background(PrimaryBackground)
-                .padding(padding)
-        ) {
+        Box(modifier = Modifier.padding(padding)) {
             UiStateResult(
                 uiState = viewModel.uiState.collectAsState().value,
                 onRefresh = { viewModel.refresh() }
