@@ -25,7 +25,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.filters.Filters
+import br.com.deepbyte.overview.data.model.filters.SearchFilters
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
@@ -53,13 +53,13 @@ fun StreamingExploreScreen(
         viewModel.getMediasPaging(streaming.apiId)
     }
 
-    val filters = viewModel.filters.collectAsState().value
+    val filters = viewModel.searchFilters.collectAsState().value
     var mediaItems by remember { mutableStateOf(value = loadData()) }
     val setMediaItems = { mediaItems = loadData() }
 
     StreamingExploreContent(
         events = events,
-        filters = filters,
+        searchFilters = filters,
         streaming = streaming,
         showAds = viewModel.showAds,
         onRefresh = setMediaItems,
@@ -75,18 +75,18 @@ fun StreamingExploreScreen(
 @Composable
 fun StreamingExploreContent(
     showAds: Boolean,
-    filters: Filters,
+    searchFilters: SearchFilters,
     streaming: Streaming,
     onRefresh: () -> Unit,
     genresItems: List<Genre>,
     events: StreamingEvents,
     pagingMediaItems: LazyPagingItems<Media>,
-    inFiltering: (Filters) -> Unit
+    inFiltering: (SearchFilters) -> Unit
 ) {
     StreamingExploreBody(
         events = events,
         showAds = showAds,
-        filters = filters,
+        searchFilters = searchFilters,
         streaming = streaming,
         onRefresh = onRefresh,
         inFiltering = inFiltering,
@@ -99,13 +99,13 @@ fun StreamingExploreContent(
 @Composable
 fun StreamingExploreBody(
     showAds: Boolean,
-    filters: Filters,
+    searchFilters: SearchFilters,
     onRefresh: () -> Unit,
     streaming: Streaming,
     genresItems: List<Genre>,
     events: StreamingEvents,
     pagingMediaItems: LazyPagingItems<Media>,
-    inFiltering: (Filters) -> Unit
+    inFiltering: (SearchFilters) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipHalfExpanded = true,
@@ -134,7 +134,7 @@ fun StreamingExploreBody(
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            FilterBottomSheet(filters, genresItems, closeFilterBottomSheet, inFiltering)
+            FilterBottomSheet(searchFilters, genresItems, closeFilterBottomSheet, inFiltering)
         },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -155,7 +155,7 @@ fun StreamingExploreBody(
             val filterIsVisible = sheetState.isVisible
             Column(Modifier.background(PrimaryBackground)) {
                 FiltersArea(
-                    filters = filters,
+                    searchFilters = searchFilters,
                     genres = genresItems,
                     streaming = streaming,
                     closeFilterBottomSheet
@@ -180,7 +180,7 @@ fun StreamingExploreBody(
                     else -> {
                         NotFoundContentScreen(
                             showOnTop = filterIsVisible,
-                            hasFilters = filters.genresIsIsNotEmpty()
+                            hasFilters = searchFilters.genresIsIsNotEmpty()
                         )
                     }
                 }
@@ -191,7 +191,7 @@ fun StreamingExploreBody(
 
 @Composable
 fun FiltersArea(
-    filters: Filters,
+    searchFilters: SearchFilters,
     genres: List<Genre>,
     streaming: Streaming,
     onClick: () -> Unit
@@ -214,11 +214,11 @@ fun FiltersArea(
 
             FilterButton(
                 padding = PaddingValues(),
-                isActivated = filters.genresIsIsNotEmpty(),
+                isActivated = searchFilters.genresIsIsNotEmpty(),
                 buttonText = stringResource(R.string.filters),
                 complement = {
                     Text(
-                        text = filters.genreQuantity(),
+                        text = searchFilters.genreQuantity(),
                         modifier = Modifier.padding(1.dp),
                         color = Color.White
                     )
@@ -228,7 +228,7 @@ fun FiltersArea(
             }
         }
         Text(
-            text = filterDescription(filters, genres),
+            text = filterDescription(searchFilters, genres),
             color = AccentColor,
             fontSize = 14.sp,
             modifier = Modifier.padding(
@@ -240,9 +240,9 @@ fun FiltersArea(
 }
 
 @Composable
-private fun filterDescription(filters: Filters, genres: List<Genre>): String {
-    val mediaDescription = mediaTypeDescription(filters.mediaType)
-    val genresDescription = genresDescription(filters.genresIds, genres)
+private fun filterDescription(searchFilters: SearchFilters, genres: List<Genre>): String {
+    val mediaDescription = mediaTypeDescription(searchFilters.mediaType)
+    val genresDescription = genresDescription(searchFilters.genresIds, genres)
 
     return "$mediaDescription $genresDescription"
 }
@@ -330,10 +330,10 @@ fun StreamingScreamTitle(streamingName: String) {
 
 @Composable
 fun FilterBottomSheet(
-    filters: Filters,
+    searchFilters: SearchFilters,
     genres: List<Genre>,
     closeAction: () -> Unit,
-    inFiltering: (Filters) -> Unit
+    inFiltering: (SearchFilters) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -346,19 +346,19 @@ fun FilterBottomSheet(
             )
     ) {
         CloseIcon(closeAction)
-        FilterMediaType(filters, inFiltering)
-        FilterGenres(genres, filters, inFiltering)
-        ClearFilterGenres(filters, inFiltering, Modifier.align(Alignment.End))
+        FilterMediaType(searchFilters, inFiltering)
+        FilterGenres(genres, searchFilters, inFiltering)
+        ClearFilterGenres(searchFilters, inFiltering, Modifier.align(Alignment.End))
     }
 }
 
 @Composable
 fun ClearFilterGenres(
-    filters: Filters,
-    inFiltering: (Filters) -> Unit,
+    searchFilters: SearchFilters,
+    inFiltering: (SearchFilters) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (filters.genresIsIsNotEmpty()) {
+    if (searchFilters.genresIsIsNotEmpty()) {
         Column(
             modifier = modifier
                 .fillMaxHeight()
@@ -375,8 +375,8 @@ fun ClearFilterGenres(
                 }
 
             ) {
-                filters.clearGenresIds()
-                inFiltering.invoke(filters)
+                searchFilters.clearGenresIds()
+                inFiltering.invoke(searchFilters)
             }
         }
     }
@@ -414,7 +414,7 @@ fun CloseIcon(onClick: () -> Unit) {
 }
 
 @Composable
-fun FilterMediaType(filters: Filters, onClick: (Filters) -> Unit) {
+fun FilterMediaType(searchFilters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaTypeEnum.getAllOrdered()
     Row(
         modifier = Modifier
@@ -422,12 +422,12 @@ fun FilterMediaType(filters: Filters, onClick: (Filters) -> Unit) {
             .background(SecondaryBackground)
     ) {
         options.forEach { type ->
-            MediaTypeFilterButton(type, filters.mediaType.key) {
-                with(filters) {
+            MediaTypeFilterButton(type, searchFilters.mediaType.key) {
+                with(searchFilters) {
                     if (mediaType != type) {
                         mediaType = type
                         clearGenresIds()
-                        onClick.invoke(filters)
+                        onClick.invoke(searchFilters)
                     }
                 }
             }
@@ -436,7 +436,7 @@ fun FilterMediaType(filters: Filters, onClick: (Filters) -> Unit) {
 }
 
 @Composable
-fun FilterGenres(genres: List<Genre>, filters: Filters, onClick: (Filters) -> Unit) {
+fun FilterGenres(genres: List<Genre>, searchFilters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     Column {
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
@@ -448,10 +448,10 @@ fun FilterGenres(genres: List<Genre>, filters: Filters, onClick: (Filters) -> Un
                 FilterButton(
                     buttonText = genre.nameTranslation(),
                     backgroundColor = SecondaryBackground,
-                    isActivated = filters.hasGenreWithId(genre.apiId)
+                    isActivated = searchFilters.hasGenreWithId(genre.apiId)
                 ) {
-                    filters.updateGenreIds(genre.apiId)
-                    onClick.invoke(filters)
+                    searchFilters.updateGenreIds(genre.apiId)
+                    onClick.invoke(searchFilters)
                 }
             }
         }

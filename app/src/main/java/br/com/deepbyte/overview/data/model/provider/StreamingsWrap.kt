@@ -4,5 +4,5 @@ class StreamingsWrap(
     val selected: List<Streaming>,
     val unselected: List<Streaming>
 ) {
-    fun isNotEmpty() = selected.isNotEmpty() && unselected.isNotEmpty()
+    fun isNotEmpty() = selected.isNotEmpty() || unselected.isNotEmpty()
 }

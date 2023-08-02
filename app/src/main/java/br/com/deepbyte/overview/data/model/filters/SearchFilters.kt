@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum as MediaType
 
 @Parcelize
-class Filters(
+class SearchFilters(
     var query: String = "",
     var mediaType: MediaType = MediaType.ALL,
     var streamingsIds: List<Long> = emptyList(),

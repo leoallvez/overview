@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.data.source.media.remote
 
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
-import br.com.deepbyte.overview.data.model.filters.Filters
+import br.com.deepbyte.overview.data.model.filters.SearchFilters
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.source.responseToResult
 import br.com.deepbyte.overview.util.joinToStringWithPipe
@@ -19,27 +19,27 @@ class MovieRemoteDataSource @Inject constructor(
         responseToResult(response)
     }
 
-    override suspend fun getPaging(page: Int, filters: Filters): List<Movie> {
-        return when (val response = makePaging(page, filters)) {
+    override suspend fun getPaging(page: Int, searchFilters: SearchFilters): List<Movie> {
+        return when (val response = makePaging(page, searchFilters)) {
             is NetworkResponse.Success -> { response.body.results }
             else -> listOf()
         }
     }
 
-    private suspend fun makePaging(page: Int, filters: Filters) = _locale.run {
-        val streamingsIds = filters.streamingsIds.joinToStringWithPipe()
-        val genresIds = filters.getGenreIdsSeparatedWithComma()
+    private suspend fun makePaging(page: Int, searchFilters: SearchFilters) = _locale.run {
+        val streamingsIds = searchFilters.streamingsIds.joinToStringWithPipe()
+        val genresIds = searchFilters.getGenreIdsSeparatedWithComma()
         _api.getMoviesPaging(streamingsIds, genresIds, page, language, region, region)
     }
 
-    override suspend fun searchPaging(page: Int, filters: Filters): List<Movie> {
-        return when (val response = makeSearchPaging(page, filters)) {
+    override suspend fun searchPaging(page: Int, searchFilters: SearchFilters): List<Movie> {
+        return when (val response = makeSearchPaging(page, searchFilters)) {
             is NetworkResponse.Success -> { response.body.results }
             else -> listOf()
         }
     }
 
-    private suspend fun makeSearchPaging(page: Int, filters: Filters) = _locale.run {
-        _api.searchMovie(filters.query, language, region, region, page)
+    private suspend fun makeSearchPaging(page: Int, searchFilters: SearchFilters) = _locale.run {
+        _api.searchMovie(searchFilters.query, language, region, region, page)
     }
 }

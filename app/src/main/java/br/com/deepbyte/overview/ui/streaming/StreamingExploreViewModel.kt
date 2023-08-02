@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.model.filters.Filters
+import br.com.deepbyte.overview.data.model.filters.SearchFilters
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
@@ -26,23 +26,23 @@ class StreamingExploreViewModel @Inject constructor(
     private val _mediaRepository: IMediaPagingRepository
 ) : ViewModel() {
 
-    private val _filters = MutableStateFlow(Filters())
-    val filters: StateFlow<Filters> = _filters
+    private val _searchFilters = MutableStateFlow(SearchFilters())
+    val searchFilters: StateFlow<SearchFilters> = _searchFilters
 
     private val _genres = MutableStateFlow<List<Genre>>(listOf())
     val genres: StateFlow<List<Genre>> = _genres
 
     fun getMediasPaging(streamingId: Long): Flow<PagingData<Media>> {
-        filters.value.streamingsIds = listOf(streamingId)
-        return _mediaRepository.getMediasPaging(filters.value)
+        _searchFilters.value.streamingsIds = listOf(streamingId)
+        return _mediaRepository.getMediasPaging(searchFilters.value)
     }
 
     fun loadGenres() = viewModelScope.launch(Dispatchers.IO) {
-        val type = filters.value.mediaType
+        val type = searchFilters.value.mediaType
         _genres.value = _genreRepository.getItemsByMediaType(type)
     }
 
-    fun updateFilters(filters: Filters) {
-        _filters.value = filters
+    fun updateFilters(searchFilters: SearchFilters) {
+        _searchFilters.value = searchFilters
     }
 }

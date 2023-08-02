@@ -59,7 +59,7 @@ fun SearchScreen(
         viewModel.searchPaging()
     }
 
-    val filters = viewModel.filters.collectAsState().value
+    val filters = viewModel.searchFilters.collectAsState().value
     var mediaItems by remember { mutableStateOf(value = loadData()) }
     val setMediaItems = {
         mediaItems = loadData()
