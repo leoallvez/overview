@@ -7,5 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface IStreamingRepository {
     suspend fun getItems(): Flow<List<Streaming>>
 
+    suspend fun getAllSelected(): Flow<List<Streaming>>
+
+    // TODO: use this in edit streaming screen;
     suspend fun getStreamingsWrap(): Flow<StreamingsWrap>
 }

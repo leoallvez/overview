@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
+import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
@@ -35,12 +35,12 @@ class NewHomeViewModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(_mainDispatcher) {
-            _repository.getStreamingsWrap().collect { wrap ->
-                _uiState.value = wrap.toUiState()
+            _repository.getAllSelected().collect { streamings ->
+                _uiState.value = streamings.toUiState()
             }
         }
     }
 
-    private fun StreamingsWrap.toUiState() =
+    private fun List<Streaming>.toUiState() =
         if (isNotEmpty()) { UiState.Success(data = this) } else { UiState.Error() }
 }

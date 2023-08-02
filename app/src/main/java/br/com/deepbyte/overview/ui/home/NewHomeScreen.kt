@@ -1,26 +1,21 @@
 package br.com.deepbyte.overview.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.provider.Streaming
-import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
 import br.com.deepbyte.overview.ui.AdsBanner
 import br.com.deepbyte.overview.ui.BasicImage
 import br.com.deepbyte.overview.ui.ScreenNav
@@ -47,14 +42,10 @@ fun HomeContent(
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
             Box(
-                modifier = Modifier
-                    .background(PrimaryBackground)
-                    .padding(top = dimensionResource(R.dimen.screen_padding))
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.screen_padding))
             ) {
                 SearchField(
                     enabled = false,
@@ -65,19 +56,16 @@ fun HomeContent(
         },
         bottomBar = {
             AdsBanner(R.string.home_banner, isVisible = viewModel.showAds)
-        }
+        },
+        backgroundColor = PrimaryBackground
     ) { padding ->
-        Box(
-            modifier = Modifier
-                .background(PrimaryBackground)
-                .padding(padding)
-        ) {
+        Box(modifier = Modifier.padding(padding)) {
             UiStateResult(
                 uiState = viewModel.uiState.collectAsState().value,
                 onRefresh = { viewModel.refresh() }
             ) { data ->
                 StreamingVerticalGrid(
-                    wrap = data,
+                    streamings = data,
                     onClick = events::onNavigateToStreamingOverview
                 )
             }
@@ -87,28 +75,15 @@ fun HomeContent(
 
 @Composable
 fun StreamingVerticalGrid(
-    wrap: StreamingsWrap,
+    streamings: List<Streaming>,
     onClick: (String) -> Unit
 ) {
-    Column {
-        Text("Selected", modifier = Modifier.padding(16.dp), color = Color.White)
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 4)
-        ) {
-            items(wrap.selected.size) { index ->
-                HomeStreamingItem(streaming = wrap.selected[index], onClick = onClick)
-            }
-        }
-
-        Text("Unselected", modifier = Modifier.padding(16.dp), color = Color.White)
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 4)
-        ) {
-            items(wrap.unselected.size) { index ->
-                HomeStreamingItem(streaming = wrap.unselected[index], onClick = onClick)
-            }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(count = 4),
+        modifier = Modifier.padding(top = 20.dp)
+    ) {
+        items(streamings.size) { index ->
+            HomeStreamingItem(streaming = streamings[index], onClick = onClick)
         }
     }
 }

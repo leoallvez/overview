@@ -6,7 +6,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import br.com.deepbyte.overview.data.model.provider.Streaming
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StreamingDao {
@@ -23,7 +22,7 @@ interface StreamingDao {
     fun getAll(): List<Streaming>
 
     @Query("SELECT * FROM streamings WHERE selected = 1 ORDER BY display_priority")
-    fun getAllSelected(): Flow<List<Streaming>>
+    fun getAllSelected(): List<Streaming>
 
     @Query("DELETE FROM streamings")
     fun deleteAll()

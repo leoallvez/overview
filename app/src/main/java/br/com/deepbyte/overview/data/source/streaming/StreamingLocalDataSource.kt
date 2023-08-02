@@ -2,7 +2,6 @@ package br.com.deepbyte.overview.data.source.streaming
 
 import br.com.deepbyte.overview.data.db.dao.StreamingDao
 import br.com.deepbyte.overview.data.model.provider.Streaming
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class StreamingLocalDataSource @Inject constructor(
@@ -14,7 +13,7 @@ class StreamingLocalDataSource @Inject constructor(
 
     fun getItems(): List<Streaming> = _dao.getAll()
 
-    fun getAllSelected(): Flow<List<Streaming>> = _dao.getAllSelected()
+    fun getAllSelected(): List<Streaming> = _dao.getAllSelected()
 
     fun upgrade(streamings: List<Streaming>) = _dao.upgrade(streamings)
 }

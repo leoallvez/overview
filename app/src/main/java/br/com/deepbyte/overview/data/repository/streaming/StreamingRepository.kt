@@ -19,6 +19,11 @@ class StreamingRepository @Inject constructor(
         flow { emit(result) }
     }
 
+    override suspend fun getAllSelected() = withContext(_dispatcher) {
+        val result = _localDataSource.getAllSelected()
+        flow { emit(result) }
+    }
+
     override suspend fun getStreamingsWrap() = withContext(_dispatcher) {
         val result = _localDataSource.getItems()
         flow { emit(result.toStreamingsWrap()) }
