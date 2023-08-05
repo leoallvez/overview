@@ -34,5 +34,4 @@ data class Streaming(
     val displayPriorities: Map<String, Int> = mapOf()
 
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
-
 }
