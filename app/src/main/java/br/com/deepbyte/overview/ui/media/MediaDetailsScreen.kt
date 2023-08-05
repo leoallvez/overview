@@ -3,13 +3,26 @@ package br.com.deepbyte.overview.ui.media
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
@@ -31,7 +44,23 @@ import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
-import br.com.deepbyte.overview.ui.*
+import br.com.deepbyte.overview.ui.AdsMediumRectangle
+import br.com.deepbyte.overview.ui.Backdrop
+import br.com.deepbyte.overview.ui.BasicParagraph
+import br.com.deepbyte.overview.ui.BasicText
+import br.com.deepbyte.overview.ui.BasicTitle
+import br.com.deepbyte.overview.ui.ErrorScreen
+import br.com.deepbyte.overview.ui.MediaList
+import br.com.deepbyte.overview.ui.PartingPoint
+import br.com.deepbyte.overview.ui.PersonImageCircle
+import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.SimpleSubtitle2
+import br.com.deepbyte.overview.ui.StreamingIcon
+import br.com.deepbyte.overview.ui.ToolbarButton
+import br.com.deepbyte.overview.ui.ToolbarTitle
+import br.com.deepbyte.overview.ui.TrackScreenView
+import br.com.deepbyte.overview.ui.UiStateResult
+import br.com.deepbyte.overview.ui.nameTranslation
 import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
@@ -42,6 +71,7 @@ import br.com.deepbyte.overview.util.toJson
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import timber.log.Timber
 
 @Composable
 fun MediaDetailsScreen(
@@ -125,7 +155,9 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         StreamingsOverview(media.streamings, media.isReleased()) { streaming ->
-            events.onNavigateToStreamingExplore(streaming.toJson())
+            val streamingJson = streaming.toJson()
+            Timber.tag("streaming_json").d("streaming json: $streamingJson")
+            events.onNavigateToStreamingExplore(streamingJson)
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())

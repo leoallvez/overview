@@ -35,9 +35,4 @@ data class Streaming(
 
     fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
 
-    override fun toString(): String {
-        return """
-            {"display_priority":$priority,"logo_path":"$logoPath","provider_id":$apiId,"provider_name":"$name","selected":$selected}
-        """.trimIndent()
-    }
 }
