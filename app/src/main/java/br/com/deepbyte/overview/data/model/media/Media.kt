@@ -1,8 +1,8 @@
 package br.com.deepbyte.overview.data.model.media
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import com.squareup.moshi.Json
 
 abstract class Media {
@@ -12,7 +12,7 @@ abstract class Media {
     val overview: String = ""
 
     @field:Json(name = "backdrop_path")
-    private val backdropPath: String = ""
+    var backdropPath: String = ""
 
     @field:Json(name = "poster_path")
     private val posterPath: String = ""

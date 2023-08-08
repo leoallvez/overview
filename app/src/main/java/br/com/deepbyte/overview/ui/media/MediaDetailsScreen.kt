@@ -166,6 +166,7 @@ fun MediaBody(
                 Info(stringResource(R.string.runtime), media.getRuntime())
                 Info(stringResource(R.string.director), media.getDirectorName(), AccentColor)
             }
+
             is TvShow -> {
                 NumberSeasonsAndEpisodes(media.numberOfSeasons, media.numberOfEpisodes)
                 EpisodesRunTime(media.getRuntime())
@@ -272,7 +273,11 @@ fun StreamingsOverview(
         }
     } else {
         StreamingsNotFound(
-            if (isReleased) { R.string.empty_list_providers } else { R.string.not_yet_released }
+            if (isReleased) {
+                R.string.empty_list_providers
+            } else {
+                R.string.not_yet_released
+            }
         )
     }
 }

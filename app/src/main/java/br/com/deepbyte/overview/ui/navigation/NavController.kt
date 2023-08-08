@@ -29,9 +29,7 @@ import br.com.deepbyte.overview.util.getApiId
 import br.com.deepbyte.overview.util.getBackToHome
 import br.com.deepbyte.overview.util.getParams
 import br.com.deepbyte.overview.util.getStreamingParams
-import com.google.accompanist.pager.ExperimentalPagerApi
 
-@ExperimentalPagerApi
 @Composable
 fun NavController(navController: NavHostController = rememberNavController()) {
     NavHost(
