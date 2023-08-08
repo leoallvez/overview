@@ -3,13 +3,10 @@ package br.com.deepbyte.overview.util
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
-import br.com.deepbyte.overview.data.api.response.ListResponse
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
-import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
-import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.ui.ScreenNav
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -26,6 +23,12 @@ inline fun <reified T> String.fromJson(): T? = try {
 } catch (io: IOException) {
     Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${io.stackTrace}")
     null
+}
+
+inline fun <reified T> T.toJson(): String {
+    val moshi = Moshi.Builder().build()
+    val jsonAdapter = moshi.adapter<Any>(T::class.java)
+    return jsonAdapter.toJson(this)
 }
 
 inline fun <reified T> String.parseToList(): List<T> = try {
@@ -83,18 +86,6 @@ fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) 
 fun NavBackStackEntry.getStreamingParams(): Streaming {
     val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
     return json.fromJson() ?: Streaming()
-}
-
-fun Streaming.toJson(): String {
-    val moshi = Moshi.Builder().build()
-    val jsonAdapter = moshi.adapter<Any>(Streaming::class.java)
-    return jsonAdapter.toJson(this)
-}
-
-fun <T : Media> DataResult<ListResponse<T>>.toList(): List<T> {
-    val isValid = this is DataResult.Success
-    val medias = data?.results ?: listOf()
-    return (if (isValid) medias.filter { it.adult.not() } else listOf())
 }
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }

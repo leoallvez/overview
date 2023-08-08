@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +18,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -74,6 +75,7 @@ fun HomeContent(
                 SearchField(
                     enabled = false,
                     onClick = {},
+                    defaultPaddingValues = PaddingValues(),
                     placeholder = stringResource(R.string.search_in_all_places)
                 )
             }
@@ -113,7 +115,6 @@ fun SlideMedia(medias: List<Media>) {
                 .background(SecondaryBackground)
                 .fillMaxWidth()
                 .height(dimensionResource(R.dimen.backdrop_height))
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
         ) {
             val pagerState = rememberPagerState(pageCount = { medias.size })
             HorizontalPager(
@@ -190,9 +191,12 @@ fun StreamingVerticalGrid(
     streamings: List<Streaming>,
     onClick: (String) -> Unit
 ) {
+    val cellSpace = dimensionResource(id = R.dimen.default_padding)
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = 4),
-        modifier = Modifier.padding(top = 20.dp)
+        modifier = Modifier.padding(top = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(cellSpace),
+        horizontalArrangement = Arrangement.spacedBy(cellSpace)
     ) {
         items(streamings.size) { index ->
             HomeStreamingItem(streaming = streamings[index], onClick = onClick)
@@ -208,10 +212,10 @@ fun HomeStreamingItem(
     BasicImage(
         url = streaming.getLogoImage(),
         contentDescription = streaming.name,
+        contentScale = ContentScale.FillBounds,
         withBorder = true,
         modifier = Modifier
-            .size(100.dp)
-            .padding(dimensionResource(id = R.dimen.default_padding))
+            .size(85.dp)
             .clickable { onClick.invoke(streaming.toJson()) }
     )
 }

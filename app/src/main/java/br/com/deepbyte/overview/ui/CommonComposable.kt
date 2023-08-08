@@ -672,6 +672,7 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 fun SearchField(
     placeholder: String,
     enabled: Boolean = true,
+    defaultPaddingValues: PaddingValues = PaddingValues(start = 13.dp, end = 5.dp),
     onClick: () -> Unit = {},
     onSearch: (query: String) -> Unit = {}
 ) {
@@ -684,7 +685,7 @@ fun SearchField(
     Box(
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(start = 13.dp, end = 5.dp)
+            .padding(defaultPaddingValues)
             .clickable { onClick() }
     ) {
         BasicTextField(
