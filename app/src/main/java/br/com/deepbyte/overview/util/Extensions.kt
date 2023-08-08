@@ -8,6 +8,7 @@ import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.UiState
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -90,5 +91,8 @@ fun NavBackStackEntry.getStreamingParams(): Streaming {
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
 fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
+
+fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
+    if (isValid(this)) { UiState.Success(data = this) } else { UiState.Error() }
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

@@ -3,12 +3,12 @@ package br.com.deepbyte.overview.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.StreamingUiState
 import br.com.deepbyte.overview.ui.UiState
+import br.com.deepbyte.overview.util.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,12 +35,9 @@ class NewHomeViewModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(_mainDispatcher) {
-            _repository.getAllSelected().collect { streamings ->
-                _uiState.value = streamings.toUiState()
+            _repository.getStreamingsWrap().collect { wrap ->
+                _uiState.value = wrap.toUiState { it.isNotEmpty() }
             }
         }
     }
-
-    private fun List<Streaming>.toUiState() =
-        if (isNotEmpty()) { UiState.Success(data = this) } else { UiState.Error() }
 }

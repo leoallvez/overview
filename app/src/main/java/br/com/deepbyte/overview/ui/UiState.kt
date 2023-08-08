@@ -2,11 +2,11 @@ package br.com.deepbyte.overview.ui
 
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
 
 typealias MediaUiState = UiState<Media?>
 typealias PersonUiState = UiState<Person?>
-typealias StreamingUiState = UiState<List<Streaming>>
+typealias StreamingUiState = UiState<StreamingsWrap>
 
 sealed class UiState<T> {
     class Loading<T> : UiState<T>()

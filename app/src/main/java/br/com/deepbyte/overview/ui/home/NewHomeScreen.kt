@@ -97,7 +97,7 @@ fun HomeContent(
                 Column {
                     SlideMedia(medias = slideMediaSample)
                     StreamingVerticalGrid(
-                        streamings = data,
+                        streamings = data.selected,
                         onClick = events::onNavigateToStreamingOverview
                     )
                 }
