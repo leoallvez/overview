@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -70,7 +71,9 @@ fun HomeContent(
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(R.dimen.screen_padding)
+        ),
         topBar = {
             Box(
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))
@@ -96,7 +99,7 @@ fun HomeContent(
                 modifier = Modifier.padding(padding)
             ) {
                 SlideMedia(medias = slideMediaSample)
-                StreamingsGrid(wrap = data, onClickStreaming = events::onNavigateToStreaming)
+                StreamingsGrid(wrap = data, onClickItem = events::onNavigateToStreaming)
             }
         }
     }
@@ -185,27 +188,43 @@ fun SlideMediaTitle(title: String, modifier: Modifier = Modifier, textPadding: D
 @Composable
 fun StreamingsGrid(
     wrap: StreamingsWrap,
-    onClickStreaming: (String) -> Unit
+    onClickItem: (String) -> Unit
 ) {
-    val cellSpace = dimensionResource(id = R.dimen.default_padding)
     val columns = 4
+    val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = columns),
-        modifier = Modifier.padding(top = 15.dp).padding(horizontal = dimensionResource(id = R.dimen.default_padding)),
-        verticalArrangement = Arrangement.spacedBy(cellSpace),
-        horizontalArrangement = Arrangement.spacedBy(cellSpace)
+        modifier = Modifier.padding(padding),
+        verticalArrangement = Arrangement.spacedBy(padding),
+        horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
+        streamingSession(
+            top = { SimpleTitle(title = "Principais Streamings") },
+            streamings = wrap.selected,
+            columns = columns,
+            onClick = onClickItem
+        )
+        streamingSession(
+            top = { SimpleTitle(title = "Demais Streamings") },
+            streamings = wrap.unselected,
+            columns = columns,
+            onClick = onClickItem
+        )
+    }
+}
+
+private fun LazyGridScope.streamingSession(
+    top: @Composable () -> Unit,
+    streamings: List<Streaming>,
+    columns: Int,
+    onClick: (String) -> Unit
+) {
+    if (streamings.isNotEmpty()) {
         item(span = { GridItemSpan(currentLineSpan = columns) }) {
-            SimpleTitle(title = "Principais Streamings")
+            top()
         }
-        items(wrap.selected.size) { index ->
-            HomeStreamingItem(streaming = wrap.selected[index], onClick = onClickStreaming)
-        }
-        item(span = { GridItemSpan(currentLineSpan = columns) }) {
-            SimpleTitle(title = "Outros Streaming")
-        }
-        items(wrap.unselected.size) { index ->
-            HomeStreamingItem(streaming = wrap.unselected[index], onClick = onClickStreaming)
+        items(streamings.size) { index ->
+            HomeStreamingItem(streaming = streamings[index], onClick = onClick)
         }
     }
 }
