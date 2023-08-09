@@ -2,7 +2,15 @@ package br.com.deepbyte.overview.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -30,7 +38,16 @@ import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.MediaSuggestion
 import br.com.deepbyte.overview.data.model.provider.Streaming
-import br.com.deepbyte.overview.ui.*
+import br.com.deepbyte.overview.ui.AdsBanner
+import br.com.deepbyte.overview.ui.Backdrop
+import br.com.deepbyte.overview.ui.BasicImage
+import br.com.deepbyte.overview.ui.ErrorScreen
+import br.com.deepbyte.overview.ui.LoadingScreen
+import br.com.deepbyte.overview.ui.MediaItemList
+import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.ToolbarButton
+import br.com.deepbyte.overview.ui.ToolbarTitle
+import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
@@ -39,7 +56,11 @@ import br.com.deepbyte.overview.util.defaultBackground
 import br.com.deepbyte.overview.util.defaultBorder
 import br.com.deepbyte.overview.util.getStringByName
 import br.com.deepbyte.overview.util.toJson
-import com.google.accompanist.pager.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScope
 import me.onebone.toolbar.ScrollStrategy
@@ -192,7 +213,7 @@ fun HomeLists(
         item {
             OverviewStreaming(
                 streamings = streamings,
-                onItemClick = events::onNavigateToStreamingOverview,
+                onItemClick = events::onNavigateToStreaming,
                 onEditClick = events::onNavigateToStreamingOverviewEdit
             )
         }

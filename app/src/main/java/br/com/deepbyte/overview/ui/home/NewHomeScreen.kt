@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -35,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
 import br.com.deepbyte.overview.data.sampe.slideMediaSample
 import br.com.deepbyte.overview.ui.AdsBanner
 import br.com.deepbyte.overview.ui.Backdrop
@@ -42,6 +44,7 @@ import br.com.deepbyte.overview.ui.BasicImage
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.ScreenTitle
 import br.com.deepbyte.overview.ui.SearchField
+import br.com.deepbyte.overview.ui.SimpleTitle
 import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.UiStateResult
 import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
@@ -67,10 +70,10 @@ fun HomeContent(
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         topBar = {
             Box(
-                modifier = Modifier.padding(top = dimensionResource(R.dimen.screen_padding))
+                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))
             ) {
                 SearchField(
                     enabled = false,
@@ -85,22 +88,15 @@ fun HomeContent(
         },
         backgroundColor = PrimaryBackground
     ) { padding ->
-        Box(
-            modifier = Modifier
-                .padding(padding)
-                .padding(top = 20.dp)
-        ) {
-            UiStateResult(
-                uiState = viewModel.uiState.collectAsState().value,
-                onRefresh = { viewModel.refresh() }
-            ) { data ->
-                Column {
-                    SlideMedia(medias = slideMediaSample)
-                    StreamingVerticalGrid(
-                        streamings = data.selected,
-                        onClick = events::onNavigateToStreamingOverview
-                    )
-                }
+        UiStateResult(
+            uiState = viewModel.uiState.collectAsState().value,
+            onRefresh = { viewModel.refresh() }
+        ) { data ->
+            Column(
+                modifier = Modifier.padding(padding)
+            ) {
+                SlideMedia(medias = slideMediaSample)
+                StreamingsGrid(wrap = data, onClickStreaming = events::onNavigateToStreaming)
             }
         }
     }
@@ -187,19 +183,29 @@ fun SlideMediaTitle(title: String, modifier: Modifier = Modifier, textPadding: D
 }
 
 @Composable
-fun StreamingVerticalGrid(
-    streamings: List<Streaming>,
-    onClick: (String) -> Unit
+fun StreamingsGrid(
+    wrap: StreamingsWrap,
+    onClickStreaming: (String) -> Unit
 ) {
     val cellSpace = dimensionResource(id = R.dimen.default_padding)
+    val columns = 4
     LazyVerticalGrid(
-        columns = GridCells.Fixed(count = 4),
-        modifier = Modifier.padding(top = 20.dp),
+        columns = GridCells.Fixed(count = columns),
+        modifier = Modifier.padding(top = 15.dp).padding(horizontal = dimensionResource(id = R.dimen.default_padding)),
         verticalArrangement = Arrangement.spacedBy(cellSpace),
         horizontalArrangement = Arrangement.spacedBy(cellSpace)
     ) {
-        items(streamings.size) { index ->
-            HomeStreamingItem(streaming = streamings[index], onClick = onClick)
+        item(span = { GridItemSpan(currentLineSpan = columns) }) {
+            SimpleTitle(title = "Principais Streamings")
+        }
+        items(wrap.selected.size) { index ->
+            HomeStreamingItem(streaming = wrap.selected[index], onClick = onClickStreaming)
+        }
+        item(span = { GridItemSpan(currentLineSpan = columns) }) {
+            SimpleTitle(title = "Outros Streaming")
+        }
+        items(wrap.unselected.size) { index ->
+            HomeStreamingItem(streaming = wrap.unselected[index], onClick = onClickStreaming)
         }
     }
 }

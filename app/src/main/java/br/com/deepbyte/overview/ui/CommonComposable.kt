@@ -294,10 +294,10 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
     Text(
         text = text,
         color = AccentColor,
-        style = MaterialTheme.typography.h5,
+        style = MaterialTheme.typography.h6,
         fontWeight = FontWeight.Bold,
         modifier = modifier.padding(
-            horizontal = dimensionResource(R.dimen.screen_padding),
+            horizontal = dimensionResource(R.dimen.default_padding),
             vertical = dimensionResource(R.dimen.default_padding)
         ),
         maxLines = maxLines,
