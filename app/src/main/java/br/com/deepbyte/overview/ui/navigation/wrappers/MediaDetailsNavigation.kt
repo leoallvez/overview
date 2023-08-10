@@ -1,16 +1,16 @@
-package br.com.deepbyte.overview.ui.navigation.events
+package br.com.deepbyte.overview.ui.navigation.wrappers
 
 import androidx.navigation.NavController
 import br.com.deepbyte.overview.ui.ScreenNav
 
-class MediaDetailsScreenEvents(
+class MediaDetailsNavigation(
     private val navigation: NavController,
     backToHome: Boolean = false
-) : BasicsMediaEvents(navigation, backToHome) {
+) : BasicNavigation(navigation, backToHome) {
 
-    fun onNavigateToStreamingExplore(json: String) =
+    fun toStreamingExplore(json: String) =
         navigation.navigate(ScreenNav.StreamingExplore.editRoute(json))
 
-    fun onNavigateToCastDetails(apiId: Long) =
+    fun toCastDetails(apiId: Long) =
         navigation.navigate(ScreenNav.CastDetails.editRoute(apiId))
 }

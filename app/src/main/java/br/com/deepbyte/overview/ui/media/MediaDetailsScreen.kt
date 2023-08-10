@@ -61,7 +61,7 @@ import br.com.deepbyte.overview.ui.ToolbarTitle
 import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.UiStateResult
 import br.com.deepbyte.overview.ui.nameTranslation
-import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
+import br.com.deepbyte.overview.ui.navigation.wrappers.MediaDetailsNavigation
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -76,7 +76,7 @@ import timber.log.Timber
 @Composable
 fun MediaDetailsScreen(
     params: Pair<Long, String>,
-    events: MediaDetailsScreenEvents,
+    navigation: MediaDetailsNavigation,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
@@ -89,7 +89,7 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
-        MediaDetailsContent(media, viewModel.showAds, events) {
+        MediaDetailsContent(media, viewModel.showAds, navigation) {
             viewModel.refresh(apiId, type)
         }
     }
@@ -99,7 +99,7 @@ fun MediaDetailsScreen(
 fun MediaDetailsContent(
     media: Media?,
     showAds: Boolean,
-    events: MediaDetailsScreenEvents,
+    navigation: MediaDetailsNavigation,
     onRefresh: () -> Unit
 ) {
     if (media == null) {
@@ -110,10 +110,10 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(media) { events.onPopBackStack() }
+                MediaToolBar(media) { navigation.popBackStack() }
             }
         ) {
-            MediaBody(media, showAds, events)
+            MediaBody(media, showAds, navigation)
         }
     }
 }
@@ -145,7 +145,7 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
 fun MediaBody(
     media: Media,
     showAds: Boolean,
-    events: MediaDetailsScreenEvents
+    navigation: MediaDetailsNavigation
 ) {
     Column(
         modifier = Modifier
@@ -157,7 +157,7 @@ fun MediaBody(
         StreamingsOverview(media.streamings, media.isReleased()) { streaming ->
             val streamingJson = streaming.toJson()
             Timber.tag("streaming_json").d("streaming json: $streamingJson")
-            events.onNavigateToStreamingExplore(streamingJson)
+            navigation.toStreamingExplore(streamingJson)
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())
@@ -180,13 +180,13 @@ fun MediaBody(
             isVisible = showAds
         )
         CastList(media.getOrderedCast()) { apiId ->
-            events.onNavigateToCastDetails(apiId = apiId)
+            navigation.toCastDetails(apiId = apiId)
         }
         MediaList(
             listTitle = stringResource(R.string.related),
             medias = media.getSimilarMedia()
         ) { apiId, mediaType ->
-            events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+            navigation.toMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
         }
     }
 }

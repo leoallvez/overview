@@ -28,15 +28,15 @@ sealed class ScreenNav(val route: String, val name: String) {
     )
 
     object StreamingExplore : ScreenNav(
-        route = "streaming/{$JSON_PARAM}",
+        route = "streaming_explore/{$JSON_PARAM}",
         name = "StreamingExploreScreen"
     ) {
-        fun editRoute(json: String) = "streaming/${Uri.encode(json)}"
+        fun editRoute(json: String) = "streaming_explore/${Uri.encode(json)}"
     }
 
-    object StreamingOverviewEdit : ScreenNav(
-        route = "streaming_overview_edit",
-        name = "StreamingOverviewEditScreen"
+    object StreamingExploreEdit : ScreenNav(
+        route = "streaming_explore_edit",
+        name = "StreamingExploreEditScreen"
     )
 
     companion object {

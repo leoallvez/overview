@@ -48,26 +48,26 @@ import br.com.deepbyte.overview.ui.SearchField
 import br.com.deepbyte.overview.ui.SimpleTitle
 import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.UiStateResult
-import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
+import br.com.deepbyte.overview.ui.navigation.wrappers.HomeNavigation
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.ui.theme.SecondaryBackground
+import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.toJson
 
 @Composable
 fun NewHomeScreen(
-    events: HomeScreenEvents,
+    navigation: HomeNavigation,
     viewModel: NewHomeViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
-
-    HomeContent(events = events, viewModel = viewModel)
+    HomeContent(navigation = navigation, viewModel = viewModel)
 }
 
 @Composable
 fun HomeContent(
-    events: HomeScreenEvents,
+    navigation: HomeNavigation,
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
@@ -80,7 +80,7 @@ fun HomeContent(
             ) {
                 SearchField(
                     enabled = false,
-                    onClick = {},
+                    onClick = navigation::toSearch,
                     defaultPaddingValues = PaddingValues(),
                     placeholder = stringResource(R.string.search_in_all_places)
                 )
@@ -98,8 +98,8 @@ fun HomeContent(
             Column(
                 modifier = Modifier.padding(padding)
             ) {
-                SlideMedia(medias = slideMediaSample)
-                StreamingsGrid(wrap = data, onClickItem = events::onNavigateToStreaming)
+                SlideMedia(medias = slideMediaSample, navigation::toMediaDetails)
+                StreamingsGrid(wrap = data, onClickItem = navigation::toStreamingExplore)
             }
         }
     }
@@ -107,15 +107,20 @@ fun HomeContent(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SlideMedia(medias: List<Media>) {
+fun SlideMedia(medias: List<Media>, onClickItem: MediaItemClick) {
     if (medias.isNotEmpty()) {
+        val pagerState = rememberPagerState(pageCount = { medias.size })
         Box(
             modifier = Modifier
                 .background(SecondaryBackground)
                 .fillMaxWidth()
                 .height(dimensionResource(R.dimen.backdrop_height))
+                .padding(bottom = dimensionResource(R.dimen.corner))
+                .clickable {
+                    val media = medias[pagerState.currentPage]
+                    onClickItem(media.apiId, media.getType())
+                }
         ) {
-            val pagerState = rememberPagerState(pageCount = { medias.size })
             HorizontalPager(
                 state = pagerState
             ) { page ->

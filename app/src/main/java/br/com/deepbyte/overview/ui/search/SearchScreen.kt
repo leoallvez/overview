@@ -44,13 +44,13 @@ import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.SearchField
 import br.com.deepbyte.overview.ui.ToolbarButton
 import br.com.deepbyte.overview.ui.TrackScreenView
-import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigation
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 
 @Composable
 fun SearchScreen(
-    events: BasicsMediaEvents,
+    navigation: BasicNavigation,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Search, viewModel.analyticsTracker)
@@ -72,7 +72,7 @@ fun SearchScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            SearchToolBar(events::onPopBackStack) { query ->
+            SearchToolBar(navigation::popBackStack) { query ->
                 filters.query = query
                 setMediaItems()
             }
@@ -94,7 +94,7 @@ fun SearchScreen(
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
-                        MediaPagingVerticalGrid(padding, items, events::onNavigateToMediaDetails)
+                        MediaPagingVerticalGrid(padding, items, navigation::toMediaDetails)
                     } else -> {
                         if (viewModel.started) {
                             NotFoundContentScreen()

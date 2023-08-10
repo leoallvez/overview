@@ -15,10 +15,10 @@ import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.home.NewHomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
 import br.com.deepbyte.overview.ui.navigation.args.StreamingArgType
-import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
-import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
-import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
-import br.com.deepbyte.overview.ui.navigation.events.StreamingEvents
+import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigation
+import br.com.deepbyte.overview.ui.navigation.wrappers.HomeNavigation
+import br.com.deepbyte.overview.ui.navigation.wrappers.MediaDetailsNavigation
+import br.com.deepbyte.overview.ui.navigation.wrappers.StreamingExploreNavigation
 import br.com.deepbyte.overview.ui.person.CastDetailsScreen
 import br.com.deepbyte.overview.ui.search.SearchScreen
 import br.com.deepbyte.overview.ui.splash.SplashScreen
@@ -38,13 +38,13 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         modifier = Modifier.background(PrimaryBackground).padding(bottom = 20.dp)
     ) {
         composable(route = ScreenNav.Splash.route) {
-            SplashScreen(onNavigateToHome = onNavigateToHome(navController))
+            SplashScreen(onNavigateToHome = toHome(navController))
         }
         composable(route = ScreenNav.Home.route) {
-            NewHomeScreen(events = HomeScreenEvents(navController))
+            NewHomeScreen(navigation = HomeNavigation(navController))
         }
         composable(route = ScreenNav.Search.route) {
-            SearchScreen(events = BasicsMediaEvents(navController))
+            SearchScreen(navigation = BasicNavigation(navController))
         }
         mediaDetailsGraph(navController = navController)
     }
@@ -57,13 +57,13 @@ fun NavGraphBuilder.mediaDetailsGraph(
         route = ScreenNav.MediaDetails.route,
         arguments = listOf(NavArgument.ID, NavArgument.TYPE, NavArgument.BACK_TO_HOME)
     ) { navBackStackEntry ->
-        val events = MediaDetailsScreenEvents(
+        val navigation = MediaDetailsNavigation(
             navigation = navController,
             backToHome = navBackStackEntry.getBackToHome()
         )
         MediaDetailsScreen(
             params = navBackStackEntry.getParams(),
-            events = events
+            navigation = navigation
         )
     }
     composable(
@@ -72,7 +72,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
     ) { navBackStackEntry ->
         CastDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
-            events = BasicsMediaEvents(navController, backToHome = true)
+            navigation = BasicNavigation(navController, backToHome = true)
         )
     }
     composable(
@@ -81,11 +81,11 @@ fun NavGraphBuilder.mediaDetailsGraph(
     ) { navBackStackEntry ->
         StreamingExploreScreen(
             streaming = navBackStackEntry.getStreamingParams(),
-            events = StreamingEvents(navController)
+            navigation = StreamingExploreNavigation(navController)
         )
     }
     composable(
-        route = ScreenNav.StreamingOverviewEdit.route
+        route = ScreenNav.StreamingExploreEdit.route
     ) {
         StreamingOverviewEditScreen()
     }

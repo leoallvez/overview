@@ -31,7 +31,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.*
-import br.com.deepbyte.overview.ui.navigation.events.StreamingEvents
+import br.com.deepbyte.overview.ui.navigation.wrappers.StreamingExploreNavigation
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.AlertColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun StreamingExploreScreen(
     streaming: Streaming,
-    events: StreamingEvents,
+    navigation: StreamingExploreNavigation,
     viewModel: StreamingExploreViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
@@ -58,7 +58,7 @@ fun StreamingExploreScreen(
     val setMediaItems = { mediaItems = loadData() }
 
     StreamingExploreContent(
-        events = events,
+        navigation = navigation,
         searchFilters = filters,
         streaming = streaming,
         showAds = viewModel.showAds,
@@ -79,12 +79,12 @@ fun StreamingExploreContent(
     streaming: Streaming,
     onRefresh: () -> Unit,
     genresItems: List<Genre>,
-    events: StreamingEvents,
+    navigation: StreamingExploreNavigation,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
 ) {
     StreamingExploreBody(
-        events = events,
+        navigation = navigation,
         showAds = showAds,
         searchFilters = searchFilters,
         streaming = streaming,
@@ -103,7 +103,7 @@ fun StreamingExploreBody(
     onRefresh: () -> Unit,
     streaming: Streaming,
     genresItems: List<Genre>,
-    events: StreamingEvents,
+    navigation: StreamingExploreNavigation,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
 ) {
@@ -144,8 +144,8 @@ fun StreamingExploreBody(
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
                 StreamingToolBar(
-                    backButtonAction = events::onPopBackStack,
-                    onNavigateToSearch = events::onNavigateToSearch
+                    backButtonAction = navigation::popBackStack,
+                    onNavigateToSearch = navigation::toSearch
                 )
             },
             bottomBar = {
@@ -173,7 +173,7 @@ fun StreamingExploreBody(
                             MediaPagingVerticalGrid(
                                 padding,
                                 pagingMediaItems,
-                                events::onNavigateToMediaDetails
+                                navigation::toMediaDetails
                             )
                         }
                     }

@@ -48,7 +48,7 @@ import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.ToolbarButton
 import br.com.deepbyte.overview.ui.ToolbarTitle
 import br.com.deepbyte.overview.ui.TrackScreenView
-import br.com.deepbyte.overview.ui.navigation.events.HomeScreenEvents
+import br.com.deepbyte.overview.ui.navigation.wrappers.HomeNavigation
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -69,7 +69,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(
-    events: HomeScreenEvents,
+    navigation: HomeNavigation,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
@@ -90,15 +90,15 @@ fun HomeScreen(
                 toolbar = {
                     HomeToolBar(
                         items = featuredMediaItems,
-                        onNavigateToSearch = { events.onNavigateToSearch() }
+                        onNavigateToSearch = { navigation.toSearch() }
                     ) { item ->
-                        events.onNavigateToMediaDetails(item.apiId, item.type)
+                        navigation.toMediaDetails(item.apiId, item.type)
                     }
                 }
             ) {
                 HomeScreenContent(
                     showAds = viewModel.showAds,
-                    events = events,
+                    navigation = navigation,
                     suggestions = suggestions,
                     streamings = streamings
                 )
@@ -186,7 +186,7 @@ fun SlideIndicator(pagerState: PagerState, modifier: Modifier) {
 @Composable
 fun HomeScreenContent(
     showAds: Boolean,
-    events: HomeScreenEvents,
+    navigation: HomeNavigation,
     streamings: List<Streaming>,
     suggestions: List<MediaSuggestion>
 ) {
@@ -198,14 +198,14 @@ fun HomeScreenContent(
     ) {
         Column {
             AdsBanner(prodBannerId = R.string.home_banner, isVisible = showAds)
-            HomeLists(events = events, suggestions = suggestions, streamings = streamings)
+            HomeLists(navigation = navigation, suggestions = suggestions, streamings = streamings)
         }
     }
 }
 
 @Composable
 fun HomeLists(
-    events: HomeScreenEvents,
+    navigation: HomeNavigation,
     streamings: List<Streaming>,
     suggestions: List<MediaSuggestion>
 ) {
@@ -213,8 +213,8 @@ fun HomeLists(
         item {
             OverviewStreaming(
                 streamings = streamings,
-                onItemClick = events::onNavigateToStreaming,
-                onEditClick = events::onNavigateToStreamingOverviewEdit
+                onItemClick = navigation::toStreamingExplore,
+                onEditClick = navigation::toStreamingExploreEdit
             )
         }
         items(suggestions) {
@@ -224,7 +224,7 @@ fun HomeLists(
                 items = it.items,
                 mediaType = it.type
             ) { apiId, mediaType ->
-                events.onNavigateToMediaDetails(apiId, mediaType)
+                navigation.toMediaDetails(apiId, mediaType)
             }
         }
     }
