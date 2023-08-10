@@ -2,12 +2,12 @@ package br.com.deepbyte.overview.ui.navigation.wrappers
 
 import androidx.navigation.NavController
 import br.com.deepbyte.overview.ui.ScreenNav
-import br.com.deepbyte.overview.ui.navigation.toMediaDetails
+import br.com.deepbyte.overview.ui.navigation.onNavigateToMediaDetails
 
-class HomeNavigation(private val navigation: NavController) {
+class HomeNavigate(private val navigation: NavController) {
 
-    fun toMediaDetails(apiId: Long, mediaType: String?) = toMediaDetails(navigation)
-        .invoke(apiId, mediaType)
+    fun toMediaDetails(apiId: Long, mediaType: String?) =
+        onNavigateToMediaDetails(navigation).invoke(apiId, mediaType)
 
     fun toSearch() = navigation.navigate(route = ScreenNav.Search.route)
 

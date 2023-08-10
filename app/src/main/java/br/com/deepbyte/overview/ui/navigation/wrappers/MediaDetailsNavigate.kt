@@ -3,10 +3,10 @@ package br.com.deepbyte.overview.ui.navigation.wrappers
 import androidx.navigation.NavController
 import br.com.deepbyte.overview.ui.ScreenNav
 
-class MediaDetailsNavigation(
+class MediaDetailsNavigate(
     private val navigation: NavController,
     backToHome: Boolean = false
-) : BasicNavigation(navigation, backToHome) {
+) : BasicNavigate(navigation, backToHome) {
 
     fun toStreamingExplore(json: String) =
         navigation.navigate(ScreenNav.StreamingExplore.editRoute(json))

@@ -48,7 +48,7 @@ import br.com.deepbyte.overview.ui.SearchField
 import br.com.deepbyte.overview.ui.SimpleTitle
 import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.UiStateResult
-import br.com.deepbyte.overview.ui.navigation.wrappers.HomeNavigation
+import br.com.deepbyte.overview.ui.navigation.wrappers.HomeNavigate
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -58,16 +58,16 @@ import br.com.deepbyte.overview.util.toJson
 
 @Composable
 fun NewHomeScreen(
-    navigation: HomeNavigation,
+    navigate: HomeNavigate,
     viewModel: NewHomeViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
-    HomeContent(navigation = navigation, viewModel = viewModel)
+    HomeContent(navigate = navigate, viewModel = viewModel)
 }
 
 @Composable
 fun HomeContent(
-    navigation: HomeNavigation,
+    navigate: HomeNavigate,
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
@@ -80,7 +80,7 @@ fun HomeContent(
             ) {
                 SearchField(
                     enabled = false,
-                    onClick = navigation::toSearch,
+                    onClick = navigate::toSearch,
                     defaultPaddingValues = PaddingValues(),
                     placeholder = stringResource(R.string.search_in_all_places)
                 )
@@ -98,8 +98,8 @@ fun HomeContent(
             Column(
                 modifier = Modifier.padding(padding)
             ) {
-                SlideMedia(medias = slideMediaSample, navigation::toMediaDetails)
-                StreamingsGrid(wrap = data, onClickItem = navigation::toStreamingExplore)
+                SlideMedia(medias = slideMediaSample, navigate::toMediaDetails)
+                StreamingsGrid(wrap = data, onClickItem = navigate::toStreamingExplore)
             }
         }
     }

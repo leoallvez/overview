@@ -47,7 +47,7 @@ import br.com.deepbyte.overview.ui.SimpleSubtitle1
 import br.com.deepbyte.overview.ui.ToolbarButton
 import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.UiStateResult
-import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigation
+import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigate
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -57,7 +57,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun CastDetailsScreen(
     apiId: Long,
-    navigation: BasicNavigation,
+    navigate: BasicNavigate,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
@@ -71,9 +71,9 @@ fun CastDetailsScreen(
         PersonDetailsContent(
             person = dataResult,
             showAds = viewModel.showAds,
-            navigation::popBackStack,
+            navigate::popBackStack,
             { apiId, mediaType ->
-                navigation.toMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+                navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
             }
         ) {
             viewModel.refresh(apiId)

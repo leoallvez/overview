@@ -1,17 +1,17 @@
 package br.com.deepbyte.overview.ui.navigation.wrappers
 
 import androidx.navigation.NavController
-import br.com.deepbyte.overview.ui.navigation.toHome
-import br.com.deepbyte.overview.ui.navigation.toMediaDetails
+import br.com.deepbyte.overview.ui.navigation.onNavigateToHome
+import br.com.deepbyte.overview.ui.navigation.onNavigateToMediaDetails
 
-open class BasicNavigation(
+open class BasicNavigate(
     private val navigation: NavController,
     private val backToHome: Boolean = false
 ) {
-    private fun toHome() = toHome(navigation).invoke()
+    private fun toHome() = onNavigateToHome(navigation).invoke()
 
     fun toMediaDetails(apiId: Long, mediaType: String?, backToHome: Boolean = false) =
-        toMediaDetails(navigation, backToHome)
+        onNavigateToMediaDetails(navigation, backToHome)
             .invoke(apiId, mediaType)
 
     fun popBackStack() {
