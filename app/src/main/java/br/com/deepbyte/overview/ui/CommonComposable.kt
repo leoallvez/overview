@@ -670,6 +670,7 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 
 @Composable
 fun SearchField(
+    modifier: Modifier = Modifier,
     placeholder: String,
     enabled: Boolean = true,
     defaultPaddingValues: PaddingValues = PaddingValues(start = 13.dp, end = 5.dp),
@@ -683,7 +684,7 @@ fun SearchField(
         focusRequester.requestFocus()
     }
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(PrimaryBackground)
             .padding(defaultPaddingValues)
             .clickable { onClick() }

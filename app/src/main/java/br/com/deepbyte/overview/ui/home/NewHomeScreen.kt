@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
@@ -53,7 +52,6 @@ import br.com.deepbyte.overview.ui.navigation.wrappers.HomeNavigate
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import br.com.deepbyte.overview.ui.theme.SecondaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.toJson
 
@@ -72,14 +70,14 @@ fun HomeContent(
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
-        modifier = Modifier.padding(
-            horizontal = dimensionResource(R.dimen.screen_padding)
-        ),
         topBar = {
             Box(
                 modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))
             ) {
                 SearchField(
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(R.dimen.screen_padding)
+                    ),
                     enabled = false,
                     onClick = navigate::toSearch,
                     defaultPaddingValues = PaddingValues(),
@@ -113,7 +111,7 @@ fun SlideMedia(medias: List<Media>, onClickItem: MediaItemClick) {
         val pagerState = rememberPagerState(pageCount = { medias.size })
         Box(
             modifier = Modifier
-                .background(SecondaryBackground)
+                .background(PrimaryBackground)
                 .fillMaxWidth()
                 .height(dimensionResource(R.dimen.backdrop_height))
                 .padding(bottom = dimensionResource(R.dimen.corner))
@@ -171,7 +169,7 @@ fun SlideMediaIndicator(modifier: Modifier, pagerState: PagerState) {
 }
 
 @Composable
-fun SlideMediaTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp = 0.dp) {
+fun SlideMediaTitle(modifier: Modifier = Modifier, title: String) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -186,20 +184,21 @@ fun SlideMediaTitle(title: String, modifier: Modifier = Modifier, textPadding: D
             text = title,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(textPadding)
+                .padding(start = dimensionResource(R.dimen.default_padding))
         )
     }
 }
 
 @Composable
 fun StreamingsGrid(
+    modifier: Modifier = Modifier,
     wrap: StreamingsWrap,
     onClickItem: (String) -> Unit
 ) {
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = STREAMING_GRID_COLUMNS),
-        modifier = Modifier.padding(padding),
+        modifier = modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
