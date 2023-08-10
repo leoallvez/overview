@@ -42,6 +42,7 @@ import br.com.deepbyte.overview.data.sampe.slideMediaSample
 import br.com.deepbyte.overview.ui.AdsBanner
 import br.com.deepbyte.overview.ui.Backdrop
 import br.com.deepbyte.overview.ui.BasicImage
+import br.com.deepbyte.overview.ui.STREAMING_GRID_COLUMNS
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.ScreenTitle
 import br.com.deepbyte.overview.ui.SearchField
@@ -195,24 +196,21 @@ fun StreamingsGrid(
     wrap: StreamingsWrap,
     onClickItem: (String) -> Unit
 ) {
-    val columns = 4
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
-        columns = GridCells.Fixed(count = columns),
+        columns = GridCells.Fixed(count = STREAMING_GRID_COLUMNS),
         modifier = Modifier.padding(padding),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
         streamingSession(
-            top = { SimpleTitle(title = "Principais Streamings") },
+            top = { SimpleTitle(title = stringResource(R.string.favorite_streams)) },
             streamings = wrap.selected,
-            columns = columns,
             onClick = onClickItem
         )
         streamingSession(
-            top = { SimpleTitle(title = "Demais Streamings") },
+            top = { SimpleTitle(title = stringResource(R.string.other_streams)) },
             streamings = wrap.unselected,
-            columns = columns,
             onClick = onClickItem
         )
     }
@@ -221,11 +219,10 @@ fun StreamingsGrid(
 private fun LazyGridScope.streamingSession(
     top: @Composable () -> Unit,
     streamings: List<Streaming>,
-    columns: Int,
     onClick: (String) -> Unit
 ) {
     if (streamings.isNotEmpty()) {
-        item(span = { GridItemSpan(currentLineSpan = columns) }) {
+        item(span = { GridItemSpan(currentLineSpan = STREAMING_GRID_COLUMNS) }) {
             top()
         }
         items(streamings.size) { index ->
@@ -245,7 +242,7 @@ fun HomeStreamingItem(
         contentScale = ContentScale.FillBounds,
         withBorder = true,
         modifier = Modifier
-            .size(85.dp)
+            .size(dimensionResource(R.dimen.streaming_item_big_size))
             .clickable { onClick.invoke(streaming.toJson()) }
     )
 }

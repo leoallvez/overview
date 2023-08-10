@@ -828,3 +828,5 @@ fun FilterButton(
 fun VerticalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
     Spacer(modifier = Modifier.padding(vertical = padding))
 }
+
+const val STREAMING_GRID_COLUMNS = 4
