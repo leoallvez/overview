@@ -44,4 +44,11 @@ abstract class Media {
     } else {
         ""
     }
+
+    fun toMediaSuggestion() = MediaSuggestion(
+        apiId = apiId,
+        backdropPath = backdropPath,
+        letter = getLetter(),
+        type = getType()
+    )
 }

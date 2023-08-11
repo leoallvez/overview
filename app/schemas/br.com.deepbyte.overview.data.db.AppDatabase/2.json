@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "89175283302ef77dbe090b3187f567f8",
+    "identityHash": "bedf40f5296f91b8b3e0733d832bec81",
     "entities": [
       {
         "tableName": "genres",
@@ -241,6 +241,50 @@
         "foreignKeys": []
       },
       {
+        "tableName": "media_suggestions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_suggestion_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `api_id` INTEGER NOT NULL, `letter` TEXT NOT NULL, `type` TEXT NOT NULL, `backdrop_path` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "dbId",
+            "columnName": "media_suggestion_db_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apiId",
+            "columnName": "api_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "letter",
+            "columnName": "letter",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "backdropPath",
+            "columnName": "backdrop_path",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "media_suggestion_db_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
         "tableName": "media_type_cross_ref",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_type_db_id` INTEGER NOT NULL, `genre_db_id` INTEGER NOT NULL, PRIMARY KEY(`media_type_db_id`, `genre_db_id`))",
         "fields": [
@@ -271,7 +315,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '89175283302ef77dbe090b3187f567f8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bedf40f5296f91b8b3e0733d832bec81')"
     ]
   }
 }
