@@ -301,7 +301,7 @@ fun StreamingToolBar(
                 background = Color.White.copy(alpha = 0.1f),
                 padding = PaddingValues(
                     vertical = dimensionResource(R.dimen.screen_padding),
-                    horizontal = 2.dp
+                    horizontal = 5.dp
                 )
             ) { backButtonAction.invoke() }
         }

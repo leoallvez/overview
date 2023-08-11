@@ -648,7 +648,11 @@ fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp = 0.dp) {
+fun ToolbarTitle(
+    title: String,
+    modifier: Modifier = Modifier,
+    textPadding: PaddingValues = PaddingValues()
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()

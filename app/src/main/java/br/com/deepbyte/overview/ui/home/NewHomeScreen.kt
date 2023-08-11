@@ -2,6 +2,7 @@ package br.com.deepbyte.overview.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,17 +21,20 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
@@ -43,7 +47,6 @@ import br.com.deepbyte.overview.ui.Backdrop
 import br.com.deepbyte.overview.ui.BasicImage
 import br.com.deepbyte.overview.ui.STREAMING_GRID_COLUMNS
 import br.com.deepbyte.overview.ui.ScreenNav
-import br.com.deepbyte.overview.ui.ScreenTitle
 import br.com.deepbyte.overview.ui.SearchField
 import br.com.deepbyte.overview.ui.SimpleTitle
 import br.com.deepbyte.overview.ui.TrackScreenView
@@ -70,20 +73,17 @@ fun HomeContent(
     viewModel: NewHomeViewModel
 ) {
     Scaffold(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(R.dimen.screen_padding_new)
+        ),
         topBar = {
-            Box(
-                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding))
-            ) {
-                SearchField(
-                    modifier = Modifier.padding(
-                        horizontal = dimensionResource(R.dimen.screen_padding)
-                    ),
-                    enabled = false,
-                    onClick = navigate::toSearch,
-                    defaultPaddingValues = PaddingValues(),
-                    placeholder = stringResource(R.string.search_in_all_places)
-                )
-            }
+            SearchField(
+                Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
+                enabled = false,
+                onClick = navigate::toSearch,
+                defaultPaddingValues = PaddingValues(),
+                placeholder = stringResource(R.string.search_in_all_places)
+            )
         },
         bottomBar = {
             AdsBanner(R.string.home_banner, isVisible = viewModel.showAds)
@@ -97,8 +97,11 @@ fun HomeContent(
             Column(
                 modifier = Modifier.padding(padding)
             ) {
-                SlideMedia(medias = slideMediaSample, navigate::toMediaDetails)
-                StreamingsGrid(wrap = data, onClickItem = navigate::toStreamingExplore)
+                StreamingsGrid(
+                    wrap = data,
+                    header = { SlideMedia(slideMediaSample, navigate::toMediaDetails) },
+                    onClickItem = navigate::toStreamingExplore
+                )
             }
         }
     }
@@ -109,36 +112,31 @@ fun HomeContent(
 fun SlideMedia(medias: List<Media>, onClickItem: MediaItemClick) {
     if (medias.isNotEmpty()) {
         val pagerState = rememberPagerState(pageCount = { medias.size })
-        Box(
-            modifier = Modifier
-                .background(PrimaryBackground)
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.backdrop_height))
-                .padding(bottom = dimensionResource(R.dimen.corner))
-                .clickable {
-                    val media = medias[pagerState.currentPage]
-                    onClickItem(media.apiId, media.getType())
+        val media = medias[pagerState.currentPage]
+        Column {
+            SlideMediaTitle(title = media.getLetter())
+            Box(
+                modifier = Modifier
+                    .background(PrimaryBackground)
+                    .fillMaxWidth()
+                    .height(dimensionResource(R.dimen.backdrop_height))
+                    .padding(bottom = dimensionResource(R.dimen.default_padding))
+                    .clickable { onClickItem(media.apiId, media.getType()) }
+            ) {
+                HorizontalPager(state = pagerState) {
+                    Backdrop(
+                        url = media.getBackdropImage(),
+                        contentDescription = media.getLetter()
+                    )
                 }
-        ) {
-            HorizontalPager(
-                state = pagerState
-            ) { page ->
-                Backdrop(
-                    url = medias[page].getBackdropImage(),
-                    contentDescription = medias[page].getLetter()
+                SlideMediaIndicator(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth(),
+                    pagerState = pagerState
                 )
             }
-            SlideMediaIndicator(
-                modifier = Modifier
-                    .height(25.dp)
-                    .align(Alignment.TopCenter)
-                    .padding(top = dimensionResource(R.dimen.corner)),
-                pagerState = pagerState
-            )
-            SlideMediaTitle(
-                title = medias[pagerState.currentPage].getLetter(),
-                modifier = Modifier.align(Alignment.BottomStart)
-            )
         }
     }
 }
@@ -162,46 +160,48 @@ fun SlideMediaIndicator(modifier: Modifier, pagerState: PagerState) {
                     .clip(CircleShape)
                     .background(color)
                     .size(7.dp)
-
+                    .border(
+                        width = 1.dp,
+                        color = Color.White.copy(alpha = 0.5f),
+                        shape = CircleShape
+                    )
             )
         }
     }
 }
 
 @Composable
-fun SlideMediaTitle(modifier: Modifier = Modifier, title: String) {
+fun SlideMediaTitle(title: String) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, PrimaryBackground)
-                )
-            )
+            .padding(vertical = dimensionResource(R.dimen.screen_padding))
     ) {
-        ScreenTitle(
+        Text(
             text = title,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = dimensionResource(R.dimen.default_padding))
+            color = AccentColor,
+            style = MaterialTheme.typography.h6,
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
 
 @Composable
 fun StreamingsGrid(
-    modifier: Modifier = Modifier,
+    header: @Composable () -> Unit = {},
     wrap: StreamingsWrap,
     onClickItem: (String) -> Unit
 ) {
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = STREAMING_GRID_COLUMNS),
-        modifier = modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
+        item(span = { GridItemSpan(currentLineSpan = STREAMING_GRID_COLUMNS) }) {
+            header()
+        }
         streamingSession(
             top = { SimpleTitle(title = stringResource(R.string.favorite_streams)) },
             streamings = wrap.selected,

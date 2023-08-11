@@ -129,7 +129,7 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
             )
             ToolbarTitle(
                 title = getLetter(),
-                textPadding = dimensionResource(R.dimen.default_padding),
+                textPadding = PaddingValues(start = dimensionResource(R.dimen.screen_padding)),
                 modifier = Modifier.align(Alignment.BottomStart)
             )
             ToolbarButton(
@@ -199,8 +199,11 @@ fun MediaSpace() {
 @Composable
 fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
     if (numberOfSeasons > 0) {
-        val padding = dimensionResource(R.dimen.screen_padding)
-        Row(modifier = Modifier.padding(horizontal = padding).padding(top = 2.dp)) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.screen_padding))
+                .padding(top = 2.dp)
+        ) {
             val spacerModifier = Modifier.padding(horizontal = 2.dp)
             NumberOfSeasons(numberOfSeasons)
             Spacer(modifier = spacerModifier)
