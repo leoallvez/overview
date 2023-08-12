@@ -72,7 +72,6 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
@@ -308,8 +307,7 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
 @Composable
 fun MediaItemList(
     listTitle: String,
-    items: List<MediaItem>,
-    mediaType: String? = null,
+    items: List<Media>,
     onClickItem: MediaItemClick
 ) {
     val sortedItems = items.sortedBy { it.voteAverage }
@@ -324,7 +322,7 @@ fun MediaItemList(
             ) {
                 items(sortedItems) { item ->
                     MediaItem(item, imageWithBorder = true) {
-                        onClickItem.invoke(item.apiId, mediaType ?: item.type)
+                        onClickItem.invoke(item.apiId, item.getType())
                     }
                 }
             }
@@ -362,22 +360,6 @@ fun MediaList(
 
 @Composable
 fun MediaItem(mediaItem: Media, imageWithBorder: Boolean = false, onClick: () -> Unit) {
-    Column(Modifier.clickable { onClick.invoke() }) {
-        BasicImage(
-            url = mediaItem.getPosterImage(),
-            contentDescription = mediaItem.getLetter(),
-            withBorder = imageWithBorder
-        )
-        BasicText(
-            text = mediaItem.getLetter(),
-            style = MaterialTheme.typography.caption,
-            isBold = true
-        )
-    }
-}
-
-@Composable
-fun MediaItem(mediaItem: MediaItem, imageWithBorder: Boolean = false, onClick: () -> Unit) {
     Column(Modifier.clickable { onClick.invoke() }) {
         BasicImage(
             url = mediaItem.getPosterImage(),

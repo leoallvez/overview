@@ -29,11 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.MOVIE
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.TV_SHOW
 import br.com.deepbyte.overview.ui.AdsMediumRectangle
 import br.com.deepbyte.overview.ui.BasicParagraph
 import br.com.deepbyte.overview.ui.ErrorScreen
@@ -149,8 +146,8 @@ fun PersonBody(
             PlaceOfBirth(birthPlace())
             BasicParagraph(R.string.biography, biography)
             AdsMediumRectangle(R.string.person_banner, showAds)
-            ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
-            ParticipationList(R.string.tv_shows_participation, getTvShows(), TV_SHOW, onClickItem)
+            ParticipationList(R.string.movies_participation, getFilmography(), onClickItem)
+            ParticipationList(R.string.tv_shows_participation, getTvShows(), onClickItem)
         }
     }
 }
@@ -219,14 +216,12 @@ fun PersonSpace() {
 @Composable
 fun ParticipationList(
     @StringRes listTitleRes: Int,
-    mediaItems: List<MediaItem>,
-    mediaType: MediaTypeEnum,
+    medias: List<Media>,
     onClickItem: MediaItemClick
 ) {
     MediaItemList(
-        listTitle = stringResource(listTitleRes),
-        items = mediaItems
-    ) { apiId, _ ->
-        onClickItem.invoke(apiId, mediaType.key)
-    }
+        items = medias,
+        onClickItem = onClickItem,
+        listTitle = stringResource(listTitleRes)
+    )
 }
