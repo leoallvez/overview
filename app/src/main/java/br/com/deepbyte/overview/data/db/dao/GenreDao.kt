@@ -21,7 +21,7 @@ interface GenreDao {
     }
 
     @Transaction
-    private fun update(model: Genre): Long {
+    fun update(model: Genre): Long {
         val genreCache = findByApiId(model.apiId)
         return genreCache?.dbId ?: insert(model)
     }
