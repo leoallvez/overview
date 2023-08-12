@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import br.com.deepbyte.overview.BuildConfig.IMG_URL
 import com.squareup.moshi.Json
 
+// TODO: Replace this class with Movie and TvShow;
 @Entity(
     tableName = "media_items",
     foreignKeys = [
@@ -42,9 +43,7 @@ class MediaItem(
     @ColumnInfo(name = "media_type")
     var type: String? = ""
 ) {
-    fun getLetter() = if (name != null && name.isNotEmpty()) name else title ?: ""
+    fun getLetter() = if (!name.isNullOrEmpty()) name else title ?: ""
 
     fun getPosterImage() = "$IMG_URL/$posterPath"
-
-    fun getBackdropImage() = "$IMG_URL/$backdropPath"
 }

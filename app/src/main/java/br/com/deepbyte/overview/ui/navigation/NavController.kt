@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.deepbyte.overview.ui.ScreenNav
-import br.com.deepbyte.overview.ui.home.NewHomeScreen
+import br.com.deepbyte.overview.ui.home.HomeScreen
 import br.com.deepbyte.overview.ui.media.MediaDetailsScreen
 import br.com.deepbyte.overview.ui.navigation.args.StreamingArgType
 import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigate
@@ -41,7 +41,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             SplashScreen(onNavigateToHome = onNavigateToHome(navController))
         }
         composable(route = ScreenNav.Home.route) {
-            NewHomeScreen(navigate = HomeNavigate(navController))
+            HomeScreen(navigate = HomeNavigate(navController))
         }
         composable(route = ScreenNav.Search.route) {
             SearchScreen(navigate = BasicNavigate(navController))

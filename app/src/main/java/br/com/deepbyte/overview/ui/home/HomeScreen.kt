@@ -59,9 +59,9 @@ import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.toJson
 
 @Composable
-fun NewHomeScreen(
+fun HomeScreen(
     navigate: HomeNavigate,
-    viewModel: NewHomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
     HomeContent(navigate = navigate, viewModel = viewModel)
@@ -70,7 +70,7 @@ fun NewHomeScreen(
 @Composable
 fun HomeContent(
     navigate: HomeNavigate,
-    viewModel: NewHomeViewModel
+    viewModel: HomeViewModel
 ) {
     Scaffold(
         modifier = Modifier.padding(

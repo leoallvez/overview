@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
+// TODO: Delete when delete MediaItem.kt
 @Entity(tableName = "suggestions")
 data class Suggestion(
     @PrimaryKey(autoGenerate = true)
@@ -18,9 +19,4 @@ data class Suggestion(
     @ColumnInfo(name = "title_resource_id")
     @field:Json(name = "title_resource_id")
     val titleResourceId: String
-) {
-
-    fun toMediaSuggestion(items: List<MediaItem>): MediaSuggestion {
-        return MediaSuggestion(order, type, titleResourceId, items)
-    }
-}
+)
