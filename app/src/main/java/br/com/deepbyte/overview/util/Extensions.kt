@@ -3,9 +3,6 @@ package br.com.deepbyte.overview.util
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
-import br.com.deepbyte.overview.data.model.MediaItem
-import br.com.deepbyte.overview.data.model.MediaSuggestion
-import br.com.deepbyte.overview.data.model.Suggestion
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.UiState
@@ -51,25 +48,6 @@ fun Context.getStringByName(resource: String): String? {
     } catch (e: NotFoundException) {
         null
     }
-}
-
-fun Map.Entry<Suggestion, List<MediaItem>>.toMediaSuggestion(): MediaSuggestion {
-    val suggestion = this.key
-    val items = this.value
-    return MediaSuggestion(
-        order = suggestion.order,
-        type = suggestion.type,
-        titleResourceId = suggestion.titleResourceId,
-        items = items
-    )
-}
-
-fun Array<out MediaItem>.removeRepeated(itemsToRemove: List<MediaItem>): List<MediaItem> {
-    return this.filterNot { a -> itemsToRemove.any { b -> b equivalent a } }
-}
-
-private infix fun MediaItem.equivalent(other: MediaItem): Boolean {
-    return this.apiId == other.apiId && this.suggestionId == other.suggestionId
 }
 
 fun NavBackStackEntry.getParams(): Pair<Long, String> {

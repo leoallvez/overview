@@ -10,7 +10,6 @@ enum class RemoteConfigKey(val value: String) {
     STREAMINGS_BR(value = "${STREAMINGS_PREFIX}_BR"),
     STREAMINGS_US(value = "${STREAMINGS_PREFIX}_US"),
     STREAMINGS_ES(value = "${STREAMINGS_PREFIX}_ES"),
-    SUGGESTIONS_LIST_KEY(value = "suggestions_list"),
     FIREBASE_ENVIRONMENT_KEY(value = "firebase_environment")
 }
 
