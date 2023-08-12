@@ -2,7 +2,6 @@ package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.api.response.*
-import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.Person
@@ -77,18 +76,6 @@ interface ApiService {
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
-
-    @GET(value = "{url}")
-    suspend fun getMediaItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
 
     // Providers
     @GET(value = "{media_type}/{api_id}/watch/providers")

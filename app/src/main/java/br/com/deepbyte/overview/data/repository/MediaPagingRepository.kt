@@ -11,7 +11,9 @@ import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.MediaPagingSource
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.*
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.MOVIE
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.TV_SHOW
 import br.com.deepbyte.overview.util.PagingMediaResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
