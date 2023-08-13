@@ -6,6 +6,7 @@ plugins {
     id "kotlin-parcelize"
     id "com.google.firebase.crashlytics"
     id "kotlin-kapt"
+    id 'com.google.devtools.ksp'
 }
 
 def activeSigning = System.getenv("ACTIVE_SIGNING") ? true : false
@@ -23,12 +24,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
         }
 
         def api_key = System.getenv("API_KEY")
@@ -118,6 +113,10 @@ android {
     namespace 'br.com.deepbyte.overview'
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
     implementation platform('androidx.compose:compose-bom:2022.12.00')
     implementation "androidx.compose.ui:ui"
@@ -145,7 +144,7 @@ dependencies {
     def room = "2.5.2"
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
-    kapt "androidx.room:room-compiler:$room"
+    ksp "androidx.room:room-compiler:$room"
     // Paging
     def paging_version = "3.2.0"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
