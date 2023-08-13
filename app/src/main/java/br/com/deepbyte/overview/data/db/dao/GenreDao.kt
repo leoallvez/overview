@@ -26,6 +26,7 @@ interface GenreDao {
         return genreCache?.dbId ?: insert(model)
     }
 
+    @Transaction
     @Query("SELECT * FROM media_types m WHERE m.`key` = :mediaType")
     fun getMediaTypeWithGenres(mediaType: String): MediaTypeWithGenres?
 

@@ -22,19 +22,10 @@ import br.com.deepbyte.overview.data.model.provider.Streaming
         MediaSuggestion::class,
         MediaTypeGenresCrossRef::class
     ],
-    version = 3,
-    exportSchema = true,
-    autoMigrations = [
-        AutoMigration(from = 1, to = 2, spec = AppDatabase.DeleteTablesMigration::class),
-        AutoMigration(from = 2, to = 3)
-    ]
+    version = 1,
+    exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
-
-    @DeleteTable(tableName = "media_items")
-    @DeleteTable(tableName = "suggestions")
-    class DeleteTablesMigration : AutoMigrationSpec
-
     abstract fun genreDao(): GenreDao
     abstract fun streamingDao(): StreamingDao
     abstract fun mediaTypeDao(): MediaTypeDao

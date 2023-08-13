@@ -8,8 +8,8 @@ import androidx.room.Entity
     primaryKeys = ["media_type_db_id", "genre_db_id"]
 )
 data class MediaTypeGenresCrossRef(
-    @ColumnInfo(name = "media_type_db_id")
+    @ColumnInfo(name = "media_type_db_id", index = true)
     val mediaTypeId: Long,
-    @ColumnInfo(name = "genre_db_id")
+    @ColumnInfo(name = "genre_db_id", index = true)
     val genreId: Long
 )
