@@ -18,5 +18,4 @@ updates:
       - "upgrade dependencies"
     ignore:
       # Ignore some updates to the packages
-      - dependency-name: "exoplayer"
       - dependency-name: "NetworkResponseAdapter"
