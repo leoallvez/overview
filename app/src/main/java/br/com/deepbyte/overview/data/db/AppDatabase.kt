@@ -1,10 +1,7 @@
 package br.com.deepbyte.overview.data.db
 
-import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.DeleteTable
 import androidx.room.RoomDatabase
-import androidx.room.migration.AutoMigrationSpec
 import br.com.deepbyte.overview.data.db.dao.GenreDao
 import br.com.deepbyte.overview.data.db.dao.MediaTypeDao
 import br.com.deepbyte.overview.data.db.dao.StreamingDao
