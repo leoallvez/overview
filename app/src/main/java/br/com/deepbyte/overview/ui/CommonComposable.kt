@@ -119,11 +119,11 @@ fun BasicTitle(title: String) {
 }
 
 @Composable
-fun SimpleTitle(title: String) {
+fun SimpleTitle(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         color = Color.White,
-        modifier = Modifier
+        modifier = modifier
             .padding(
                 bottom = 5.dp,
                 top = 10.dp

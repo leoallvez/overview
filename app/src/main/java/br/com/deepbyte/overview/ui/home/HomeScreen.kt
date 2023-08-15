@@ -100,7 +100,8 @@ fun HomeContent(
                 StreamingsGrid(
                     wrap = data,
                     header = { SlideMedia(slideMediaSample, navigate::toMediaDetails) },
-                    onClickItem = navigate::toStreamingExplore
+                    onClickStreamingItem = navigate::toStreamingExplore,
+                    onClickEditStreaming = navigate::toStreamingExploreEdit
                 )
             }
         }
@@ -120,7 +121,7 @@ fun SlideMedia(medias: List<Media>, onClickItem: MediaItemClick) {
                     .background(PrimaryBackground)
                     .fillMaxWidth()
                     .height(dimensionResource(R.dimen.backdrop_height))
-                    .padding(bottom = dimensionResource(R.dimen.default_padding))
+                    .padding(bottom = 20.dp)
                     .clickable { onClickItem(media.apiId, media.getType()) }
             ) {
                 HorizontalPager(state = pagerState) {
@@ -191,7 +192,8 @@ fun SlideMediaTitle(title: String) {
 fun StreamingsGrid(
     header: @Composable () -> Unit = {},
     wrap: StreamingsWrap,
-    onClickItem: (String) -> Unit
+    onClickStreamingItem: (String) -> Unit,
+    onClickEditStreaming: () -> Unit
 ) {
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
@@ -203,16 +205,34 @@ fun StreamingsGrid(
             header()
         }
         streamingSession(
-            top = { SimpleTitle(title = stringResource(R.string.favorite_streams)) },
+            top = {
+                Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                    SimpleTitle(title = stringResource(R.string.favorite_streams))
+                    EditStreamingText(onClick = onClickEditStreaming)
+                }
+            },
             streamings = wrap.selected,
-            onClick = onClickItem
+            onClick = onClickStreamingItem
         )
         streamingSession(
             top = { SimpleTitle(title = stringResource(R.string.other_streams)) },
             streamings = wrap.unselected,
-            onClick = onClickItem
+            onClick = onClickStreamingItem
         )
     }
+}
+
+@Composable
+fun EditStreamingText(onClick: () -> Unit) {
+    Text(
+        text = stringResource(R.string.edit),
+        color = AccentColor,
+        modifier = Modifier
+            .clickable { onClick.invoke() }
+            .padding(bottom = 5.dp, top = 10.dp),
+        style = MaterialTheme.typography.h6,
+        fontWeight = FontWeight.Bold
+    )
 }
 
 private fun LazyGridScope.streamingSession(
