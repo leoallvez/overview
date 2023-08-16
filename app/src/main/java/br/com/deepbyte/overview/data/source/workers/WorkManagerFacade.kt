@@ -11,11 +11,14 @@ class WorkManagerFacade constructor(
     fun init() {
         scheduleStreamingsSaveTask()
         scheduleGenreDefaultTask()
+        scheduleMediaSuggestionTask()
     }
 
     private fun scheduleStreamingsSaveTask() = makeOneTime<StreamingsSaveWorker>()
 
     private fun scheduleGenreDefaultTask() = makeOneTime<GenreDefaultSetupWorker>()
+
+    private fun scheduleMediaSuggestionTask() = makeOneTime<MediaSuggestionWorker>()
 
     private inline fun <reified T : CoroutineWorker> makeOneTime() {
         val workerRequest = OneTimeWorkRequestBuilder<T>().build()

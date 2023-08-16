@@ -3,6 +3,7 @@ package br.com.deepbyte.overview.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import br.com.deepbyte.overview.data.db.dao.GenreDao
+import br.com.deepbyte.overview.data.db.dao.MediaSuggestionDao
 import br.com.deepbyte.overview.data.db.dao.MediaTypeDao
 import br.com.deepbyte.overview.data.db.dao.StreamingDao
 import br.com.deepbyte.overview.data.model.media.Genre
@@ -22,8 +23,10 @@ import br.com.deepbyte.overview.data.model.provider.Streaming
     version = 1,
     exportSchema = true
 )
+
 abstract class AppDatabase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
     abstract fun streamingDao(): StreamingDao
     abstract fun mediaTypeDao(): MediaTypeDao
+    abstract fun mediaSuggestionDao(): MediaSuggestionDao
 }

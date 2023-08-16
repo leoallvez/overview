@@ -38,10 +38,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.media.MediaSuggestion
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
-import br.com.deepbyte.overview.data.sampe.slideMediaSample
+import br.com.deepbyte.overview.data.sampe.mediaSuggestionSample
 import br.com.deepbyte.overview.ui.AdsBanner
 import br.com.deepbyte.overview.ui.Backdrop
 import br.com.deepbyte.overview.ui.BasicImage
@@ -99,7 +99,9 @@ fun HomeContent(
             ) {
                 StreamingsGrid(
                     wrap = data,
-                    header = { SlideMedia(slideMediaSample, navigate::toMediaDetails) },
+                    header = {
+                        SlideMediaSuggestion(mediaSuggestionSample, navigate::toMediaDetails)
+                    },
                     onClickStreamingItem = navigate::toStreamingExplore,
                     onClickEditStreaming = navigate::toStreamingExploreEdit
                 )
@@ -110,24 +112,24 @@ fun HomeContent(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SlideMedia(medias: List<Media>, onClickItem: MediaItemClick) {
+fun SlideMediaSuggestion(medias: List<MediaSuggestion>, onClickItem: MediaItemClick) {
     if (medias.isNotEmpty()) {
         val pagerState = rememberPagerState(pageCount = { medias.size })
         val media = medias[pagerState.currentPage]
         Column {
-            SlideMediaTitle(title = media.getLetter())
+            SlideMediaTitle(title = media.letter)
             Box(
                 modifier = Modifier
                     .background(PrimaryBackground)
                     .fillMaxWidth()
                     .height(dimensionResource(R.dimen.backdrop_height))
                     .padding(bottom = 20.dp)
-                    .clickable { onClickItem(media.apiId, media.getType()) }
+                    .clickable { onClickItem(media.apiId, media.type) }
             ) {
                 HorizontalPager(state = pagerState) {
                     Backdrop(
                         url = media.getBackdropImage(),
-                        contentDescription = media.getLetter()
+                        contentDescription = media.letter
                     )
                 }
                 SlideMediaIndicator(

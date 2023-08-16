@@ -37,6 +37,9 @@ class StorageModule {
     fun provideGenreDao(db: AppDatabase) = db.genreDao()
 
     @Provides
+    fun provideMediaSuggestionDao(db: AppDatabase) = db.mediaSuggestionDao()
+
+    @Provides
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.dataStore
