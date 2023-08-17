@@ -9,7 +9,7 @@ import br.com.deepbyte.overview.data.model.media.MediaEntity
 interface MediaDao {
 
     @Insert
-    fun insert(vararg medias: MediaEntity)
+    fun insert(vararg models: MediaEntity)
 
     @Query("SELECT * FROM medias")
     fun getAll(): List<MediaEntity>

@@ -7,8 +7,6 @@ import javax.inject.Inject
 class GenreLocalDataSource @Inject constructor(
     private val _dao: GenreDao
 ) {
-    fun isEmpty(): Boolean = _dao.getAll().isEmpty()
-
     fun getAll(): List<GenreEntity> = _dao.getAll()
 
     fun save(models: List<GenreEntity>, mediaType: String) = _dao.saveGenres(models, mediaType)

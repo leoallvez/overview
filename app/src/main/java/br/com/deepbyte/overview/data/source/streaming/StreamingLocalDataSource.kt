@@ -7,9 +7,7 @@ import javax.inject.Inject
 class StreamingLocalDataSource @Inject constructor(
     private val _dao: StreamingDao
 ) {
-    fun insert(vararg streaming: StreamingEntity) = _dao.insert(*streaming)
-
-    fun update(vararg streaming: StreamingEntity) = _dao.update(*streaming)
+    fun insert(vararg models: StreamingEntity) = _dao.insert(*models)
 
     fun getItems(): List<StreamingEntity> = _dao.getAll()
 

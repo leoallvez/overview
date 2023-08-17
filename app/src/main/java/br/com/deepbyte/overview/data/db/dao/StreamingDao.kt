@@ -10,13 +10,13 @@ import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 @Dao
 interface StreamingDao {
     @Insert
-    fun insert(vararg streaming: StreamingEntity)
+    fun insert(vararg model: StreamingEntity)
 
     @Insert
-    fun insert(streaming: List<StreamingEntity>)
+    fun insert(models: List<StreamingEntity>)
 
     @Update
-    fun update(vararg streaming: StreamingEntity)
+    fun update(vararg model: StreamingEntity)
 
     @Query("SELECT * FROM streamings ORDER BY display_priority")
     fun getAll(): List<StreamingEntity>
@@ -28,8 +28,8 @@ interface StreamingDao {
     fun deleteAll()
 
     @Transaction
-    fun upgrade(streamings: List<StreamingEntity>) {
+    fun upgrade(models: List<StreamingEntity>) {
         deleteAll()
-        insert(streamings)
+        insert(models)
     }
 }

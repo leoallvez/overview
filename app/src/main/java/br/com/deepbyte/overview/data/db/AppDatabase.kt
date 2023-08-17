@@ -15,9 +15,9 @@ import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 @Database(
     entities = [
         GenreEntity::class,
+        MediaEntity::class,
         StreamingEntity::class,
         MediaTypeEntity::class,
-        MediaEntity::class,
         MediaTypeGenresCrossRef::class
     ],
     version = 1,
@@ -26,7 +26,7 @@ import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 
 abstract class AppDatabase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
+    abstract fun mediaDao(): MediaDao
     abstract fun streamingDao(): StreamingDao
     abstract fun mediaTypeDao(): MediaTypeDao
-    abstract fun mediaDao(): MediaDao
 }
