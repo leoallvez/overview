@@ -1,11 +1,11 @@
 package br.com.deepbyte.overview.data.repository.media
 
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
-import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaItemRepository
+import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaRepository
 import br.com.deepbyte.overview.data.source.DataResult
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
@@ -14,13 +14,13 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MediaItemRepository @Inject constructor(
+class MediaRepository @Inject constructor(
     @IoDispatcher
     private val _dispatcher: CoroutineDispatcher,
     private val _movieSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>,
     private val _streamingSource: IStreamingRemoteDataSource
-) : IMediaItemRepository {
+) : IMediaRepository {
 
     override suspend fun getItem(apiId: Long, type: MediaTypeEnum) = withContext(_dispatcher) {
         val result = getMedia(apiId, type)

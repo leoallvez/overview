@@ -9,7 +9,7 @@ import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-class MediaMediaPagingRepository @Inject constructor(
+class MediaPagingRepository @Inject constructor(
     coroutineScope: CoroutineScope,
     private val _movieSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
