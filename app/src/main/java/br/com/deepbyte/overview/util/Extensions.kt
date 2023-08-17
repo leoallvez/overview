@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.util
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.UiState
 import com.squareup.moshi.JsonAdapter
@@ -62,9 +62,9 @@ fun NavBackStackEntry.getBackToHome(): Boolean {
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
-fun NavBackStackEntry.getStreamingParams(): Streaming {
+fun NavBackStackEntry.getStreamingParams(): StreamingEntity {
     val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
-    return json.fromJson() ?: Streaming()
+    return json.fromJson() ?: StreamingEntity()
 }
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }

@@ -42,7 +42,7 @@ import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.AdsMediumRectangle
 import br.com.deepbyte.overview.ui.Backdrop
@@ -255,9 +255,9 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
 
 @Composable
 fun StreamingsOverview(
-    streamings: List<Streaming>,
+    streamings: List<StreamingEntity>,
     isReleased: Boolean,
-    onClickItem: (Streaming) -> Unit
+    onClickItem: (StreamingEntity) -> Unit
 ) {
     BasicTitle(stringResource(R.string.where_to_watch))
     if (streamings.isNotEmpty()) {

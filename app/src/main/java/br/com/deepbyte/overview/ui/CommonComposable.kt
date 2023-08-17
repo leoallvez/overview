@@ -75,7 +75,7 @@ import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
@@ -725,7 +725,7 @@ fun SearchField(
 @Composable
 fun StreamingIcon(
     modifier: Modifier = Modifier,
-    streaming: Streaming,
+    streaming: StreamingEntity,
     size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
     withBorder: Boolean = true,
     onClick: () -> Unit = {}
@@ -740,7 +740,6 @@ fun StreamingIcon(
     )
 }
 
-// TODO: remove this when finish StreamingExploreScreen;
 @Composable
 fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {

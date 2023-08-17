@@ -28,7 +28,7 @@ import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.filters.SearchFilters
 import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.*
 import br.com.deepbyte.overview.ui.navigation.wrappers.StreamingExploreNavigate
@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun StreamingExploreScreen(
-    streaming: Streaming,
+    streaming: StreamingEntity,
     navigate: StreamingExploreNavigate,
     viewModel: StreamingExploreViewModel = hiltViewModel()
 ) {
@@ -76,7 +76,7 @@ fun StreamingExploreScreen(
 fun StreamingExploreContent(
     showAds: Boolean,
     searchFilters: SearchFilters,
-    streaming: Streaming,
+    streaming: StreamingEntity,
     onRefresh: () -> Unit,
     genresItems: List<GenreEntity>,
     navigate: StreamingExploreNavigate,
@@ -101,7 +101,7 @@ fun StreamingExploreBody(
     showAds: Boolean,
     searchFilters: SearchFilters,
     onRefresh: () -> Unit,
-    streaming: Streaming,
+    streaming: StreamingEntity,
     genresItems: List<GenreEntity>,
     navigate: StreamingExploreNavigate,
     pagingMediaItems: LazyPagingItems<Media>,
@@ -193,7 +193,7 @@ fun StreamingExploreBody(
 fun FiltersArea(
     searchFilters: SearchFilters,
     genres: List<GenreEntity>,
-    streaming: Streaming,
+    streaming: StreamingEntity,
     onClick: () -> Unit
 ) {
     Column {

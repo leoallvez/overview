@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.data.source.streaming
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
 import br.com.deepbyte.overview.data.api.response.ProviderResponse
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class StreamingRemoteDataSource @Inject constructor(
     private val _locale: IApiLocale
 ) : IStreamingRemoteDataSource {
 
-    override suspend fun getItems(): List<Streaming> =
+    override suspend fun getItems(): List<StreamingEntity> =
         when (val response = getStreamings()) {
             is NetworkResponse.Success -> {
                 response.body.results
@@ -37,7 +37,7 @@ class StreamingRemoteDataSource @Inject constructor(
     private fun mapToStreaming(
         response: NetworkResponse.Success<ProviderResponse>,
         region: String
-    ): List<Streaming> {
+    ): List<StreamingEntity> {
         val resultsMap = response.body.results
         val entries = resultsMap.filter { it.key == region }.entries
         return if (entries.isNotEmpty()) {

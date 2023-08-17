@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import br.com.deepbyte.overview.data.api.ApiLocale
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
 import br.com.deepbyte.overview.di.StreamingsRemote
@@ -21,12 +21,12 @@ class StreamingsSaveWorker @AssistedInject constructor(
     private val _sourceLocal: StreamingLocalDataSource,
     private val _sourceRemote: IStreamingRemoteDataSource,
     @StreamingsRemote
-    private val _remoteConfig: RemoteConfig<List<Streaming>>
+    private val _remoteConfig: RemoteConfig<List<StreamingEntity>>
 ) : CoroutineWorker(context, params) {
 
     private val _region: String = locale.region
 
-    private val _streamingsCustom: List<Streaming> by lazy { _remoteConfig.execute() }
+    private val _streamingsCustom: List<StreamingEntity> by lazy { _remoteConfig.execute() }
 
     override suspend fun doWork(): Result {
         if (_streamingsCustom.isNotEmpty()) {

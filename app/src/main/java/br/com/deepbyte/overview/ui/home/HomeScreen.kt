@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.media.MediaEntity
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
 import br.com.deepbyte.overview.data.sampe.mediaEntitySamples
 import br.com.deepbyte.overview.ui.AdsBanner
@@ -239,7 +239,7 @@ fun EditStreamingText(onClick: () -> Unit) {
 
 private fun LazyGridScope.streamingSession(
     top: @Composable () -> Unit,
-    streamings: List<Streaming>,
+    streamings: List<StreamingEntity>,
     onClick: (String) -> Unit
 ) {
     if (streamings.isNotEmpty()) {
@@ -254,7 +254,7 @@ private fun LazyGridScope.streamingSession(
 
 @Composable
 fun HomeStreamingItem(
-    streaming: Streaming,
+    streaming: StreamingEntity,
     onClick: (String) -> Unit
 ) {
     BasicImage(

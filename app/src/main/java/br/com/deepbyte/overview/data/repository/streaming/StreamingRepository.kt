@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository.streaming
 
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
@@ -29,6 +29,6 @@ class StreamingRepository @Inject constructor(
         flow { emit(result.toStreamingsWrap()) }
     }
 
-    private fun List<Streaming>.toStreamingsWrap() =
+    private fun List<StreamingEntity>.toStreamingsWrap() =
         StreamingsWrap(selected = filter { it.selected }, unselected = filter { !it.selected })
 }

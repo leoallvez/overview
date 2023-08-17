@@ -8,7 +8,7 @@ import br.com.deepbyte.overview.BuildConfig
 import com.squareup.moshi.Json
 
 @Entity(tableName = "streamings")
-data class Streaming(
+data class StreamingEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "streaming_db_id")
     @field:Json(name = "provider_id")

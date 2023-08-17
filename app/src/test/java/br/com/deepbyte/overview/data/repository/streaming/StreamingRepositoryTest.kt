@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository.streaming
 
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -42,7 +42,7 @@ class StreamingRepositoryTest {
     @Test
     fun `should not be empty result when local data source is not empty`() = runTest {
         // Arrange
-        coEvery { _localSource.getItems() } returns listOf(Streaming())
+        coEvery { _localSource.getItems() } returns listOf(StreamingEntity())
         // Act
         val result = _repository.getItems().first()
         // Assert

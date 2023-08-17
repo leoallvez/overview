@@ -5,30 +5,30 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 
 @Dao
 interface StreamingDao {
     @Insert
-    fun insert(vararg streaming: Streaming)
+    fun insert(vararg streaming: StreamingEntity)
 
     @Insert
-    fun insert(streaming: List<Streaming>)
+    fun insert(streaming: List<StreamingEntity>)
 
     @Update
-    fun update(vararg streaming: Streaming)
+    fun update(vararg streaming: StreamingEntity)
 
     @Query("SELECT * FROM streamings ORDER BY display_priority")
-    fun getAll(): List<Streaming>
+    fun getAll(): List<StreamingEntity>
 
     @Query("SELECT * FROM streamings WHERE selected = 1 ORDER BY display_priority")
-    fun getAllSelected(): List<Streaming>
+    fun getAllSelected(): List<StreamingEntity>
 
     @Query("DELETE FROM streamings")
     fun deleteAll()
 
     @Transaction
-    fun upgrade(streamings: List<Streaming>) {
+    fun upgrade(streamings: List<StreamingEntity>) {
         deleteAll()
         insert(streamings)
     }

@@ -10,12 +10,12 @@ import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.MediaEntity
 import br.com.deepbyte.overview.data.model.media.MediaTypeEntity
 import br.com.deepbyte.overview.data.model.media.MediaTypeGenresCrossRef
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 
 @Database(
     entities = [
         GenreEntity::class,
-        Streaming::class,
+        StreamingEntity::class,
         MediaTypeEntity::class,
         MediaEntity::class,
         MediaTypeGenresCrossRef::class

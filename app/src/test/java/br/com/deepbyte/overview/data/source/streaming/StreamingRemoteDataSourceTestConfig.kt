@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.data.source.streaming
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.response.ErrorResponse
 import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.util.mock.ERROR_MSG
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.mockk.MockKAnnotations
@@ -33,7 +33,7 @@ class StreamingRemoteDataSourceTestConfig {
     fun `should be empty result when remote data source is a success with empty result`() =
         runTest {
             // Arrange
-            val body = ListResponse<Streaming>(results = listOf())
+            val body = ListResponse<StreamingEntity>(results = listOf())
             coEvery {
                 _api.getStreamingItems()
             } returns NetworkResponse.Success(body = body, code = 200)
@@ -47,7 +47,7 @@ class StreamingRemoteDataSourceTestConfig {
     fun `should not be empty result when remote data source is a success with not empty result`() =
         runTest {
             // Arrange
-            val body = ListResponse(results = listOf(Streaming()))
+            val body = ListResponse(results = listOf(StreamingEntity()))
             coEvery {
                 _api.getStreamingItems()
             } returns NetworkResponse.Success(body = body, code = 200)

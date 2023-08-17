@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.di
 
 import br.com.deepbyte.overview.BuildConfig.ADS_ARE_VISIBLES
 import br.com.deepbyte.overview.data.api.ApiLocale
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.remote.DisplayAdsRemoteConfig
 import br.com.deepbyte.overview.remote.RemoteConfig
 import br.com.deepbyte.overview.remote.StreamingsRemoteConfig
@@ -34,7 +34,7 @@ class RemoteModule {
         apiLocale: ApiLocale,
         remoteSource: RemoteSource,
         jsonFileReader: IJsonFileReader
-    ): RemoteConfig<List<Streaming>> {
+    ): RemoteConfig<List<StreamingEntity>> {
         val region = apiLocale.region
         return StreamingsRemoteConfig(region, remoteSource, jsonFileReader)
     }
