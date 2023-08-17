@@ -7,9 +7,5 @@ import javax.inject.Inject
 class MediaLocalDataSource @Inject constructor(
     private val _dao: MediaDao
 ) {
-    fun insert(vararg model: MediaEntity) = _dao.insert(*model)
-
-    fun getAll() = _dao.getAll()
-
-    fun deleteAll() = _dao.deleteAll()
+    fun update(models: List<MediaEntity>) = _dao.update(models)
 }

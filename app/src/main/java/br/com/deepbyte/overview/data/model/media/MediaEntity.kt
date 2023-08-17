@@ -19,9 +19,9 @@ class MediaEntity(
     @ColumnInfo(name = "backdrop_path")
     val backdropPath: String = "",
     @ColumnInfo(name = "is_liked")
-    val isLiked: Boolean = false,
+    var isLiked: Boolean = false,
     @ColumnInfo(name = "is_indicated")
-    val isIndicated: Boolean = false
+    var isIndicated: Boolean = false
 ) {
     fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"
     fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"

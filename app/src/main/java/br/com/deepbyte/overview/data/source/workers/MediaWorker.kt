@@ -17,8 +17,7 @@ class MediaWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        _sourceLocal.deleteAll()
-        _sourceLocal.insert(*mediaEntitySamples.toTypedArray())
+        _sourceLocal.update(mediaEntitySamples)
         return Result.success()
     }
 }
