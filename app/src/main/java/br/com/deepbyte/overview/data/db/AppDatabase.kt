@@ -8,7 +8,7 @@ import br.com.deepbyte.overview.data.db.dao.MediaTypeDao
 import br.com.deepbyte.overview.data.db.dao.StreamingDao
 import br.com.deepbyte.overview.data.model.media.Genre
 import br.com.deepbyte.overview.data.model.media.MediaEntity
-import br.com.deepbyte.overview.data.model.media.MediaType
+import br.com.deepbyte.overview.data.model.media.MediaTypeEntity
 import br.com.deepbyte.overview.data.model.media.MediaTypeGenresCrossRef
 import br.com.deepbyte.overview.data.model.provider.Streaming
 
@@ -16,7 +16,7 @@ import br.com.deepbyte.overview.data.model.provider.Streaming
     entities = [
         Genre::class,
         Streaming::class,
-        MediaType::class,
+        MediaTypeEntity::class,
         MediaEntity::class,
         MediaTypeGenresCrossRef::class
     ],

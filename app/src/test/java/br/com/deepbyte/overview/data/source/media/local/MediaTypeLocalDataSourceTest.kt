@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.source.media.local
 
 import br.com.deepbyte.overview.data.db.dao.MediaTypeDao
-import br.com.deepbyte.overview.data.model.media.MediaType
+import br.com.deepbyte.overview.data.model.media.MediaTypeEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.MOVIE
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.TV_SHOW
@@ -91,12 +91,12 @@ class MediaTypeLocalDataSourceTest {
     }
 
     private fun getMediaTypeList() =
-        listOf(MediaType(key = MOVIE.key), MediaType(key = TV_SHOW.key))
+        listOf(MediaTypeEntity(key = MOVIE.key), MediaTypeEntity(key = TV_SHOW.key))
 
     @Test
     fun `should call dao insert when call source insert`() = runTest {
         // Arrange
-        val list = listOf(MediaType(key = ALL.key))
+        val list = listOf(MediaTypeEntity(key = ALL.key))
         // Act
         _source.insert(list)
         // Assert

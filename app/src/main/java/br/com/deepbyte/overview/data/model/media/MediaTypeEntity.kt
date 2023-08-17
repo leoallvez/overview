@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "media_types")
-class MediaType(
+class MediaTypeEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "media_type_db_id")
     val dbId: Long = 0,
