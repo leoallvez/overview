@@ -11,5 +11,5 @@ data class MediaTypeWithGenres(
         entityColumn = "genre_db_id",
         associateBy = Junction(MediaTypeGenresCrossRef::class)
     )
-    val genres: List<Genre>
+    val genres: List<GenreEntity>
 )

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 @Entity(tableName = "genres")
-data class Genre(
+data class GenreEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "genre_db_id")
     var dbId: Long = 0,

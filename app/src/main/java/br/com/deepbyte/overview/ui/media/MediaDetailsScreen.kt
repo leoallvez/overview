@@ -37,7 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
@@ -312,7 +312,7 @@ fun StreamingsNotFound(@StringRes stringResource: Int) {
 }
 
 @Composable
-fun GenreList(genres: List<Genre>) {
+fun GenreList(genres: List<GenreEntity>) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(

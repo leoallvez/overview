@@ -72,7 +72,7 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.provider.Streaming
@@ -92,7 +92,7 @@ import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultip
 import kotlinx.coroutines.delay
 
 @Composable
-fun Genre.nameTranslation(): String {
+fun GenreEntity.nameTranslation(): String {
     val translationName = getGenreTranslation.invoke(apiId)
     return if (translationName.isNullOrEmpty()) name else translationName
 }

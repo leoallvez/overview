@@ -20,7 +20,7 @@ abstract class Media {
     @field:Json(name = "vote_average")
     val voteAverage: Double = 0.0
 
-    val genres: List<Genre> = listOf()
+    val genres: List<GenreEntity> = listOf()
     protected val credits: Credits = Credits()
 
     @field:Json(name = "providers")

@@ -1,6 +1,6 @@
 package br.com.deepbyte.overview.data.repository.genre
 
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.MediaTypeEntity
 import br.com.deepbyte.overview.data.model.media.MediaTypeWithGenres
 import br.com.deepbyte.overview.data.source.genre.GenreLocalDataSource
@@ -47,7 +47,7 @@ class GenreRepositoryTest {
         // Arrange
         val content = MediaTypeWithGenres(
             mediaType = MediaTypeEntity(key = ALL.key),
-            genres = listOf(Genre())
+            genres = listOf(GenreEntity())
         )
         coEvery { _localSource.getGenresWithMediaType(any()) } returns listOf(content)
         // Act

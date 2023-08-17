@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.db.dao
 
 import androidx.room.*
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.MediaTypeGenresCrossRef
 import br.com.deepbyte.overview.data.model.media.MediaTypeWithGenres
 
@@ -9,10 +9,10 @@ import br.com.deepbyte.overview.data.model.media.MediaTypeWithGenres
 interface GenreDao {
 
     @Transaction
-    fun saveGenres(models: List<Genre>, mediaType: String) {
+    fun saveGenres(models: List<GenreEntity>, mediaType: String) {
         val type = getMediaTypeWithGenres(mediaType)?.mediaType
         type?.let {
-            models.forEach { genreApi: Genre ->
+            models.forEach { genreApi: GenreEntity ->
                 val genreDbId = update(genreApi)
                 val crossRef = MediaTypeGenresCrossRef(type.dbId, genreDbId)
                 saveMediaTypeGenresCross(crossRef)
@@ -21,7 +21,7 @@ interface GenreDao {
     }
 
     @Transaction
-    fun update(model: Genre): Long {
+    fun update(model: GenreEntity): Long {
         val genreCache = findByApiId(model.apiId)
         return genreCache?.dbId ?: insert(model)
     }
@@ -38,11 +38,11 @@ interface GenreDao {
     fun saveMediaTypeGenresCross(model: MediaTypeGenresCrossRef)
 
     @Insert
-    fun insert(model: Genre): Long
+    fun insert(model: GenreEntity): Long
 
     @Query("SELECT * FROM genres")
-    fun getAll(): List<Genre>
+    fun getAll(): List<GenreEntity>
 
     @Query("SELECT * FROM genres WHERE api_id = :apiId")
-    fun findByApiId(apiId: Long): Genre?
+    fun findByApiId(apiId: Long): GenreEntity?
 }

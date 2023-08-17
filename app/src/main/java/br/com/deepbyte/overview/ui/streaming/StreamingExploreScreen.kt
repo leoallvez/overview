@@ -26,7 +26,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.filters.SearchFilters
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
@@ -78,7 +78,7 @@ fun StreamingExploreContent(
     searchFilters: SearchFilters,
     streaming: Streaming,
     onRefresh: () -> Unit,
-    genresItems: List<Genre>,
+    genresItems: List<GenreEntity>,
     navigate: StreamingExploreNavigate,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
@@ -102,7 +102,7 @@ fun StreamingExploreBody(
     searchFilters: SearchFilters,
     onRefresh: () -> Unit,
     streaming: Streaming,
-    genresItems: List<Genre>,
+    genresItems: List<GenreEntity>,
     navigate: StreamingExploreNavigate,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
@@ -192,7 +192,7 @@ fun StreamingExploreBody(
 @Composable
 fun FiltersArea(
     searchFilters: SearchFilters,
-    genres: List<Genre>,
+    genres: List<GenreEntity>,
     streaming: Streaming,
     onClick: () -> Unit
 ) {
@@ -240,7 +240,7 @@ fun FiltersArea(
 }
 
 @Composable
-private fun filterDescription(searchFilters: SearchFilters, genres: List<Genre>): String {
+private fun filterDescription(searchFilters: SearchFilters, genres: List<GenreEntity>): String {
     val mediaDescription = mediaTypeDescription(searchFilters.mediaType)
     val genresDescription = genresDescription(searchFilters.genresIds, genres)
 
@@ -255,12 +255,12 @@ private fun mediaTypeDescription(mediaType: MediaTypeEnum): String = when (media
 }
 
 @Composable
-private fun genresDescription(genresSelectedIds: List<Long>, genres: List<Genre>): String {
+private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreEntity>): String {
     return if (genresSelectedIds.isNotEmpty()) {
         var result = ""
         val filtered = genres.filter { it.apiId in genresSelectedIds }
 
-        for ((index: Int, genre: Genre) in filtered.withIndex()) {
+        for ((index: Int, genre: GenreEntity) in filtered.withIndex()) {
             val genreName: String = genre.nameTranslation()
 
             result += if (filtered.lastIndex == index) {
@@ -331,7 +331,7 @@ fun StreamingScreamTitle(streamingName: String) {
 @Composable
 fun FilterBottomSheet(
     searchFilters: SearchFilters,
-    genres: List<Genre>,
+    genres: List<GenreEntity>,
     closeAction: () -> Unit,
     inFiltering: (SearchFilters) -> Unit
 ) {
@@ -436,7 +436,7 @@ fun FilterMediaType(searchFilters: SearchFilters, onClick: (SearchFilters) -> Un
 }
 
 @Composable
-fun FilterGenres(genres: List<Genre>, searchFilters: SearchFilters, onClick: (SearchFilters) -> Unit) {
+fun FilterGenres(genres: List<GenreEntity>, searchFilters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     Column {
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
