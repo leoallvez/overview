@@ -45,9 +45,10 @@ abstract class Media {
         ""
     }
 
-    fun toMediaSuggestion() = MediaSuggestion(
+    fun toMediaEntity() = MediaEntity(
         apiId = apiId,
         backdropPath = backdropPath,
+        posterPath = posterPath,
         letter = getLetter(),
         type = getType()
     )

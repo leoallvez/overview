@@ -38,10 +38,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.media.MediaSuggestion
+import br.com.deepbyte.overview.data.model.media.MediaEntity
 import br.com.deepbyte.overview.data.model.provider.Streaming
 import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
-import br.com.deepbyte.overview.data.sampe.mediaSuggestionSample
+import br.com.deepbyte.overview.data.sampe.mediaEntitySamples
 import br.com.deepbyte.overview.ui.AdsBanner
 import br.com.deepbyte.overview.ui.Backdrop
 import br.com.deepbyte.overview.ui.BasicImage
@@ -100,7 +100,7 @@ fun HomeContent(
                 StreamingsGrid(
                     wrap = data,
                     header = {
-                        SlideMediaSuggestion(mediaSuggestionSample, navigate::toMediaDetails)
+                        SlideMediaSuggestion(mediaEntitySamples, navigate::toMediaDetails)
                     },
                     onClickStreamingItem = navigate::toStreamingExplore,
                     onClickEditStreaming = navigate::toStreamingExploreEdit
@@ -112,7 +112,7 @@ fun HomeContent(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SlideMediaSuggestion(medias: List<MediaSuggestion>, onClickItem: MediaItemClick) {
+fun SlideMediaSuggestion(medias: List<MediaEntity>, onClickItem: MediaItemClick) {
     if (medias.isNotEmpty()) {
         val pagerState = rememberPagerState(pageCount = { medias.size })
         val media = medias[pagerState.currentPage]

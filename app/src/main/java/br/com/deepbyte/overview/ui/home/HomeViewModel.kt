@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +38,8 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(_mainDispatcher) {
             _repository.getStreamingsWrap().collect { wrap ->
                 _uiState.value = wrap.toUiState { it.isNotEmpty() }
+                val ids = wrap.selected.map { it.apiId }
+                Timber.i("Loaded ${ids.size} streamings: $ids")
             }
         }
     }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3cadd7fbc791a0f7996c6c2e65d1b34f",
+    "identityHash": "3a2b9880a1844fd7d0fbd4d4626bfd07",
     "entities": [
       {
         "tableName": "genres",
@@ -107,12 +107,12 @@
         "foreignKeys": []
       },
       {
-        "tableName": "media_suggestions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_suggestion_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `api_id` INTEGER NOT NULL, `letter` TEXT NOT NULL, `type` TEXT NOT NULL, `backdrop_path` TEXT NOT NULL)",
+        "tableName": "medias",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `api_id` INTEGER NOT NULL, `letter` TEXT NOT NULL, `type` TEXT NOT NULL, `poster_path` TEXT NOT NULL, `backdrop_path` TEXT NOT NULL, `is_liked` INTEGER NOT NULL, `is_indicated` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "dbId",
-            "columnName": "media_suggestion_db_id",
+            "columnName": "media_db_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -135,16 +135,34 @@
             "notNull": true
           },
           {
+            "fieldPath": "posterPath",
+            "columnName": "poster_path",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "backdropPath",
             "columnName": "backdrop_path",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isLiked",
+            "columnName": "is_liked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isIndicated",
+            "columnName": "is_indicated",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "media_suggestion_db_id"
+            "media_db_id"
           ]
         },
         "indices": [],
@@ -200,7 +218,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3cadd7fbc791a0f7996c6c2e65d1b34f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3a2b9880a1844fd7d0fbd4d4626bfd07')"
     ]
   }
 }

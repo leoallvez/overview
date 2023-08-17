@@ -1,33 +1,33 @@
 package br.com.deepbyte.overview.data.sampe
 
-import br.com.deepbyte.overview.data.model.media.MediaSuggestion
+import br.com.deepbyte.overview.data.model.media.MediaEntity
 
-val mediaSuggestionSample = listOf(
-    MediaSuggestion(
+val mediaEntitySamples = listOf(
+    MediaEntity(
         apiId = 0,
         type = "movie",
         letter = "Barbie",
         backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg"
     ),
-    MediaSuggestion(
+    MediaEntity(
         apiId = 0,
         type = "movie",
         letter = "Barbie",
         backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg"
     ),
-    MediaSuggestion(
+    MediaEntity(
         apiId = 0,
         type = "movie",
         letter = "Barbie",
         backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg"
     ),
-    MediaSuggestion(
+    MediaEntity(
         apiId = 0,
         type = "movie",
         letter = "Barbie",
         backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg"
     ),
-    MediaSuggestion(
+    MediaEntity(
         apiId = 0,
         type = "movie",
         letter = "Barbie",
