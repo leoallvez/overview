@@ -169,6 +169,7 @@ dependencies {
     def retrofit = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
     // noinspection GradleDependency
     implementation "com.github.haroldadmin:NetworkResponseAdapter:4.1.0"
     implementation "io.coil-kt:coil-compose:2.4.0"
