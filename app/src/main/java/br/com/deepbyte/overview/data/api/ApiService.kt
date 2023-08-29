@@ -45,6 +45,26 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
+    @GET(value = "discover/tv?")
+    suspend fun discoverOnTvByStreamings(
+        @Path(value = "api_id", encoded = true)
+        id: Long,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "first_air_date.gte")
+        dateIni: String = "2023-08-21",
+        @Query(value = "first_air_date.lte")
+        dateEnd: String = "2023-08-28",
+        @Query(value = "with_watch_monetization_types")
+        monetizationTypes: String = "flatrate",
+        @Query(value = "with_watch_providers")
+        streamingsIds: String = ""
+    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
+
     // Movie
     @GET(value = "movie/{api_id}")
     suspend fun getMovie(
@@ -75,6 +95,24 @@ interface ApiService {
         page: Int = 0,
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
+    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
+
+    @GET(value = "discover/movie?with_watch_monetization_types=flatrate&sort_by=primary_release_date.lte")
+    suspend fun discoverOnMovieByStreamings(
+        @Path(value = "api_id", encoded = true)
+        id: Long,
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "primary_release_date.gte")
+        dateIni: String = "2023-08-21",
+        @Query(value = "primary_release_date.lte")
+        dateEnd: String = "2023-08-28",
+        @Query(value = "with_watch_providers")
+        streamingsIds: String = ""
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
     // Providers

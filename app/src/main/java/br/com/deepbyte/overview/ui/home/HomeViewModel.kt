@@ -8,6 +8,7 @@ import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.StreamingUiState
 import br.com.deepbyte.overview.ui.UiState
+import br.com.deepbyte.overview.util.joinToStringWithPipe
 import br.com.deepbyte.overview.util.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -39,7 +40,7 @@ class HomeViewModel @Inject constructor(
             _repository.getStreamingsWrap().collect { wrap ->
                 _uiState.value = wrap.toUiState { it.isNotEmpty() }
                 val ids = wrap.selected.map { it.apiId }
-                Timber.i("Loaded ${ids.size} streamings: $ids")
+                Timber.i("Loaded ${ids.size} streamings: ${ids.joinToStringWithPipe()}")
             }
         }
     }
