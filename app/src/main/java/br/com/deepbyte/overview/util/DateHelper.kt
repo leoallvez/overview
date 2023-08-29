@@ -1,7 +1,9 @@
 package br.com.deepbyte.overview.util
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class DateHelper(dateIn: String?) {
 
@@ -66,6 +68,5 @@ class DateHelper(dateIn: String?) {
     companion object {
         private const val DATE_SEPARATOR = "-"
         private const val DEFAULT_RETURN = ""
-        private const val API_DATE_PATTERN = "yyyy-MM-dd"
     }
 }

@@ -10,4 +10,6 @@ interface IMediaRemoteDataSource<T : Media> {
     suspend fun getPaging(page: Int, searchFilters: SearchFilters): List<T>
 
     suspend fun searchPaging(page: Int, searchFilters: SearchFilters): List<T>
+
+    suspend fun discoverByStreamings(streamingsIds: List<Long>): List<T>
 }

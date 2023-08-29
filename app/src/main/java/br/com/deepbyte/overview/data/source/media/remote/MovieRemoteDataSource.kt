@@ -6,7 +6,10 @@ import br.com.deepbyte.overview.data.model.filters.SearchFilters
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.source.responseToResult
 import br.com.deepbyte.overview.util.joinToStringWithPipe
+import br.com.deepbyte.overview.util.toFormatted
+import br.com.deepbyte.overview.util.toLastWeekFormatted
 import com.haroldadmin.cnradapter.NetworkResponse
+import java.util.Date
 import javax.inject.Inject
 
 class MovieRemoteDataSource @Inject constructor(
@@ -41,5 +44,23 @@ class MovieRemoteDataSource @Inject constructor(
 
     private suspend fun makeSearchPaging(page: Int, searchFilters: SearchFilters) = _locale.run {
         _api.searchMovie(searchFilters.query, language, region, region, page)
+    }
+
+    override suspend fun discoverByStreamings(streamingsIds: List<Long>): List<Movie> {
+        return when (val response = makeDiscover(streamingsIds)) {
+            is NetworkResponse.Success -> { response.body.results }
+            else -> listOf()
+        }
+    }
+
+    private suspend fun makeDiscover(streamingsIds: List<Long>) = _locale.run {
+        val today: Date by lazy { Date() }
+        _api.discoverOnMovieByStreamings(
+            language = language,
+            region = region,
+            dateIni = today.toLastWeekFormatted(),
+            dateEnd = today.toFormatted(),
+            streamingsIds = streamingsIds.joinToStringWithPipe()
+        )
     }
 }
