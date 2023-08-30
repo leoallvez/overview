@@ -3,12 +3,12 @@ package br.com.deepbyte.overview.ui.media
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaRepository
-import br.com.deepbyte.overview.data.source.DataResult
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.MediaUiState
 import br.com.deepbyte.overview.ui.UiState
+import br.com.deepbyte.overview.util.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,10 +25,14 @@ class MediaDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<MediaUiState>(UiState.Loading())
     val uiState: StateFlow<MediaUiState> = _uiState
 
+    private val _dataNotLoaded
+        get() = (_uiState.value is UiState.Success).not()
+
     fun loadMediaDetails(apiId: Long, type: MediaTypeEnum) = viewModelScope.launch {
-        _repository.getItem(apiId, type).collect { result ->
-            val isSuccess = result is DataResult.Success
-            _uiState.value = if (isSuccess) UiState.Success(result.data) else UiState.Error()
+        if (_dataNotLoaded) {
+            _repository.getItem(apiId, type).collect { result ->
+                _uiState.value = result.toUiState()
+            }
         }
     }
 

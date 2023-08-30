@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
 import br.com.deepbyte.overview.data.model.provider.StreamingEntity
+import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.UiState
 import com.squareup.moshi.JsonAdapter
@@ -72,5 +73,10 @@ fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toSt
 
 fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
     if (isValid(this)) { UiState.Success(data = this) } else { UiState.Error() }
+
+fun <T> DataResult<out T>.toUiState(): UiState<T?> {
+    val isSuccess = this is DataResult.Success
+    return if (isSuccess) UiState.Success(this.data) else UiState.Error()
+}
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"
