@@ -35,7 +35,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run ktlint
-        run: ./gradlew ktlintCheck
+        run: ./gradlew ktlintCheck --stacktrace
+        with:
+          name: ktlint
+          path: app/build/reports/klint
   unit-test:
     needs: [ lint ]
     runs-on: ubuntu-latest
