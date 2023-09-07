@@ -12,10 +12,10 @@ abstract class Media {
     val overview: String = ""
 
     @field:Json(name = "backdrop_path")
-    var backdropPath: String = ""
+    val backdropPath: String? = null
 
     @field:Json(name = "poster_path")
-    private val posterPath: String = ""
+    private val posterPath: String? = null
 
     @field:Json(name = "vote_average")
     val voteAverage: Double = 0.0

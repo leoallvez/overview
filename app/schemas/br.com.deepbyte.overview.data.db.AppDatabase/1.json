@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3a2b9880a1844fd7d0fbd4d4626bfd07",
+    "identityHash": "a669556f7d094f0d5785c6e8135008d3",
     "entities": [
       {
         "tableName": "genres",
@@ -31,6 +31,68 @@
           "autoGenerate": true,
           "columnNames": [
             "genre_db_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "medias",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `api_id` INTEGER NOT NULL, `letter` TEXT NOT NULL, `type` TEXT NOT NULL, `poster_path` TEXT, `backdrop_path` TEXT, `is_liked` INTEGER NOT NULL, `is_indicated` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "dbId",
+            "columnName": "media_db_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apiId",
+            "columnName": "api_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "letter",
+            "columnName": "letter",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posterPath",
+            "columnName": "poster_path",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "backdropPath",
+            "columnName": "backdrop_path",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isLiked",
+            "columnName": "is_liked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isIndicated",
+            "columnName": "is_indicated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "media_db_id"
           ]
         },
         "indices": [],
@@ -107,68 +169,6 @@
         "foreignKeys": []
       },
       {
-        "tableName": "medias",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `api_id` INTEGER NOT NULL, `letter` TEXT NOT NULL, `type` TEXT NOT NULL, `poster_path` TEXT NOT NULL, `backdrop_path` TEXT NOT NULL, `is_liked` INTEGER NOT NULL, `is_indicated` INTEGER NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "dbId",
-            "columnName": "media_db_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "apiId",
-            "columnName": "api_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "letter",
-            "columnName": "letter",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "posterPath",
-            "columnName": "poster_path",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "backdropPath",
-            "columnName": "backdrop_path",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isLiked",
-            "columnName": "is_liked",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isIndicated",
-            "columnName": "is_indicated",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "media_db_id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
         "tableName": "media_type_cross_ref",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_type_db_id` INTEGER NOT NULL, `genre_db_id` INTEGER NOT NULL, PRIMARY KEY(`media_type_db_id`, `genre_db_id`))",
         "fields": [
@@ -218,7 +218,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3a2b9880a1844fd7d0fbd4d4626bfd07')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a669556f7d094f0d5785c6e8135008d3')"
     ]
   }
 }

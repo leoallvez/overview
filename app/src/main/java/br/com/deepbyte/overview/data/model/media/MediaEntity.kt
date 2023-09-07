@@ -15,9 +15,9 @@ class MediaEntity(
     val letter: String = "",
     val type: String = "",
     @ColumnInfo(name = "poster_path")
-    val posterPath: String = "",
+    val posterPath: String? = null,
     @ColumnInfo(name = "backdrop_path")
-    val backdropPath: String = "",
+    val backdropPath: String? = null,
     @ColumnInfo(name = "is_liked")
     var isLiked: Boolean = false,
     @ColumnInfo(name = "is_indicated")
