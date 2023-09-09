@@ -212,12 +212,12 @@ fun StreamingsGrid(
                     EditStreamingText(onClick = onClickEditStreaming)
                 }
             },
-            streamings = homeData.streamingsData.selected,
+            streamings = homeData.streams.selected,
             onClick = onClickStreamingItem
         )
         streamingSession(
             top = { SimpleTitle(title = stringResource(R.string.other_streams)) },
-            streamings = homeData.streamingsData.unselected,
+            streamings = homeData.streams.unselected,
             onClick = onClickStreamingItem
         )
     }

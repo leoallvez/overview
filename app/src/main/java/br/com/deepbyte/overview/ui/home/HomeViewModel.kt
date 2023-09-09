@@ -40,12 +40,12 @@ class HomeViewModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(_mainDispatcher) {
-            _streamingRepository.getStreamingsData().collect { steam ->
-                _uiState.value = HomeData(streamingsData = steam).toUiState { steam.isNotEmpty() }
+            _streamingRepository.getStreamingsData().collect { streams ->
+                _uiState.value = HomeData(streams).toUiState { streams.isNotEmpty() }
             }
 
             _mediaRepository.getMediaCache().collect { medias ->
-                setMediasInUiState(medias = medias)
+                setMediasInUiState(medias)
             }
         }
     }
