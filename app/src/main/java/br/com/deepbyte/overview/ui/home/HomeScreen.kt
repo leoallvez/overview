@@ -38,10 +38,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.data.model.HomeData
 import br.com.deepbyte.overview.data.model.media.MediaEntity
 import br.com.deepbyte.overview.data.model.provider.StreamingEntity
-import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
-import br.com.deepbyte.overview.data.sampe.mediaEntitySamples
 import br.com.deepbyte.overview.ui.AdsBanner
 import br.com.deepbyte.overview.ui.Backdrop
 import br.com.deepbyte.overview.ui.BasicImage
@@ -93,14 +92,14 @@ fun HomeContent(
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,
             onRefresh = { viewModel.refresh() }
-        ) { data ->
+        ) { homeData ->
             Column(
                 modifier = Modifier.padding(padding)
             ) {
                 StreamingsGrid(
-                    wrap = data,
+                    homeData = homeData,
                     header = {
-                        SlideMediaSuggestion(mediaEntitySamples, navigate::toMediaDetails)
+                        SlideMediaSuggestion(homeData.indicatesMedia, navigate::toMediaDetails)
                     },
                     onClickStreamingItem = navigate::toStreamingExplore,
                     onClickEditStreaming = navigate::toStreamingExploreEdit
@@ -193,7 +192,7 @@ fun SlideMediaTitle(title: String) {
 @Composable
 fun StreamingsGrid(
     header: @Composable () -> Unit = {},
-    wrap: StreamingsWrap,
+    homeData: HomeData,
     onClickStreamingItem: (String) -> Unit,
     onClickEditStreaming: () -> Unit
 ) {
@@ -213,12 +212,12 @@ fun StreamingsGrid(
                     EditStreamingText(onClick = onClickEditStreaming)
                 }
             },
-            streamings = wrap.selected,
+            streamings = homeData.streamingsData.selected,
             onClick = onClickStreamingItem
         )
         streamingSession(
             top = { SimpleTitle(title = stringResource(R.string.other_streams)) },
-            streamings = wrap.unselected,
+            streamings = homeData.streamingsData.unselected,
             onClick = onClickStreamingItem
         )
     }

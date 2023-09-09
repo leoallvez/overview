@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.repository.streaming
 
 import br.com.deepbyte.overview.data.model.provider.StreamingEntity
-import br.com.deepbyte.overview.data.model.provider.StreamingsWrap
+import br.com.deepbyte.overview.data.model.provider.StreamingsData
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
 import br.com.deepbyte.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,11 +24,11 @@ class StreamingRepository @Inject constructor(
         flow { emit(result) }
     }
 
-    override suspend fun getStreamingsWrap() = withContext(_dispatcher) {
+    override suspend fun getStreamingsData() = withContext(_dispatcher) {
         val result = _localDataSource.getItems()
-        flow { emit(result.toStreamingsWrap()) }
+        flow { emit(result.streamingsData()) }
     }
 
-    private fun List<StreamingEntity>.toStreamingsWrap() =
-        StreamingsWrap(selected = filter { it.selected }, unselected = filter { !it.selected })
+    private fun List<StreamingEntity>.streamingsData() =
+        StreamingsData(selected = filter { it.selected }, unselected = filter { !it.selected })
 }

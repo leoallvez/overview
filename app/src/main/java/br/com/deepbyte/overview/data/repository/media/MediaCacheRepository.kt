@@ -8,22 +8,23 @@ import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaCacheRepo
 import br.com.deepbyte.overview.data.source.media.local.suggestion.MediaLocalDataSource
 import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
+import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
 class MediaCacheRepository @Inject constructor(
-    private val _sourceLocal: MediaLocalDataSource,
-    private val _movieSource: IMediaRemoteDataSource<Movie>,
-    private val _tvShowSource: IMediaRemoteDataSource<TvShow>,
-    private val _streamingLocalDataSource: StreamingLocalDataSource
+    private val _mediaLocalSource: MediaLocalDataSource,
+    private val _streamingLocalSource: StreamingLocalDataSource,
+    private val _movieRemoteSource: IMediaRemoteDataSource<Movie>,
+    private val _tvShowRemoteSource: IMediaRemoteDataSource<TvShow>
 ) : IMediaCacheRepository {
 
     private val selectedStreamingIds: List<Long> by lazy {
-        _streamingLocalDataSource.getAllSelected().map { it.apiId }
+        _streamingLocalSource.getAllSelected().map { it.apiId }
     }
 
-    override suspend fun saveCache(): Boolean = with(_sourceLocal) {
-        val newMedias = getMedias()
+    override suspend fun saveMediaCache(): Boolean = with(_mediaLocalSource) {
+        val newMedias = getRemoteMedias()
         Timber.i("New medias: ${newMedias.size}")
         return@with if (newMedias.isNotEmpty()) {
             deleteNotLiked()
@@ -35,9 +36,12 @@ class MediaCacheRepository @Inject constructor(
         }
     }
 
-    private suspend fun getMedias(): List<MediaEntity> {
-        val movies = _movieSource.discoverByStreamings(selectedStreamingIds)
-        val tvShows = _tvShowSource.discoverByStreamings(selectedStreamingIds)
+    override suspend fun getMediaCache(): Flow<List<MediaEntity>> =
+        _mediaLocalSource.getIndicated()
+
+    private suspend fun getRemoteMedias(): List<MediaEntity> {
+        val movies = _movieRemoteSource.discoverByStreamings(selectedStreamingIds)
+        val tvShows = _tvShowRemoteSource.discoverByStreamings(selectedStreamingIds)
         return filterMedias(medias = tvShows + movies)
     }
 
@@ -53,7 +57,7 @@ class MediaCacheRepository @Inject constructor(
     }
 
     private fun updateAttributes(newMedias: List<MediaEntity>) {
-        val likedMedias = _sourceLocal.getLiked()
+        val likedMedias = _mediaLocalSource.getLiked()
         newMedias.forEach { newMedia ->
             val likedMedia = likedMedias.find { it.apiId == newMedia.apiId }
             likedMedia?.let {

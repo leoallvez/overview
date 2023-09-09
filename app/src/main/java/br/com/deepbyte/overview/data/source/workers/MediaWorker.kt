@@ -16,5 +16,5 @@ class MediaWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
     private val repository: IMediaCacheRepository
 ) : CoroutineWorker(context, params) {
-    override suspend fun doWork() = if (repository.saveCache()) success() else failure()
+    override suspend fun doWork() = if (repository.saveMediaCache()) success() else failure()
 }

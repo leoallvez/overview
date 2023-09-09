@@ -1,8 +1,8 @@
 package br.com.deepbyte.overview.data.model.provider
 
-class StreamingsWrap(
-    val selected: List<StreamingEntity>,
-    val unselected: List<StreamingEntity>
+class StreamingsData(
+    val selected: List<StreamingEntity> = listOf(),
+    val unselected: List<StreamingEntity> = listOf()
 ) {
     fun isNotEmpty() = selected.isNotEmpty() || unselected.isNotEmpty()
 }
