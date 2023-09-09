@@ -92,14 +92,14 @@ fun HomeContent(
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,
             onRefresh = { viewModel.refresh() }
-        ) { homeData ->
+        ) { data ->
             Column(
                 modifier = Modifier.padding(padding)
             ) {
                 StreamingsGrid(
-                    homeData = homeData,
+                    homeData = data,
                     header = {
-                        SlideMediaSuggestion(homeData.indicatesMedia, navigate::toMediaDetails)
+                        SlideRecommendedMedia(data.recommendedMedias, navigate::toMediaDetails)
                     },
                     onClickStreamingItem = navigate::toStreamingExplore,
                     onClickEditStreaming = navigate::toStreamingExploreEdit
@@ -111,7 +111,7 @@ fun HomeContent(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SlideMediaSuggestion(medias: List<MediaEntity>, onClickItem: MediaItemClick) {
+fun SlideRecommendedMedia(medias: List<MediaEntity>, onClickItem: MediaItemClick) {
     if (medias.isNotEmpty()) {
         val pagerState = rememberPagerState(pageCount = { medias.size })
         val media = medias[pagerState.currentPage]

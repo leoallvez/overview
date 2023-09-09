@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.data.model.HomeData
+import br.com.deepbyte.overview.data.model.media.MediaEntity
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaCacheRepository
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.HomeUiState
 import br.com.deepbyte.overview.ui.UiState
+import br.com.deepbyte.overview.ui.UiState.Success
 import br.com.deepbyte.overview.util.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,8 +32,6 @@ class HomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<HomeUiState>(UiState.Loading())
     val uiState: StateFlow<HomeUiState> = _uiState
 
-    private var _homeData: HomeData = HomeData()
-
     init {
         loadUiState()
     }
@@ -40,17 +40,19 @@ class HomeViewModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(_mainDispatcher) {
-            _streamingRepository.getStreamingsData().collect { streamingsData ->
-                _uiState.value = HomeData(streamingsData = streamingsData)
-                    .also { _homeData = it }
-                    .toUiState { streamingsData.isNotEmpty() }
+            _streamingRepository.getStreamingsData().collect { steam ->
+                _uiState.value = HomeData(streamingsData = steam).toUiState { steam.isNotEmpty() }
             }
 
-            _mediaRepository.getMediaCache().collect { indicatesMedia ->
-                _uiState.value = _homeData
-                    .copy(indicatesMedia = indicatesMedia)
-                    .toUiState { indicatesMedia.isNotEmpty() }
+            _mediaRepository.getMediaCache().collect { medias ->
+                setMediasInUiState(medias = medias)
             }
+        }
+    }
+
+    private fun setMediasInUiState(medias: List<MediaEntity>) {
+        (_uiState.value as? Success)?.apply {
+            _uiState.value = data.copy(recommendedMedias = medias).toUiState()
         }
     }
 }

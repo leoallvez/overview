@@ -5,5 +5,5 @@ import br.com.deepbyte.overview.data.model.provider.StreamingsData
 
 data class HomeData(
     val streamingsData: StreamingsData = StreamingsData(),
-    val indicatesMedia: List<MediaEntity> = listOf()
+    val recommendedMedias: List<MediaEntity> = listOf()
 )
