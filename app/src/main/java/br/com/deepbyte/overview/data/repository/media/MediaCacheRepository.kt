@@ -2,21 +2,17 @@ package br.com.deepbyte.overview.data.repository.media
 
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.MediaEntity
-import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaCacheRepository
 import br.com.deepbyte.overview.data.source.media.local.suggestion.MediaLocalDataSource
-import br.com.deepbyte.overview.data.source.media.remote.IMediaRemoteDataSource
+import br.com.deepbyte.overview.data.source.media.remote.IMediaDiscoverRemoteDataSource
 import br.com.deepbyte.overview.data.source.streaming.StreamingLocalDataSource
-import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
 import javax.inject.Inject
 
 class MediaCacheRepository @Inject constructor(
     private val _mediaLocalSource: MediaLocalDataSource,
     private val _streamingLocalSource: StreamingLocalDataSource,
-    private val _movieRemoteSource: IMediaRemoteDataSource<Movie>,
-    private val _tvShowRemoteSource: IMediaRemoteDataSource<TvShow>
+    private val _tvShowDiscoverRemoteSource: IMediaDiscoverRemoteDataSource<TvShow>
 ) : IMediaCacheRepository {
 
     private val selectedStreamingIds: List<Long> by lazy {
@@ -24,8 +20,7 @@ class MediaCacheRepository @Inject constructor(
     }
 
     override suspend fun saveMediaCache(): Boolean = with(_mediaLocalSource) {
-        val newMedias = getRemoteMedias()
-        Timber.i("New medias: ${newMedias.size}")
+        val newMedias = getFilteredMedias()
         return@with if (newMedias.isNotEmpty()) {
             deleteNotLiked()
             updateAttributes(newMedias)
@@ -36,24 +31,21 @@ class MediaCacheRepository @Inject constructor(
         }
     }
 
-    override suspend fun getMediaCache(): Flow<List<MediaEntity>> =
-        _mediaLocalSource.getIndicated()
+    override suspend fun getMediaCache() = _mediaLocalSource.getIndicated()
 
-    private suspend fun getRemoteMedias(): List<MediaEntity> {
-        val movies = _movieRemoteSource.discoverByStreamings(selectedStreamingIds)
-        val tvShows = _tvShowRemoteSource.discoverByStreamings(selectedStreamingIds)
-        return filterMedias(medias = tvShows + movies)
-    }
-
-    private fun filterMedias(medias: List<Media>): List<MediaEntity> {
-        return medias
+    private suspend fun getFilteredMedias(): List<MediaEntity> {
+        return getRemoteMedias()
             .asSequence()
-            .filter { it.backdropPath.isNullOrEmpty().not() && it.adult.not() }
+            .filter { it.backdropPath.isNullOrEmpty().not() }
             .distinctBy { it.apiId }
-            .sortedByDescending { it.voteAverage }
             .map { it.toMediaEntity() }
+            .distinctBy { it.apiId }
             .take(n = 5)
             .toList()
+    }
+
+    private suspend fun getRemoteMedias(): List<Media> {
+        return _tvShowDiscoverRemoteSource.discoverByStreamings(selectedStreamingIds)
     }
 
     private fun updateAttributes(newMedias: List<MediaEntity>) {

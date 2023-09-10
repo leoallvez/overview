@@ -17,6 +17,9 @@ abstract class Media {
     @field:Json(name = "poster_path")
     private val posterPath: String? = null
 
+    @field:Json(name = "original_language")
+    val language: String? = null
+
     @field:Json(name = "vote_average")
     val voteAverage: Double = 0.0
 

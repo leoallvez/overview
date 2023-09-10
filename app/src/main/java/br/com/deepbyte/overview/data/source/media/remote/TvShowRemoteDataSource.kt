@@ -7,7 +7,7 @@ import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.responseToResult
 import br.com.deepbyte.overview.util.joinToStringWithPipe
 import br.com.deepbyte.overview.util.toFormatted
-import br.com.deepbyte.overview.util.toLastWeekFormatted
+import br.com.deepbyte.overview.util.toLastMonthFormatted
 import com.haroldadmin.cnradapter.NetworkResponse
 import java.util.Date
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class TvShowRemoteDataSource @Inject constructor(
     private val _api: ApiService,
     private val _locale: IApiLocale
-) : IMediaRemoteDataSource<TvShow> {
+) : IMediaRemoteDataSource<TvShow>, IMediaDiscoverRemoteDataSource<TvShow> {
 
     override suspend fun find(apiId: Long) = _locale.run {
         val response = _api.getTvShow(id = apiId, language = language, region = region)
@@ -58,7 +58,7 @@ class TvShowRemoteDataSource @Inject constructor(
         _api.discoverOnTvByStreamings(
             language = language,
             region = region,
-            dateIni = today.toLastWeekFormatted(),
+            dateIni = today.toLastMonthFormatted(),
             dateEnd = today.toFormatted(),
             streamingsIds = streamingsIds.joinToStringWithPipe()
         )

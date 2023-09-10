@@ -45,13 +45,13 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
-    @GET(value = "discover/tv?with_watch_monetization_types=flatrate&sort_by=popularity.desc")
+    @GET(value = "discover/tv?sort_by=popularity.desc")
     suspend fun discoverOnTvByStreamings(
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY,
         @Query(value = "language")
         language: String = "",
-        @Query(value = "region")
+        @Query(value = "watch_region")
         region: String = "",
         @Query(value = "first_air_date.gte")
         dateIni: String = "",
@@ -91,22 +91,6 @@ interface ApiService {
         page: Int = 0,
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
-    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
-
-    @GET(value = "discover/movie?with_watch_monetization_types=flatrate&sort_by=primary_release_date.lte")
-    suspend fun discoverOnMovieByStreamings(
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "primary_release_date.gte")
-        dateIni: String = "",
-        @Query(value = "primary_release_date.lte")
-        dateEnd: String = "",
-        @Query(value = "with_watch_providers")
-        streamingsIds: String = ""
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
     // Providers

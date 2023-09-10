@@ -35,6 +35,11 @@ abstract class SourceModule {
     ): IMediaRemoteDataSource<TvShow>
 
     @Binds
+    abstract fun bindMediaDiscoverRemoteDataSource(
+        source: TvShowRemoteDataSource
+    ): IMediaDiscoverRemoteDataSource<TvShow>
+
+    @Binds
     abstract fun bindStreamingRemoteDataSource(
         source: StreamingRemoteDataSource
     ): IStreamingRemoteDataSource
