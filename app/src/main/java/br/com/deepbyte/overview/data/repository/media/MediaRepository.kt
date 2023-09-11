@@ -36,7 +36,7 @@ class MediaRepository @Inject constructor(
 
     private suspend fun setStreamings(result: DataResult<out Media>) {
         result.data?.apply {
-            streamings = getStreamings(apiId, getType())
+            streamings = getStreamings(apiId, getType()).sortedBy { it.priority }
         }
     }
 

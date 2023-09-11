@@ -22,7 +22,7 @@ class StreamingsRemoteConfig(
     private fun getStreamingFileName() = "streamings/$_region.json"
 
     private fun getRemoteStreamings(): List<StreamingEntity> {
-        val json = _remoteSource.getString(getStreamingRemoteKey())
+        val json = "" //_remoteSource.getString(getStreamingRemoteKey())
         return json.parseToList()
     }
 

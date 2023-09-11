@@ -60,41 +60,27 @@
     "logo_path": "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
     "provider_id": 350,
     "provider_name": "Apple TV+",
-    "selected": true
+    "selected": false
   },
   {
     "display_priority": 10,
     "logo_path": "/8Gt1iClBlzTeQs8WQm8UrCoIxnQ.jpg",
     "provider_id": 283,
     "provider_name": "Crunchyroll",
-    "selected": true
+    "selected": false
   },
   {
     "display_priority": 11,
     "logo_path": "/bVR4Z1LCHY7gidXAJF5pMa4QrDS.jpg",
     "provider_id": 11,
     "provider_name": "MUBI",
-    "selected": true
+    "selected": false
   },
   {
     "display_priority": 12,
     "logo_path": "/ytSbyHt45x7igOgC8GVzR7RLJVo.jpg",
     "provider_id": 1790,
     "provider_name": "Lionsgate+",
-    "selected": true
-  },
-  {
-    "display_priority": 13,
-    "logo_path": "/rll0yTCjrSY6hcJqIyMatv9B2iR.jpg",
-    "provider_id": 19,
-    "provider_name": "NetMovies",
-    "selected": false
-  },
-  {
-    "display_priority": 14,
-    "logo_path": "/t6N57S17sdXRXmZDAkaGP0NHNG0.jpg",
-    "provider_id": 300,
-    "provider_name": "Pluto TV",
     "selected": false
   },
   {
@@ -140,28 +126,6 @@
     "selected": false
   },
   {
-    "display_priority": 21,
-    "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
-    "provider_id": 3,
-    "provider_name": "Google Play Movies",
-    "selected": false
-  },
-  {
-    "display_priority": 22,
-    "logo_path": "/ijHUSuVY0PLfTBMfRwH2PrzTD7G.jpg",
-    "provider_id": 457,
-    "provider_name": "VIX ",
-    "selected": false
-  },
-  {
-    "display_priority": 23,
-    "logo_path": "/n3BIqc0mojP85bJSKjsIwZUOVya.jpg",
-    "provider_id": 544,
-    "provider_name": "Libreflix",
-    "selected": false
-
-  },
-  {
     "display_priority": 24,
     "logo_path": "/dUokaRky9vs1u2PFRzFDV4iIx6A.jpg",
     "provider_id": 512,
@@ -170,9 +134,38 @@
   },
   {
     "display_priority": 25,
-    "logo_path": "/nvCfpn94VKJN4ZpkDgoupJWlXqq.jpg",
-    "provider_id": 1875,
-    "provider_name": "Runtime",
+    "logo_path": "/gekkP93StjYdiMAInViVmrnldNY.jpg",
+    "provider_id": 551,
+    "provider_name": "Magellan TV",
+    "selected": false
+  },
+
+  {
+    "display_priority": 26,
+    "logo_path":"/9pdeflA0P1b8qlkeDA1oLfyvR06.jpg",
+    "provider_id": 1853,
+    "provider_name": "Paramount+ na Apple TV",
+    "selected": false
+  },
+  {
+    "display_priority": 27,
+    "logo_path": "/3E0RkIEQrrGYazs63NMsn3XONT6.jpg",
+    "provider_id": 582,
+    "provider_name": "Paramount+ no Prime Video",
+    "selected": false
+  },
+  {
+    "display_priority": 28,
+    "logo_path": "/x36C6aseF5l4uX99Kpse9dbPwBo.jpg",
+    "provider_id": 194,
+    "provider_name": "Starz Play no Prime Video",
+    "selected": false
+  },
+  {
+    "display_priority": 29,
+    "logo_path": "/4FqTBYsUSZgS9z9UGKgxSDBbtc8.jpg",
+    "provider_id": 701,
+    "provider_name": "FilmBox+",
     "selected": false
   }
 ]
