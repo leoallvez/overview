@@ -174,5 +174,12 @@
     "provider_id": 447,
     "provider_name": "Belas Artes à La Carte",
     "selected": false
+  },
+  {
+    "display_priority": 42,
+    "logo_path": "/gzHzhgt6cVSn4yy6UnJvLGbOSwL.jpg",
+    "provider_id": 573,
+    "provider_name": "KinoPop",
+    "selected":false
   }
 ]

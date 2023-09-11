@@ -212,19 +212,22 @@ fun FiltersArea(
                 StreamingScreamTitle(streamingName = streaming.name)
             }
 
-            FilterButton(
-                padding = PaddingValues(),
-                isActivated = searchFilters.genresIsIsNotEmpty(),
-                buttonText = stringResource(R.string.filters),
-                complement = {
-                    Text(
-                        text = searchFilters.genreQuantity(),
-                        modifier = Modifier.padding(1.dp),
-                        color = Color.White
-                    )
+            Pulsating(active = searchFilters.genresIsIsNotEmpty().not()) {
+
+                FilterButton(
+                    padding = PaddingValues(),
+                    isActivated = searchFilters.genresIsIsNotEmpty(),
+                    buttonText = stringResource(R.string.filters),
+                    complement = {
+                        Text(
+                            text = searchFilters.genreQuantity(),
+                            modifier = Modifier.padding(1.dp),
+                            color = Color.White
+                        )
+                    }
+                ) {
+                    onClick.invoke()
                 }
-            ) {
-                onClick.invoke()
             }
         }
         Text(
