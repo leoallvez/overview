@@ -52,7 +52,7 @@ interface ApiService {
         @Query(value = "language")
         language: String = "",
         @Query(value = "watch_region")
-        region: String = "",
+        watchRegion: String = "",
         @Query(value = "first_air_date.gte")
         dateIni: String = "",
         @Query(value = "first_air_date.lte")

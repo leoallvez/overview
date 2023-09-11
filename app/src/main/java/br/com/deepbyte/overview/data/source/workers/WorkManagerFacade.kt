@@ -18,7 +18,7 @@ class WorkManagerFacade constructor(
 
     private fun scheduleGenreDefaultTask() = makeOneTime<GenreDefaultSetupWorker>()
 
-    private fun scheduleMediaTask() = makeOneTime<MediaWorker>()
+    private fun scheduleMediaTask() = makeOneTime<MediaCacheWorker>()
 
     private inline fun <reified T : CoroutineWorker> makeOneTime() {
         val workerRequest = OneTimeWorkRequestBuilder<T>().build()

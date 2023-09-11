@@ -57,7 +57,7 @@ class TvShowRemoteDataSource @Inject constructor(
         val today: Date by lazy { Date() }
         _api.discoverOnTvByStreamings(
             language = language,
-            region = region,
+            watchRegion = region,
             dateIni = today.toLastMonthFormatted(),
             dateEnd = today.toFormatted(),
             streamingsIds = streamingsIds.joinToStringWithPipe()
