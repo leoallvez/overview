@@ -818,7 +818,7 @@ fun FilterButton(
 
 // https://medium.com/nerd-for-tech/jetpack-compose-pulsating-effect-4b9f2928d31a
 @Composable
-fun Pulsating(active: Boolean = true,  content: @Composable () -> Unit) {
+fun Pulsating(active: Boolean = true, content: @Composable () -> Unit) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
     val scale by infiniteTransition.animateFloat(
@@ -827,7 +827,8 @@ fun Pulsating(active: Boolean = true,  content: @Composable () -> Unit) {
         animationSpec = infiniteRepeatable(
             animation = tween(1_100),
             repeatMode = RepeatMode.Reverse
-        ), label = ""
+        ),
+        label = ""
     )
 
     Box(modifier = Modifier.scale(scale)) {

@@ -213,7 +213,6 @@ fun FiltersArea(
             }
 
             Pulsating(active = searchFilters.genresIsIsNotEmpty().not()) {
-
                 FilterButton(
                     padding = PaddingValues(),
                     isActivated = searchFilters.genresIsIsNotEmpty(),
