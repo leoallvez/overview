@@ -167,5 +167,12 @@
     "provider_id": 701,
     "provider_name": "FilmBox+",
     "selected": false
+  },
+  {
+    "display_priority": 30,
+    "logo_path": "/fy4svqyray3cnkuEqGIXL3i2WQw.jpg",
+    "provider_id": 447,
+    "provider_name": "Belas Artes à La Carte",
+    "selected": false
   }
 ]
