@@ -1,71 +1,65 @@
-[{
-  "display_priority": 0,
-  "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
-  "provider_id": 8,
-  "provider_name": "Netflix",
-  "selected": false
-},
+[
   {
     "display_priority": 1,
-    "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
-    "provider_id": 119,
-    "provider_name": "Amazon Prime Video",
-    "selected": false
-  },
-  {
-    "display_priority": 1,
-    "logo_path": "/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg",
-    "provider_id": 337,
-    "provider_name": "Disney Plus",
-    "selected": false
-  },
-  {
-    "display_priority": 5,
-    "logo_path": "/jPXksae158ukMLFhhlNvzsvaEyt.jpg",
-    "provider_id": 257,
-    "provider_name": "fuboTV",
-    "selected": false
+    "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+    "provider_id": 8,
+    "provider_name": "Netflix",
+    "selected": true
   },
   {
     "display_priority": 2,
-    "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
-    "provider_id": 2,
-    "provider_name": "Apple TV",
-    "selected": false
+    "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+    "provider_id": 119,
+    "provider_name": "Prime Video",
+    "selected": true
   },
   {
-    "display_priority": 9,
+    "display_priority": 3,
+    "logo_path": "/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg",
+    "provider_id": 337,
+    "provider_name": "Disney+",
+    "selected": true
+  },
+  {
+    "display_priority": 4,
+    "logo_path": "/Ajqyt5aNxNGjmF9uOfxArGrdf3X.jpg",
+    "provider_id": 384,
+    "provider_name": "HBO Max",
+    "selected": true
+  },
+  {
+    "display_priority": 5,
+    "logo_path": "/gqdajHmtr6qtutL7kkmEgleGfV9.jpg",
+    "provider_id": 63,
+    "provider_name": "Filmin",
+    "selected": true
+  },
+  {
+    "display_priority": 6,
     "logo_path": "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
     "provider_id": 350,
-    "provider_name": "Apple TV Plus",
-    "selected": false
+    "provider_name": "Apple TV+",
+    "selected": true
+  },
+  {
+    "display_priority": 7,
+    "logo_path": "/4ywRQTLYJk8CjroNX4FbCBDQZTr.jpg",
+    "provider_id": 149,
+    "provider_name": "Movistar Plus",
+    "selected": true
+  },
+  {
+    "display_priority": 8,
+    "logo_path": "/jPXksae158ukMLFhhlNvzsvaEyt.jpg",
+    "provider_id": 257,
+    "provider_name": "fuboTV",
+    "selected": true
   },
   {
     "display_priority": 3,
     "logo_path": "/sRMvdhqC7o4BugHKOdgi6IIRRzP.jpg",
     "provider_id": 223,
     "provider_name": "Hayu",
-    "selected": false
-  },
-  {
-    "display_priority": 24,
-    "logo_path": "/gqdajHmtr6qtutL7kkmEgleGfV9.jpg",
-    "provider_id": 63,
-    "provider_name": "Filmin",
-    "selected": false
-  },
-  {
-    "display_priority": 8,
-    "logo_path": "/Ajqyt5aNxNGjmF9uOfxArGrdf3X.jpg",
-    "provider_id": 384,
-    "provider_name": "HBO Max",
-    "selected": false
-  },
-  {
-    "display_priority": 10,
-    "logo_path": "/4ywRQTLYJk8CjroNX4FbCBDQZTr.jpg",
-    "provider_id": 149,
-    "provider_name": "Movistar Plus",
     "selected": false
   },
   {
@@ -359,7 +353,7 @@
     "display_priority": 38,
     "logo_path": "/ytSbyHt45x7igOgC8GVzR7RLJVo.jpg",
     "provider_id": 1790,
-    "provider_name": "Lionsgate Plus",
+    "provider_name": "Lionsgate+",
     "selected": false
   },
   {

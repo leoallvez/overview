@@ -18,7 +18,8 @@ class DateHelper(dateIn: String?) {
 
     private fun dateFormat(date: Date): String {
         val locale = Locale.getDefault()
-        val datePattern = if (locale.language == "pt") "dd/MM/yyyy" else "MM/dd/yyyy"
+        val isLatinLanguage = locale.language == "pt" || locale.language == "es"
+        val datePattern = if (isLatinLanguage) "dd/MM/yyyy" else "MM/dd/yyyy"
         return SimpleDateFormat(datePattern, locale).format(date)
     }
 
