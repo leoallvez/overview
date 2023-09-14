@@ -1,17 +1,18 @@
 package br.com.deepbyte.overview.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.model.MediaItem
-import br.com.deepbyte.overview.data.model.MediaSuggestion
-import br.com.deepbyte.overview.data.model.provider.Streaming
-import br.com.deepbyte.overview.data.repository.MediaSuggestionManager
+import br.com.deepbyte.overview.data.model.HomeData
+import br.com.deepbyte.overview.data.model.media.MediaEntity
+import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaCacheRepository
 import br.com.deepbyte.overview.data.repository.streaming.IStreamingRepository
 import br.com.deepbyte.overview.di.MainDispatcher
 import br.com.deepbyte.overview.di.ShowAds
+import br.com.deepbyte.overview.ui.HomeUiState
+import br.com.deepbyte.overview.ui.UiState
+import br.com.deepbyte.overview.ui.UiState.Success
+import br.com.deepbyte.overview.util.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,39 +24,35 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    private val _manager: MediaSuggestionManager,
-    private val _repository: IStreamingRepository,
+    private val _mediaRepository: IMediaCacheRepository,
+    private val _streamingRepository: IStreamingRepository,
     @MainDispatcher private val _mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private val _uiState = MutableStateFlow<HomeUiState>(UiState.Loading())
+    val uiState: StateFlow<HomeUiState> = _uiState
+
     init {
-        refresh()
-        loadStreaming()
+        loadUiState()
     }
 
-    private val _loading = MutableLiveData(true)
-    val loading: LiveData<Boolean> = _loading
+    fun refresh() = loadUiState()
 
-    val featuredMediaItems: LiveData<List<MediaItem>> = _manager.featuredMediaItems
-
-    val suggestions: LiveData<List<MediaSuggestion>> = _manager.mediaSuggestions
-
-    private val _streaming = MutableStateFlow<List<Streaming>>(listOf())
-    val streaming: StateFlow<List<Streaming>> = _streaming
-
-    fun refresh() {
+    private fun loadUiState() {
         viewModelScope.launch(_mainDispatcher) {
-            _loading.value = true
-            _manager.refresh()
-            _loading.value = false
+            _streamingRepository.getStreamingsData().collect { streams ->
+                _uiState.value = HomeData(streams).toUiState { streams.isNotEmpty() }
+            }
+
+            _mediaRepository.getMediaCache().collect { medias ->
+                setMediasInUiState(medias)
+            }
         }
     }
 
-    private fun loadStreaming() {
-        viewModelScope.launch(_mainDispatcher) {
-            _repository.getAllSelected().collect { streamings ->
-                _streaming.value = streamings
-            }
+    private fun setMediasInUiState(medias: List<MediaEntity>) {
+        (_uiState.value as? Success)?.apply {
+            _uiState.value = data.copy(recommendedMedias = medias).toUiState()
         }
     }
 }

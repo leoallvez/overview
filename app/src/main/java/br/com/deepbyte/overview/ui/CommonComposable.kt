@@ -2,6 +2,11 @@ package br.com.deepbyte.overview.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -47,6 +52,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
@@ -72,11 +78,10 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.MediaItem
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
 import br.com.deepbyte.overview.ui.search.ClearSearchIcon
 import br.com.deepbyte.overview.ui.search.SearchIcon
@@ -93,7 +98,7 @@ import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultip
 import kotlinx.coroutines.delay
 
 @Composable
-fun Genre.nameTranslation(): String {
+fun GenreEntity.nameTranslation(): String {
     val translationName = getGenreTranslation.invoke(apiId)
     return if (translationName.isNullOrEmpty()) name else translationName
 }
@@ -120,11 +125,11 @@ fun BasicTitle(title: String) {
 }
 
 @Composable
-fun SimpleTitle(title: String) {
+fun SimpleTitle(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         color = Color.White,
-        modifier = Modifier
+        modifier = modifier
             .padding(
                 bottom = 5.dp,
                 top = 10.dp
@@ -294,10 +299,10 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
     Text(
         text = text,
         color = AccentColor,
-        style = MaterialTheme.typography.h5,
+        style = MaterialTheme.typography.h6,
         fontWeight = FontWeight.Bold,
         modifier = modifier.padding(
-            horizontal = dimensionResource(R.dimen.screen_padding),
+            horizontal = dimensionResource(R.dimen.default_padding),
             vertical = dimensionResource(R.dimen.default_padding)
         ),
         maxLines = maxLines,
@@ -308,8 +313,7 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
 @Composable
 fun MediaItemList(
     listTitle: String,
-    items: List<MediaItem>,
-    mediaType: String? = null,
+    items: List<Media>,
     onClickItem: MediaItemClick
 ) {
     val sortedItems = items.sortedBy { it.voteAverage }
@@ -324,7 +328,7 @@ fun MediaItemList(
             ) {
                 items(sortedItems) { item ->
                     MediaItem(item, imageWithBorder = true) {
-                        onClickItem.invoke(item.apiId, mediaType ?: item.type)
+                        onClickItem.invoke(item.apiId, item.getType())
                     }
                 }
             }
@@ -362,22 +366,6 @@ fun MediaList(
 
 @Composable
 fun MediaItem(mediaItem: Media, imageWithBorder: Boolean = false, onClick: () -> Unit) {
-    Column(Modifier.clickable { onClick.invoke() }) {
-        BasicImage(
-            url = mediaItem.getPosterImage(),
-            contentDescription = mediaItem.getLetter(),
-            withBorder = imageWithBorder
-        )
-        BasicText(
-            text = mediaItem.getLetter(),
-            style = MaterialTheme.typography.caption,
-            isBold = true
-        )
-    }
-}
-
-@Composable
-fun MediaItem(mediaItem: MediaItem, imageWithBorder: Boolean = false, onClick: () -> Unit) {
     Column(Modifier.clickable { onClick.invoke() }) {
         BasicImage(
             url = mediaItem.getPosterImage(),
@@ -648,7 +636,11 @@ fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp = 0.dp) {
+fun ToolbarTitle(
+    title: String,
+    modifier: Modifier = Modifier,
+    textPadding: PaddingValues = PaddingValues()
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -670,8 +662,10 @@ fun ToolbarTitle(title: String, modifier: Modifier = Modifier, textPadding: Dp =
 
 @Composable
 fun SearchField(
+    modifier: Modifier = Modifier,
     placeholder: String,
     enabled: Boolean = true,
+    defaultPaddingValues: PaddingValues = PaddingValues(start = 13.dp, end = 5.dp),
     onClick: () -> Unit = {},
     onSearch: (query: String) -> Unit = {}
 ) {
@@ -682,8 +676,9 @@ fun SearchField(
         focusRequester.requestFocus()
     }
     Box(
-        modifier = Modifier
-            .padding(start = 13.dp, end = 5.dp)
+        modifier = modifier
+            .background(PrimaryBackground)
+            .padding(defaultPaddingValues)
             .clickable { onClick() }
     ) {
         BasicTextField(
@@ -736,7 +731,7 @@ fun SearchField(
 @Composable
 fun StreamingIcon(
     modifier: Modifier = Modifier,
-    streaming: Streaming,
+    streaming: StreamingEntity,
     size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
     withBorder: Boolean = true,
     onClick: () -> Unit = {}
@@ -751,7 +746,6 @@ fun StreamingIcon(
     )
 }
 
-// TODO: remove this when finish StreamingExploreScreen;
 @Composable
 fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
@@ -822,7 +816,29 @@ fun FilterButton(
     }
 }
 
+// https://medium.com/nerd-for-tech/jetpack-compose-pulsating-effect-4b9f2928d31a
+@Composable
+fun Pulsating(active: Boolean = true, content: @Composable () -> Unit) {
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (active) 1.1f else 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1_100),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = ""
+    )
+
+    Box(modifier = Modifier.scale(scale)) {
+        content()
+    }
+}
+
 @Composable
 fun VerticalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
     Spacer(modifier = Modifier.padding(vertical = padding))
 }
+
+const val STREAMING_GRID_COLUMNS = 4

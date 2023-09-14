@@ -25,6 +25,7 @@ class CacheDataSource @Inject constructor(
     }
 
     companion object {
+        // Example of key to use in the app:
         val LAST_CACHE_TIME = stringPreferencesKey(name = "last_cache_time")
     }
 }

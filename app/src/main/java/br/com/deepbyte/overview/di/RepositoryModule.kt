@@ -2,10 +2,12 @@ package br.com.deepbyte.overview.di
 
 import br.com.deepbyte.overview.data.repository.genre.GenreRepository
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
-import br.com.deepbyte.overview.data.repository.media.MediaItemRepository
-import br.com.deepbyte.overview.data.repository.media.MediaMediaPagingRepository
-import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaItemRepository
+import br.com.deepbyte.overview.data.repository.media.MediaCacheRepository
+import br.com.deepbyte.overview.data.repository.media.MediaPagingRepository
+import br.com.deepbyte.overview.data.repository.media.MediaRepository
+import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaCacheRepository
 import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaPagingRepository
+import br.com.deepbyte.overview.data.repository.media.interfaces.IMediaRepository
 import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
 import br.com.deepbyte.overview.data.repository.mediatype.MediaTypeRepository
 import br.com.deepbyte.overview.data.repository.person.IPersonRepository
@@ -24,13 +26,13 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindMediaItemRepository(
-        repository: MediaItemRepository
-    ): IMediaItemRepository
+    abstract fun bindMediaRepository(
+        repository: MediaRepository
+    ): IMediaRepository
 
     @Binds
     abstract fun bindMediaPagingRepository(
-        repository: MediaMediaPagingRepository
+        repository: MediaPagingRepository
     ): IMediaPagingRepository
 
     @Binds
@@ -57,4 +59,9 @@ abstract class RepositoryModule {
     abstract fun bindMediaTypeRepository(
         repository: MediaTypeRepository
     ): IMediaTypeRepository
+
+    @Binds
+    abstract fun bindMediaCacheRepository(
+        repository: MediaCacheRepository
+    ): IMediaCacheRepository
 }

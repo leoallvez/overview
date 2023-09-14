@@ -1,6 +1,7 @@
 package br.com.deepbyte.overview.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.R
+import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -25,6 +27,7 @@ fun AdsBanner(
         AndroidView(
             modifier = modifier
                 .fillMaxWidth()
+                .background(color = PrimaryBackground)
                 .padding(vertical = dimensionResource(R.dimen.default_padding))
                 .height(dimensionResource(R.dimen.ads_banner_height)),
             factory = { context ->

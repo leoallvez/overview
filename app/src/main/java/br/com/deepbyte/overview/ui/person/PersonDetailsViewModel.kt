@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.deepbyte.overview.IAnalyticsTracker
 import br.com.deepbyte.overview.data.repository.person.IPersonRepository
-import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.di.ShowAds
 import br.com.deepbyte.overview.ui.PersonUiState
 import br.com.deepbyte.overview.ui.UiState
+import br.com.deepbyte.overview.util.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,10 +24,14 @@ class PersonDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<PersonUiState>(UiState.Loading())
     val uiState: StateFlow<PersonUiState> = _uiState
 
+    private val _dataNotLoaded
+        get() = (_uiState.value is UiState.Success).not()
+
     fun loadPersonDetails(apiId: Long) = viewModelScope.launch {
-        _repository.getItem(apiId).collect { result ->
-            val isSuccess = result is DataResult.Success
-            _uiState.value = if (isSuccess) UiState.Success(result.data) else UiState.Error()
+        if (_dataNotLoaded) {
+            _repository.getItem(apiId).collect { result ->
+                _uiState.value = result.toUiState()
+            }
         }
     }
 

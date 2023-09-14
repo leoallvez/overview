@@ -2,7 +2,15 @@ package br.com.deepbyte.overview.ui.person
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -21,13 +29,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.MOVIE
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.TV_SHOW
-import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.ui.*
-import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.AdsMediumRectangle
+import br.com.deepbyte.overview.ui.BasicParagraph
+import br.com.deepbyte.overview.ui.ErrorScreen
+import br.com.deepbyte.overview.ui.MediaItemList
+import br.com.deepbyte.overview.ui.PartingEmDash
+import br.com.deepbyte.overview.ui.PartingPoint
+import br.com.deepbyte.overview.ui.PersonImageCircle
+import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.ScreenTitle
+import br.com.deepbyte.overview.ui.SimpleSubtitle1
+import br.com.deepbyte.overview.ui.ToolbarButton
+import br.com.deepbyte.overview.ui.TrackScreenView
+import br.com.deepbyte.overview.ui.UiStateResult
+import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigate
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -37,7 +54,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun CastDetailsScreen(
     apiId: Long,
-    events: BasicsMediaEvents,
+    navigate: BasicNavigate,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
@@ -51,9 +68,9 @@ fun CastDetailsScreen(
         PersonDetailsContent(
             person = dataResult,
             showAds = viewModel.showAds,
-            events::onPopBackStack,
+            navigate::popBackStack,
             { apiId, mediaType ->
-                events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+                navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
             }
         ) {
             viewModel.refresh(apiId)
@@ -129,8 +146,8 @@ fun PersonBody(
             PlaceOfBirth(birthPlace())
             BasicParagraph(R.string.biography, biography)
             AdsMediumRectangle(R.string.person_banner, showAds)
-            ParticipationList(R.string.movies_participation, getFilmography(), MOVIE, onClickItem)
-            ParticipationList(R.string.tv_shows_participation, getTvShows(), TV_SHOW, onClickItem)
+            ParticipationList(R.string.movies_participation, getFilmography(), onClickItem)
+            ParticipationList(R.string.tv_shows_participation, getTvShows(), onClickItem)
         }
     }
 }
@@ -199,14 +216,12 @@ fun PersonSpace() {
 @Composable
 fun ParticipationList(
     @StringRes listTitleRes: Int,
-    mediaItems: List<MediaItem>,
-    mediaType: MediaTypeEnum,
+    medias: List<Media>,
     onClickItem: MediaItemClick
 ) {
     MediaItemList(
-        listTitle = stringResource(listTitleRes),
-        items = mediaItems
-    ) { apiId, _ ->
-        onClickItem.invoke(apiId, mediaType.key)
-    }
+        items = medias,
+        onClickItem = onClickItem,
+        listTitle = stringResource(listTitleRes)
+    )
 }

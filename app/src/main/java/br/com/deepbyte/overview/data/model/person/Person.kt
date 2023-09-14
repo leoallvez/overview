@@ -1,7 +1,9 @@
 package br.com.deepbyte.overview.data.model.person
 
 import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.data.model.MediaItem
+import br.com.deepbyte.overview.data.model.media.Media
+import br.com.deepbyte.overview.data.model.media.Movie
+import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.util.DateHelper
 import com.squareup.moshi.Json
 
@@ -21,13 +23,13 @@ data class Person(
     @field:Json(name = "profile_path")
     private val profilePath: String = "",
     @field:Json(name = "tv_credits")
-    private val tvShows: MediaCredits = MediaCredits(),
+    private val tvShows: MediaCredits<TvShow> = MediaCredits(),
     @field:Json(name = "movie_credits")
-    private val movies: MediaCredits = MediaCredits()
+    private val movies: MediaCredits<Movie> = MediaCredits()
 ) {
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
-    fun getFilmography() = movies.mediaItems
-    fun getTvShows() = tvShows.mediaItems
+    fun getFilmography() = movies.items
+    fun getTvShows() = tvShows.items
     fun getFormattedBirthday() = DateHelper(birthday).formattedDate()
     fun getFormattedDeathDay() = DateHelper(deathDay).formattedDate()
     fun birthPlace() = placeOfBirth ?: ""
@@ -38,7 +40,7 @@ data class Person(
     }
 }
 
-data class MediaCredits(
+class MediaCredits<T : Media>(
     @field:Json(name = "cast")
-    val mediaItems: List<MediaItem> = listOf()
+    val items: List<T> = listOf()
 )

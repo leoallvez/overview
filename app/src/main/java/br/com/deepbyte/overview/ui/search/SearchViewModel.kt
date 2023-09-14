@@ -2,7 +2,7 @@ package br.com.deepbyte.overview.ui.search
 
 import androidx.lifecycle.ViewModel
 import br.com.deepbyte.overview.IAnalyticsTracker
-import br.com.deepbyte.overview.data.model.filters.Filters
+import br.com.deepbyte.overview.data.model.filters.SearchFilters
 import br.com.deepbyte.overview.data.repository.search.ISearchPagingRepository
 import br.com.deepbyte.overview.di.ShowAds
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,10 +20,10 @@ class SearchViewModel @Inject constructor(
     var started: Boolean = false
         private set
 
-    private val _filters = MutableStateFlow(Filters())
-    val filters: StateFlow<Filters> = _filters
+    private val _searchFilters = MutableStateFlow(SearchFilters())
+    val searchFilters: StateFlow<SearchFilters> = _searchFilters
 
-    fun searchPaging() = _repository.searchPaging(filters.value)
+    fun searchPaging() = _repository.searchPaging(_searchFilters.value)
 
     fun start() {
         started = true

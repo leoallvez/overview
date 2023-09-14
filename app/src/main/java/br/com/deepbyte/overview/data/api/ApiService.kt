@@ -2,11 +2,10 @@ package br.com.deepbyte.overview.data.api
 
 import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.api.response.*
-import br.com.deepbyte.overview.data.model.MediaItem
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -46,6 +45,22 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
+    @GET(value = "discover/tv?sort_by=popularity.desc")
+    suspend fun discoverOnTvByStreamings(
+        @Query(value = "api_key")
+        apiKey: String = BuildConfig.API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "watch_region")
+        watchRegion: String = "",
+        @Query(value = "first_air_date.gte")
+        dateIni: String = "",
+        @Query(value = "first_air_date.lte")
+        dateEnd: String = "",
+        @Query(value = "with_watch_providers")
+        streamingsIds: String = ""
+    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
+
     // Movie
     @GET(value = "movie/{api_id}")
     suspend fun getMovie(
@@ -77,18 +92,6 @@ interface ApiService {
         @Query(value = "api_key")
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
-
-    @GET(value = "{url}")
-    suspend fun getMediaItems(
-        @Path(value = "url", encoded = true)
-        url: String,
-        @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<ListResponse<MediaItem>, ErrorResponse>
 
     // Providers
     @GET(value = "{media_type}/{api_id}/watch/providers")
@@ -129,7 +132,7 @@ interface ApiService {
         language: String = "",
         @Query(value = "region")
         region: String = ""
-    ): NetworkResponse<ListResponse<Streaming>, ErrorResponse>
+    ): NetworkResponse<ListResponse<StreamingEntity>, ErrorResponse>
 
     // New requests & labs
     @GET(value = "discover/tv")

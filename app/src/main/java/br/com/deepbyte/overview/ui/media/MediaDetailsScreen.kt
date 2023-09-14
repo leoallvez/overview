@@ -3,13 +3,26 @@ package br.com.deepbyte.overview.ui.media
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
@@ -24,15 +37,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.deepbyte.overview.R
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.Person
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
-import br.com.deepbyte.overview.ui.*
-import br.com.deepbyte.overview.ui.navigation.events.MediaDetailsScreenEvents
+import br.com.deepbyte.overview.ui.AdsMediumRectangle
+import br.com.deepbyte.overview.ui.Backdrop
+import br.com.deepbyte.overview.ui.BasicParagraph
+import br.com.deepbyte.overview.ui.BasicText
+import br.com.deepbyte.overview.ui.BasicTitle
+import br.com.deepbyte.overview.ui.ErrorScreen
+import br.com.deepbyte.overview.ui.MediaList
+import br.com.deepbyte.overview.ui.PartingPoint
+import br.com.deepbyte.overview.ui.PersonImageCircle
+import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.SimpleSubtitle2
+import br.com.deepbyte.overview.ui.StreamingIcon
+import br.com.deepbyte.overview.ui.ToolbarButton
+import br.com.deepbyte.overview.ui.ToolbarTitle
+import br.com.deepbyte.overview.ui.TrackScreenView
+import br.com.deepbyte.overview.ui.UiStateResult
+import br.com.deepbyte.overview.ui.nameTranslation
+import br.com.deepbyte.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
@@ -42,11 +71,12 @@ import br.com.deepbyte.overview.util.toJson
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import timber.log.Timber
 
 @Composable
 fun MediaDetailsScreen(
     params: Pair<Long, String>,
-    events: MediaDetailsScreenEvents,
+    navigate: MediaDetailsNavigate,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
@@ -59,7 +89,7 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
-        MediaDetailsContent(media, viewModel.showAds, events) {
+        MediaDetailsContent(media, viewModel.showAds, navigate) {
             viewModel.refresh(apiId, type)
         }
     }
@@ -69,7 +99,7 @@ fun MediaDetailsScreen(
 fun MediaDetailsContent(
     media: Media?,
     showAds: Boolean,
-    events: MediaDetailsScreenEvents,
+    navigate: MediaDetailsNavigate,
     onRefresh: () -> Unit
 ) {
     if (media == null) {
@@ -80,10 +110,10 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(media) { events.onPopBackStack() }
+                MediaToolBar(media) { navigate.popBackStack() }
             }
         ) {
-            MediaBody(media, showAds, events)
+            MediaBody(media, showAds, navigate)
         }
     }
 }
@@ -99,7 +129,7 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
             )
             ToolbarTitle(
                 title = getLetter(),
-                textPadding = dimensionResource(R.dimen.default_padding),
+                textPadding = PaddingValues(start = dimensionResource(R.dimen.screen_padding)),
                 modifier = Modifier.align(Alignment.BottomStart)
             )
             ToolbarButton(
@@ -115,7 +145,7 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
 fun MediaBody(
     media: Media,
     showAds: Boolean,
-    events: MediaDetailsScreenEvents
+    navigate: MediaDetailsNavigate
 ) {
     Column(
         modifier = Modifier
@@ -125,7 +155,9 @@ fun MediaBody(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         StreamingsOverview(media.streamings, media.isReleased()) { streaming ->
-            events.onNavigateToStreamingExplore(streaming.toJson())
+            val streamingJson = streaming.toJson()
+            Timber.tag("streaming_json").d("streaming json: $streamingJson")
+            navigate.toStreamingExplore(streamingJson)
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())
@@ -134,6 +166,7 @@ fun MediaBody(
                 Info(stringResource(R.string.runtime), media.getRuntime())
                 Info(stringResource(R.string.director), media.getDirectorName(), AccentColor)
             }
+
             is TvShow -> {
                 NumberSeasonsAndEpisodes(media.numberOfSeasons, media.numberOfEpisodes)
                 EpisodesRunTime(media.getRuntime())
@@ -147,13 +180,13 @@ fun MediaBody(
             isVisible = showAds
         )
         CastList(media.getOrderedCast()) { apiId ->
-            events.onNavigateToCastDetails(apiId = apiId)
+            navigate.toCastDetails(apiId = apiId)
         }
         MediaList(
             listTitle = stringResource(R.string.related),
             medias = media.getSimilarMedia()
         ) { apiId, mediaType ->
-            events.onNavigateToMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+            navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
         }
     }
 }
@@ -166,8 +199,11 @@ fun MediaSpace() {
 @Composable
 fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
     if (numberOfSeasons > 0) {
-        val padding = dimensionResource(R.dimen.screen_padding)
-        Row(modifier = Modifier.padding(horizontal = padding).padding(top = 2.dp)) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.screen_padding))
+                .padding(top = 2.dp)
+        ) {
             val spacerModifier = Modifier.padding(horizontal = 2.dp)
             NumberOfSeasons(numberOfSeasons)
             Spacer(modifier = spacerModifier)
@@ -219,9 +255,9 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
 
 @Composable
 fun StreamingsOverview(
-    streamings: List<Streaming>,
+    streamings: List<StreamingEntity>,
     isReleased: Boolean,
-    onClickItem: (Streaming) -> Unit
+    onClickItem: (StreamingEntity) -> Unit
 ) {
     BasicTitle(stringResource(R.string.where_to_watch))
     if (streamings.isNotEmpty()) {
@@ -240,7 +276,11 @@ fun StreamingsOverview(
         }
     } else {
         StreamingsNotFound(
-            if (isReleased) { R.string.empty_list_providers } else { R.string.not_yet_released }
+            if (isReleased) {
+                R.string.empty_list_providers
+            } else {
+                R.string.not_yet_released
+            }
         )
     }
 }
@@ -272,7 +312,7 @@ fun StreamingsNotFound(@StringRes stringResource: Int) {
 }
 
 @Composable
-fun GenreList(genres: List<Genre>) {
+fun GenreList(genres: List<GenreEntity>) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(

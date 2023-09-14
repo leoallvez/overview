@@ -44,13 +44,13 @@ import br.com.deepbyte.overview.ui.ScreenNav
 import br.com.deepbyte.overview.ui.SearchField
 import br.com.deepbyte.overview.ui.ToolbarButton
 import br.com.deepbyte.overview.ui.TrackScreenView
-import br.com.deepbyte.overview.ui.navigation.events.BasicsMediaEvents
+import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigate
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 
 @Composable
 fun SearchScreen(
-    events: BasicsMediaEvents,
+    navigate: BasicNavigate,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Search, viewModel.analyticsTracker)
@@ -59,7 +59,7 @@ fun SearchScreen(
         viewModel.searchPaging()
     }
 
-    val filters = viewModel.filters.collectAsState().value
+    val filters = viewModel.searchFilters.collectAsState().value
     var mediaItems by remember { mutableStateOf(value = loadData()) }
     val setMediaItems = {
         mediaItems = loadData()
@@ -72,7 +72,7 @@ fun SearchScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            SearchToolBar(events::onPopBackStack) { query ->
+            SearchToolBar(navigate::popBackStack) { query ->
                 filters.query = query
                 setMediaItems()
             }
@@ -94,7 +94,7 @@ fun SearchScreen(
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
-                        MediaPagingVerticalGrid(padding, items, events::onNavigateToMediaDetails)
+                        MediaPagingVerticalGrid(padding, items, navigate::toMediaDetails)
                     } else -> {
                         if (viewModel.started) {
                             NotFoundContentScreen()

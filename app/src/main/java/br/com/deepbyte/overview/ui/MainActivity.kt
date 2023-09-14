@@ -25,11 +25,9 @@ import br.com.deepbyte.overview.ui.navigation.NavController
 import br.com.deepbyte.overview.ui.theme.AppTheme
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
-import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@ExperimentalPagerApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -49,7 +47,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@ExperimentalPagerApi
 @Composable
 fun OverviewApp(isOnline: Boolean) {
     Box {

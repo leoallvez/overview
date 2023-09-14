@@ -3,14 +3,10 @@ package br.com.deepbyte.overview.util
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
-import br.com.deepbyte.overview.data.api.response.ListResponse
-import br.com.deepbyte.overview.data.model.MediaItem
-import br.com.deepbyte.overview.data.model.MediaSuggestion
-import br.com.deepbyte.overview.data.model.Suggestion
-import br.com.deepbyte.overview.data.model.media.Media
-import br.com.deepbyte.overview.data.model.provider.Streaming
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.ui.ScreenNav
+import br.com.deepbyte.overview.ui.UiState
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -26,6 +22,12 @@ inline fun <reified T> String.fromJson(): T? = try {
 } catch (io: IOException) {
     Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${io.stackTrace}")
     null
+}
+
+inline fun <reified T> T.toJson(): String {
+    val moshi = Moshi.Builder().build()
+    val jsonAdapter = moshi.adapter<Any>(T::class.java)
+    return jsonAdapter.toJson(this)
 }
 
 inline fun <reified T> String.parseToList(): List<T> = try {
@@ -49,25 +51,6 @@ fun Context.getStringByName(resource: String): String? {
     }
 }
 
-fun Map.Entry<Suggestion, List<MediaItem>>.toMediaSuggestion(): MediaSuggestion {
-    val suggestion = this.key
-    val items = this.value
-    return MediaSuggestion(
-        order = suggestion.order,
-        type = suggestion.type,
-        titleResourceId = suggestion.titleResourceId,
-        items = items
-    )
-}
-
-fun Array<out MediaItem>.removeRepeated(itemsToRemove: List<MediaItem>): List<MediaItem> {
-    return this.filterNot { a -> itemsToRemove.any { b -> b equivalent a } }
-}
-
-private infix fun MediaItem.equivalent(other: MediaItem): Boolean {
-    return this.apiId == other.apiId && this.suggestionId == other.suggestionId
-}
-
 fun NavBackStackEntry.getParams(): Pair<Long, String> {
     val id = arguments?.getLong(ScreenNav.ID_PARAM)
     val type = arguments?.getString(ScreenNav.TYPE_PARAM)
@@ -80,24 +63,20 @@ fun NavBackStackEntry.getBackToHome(): Boolean {
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
-fun NavBackStackEntry.getStreamingParams(): Streaming {
+fun NavBackStackEntry.getStreamingParams(): StreamingEntity {
     val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
-    return json.fromJson() ?: Streaming()
-}
-
-fun Streaming.toJson(): String {
-    val moshi = Moshi.Builder().build()
-    val jsonAdapter = moshi.adapter<Any>(Streaming::class.java)
-    return jsonAdapter.toJson(this)
-}
-
-fun <T : Media> DataResult<ListResponse<T>>.toList(): List<T> {
-    val isValid = this is DataResult.Success
-    val medias = data?.results ?: listOf()
-    return (if (isValid) medias.filter { it.adult.not() } else listOf())
+    return json.fromJson() ?: StreamingEntity()
 }
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
 fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
+
+fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
+    if (isValid(this)) { UiState.Success(data = this) } else { UiState.Error() }
+
+fun <T> DataResult<out T>.toUiState(): UiState<T?> {
+    val isSuccess = this is DataResult.Success
+    return if (isSuccess) UiState.Success(this.data) else UiState.Error()
+}
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

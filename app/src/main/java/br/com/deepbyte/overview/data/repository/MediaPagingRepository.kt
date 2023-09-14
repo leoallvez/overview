@@ -5,13 +5,15 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import br.com.deepbyte.overview.data.api.response.PagingResponse
-import br.com.deepbyte.overview.data.model.filters.Filters
+import br.com.deepbyte.overview.data.model.filters.SearchFilters
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.media.MediaPagingSource
-import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.ALL
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.MOVIE
+import br.com.deepbyte.overview.data.source.media.MediaTypeEnum.TV_SHOW
 import br.com.deepbyte.overview.util.PagingMediaResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -20,17 +22,17 @@ abstract class MediaPagingRepository(
     private val _coroutineScope: CoroutineScope
 ) {
 
-    protected lateinit var filters: Filters
+    protected lateinit var searchFilters: SearchFilters
 
-    protected fun filterPaging(filters: Filters) =
+    protected fun filterPaging(newSearchFilters: SearchFilters) =
         createPaging(
             onRequest = { page: Int ->
                 if (page > 0) {
-                    this.filters = filters
-                    val result = when (filters.mediaType) {
-                        MediaTypeEnum.MOVIE -> getMovies(page)
-                        MediaTypeEnum.TV_SHOW -> getTVShows(page)
-                        MediaTypeEnum.ALL -> getMergedMedias(page)
+                    searchFilters = newSearchFilters
+                    val result = when (searchFilters.mediaType) {
+                        MOVIE -> getMovies(page)
+                        TV_SHOW -> getTVShows(page)
+                        ALL -> getMergedMedias(page)
                     }
                     DataResult.Success(data = PagingResponse(page, result))
                 } else {

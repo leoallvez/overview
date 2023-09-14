@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.repository.genre
 
 import br.com.deepbyte.overview.data.api.response.GenreListResponse
-import br.com.deepbyte.overview.data.model.media.Genre
+import br.com.deepbyte.overview.data.model.media.GenreEntity
 import br.com.deepbyte.overview.data.source.DataResult
 import br.com.deepbyte.overview.data.source.genre.GenreLocalDataSource
 import br.com.deepbyte.overview.data.source.genre.IGenreRemoteDataSource
@@ -33,12 +33,12 @@ class GenreRepository @Inject constructor(
     private fun filterGenres(type: String) =
         _localSource.getGenresWithMediaType(type).flatMap { it.genres }
 
-    private suspend fun requestData(type: MediaType): List<Genre> {
+    private suspend fun requestData(type: MediaType): List<GenreEntity> {
         val result = _remoteSource.getItemByMediaType(type)
         return getGenreList(result)
     }
 
-    private fun getGenreList(result: GenreListResult): List<Genre> {
+    private fun getGenreList(result: GenreListResult): List<GenreEntity> {
         return if (result is DataResult.Success) {
             result.data?.genres ?: listOf()
         } else {

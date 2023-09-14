@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import br.com.deepbyte.overview.data.model.media.MediaType
+import br.com.deepbyte.overview.data.model.media.MediaTypeEntity
 import br.com.deepbyte.overview.data.repository.genre.IGenreRepository
 import br.com.deepbyte.overview.data.repository.mediatype.IMediaTypeRepository
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
@@ -41,7 +41,7 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
         _genreRepository.cacheWithType(MediaTypeEnum.MOVIE)
     }
 
-    private fun getMediaTypeInDefault(): List<MediaType> {
+    private fun getMediaTypeInDefault(): List<MediaTypeEntity> {
         val json = _jsonFileReader.read(GENRE_TYPE_FILE_NAME)
         return json.parseToList()
     }

@@ -1,20 +1,17 @@
 package br.com.deepbyte.overview.data.source.streaming
 
 import br.com.deepbyte.overview.data.db.dao.StreamingDao
-import br.com.deepbyte.overview.data.model.provider.Streaming
-import kotlinx.coroutines.flow.Flow
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import javax.inject.Inject
 
 class StreamingLocalDataSource @Inject constructor(
     private val _dao: StreamingDao
 ) {
-    fun insert(vararg streaming: Streaming) = _dao.insert(*streaming)
+    fun insert(vararg models: StreamingEntity) = _dao.insert(*models)
 
-    fun update(vararg streaming: Streaming) = _dao.update(*streaming)
+    fun getItems(): List<StreamingEntity> = _dao.getAll()
 
-    fun isEmpty(): Boolean = _dao.getAll().isEmpty()
+    fun getAllSelected(): List<StreamingEntity> = _dao.getAllSelected()
 
-    fun getAll(): List<Streaming> = _dao.getAll()
-
-    fun getAllSelected(): Flow<List<Streaming>> = _dao.getAllSelected()
+    fun upgrade(streamings: List<StreamingEntity>) = _dao.upgrade(streamings)
 }

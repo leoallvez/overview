@@ -6,19 +6,20 @@ plugins {
     id "kotlin-parcelize"
     id "com.google.firebase.crashlytics"
     id "kotlin-kapt"
+    id 'com.google.devtools.ksp'
 }
 
 def activeSigning = System.getenv("ACTIVE_SIGNING") ? true : false
 println("Is active signing: $activeSigning")
 
 android {
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId "br.com.deepbyte.overview"
         minSdk 21
         targetSdk 33
-        versionCode 5
-        versionName "1.4"
+        versionCode 6
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -69,7 +70,7 @@ android {
         }
     }
 
-    flavorDimensions "version"
+    flavorDimensions.add('version')
     productFlavors {
         dev {
             resValue "string", "app_name", "@string/app_name_dev"
@@ -115,10 +116,14 @@ android {
             unitTests.returnDefaultValues = true
         }
     }
+    namespace 'br.com.deepbyte.overview'
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation platform('androidx.compose:compose-bom:2022.12.00')
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.material3:material3"
@@ -126,7 +131,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata"
 
     implementation "androidx.lifecycle:lifecycle-runtime"
-    implementation "androidx.activity:activity-compose:1.7.0-beta02"
+    implementation "androidx.activity:activity-compose:1.8.0-alpha07"
     // Firebase Module
     implementation project(path: ':firebase')
     // Lifecycle
@@ -135,21 +140,21 @@ dependencies {
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
     // Navigation
-    implementation "androidx.navigation:navigation-compose:2.7.0-beta01"
+    implementation "androidx.navigation:navigation-compose:2.7.1"
     // Hilt
     def hilt = "2.46.1"
-    implementation "com.google.dagger:hilt-android:$hilt"
+    implementation "com.google.dagger:hilt-android:2.47"
     kapt "com.google.dagger:hilt-android-compiler:$hilt"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     // Room
-    def room = "2.5.1"
+    def room = "2.5.2"
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
-    kapt "androidx.room:room-compiler:$room"
+    ksp "androidx.room:room-compiler:$room"
     // Paging
-    def paging_version = "3.2.0-beta01"
+    def paging_version = "3.2.0"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    implementation "androidx.paging:paging-compose:3.2.0-beta01"
+    implementation "androidx.paging:paging-compose:$paging_version"
     // WorkManager
     def work_version = "2.8.1"
     implementation "androidx.work:work-runtime-ktx:$work_version"
@@ -158,7 +163,7 @@ dependencies {
     // DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     // Google Ads
-    implementation "com.google.android.gms:play-services-ads:22.1.0"
+    implementation "com.google.android.gms:play-services-ads:22.3.0"
     // Accompanist
     def accompanist = "0.30.1"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
@@ -170,6 +175,7 @@ dependencies {
     def retrofit = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
     // noinspection GradleDependency
     implementation "com.github.haroldadmin:NetworkResponseAdapter:4.1.0"
     implementation "io.coil-kt:coil-compose:2.4.0"
@@ -178,10 +184,10 @@ dependencies {
 
     testImplementation "junit:junit:4.13.2"
     testImplementation "io.mockk:mockk:1.13.7"
-    testImplementation 'org.amshove.kluent:kluent-android:1.72'
+    testImplementation 'org.amshove.kluent:kluent-android:1.73'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.0-beta02"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.0-alpha04"
     debugImplementation "androidx.compose.ui:ui-tooling"
 }

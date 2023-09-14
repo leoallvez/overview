@@ -1,8 +1,8 @@
 package br.com.deepbyte.overview.data.model.media
 
 import br.com.deepbyte.overview.BuildConfig
+import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
-import br.com.deepbyte.overview.data.model.provider.Streaming
 import com.squareup.moshi.Json
 
 abstract class Media {
@@ -12,19 +12,22 @@ abstract class Media {
     val overview: String = ""
 
     @field:Json(name = "backdrop_path")
-    private val backdropPath: String = ""
+    val backdropPath: String? = null
 
     @field:Json(name = "poster_path")
-    private val posterPath: String = ""
+    private val posterPath: String? = null
+
+    @field:Json(name = "original_language")
+    val language: String? = null
 
     @field:Json(name = "vote_average")
     val voteAverage: Double = 0.0
 
-    val genres: List<Genre> = listOf()
+    val genres: List<GenreEntity> = listOf()
     protected val credits: Credits = Credits()
 
     @field:Json(name = "providers")
-    var streamings: List<Streaming> = listOf()
+    var streamings: List<StreamingEntity> = listOf()
 
     abstract fun getSimilarMedia(): List<Media>
     abstract fun getRuntime(): String
@@ -44,4 +47,12 @@ abstract class Media {
     } else {
         ""
     }
+
+    fun toMediaEntity() = MediaEntity(
+        apiId = apiId,
+        backdropPath = backdropPath,
+        posterPath = posterPath,
+        letter = getLetter(),
+        type = getType()
+    )
 }

@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.repository.genre
 
-import br.com.deepbyte.overview.data.model.media.Genre
-import br.com.deepbyte.overview.data.model.media.MediaType
+import br.com.deepbyte.overview.data.model.media.GenreEntity
+import br.com.deepbyte.overview.data.model.media.MediaTypeEntity
 import br.com.deepbyte.overview.data.model.media.MediaTypeWithGenres
 import br.com.deepbyte.overview.data.source.genre.GenreLocalDataSource
 import br.com.deepbyte.overview.data.source.genre.IGenreRemoteDataSource
@@ -46,8 +46,8 @@ class GenreRepositoryTest {
     fun `should not be an empty list when local return a not empty list`() = runTest {
         // Arrange
         val content = MediaTypeWithGenres(
-            mediaType = MediaType(key = ALL.key),
-            genres = listOf(Genre())
+            mediaType = MediaTypeEntity(key = ALL.key),
+            genres = listOf(GenreEntity())
         )
         coEvery { _localSource.getGenresWithMediaType(any()) } returns listOf(content)
         // Act

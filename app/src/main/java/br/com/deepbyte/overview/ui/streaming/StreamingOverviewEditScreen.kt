@@ -37,7 +37,6 @@ fun StreamingOverviewEditScreen() {
                 .fillMaxSize()
                 .padding(top = 24.dp)
                 .padding(horizontal = 24.dp)
-            // horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Welcome to bottom sheet playground!",
@@ -46,7 +45,6 @@ fun StreamingOverviewEditScreen() {
                     .background(Color.White),
                 style = MaterialTheme.typography.h4,
                 textAlign = TextAlign.Center
-                // modifier = Modifier.background(Color.White)
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(

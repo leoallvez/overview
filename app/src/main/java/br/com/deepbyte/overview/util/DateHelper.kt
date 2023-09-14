@@ -1,7 +1,9 @@
 package br.com.deepbyte.overview.util
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class DateHelper(dateIn: String?) {
 
@@ -16,7 +18,8 @@ class DateHelper(dateIn: String?) {
 
     private fun dateFormat(date: Date): String {
         val locale = Locale.getDefault()
-        val datePattern = if (locale.language == "pt") "dd/MM/yyyy" else "MM/dd/yyyy"
+        val isLatinLanguage = locale.language == "pt" || locale.language == "es"
+        val datePattern = if (isLatinLanguage) "dd/MM/yyyy" else "MM/dd/yyyy"
         return SimpleDateFormat(datePattern, locale).format(date)
     }
 
@@ -66,6 +69,5 @@ class DateHelper(dateIn: String?) {
     companion object {
         private const val DATE_SEPARATOR = "-"
         private const val DEFAULT_RETURN = ""
-        private const val API_DATE_PATTERN = "yyyy-MM-dd"
     }
 }

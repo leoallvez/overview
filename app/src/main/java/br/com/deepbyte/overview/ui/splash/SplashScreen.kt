@@ -31,7 +31,7 @@ fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hilt
     TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
 
     val scale = remember { Animatable(0f) }
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = Unit) {
         scale.animateTo(
             targetValue = 0.6f,
             animationSpec = tween(

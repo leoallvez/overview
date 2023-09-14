@@ -1,37 +1,27 @@
 package br.com.deepbyte.overview.data.source.workers
 
 import android.content.Context
+import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import java.util.concurrent.TimeUnit
 
 class WorkManagerFacade constructor(
     private val _context: Context
 ) {
     fun init() {
-        scheduleStreamingDefaultTask()
-        scheduleStreamingUpdateTask()
+        scheduleStreamingsSaveTask()
         scheduleGenreDefaultTask()
+        scheduleMediaTask()
     }
 
-    private fun scheduleStreamingDefaultTask() {
-        val workerRequest = OneTimeWorkRequestBuilder<StreamingDefaultSetupWorker>().build()
-        WorkManager.getInstance(_context).enqueue(workerRequest)
-    }
+    private fun scheduleStreamingsSaveTask() = makeOneTime<StreamingsSaveWorker>()
 
-    private fun scheduleStreamingUpdateTask() {
-        val workerRequest = PeriodicWorkRequest
-            .Builder(
-                StreamingSelectedUpdateWorker::class.java,
-                repeatInterval = 24,
-                TimeUnit.HOURS
-            ).build()
-        WorkManager.getInstance(_context).enqueue(workerRequest)
-    }
+    private fun scheduleGenreDefaultTask() = makeOneTime<GenreDefaultSetupWorker>()
 
-    private fun scheduleGenreDefaultTask() {
-        val workerRequest = OneTimeWorkRequestBuilder<GenreDefaultSetupWorker>().build()
+    private fun scheduleMediaTask() = makeOneTime<MediaCacheWorker>()
+
+    private inline fun <reified T : CoroutineWorker> makeOneTime() {
+        val workerRequest = OneTimeWorkRequestBuilder<T>().build()
         WorkManager.getInstance(_context).enqueue(workerRequest)
     }
 }
