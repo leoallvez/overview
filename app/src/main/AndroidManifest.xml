@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name="dev.com.singular.overview.CustomApplication"
+        android:name=".CustomApplication"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,7 +15,7 @@
         tools:ignore="LockedOrientationActivity"
         android:theme="@style/Theme.Overview">
         <activity
-            android:name="dev.com.singular.overview.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Overview">
