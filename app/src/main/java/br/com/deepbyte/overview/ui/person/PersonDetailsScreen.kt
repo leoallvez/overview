@@ -28,7 +28,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.ui.AdsMediumRectangle
@@ -47,6 +46,7 @@ import br.com.deepbyte.overview.ui.UiStateResult
 import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigate
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
+import br.dev.singular.overview.R
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState

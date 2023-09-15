@@ -1,8 +1,8 @@
 package br.com.deepbyte.overview.data.model.media
 
-import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.BuildConfig
 import com.squareup.moshi.Json
 
 abstract class Media {

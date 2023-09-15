@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import br.com.deepbyte.overview.data.source.workers.WorkManagerFacade
 import br.com.deepbyte.overview.util.CrashlyticsReportingTree
+import br.dev.singular.overview.BuildConfig
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 import io.github.leoallvez.firebase.CrashlyticsSource

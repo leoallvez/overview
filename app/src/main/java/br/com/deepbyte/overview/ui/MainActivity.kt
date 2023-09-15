@@ -19,12 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LiveData
-import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.di.IsOnline
 import br.com.deepbyte.overview.ui.navigation.NavController
 import br.com.deepbyte.overview.ui.theme.AppTheme
 import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

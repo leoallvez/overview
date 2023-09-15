@@ -16,7 +16,7 @@ android {
     compileSdk 34
     defaultConfig {
         applicationId "br.dev.singular.overview"
-        namespace 'br.com.deepbyte.overview'
+        namespace 'br.dev.singular.overview'
         minSdk 21
         targetSdk 33
         versionCode 200

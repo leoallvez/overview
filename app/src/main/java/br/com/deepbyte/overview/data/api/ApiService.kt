@@ -1,11 +1,11 @@
 package br.com.deepbyte.overview.data.api
 
-import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.api.response.*
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.data.model.person.Person
 import br.com.deepbyte.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.BuildConfig
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

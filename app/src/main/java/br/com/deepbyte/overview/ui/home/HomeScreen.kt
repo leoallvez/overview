@@ -37,7 +37,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.data.model.HomeData
 import br.com.deepbyte.overview.data.model.media.MediaEntity
 import br.com.deepbyte.overview.data.model.provider.StreamingEntity
@@ -56,6 +55,7 @@ import br.com.deepbyte.overview.ui.theme.Gray
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
 import br.com.deepbyte.overview.util.MediaItemClick
 import br.com.deepbyte.overview.util.toJson
+import br.dev.singular.overview.R
 
 @Composable
 fun HomeScreen(

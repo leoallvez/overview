@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.ui.AdsBanner
+import br.dev.singular.overview.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)

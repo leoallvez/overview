@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import br.com.deepbyte.overview.BuildConfig
-import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.R
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView

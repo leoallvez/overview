@@ -1,9 +1,9 @@
 package br.com.deepbyte.overview.di
 
-import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.api.ApiLocale
 import br.com.deepbyte.overview.data.api.ApiService
 import br.com.deepbyte.overview.data.api.IApiLocale
+import br.dev.singular.overview.BuildConfig
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import dagger.Binds
 import dagger.Module

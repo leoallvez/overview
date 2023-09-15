@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import br.com.deepbyte.overview.BuildConfig
+import br.dev.singular.overview.BuildConfig
 import com.squareup.moshi.Json
 
 @Entity(tableName = "streamings")

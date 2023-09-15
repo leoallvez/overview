@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.com.deepbyte.overview.R
 import br.com.deepbyte.overview.ui.AdsBanner
 import br.com.deepbyte.overview.ui.IntermediateScreensText
 import br.com.deepbyte.overview.ui.LoadingScreen
@@ -47,6 +46,7 @@ import br.com.deepbyte.overview.ui.TrackScreenView
 import br.com.deepbyte.overview.ui.navigation.wrappers.BasicNavigate
 import br.com.deepbyte.overview.ui.theme.AccentColor
 import br.com.deepbyte.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.R
 
 @Composable
 fun SearchScreen(

@@ -1,10 +1,10 @@
 package br.com.deepbyte.overview.data.model.person
 
-import br.com.deepbyte.overview.BuildConfig
 import br.com.deepbyte.overview.data.model.media.Media
 import br.com.deepbyte.overview.data.model.media.Movie
 import br.com.deepbyte.overview.data.model.media.TvShow
 import br.com.deepbyte.overview.util.DateHelper
+import br.dev.singular.overview.BuildConfig
 import com.squareup.moshi.Json
 
 data class Person(

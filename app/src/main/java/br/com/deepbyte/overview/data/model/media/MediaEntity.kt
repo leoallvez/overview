@@ -3,7 +3,7 @@ package br.com.deepbyte.overview.data.model.media
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.deepbyte.overview.BuildConfig
+import br.dev.singular.overview.BuildConfig
 
 @Entity(tableName = "medias")
 class MediaEntity(

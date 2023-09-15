@@ -1,12 +1,12 @@
 package br.com.deepbyte.overview.di
 
-import br.com.deepbyte.overview.BuildConfig.ADS_ARE_VISIBLES
 import br.com.deepbyte.overview.data.api.ApiLocale
 import br.com.deepbyte.overview.data.model.provider.StreamingEntity
 import br.com.deepbyte.overview.remote.DisplayAdsRemoteConfig
 import br.com.deepbyte.overview.remote.RemoteConfig
 import br.com.deepbyte.overview.remote.StreamingsRemoteConfig
 import br.com.deepbyte.overview.util.IJsonFileReader
+import br.dev.singular.overview.BuildConfig.ADS_ARE_VISIBLES
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

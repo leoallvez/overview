@@ -1,7 +1,7 @@
 package br.com.deepbyte.overview.data.source.media
 
 import androidx.annotation.StringRes
-import br.com.deepbyte.overview.R
+import br.dev.singular.overview.R
 
 enum class MediaTypeEnum(val key: String, @StringRes val labelRes: Int, private val order: Int) {
     ALL(key = "all", labelRes = R.string.all, order = 1),
