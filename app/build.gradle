@@ -15,11 +15,12 @@ println("Is active signing: $activeSigning")
 android {
     compileSdk 34
     defaultConfig {
-        applicationId "br.com.deepbyte.overview"
+        applicationId "br.dev.singular.overview"
+        namespace 'br.com.deepbyte.overview'
         minSdk 21
         targetSdk 33
-        versionCode 6
-        versionName "1.5"
+        versionCode 200
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -116,7 +117,6 @@ android {
             unitTests.returnDefaultValues = true
         }
     }
-    namespace 'br.com.deepbyte.overview'
 }
 
 ksp {
