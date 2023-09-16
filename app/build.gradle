@@ -38,7 +38,7 @@ android {
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
         buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w780"'
         buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
-        resConfigs "pt", "en", "es"
+        // resConfigs "pt", "en", "es"
     }
     if (activeSigning) {
         signingConfigs {
