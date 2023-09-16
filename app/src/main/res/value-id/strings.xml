@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools">
+      
+  <string name="app_name_prod">Ringkasan</string>
+      
+  <!-- Home list title -->
+      
+  <string name="movie_top_rated" tools:ignore="UnusedResources">Film dengan peringkat teratas</string>
+      
+  <string name="discover_movie" tools:ignore="UnusedResources">Film yang dapat Anda nikmati</string>
+      
+  <string name="movie_trending" tools:ignore="UnusedResources">Film yang sedang tren</string>
+      
+  <string name="movie_popular" tools:ignore="UnusedResources">Film populer</string>
+      
+  <string name="tv_top_rated" tools:ignore="UnusedResources">Peringkat teratas di streaming</string>
+      
+  <string name="discover_tv" tools:ignore="UnusedResources">Anda dapat menikmatinya secara streaming</string>
+      
+  <string name="tv_trending" tools:ignore="UnusedResources">Tren streaming</string>
+      
+  <string name="tv_popular" tools:ignore="UnusedResources">Populer di streaming</string>
+      
+  <!-- Genre -->
+      
+  <string name="genre_10759" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10762" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10763" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10764" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10765" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10766" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10767" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10768" tools:ignore="UnusedResources"/>
+      
+  <string name="error_on_loading">Kesalahan memuat :(</string>
+      
+  <string name="btn_try_again">Coba lagi</string>
+      
+  <string name="refresh_icon">Muat ulang ikon</string>
+      
+  <string name="back_to_home_icon">Ikon kembali ke rumah</string>
+      
+  <string name="search_icon">Ikon pencarian</string>
+      
+  <string name="search_clean_icon">Hapus ikon pencarian</string>
+      
+  <string name="app_offline_msg">Tidak ada koneksi internet yang tersedia</string>
+      
+  <string name="loading">Memuat…</string>
+      
+  <string name="synopsis">Ringkasan</string>
+      
+  <string name="biography">Biografi</string>
+      
+  <string name="cast">Pemeran</string>
+      
+  <string name="related">Terkait</string>
+      
+  <string name="where_to_watch">Penyedia</string>
+      
+  <string name="separator">•</string>
+      
+  <string name="em_dash">-</string>
+      
+  <string name="tv_shows_participation">partisipasi televisi</string>
+      
+  <string name="movies_participation">Partisipasi film</string>
+      
+  <string name="age">%s tahun</string>
+      
+  <string name="place_of_birth">Tempat Lahir</string>
+      
+  <string name="one_season">1 musim</string>
+      
+  <string name="n_seasons">%s musim</string>
+      
+  <string name="one_episode">1 episode</string>
+      
+  <string name="n_episodes">%s episode</string>
+      
+  <string name="runtime_per_episode">Durasi: %s per episode</string>
+      
+  <string name="director">Direktur</string>
+      
+  <string name="release_date">Tanggal rilis</string>
+      
+  <string name="runtime">Waktu proses</string>
+      
+  <string name="search_field_text">Mencari</string>
+      
+  <string name="movies">Film</string>
+      
+  <string name="tv_show">Acara TV</string>
+      
+  <string name="all">Film dan Acara TV</string>
+      
+  <string name="search_not_started">Hasil pencarian akan muncul di sini :)</string>
+      
+  <string name="search_result_empty">Tidak ada hasil yang ditemukan :(</string>
+      
+  <string name="empty_list_providers">Tidak tersedia untuk streaming</string>
+      
+  <string name="not_yet_released">Belum dirilis</string>
+      
+  <string name="edit">Sunting</string>
+      
+  <string name="yours_streaming">Streaming Anda</string>
+      
+  <string name="search_in_all_places">Cari di mana-mana</string>
+      
+  <string name="genres">Genre</string>
+      
+  <string name="type">Jenis</string>
+      
+  <string name="filters">Filter</string>
+      
+  <string name="close">untuk menutup ikon</string>
+      
+  <string name="not_found">Tidak ada hasil yang ditemukan :(</string>
+      
+  <string name="check_filters">Periksa filter dan coba lagi</string>
+      
+  <string name="clear_filters">Hapus filter</string>
+      
+  <string name="favorite_streams">Aliran Utama</string>
+      
+  <string name="other_streams">Aliran Lainnya</string>
+  
+</resources>

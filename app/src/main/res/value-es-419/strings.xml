@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools">
+      
+  <string name="app_name_prod">Descripción general</string>
+      
+  <!-- Home list title -->
+      
+  <string name="movie_top_rated" tools:ignore="UnusedResources">Películas mejor valoradas</string>
+      
+  <string name="discover_movie" tools:ignore="UnusedResources">Películas que puedes disfrutar</string>
+      
+  <string name="movie_trending" tools:ignore="UnusedResources">Películas de moda</string>
+      
+  <string name="movie_popular" tools:ignore="UnusedResources">Películas populares</string>
+      
+  <string name="tv_top_rated" tools:ignore="UnusedResources">Mejor valorados en streaming</string>
+      
+  <string name="discover_tv" tools:ignore="UnusedResources">Puedes disfrutarlo en streaming.</string>
+      
+  <string name="tv_trending" tools:ignore="UnusedResources">Tendencias de transmisión</string>
+      
+  <string name="tv_popular" tools:ignore="UnusedResources">Popular en streaming</string>
+      
+  <!-- Genre -->
+      
+  <string name="genre_10759" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10762" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10763" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10764" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10765" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10766" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10767" tools:ignore="UnusedResources"/>
+      
+  <string name="genre_10768" tools:ignore="UnusedResources"/>
+      
+  <string name="error_on_loading">Error al cargar :(</string>
+      
+  <string name="btn_try_again">Intentar otra vez</string>
+      
+  <string name="refresh_icon">Icono de recarga</string>
+      
+  <string name="back_to_home_icon">Icono de regreso a casa</string>
+      
+  <string name="search_icon">Icono de búsqueda</string>
+      
+  <string name="search_clean_icon">Borrar icono de búsqueda</string>
+      
+  <string name="app_offline_msg">No hay conexión a internet disponible</string>
+      
+  <string name="loading">Cargando…</string>
+      
+  <string name="synopsis">Sinopsis</string>
+      
+  <string name="biography">Biografía</string>
+      
+  <string name="cast">Elenco</string>
+      
+  <string name="related">Relacionado</string>
+      
+  <string name="where_to_watch">Proveedores</string>
+      
+  <string name="separator">•</string>
+      
+  <string name="em_dash">-</string>
+      
+  <string name="tv_shows_participation">participación televisiva</string>
+      
+  <string name="movies_participation">Participación cinematográfica</string>
+      
+  <string name="age">%s años</string>
+      
+  <string name="place_of_birth">Lugar de nacimiento</string>
+      
+  <string name="one_season">1 temporada</string>
+      
+  <string name="n_seasons">%s temporada</string>
+      
+  <string name="one_episode">1 episodio</string>
+      
+  <string name="n_episodes">%s episodios</string>
+      
+  <string name="runtime_per_episode">Duración: %s por episodio</string>
+      
+  <string name="director">Director</string>
+      
+  <string name="release_date">Fecha de lanzamiento</string>
+      
+  <string name="runtime">Tiempo de ejecución</string>
+      
+  <string name="search_field_text">Buscar</string>
+      
+  <string name="movies">Películas</string>
+      
+  <string name="tv_show">Programas de televisión</string>
+      
+  <string name="all">Películas y programas de televisión</string>
+      
+  <string name="search_not_started">Los resultados de la búsqueda aparecerán aquí :)</string>
+      
+  <string name="search_result_empty">No se han encontrado resultados :(</string>
+      
+  <string name="empty_list_providers">No disponible para transmisión</string>
+      
+  <string name="not_yet_released">Aún no publicado</string>
+      
+  <string name="edit">Editar</string>
+      
+  <string name="yours_streaming">Tuyo streaming</string>
+      
+  <string name="search_in_all_places">Buscar en todas partes</string>
+      
+  <string name="genres">Géneros</string>
+      
+  <string name="type">Tipo</string>
+      
+  <string name="filters">Filtros</string>
+      
+  <string name="close">icono de cerrar</string>
+      
+  <string name="not_found">No se han encontrado resultados :(</string>
+      
+  <string name="check_filters">Comprueba los filtros y vuelve a intentarlo.</string>
+      
+  <string name="clear_filters">Limpiar filtros</string>
+      
+  <string name="favorite_streams">Corrientes principales</string>
+      
+  <string name="other_streams">Otras corrientes</string>
+  
+</resources>
