@@ -1,15 +1,16 @@
 package br.dev.singular.overview.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
+import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.DataResult
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.UiState
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import br.dev.singular.overview.data.model.provider.StreamingEntity
 import okio.IOException
 import timber.log.Timber
 import java.lang.reflect.Type
@@ -40,15 +41,12 @@ inline fun <reified T> String.parseToList(): List<T> = try {
     listOf()
 }
 
-// TODO: Finish unit tests for another functions
-fun Context.getStringByName(resource: String): String? {
-    return try {
-        val resourceId = this.resources
-            .getIdentifier(resource, "string", this.packageName)
-        return this.getString(resourceId)
-    } catch (e: NotFoundException) {
-        null
-    }
+@SuppressLint("DiscouragedApi")
+fun Context.getStringByName(resource: String): String? = try {
+    val resourceId = resources.getIdentifier(resource, "string", packageName)
+    getString(resourceId)
+} catch (e: NotFoundException) {
+    null
 }
 
 fun NavBackStackEntry.getParams(): Pair<Long, String> {
