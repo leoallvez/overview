@@ -209,7 +209,7 @@ fun StreamingsGrid(
             top = {
                 Row(horizontalArrangement = Arrangement.SpaceBetween) {
                     SimpleTitle(title = stringResource(R.string.favorite_streams))
-                    // EditStreamingText(onClick = onClickEditStreaming)
+                    EditStreamingText(onClick = onClickEditStreaming)
                 }
             },
             streamings = homeData.streams.selected,

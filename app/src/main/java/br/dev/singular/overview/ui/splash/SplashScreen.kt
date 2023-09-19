@@ -68,9 +68,7 @@ fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
         drawCircle(brush = brush)
     }
     Box(
-        modifier = Modifier
-            .scale(scale.value)
-            .size(575.dp),
+        modifier = Modifier.scale(scale.value).size(295.dp),
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.size(575.dp), onDraw)
