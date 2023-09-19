@@ -2,19 +2,19 @@
 <resources>
     <!--Banners ids-->
     <string name="home_banner">
-        ca-app-pub-2674167083358956/3194793955
+        ca-app-pub-2674167083358956/8388197922
     </string>
     <string name="media_details_banner">
-        ca-app-pub-2674167083358956/9898150716
+        ca-app-pub-2674167083358956/5720590415
     </string>
     <string name="discover_banner">
-        ca-app-pub-2674167083358956/3468473736
+        ca-app-pub-2674167083358956/2875220631
     </string>
     <string name="search_banner">
-        ca-app-pub-2674167083358956/1449062473
+        ca-app-pub-2674167083358956/7995685374
     </string>
     <string name="person_banner">
-        ca-app-pub-2674167083358956/6599686497
+        ca-app-pub-2674167083358956/2944299552
     </string>
     <!--App Name-->
     <string name="app_name_homol">

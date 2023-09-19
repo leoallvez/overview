@@ -8,8 +8,8 @@
 -dontwarn javax.annotation.Nullable
 -dontwarn javax.annotation.ParametersAreNonnullByDefault
 
--keep class br.com.deepbyte.overview.data.model.** { <fields>; }
--keep class br.com.deepbyte.overview.data.api.response.** { <fields>; }
+-keep class br.dev.singular.overview.data.model.** { <fields>; }
+-keep class br.dev.singular.overview.data.api.response.** { <fields>; }
 
 -dontwarn org.conscrypt.**
 -dontwarn org.bouncycastle.**

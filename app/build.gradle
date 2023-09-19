@@ -15,11 +15,12 @@ println("Is active signing: $activeSigning")
 android {
     compileSdk 34
     defaultConfig {
-        applicationId "br.com.deepbyte.overview"
+        applicationId "br.dev.singular.overview"
+        namespace 'br.dev.singular.overview'
         minSdk 21
         targetSdk 33
-        versionCode 6
-        versionName "1.5"
+        versionCode 200
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -37,7 +38,7 @@ android {
         buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
         buildConfigField 'String', 'IMG_URL', '"https://image.tmdb.org/t/p/w780"'
         buildConfigField 'boolean', 'ADS_ARE_VISIBLES', 'true'
-        resConfigs "pt", "en", "es"
+        // resConfigs "pt", "en", "es"
     }
     if (activeSigning) {
         signingConfigs {
@@ -116,7 +117,6 @@ android {
             unitTests.returnDefaultValues = true
         }
     }
-    namespace 'br.com.deepbyte.overview'
 }
 
 ksp {
