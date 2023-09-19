@@ -6,11 +6,11 @@ import br.dev.singular.overview.data.api.response.GenreListResponse
 import br.dev.singular.overview.data.api.response.ListResponse
 import br.dev.singular.overview.data.api.response.PagingResponse
 import br.dev.singular.overview.data.api.response.ProviderResponse
-import com.haroldadmin.cnradapter.NetworkResponse
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -139,7 +139,7 @@ interface ApiService {
     ): NetworkResponse<ListResponse<StreamingEntity>, ErrorResponse>
 
     // New requests & labs
-    @GET(value = "discover/tv")
+    @GET(value = "discover/tv?sort_by=primary_release_date.desc")
     suspend fun getTvShowsPaging(
         @Query(value = "with_watch_providers")
         streamingsIds: String = "",
@@ -157,7 +157,7 @@ interface ApiService {
         apiKey: String = BuildConfig.API_KEY
     ): NetworkResponse<PagingResponse<TvShow>, ErrorResponse>
 
-    @GET(value = "discover/movie")
+    @GET(value = "discover/movie?sort_by=primary_release_date.desc")
     suspend fun getMoviesPaging(
         @Query(value = "with_watch_providers")
         streamingsIds: String = "",
