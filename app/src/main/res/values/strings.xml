@@ -61,7 +61,7 @@
 
     <string name="edit">Editar</string>
     <string name="yours_streaming">Seus streamings</string>
-    <string name="search_in_all_places">Procure conteúdo em todos lugares</string>
+    <string name="search_in_all_places">Pesquisar conteúdo em todos lugares</string>
     <string name="genres">Gêneros</string>
     <string name="type">Tipo</string>
     <string name="filters">Filtros</string>
@@ -70,6 +70,6 @@
     <string name="check_filters">Verifique os filtros e tente novamente</string>
     <string name="clear_filters">Limpar filtros</string>
 
-    <string name="favorite_streams">Principais streamings</string>
+    <string name="favorite_streams">Streamings Favoritos</string>
     <string name="other_streams">Outros Streamings</string>
 </resources>

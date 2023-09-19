@@ -70,6 +70,6 @@
     <string name="check_filters">Check the filters and try again</string>
     <string name="clear_filters">Clear filters</string>
 
-    <string name="favorite_streams">Main Streams</string>
+    <string name="favorite_streams">Favorite Streams</string>
     <string name="other_streams">Other Streams</string>
 </resources>
