@@ -29,10 +29,8 @@ class SearchFilters(
     fun genresIsIsNotEmpty() = genresIds.isNotEmpty()
     fun clearGenresIds() = genresIds.clear()
 
-    fun clearAll() {
-        query = ""
+    fun clear() {
         mediaType = MediaType.ALL
-        streamingsIds = emptyList()
         clearGenresIds()
     }
 
