@@ -28,11 +28,8 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
-import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
-import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.flowlayout.MainAxisAlignment
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.data.source.media.MediaTypeEnum
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
@@ -48,10 +45,13 @@ import br.dev.singular.overview.ui.ToolbarButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.VerticalSpacer
 import br.dev.singular.overview.ui.nameTranslation
+import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
+import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
 @Composable
@@ -67,13 +67,12 @@ fun StreamingExploreScreen(
         viewModel.getMediasPaging(streaming.apiId)
     }
 
-    val filters = viewModel.searchFilters.collectAsState().value
     var mediaItems by remember { mutableStateOf(value = loadData()) }
     val setMediaItems = { mediaItems = loadData() }
 
     StreamingExploreContent(
         navigate = navigate,
-        searchFilters = filters,
+        searchFilters = viewModel.searchFilters.collectAsState().value,
         streaming = streaming,
         showAds = viewModel.showAds,
         onRefresh = setMediaItems,
@@ -226,10 +225,10 @@ fun FiltersArea(
                 StreamingScreamTitle(streamingName = streaming.name)
             }
 
-            Pulsating(active = searchFilters.genresIsIsNotEmpty().not()) {
+            Pulsating(active = searchFilters.areDefaultValues()) {
                 FilterButton(
                     padding = PaddingValues(),
-                    isActivated = searchFilters.genresIsIsNotEmpty(),
+                    isActivated = searchFilters.areDefaultValues().not(),
                     buttonText = stringResource(R.string.filters),
                     complement = {
                         Text(
@@ -391,7 +390,7 @@ fun ClearFilterGenres(
                 }
 
             ) {
-                searchFilters.clearGenresIds()
+                searchFilters.clearAll()
                 inFiltering.invoke(searchFilters)
             }
         }

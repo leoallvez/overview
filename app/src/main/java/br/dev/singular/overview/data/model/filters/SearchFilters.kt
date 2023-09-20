@@ -30,9 +30,19 @@ class SearchFilters(
 
     fun clearGenresIds() = genresIds.clear()
 
-    fun genreQuantity(): String = if (genresIds.isNotEmpty()) {
-        genresIds.size.toString()
-    } else {
-        ""
+    fun clearAll() {
+        query = ""
+        mediaType = MediaType.ALL
+        streamingsIds = emptyList()
+        clearGenresIds()
+    }
+
+    fun areDefaultValues() =
+        query.isEmpty() && mediaType == MediaType.ALL && genresIds.isEmpty()
+
+    fun genreQuantity(): String {
+        val mediaTypeQuantity = if (mediaType != MediaType.ALL) 1 else 0
+        val filtersQuantity = genresIds.size + mediaTypeQuantity
+        return if (filtersQuantity > 0) filtersQuantity.toString() else String()
     }
 }
