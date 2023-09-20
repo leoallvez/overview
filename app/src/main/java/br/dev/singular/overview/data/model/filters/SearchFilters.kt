@@ -26,8 +26,7 @@ class SearchFilters(
 
     fun getGenreIdsSeparatedWithComma() = genresIds.joinToStringWithComma()
 
-    fun genresIsIsNotEmpty() = genresIds.isEmpty().not()
-
+    fun genresIsIsNotEmpty() = genresIds.isNotEmpty()
     fun clearGenresIds() = genresIds.clear()
 
     fun clearAll() {

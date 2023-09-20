@@ -363,17 +363,17 @@ fun FilterBottomSheet(
         CloseIcon(closeAction)
         FilterMediaType(searchFilters, inFiltering)
         FilterGenres(genres, searchFilters, inFiltering)
-        ClearFilterGenres(searchFilters, inFiltering, Modifier.align(Alignment.End))
+        ClearFilter(searchFilters, inFiltering, Modifier.align(Alignment.End))
     }
 }
 
 @Composable
-fun ClearFilterGenres(
+fun ClearFilter(
     searchFilters: SearchFilters,
     inFiltering: (SearchFilters) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (searchFilters.genresIsIsNotEmpty()) {
+    if (searchFilters.areDefaultValues().not()) {
         Column(
             modifier = modifier
                 .fillMaxHeight()
@@ -388,7 +388,6 @@ fun ClearFilterGenres(
                 complement = {
                     CleanFilterIcon()
                 }
-
             ) {
                 searchFilters.clearAll()
                 inFiltering.invoke(searchFilters)
