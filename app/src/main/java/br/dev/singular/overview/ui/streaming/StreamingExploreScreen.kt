@@ -43,7 +43,6 @@ import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.ToolbarButton
 import br.dev.singular.overview.ui.TrackScreenView
-import br.dev.singular.overview.ui.VerticalSpacer
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -170,7 +169,6 @@ fun StreamingExploreBody(
                     streaming = streaming,
                     closeFilterBottomSheet
                 )
-                VerticalSpacer(dimensionResource(R.dimen.default_padding))
                 when (pagingMediaItems.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
                     is LoadState.NotLoading -> {
@@ -212,16 +210,34 @@ fun FiltersArea(
                 .fillMaxWidth()
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.default_padding)),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                StreamingIcon(streaming = streaming, withBorder = false)
+                StreamingScreamTitle(streamingName = streaming.name)
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .padding(
+                    horizontal = dimensionResource(R.dimen.default_padding),
+                    vertical = dimensionResource(R.dimen.screen_padding_new)
+                ),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                StreamingIcon(streaming = streaming, withBorder = true)
-                StreamingScreamTitle(streamingName = streaming.name)
+                TuneIcon()
+                Text(
+                    text = filterDescription(searchFilters, genres),
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
-
             Pulsating(active = searchFilters.areDefaultValues()) {
                 FilterButton(
                     padding = PaddingValues(),
@@ -239,15 +255,6 @@ fun FiltersArea(
                 }
             }
         }
-        Text(
-            text = filterDescription(searchFilters, genres),
-            color = AccentColor,
-            fontSize = 14.sp,
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.default_padding),
-                vertical = dimensionResource(R.dimen.screen_padding)
-            )
-        )
     }
 }
 
@@ -276,7 +283,7 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreE
             val genreName: String = genre.nameTranslation()
 
             result += if (filtered.lastIndex == index) {
-                "$genreName."
+                genreName
             } else {
                 if (index == filtered.lastIndex - 1) {
                     "$genreName & "
@@ -402,6 +409,18 @@ private fun CleanFilterIcon() {
             .padding(1.dp),
         painter = painterResource(id = R.drawable.delete_outline),
         contentDescription = stringResource(R.string.clear_filters)
+    )
+}
+
+@Composable
+private fun TuneIcon() {
+    Icon(
+        tint = Color.White,
+        modifier = Modifier
+            .size(25.dp)
+            .padding(end = 5.dp),
+        painter = painterResource(id = R.drawable.tune),
+        contentDescription = stringResource(R.string.filters)
     )
 }
 
