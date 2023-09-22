@@ -61,22 +61,27 @@ fun StreamingExploreScreen(
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    LaunchedEffect(key1 = Unit) {
-        viewModel.setStreamingId(streaming.apiId)
+    viewModel.setStreamingId(streaming.apiId)
+
+    val loadData = {
         viewModel.loadGenres()
+        viewModel.loadMediasPaging()
     }
+
+    var medias by remember { mutableStateOf(value = loadData()) }
+    val setMediaItems = { medias = loadData() }
 
     StreamingExploreContent(
         navigate = navigate,
         searchFilters = viewModel.searchFilters.collectAsState().value,
         streaming = streaming,
         showAds = viewModel.showAds,
-        onRefresh = { viewModel.loadMedias() },
-        pagingMediaItems = viewModel.medias.collectAsLazyPagingItems(),
+        onRefresh = setMediaItems,
+        pagingMediaItems = medias.collectAsLazyPagingItems(),
         genresItems = viewModel.genres.collectAsState().value,
         inFiltering = {
             viewModel.updateFilters(it)
-            viewModel.loadGenres()
+            setMediaItems()
         }
     )
 }
