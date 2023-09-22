@@ -4,11 +4,11 @@ import br.dev.singular.overview.data.api.ApiService
 import br.dev.singular.overview.data.api.IApiLocale
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.TvShow
-import com.haroldadmin.cnradapter.NetworkResponse
 import br.dev.singular.overview.data.source.responseToResult
 import br.dev.singular.overview.util.joinToStringWithPipe
 import br.dev.singular.overview.util.toFormatted
 import br.dev.singular.overview.util.toLastMonthFormatted
+import com.haroldadmin.cnradapter.NetworkResponse
 import java.util.Date
 import javax.inject.Inject
 
@@ -30,9 +30,9 @@ class TvShowRemoteDataSource @Inject constructor(
     }
 
     private suspend fun makePaging(page: Int, searchFilters: SearchFilters) = _locale.run {
-        val streamingsIds = searchFilters.streamingsIds.joinToStringWithPipe()
+        val streamingId = searchFilters.streamingId.toString()
         val genresIds = searchFilters.getGenreIdsSeparatedWithComma()
-        _api.getTvShowsPaging(streamingsIds, genresIds, page, language, region, region)
+        _api.getTvShowsPaging(streamingId, genresIds, page, language, region, region)
     }
 
     override suspend fun searchPaging(page: Int, searchFilters: SearchFilters): List<TvShow> {

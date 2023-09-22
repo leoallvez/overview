@@ -40,7 +40,7 @@ class StreamingExploreViewModel @Inject constructor(
     }
 
     fun setStreamingId(streamingId: Long) {
-        _searchFilters.value.streamingsIds = listOf(streamingId)
+        _searchFilters.value.streamingId = streamingId
     }
 
     fun loadMediasPaging() = _mediaRepository.getMediasPaging(searchFilters.value)
@@ -53,7 +53,7 @@ class StreamingExploreViewModel @Inject constructor(
         _searchFilters.value = SearchFilters(
             mediaType = filters.mediaType,
             genresIds = filters.genresIds,
-            streamingsIds = filters.streamingsIds
+            streamingId = filters.streamingId
         )
         setFilterCache()
     }

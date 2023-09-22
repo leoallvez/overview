@@ -9,7 +9,7 @@ import br.dev.singular.overview.data.source.media.MediaTypeEnum as MediaType
 class SearchFilters(
     var query: String = "",
     var mediaType: MediaType = MediaType.ALL,
-    var streamingsIds: List<Long> = emptyList(),
+    var streamingId: Long? = null,
     val genresIds: MutableList<Long> = mutableListOf()
 ) : Parcelable {
 
