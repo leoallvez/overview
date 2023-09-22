@@ -2,9 +2,11 @@ package br.dev.singular.overview.ui.streaming
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
+import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.source.CacheDataSource
@@ -13,6 +15,7 @@ import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -35,6 +38,9 @@ class StreamingExploreViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<GenreEntity>>(listOf())
     val genres: StateFlow<List<GenreEntity>> = _genres
 
+    var medias: Flow<PagingData<Media>> = _mediaRepository.getMediasPaging(searchFilters.value)
+        private set
+
     init {
         loadFilterCache()
     }
@@ -43,19 +49,26 @@ class StreamingExploreViewModel @Inject constructor(
         _searchFilters.value.streamingId = streamingId
     }
 
-    fun loadMediasPaging() = _mediaRepository.getMediasPaging(searchFilters.value)
-
     fun loadGenres() = viewModelScope.launch(Dispatchers.IO) {
         _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
     }
 
-    fun updateFilters(filters: SearchFilters) {
-        _searchFilters.value = SearchFilters(
-            mediaType = filters.mediaType,
-            genresIds = filters.genresIds,
-            streamingId = filters.streamingId
-        )
+    fun updateData(filters: SearchFilters) {
+        updateFilters(filters)
+        reloadMedias()
         setFilterCache()
+    }
+
+    fun reloadMedias() {
+        medias = _mediaRepository.getMediasPaging(searchFilters.value)
+    }
+
+    private fun updateFilters(filters: SearchFilters) = with(filters) {
+        _searchFilters.value = SearchFilters(
+            mediaType = mediaType,
+            genresIds = genresIds,
+            streamingId = streamingId
+        )
     }
 
     private fun loadFilterCache() = viewModelScope.launch(Dispatchers.IO) {

@@ -63,25 +63,21 @@ fun StreamingExploreScreen(
 
     viewModel.setStreamingId(streaming.apiId)
 
-    val loadData = {
+    LaunchedEffect(key1 = Any()) {
         viewModel.loadGenres()
-        viewModel.loadMediasPaging()
     }
-
-    var medias by remember { mutableStateOf(value = loadData()) }
-    val setMediaItems = { medias = loadData() }
 
     StreamingExploreContent(
         navigate = navigate,
         searchFilters = viewModel.searchFilters.collectAsState().value,
         streaming = streaming,
         showAds = viewModel.showAds,
-        onRefresh = setMediaItems,
-        pagingMediaItems = medias.collectAsLazyPagingItems(),
+        onRefresh = { viewModel.reloadMedias() },
+        pagingMediaItems = viewModel.medias.collectAsLazyPagingItems(),
         genresItems = viewModel.genres.collectAsState().value,
-        inFiltering = {
-            viewModel.updateFilters(it)
-            setMediaItems()
+        inFiltering = { newFilters ->
+            viewModel.updateData(newFilters)
+            viewModel.loadGenres()
         }
     )
 }
@@ -225,7 +221,8 @@ fun FiltersArea(
             }
         }
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(
                     horizontal = dimensionResource(R.dimen.default_padding),
                     vertical = dimensionResource(R.dimen.screen_padding_new)
