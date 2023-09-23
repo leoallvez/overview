@@ -20,10 +20,6 @@ import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,7 +30,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
-import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
@@ -45,6 +40,7 @@ import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.ToolbarButton
 import br.dev.singular.overview.ui.TrackScreenView
+import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 
@@ -55,16 +51,8 @@ fun SearchScreen(
 ) {
     TrackScreenView(screen = ScreenNav.Search, viewModel.analyticsTracker)
 
-    val loadData = {
-        viewModel.searchPaging()
-    }
-
-    val filters = viewModel.searchFilters.collectAsState().value
-    var mediaItems by remember { mutableStateOf(value = loadData()) }
-    val setMediaItems = {
-        mediaItems = loadData()
-        viewModel.start()
-    }
+    val filters = viewModel.filters.collectAsState().value
+    val items = viewModel.medias.collectAsLazyPagingItems()
 
     Scaffold(
         backgroundColor = PrimaryBackground,
@@ -72,9 +60,8 @@ fun SearchScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            SearchToolBar(navigate::popBackStack) { query ->
-                filters.query = query
-                setMediaItems()
+            SearchToolBar(navigate::popBackStack) { newQuery ->
+                viewModel.updateData(filters.apply { query = newQuery })
             }
         },
         bottomBar = {
@@ -82,21 +69,19 @@ fun SearchScreen(
         }
     ) { padding ->
         Column {
-            if (viewModel.started) {
-                MediaTypeSelector(filters.mediaType.key) { mediaType ->
-                    filters.mediaType = mediaType
-                    setMediaItems()
+            if (items.itemCount > 0) {
+                MediaTypeSelector(filters.mediaType.key) { newType ->
+                    viewModel.updateData(filters.apply { mediaType = newType })
                 }
             }
             Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
             Box {
-                val items = mediaItems.collectAsLazyPagingItems()
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
                         MediaPagingVerticalGrid(padding, items, navigate::toMediaDetails)
                     } else -> {
-                        if (viewModel.started) {
+                        if (items.itemCount == 0 && filters.query.isNotEmpty()) {
                             NotFoundContentScreen()
                         } else {
                             SearchIsNotStated()
