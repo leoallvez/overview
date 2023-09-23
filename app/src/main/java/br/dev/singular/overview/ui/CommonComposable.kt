@@ -75,18 +75,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
+import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
+import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaTypeEnum
 import br.dev.singular.overview.ui.search.ClearSearchIcon
 import br.dev.singular.overview.ui.search.SearchIcon
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
-import br.dev.singular.overview.IAnalyticsTracker
-import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
@@ -94,6 +91,9 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
 import kotlinx.coroutines.delay
 
 @Composable
@@ -666,6 +666,7 @@ fun SearchField(
     modifier: Modifier = Modifier,
     placeholder: String,
     enabled: Boolean = true,
+    autoOpenKeyboard: Boolean = true,
     defaultPaddingValues: PaddingValues = PaddingValues(start = 13.dp, end = 5.dp),
     onClick: () -> Unit = {},
     onSearch: (query: String) -> Unit = {}
@@ -673,8 +674,10 @@ fun SearchField(
     var query by rememberSaveable { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        delay(200)
-        focusRequester.requestFocus()
+        if (autoOpenKeyboard) {
+            delay(200)
+            focusRequester.requestFocus()
+        }
     }
     Box(
         modifier = modifier

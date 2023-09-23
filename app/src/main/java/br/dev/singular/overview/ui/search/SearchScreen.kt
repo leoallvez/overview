@@ -60,7 +60,7 @@ fun SearchScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            SearchToolBar(navigate::popBackStack) { newQuery ->
+            SearchToolBar(filters.query, navigate::popBackStack) { newQuery ->
                 viewModel.updateData(filters.apply { query = newQuery })
             }
         },
@@ -95,6 +95,7 @@ fun SearchScreen(
 
 @Composable
 fun SearchToolBar(
+    query: String,
     backButtonAction: () -> Unit,
     onSearch: (String) -> Unit
 ) {
@@ -116,6 +117,7 @@ fun SearchToolBar(
         ) { backButtonAction.invoke() }
         SearchField(
             onSearch = onSearch,
+            autoOpenKeyboard = query.isEmpty(),
             placeholder = stringResource(R.string.search_in_all_places)
         )
     }
