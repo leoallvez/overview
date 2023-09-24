@@ -2,15 +2,15 @@ package br.dev.singular.overview.di
 
 import br.dev.singular.overview.BuildConfig.ADS_ARE_VISIBLES
 import br.dev.singular.overview.data.api.ApiLocale
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.remote.StreamingsRemoteConfig
 import br.dev.singular.overview.util.IJsonFileReader
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.github.leoallvez.firebase.RemoteSource
 
 @Module
@@ -30,7 +30,7 @@ class RemoteModule {
 
     @StreamingsRemote
     @Provides
-    fun providerStreamingsRemote(
+    fun providerStreamingRemote(
         apiLocale: ApiLocale,
         remoteSource: RemoteSource,
         jsonFileReader: IJsonFileReader
