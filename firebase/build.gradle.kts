@@ -4,18 +4,16 @@ plugins {
 }
 
 android {
-    compileSdk(34)
-
+    compileSdk = 34
+    namespace = "io.github.leoallvez.firebase"
     defaultConfig {
-        minSdk(21)
-        targetSdk(33)
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        minSdk = 21
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "3600")
         }
@@ -30,11 +28,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    namespace("io.github.leoallvez.firebase")
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     //Firebase
