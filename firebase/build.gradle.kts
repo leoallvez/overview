@@ -34,7 +34,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
-    //Firebase
+    // Firebase
     api(platform("com.google.firebase:firebase-bom:31.0.1"))
     api("com.google.firebase:firebase-config-ktx")
     api("com.google.firebase:firebase-crashlytics-ktx")
