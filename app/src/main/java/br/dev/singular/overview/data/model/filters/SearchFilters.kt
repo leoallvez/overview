@@ -9,7 +9,7 @@ import br.dev.singular.overview.data.source.media.MediaTypeEnum as MediaType
 class SearchFilters(
     var query: String = "",
     var mediaType: MediaType = MediaType.ALL,
-    var streamingsIds: List<Long> = emptyList(),
+    var streamingId: Long? = null,
     val genresIds: MutableList<Long> = mutableListOf()
 ) : Parcelable {
 
@@ -26,13 +26,20 @@ class SearchFilters(
 
     fun getGenreIdsSeparatedWithComma() = genresIds.joinToStringWithComma()
 
-    fun genresIsIsNotEmpty() = genresIds.isEmpty().not()
-
+    fun genresIsIsNotEmpty() = genresIds.isNotEmpty()
     fun clearGenresIds() = genresIds.clear()
 
-    fun genreQuantity(): String = if (genresIds.isNotEmpty()) {
-        genresIds.size.toString()
-    } else {
-        ""
+    fun clear() {
+        mediaType = MediaType.ALL
+        clearGenresIds()
+    }
+
+    fun areDefaultValues() =
+        query.isEmpty() && mediaType == MediaType.ALL && genresIds.isEmpty()
+
+    fun genreQuantity(): String {
+        val mediaTypeQuantity = if (mediaType != MediaType.ALL) 1 else 0
+        val filtersQuantity = genresIds.size + mediaTypeQuantity
+        return if (filtersQuantity > 0) filtersQuantity.toString() else String()
     }
 }

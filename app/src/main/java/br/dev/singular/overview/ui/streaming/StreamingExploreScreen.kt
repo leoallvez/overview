@@ -28,11 +28,8 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
-import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
-import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.flowlayout.MainAxisAlignment
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.data.source.media.MediaTypeEnum
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
@@ -46,12 +43,14 @@ import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.ToolbarButton
 import br.dev.singular.overview.ui.TrackScreenView
-import br.dev.singular.overview.ui.VerticalSpacer
 import br.dev.singular.overview.ui.nameTranslation
+import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
+import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
 @Composable
@@ -62,26 +61,23 @@ fun StreamingExploreScreen(
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
-    val loadData = {
-        viewModel.loadGenres()
-        viewModel.getMediasPaging(streaming.apiId)
-    }
+    viewModel.setStreamingId(streaming.apiId)
 
-    val filters = viewModel.searchFilters.collectAsState().value
-    var mediaItems by remember { mutableStateOf(value = loadData()) }
-    val setMediaItems = { mediaItems = loadData() }
+    LaunchedEffect(key1 = Any()) {
+        viewModel.loadGenres()
+    }
 
     StreamingExploreContent(
         navigate = navigate,
-        searchFilters = filters,
+        searchFilters = viewModel.searchFilters.collectAsState().value,
         streaming = streaming,
         showAds = viewModel.showAds,
-        onRefresh = setMediaItems,
-        pagingMediaItems = mediaItems.collectAsLazyPagingItems(),
+        onRefresh = { viewModel.reloadMedias() },
+        pagingMediaItems = viewModel.medias.collectAsLazyPagingItems(),
         genresItems = viewModel.genres.collectAsState().value,
-        inFiltering = {
-            viewModel.updateFilters(it)
-            setMediaItems()
+        inFiltering = { newFilters ->
+            viewModel.updateData(newFilters)
+            viewModel.loadGenres()
         }
     )
 }
@@ -174,7 +170,6 @@ fun StreamingExploreBody(
                     streaming = streaming,
                     closeFilterBottomSheet
                 )
-                VerticalSpacer(dimensionResource(R.dimen.default_padding))
                 when (pagingMediaItems.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
                     is LoadState.NotLoading -> {
@@ -216,20 +211,39 @@ fun FiltersArea(
                 .fillMaxWidth()
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.default_padding)),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                StreamingIcon(streaming = streaming, withBorder = false)
+                StreamingScreamTitle(streamingName = streaming.name)
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = dimensionResource(R.dimen.default_padding),
+                    vertical = dimensionResource(R.dimen.screen_padding_new)
+                ),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                StreamingIcon(streaming = streaming, withBorder = true)
-                StreamingScreamTitle(streamingName = streaming.name)
+                TuneIcon()
+                Text(
+                    text = filterDescription(searchFilters, genres),
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
-
-            Pulsating(active = searchFilters.genresIsIsNotEmpty().not()) {
+            Pulsating(active = searchFilters.areDefaultValues()) {
                 FilterButton(
                     padding = PaddingValues(),
-                    isActivated = searchFilters.genresIsIsNotEmpty(),
+                    isActivated = searchFilters.areDefaultValues().not(),
                     buttonText = stringResource(R.string.filters),
                     complement = {
                         Text(
@@ -243,15 +257,6 @@ fun FiltersArea(
                 }
             }
         }
-        Text(
-            text = filterDescription(searchFilters, genres),
-            color = AccentColor,
-            fontSize = 14.sp,
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.default_padding),
-                vertical = dimensionResource(R.dimen.screen_padding)
-            )
-        )
     }
 }
 
@@ -280,7 +285,7 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreE
             val genreName: String = genre.nameTranslation()
 
             result += if (filtered.lastIndex == index) {
-                "$genreName."
+                genreName
             } else {
                 if (index == filtered.lastIndex - 1) {
                     "$genreName & "
@@ -364,17 +369,17 @@ fun FilterBottomSheet(
         CloseIcon(closeAction)
         FilterMediaType(searchFilters, inFiltering)
         FilterGenres(genres, searchFilters, inFiltering)
-        ClearFilterGenres(searchFilters, inFiltering, Modifier.align(Alignment.End))
+        ClearFilter(searchFilters, inFiltering, Modifier.align(Alignment.End))
     }
 }
 
 @Composable
-fun ClearFilterGenres(
+fun ClearFilter(
     searchFilters: SearchFilters,
     inFiltering: (SearchFilters) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (searchFilters.genresIsIsNotEmpty()) {
+    if (searchFilters.areDefaultValues().not()) {
         Column(
             modifier = modifier
                 .fillMaxHeight()
@@ -389,9 +394,8 @@ fun ClearFilterGenres(
                 complement = {
                     CleanFilterIcon()
                 }
-
             ) {
-                searchFilters.clearGenresIds()
+                searchFilters.clear()
                 inFiltering.invoke(searchFilters)
             }
         }
@@ -407,6 +411,18 @@ private fun CleanFilterIcon() {
             .padding(1.dp),
         painter = painterResource(id = R.drawable.delete_outline),
         contentDescription = stringResource(R.string.clear_filters)
+    )
+}
+
+@Composable
+private fun TuneIcon() {
+    Icon(
+        tint = Color.White,
+        modifier = Modifier
+            .size(25.dp)
+            .padding(end = 5.dp),
+        painter = painterResource(id = R.drawable.tune),
+        contentDescription = stringResource(R.string.filters)
     )
 }
 
