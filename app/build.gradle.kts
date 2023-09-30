@@ -129,7 +129,7 @@ dependencies {
     implementation(project(path = ":firebase"))
     // Lifecycle
     val lifecycle = "2.6.2"
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle")
+    implementation(libs.lifecycle.runtime)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle")
     // Navigation

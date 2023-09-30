@@ -1,0 +1,8 @@
+[versions]
+lifecycle = "2.6.2"
+
+[libraries]
+lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+
+
+[plugins]
