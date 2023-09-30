@@ -9,44 +9,45 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
-def activeSigning = System.getenv("ACTIVE_SIGNING") ? true : false
-println("Is active signing: $activeSigning")
-
 android {
+    namespace = "br.dev.singular.overview"
     compileSdk = 34
+
     defaultConfig {
+
         applicationId = "br.dev.singular.overview"
-        namespace = "br.dev.singular.overview"
         minSdk = 21
         targetSdk = 33
         versionCode = 200
         versionName = "2.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
             }
         }
 
-        def api_key = System.getenv("API_KEY")
-        buildConfigField("String", "API_KEY", api_key ? "\"$api_key\"" : '""')
-        buildConfigField("String", "API_URL", '"https://api.themoviedb.org/3/"')
-        buildConfigField("String", "IMG_URL", '"https://image.tmdb.org/t/p/w780"')
-        buildConfigField("boolean", "ADS_ARE_VISIBLES", "true")
+        val apiKey = System.getenv("API_KEY")
+        buildConfigField(type = "String", name = "API_KEY", value = "\"$apiKey\"")
+        buildConfigField(type = "String", name = "API_URL", value = "\"https://api.themoviedb.org/3/\"")
+        buildConfigField(type = "String", name = "IMG_URL", value = "\"https://image.tmdb.org/t/p/w780\"")
+        buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLES", value = "true")
     }
+    val activeSigning = System.getenv("ACTIVE_SIGNING") == "true"
     if (activeSigning) {
         signingConfigs {
-            prod {
+            create("prod") {
                 storeFile = rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
                 storePassword = System.getenv("OVER_PROD_PASSWORD")
                 keyAlias = System.getenv("OVER_PROD_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_PROD_PASSWORD")
             }
-            homol {
+            create("homol") {
                 storeFile = rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
                 storePassword = System.getenv("OVER_HOMOL_PASSWORD")
                 keyAlias = System.getenv("OVER_HOMOL_KEY_ALIAS")
@@ -55,67 +56,62 @@ android {
         }
     }
     buildTypes {
-        release {
-            minifyEnabled = true
-            shrinkResources = true
-            proguardFiles getDefaultProguardFile(
-                    "proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            buildConfigField("String", "DEBUG_BANNER_ID",'""')
+        named("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField(type = "String", name = "DEBUG_BANNER_ID", value = "\"\"")
         }
-        debug {
-            buildConfigField("String", "DEBUG_BANNER_ID", '"ca-app-pub-3940256099942544/6300978111"')
+        named("debug") {
+            buildConfigField(type = "String", name = "DEBUG_BANNER_ID", value = "\"ca-app-pub-3940256099942544/6300978111\"")
         }
     }
-
-    flavorDimensions.add('version')
+    flavorDimensions.add("version")
     productFlavors {
-        dev {
-            resValue("string", "app_name", "@string/app_name_dev")
+        create("dev") {
+            resValue(type = "string", name = "app_name", value = "@string/app_name_dev")
             dimension = "version"
-            applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
         }
-        homol {
-            resValue("string", "app_name", "@string/app_name_homol")
+        create("homol") {
+            resValue(type = "string", name = "app_name", value = "@string/app_name_homol")
             dimension = "version"
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-homol"
             if (activeSigning) {
-                signingConfig = signingConfigs.homol
+                signingConfig = signingConfigs.getByName(name = "homol")
             }
         }
-        prod {
-            resValue "string", "app_name", "@string/app_name_prod"
+        create("prod") {
+            resValue(type = "string", name = "app_name", value = "@string/app_name_prod")
             if (activeSigning) {
-                signingConfig = signingConfigs.prod
+                signingConfig = signingConfigs.getByName(name = "prod")
             }
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
+        freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerVersion = kotlin_version
-    }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
     testOptions {
         unitTests {
-            includeAndroidResources = true
-            unitTests.returnDefaultValues = true
+            isReturnDefaultValues = true
         }
     }
 }
@@ -125,6 +121,7 @@ ksp {
 }
 
 dependencies {
+
     implementation(platform("androidx.compose:compose-bom:2022.12.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
@@ -134,46 +131,46 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime")
     implementation("androidx.activity:activity-compose:1.8.0-alpha07")
     // Firebase Module
-    implementation project(path: ":firebase")
+    implementation(project(path = ":firebase"))
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    val lifecycle = "2.6.2"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle")
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.1")
     // Hilt
-    def hilt = "2.46.1"
+    val hilt = "2.46.1"
     implementation("com.google.dagger:hilt-android:2.47")
     kapt("com.google.dagger:hilt-android-compiler:$hilt")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     // Room
-    def room = "2.5.2"
+    val room = "2.5.2"
     implementation("androidx.room:room-runtime:$room")
     implementation("androidx.room:room-ktx:$room")
     ksp("androidx.room:room-compiler:$room")
     // Paging
-    def paging_version = "3.2.0"
-    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
-    implementation("androidx.paging:paging-compose:$paging_version")
+    val pagingVersion = "3.2.1"
+    implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
+    implementation("androidx.paging:paging-compose:$pagingVersion")
     // WorkManager
-    def work_version = "2.8.1"
-    implementation("androidx.work:work-runtime-ktx:$work_version")
+    val workVersion = "2.8.1"
+    implementation("androidx.work:work-runtime-ktx:$workVersion")
     implementation("androidx.hilt:hilt-work:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     // Google Ads
-    implementation("com.google.android.gms:play-services-ads:22.3.0")
+    implementation("com.google.android.gms:play-services-ads:22.4.0")
     // Accompanist
-    def accompanist = "0.30.1"
+    val accompanist = "0.30.1"
     implementation("com.google.accompanist:accompanist-pager:$accompanist")
     implementation("com.google.accompanist:accompanist-pager-indicators:$accompanist")
     implementation("com.google.accompanist:accompanist-flowlayout:$accompanist")
 
     // Third party library
     implementation("com.jakewharton.timber:timber:5.0.1")
-    def retrofit = "2.9.0"
+    val retrofit = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofit")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofit")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
