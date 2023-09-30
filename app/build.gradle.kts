@@ -133,7 +133,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle")
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.1")
+    implementation("androidx.navigation:navigation-compose:2.7.3")
     // Hilt
     val hilt = "2.46.1"
     implementation("com.google.dagger:hilt-android:2.47")
