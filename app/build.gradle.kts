@@ -129,7 +129,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata")
 
     implementation("androidx.lifecycle:lifecycle-runtime")
-    implementation("androidx.activity:activity-compose:1.8.0-alpha07")
+    implementation("androidx.activity:activity-compose:1.8.0-rc01")
     // Firebase Module
     implementation(project(path = ":firebase"))
     // Lifecycle
