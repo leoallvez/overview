@@ -1,6 +1,12 @@
 [versions]
 
 compile-sdk = "34"
+firebase-crashlytics-gradle = "2.9.9"
+google-services = "4.4.0"
+gradle = "8.1.2"
+hilt-android-gradle-plugin = "2.46.1"
+kotlin-gradle-plugin = "1.7.20"
+ktlint-gradle = "11.5.1"
 min-sdk = "21"
 target-sdk = "33"
 version-code = "200"
@@ -104,3 +110,10 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 remote-config-ktx = { module = "com.google.firebase:firebase-config-ktx" }
 crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
+# Classpath
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-android-gradle-plugin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
+ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
