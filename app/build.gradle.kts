@@ -2,8 +2,10 @@ import com.android.build.api.dsl.ApplicationProductFlavor
 import com.android.build.api.dsl.VariantDimension
 
 // extensions
-fun VariantDimension.stringField(name: String, value: String) {
-    buildConfigField(type = "String", name = name, value = "\"$value\"")
+fun VariantDimension.stringField(name: String, value: String?) {
+    value?.let {
+        buildConfigField(type = "String", name = name, value = "\"$value\"")
+    }
 }
 
 fun ApplicationProductFlavor.setAppName(appName: String) {
