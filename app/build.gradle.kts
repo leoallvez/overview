@@ -3,9 +3,7 @@ import com.android.build.api.dsl.VariantDimension
 
 // extensions
 fun VariantDimension.stringField(name: String, value: String?) {
-    value?.let {
-        buildConfigField(type = "String", name = name, value = "\"$value\"")
-    }
+    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
 }
 
 fun ApplicationProductFlavor.setAppName(appName: String) {
