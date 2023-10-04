@@ -48,7 +48,7 @@ android {
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
     }
-    val activeSigning = System.getenv("ACTIVE_SIGNING").toBoolean()
+    val activeSigning = System.getenv("ACTIVE_SIGNING") == "true"
     if (activeSigning) {
         signingConfigs {
             create("prod") {
