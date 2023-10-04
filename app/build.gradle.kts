@@ -1,3 +1,4 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -11,15 +12,14 @@ plugins {
 
 android {
     namespace = "br.dev.singular.overview"
-    compileSdk = 34
-
+    compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
 
         applicationId = "br.dev.singular.overview"
-        minSdk = 21
-        targetSdk = 33
-        versionCode = 200
-        versionName = "2.0.0"
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
+        versionCode = libs.versions.version.code.get().toInt()
+        versionName = libs.versions.version.name.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables {
@@ -116,7 +116,7 @@ ksp {
 }
 
 dependencies {
-
+    // Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
