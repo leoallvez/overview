@@ -8,12 +8,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
-        classpath("com.google.gms:google-services:4.4.0")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.46.1")
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:11.5.1")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath(libs.gradle)
+        classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.google.services)
+        classpath(libs.hilt.android.gradle.plugin)
+        classpath(libs.ktlint.gradle)
+        classpath(libs.firebase.crashlytics.gradle)
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
