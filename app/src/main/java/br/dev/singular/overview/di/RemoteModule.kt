@@ -1,6 +1,6 @@
 package br.dev.singular.overview.di
 
-import br.dev.singular.overview.BuildConfig.ADS_ARE_VISIBLES
+import br.dev.singular.overview.BuildConfig.ADS_ARE_VISIBLE
 import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
@@ -23,7 +23,7 @@ class RemoteModule {
         remoteSource: RemoteSource
     ): Boolean {
         return DisplayAdsRemoteConfig(
-            _localPermission = ADS_ARE_VISIBLES,
+            _localPermission = ADS_ARE_VISIBLE,
             _remoteSource = remoteSource
         ).execute()
     }

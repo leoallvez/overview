@@ -1,3 +1,15 @@
+import com.android.build.api.dsl.ApplicationProductFlavor
+import com.android.build.api.dsl.VariantDimension
+
+// extensions
+fun VariantDimension.stringField(name: String, value: String) {
+    buildConfigField(type = "String", name = name, value = "\"$value\"")
+}
+
+fun ApplicationProductFlavor.setAppName(appName: String) {
+    resValue(type = "string", name = "app_name", value = "@string/$appName")
+}
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
@@ -11,11 +23,11 @@ plugins {
 }
 
 android {
-    namespace = "br.dev.singular.overview"
+    val id = "br.dev.singular.overview"
+    namespace = id
     compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
-
-        applicationId = "br.dev.singular.overview"
+        applicationId = id
         minSdk = libs.versions.min.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
@@ -31,14 +43,12 @@ android {
                 arguments["room.schemaLocation"] = "$projectDir/schemas"
             }
         }
-
-        val apiKey = System.getenv("API_KEY")
-        buildConfigField(type = "String", name = "API_KEY", value = "\"$apiKey\"")
-        buildConfigField(type = "String", name = "API_URL", value = "\"https://api.themoviedb.org/3/\"")
-        buildConfigField(type = "String", name = "IMG_URL", value = "\"https://image.tmdb.org/t/p/w780\"")
-        buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLES", value = "true")
+        stringField(name = "API_KEY", value = System.getenv("API_KEY"))
+        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
+        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
     }
-    val activeSigning = System.getenv("ACTIVE_SIGNING") == "true"
+    val activeSigning = System.getenv("ACTIVE_SIGNING").toBoolean()
     if (activeSigning) {
         signingConfigs {
             create("prod") {
@@ -63,22 +73,22 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField(type = "String", name = "DEBUG_BANNER_ID", value = "\"\"")
+            stringField(name = "DEBUG_BANNER_ID", value = "")
         }
         named("debug") {
-            buildConfigField(type = "String", name = "DEBUG_BANNER_ID", value = "\"ca-app-pub-3940256099942544/6300978111\"")
+            stringField(name = "DEBUG_BANNER_ID", value = "ca-app-pub-3940256099942544/6300978111")
         }
     }
     flavorDimensions.add("version")
     productFlavors {
         create("dev") {
-            resValue(type = "string", name = "app_name", value = "@string/app_name_dev")
+            setAppName(appName = "app_name_dev")
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
         }
         create("homol") {
-            resValue(type = "string", name = "app_name", value = "@string/app_name_homol")
+            setAppName(appName = "app_name_homol")
             dimension = "version"
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-homol"
@@ -87,7 +97,7 @@ android {
             }
         }
         create("prod") {
-            resValue(type = "string", name = "app_name", value = "@string/app_name_prod")
+            setAppName(appName = "app_name_prod")
             if (activeSigning) {
                 signingConfig = signingConfigs.getByName(name = "prod")
             }
