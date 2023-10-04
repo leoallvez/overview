@@ -76,7 +76,7 @@ android {
             stringField(name = "DEBUG_BANNER_ID", value = "")
         }
         named("debug") {
-            stringField(name = "DEBUG_BANNER_ID", value = "ca-app-pub-3940256099942544/6300978111")
+            stringField(name = "DEBUG_BANNER_ID", value = "@string/debug_banner_id")
         }
     }
     flavorDimensions.add("version")
@@ -118,6 +118,9 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    hilt {
+        enableAggregatingTask = true
     }
 }
 
