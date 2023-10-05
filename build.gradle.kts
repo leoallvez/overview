@@ -20,7 +20,7 @@ buildscript {
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.7.20-1.0.8" apply false
+    alias(libs.plugins.ksp) apply false
 }
 
 tasks.register<Delete>(name = "clean") {
