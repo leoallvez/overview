@@ -1,13 +1,19 @@
+import com.android.build.api.dsl.LibraryBuildType
+
+fun LibraryBuildType.setRemoteInterval(value: String) {
+    buildConfigField(type = "long", name = "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", value = value)
+}
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
 }
 
 android {
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
     namespace = "io.github.leoallvez.firebase"
     defaultConfig {
-        minSdk = 21
+        minSdk = libs.versions.min.sdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -15,10 +21,10 @@ android {
     buildTypes {
         release {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "3600")
+            setRemoteInterval("3600")
         }
         debug {
-            buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "0")
+            setRemoteInterval("0")
         }
     }
     compileOptions {
@@ -31,18 +37,18 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.androidx.core)
+    implementation(libs.appcompat)
 
     // Firebase
-    api(platform("com.google.firebase:firebase-bom:31.0.1"))
-    api("com.google.firebase:firebase-config-ktx")
-    api("com.google.firebase:firebase-crashlytics-ktx")
-    api("com.google.firebase:firebase-analytics-ktx")
+    api(platform(libs.firebase.bom))
+    api(libs.remote.config.ktx)
+    api(libs.crashlytics.ktx)
+    api(libs.analytics.ktx)
 
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.timber)
 
-    testImplementation("io.mockk:mockk:1.13.7")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:5.5.0")
+    testImplementation(libs.mockk)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
 }
