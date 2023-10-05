@@ -244,14 +244,7 @@ fun FiltersArea(
                 FilterButton(
                     padding = PaddingValues(),
                     isActivated = searchFilters.areDefaultValues().not(),
-                    buttonText = stringResource(R.string.filters),
-                    complement = {
-                        Text(
-                            text = searchFilters.genreQuantity(),
-                            modifier = Modifier.padding(1.dp),
-                            color = Color.White
-                        )
-                    }
+                    buttonText = stringResource(R.string.filters)
                 ) {
                     onClick.invoke()
                 }

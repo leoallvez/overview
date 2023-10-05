@@ -10,6 +10,7 @@ class SearchFilters(
     var query: String = "",
     var mediaType: MediaType = MediaType.ALL,
     var streamingId: Long? = null,
+    // TODO: remover a lógica de multipla seleção de gêneros;
     val genresIds: MutableList<Long> = mutableListOf()
 ) : Parcelable {
 
@@ -22,6 +23,7 @@ class SearchFilters(
         } else {
             genresIds.add(genreId)
         }
+        genresIds.removeAll { it != genreId }
     }
 
     fun getGenreIdsSeparatedWithComma() = genresIds.joinToStringWithComma()
