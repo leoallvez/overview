@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -237,21 +239,40 @@ fun FiltersArea(
             ) {
                 TuneIcon()
                 Text(
+                    modifier = Modifier.width(250.dp),
                     text = filterDescription(searchFilters, genres),
                     color = Color.White,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
-            Pulsating(active = searchFilters.areDefaultValues()) {
-                FilterButton(
-                    padding = PaddingValues(),
-                    isActivated = searchFilters.areDefaultValues().not(),
-                    buttonText = stringResource(R.string.filters)
-                ) {
-                    onClick.invoke()
-                }
+            PulsatingFilterButton(searchFilters) {
+                onClick.invoke()
             }
+        }
+    }
+}
+
+@Composable
+fun PulsatingFilterButton(searchFilters: SearchFilters, onClick: () -> Unit) {
+    val asFilters = searchFilters.areDefaultValues().not()
+    Pulsating(active = searchFilters.areDefaultValues()) {
+        FilterButton(
+            padding = PaddingValues(),
+            isActivated = asFilters,
+            buttonText = stringResource(R.string.filters),
+            complement = {
+                Icon(
+                    if (asFilters) Icons.Rounded.CheckCircle else Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.filters),
+                    modifier = Modifier.size(20.dp),
+                    tint = if (asFilters) AccentColor else Gray
+                )
+            }
+        ) {
+            onClick.invoke()
         }
     }
 }
@@ -433,7 +454,9 @@ private fun TuneIcon() {
 @Composable
 fun CloseIcon(onClick: () -> Unit) {
     Box(
-        Modifier.fillMaxWidth().padding(top = 5.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 5.dp),
         contentAlignment = Alignment.TopEnd
     ) {
         Box(
