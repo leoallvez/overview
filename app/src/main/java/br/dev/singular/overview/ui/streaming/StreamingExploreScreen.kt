@@ -5,13 +5,17 @@ import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -47,6 +51,7 @@ import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
+import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import com.google.accompanist.flowlayout.FlowRow
@@ -234,28 +239,40 @@ fun FiltersArea(
             ) {
                 TuneIcon()
                 Text(
+                    modifier = Modifier.width(250.dp),
                     text = filterDescription(searchFilters, genres),
                     color = Color.White,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
-            Pulsating(active = searchFilters.areDefaultValues()) {
-                FilterButton(
-                    padding = PaddingValues(),
-                    isActivated = searchFilters.areDefaultValues().not(),
-                    buttonText = stringResource(R.string.filters),
-                    complement = {
-                        Text(
-                            text = searchFilters.genreQuantity(),
-                            modifier = Modifier.padding(1.dp),
-                            color = Color.White
-                        )
-                    }
-                ) {
-                    onClick.invoke()
-                }
+            PulsatingFilterButton(searchFilters) {
+                onClick.invoke()
             }
+        }
+    }
+}
+
+@Composable
+fun PulsatingFilterButton(searchFilters: SearchFilters, onClick: () -> Unit) {
+    val asFilters = searchFilters.areDefaultValues().not()
+    Pulsating(active = searchFilters.areDefaultValues()) {
+        FilterButton(
+            padding = PaddingValues(),
+            isActivated = asFilters,
+            buttonText = stringResource(R.string.filters),
+            complement = {
+                Icon(
+                    if (asFilters) Icons.Rounded.CheckCircle else Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.filters),
+                    modifier = Modifier.size(20.dp),
+                    tint = if (asFilters) AccentColor else Gray
+                )
+            }
+        ) {
+            onClick.invoke()
         }
     }
 }
@@ -359,15 +376,23 @@ fun FilterBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(450.dp)
+            .height(500.dp)
             .background(SecondaryBackground)
             .padding(
                 vertical = dimensionResource(R.dimen.default_padding),
-                horizontal = 15.dp
+                horizontal = dimensionResource(R.dimen.screen_padding_new)
             )
     ) {
         CloseIcon(closeAction)
         FilterMediaType(searchFilters, inFiltering)
+        Divider(
+            modifier = Modifier.padding(
+                top = 20.dp,
+                bottom = dimensionResource(id = R.dimen.screen_padding_new)
+            ),
+            thickness = 1.dp,
+            color = Color.Gray
+        )
         FilterGenres(genres, searchFilters, inFiltering)
         ClearFilter(searchFilters, inFiltering, Modifier.align(Alignment.End))
     }
@@ -431,35 +456,44 @@ fun CloseIcon(onClick: () -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
-            .height(25.dp),
+            .padding(top = 5.dp),
         contentAlignment = Alignment.TopEnd
     ) {
-        Icon(
-            tint = Color.White,
+        Box(
             modifier = Modifier
-                .size(25.dp)
-                .clickable { onClick.invoke() },
-            imageVector = Icons.Rounded.Close,
-            contentDescription = stringResource(R.string.close)
-        )
+                .clip(CircleShape)
+                .height(22.dp)
+                .background(Gray.copy(alpha = 0.5f))
+                .clickable { onClick.invoke() }
+        ) {
+            Icon(
+                tint = SecondaryBackground,
+                modifier = Modifier.size(22.dp),
+                imageVector = Icons.Rounded.Close,
+                contentDescription = stringResource(R.string.close)
+            )
+        }
     }
 }
 
 @Composable
 fun FilterMediaType(searchFilters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaTypeEnum.getAllOrdered()
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(SecondaryBackground)
-    ) {
-        options.forEach { type ->
-            MediaTypeFilterButton(type, searchFilters.mediaType.key) {
-                with(searchFilters) {
-                    if (mediaType != type) {
-                        mediaType = type
-                        clearGenresIds()
-                        onClick.invoke(searchFilters)
+    Column {
+        FilterTitle(stringResource(R.string.type))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(SecondaryBackground)
+        ) {
+            options.forEach { type ->
+                MediaTypeFilterButton(type, searchFilters.mediaType.key) {
+                    with(searchFilters) {
+                        if (mediaType != type) {
+                            mediaType = type
+                            clearGenresIds()
+                            onClick.invoke(searchFilters)
+                        }
                     }
                 }
             }
@@ -469,7 +503,7 @@ fun FilterMediaType(searchFilters: SearchFilters, onClick: (SearchFilters) -> Un
 
 @Composable
 fun FilterGenres(genres: List<GenreEntity>, searchFilters: SearchFilters, onClick: (SearchFilters) -> Unit) {
-    Column {
+    Column() {
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
@@ -495,8 +529,8 @@ fun FilterTitle(title: String) {
     Text(
         text = title,
         color = Color.White,
-        modifier = Modifier.padding(vertical = 10.dp),
-        style = MaterialTheme.typography.h6,
+        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_padding_new)),
+        fontSize = 14.sp,
         fontWeight = FontWeight.Bold
     )
 }

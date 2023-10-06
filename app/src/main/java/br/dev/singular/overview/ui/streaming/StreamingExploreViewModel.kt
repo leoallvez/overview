@@ -78,6 +78,7 @@ class StreamingExploreViewModel @Inject constructor(
                 filters?.let {
                     _searchFilters.value = filters
                     _cacheNotLoaded = false
+                    reloadMedias()
                 }
             }
         }
