@@ -76,7 +76,7 @@ android {
             stringField(name = "DEBUG_BANNER_ID", value = "")
         }
         named("debug") {
-            stringField(name = "DEBUG_BANNER_ID", value = "@string/debug_banner_id")
+            stringField(name = "DEBUG_BANNER_ID", value = "ca-app-pub-3940256099942544/6300978111")
         }
     }
     flavorDimensions.add("version")
