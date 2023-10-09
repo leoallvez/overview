@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -22,10 +23,10 @@ import androidx.lifecycle.LiveData
 import br.dev.singular.overview.BuildConfig
 import br.dev.singular.overview.di.IsOnline
 import br.dev.singular.overview.ui.navigation.NavController
-import dagger.hilt.android.AndroidEntryPoint
 import br.dev.singular.overview.ui.theme.AppTheme
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun OverviewApp(isOnline: Boolean) {
-    Box {
+    Box(Modifier.fillMaxSize().background(PrimaryBackground)) {
         NavController()
         Column(Modifier.align(Alignment.BottomCenter)) {
             OfflineSnackBar(isNotOnline = isOnline.not())
