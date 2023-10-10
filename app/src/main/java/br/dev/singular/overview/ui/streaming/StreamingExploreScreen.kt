@@ -3,9 +3,11 @@ package br.dev.singular.overview.ui.streaming
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -156,7 +158,7 @@ fun StreamingExploreBody(
         Scaffold(
             modifier = Modifier
                 .background(PrimaryBackground)
-                .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+                .padding(horizontal = dimensionResource(R.dimen.screen_padding_new)),
             topBar = {
                 StreamingToolBar(
                     backButtonAction = navigate::popBackStack,
@@ -168,7 +170,11 @@ fun StreamingExploreBody(
             }
         ) { padding ->
             val filterIsVisible = sheetState.isVisible
-            Column(Modifier.background(PrimaryBackground)) {
+            Column(
+                Modifier
+                    .background(PrimaryBackground)
+                    .padding(vertical = 5.dp)
+            ) {
                 FiltersArea(
                     filters = filters,
                     genres = genres,
@@ -203,12 +209,23 @@ fun FiltersArea(
     streaming: StreamingEntity,
     onClick: () -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = dimensionResource(R.dimen.default_padding),
+                vertical = dimensionResource(R.dimen.screen_padding_new)
+            )
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(PrimaryBackground)
-                .padding(horizontal = dimensionResource(R.dimen.default_padding)),
+                .border(
+                    1.dp,
+                    Gray.copy(alpha = 0.8f),
+                    RoundedCornerShape(dimensionResource(R.dimen.corner))
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
@@ -218,13 +235,11 @@ fun FiltersArea(
                 StreamingScreamTitle(streamingName = streaming.name)
             }
         }
+        Spacer(modifier = Modifier.height(15.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    horizontal = dimensionResource(R.dimen.default_padding),
-                    vertical = dimensionResource(R.dimen.screen_padding_new)
-                ),
+                .padding(vertical = dimensionResource(R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
@@ -318,10 +333,7 @@ fun StreamingToolBar(
     onNavigateToSearch: () -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.screen_padding)),
+        modifier = Modifier.fillMaxWidth().background(PrimaryBackground),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -332,10 +344,7 @@ fun StreamingToolBar(
                 painter = Icons.Default.KeyboardArrowLeft,
                 descriptionResource = R.string.back_to_home_icon,
                 background = Color.White.copy(alpha = 0.1f),
-                padding = PaddingValues(
-                    vertical = dimensionResource(R.dimen.screen_padding),
-                    horizontal = 5.dp
-                )
+                padding = PaddingValues(horizontal = 5.dp)
             ) { backButtonAction.invoke() }
         }
         SearchField(
@@ -440,7 +449,7 @@ private fun TuneIcon() {
         tint = Color.White,
         modifier = Modifier
             .size(25.dp)
-            .padding(end = 5.dp),
+            .padding(start = 0.dp, end = 5.dp),
         painter = painterResource(id = R.drawable.tune),
         contentDescription = stringResource(R.string.filters)
     )
@@ -476,9 +485,7 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaTypeEnum.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
-        Row(
-            modifier = Modifier.fillMaxWidth().background(SecondaryBackground)
-        ) {
+        Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {
             options.forEach { type ->
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {
@@ -500,7 +507,7 @@ fun FilterGenres(
     filters: SearchFilters,
     onClick: (SearchFilters) -> Unit
 ) {
-    Column() {
+    Column {
         FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
