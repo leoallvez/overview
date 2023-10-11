@@ -131,5 +131,7 @@
   <string name="favorite_streams">Transmisiones favoritas</string>
       
   <string name="other_streams">Otras corrientes</string>
+
+  <string name="streaming">Streaming</string>
   
 </resources>

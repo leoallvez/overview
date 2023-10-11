@@ -702,7 +702,7 @@ fun SearchField(
                     Modifier
                         .border(
                             width = 1.dp,
-                            color = if (query.isEmpty()) Color.Gray else AccentColor,
+                            color = if (query.isEmpty()) Gray.copy(alpha = 0.5f) else AccentColor,
                             shape = RoundedCornerShape(size = 50.dp)
                         ).padding(start = 5.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -715,7 +715,7 @@ fun SearchField(
                             Text(
                                 placeholder,
                                 style = LocalTextStyle.current.copy(
-                                    color = Color.Gray,
+                                    color = Gray,
                                     fontSize = MaterialTheme.typography.body2.fontSize
                                 )
                             )
@@ -838,11 +838,6 @@ fun Pulsating(isPulsing: Boolean = true, content: @Composable () -> Unit) {
     Box(modifier = Modifier.scale(scale)) {
         content()
     }
-}
-
-@Composable
-fun VerticalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
-    Spacer(modifier = Modifier.padding(vertical = padding))
 }
 
 const val STREAMING_GRID_COLUMNS = 4

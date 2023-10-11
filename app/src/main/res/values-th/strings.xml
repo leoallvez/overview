@@ -52,7 +52,7 @@
       
   <string name="app_offline_msg">ไม่มีการเชื่อมต่ออินเทอร์เน็ต</string>
       
-  <string name="loading">กำลังโหลด...</string>
+  <string name="loading">กำลังโหลด…</string>
       
   <string name="synopsis">เรื่องย่อ</string>
       
@@ -131,5 +131,7 @@
   <string name="favorite_streams">สตรีมที่ชื่นชอบ</string>
       
   <string name="other_streams">สตรีมอื่น ๆ</string>
+
+  <string name="streaming">Streaming</string>
   
 </resources>

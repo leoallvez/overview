@@ -158,7 +158,7 @@ fun StreamingExploreBody(
         Scaffold(
             modifier = Modifier
                 .background(PrimaryBackground)
-                .padding(horizontal = dimensionResource(R.dimen.screen_padding_new)),
+                .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
                 StreamingToolBar(
                     backButtonAction = navigate::popBackStack,
@@ -211,31 +211,34 @@ fun FiltersArea(
 ) {
     Column(
         modifier = Modifier
+            .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(
-                horizontal = dimensionResource(R.dimen.default_padding),
-                vertical = dimensionResource(R.dimen.screen_padding_new)
-            )
+            .padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(PrimaryBackground)
-                .border(
-                    1.dp,
-                    Gray.copy(alpha = 0.8f),
-                    RoundedCornerShape(dimensionResource(R.dimen.corner))
-                ),
-            verticalAlignment = Alignment.CenterVertically
+        Surface(
+            modifier = Modifier.fillMaxWidth()
+                .border(2.dp, Gray.copy(alpha = 0.5f), RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                .background(SecondaryBackground)
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                Modifier.fillMaxWidth().background(PrimaryBackground),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                StreamingIcon(streaming = streaming, withBorder = false)
-                StreamingScreamTitle(streamingName = streaming.name)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    StreamingIcon(streaming = streaming, withBorder = false)
+                    StreamingScreamTitle(streamingName = streaming.name)
+                }
+                Box(Modifier.padding(end = 5.dp)) {
+                    Icon(
+                        tint = Gray,
+                        painter = painterResource(id = R.drawable.baseline_expand_more),
+                        contentDescription = stringResource(R.string.streaming)
+                    )
+                }
             }
         }
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -260,6 +263,7 @@ fun FiltersArea(
                 onClick.invoke()
             }
         }
+        Spacer(modifier = Modifier.height(10.dp))
     }
 }
 
@@ -344,7 +348,10 @@ fun StreamingToolBar(
                 painter = Icons.Default.KeyboardArrowLeft,
                 descriptionResource = R.string.back_to_home_icon,
                 background = Color.White.copy(alpha = 0.1f),
-                padding = PaddingValues(horizontal = 5.dp)
+                padding = PaddingValues(
+                    vertical = dimensionResource(R.dimen.screen_padding),
+                    horizontal = 2.dp
+                )
             ) { backButtonAction.invoke() }
         }
         SearchField(

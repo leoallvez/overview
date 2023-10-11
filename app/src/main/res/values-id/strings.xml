@@ -131,5 +131,7 @@
   <string name="favorite_streams">Aliran Favorit</string>
       
   <string name="other_streams">Aliran Lainnya</string>
+
+  <string name="streaming">Streaming</string>
   
 </resources>

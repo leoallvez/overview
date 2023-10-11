@@ -72,4 +72,6 @@
 
     <string name="favorite_streams">Favorite Streams</string>
     <string name="other_streams">Other Streams</string>
+
+    <string name="streaming">Streaming</string>
 </resources>
