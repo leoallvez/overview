@@ -34,8 +34,8 @@ abstract class Media {
     abstract fun isReleased(): Boolean
     abstract fun getFormattedReleaseDate(): String
 
-    fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
-    fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"
+    fun getBackdropImage() = "${BuildConfig.TMDB_IMG_URL}/$backdropPath"
+    fun getPosterImage() = "${BuildConfig.TMDB_IMG_URL}/$posterPath"
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
     fun getType() = if (this is Movie) MediaTypeEnum.MOVIE.key else MediaTypeEnum.TV_SHOW.key
 
