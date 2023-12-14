@@ -23,5 +23,5 @@ class MediaEntity(
     @ColumnInfo(name = "is_indicated")
     var isIndicated: Boolean = false
 ) {
-    fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
+    fun getBackdropImage() = "${BuildConfig.TMDB_IMG_URL}/$backdropPath"
 }

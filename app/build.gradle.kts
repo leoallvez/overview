@@ -43,22 +43,22 @@ android {
                 arguments["room.schemaLocation"] = "$projectDir/schemas"
             }
         }
-        stringField(name = "API_KEY", value = System.getenv("API_KEY"))
-        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
-        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        stringField(name = "TMDB_API_KEY", value = System.getenv("OVER_TMDB_API_KEY"))
+        stringField(name = "TMDB_API_URL", value = "https://api.themoviedb.org/3/")
+        stringField(name = "TMDB_IMG_URL", value = "https://image.tmdb.org/t/p/w780")
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
     }
-    val activeSigning = System.getenv("ACTIVE_SIGNING") == "true"
+    val activeSigning = System.getenv("OVER_ACTIVE_SIGNING") == "true"
     if (activeSigning) {
         signingConfigs {
             create("prod") {
-                storeFile = rootProject.file(System.getenv("OVER_PROD_STORE_FILE"))
+                storeFile = rootProject.file(System.getenv("OVER_PROD_KEYSTORE"))
                 storePassword = System.getenv("OVER_PROD_PASSWORD")
                 keyAlias = System.getenv("OVER_PROD_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_PROD_PASSWORD")
             }
             create("homol") {
-                storeFile = rootProject.file(System.getenv("OVER_HOMOL_STORE_FILE"))
+                storeFile = rootProject.file(System.getenv("OVER_HOMOL_KEYSTORE"))
                 storePassword = System.getenv("OVER_HOMOL_PASSWORD")
                 keyAlias = System.getenv("OVER_HOMOL_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
