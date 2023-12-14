@@ -23,7 +23,7 @@ interface ApiService {
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
         language: String = "",
         @Query(value = "region")
@@ -46,13 +46,13 @@ interface ApiService {
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
+        apiKey: String = BuildConfig.TMDB_API_KEY
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
     @GET(value = "discover/tv?sort_by=popularity.desc")
     suspend fun discoverOnTvByStreamings(
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
         language: String = "",
         @Query(value = "watch_region")
@@ -71,7 +71,7 @@ interface ApiService {
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
         language: String = "",
         @Query(value = "region")
@@ -94,7 +94,7 @@ interface ApiService {
         @Query(value = "page")
         page: Int = 0,
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
+        apiKey: String = BuildConfig.TMDB_API_KEY
     ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
     // Providers
@@ -105,7 +105,7 @@ interface ApiService {
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
         language: String = "",
         @Query(value = "region")
@@ -118,7 +118,7 @@ interface ApiService {
         @Path(value = "api_id", encoded = true)
         id: Long,
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
         language: String = "",
         @Query(value = "region")
@@ -131,7 +131,7 @@ interface ApiService {
     @GET(value = "watch/providers/tv")
     suspend fun getStreamingItems(
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
         language: String = "",
         @Query(value = "region")
@@ -154,7 +154,7 @@ interface ApiService {
         @Query(value = "watch_region")
         watchRegion: String = "",
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
+        apiKey: String = BuildConfig.TMDB_API_KEY
     ): NetworkResponse<PagingResponse<TvShow>, ErrorResponse>
 
     @GET(value = "discover/movie?sort_by=primary_release_date.desc")
@@ -172,7 +172,7 @@ interface ApiService {
         @Query(value = "watch_region")
         watchRegion: String = "",
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY
+        apiKey: String = BuildConfig.TMDB_API_KEY
     ): NetworkResponse<PagingResponse<Movie>, ErrorResponse>
 
     // Genre
@@ -181,7 +181,7 @@ interface ApiService {
         @Path(value = "media_type", encoded = true)
         mediaType: String,
         @Query(value = "api_key")
-        apiKey: String = BuildConfig.API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
         language: String = "",
         @Query(value = "region")

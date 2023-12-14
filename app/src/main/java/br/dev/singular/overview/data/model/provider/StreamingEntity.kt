@@ -33,5 +33,5 @@ data class StreamingEntity(
     @field:Json(name = "display_priorities")
     val displayPriorities: Map<String, Int> = mapOf()
 
-    fun getLogoImage() = "${BuildConfig.IMG_URL}/$logoPath"
+    fun getLogoImage() = "${BuildConfig.TMDB_IMG_URL}/$logoPath"
 }
