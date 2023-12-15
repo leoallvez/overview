@@ -1,5 +1,15 @@
-# Overview Android App
-[![CI](https://github.com/leoallvez/take/actions/workflows/ci.yml/badge.svg)](https://github.com/leoallvez/take/actions/workflows/ci.yml)
+# Overview
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
+![Badge in development](http://img.shields.io/static/v1?label=STATUS&message=IN%20DEVELOPMENT&color=GREEN&style=for-the-badge)
+[![CI](https://github.com/leoallvez/overview/actions/workflows/ci.yml/badge.svg)](https://github.com/leoallvez/overview/actions/workflows/ci.yml)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
+<!-- indice-->
+- [About](#about)
+- [Setup](#setup)
+- [Contributing](#contributing)
+- [Author](#author)
 
 ## About
 Overview is a user-friendly app that consolidates content from major streaming services into a unified interface. It offers personalized recommendations, easy search and filtering, watchlist management, and cross-platform compatibility. With real-time updates, it simplifies content discovery and provides a comprehensive overview of available movies and TV shows across different platforms.
@@ -29,7 +39,7 @@ Overview is a user-friendly app that consolidates content from major streaming s
 | [Crashlytics][19]             | Firebase service for crash reporting, helping developers identify and fix issues causing app crashes.  |
 | [Coil][20]                    | Coil is a Kotlin-first image loading library for Android that prioritizes simplicity and performance.  | 
 
-
+<!--Jetpack link-->
 [1]: https://developer.android.com/jetpack/compose?hl=pt-br
 [2]: https://developer.android.com/topic/libraries/architecture/datastore?hl=en
 [3]: https://developer.android.com/jetpack/compose/navigation?hl=en
@@ -39,7 +49,7 @@ Overview is a user-friendly app that consolidates content from major streaming s
 [7]: https://developer.android.com/kotlin/ktx
 [8]: https://developer.android.com/topic/libraries/architecture/livedata
 [9]: https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=en
-
+<!--Third Part library link-->
 [10]: https://junit.org/junit4/
 [11]: https://mockk.io/
 [12]: https://square.github.io/retrofit/
@@ -47,7 +57,7 @@ Overview is a user-friendly app that consolidates content from major streaming s
 [14]: https://github.com/MarkusAmshove/Kluent
 [15]: https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotlin_dsl
 [16]: https://developer.android.com/build/migrate-to-catalogs?hl=en
-
+<!-- library link-->
 [17]: https://firebase.google.com/docs/remote-config
 [18]: https://firebase.google.com/docs/analytics
 [19]: https://firebase.google.com/docs/crashlytics
@@ -122,3 +132,7 @@ Thank you for considering contributing to this project! Follow these steps to co
 - Create a **new Pull Request** to the **`develop`** branch of this repository.
 
 Please make sure to provide a clear description of your changes when submitting a pull request. We appreciate your contributions!
+
+## Author
+| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/13922796?v=4" width=115><br><sub>Léo Alves</sub>](https://github.com/leoallvez) |
+|:-------------------------------------------------------------------------------------------------------------------------------------------------:|
