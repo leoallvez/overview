@@ -5,7 +5,7 @@
 [![CI](https://github.com/leoallvez/overview/actions/workflows/ci.yml/badge.svg)](https://github.com/leoallvez/overview/actions/workflows/ci.yml)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
-<!-- indice-->
+<!--index-->
 - [About](#about)
 - [Setup](#setup)
 - [Contributing](#contributing)
@@ -71,21 +71,19 @@ Overview is an easy-to-use app that consolidates content from major streaming se
 [19]: https://firebase.google.com/docs/crashlytics
 [20]: https://github.com/coil-kt/coil
 
-
-
 ## Setup
 This repository contains environment variables that streamline the compilation process in the **homologation** and **production** environments (PROD and HOMOL) for the Overview Android project. These variables encompass the API key, signature flags, and key storage information for different environments.
 
-| Environment Variables    | Description                                                             |
-|--------------------------|-------------------------------------------------------------------------|
-| `OVER_TMDB_API_KEY`      | API key for [**TMDB API**][50]                                          |
-| `OVER_ACTIVE_SIGNING`    | Boolean Flag to activate or not signing, value is **true** or **false** |
-| `OVER_PROD_KEYSTORE`     | **Production** keystore file path                                       |
-| `OVER_PROD_PASSWORD`     | Password for **production** keystore                                    |
-| `OVER_PROD_KEY_ALIAS`    | Key alias for **production** keystore                                   |
-| `OVER_HOMOL_KEYSTORE`    | **Homologation** keystore file path                                     |
-| `OVER_HOMOL_PASSWORD`    | Password for **homologation** keystore                                  |
-| `OVER_HOMOL_KEY_ALIAS`   | Key alias for **homologation** keystore                                 |
+| Environment Variables  | Description                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| `OVER_TMDB_API_KEY`    | API key for [**TMDB API**][50]                                              |
+| `OVER_ACTIVE_SIGNING`  | Boolean Flag to activate or not App Signing, value is **true** or **false** |
+| `OVER_PROD_KEYSTORE`   | **Production** keystore file path                                           |
+| `OVER_PROD_PASSWORD`   | Password for **production** keystore                                        |
+| `OVER_PROD_KEY_ALIAS`  | Key alias for **production** keystore                                       |
+| `OVER_HOMOL_KEYSTORE`  | **Homologation** keystore file path                                         |
+| `OVER_HOMOL_PASSWORD`  | Password for **homologation** keystore                                      |
+| `OVER_HOMOL_KEY_ALIAS` | Key alias for **homologation** keystore                                     |
 
 [50]: https://developers.themoviedb.org/3/getting-started/introduction
 
