@@ -11,8 +11,11 @@ class HomeNavigate(private val navigation: NavController) {
 
     fun toSearch() = navigation.navigate(route = ScreenNav.Search.route)
 
-    fun toStreamingExplore(json: String) =
-        navigation.navigate(route = ScreenNav.StreamingExplore.editRoute(json))
+    fun toStreamingExplore(json: String) {
+        navigation.navigate(route = ScreenNav.StreamingExplore.editRoute(json)) {
+            popUpTo(ScreenNav.StreamingExplore.route) { inclusive = true }
+        }
+    }
 
     fun toStreamingExploreEdit() =
         navigation.navigate(route = ScreenNav.StreamingExploreEdit.route)

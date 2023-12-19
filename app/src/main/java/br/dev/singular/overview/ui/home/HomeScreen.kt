@@ -99,7 +99,7 @@ fun HomeContent(
                 StreamingsGrid(
                     homeData = data,
                     header = {
-                        SlideRecommendedMedia(data.recommendedMedias, navigate::toMediaDetails)
+                        // SlideRecommendedMedia(data.recommendedMedias, navigate::toMediaDetails)
                     },
                     onClickStreamingItem = navigate::toStreamingExplore,
                     onClickEditStreaming = navigate::toStreamingExploreEdit

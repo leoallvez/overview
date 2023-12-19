@@ -8,4 +8,6 @@ class StreamingExploreNavigate(
 ) : BasicNavigate(navigation, backToHome = false) {
 
     fun toSearch() = navigation.navigate(route = ScreenNav.Search.route)
+
+    fun toHome() = navigation.navigate(route = ScreenNav.Home.route)
 }
