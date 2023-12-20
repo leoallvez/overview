@@ -34,11 +34,6 @@ sealed class ScreenNav(val route: String, val name: String) {
         fun editRoute(json: String) = "streaming_explore/${Uri.encode(json)}"
     }
 
-    object StreamingExploreEdit : ScreenNav(
-        route = "streaming_explore_edit",
-        name = "StreamingExploreEditScreen"
-    )
-
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"

@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.repository.streaming
 
+import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.model.provider.StreamingsData
 import br.dev.singular.overview.data.source.streaming.StreamingLocalDataSource
 import br.dev.singular.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,5 +30,5 @@ class StreamingRepository @Inject constructor(
     }
 
     private fun List<StreamingEntity>.streamingsData() =
-        StreamingsData(selected = filter { it.selected }, unselected = filter { !it.selected })
+        StreamingData(selected = filter { it.selected }, unselected = filter { !it.selected })
 }

@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.repository.streaming
 
+import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.model.provider.StreamingsData
 import kotlinx.coroutines.flow.Flow
 
 interface IStreamingRepository {
@@ -10,5 +10,5 @@ interface IStreamingRepository {
     suspend fun getAllSelected(): Flow<List<StreamingEntity>>
 
     // TODO: use this in edit streaming screen;
-    suspend fun getStreamingsData(): Flow<StreamingsData>
+    suspend fun getStreamingsData(): Flow<StreamingData>
 }

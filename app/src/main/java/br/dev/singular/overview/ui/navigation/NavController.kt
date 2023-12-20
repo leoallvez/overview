@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.home.HomeScreen
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.args.StreamingArgType
@@ -18,12 +19,10 @@ import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
-import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.person.CastDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.splash.SplashScreen
 import br.dev.singular.overview.ui.streaming.StreamingExploreScreen
-import br.dev.singular.overview.ui.streaming.StreamingOverviewEditScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getBackToHome
@@ -83,10 +82,5 @@ fun NavGraphBuilder.mediaDetailsGraph(
             streaming = navBackStackEntry.getStreamingParams(),
             navigate = StreamingExploreNavigate(navController)
         )
-    }
-    composable(
-        route = ScreenNav.StreamingExploreEdit.route
-    ) {
-        StreamingOverviewEditScreen()
     }
 }
