@@ -37,7 +37,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         modifier = Modifier.background(PrimaryBackground).padding(bottom = 20.dp)
     ) {
         composable(route = ScreenNav.Splash.route) {
-            SplashScreen(onOpen = onBackstack(navController))
+            SplashScreen(onOpen = onNavigateSelectStreaming(navController))
         }
         composable(route = ScreenNav.SelectStreaming.route) {
             SelectStreamingScreen(navigate = SelectStreamingNavigate(navController))

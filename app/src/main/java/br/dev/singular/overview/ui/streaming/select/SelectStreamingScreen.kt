@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -83,11 +82,7 @@ fun StreamingGrid(streaming: StreamingData, onClick: (String) -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
         streamingSession(
-            top = {
-                Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                    SimpleTitle(title = stringResource(R.string.favorite_streams))
-                }
-            },
+            top = { SimpleTitle(title = stringResource(R.string.favorite_streams)) },
             streaming = streaming.selected,
             onClick = onClick
         )
