@@ -42,8 +42,8 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.model.person.Person
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.data.source.media.MediaTypeEnum
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
@@ -134,7 +134,7 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
             )
             ToolbarButton(
                 painter = Icons.Default.KeyboardArrowLeft,
-                descriptionResource = R.string.back_to_home_icon,
+                descriptionResource = R.string.backstack_icon,
                 modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
             ) { backButtonAction.invoke() }
         }
@@ -186,7 +186,7 @@ fun MediaBody(
             listTitle = stringResource(R.string.related),
             medias = media.getSimilarMedia()
         ) { apiId, mediaType ->
-            navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+            navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backstack = true)
         }
     }
 }

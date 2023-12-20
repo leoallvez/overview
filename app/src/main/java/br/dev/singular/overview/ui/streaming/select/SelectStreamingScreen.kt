@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui.home
+package br.dev.singular.overview.ui.streaming.select
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,24 +30,21 @@ import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
-import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.toJson
 
 @Composable
-fun HomeScreen(
-    navigate: HomeNavigate,
-    viewModel: HomeViewModel = hiltViewModel()
+fun SelectStreamingScreen(
+    navigate: SelectStreamingNavigate,
+    viewModel: SelectStreamingModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
-    HomeContent(navigate = navigate, viewModel = viewModel)
+    TrackScreenView(screen = ScreenNav.SelectStreaming, tracker = viewModel.analyticsTracker)
+    SelectStreamingContent(navigate = navigate, viewModel = viewModel)
 }
 
 @Composable
-fun HomeContent(
-    navigate: HomeNavigate,
-    viewModel: HomeViewModel
-) {
+fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectStreamingModel) {
     Scaffold(
         modifier = Modifier.padding(
             horizontal = dimensionResource(R.dimen.screen_padding_new)
@@ -62,7 +59,7 @@ fun HomeContent(
             )
         },
         bottomBar = {
-            AdsBanner(R.string.home_banner, isVisible = viewModel.showAds)
+            AdsBanner(R.string.select_streaming_banner, isVisible = viewModel.showAds)
         },
         backgroundColor = PrimaryBackground
     ) { padding ->

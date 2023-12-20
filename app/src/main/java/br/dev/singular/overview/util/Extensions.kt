@@ -55,8 +55,8 @@ fun NavBackStackEntry.getParams(): Pair<Long, String> {
     return Pair(id ?: 0, type ?: "")
 }
 
-fun NavBackStackEntry.getBackToHome(): Boolean {
-    return arguments?.getBoolean(ScreenNav.BACK_TO_HOME_PARAM) ?: false
+fun NavBackStackEntry.backstack(): Boolean {
+    return arguments?.getBoolean(ScreenNav.BACKSTACK_PARAM) ?: false
 }
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0

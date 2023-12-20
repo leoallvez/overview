@@ -44,7 +44,7 @@
       
   <string name="refresh_icon">Icône de rechargement</string>
       
-  <string name="back_to_home_icon">Icône de retour à la maison</string>
+  <string name="backstack_icon">Icône de retour à la maison</string>
       
   <string name="search_icon">Icône de recherche</string>
       

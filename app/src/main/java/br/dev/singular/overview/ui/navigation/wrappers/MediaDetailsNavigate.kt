@@ -5,8 +5,8 @@ import br.dev.singular.overview.ui.ScreenNav
 
 class MediaDetailsNavigate(
     private val navigation: NavController,
-    backToHome: Boolean = false
-) : BasicNavigate(navigation, backToHome) {
+    backstack: Boolean = false
+) : BasicNavigate(navigation, backstack) {
 
     fun toStreamingExplore(json: String) =
         navigation.navigate(ScreenNav.StreamingExplore.editRoute(json))

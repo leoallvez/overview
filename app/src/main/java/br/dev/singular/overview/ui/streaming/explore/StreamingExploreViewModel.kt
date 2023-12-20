@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui.streaming
+package br.dev.singular.overview.ui.streaming.explore
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -6,7 +6,7 @@ import br.dev.singular.overview.data.model.provider.StreamingData
 
 typealias MediaUiState = UiState<Media?>
 typealias PersonUiState = UiState<Person?>
-typealias HomeUiState = UiState<StreamingData>
+typealias StreamingUiState = UiState<StreamingData>
 
 sealed class UiState<T> {
     class Loading<T> : UiState<T>()

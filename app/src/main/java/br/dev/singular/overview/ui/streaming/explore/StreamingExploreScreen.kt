@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui.streaming
+package br.dev.singular.overview.ui.streaming.explore
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.TweenSpec
@@ -200,7 +200,7 @@ fun StreamingExploreBody(
                     streaming = streaming,
                     onFilterClick = closeFilterBottomSheet,
                     onStreamingClick = {
-                        navigate.toHome()
+                        navigate.toSelectStreaming()
                     }
                 )
                 when (pagingMedias.loadState.refresh) {

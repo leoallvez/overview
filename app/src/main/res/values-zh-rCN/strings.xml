@@ -44,7 +44,7 @@
       
   <string name="refresh_icon">重新加载图标</string>
       
-  <string name="back_to_home_icon">返回主页图标</string>
+  <string name="backstack_icon">返回主页图标</string>
       
   <string name="search_icon">搜索图标</string>
       

@@ -27,7 +27,8 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
+fun SplashScreen(onOpen: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
+
     TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
 
     val scale = remember { Animatable(0f) }
@@ -43,7 +44,7 @@ fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hilt
         )
         viewModel.remoteConfig.start()
         delay(2000L)
-        onNavigateToHome.invoke()
+        onOpen.invoke()
     }
     SplashScreenContent(scale)
 }
@@ -51,9 +52,7 @@ fun SplashScreen(onNavigateToHome: () -> Unit, viewModel: SplashViewModel = hilt
 @Composable
 fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
+        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
         contentAlignment = Alignment.Center
     ) {
         AppIcon(scale)

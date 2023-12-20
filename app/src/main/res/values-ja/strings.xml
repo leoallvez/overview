@@ -44,7 +44,7 @@
       
   <string name="refresh_icon">リロードアイコン</string>
       
-  <string name="back_to_home_icon">ホームアイコンに戻る</string>
+  <string name="backstack_icon">ホームアイコンに戻る</string>
       
   <string name="search_icon">検索アイコン</string>
       

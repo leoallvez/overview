@@ -44,7 +44,7 @@
       
   <string name="refresh_icon">Muat ulang ikon</string>
       
-  <string name="back_to_home_icon">Ikon kembali ke rumah</string>
+  <string name="backstack_icon">Ikon kembali ke rumah</string>
       
   <string name="search_icon">Ikon pencarian</string>
       

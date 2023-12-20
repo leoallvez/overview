@@ -31,7 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
-import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
 import br.dev.singular.overview.ui.ErrorScreen
@@ -45,6 +44,7 @@ import br.dev.singular.overview.ui.SimpleSubtitle1
 import br.dev.singular.overview.ui.ToolbarButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
+import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -70,7 +70,7 @@ fun CastDetailsScreen(
             showAds = viewModel.showAds,
             navigate::popBackStack,
             { apiId, mediaType ->
-                navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backToHome = true)
+                navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backstack = true)
             }
         ) {
             viewModel.refresh(apiId)
@@ -82,7 +82,7 @@ fun CastDetailsScreen(
 fun PersonDetailsContent(
     person: Person?,
     showAds: Boolean,
-    onNavigateToHome: () -> Unit,
+    onBackstack: () -> Unit,
     onNavigateToMediaDetails: MediaItemClick,
     onRefresh: () -> Unit
 ) {
@@ -95,7 +95,7 @@ fun PersonDetailsContent(
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
                 PersonToolBar(person) {
-                    onNavigateToHome.invoke()
+                    onBackstack.invoke()
                 }
             }
         ) {
@@ -122,7 +122,7 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
         )
         ToolbarButton(
             painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon,
+            descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f)
         ) { backButtonAction.invoke() }
     }
