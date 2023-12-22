@@ -28,7 +28,10 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(viewModel: SplashViewModel = hiltViewModel(), navigate: ISplashNavigate) {
+fun SplashScreen(
+    navigate: ISplashNavigate,
+    viewModel: SplashViewModel = hiltViewModel()
+) {
     TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
 
     val scale = remember { Animatable(0f) }

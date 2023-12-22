@@ -16,6 +16,5 @@ class SplashNavigate(val navigation: NavController) : ISplashNavigate {
                 inclusive = true
             }
         }
-
     }
 }
