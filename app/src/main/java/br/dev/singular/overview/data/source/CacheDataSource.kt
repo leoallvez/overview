@@ -26,5 +26,6 @@ class CacheDataSource @Inject constructor(
 
     companion object {
         val KEY_FILTER_CACHE = stringPreferencesKey(name = "filter_cache")
+        val KEY_SELECTED_STREAMING_CACHE = stringPreferencesKey(name = "selected_streaming_cache")
     }
 }
