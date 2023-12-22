@@ -17,6 +17,7 @@ import br.dev.singular.overview.ui.navigation.args.StreamingArgType
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
 import br.dev.singular.overview.ui.person.CastDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
@@ -37,7 +38,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         modifier = Modifier.background(PrimaryBackground).padding(bottom = 20.dp)
     ) {
         composable(route = ScreenNav.Splash.route) {
-            SplashScreen(onOpen = onNavigateSelectStreaming(navController))
+            SplashScreen(navigate = SplashNavigate(navController))
         }
         composable(route = ScreenNav.SelectStreaming.route) {
             SelectStreamingScreen(navigate = SelectStreamingNavigate(navController))
