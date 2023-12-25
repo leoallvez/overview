@@ -24,7 +24,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(_dispatcher) {
-            _repository.getSelectedItem().collect{
+            _repository.getSelectedItem().collect {
                 _selectedStreamingJson = it.toJson()
             }
         }

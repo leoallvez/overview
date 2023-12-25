@@ -18,8 +18,7 @@ class StreamingSaveWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val _repository: StreamingRepository,
-    @StreamingsRemote
-    private val _remote: RemoteConfig<List<Streaming>>,
+    @StreamingsRemote private val _remote: RemoteConfig<List<Streaming>>
 ) : CoroutineWorker(context, params) {
 
     private val _region: String = locale.region
