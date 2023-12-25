@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import br.dev.singular.overview.data.api.ApiLocale
-import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.data.model.provider.StreamingEntity as Streaming
 import br.dev.singular.overview.data.source.CacheDataSource
 import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_SELECTED_STREAMING_CACHE
 import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
@@ -22,56 +22,60 @@ class StreamingSaveWorker @AssistedInject constructor(
     locale: ApiLocale,
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val _cache: CacheDataSource,
+    private val _cacheDataSource: CacheDataSource,
     private val _sourceLocal: StreamingLocalDataSource,
     private val _sourceRemote: IStreamingRemoteDataSource,
     @StreamingsRemote
-    private val _remoteConfig: RemoteConfig<List<StreamingEntity>>
+    private val _remoteConfig: RemoteConfig<List<Streaming>>
 ) : CoroutineWorker(context, params) {
 
     private val _region: String = locale.region
 
-    private val _streamingCustom: List<StreamingEntity> by lazy { _remoteConfig.execute() }
+    private val _remoteStreams: List<Streaming> by lazy { _remoteConfig.execute() }
 
-    override suspend fun doWork(): Result {
-        if (_streamingCustom.isNotEmpty()) {
-            saveSelectedStreaming(streams = _streamingCustom)
-            _sourceLocal.upgrade(_streamingCustom)
-            return Result.success()
+    override suspend fun doWork() = if (_remoteStreams.isNotEmpty()) {
+        saveData(streams = _remoteStreams)
+        Result.success()
+    } else {
+        val apiStreams = getApiStream()
+        if (apiStreams.isNotEmpty()) {
+            saveData(streams = apiStreams)
+            Result.success()
         } else {
-            val streamingApi = getApiStreaming()
-            if (streamingApi.isNotEmpty()) {
-                saveSelectedStreaming(streams = streamingApi)
-                _sourceLocal.upgrade(streamingApi)
-                return Result.success()
-            }
+            Result.failure()
         }
-        return Result.failure()
     }
 
-    // TODO: test this
-    private suspend fun saveSelectedStreaming(streams: List<StreamingEntity>) {
-        if (streams.isNotEmpty()) {
-            getSelectedStreaming { streamCache ->
-                val streamMemory = streams.firstOrNull { it.apiId == streamCache?.apiId }
-                val streamMemoryUnselected = streamMemory?.selected?.not() == true
-                val saveCache = streamCache == null || streamMemoryUnselected
-                if (saveCache) {
-                    val streamJson = streams.firstOrNull { it.selected }.toJson()
-                    _cache.setValue(KEY_SELECTED_STREAMING_CACHE, streamJson)
+    private suspend fun saveData(streams: List<Streaming>) {
+        saveStreamCache(allStreams = _remoteStreams)
+        _sourceLocal.upgrade(streams)
+    }
+
+    private suspend fun saveStreamCache(allStreams: List<Streaming>) {
+        if (allStreams.isNotEmpty()) {
+            getStreamCache { streamCache ->
+                if (shouldSaveCache(streamCache, allStreams)) {
+                    val steam = allStreams.sortedBy { it.priority }.find { it.selected }
+                    setSteamJsonCache(json = steam.toJson())
                 }
             }
         }
     }
 
-    // TODO: test this
-    private suspend fun getSelectedStreaming(callback: suspend (StreamingEntity?) -> Unit) {
-        _cache.getValue(KEY_SELECTED_STREAMING_CACHE).collect { streamingJson ->
-            callback(streamingJson?.fromJson())
+    private fun shouldSaveCache(stream: Streaming?, streams: List<Streaming>): Boolean {
+        return stream == null || streams.none { it.apiId == stream.apiId && it.selected }
+    }
+
+    private suspend fun setSteamJsonCache(json: String) =
+        _cacheDataSource.setValue(KEY_SELECTED_STREAMING_CACHE, json)
+
+    private suspend fun getStreamCache(callback: suspend (Streaming?) -> Unit) {
+        _cacheDataSource.getValue(KEY_SELECTED_STREAMING_CACHE).collect { streamJson ->
+            callback(streamJson?.fromJson())
         }
     }
 
-    private suspend fun getApiStreaming() = _sourceRemote.getItems()
+    private suspend fun getApiStream() = _sourceRemote.getItems()
         .filter { it.displayPriorities.containsKey(_region) }
         .sortedBy { it.displayPriorities[_region] }
 }
