@@ -14,12 +14,13 @@ import br.dev.singular.overview.data.repository.person.IPersonRepository
 import br.dev.singular.overview.data.repository.person.PersonRepository
 import br.dev.singular.overview.data.repository.search.ISearchPagingRepository
 import br.dev.singular.overview.data.repository.search.SearchMediaPagingRepository
+import br.dev.singular.overview.data.repository.streaming.IStreamingRepository
+import br.dev.singular.overview.data.repository.streaming.StreamingRepository
+import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import br.dev.singular.overview.data.repository.streaming.IStreamingRepository
-import br.dev.singular.overview.data.repository.streaming.StreamingRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -49,6 +50,11 @@ abstract class RepositoryModule {
     abstract fun bindStreamingRepository(
         repository: StreamingRepository
     ): IStreamingRepository
+
+    @Binds
+    abstract fun bindSelectedStreamingRepository(
+        repository: StreamingRepository
+    ): ISelectedStreamingRepository
 
     @Binds
     abstract fun bindGenreRepository(

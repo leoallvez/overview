@@ -9,6 +9,5 @@ interface IStreamingRepository {
 
     suspend fun getAllSelected(): Flow<List<StreamingEntity>>
 
-    // TODO: use this in edit streaming screen;
-    suspend fun getStreamingsData(): Flow<StreamingData>
+    suspend fun getAll(): Flow<StreamingData>
 }
