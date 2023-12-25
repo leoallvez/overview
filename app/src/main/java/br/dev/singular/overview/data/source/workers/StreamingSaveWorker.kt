@@ -52,12 +52,10 @@ class StreamingSaveWorker @AssistedInject constructor(
     }
 
     private suspend fun saveStreamCache(allStreams: List<Streaming>) {
-        if (allStreams.isNotEmpty()) {
-            getStreamCache { streamCache ->
-                if (shouldSaveCache(streamCache, allStreams)) {
-                    val steam = allStreams.sortedBy { it.priority }.find { it.selected }
-                    setSteamJsonCache(json = steam.toJson())
-                }
+        getStreamCache { streamCache ->
+            if (shouldSaveCache(streamCache, allStreams)) {
+                val steam = allStreams.sortedBy { it.priority }.find { it.selected }
+                setSteamJsonCache(json = steam.toJson())
             }
         }
     }
