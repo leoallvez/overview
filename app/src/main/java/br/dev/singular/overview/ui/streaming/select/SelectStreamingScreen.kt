@@ -65,9 +65,12 @@ fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectS
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,
             onRefresh = { viewModel.refresh() }
-        ) { data ->
+        ) { streaming ->
             Column(modifier = Modifier.padding(padding)) {
-                StreamingGrid(streaming = data, onClick = navigate::toStreamingExplore)
+                StreamingGrid(streaming = streaming) { stream ->
+                    viewModel.saveSelectedStream(stream)
+                    navigate.toStreamingExplore(stream)
+                }
             }
         }
     }

@@ -46,14 +46,14 @@ class StreamingSaveWorker @AssistedInject constructor(
     private suspend fun saveSelectedStreamCache(allStreams: List<Streaming>) {
         getSelectedStreamCache { streamCache ->
             if (shouldSaveCache(streamCache, allStreams)) {
-                val stream = allStreams.sortedBy { it.priority }.find { it.selected }
+                val stream = allStreams.minByOrNull { it.priority }
                 _repository.updateSelected(stream)
             }
         }
     }
 
     private fun shouldSaveCache(stream: Streaming?, streams: List<Streaming>): Boolean {
-        return stream == null || streams.none { it.apiId == stream.apiId && it.selected }
+        return stream == null || streams.none { it.apiId == stream.apiId }
     }
 
     private suspend fun getSelectedStreamCache(callback: suspend (Streaming?) -> Unit) {
