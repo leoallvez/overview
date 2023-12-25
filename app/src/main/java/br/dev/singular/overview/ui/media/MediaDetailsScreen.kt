@@ -71,7 +71,6 @@ import br.dev.singular.overview.util.toJson
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 
 @Composable
 fun MediaDetailsScreen(
@@ -89,8 +88,9 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
-        MediaDetailsContent(media, viewModel.showAds, navigate) {
-            viewModel.refresh(apiId, type)
+        val  onRefresh: () -> Unit = { viewModel.refresh(apiId, type) }
+        MediaDetailsContent(media, viewModel.showAds, navigate, onRefresh) { streaming ->
+            viewModel.saveSelectedStream(streaming.toJson())
         }
     }
 }
@@ -100,7 +100,8 @@ fun MediaDetailsContent(
     media: Media?,
     showAds: Boolean,
     navigate: MediaDetailsNavigate,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onClickStreaming: (StreamingEntity) -> Unit
 ) {
     if (media == null) {
         ErrorScreen { onRefresh.invoke() }
@@ -113,7 +114,7 @@ fun MediaDetailsContent(
                 MediaToolBar(media) { navigate.popBackStack() }
             }
         ) {
-            MediaBody(media, showAds, navigate)
+            MediaBody(media, showAds, navigate, onClickStreaming)
         }
     }
 }
@@ -145,7 +146,8 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
 fun MediaBody(
     media: Media,
     showAds: Boolean,
-    navigate: MediaDetailsNavigate
+    navigate: MediaDetailsNavigate,
+    onClickStreaming: (StreamingEntity) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -154,10 +156,9 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        StreamingsOverview(media.streamings, media.isReleased()) { streaming ->
-            val streamingJson = streaming.toJson()
-            Timber.tag("streaming_json").d("streaming json: $streamingJson")
-            navigate.toStreamingExplore(streamingJson)
+        StreamingOverview(media.streamings, media.isReleased()) { streaming ->
+            onClickStreaming(streaming)
+            navigate.toStreamingExplore()
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())
@@ -254,13 +255,13 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
 }
 
 @Composable
-fun StreamingsOverview(
-    streamings: List<StreamingEntity>,
+fun StreamingOverview(
+    streaming: List<StreamingEntity>,
     isReleased: Boolean,
     onClickItem: (StreamingEntity) -> Unit
 ) {
     BasicTitle(stringResource(R.string.where_to_watch))
-    if (streamings.isNotEmpty()) {
+    if (streaming.isNotEmpty()) {
         LazyRow(
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
@@ -268,7 +269,7 @@ fun StreamingsOverview(
                 horizontal = dimensionResource(R.dimen.screen_padding)
             )
         ) {
-            items(streamings) { streaming ->
+            items(streaming) { streaming ->
                 StreamingIcon(streaming = streaming) {
                     onClickItem.invoke(streaming)
                 }

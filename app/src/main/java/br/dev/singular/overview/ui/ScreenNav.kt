@@ -1,7 +1,5 @@
 package br.dev.singular.overview.ui
 
-import android.net.Uri
-
 sealed class ScreenNav(val route: String, val name: String) {
     object Splash : ScreenNav(route = "splash_screen", name = "SplashScreen")
 
@@ -28,10 +26,9 @@ sealed class ScreenNav(val route: String, val name: String) {
     )
 
     object StreamingExplore : ScreenNav(
-        route = "streaming_explore/{$JSON_PARAM}",
+        route = "streaming_explore",
         name = "StreamingExploreScreen"
     ) {
-        fun editRoute(json: String) = "streaming_explore/${Uri.encode(json)}"
     }
 
     companion object {

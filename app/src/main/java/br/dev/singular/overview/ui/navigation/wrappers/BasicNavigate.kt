@@ -1,8 +1,8 @@
 package br.dev.singular.overview.ui.navigation.wrappers
 
 import androidx.navigation.NavController
-import br.dev.singular.overview.ui.navigation.onNavigateSelectStreaming
 import br.dev.singular.overview.ui.navigation.onNavigateToMediaDetails
+import br.dev.singular.overview.ui.navigation.onNavigateToStreamingExplore
 
 open class BasicNavigate(
     private val navigation: NavController,
@@ -15,7 +15,7 @@ open class BasicNavigate(
 
     fun popBackStack() {
         if (backstack) {
-            onNavigateSelectStreaming(navigation).invoke()
+            onNavigateToStreamingExplore(navigation).invoke()
         } else {
             navigation.popBackStack()
         }

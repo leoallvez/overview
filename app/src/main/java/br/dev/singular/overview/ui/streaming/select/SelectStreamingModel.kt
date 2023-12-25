@@ -43,7 +43,7 @@ class SelectStreamingModel @Inject constructor(
     }
 
     fun saveSelectedStream(streamingJson: String?) {
-        viewModelScope.launch {
+        viewModelScope.launch(_dispatcher) {
             _repository.updateSelected(streamingJson?.fromJson())
         }
     }

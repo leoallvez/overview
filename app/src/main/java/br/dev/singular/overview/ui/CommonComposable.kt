@@ -735,19 +735,21 @@ fun SearchField(
 @Composable
 fun StreamingIcon(
     modifier: Modifier = Modifier,
-    streaming: StreamingEntity,
+    streaming: StreamingEntity?,
     size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
     withBorder: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    BasicImage(
-        url = streaming.getLogoImage(),
-        contentDescription = streaming.name,
-        withBorder = withBorder,
-        modifier = modifier
-            .size(size)
-            .clickable { onClick.invoke() }
-    )
+    streaming?.let {
+        BasicImage(
+            url = streaming.getLogoImage(),
+            contentDescription = streaming.name,
+            withBorder = withBorder,
+            modifier = modifier
+                .size(size)
+                .clickable { onClick.invoke() }
+        )
+    }
 }
 
 @Composable

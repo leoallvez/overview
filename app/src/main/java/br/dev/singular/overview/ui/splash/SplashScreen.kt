@@ -47,7 +47,7 @@ fun SplashScreen(
         )
         viewModel.remoteConfig.start()
         delay(2000L)
-        navigate.toStreamingExplore(json = viewModel.getSelectedStreamingJson())
+        navigate.toStreamingExplore()
     }
     SplashScreenContent(scale)
 }

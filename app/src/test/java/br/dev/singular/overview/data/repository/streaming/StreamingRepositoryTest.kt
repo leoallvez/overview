@@ -1,6 +1,8 @@
 package br.dev.singular.overview.data.repository.streaming
 
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.data.source.CacheDataSource
+import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.StreamingLocalDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -17,7 +19,13 @@ import org.junit.Test
 class StreamingRepositoryTest {
 
     @MockK(relaxed = true)
+    private lateinit var _cacheSource: CacheDataSource
+
+    @MockK(relaxed = true)
     private lateinit var _localSource: StreamingLocalDataSource
+
+    @MockK(relaxed = true)
+    private lateinit var _remoteSource: IStreamingRemoteDataSource
 
     private lateinit var _repository: StreamingRepository
 
@@ -26,7 +34,7 @@ class StreamingRepositoryTest {
     fun setup() {
         MockKAnnotations.init(this)
         val dispatcher = UnconfinedTestDispatcher()
-        _repository = StreamingRepository(_localSource, dispatcher)
+        _repository = StreamingRepository(_cacheSource, _localSource, _remoteSource, dispatcher)
     }
 
     @Test

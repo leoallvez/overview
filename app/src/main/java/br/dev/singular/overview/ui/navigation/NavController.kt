@@ -10,10 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
-import br.dev.singular.overview.ui.navigation.args.StreamingArgType
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
@@ -28,7 +26,6 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.backstack
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
-import br.dev.singular.overview.util.getStreamingParams
 
 @Composable
 fun NavController(navController: NavHostController = rememberNavController()) {
@@ -75,12 +72,8 @@ fun NavGraphBuilder.mediaDetailsGraph(
             navigate = BasicNavigate(navController, backstack = true)
         )
     }
-    composable(
-        route = ScreenNav.StreamingExplore.route,
-        arguments = listOf(navArgument(ScreenNav.JSON_PARAM) { type = StreamingArgType() })
-    ) { navBackStackEntry ->
+    composable(route = ScreenNav.StreamingExplore.route) {
         StreamingExploreScreen(
-            streaming = navBackStackEntry.getStreamingParams(),
             navigate = StreamingExploreNavigate(navController)
         )
     }

@@ -4,14 +4,12 @@ import androidx.navigation.NavController
 import br.dev.singular.overview.ui.ScreenNav
 
 interface ISplashNavigate {
-    fun toStreamingExplore(json: String)
+    fun toStreamingExplore()
 }
 
 class SplashNavigate(val navigation: NavController) : ISplashNavigate {
-    override fun toStreamingExplore(json: String) {
-        val route = ScreenNav.StreamingExplore.editRoute(json)
-        navigation.navigate(route) {
-            // this is necessary to avoid the splash screen to be shown when the user press back;
+    override fun toStreamingExplore() {
+        navigation.navigate(ScreenNav.StreamingExplore.route) {
             popUpTo(ScreenNav.Splash.route) {
                 inclusive = true
             }

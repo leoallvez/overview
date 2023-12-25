@@ -84,13 +84,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun StreamingExploreScreen(
-    streaming: StreamingEntity,
     navigate: StreamingExploreNavigate,
     viewModel: StreamingExploreViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
-
-    viewModel.setStreamingId(streaming.apiId)
 
     LaunchedEffect(key1 = Any()) {
         viewModel.loadGenres()
@@ -99,9 +96,9 @@ fun StreamingExploreScreen(
     StreamingExploreContent(
         navigate = navigate,
         searchFilters = viewModel.searchFilters.collectAsState().value,
-        streaming = streaming,
+        streaming = viewModel.selectedStreaming,
         showAds = viewModel.showAds,
-        onRefresh = { viewModel.reloadMedias() },
+        onRefresh = { viewModel.loadMedias() },
         pagingMediaItems = viewModel.medias.collectAsLazyPagingItems(),
         genres = viewModel.genres.collectAsState().value,
         inFiltering = { newFilters ->
@@ -115,7 +112,7 @@ fun StreamingExploreScreen(
 fun StreamingExploreContent(
     showAds: Boolean,
     searchFilters: SearchFilters,
-    streaming: StreamingEntity,
+    streaming: StreamingEntity?,
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
     navigate: StreamingExploreNavigate,
@@ -140,7 +137,7 @@ fun StreamingExploreBody(
     showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
-    streaming: StreamingEntity,
+    streaming: StreamingEntity?,
     genres: List<GenreEntity>,
     navigate: StreamingExploreNavigate,
     pagingMedias: LazyPagingItems<Media>,
@@ -228,7 +225,7 @@ fun StreamingExploreBody(
 fun FiltersArea(
     filters: SearchFilters,
     genres: List<GenreEntity>,
-    streaming: StreamingEntity,
+    streaming: StreamingEntity?,
     onStreamingClick: () -> Unit,
     onFilterClick: () -> Unit
 ) {
@@ -252,7 +249,7 @@ fun FiltersArea(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     StreamingIcon(streaming = streaming, withBorder = false)
-                    StreamingScreamTitle(streamingName = streaming.name)
+                    StreamingScreamTitle(streamingName = streaming?.name)
                 }
                 Box(Modifier.padding(end = 5.dp)) {
                     Icon(
@@ -387,9 +384,9 @@ fun StreamingToolBar(
 }
 
 @Composable
-fun StreamingScreamTitle(streamingName: String) {
+fun StreamingScreamTitle(streamingName: String?) {
     Text(
-        text = streamingName,
+        text = streamingName.orEmpty(),
         color = AccentColor,
         style = MaterialTheme.typography.h6,
         fontWeight = FontWeight.Bold,

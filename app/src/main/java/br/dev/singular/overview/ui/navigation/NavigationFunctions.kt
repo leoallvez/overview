@@ -11,9 +11,8 @@ fun onNavigateToMediaDetails(
     navigate.navigate(ScreenNav.MediaDetails.editRoute(id, type, backstack))
 }
 
-fun onNavigateSelectStreaming(navigate: NavController): () -> Unit = {
-    navigate.navigate(route = ScreenNav.SelectStreaming.route) {
-        // this is necessary to avoid the splash screen to be shown when the user press back;
+fun onNavigateToStreamingExplore(navigate: NavController): () -> Unit = {
+    navigate.navigate(route = ScreenNav.StreamingExplore.route) {
         popUpTo(ScreenNav.Splash.route) {
             inclusive = true
         }

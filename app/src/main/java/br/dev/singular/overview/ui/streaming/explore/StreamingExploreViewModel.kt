@@ -7,15 +7,18 @@ import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
+import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.interfaces.IMediaPagingRepository
+import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.data.source.CacheDataSource
 import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_FILTER_CACHE
+import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.di.ShowAds
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,10 +31,17 @@ class StreamingExploreViewModel @Inject constructor(
     private val _cache: CacheDataSource,
     val analyticsTracker: IAnalyticsTracker,
     private val _genreRepository: IGenreRepository,
-    private val _mediaRepository: IMediaPagingRepository
+    private val _mediaRepository: IMediaPagingRepository,
+    private val _selectedStreamingRepository: ISelectedStreamingRepository,
+    @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private var _cacheNotLoaded: Boolean = true
+    init {
+        loadSelectedStreaming()
+        loadFilterCache()
+    }
+
+    private var _filterCacheNotLoaded: Boolean = true
 
     private val _searchFilters = MutableStateFlow(SearchFilters())
     val searchFilters: StateFlow<SearchFilters> = _searchFilters
@@ -42,50 +52,51 @@ class StreamingExploreViewModel @Inject constructor(
     var medias: Flow<PagingData<Media>> = _mediaRepository.getMediasPaging(searchFilters.value)
         private set
 
-    init {
-        loadFilterCache()
-    }
-
-    fun setStreamingId(streamingId: Long) {
-        _searchFilters.value.streamingId = streamingId
-    }
-
-    fun loadGenres() = viewModelScope.launch(Dispatchers.IO) {
-        _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
-    }
-
+    var selectedStreaming: StreamingEntity? = null
+        private set
+    
     fun updateData(filters: SearchFilters) {
         updateFilters(filters)
-        reloadMedias()
+        loadMedias()
         setFilterCache()
-    }
-
-    fun reloadMedias() {
-        medias = _mediaRepository.getMediasPaging(searchFilters.value)
     }
 
     private fun updateFilters(filters: SearchFilters) = with(filters) {
         _searchFilters.value = SearchFilters(
             mediaType = mediaType,
             genresIds = genresIds,
-            streamingId = streamingId
+            streamingId = selectedStreaming?.apiId
         )
     }
 
-    private fun loadFilterCache() = viewModelScope.launch(Dispatchers.IO) {
+    fun loadMedias() {
+        medias = _mediaRepository.getMediasPaging(searchFilters.value)
+    }
+
+    fun loadGenres() = viewModelScope.launch(_dispatcher) {
+        _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
+    }
+
+    private fun loadFilterCache() = viewModelScope.launch(_dispatcher) {
         _cache.getValue(KEY_FILTER_CACHE).collect { jsonFiltersCache ->
-            if (_cacheNotLoaded && jsonFiltersCache != null) {
+            if (_filterCacheNotLoaded && jsonFiltersCache != null) {
                 val filters = jsonFiltersCache.fromJson<SearchFilters>()
                 filters?.let {
                     _searchFilters.value = filters
-                    _cacheNotLoaded = false
-                    reloadMedias()
+                    _filterCacheNotLoaded = false
+                    loadMedias()
                 }
             }
         }
     }
 
-    private fun setFilterCache() = viewModelScope.launch(Dispatchers.IO) {
+    private fun loadSelectedStreaming() = viewModelScope.launch(_dispatcher) {
+        _selectedStreamingRepository.getSelectedItem().collect { streaming ->
+            selectedStreaming = streaming
+        }
+    }
+
+    private fun setFilterCache() = viewModelScope.launch(_dispatcher) {
         _cache.setValue(KEY_FILTER_CACHE, searchFilters.value.toJson())
     }
 }

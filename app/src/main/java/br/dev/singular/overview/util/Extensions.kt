@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
-import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.DataResult
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.UiState
@@ -60,11 +59,6 @@ fun NavBackStackEntry.backstack(): Boolean {
 }
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
-
-fun NavBackStackEntry.getStreamingParams(): StreamingEntity {
-    val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
-    return json.fromJson() ?: StreamingEntity()
-}
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
 fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
