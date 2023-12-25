@@ -9,5 +9,9 @@ interface IStreamingRepository {
 
     suspend fun getAllSelected(): Flow<List<StreamingEntity>>
 
-    suspend fun getAll(): Flow<StreamingData>
+    suspend fun getAllLocal(): Flow<StreamingData>
+
+    suspend fun getAllRemote(region: String): List<StreamingEntity>
+
+    suspend fun updateAllLocal(steamings: List<StreamingEntity>)
 }

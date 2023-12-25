@@ -10,6 +10,7 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.source.CacheDataSource
+import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.di.ShowAds
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
@@ -72,7 +73,7 @@ class StreamingExploreViewModel @Inject constructor(
     }
 
     private fun loadFilterCache() = viewModelScope.launch(Dispatchers.IO) {
-        _cache.getValue(CacheDataSource.KEY_FILTER_CACHE).collect { jsonFiltersCache ->
+        _cache.getValue(KEY_FILTER_CACHE).collect { jsonFiltersCache ->
             if (_cacheNotLoaded && jsonFiltersCache != null) {
                 val filters = jsonFiltersCache.fromJson<SearchFilters>()
                 filters?.let {
@@ -85,6 +86,6 @@ class StreamingExploreViewModel @Inject constructor(
     }
 
     private fun setFilterCache() = viewModelScope.launch(Dispatchers.IO) {
-        _cache.setValue(CacheDataSource.KEY_FILTER_CACHE, searchFilters.value.toJson())
+        _cache.setValue(KEY_FILTER_CACHE, searchFilters.value.toJson())
     }
 }

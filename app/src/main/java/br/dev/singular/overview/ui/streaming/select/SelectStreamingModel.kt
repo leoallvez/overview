@@ -35,7 +35,7 @@ class SelectStreamingModel @Inject constructor(
 
     private fun loadUiState() {
         viewModelScope.launch(_mainDispatcher) {
-            _repository.getAll().collect { streams ->
+            _repository.getAllLocal().collect { streams ->
                 _uiState.value = streams.toUiState { streams.isNotEmpty() }
             }
         }

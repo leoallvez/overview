@@ -5,6 +5,7 @@ import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.data.source.CacheDataSource
 import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_SELECTED_STREAMING_CACHE
+import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.StreamingLocalDataSource
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.util.fromJson
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class StreamingRepository @Inject constructor(
     private val _cacheDataSource: CacheDataSource,
     private val _localDataSource: StreamingLocalDataSource,
+    private val _remoteDataSource: IStreamingRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IStreamingRepository, ISelectedStreamingRepository {
 
@@ -30,9 +32,19 @@ class StreamingRepository @Inject constructor(
         flow { emit(result) }
     }
 
-    override suspend fun getAll() = withContext(_dispatcher) {
+    override suspend fun getAllLocal() = withContext(_dispatcher) {
         val result = _localDataSource.getItems()
         flow { emit(result.streamingData()) }
+    }
+
+    override suspend fun getAllRemote(region: String) = withContext(_dispatcher) {
+        _remoteDataSource.getItems()
+            .filter { it.displayPriorities.containsKey(region) }
+            .sortedBy { it.displayPriorities[region] }
+    }
+
+    override suspend fun updateAllLocal(streaming: List<StreamingEntity>) {
+        _localDataSource.upgrade(streaming)
     }
 
     private fun List<StreamingEntity>.streamingData() =
@@ -43,7 +55,8 @@ class StreamingRepository @Inject constructor(
             emit(json?.fromJson<StreamingEntity>())
         }
     }
-    override suspend fun upgradeSelected(streaming: StreamingEntity) {
+
+    override suspend fun updateSelected(streaming: StreamingEntity?) {
         _cacheDataSource.setValue(KEY_SELECTED_STREAMING_CACHE, streaming.toJson())
     }
 }

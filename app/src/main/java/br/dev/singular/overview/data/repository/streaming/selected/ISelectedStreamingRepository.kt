@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ISelectedStreamingRepository {
     suspend fun getSelectedItem(): Flow<StreamingEntity?>
 
-    suspend fun upgradeSelected(streaming: StreamingEntity)
+    suspend fun updateSelected(streaming: StreamingEntity?)
 }

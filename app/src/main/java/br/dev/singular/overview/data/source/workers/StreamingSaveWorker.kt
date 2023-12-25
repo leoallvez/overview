@@ -5,41 +5,33 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import br.dev.singular.overview.data.api.ApiLocale
-import br.dev.singular.overview.data.model.provider.StreamingEntity as Streaming
-import br.dev.singular.overview.data.source.CacheDataSource
-import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_SELECTED_STREAMING_CACHE
-import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
-import br.dev.singular.overview.data.source.streaming.StreamingLocalDataSource
+import br.dev.singular.overview.data.repository.streaming.StreamingRepository
 import br.dev.singular.overview.di.StreamingsRemote
 import br.dev.singular.overview.remote.RemoteConfig
-import br.dev.singular.overview.util.fromJson
-import br.dev.singular.overview.util.toJson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import br.dev.singular.overview.data.model.provider.StreamingEntity as Streaming
 
 @HiltWorker
 class StreamingSaveWorker @AssistedInject constructor(
     locale: ApiLocale,
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val _cacheDataSource: CacheDataSource,
-    private val _sourceLocal: StreamingLocalDataSource,
-    private val _sourceRemote: IStreamingRemoteDataSource,
+    private val _repository: StreamingRepository,
     @StreamingsRemote
-    private val _remoteConfig: RemoteConfig<List<Streaming>>
+    private val _remote: RemoteConfig<List<Streaming>>,
 ) : CoroutineWorker(context, params) {
 
     private val _region: String = locale.region
-
-    private val _remoteStreams: List<Streaming> by lazy { _remoteConfig.execute() }
+    private val _remoteStreams: List<Streaming> by lazy { _remote.execute() }
 
     override suspend fun doWork() = if (_remoteStreams.isNotEmpty()) {
-        saveData(streams = _remoteStreams)
+        saveData(_remoteStreams)
         Result.success()
     } else {
         val apiStreams = getApiStream()
         if (apiStreams.isNotEmpty()) {
-            saveData(streams = apiStreams)
+            saveData(apiStreams)
             Result.success()
         } else {
             Result.failure()
@@ -47,15 +39,15 @@ class StreamingSaveWorker @AssistedInject constructor(
     }
 
     private suspend fun saveData(streams: List<Streaming>) {
-        saveStreamCache(allStreams = _remoteStreams)
-        _sourceLocal.upgrade(streams)
+        _repository.updateAllLocal(streaming = streams)
+        saveSelectedStreamCache(allStreams = streams)
     }
 
-    private suspend fun saveStreamCache(allStreams: List<Streaming>) {
-        getStreamCache { streamCache ->
+    private suspend fun saveSelectedStreamCache(allStreams: List<Streaming>) {
+        getSelectedStreamCache { streamCache ->
             if (shouldSaveCache(streamCache, allStreams)) {
-                val steam = allStreams.sortedBy { it.priority }.find { it.selected }
-                setSteamJsonCache(json = steam.toJson())
+                val stream = allStreams.sortedBy { it.priority }.find { it.selected }
+                _repository.updateSelected(stream)
             }
         }
     }
@@ -64,16 +56,11 @@ class StreamingSaveWorker @AssistedInject constructor(
         return stream == null || streams.none { it.apiId == stream.apiId && it.selected }
     }
 
-    private suspend fun setSteamJsonCache(json: String) =
-        _cacheDataSource.setValue(KEY_SELECTED_STREAMING_CACHE, json)
-
-    private suspend fun getStreamCache(callback: suspend (Streaming?) -> Unit) {
-        _cacheDataSource.getValue(KEY_SELECTED_STREAMING_CACHE).collect { streamJson ->
-            callback(streamJson?.fromJson())
+    private suspend fun getSelectedStreamCache(callback: suspend (Streaming?) -> Unit) {
+        _repository.getSelectedItem().collect { stream ->
+            callback(stream)
         }
     }
 
-    private suspend fun getApiStream() = _sourceRemote.getItems()
-        .filter { it.displayPriorities.containsKey(_region) }
-        .sortedBy { it.displayPriorities[_region] }
+    private suspend fun getApiStream() = _repository.getAllRemote(_region)
 }
