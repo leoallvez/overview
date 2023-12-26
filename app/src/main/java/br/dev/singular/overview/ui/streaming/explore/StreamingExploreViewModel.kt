@@ -37,8 +37,8 @@ class StreamingExploreViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        loadSelectedStreaming()
         loadFilterCache()
+        loadSelectedStreaming()
     }
 
     private var _filterCacheNotLoaded: Boolean = true
@@ -93,6 +93,7 @@ class StreamingExploreViewModel @Inject constructor(
     private fun loadSelectedStreaming() = viewModelScope.launch(_dispatcher) {
         _streamingRepository.getSelectedItem().collect { streaming ->
             selectedStreaming = streaming
+            _searchFilters.value.streamingId = streaming?.apiId
         }
     }
 
