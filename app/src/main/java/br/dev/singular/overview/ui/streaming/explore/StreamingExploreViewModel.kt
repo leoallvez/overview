@@ -32,7 +32,7 @@ class StreamingExploreViewModel @Inject constructor(
     val analyticsTracker: IAnalyticsTracker,
     private val _genreRepository: IGenreRepository,
     private val _mediaRepository: IMediaPagingRepository,
-    private val _selectedStreamingRepository: ISelectedStreamingRepository,
+    private val _streamingRepository: ISelectedStreamingRepository,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -54,7 +54,7 @@ class StreamingExploreViewModel @Inject constructor(
 
     var selectedStreaming: StreamingEntity? = null
         private set
-    
+
     fun updateData(filters: SearchFilters) {
         updateFilters(filters)
         loadMedias()
@@ -91,7 +91,7 @@ class StreamingExploreViewModel @Inject constructor(
     }
 
     private fun loadSelectedStreaming() = viewModelScope.launch(_dispatcher) {
-        _selectedStreamingRepository.getSelectedItem().collect { streaming ->
+        _streamingRepository.getSelectedItem().collect { streaming ->
             selectedStreaming = streaming
         }
     }
