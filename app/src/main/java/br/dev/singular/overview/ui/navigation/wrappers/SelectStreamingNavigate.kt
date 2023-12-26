@@ -7,7 +7,7 @@ class SelectStreamingNavigate(private val navigation: NavController) {
 
     fun toSearch() = navigation.navigate(route = ScreenNav.Search.route)
 
-    fun toStreamingExplore(json: String) {
+    fun toStreamingExplore() {
         navigation.navigate(route = ScreenNav.StreamingExplore.route) {
             popUpTo(ScreenNav.StreamingExplore.route) { inclusive = true }
         }

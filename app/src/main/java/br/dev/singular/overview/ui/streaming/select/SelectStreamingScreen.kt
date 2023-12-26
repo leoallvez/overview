@@ -69,7 +69,7 @@ fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectS
             Column(modifier = Modifier.padding(padding)) {
                 StreamingGrid(streaming = streaming) { stream ->
                     viewModel.saveSelectedStream(stream)
-                    navigate.toStreamingExplore(stream)
+                    navigate.toStreamingExplore()
                 }
             }
         }

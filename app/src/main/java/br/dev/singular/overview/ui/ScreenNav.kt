@@ -34,7 +34,6 @@ sealed class ScreenNav(val route: String, val name: String) {
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"
-        const val JSON_PARAM = "json"
         const val BACKSTACK_PARAM = "backstack"
     }
 }
