@@ -28,8 +28,7 @@ sealed class ScreenNav(val route: String, val name: String) {
     object StreamingExplore : ScreenNav(
         route = "streaming_explore",
         name = "StreamingExploreScreen"
-    ) {
-    }
+    )
 
     companion object {
         const val ID_PARAM = "id"

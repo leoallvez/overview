@@ -88,7 +88,7 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
-        val  onRefresh: () -> Unit = { viewModel.refresh(apiId, type) }
+        val onRefresh: () -> Unit = { viewModel.refresh(apiId, type) }
         MediaDetailsContent(media, viewModel.showAds, navigate, onRefresh) { streaming ->
             viewModel.saveSelectedStream(streaming.toJson())
         }
