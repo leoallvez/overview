@@ -91,6 +91,7 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
+import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
@@ -738,6 +739,7 @@ fun StreamingIcon(
     streaming: StreamingEntity?,
     size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
     withBorder: Boolean = true,
+    clickable: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     streaming?.let {
@@ -747,7 +749,7 @@ fun StreamingIcon(
             withBorder = withBorder,
             modifier = modifier
                 .size(size)
-                .clickable { onClick.invoke() }
+                .onClick(active = clickable) { onClick.invoke() }
         )
     }
 }

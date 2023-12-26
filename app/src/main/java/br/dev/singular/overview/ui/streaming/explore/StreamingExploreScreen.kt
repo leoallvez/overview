@@ -248,8 +248,8 @@ fun FiltersArea(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    StreamingIcon(streaming = streaming, withBorder = false)
-                    StreamingScreamTitle(streamingName = streaming?.name)
+                    StreamingIcon(streaming = streaming, withBorder = false, clickable = false)
+                    StreamingScreamTitle(title = streaming?.name)
                 }
                 Box(Modifier.padding(end = 5.dp)) {
                     Icon(
@@ -384,18 +384,20 @@ fun StreamingToolBar(
 }
 
 @Composable
-fun StreamingScreamTitle(streamingName: String?) {
-    Text(
-        text = streamingName.orEmpty(),
-        color = AccentColor,
-        style = MaterialTheme.typography.h6,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(
-            horizontal = dimensionResource(R.dimen.screen_padding),
-            vertical = dimensionResource(R.dimen.default_padding)
-        ),
-        overflow = TextOverflow.Ellipsis
-    )
+fun StreamingScreamTitle(title: String?) {
+    title?.let {
+        Text(
+            text = title,
+            color = AccentColor,
+            style = MaterialTheme.typography.h6,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(
+                horizontal = dimensionResource(R.dimen.screen_padding),
+                vertical = dimensionResource(R.dimen.default_padding)
+            ),
+            overflow = TextOverflow.Ellipsis
+        )
+    }
 }
 
 @Composable

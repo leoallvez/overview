@@ -1,6 +1,7 @@
 package br.dev.singular.overview.util
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
@@ -26,3 +27,9 @@ fun Modifier.defaultPadding(
     end: Dp = 10.dp,
     bottom: Dp = 5.dp
 ) = padding(start, top, end, bottom)
+
+fun Modifier.onClick(active: Boolean, onClick: () -> Unit) = if (active) {
+    clickable { onClick.invoke() }
+} else {
+    this
+}
