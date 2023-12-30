@@ -84,7 +84,7 @@
       
   <string name="n_episodes">%s Folgen</string>
       
-  <string name="runtime_per_episode">Laufzeit: %s pro Folge</string>
+  <string name="runtime_per_episode">Laufzeit: %s pro Episode</string>
       
   <string name="director">Direktor</string>
       
@@ -128,10 +128,12 @@
       
   <string name="clear_filters">Filter löschen</string>
       
+  <string name="main_steams">Hauptströme</string>
+      
   <string name="favorite_streams">Lieblingsstreams</string>
       
   <string name="other_streams">Andere Streams</string>
-
+      
   <string name="streaming">Streaming</string>
   
 </resources>

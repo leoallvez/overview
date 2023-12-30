@@ -128,10 +128,12 @@
       
   <string name="clear_filters">Cancella filtri</string>
       
+  <string name="main_steams">Flussi principali</string>
+      
   <string name="favorite_streams">Stream preferiti</string>
       
   <string name="other_streams">Altri flussi</string>
-
+      
   <string name="streaming">Streaming</string>
   
 </resources>

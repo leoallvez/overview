@@ -50,7 +50,7 @@
       
   <string name="search_clean_icon">Effacer l\'icône de recherche</string>
       
-  <string name="app_offline_msg">Aucune connexion Internet disponible</string>
+  <string name="app_offline_msg">Aucune connexion Internet disponible</string>
       
   <string name="loading">Chargement…</string>
       
@@ -128,10 +128,12 @@
       
   <string name="clear_filters">Effacer les filtres</string>
       
+  <string name="main_steams">Principaux flux</string>
+      
   <string name="favorite_streams">Flux favoris</string>
       
   <string name="other_streams">Autres flux</string>
-
+      
   <string name="streaming">Streaming</string>
   
 </resources>
