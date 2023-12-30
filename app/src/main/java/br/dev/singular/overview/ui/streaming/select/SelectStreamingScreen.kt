@@ -81,7 +81,7 @@ fun StreamingGrid(streaming: StreamingData, onClick: (String) -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
         streamingSession(
-            top = { SimpleTitle(title = stringResource(R.string.favorite_streams)) },
+            top = { SimpleTitle(title = stringResource(R.string.main_steams)) },
             streaming = streaming.selected,
             onClick = onClick
         )
