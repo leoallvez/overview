@@ -39,6 +39,7 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -841,6 +842,37 @@ fun Pulsating(isPulsing: Boolean = true, content: @Composable () -> Unit) {
 
     Box(modifier = Modifier.scale(scale)) {
         content()
+    }
+}
+
+@Composable
+fun DisabledSearchToolBar(
+    onBackstack: () -> Unit,
+    onToSearch: () -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().background(PrimaryBackground),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ToolbarButton(
+                painter = Icons.Default.KeyboardArrowLeft,
+                descriptionResource = R.string.backstack_icon,
+                background = Color.White.copy(alpha = 0.1f),
+                padding = PaddingValues(
+                    vertical = dimensionResource(R.dimen.screen_padding)
+                )
+            ) { onBackstack.invoke() }
+        }
+        SearchField(
+            enabled = false,
+            onClick = onToSearch,
+            defaultPaddingValues = PaddingValues(start = 13.dp, end = 0.dp),
+            placeholder = stringResource(R.string.search_in_all_places)
+        )
     }
 }
 

@@ -3,7 +3,6 @@ package br.dev.singular.overview.ui.streaming.select
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -23,9 +22,9 @@ import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.BasicImage
+import br.dev.singular.overview.ui.DisabledSearchToolBar
 import br.dev.singular.overview.ui.STREAMING_GRID_COLUMNS
 import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
@@ -49,12 +48,9 @@ fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectS
             horizontal = dimensionResource(R.dimen.screen_padding_new)
         ),
         topBar = {
-            SearchField(
-                Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
-                enabled = false,
-                onClick = navigate::toSearch,
-                defaultPaddingValues = PaddingValues(),
-                placeholder = stringResource(R.string.search_in_all_places)
+            DisabledSearchToolBar(
+                onBackstack = navigate::popBackStack,
+                onToSearch = navigate::toSearch
             )
         },
         bottomBar = {
