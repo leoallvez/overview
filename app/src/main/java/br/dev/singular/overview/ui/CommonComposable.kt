@@ -414,8 +414,7 @@ fun BasicImage(
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-                    then (
-                    if (withBorder) {
+                    then (if (withBorder) {
                         Modifier.border(
                             dimensionResource(R.dimen.border_width),
                             Gray,
@@ -423,8 +422,7 @@ fun BasicImage(
                         )
                     } else {
                         Modifier
-                    }
-                    ),
+                    }),
             contentScale = contentScale,
             placeholder = placeholder,
             contentDescription = contentDescription,
@@ -513,8 +511,7 @@ fun Backdrop(
 fun <T> UiStateResult(
     uiState: UiState<T>,
     onRefresh: () -> Unit,
-    successContent: @Composable
-        (T) -> Unit
+    successContent: @Composable (T) -> Unit
 ) {
     when (uiState) {
         is UiState.Loading -> LoadingScreen()
