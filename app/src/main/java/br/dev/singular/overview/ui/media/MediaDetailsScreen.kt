@@ -156,7 +156,7 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        StreamingOverview(media.streamings, media.isReleased()) { streaming ->
+        StreamingOverview(media.streams, media.isReleased()) { streaming ->
             onClickStreaming(streaming)
             navigate.toStreamingExplore()
         }
@@ -276,7 +276,7 @@ fun StreamingOverview(
             }
         }
     } else {
-        StreamingsNotFound(
+        StreamingNotFound(
             if (isReleased) {
                 R.string.empty_list_providers
             } else {
@@ -287,7 +287,7 @@ fun StreamingOverview(
 }
 
 @Composable
-fun StreamingsNotFound(@StringRes stringResource: Int) {
+fun StreamingNotFound(@StringRes stringResource: Int) {
     Row(
         modifier = Modifier
             .padding(

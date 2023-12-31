@@ -50,7 +50,7 @@ interface ApiService {
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
     @GET(value = "discover/tv?sort_by=popularity.desc")
-    suspend fun discoverOnTvByStreamings(
+    suspend fun discoverOnTvByStreaming(
         @Query(value = "api_key")
         apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query(value = "language")
@@ -62,7 +62,7 @@ interface ApiService {
         @Query(value = "first_air_date.lte")
         dateEnd: String = "",
         @Query(value = "with_watch_providers")
-        streamingsIds: String = ""
+        streamingIds: String = ""
     ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
 
     // Movie
@@ -142,7 +142,7 @@ interface ApiService {
     @GET(value = "discover/tv?sort_by=primary_release_date.desc")
     suspend fun getTvShowsPaging(
         @Query(value = "with_watch_providers")
-        streamingsIds: String = "",
+        streamingIds: String = "",
         @Query(value = "with_genres")
         withGenres: String = "",
         @Query(value = "page")
@@ -160,7 +160,7 @@ interface ApiService {
     @GET(value = "discover/movie?sort_by=primary_release_date.desc")
     suspend fun getMoviesPaging(
         @Query(value = "with_watch_providers")
-        streamingsIds: String = "",
+        streamingIds: String = "",
         @Query(value = "with_genres")
         withGenres: String = "",
         @Query(value = "page")

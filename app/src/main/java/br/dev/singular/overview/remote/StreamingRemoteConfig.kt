@@ -6,22 +6,22 @@ import br.dev.singular.overview.util.parseToList
 import io.github.leoallvez.firebase.RemoteSource
 import io.github.leoallvez.firebase.getStreamingKeyByRegion
 
-class StreamingsRemoteConfig(
+class StreamingRemoteConfig(
     private val _region: String,
     private val _remoteSource: RemoteSource,
     private val _jsonFileReader: IJsonFileReader
 ) : RemoteConfig<List<StreamingEntity>> {
 
-    override fun execute() = getRemoteStreamings().ifEmpty { getLocalStreamings() }
+    override fun execute() = getRemoteStreaming().ifEmpty { getLocalStreaming() }
 
-    private fun getLocalStreamings(): List<StreamingEntity> {
+    private fun getLocalStreaming(): List<StreamingEntity> {
         val json = _jsonFileReader.read(getStreamingFileName())
         return json.parseToList()
     }
 
-    private fun getStreamingFileName() = "streamings/$_region.json"
+    private fun getStreamingFileName() = "streams/$_region.json"
 
-    private fun getRemoteStreamings(): List<StreamingEntity> {
+    private fun getRemoteStreaming(): List<StreamingEntity> {
         val json = _remoteSource.getString(getStreamingRemoteKey())
         return json.parseToList()
     }

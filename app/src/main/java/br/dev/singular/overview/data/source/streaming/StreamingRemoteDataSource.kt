@@ -3,8 +3,8 @@ package br.dev.singular.overview.data.source.streaming
 import br.dev.singular.overview.data.api.ApiService
 import br.dev.singular.overview.data.api.IApiLocale
 import br.dev.singular.overview.data.api.response.ProviderResponse
-import com.haroldadmin.cnradapter.NetworkResponse
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
 class StreamingRemoteDataSource @Inject constructor(
@@ -13,14 +13,14 @@ class StreamingRemoteDataSource @Inject constructor(
 ) : IStreamingRemoteDataSource {
 
     override suspend fun getItems(): List<StreamingEntity> =
-        when (val response = getStreamings()) {
+        when (val response = getStreaming()) {
             is NetworkResponse.Success -> {
                 response.body.results
             }
             else -> listOf()
         }
 
-    private suspend fun getStreamings() = _locale.run {
+    private suspend fun getStreaming() = _locale.run {
         _api.getStreamingItems(language = language, region = region)
     }
 

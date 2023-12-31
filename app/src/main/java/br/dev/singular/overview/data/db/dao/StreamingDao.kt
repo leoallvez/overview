@@ -18,13 +18,13 @@ interface StreamingDao {
     @Update
     fun update(vararg model: StreamingEntity)
 
-    @Query("SELECT * FROM streamings ORDER BY display_priority")
+    @Query("SELECT * FROM streams ORDER BY display_priority")
     fun getAll(): List<StreamingEntity>
 
-    @Query("SELECT * FROM streamings WHERE selected = 1 ORDER BY display_priority")
+    @Query("SELECT * FROM streams WHERE selected = 1 ORDER BY display_priority")
     fun getAllSelected(): List<StreamingEntity>
 
-    @Query("DELETE FROM streamings")
+    @Query("DELETE FROM streams")
     fun deleteAll()
 
     @Transaction

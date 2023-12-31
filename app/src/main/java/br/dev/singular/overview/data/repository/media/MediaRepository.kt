@@ -24,7 +24,7 @@ class MediaRepository @Inject constructor(
 
     override suspend fun getItem(apiId: Long, type: MediaTypeEnum) = withContext(_dispatcher) {
         val result = getMedia(apiId, type)
-        setStreamings(result)
+        setStreaming(result)
         flow { emit(result) }
     }
 
@@ -34,12 +34,12 @@ class MediaRepository @Inject constructor(
         else -> throw IllegalArgumentException("Unsupported media type")
     }
 
-    private suspend fun setStreamings(result: DataResult<out Media>) {
+    private suspend fun setStreaming(result: DataResult<out Media>) {
         result.data?.apply {
-            streamings = getStreamings(apiId, getType()).sortedBy { it.priority }
+            streams = getStreaming(apiId, getType()).sortedBy { it.priority }
         }
     }
 
-    private suspend fun getStreamings(apiId: Long, mediaType: String) =
+    private suspend fun getStreaming(apiId: Long, mediaType: String) =
         _streamingSource.getItems(apiId, mediaType)
 }
