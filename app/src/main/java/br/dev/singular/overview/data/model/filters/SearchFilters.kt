@@ -38,10 +38,4 @@ class SearchFilters(
 
     fun areDefaultValues() =
         query.isEmpty() && mediaType == MediaType.ALL && genresIds.isEmpty()
-
-    fun genreQuantity(): String {
-        val mediaTypeQuantity = if (mediaType != MediaType.ALL) 1 else 0
-        val filtersQuantity = genresIds.size + mediaTypeQuantity
-        return if (filtersQuantity > 0) filtersQuantity.toString() else String()
-    }
 }

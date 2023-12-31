@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
-import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.DataResult
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.UiState
@@ -55,22 +54,21 @@ fun NavBackStackEntry.getParams(): Pair<Long, String> {
     return Pair(id ?: 0, type ?: "")
 }
 
-fun NavBackStackEntry.getBackToHome(): Boolean {
-    return arguments?.getBoolean(ScreenNav.BACK_TO_HOME_PARAM) ?: false
+fun NavBackStackEntry.backstack(): Boolean {
+    return arguments?.getBoolean(ScreenNav.BACKSTACK_PARAM) ?: false
 }
 
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
-
-fun NavBackStackEntry.getStreamingParams(): StreamingEntity {
-    val json = arguments?.getString(ScreenNav.JSON_PARAM) ?: ""
-    return json.fromJson() ?: StreamingEntity()
-}
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
 fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
 
 fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
-    if (isValid(this)) { UiState.Success(data = this) } else { UiState.Error() }
+    if (isValid(this)) {
+        UiState.Success(data = this)
+    } else {
+        UiState.Error()
+    }
 
 fun <T> DataResult<out T>.toUiState(): UiState<T?> {
     val isSuccess = this is DataResult.Success

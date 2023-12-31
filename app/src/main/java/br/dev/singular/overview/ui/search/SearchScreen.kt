@@ -80,7 +80,9 @@ fun SearchScreen(
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
                         MediaPagingVerticalGrid(padding, items, navigate::toMediaDetails)
-                    } else -> {
+                    }
+
+                    else -> {
                         if (items.itemCount == 0 && filters.query.isNotEmpty()) {
                             NotFoundContentScreen()
                         } else {
@@ -108,7 +110,7 @@ fun SearchToolBar(
     ) {
         ToolbarButton(
             painter = Icons.Default.KeyboardArrowLeft,
-            descriptionResource = R.string.back_to_home_icon,
+            descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f),
             padding = PaddingValues(
                 vertical = dimensionResource(R.dimen.screen_padding),

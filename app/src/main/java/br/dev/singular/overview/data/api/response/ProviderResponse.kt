@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.api.response
 
-import com.squareup.moshi.Json
 import br.dev.singular.overview.data.model.provider.Provider
+import com.squareup.moshi.Json
 
 data class ProviderResponse(
     @field:Json(name = "id")

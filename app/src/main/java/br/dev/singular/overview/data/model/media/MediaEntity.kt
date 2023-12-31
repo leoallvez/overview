@@ -3,7 +3,6 @@ package br.dev.singular.overview.data.model.media
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.dev.singular.overview.BuildConfig
 
 @Entity(tableName = "medias")
 class MediaEntity(
@@ -22,6 +21,4 @@ class MediaEntity(
     var isLiked: Boolean = false,
     @ColumnInfo(name = "is_indicated")
     var isIndicated: Boolean = false
-) {
-    fun getBackdropImage() = "${BuildConfig.TMDB_IMG_URL}/$backdropPath"
-}
+)

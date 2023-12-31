@@ -1,6 +1,8 @@
 package br.dev.singular.overview.di
 
 import android.content.Context
+import br.dev.singular.overview.AnalyticsTracker
+import br.dev.singular.overview.IAnalyticsTracker
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
@@ -10,8 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import br.dev.singular.overview.AnalyticsTracker
-import br.dev.singular.overview.IAnalyticsTracker
 import io.github.leoallvez.firebase.*
 import javax.inject.Singleton
 

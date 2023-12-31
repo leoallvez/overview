@@ -1,135 +1,140 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools">
-      
-  <string name="app_name_prod">概要</string>
-      
-  <!-- Home list title -->
-      
-  <string name="movie_top_rated" tools:ignore="UnusedResources">評価の高い映画</string>
-      
-  <string name="discover_movie" tools:ignore="UnusedResources">楽しめる映画</string>
-      
-  <string name="movie_trending" tools:ignore="UnusedResources">話題の映画</string>
-      
-  <string name="movie_popular" tools:ignore="UnusedResources">人気の映画</string>
-      
-  <string name="tv_top_rated" tools:ignore="UnusedResources">ストリーミングで最高評価</string>
-      
-  <string name="discover_tv" tools:ignore="UnusedResources">ストリーミングでもお楽しみいただけます</string>
-      
-  <string name="tv_trending" tools:ignore="UnusedResources">ストリーミングのトレンド</string>
-      
-  <string name="tv_popular" tools:ignore="UnusedResources">ストリーミングで人気</string>
-      
-  <!-- Genre -->
-      
-  <string name="genre_10759" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10762" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10763" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10764" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10765" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10766" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10767" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10768" tools:ignore="UnusedResources"/>
-      
-  <string name="error_on_loading">読み込みエラー :(</string>
-      
-  <string name="btn_try_again">もう一度やり直してください</string>
-      
-  <string name="refresh_icon">リロードアイコン</string>
-      
-  <string name="back_to_home_icon">ホームアイコンに戻る</string>
-      
-  <string name="search_icon">検索アイコン</string>
-      
-  <string name="search_clean_icon">検索アイコンをクリア</string>
-      
-  <string name="app_offline_msg">インターネット接続が利用できません</string>
-      
-  <string name="loading">読み込み中…</string>
-      
-  <string name="synopsis">あらすじ</string>
-      
-  <string name="biography">バイオグラフィー</string>
-      
-  <string name="cast">キャスト</string>
-      
-  <string name="related">関連している</string>
-      
-  <string name="where_to_watch">プロバイダー</string>
-      
-  <string name="separator">•</string>
-      
-  <string name="em_dash">-</string>
-      
-  <string name="tv_shows_participation">テレビ出演</string>
-      
-  <string name="movies_participation">映画への参加</string>
-      
-  <string name="age">%s 年</string>
-      
-  <string name="place_of_birth">出生地</string>
-      
-  <string name="one_season">1 シーズン</string>
-      
-  <string name="n_seasons">%s シーズン</string>
-      
-  <string name="one_episode">1 話</string>
-      
-  <string name="n_episodes">%s エピソード</string>
-      
-  <string name="runtime_per_episode">ランタイム: エピソードあたり %s</string>
-      
-  <string name="director">監督</string>
-      
-  <string name="release_date">発売日</string>
-      
-  <string name="runtime">ランタイム</string>
-      
-  <string name="search_field_text">検索</string>
-      
-  <string name="movies">映画</string>
-      
-  <string name="tv_show">テレビ番組</string>
-      
-  <string name="all">映画とテレビ番組</string>
-      
-  <string name="search_not_started">検索結果がここに表示されます :)</string>
-      
-  <string name="search_result_empty">結果が見つかりません ：（</string>
-      
-  <string name="empty_list_providers">ストリーミングでは利用できません</string>
-      
-  <string name="not_yet_released">まだ出てない</string>
-      
-  <string name="edit">編集</string>
-      
-  <string name="yours_streaming">あなたのストリーミング</string>
-      
-  <string name="search_in_all_places">どこでも検索</string>
-      
-  <string name="genres">ジャンル</string>
-      
-  <string name="type">タイプ</string>
-      
-  <string name="filters">フィルター</string>
-      
-  <string name="close">アイコンを閉じる</string>
-      
-  <string name="not_found">結果が見つかりません ：（</string>
-      
-  <string name="check_filters">フィルターを確認して再試行してください</string>
-      
-  <string name="clear_filters">フィルターをクリアする</string>
-      
-  <string name="favorite_streams">お気に入りのストリーム</string>
-      
-  <string name="other_streams">その他のストリーム</string>
-  
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name_prod">概要</string>
+
+    <!-- Home list title -->
+
+    <string name="movie_top_rated" tools:ignore="UnusedResources">評価の高い映画</string>
+
+    <string name="discover_movie" tools:ignore="UnusedResources">楽しめる映画</string>
+
+    <string name="movie_trending" tools:ignore="UnusedResources">話題の映画</string>
+
+    <string name="movie_popular" tools:ignore="UnusedResources">人気の映画</string>
+
+    <string name="tv_top_rated" tools:ignore="UnusedResources">ストリーミングで最高評価</string>
+
+    <string name="discover_tv" tools:ignore="UnusedResources">ストリーミングでもお楽しみいただけます</string>
+
+    <string name="tv_trending" tools:ignore="UnusedResources">ストリーミングのトレンド</string>
+
+    <string name="tv_popular" tools:ignore="UnusedResources">ストリーミングで人気</string>
+
+    <!-- Genre -->
+
+    <string name="genre_10759" tools:ignore="UnusedResources" />
+
+    <string name="genre_10762" tools:ignore="UnusedResources" />
+
+    <string name="genre_10763" tools:ignore="UnusedResources" />
+
+    <string name="genre_10764" tools:ignore="UnusedResources" />
+
+    <string name="genre_10765" tools:ignore="UnusedResources" />
+
+    <string name="genre_10766" tools:ignore="UnusedResources" />
+
+    <string name="genre_10767" tools:ignore="UnusedResources" />
+
+    <string name="genre_10768" tools:ignore="UnusedResources" />
+
+    <string name="error_on_loading">読み込みエラー :(</string>
+
+    <string name="btn_try_again">もう一度やり直してください</string>
+
+    <string name="refresh_icon">リロードアイコン</string>
+
+    <string name="backstack_icon">ホームアイコンに戻る</string>
+
+    <string name="search_icon">検索アイコン</string>
+
+    <string name="search_clean_icon">検索アイコンをクリア</string>
+
+    <string name="app_offline_msg">インターネット接続が利用できません</string>
+
+    <string name="loading">読み込み中…</string>
+
+    <string name="synopsis">あらすじ</string>
+
+    <string name="biography">バイオグラフィー</string>
+
+    <string name="cast">キャスト</string>
+
+    <string name="related">関連している</string>
+
+    <string name="where_to_watch">プロバイダー</string>
+
+    <string name="separator">•</string>
+
+    <string name="em_dash">-</string>
+
+    <string name="tv_shows_participation">テレビ出演</string>
+
+    <string name="movies_participation">映画への参加</string>
+
+    <string name="age">%s 年</string>
+
+    <string name="place_of_birth">出生地</string>
+
+    <string name="one_season">1 シーズン</string>
+
+    <string name="n_seasons">%s シーズン</string>
+
+    <string name="one_episode">1 話</string>
+
+    <string name="n_episodes">%s エピソード</string>
+
+    <string name="runtime_per_episode">ランタイム: エピソードあたり %s</string>
+
+    <string name="director">監督</string>
+
+    <string name="release_date">発売日</string>
+
+    <string name="runtime">ランタイム</string>
+
+    <string name="search_field_text">検索</string>
+
+    <string name="movies">映画</string>
+
+    <string name="tv_show">テレビ番組</string>
+
+    <string name="all">映画とテレビ番組</string>
+
+    <string name="search_not_started">検索結果がここに表示されます :)</string>
+
+    <string name="search_result_empty">結果が見つかりません ：（</string>
+
+    <string name="empty_list_providers">ストリーミングでは利用できません</string>
+
+    <string name="not_yet_released">まだ出てない</string>
+
+    <string name="edit">編集</string>
+
+    <string name="yours_streaming">あなたのストリーミング</string>
+
+    <string name="search_in_all_places">どこでも検索</string>
+
+    <string name="genres">ジャンル</string>
+
+    <string name="type">タイプ</string>
+
+    <string name="filters">フィルター</string>
+
+    <string name="close">アイコンを閉じる</string>
+
+    <string name="not_found">結果が見つかりません ：（</string>
+
+    <string name="check_filters">フィルターを確認して再試行してください</string>
+
+    <string name="clear_filters">フィルターをクリアする</string>
+
+    <string name="main_steams">メインストリーム</string>
+
+    <string name="favorite_streams">お気に入りのストリーム</string>
+
+    <string name="other_streams">その他のストリーム</string>
+
+    <string name="streaming">ストリーミング</string>
+
 </resources>

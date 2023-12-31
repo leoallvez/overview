@@ -1,6 +1,6 @@
 # https://singhajit.com/android-ci-cd-using-github-actions/
 name: CI
-on: ["push"]
+on: [ "push" ]
 
 jobs:
   build:

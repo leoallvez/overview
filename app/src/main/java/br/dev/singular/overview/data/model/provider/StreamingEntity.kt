@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import br.dev.singular.overview.BuildConfig
 import com.squareup.moshi.Json
 
-@Entity(tableName = "streamings")
+@Entity(tableName = "streams")
 data class StreamingEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "streaming_db_id")

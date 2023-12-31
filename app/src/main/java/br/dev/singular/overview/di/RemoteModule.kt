@@ -5,7 +5,7 @@ import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
 import br.dev.singular.overview.remote.RemoteConfig
-import br.dev.singular.overview.remote.StreamingsRemoteConfig
+import br.dev.singular.overview.remote.StreamingRemoteConfig
 import br.dev.singular.overview.util.IJsonFileReader
 import dagger.Module
 import dagger.Provides
@@ -28,7 +28,7 @@ class RemoteModule {
         ).execute()
     }
 
-    @StreamingsRemote
+    @StreamingRemote
     @Provides
     fun providerStreamingRemote(
         apiLocale: ApiLocale,
@@ -36,6 +36,6 @@ class RemoteModule {
         jsonFileReader: IJsonFileReader
     ): RemoteConfig<List<StreamingEntity>> {
         val region = apiLocale.region
-        return StreamingsRemoteConfig(region, remoteSource, jsonFileReader)
+        return StreamingRemoteConfig(region, remoteSource, jsonFileReader)
     }
 }

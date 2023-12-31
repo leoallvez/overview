@@ -9,12 +9,12 @@ class WorkManagerFacade constructor(
     private val _context: Context
 ) {
     fun init() {
-        scheduleStreamingsSaveTask()
+        scheduleStreamingSaveTask()
         scheduleGenreDefaultTask()
         scheduleMediaTask()
     }
 
-    private fun scheduleStreamingsSaveTask() = makeOneTime<StreamingsSaveWorker>()
+    private fun scheduleStreamingSaveTask() = makeOneTime<StreamingSaveWorker>()
 
     private fun scheduleGenreDefaultTask() = makeOneTime<GenreDefaultSetupWorker>()
 

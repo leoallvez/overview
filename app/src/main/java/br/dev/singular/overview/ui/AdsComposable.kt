@@ -12,10 +12,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import br.dev.singular.overview.BuildConfig
 import br.dev.singular.overview.R
+import br.dev.singular.overview.ui.theme.PrimaryBackground
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import br.dev.singular.overview.ui.theme.PrimaryBackground
 
 @Composable
 fun AdsBanner(

@@ -39,6 +39,7 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -91,6 +92,7 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
+import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
@@ -150,7 +152,9 @@ fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
 fun LoadingScreen(showOnTop: Boolean = false) {
     val padding = if (showOnTop) {
         dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else { 0.dp }
+    } else {
+        0.dp
+    }
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
@@ -172,7 +176,9 @@ fun LoadingScreen(showOnTop: Boolean = false) {
 fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
     val padding = if (showOnTop) {
         dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else { 0.dp }
+    } else {
+        0.dp
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -181,7 +187,10 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
         verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IntermediateScreensText(text = stringResource(R.string.error_on_loading), color = AlertColor)
+        IntermediateScreensText(
+            text = stringResource(R.string.error_on_loading),
+            color = AlertColor
+        )
         StylizedButton(
             buttonText = stringResource(R.string.btn_try_again),
             iconDescription = stringResource(R.string.refresh_icon),
@@ -196,7 +205,9 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
 fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = false) {
     val padding = if (showOnTop) {
         dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else { 0.dp }
+    } else {
+        0.dp
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -403,22 +414,25 @@ fun BasicImage(
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-                then (
-                    if (withBorder) {
-                        Modifier.border(
-                            dimensionResource(R.dimen.border_width),
-                            Gray,
-                            RoundedCornerShape(dimensionResource(R.dimen.corner))
-                        )
-                    } else {
-                        Modifier
-                    }
-                    ),
+                .then(Modifier.border(withBorder)),
             contentScale = contentScale,
             placeholder = placeholder,
             contentDescription = contentDescription,
             error = errorDefaultImage
         )
+    }
+}
+
+@Composable
+private fun Modifier.border(withBorder: Boolean): Modifier {
+    return if (withBorder) {
+        border(
+            dimensionResource(R.dimen.border_width),
+            Gray,
+            RoundedCornerShape(dimensionResource(R.dimen.corner))
+        )
+    } else {
+        this
     }
 }
 
@@ -502,8 +516,7 @@ fun Backdrop(
 fun <T> UiStateResult(
     uiState: UiState<T>,
     onRefresh: () -> Unit,
-    successContent: @Composable
-    (T) -> Unit
+    successContent: @Composable (T) -> Unit
 ) {
     when (uiState) {
         is UiState.Loading -> LoadingScreen()
@@ -688,7 +701,10 @@ fun SearchField(
         BasicTextField(
             value = query,
             enabled = enabled,
-            modifier = Modifier.focusRequester(focusRequester).fillMaxWidth().height(40.dp),
+            modifier = Modifier
+                .focusRequester(focusRequester)
+                .fillMaxWidth()
+                .height(40.dp),
             textStyle = MaterialTheme.typography.body2.copy(color = Color.White),
             onValueChange = { value ->
                 query = value
@@ -702,9 +718,10 @@ fun SearchField(
                     Modifier
                         .border(
                             width = 1.dp,
-                            color = if (query.isEmpty()) Color.Gray else AccentColor,
+                            color = if (query.isEmpty()) Gray.copy(alpha = 0.5f) else AccentColor,
                             shape = RoundedCornerShape(size = 50.dp)
-                        ).padding(start = 5.dp),
+                        )
+                        .padding(start = 5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     SearchIcon(
@@ -715,7 +732,7 @@ fun SearchField(
                             Text(
                                 placeholder,
                                 style = LocalTextStyle.current.copy(
-                                    color = Color.Gray,
+                                    color = Gray,
                                     fontSize = MaterialTheme.typography.body2.fontSize
                                 )
                             )
@@ -735,19 +752,22 @@ fun SearchField(
 @Composable
 fun StreamingIcon(
     modifier: Modifier = Modifier,
-    streaming: StreamingEntity,
+    streaming: StreamingEntity?,
     size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
     withBorder: Boolean = true,
+    clickable: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    BasicImage(
-        url = streaming.getLogoImage(),
-        contentDescription = streaming.name,
-        withBorder = withBorder,
-        modifier = modifier
-            .size(size)
-            .clickable { onClick.invoke() }
-    )
+    streaming?.let {
+        BasicImage(
+            url = streaming.getLogoImage(),
+            contentDescription = streaming.name,
+            withBorder = withBorder,
+            modifier = modifier
+                .size(size)
+                .onClick(active = clickable) { onClick.invoke() }
+        )
+    }
 }
 
 @Composable
@@ -822,12 +842,12 @@ fun FilterButton(
 
 // https://medium.com/nerd-for-tech/jetpack-compose-pulsating-effect-4b9f2928d31a
 @Composable
-fun Pulsating(active: Boolean = true, content: @Composable () -> Unit) {
+fun Pulsating(isPulsing: Boolean = true, content: @Composable () -> Unit) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = if (active) 1.1f else 1f,
+        targetValue = if (isPulsing) 1.1f else 1f,
         animationSpec = infiniteRepeatable(
             animation = tween(1_100),
             repeatMode = RepeatMode.Reverse
@@ -841,8 +861,36 @@ fun Pulsating(active: Boolean = true, content: @Composable () -> Unit) {
 }
 
 @Composable
-fun VerticalSpacer(padding: Dp = dimensionResource(R.dimen.default_padding)) {
-    Spacer(modifier = Modifier.padding(vertical = padding))
+fun DisabledSearchToolBar(
+    onBackstack: () -> Unit,
+    onToSearch: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ToolbarButton(
+                painter = Icons.Default.KeyboardArrowLeft,
+                descriptionResource = R.string.backstack_icon,
+                background = Color.White.copy(alpha = 0.1f),
+                padding = PaddingValues(
+                    vertical = dimensionResource(R.dimen.screen_padding)
+                )
+            ) { onBackstack.invoke() }
+        }
+        SearchField(
+            enabled = false,
+            onClick = onToSearch,
+            defaultPaddingValues = PaddingValues(start = 13.dp, end = 0.dp),
+            placeholder = stringResource(R.string.search_in_all_places)
+        )
+    }
 }
 
 const val STREAMING_GRID_COLUMNS = 4

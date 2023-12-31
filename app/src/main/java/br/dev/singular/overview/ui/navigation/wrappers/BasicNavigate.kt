@@ -1,22 +1,21 @@
 package br.dev.singular.overview.ui.navigation.wrappers
 
 import androidx.navigation.NavController
-import br.dev.singular.overview.ui.navigation.onNavigateToHome
 import br.dev.singular.overview.ui.navigation.onNavigateToMediaDetails
+import br.dev.singular.overview.ui.navigation.onNavigateToStreamingExplore
 
 open class BasicNavigate(
     private val navigation: NavController,
-    private val backToHome: Boolean = false
+    private val backstack: Boolean = false
 ) {
-    private fun toHome() = onNavigateToHome(navigation).invoke()
 
-    fun toMediaDetails(apiId: Long, mediaType: String?, backToHome: Boolean = false) =
-        onNavigateToMediaDetails(navigation, backToHome)
+    fun toMediaDetails(apiId: Long, mediaType: String?, backstack: Boolean = false) =
+        onNavigateToMediaDetails(navigation, backstack)
             .invoke(apiId, mediaType)
 
     fun popBackStack() {
-        if (backToHome) {
-            toHome()
+        if (backstack) {
+            onNavigateToStreamingExplore(navigation).invoke()
         } else {
             navigation.popBackStack()
         }

@@ -24,7 +24,10 @@ class TvShowRemoteDataSource @Inject constructor(
 
     override suspend fun getPaging(page: Int, searchFilters: SearchFilters): List<TvShow> {
         return when (val response = makePaging(page, searchFilters)) {
-            is NetworkResponse.Success -> { response.body.results }
+            is NetworkResponse.Success -> {
+                response.body.results
+            }
+
             else -> listOf()
         }
     }
@@ -37,7 +40,10 @@ class TvShowRemoteDataSource @Inject constructor(
 
     override suspend fun searchPaging(page: Int, searchFilters: SearchFilters): List<TvShow> {
         return when (val response = makeSearchPaging(page, searchFilters)) {
-            is NetworkResponse.Success -> { response.body.results }
+            is NetworkResponse.Success -> {
+                response.body.results
+            }
+
             else -> listOf()
         }
     }
@@ -46,21 +52,24 @@ class TvShowRemoteDataSource @Inject constructor(
         _api.searchTvShow(searchFilters.query, language, region, region, page)
     }
 
-    override suspend fun discoverByStreamings(streamingsIds: List<Long>): List<TvShow> {
-        return when (val response = makeTvDiscover(streamingsIds)) {
-            is NetworkResponse.Success -> { response.body.results }
+    override suspend fun discoverByStreaming(streamingIds: List<Long>): List<TvShow> {
+        return when (val response = makeTvDiscover(streamingIds)) {
+            is NetworkResponse.Success -> {
+                response.body.results
+            }
+
             else -> listOf()
         }
     }
 
-    private suspend fun makeTvDiscover(streamingsIds: List<Long>) = _locale.run {
+    private suspend fun makeTvDiscover(streamingIds: List<Long>) = _locale.run {
         val today: Date by lazy { Date() }
-        _api.discoverOnTvByStreamings(
+        _api.discoverOnTvByStreaming(
             language = language,
             watchRegion = region,
             dateIni = today.toLastMonthFormatted(),
             dateEnd = today.toFormatted(),
-            streamingsIds = streamingsIds.joinToStringWithPipe()
+            streamingIds = streamingIds.joinToStringWithPipe()
         )
     }
 }

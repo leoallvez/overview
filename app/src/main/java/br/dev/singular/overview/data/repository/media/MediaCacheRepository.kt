@@ -45,7 +45,7 @@ class MediaCacheRepository @Inject constructor(
     }
 
     private suspend fun getRemoteMedias(): List<Media> {
-        return _tvShowDiscoverRemoteSource.discoverByStreamings(selectedStreamingIds)
+        return _tvShowDiscoverRemoteSource.discoverByStreaming(selectedStreamingIds)
     }
 
     private fun updateAttributes(newMedias: List<MediaEntity>) {

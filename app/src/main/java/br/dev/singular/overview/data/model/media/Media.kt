@@ -1,9 +1,9 @@
 package br.dev.singular.overview.data.model.media
 
 import br.dev.singular.overview.BuildConfig
-import com.squareup.moshi.Json
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import com.squareup.moshi.Json
 
 abstract class Media {
     @field:Json(name = "id")
@@ -26,7 +26,7 @@ abstract class Media {
     protected val credits: Credits = Credits()
 
     @field:Json(name = "providers")
-    var streamings: List<StreamingEntity> = listOf()
+    var streams: List<StreamingEntity> = listOf()
 
     abstract fun getSimilarMedia(): List<Media>
     abstract fun getRuntime(): String

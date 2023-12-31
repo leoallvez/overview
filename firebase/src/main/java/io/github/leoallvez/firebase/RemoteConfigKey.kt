@@ -1,22 +1,23 @@
 package io.github.leoallvez.firebase
 
-import io.github.leoallvez.firebase.RemoteConfigKey.STREAMINGS_BR
-import io.github.leoallvez.firebase.RemoteConfigKey.STREAMINGS_ES
-import io.github.leoallvez.firebase.RemoteConfigKey.STREAMINGS_US
+import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_BR
+import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_ES
+import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_US
 
-private const val STREAMINGS_PREFIX = "streamings"
+private const val STREAM_PREFIX = "stream"
+
 enum class RemoteConfigKey(val value: String) {
     DISPLAY_ADS_KEY(value = "display_ads"),
-    STREAMINGS_BR(value = "${STREAMINGS_PREFIX}_BR"),
-    STREAMINGS_US(value = "${STREAMINGS_PREFIX}_US"),
-    STREAMINGS_ES(value = "${STREAMINGS_PREFIX}_ES"),
+    STREAM_BR(value = "${STREAM_PREFIX}_BR"),
+    STREAM_US(value = "${STREAM_PREFIX}_US"),
+    STREAM_ES(value = "${STREAM_PREFIX}_ES"),
     FIREBASE_ENVIRONMENT_KEY(value = "firebase_environment")
 }
 
 fun getStreamingKeyByRegion(region: String): RemoteConfigKey {
-    return when ("${STREAMINGS_PREFIX}_$region") {
-        STREAMINGS_BR.value -> STREAMINGS_BR
-        STREAMINGS_ES.value -> STREAMINGS_ES
-        else -> STREAMINGS_US
+    return when ("${STREAM_PREFIX}_$region") {
+        STREAM_BR.value -> STREAM_BR
+        STREAM_ES.value -> STREAM_ES
+        else -> STREAM_US
     }
 }
