@@ -414,20 +414,25 @@ fun BasicImage(
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-                    then (if (withBorder) {
-                        Modifier.border(
-                            dimensionResource(R.dimen.border_width),
-                            Gray,
-                            RoundedCornerShape(dimensionResource(R.dimen.corner))
-                        )
-                    } else {
-                        Modifier
-                    }),
+                .then(Modifier.border(withBorder)),
             contentScale = contentScale,
             placeholder = placeholder,
             contentDescription = contentDescription,
             error = errorDefaultImage
         )
+    }
+}
+
+@Composable
+private fun Modifier.border(withBorder: Boolean): Modifier {
+    return if (withBorder) {
+        border(
+            dimensionResource(R.dimen.border_width),
+            Gray,
+            RoundedCornerShape(dimensionResource(R.dimen.corner))
+        )
+    } else {
+        this
     }
 }
 
