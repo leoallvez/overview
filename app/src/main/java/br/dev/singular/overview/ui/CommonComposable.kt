@@ -152,7 +152,9 @@ fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
 fun LoadingScreen(showOnTop: Boolean = false) {
     val padding = if (showOnTop) {
         dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else { 0.dp }
+    } else {
+        0.dp
+    }
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
@@ -174,7 +176,9 @@ fun LoadingScreen(showOnTop: Boolean = false) {
 fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
     val padding = if (showOnTop) {
         dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else { 0.dp }
+    } else {
+        0.dp
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -183,7 +187,10 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
         verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IntermediateScreensText(text = stringResource(R.string.error_on_loading), color = AlertColor)
+        IntermediateScreensText(
+            text = stringResource(R.string.error_on_loading),
+            color = AlertColor
+        )
         StylizedButton(
             buttonText = stringResource(R.string.btn_try_again),
             iconDescription = stringResource(R.string.refresh_icon),
@@ -198,7 +205,9 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
 fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = false) {
     val padding = if (showOnTop) {
         dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else { 0.dp }
+    } else {
+        0.dp
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -405,7 +414,7 @@ fun BasicImage(
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-                then (
+                    then (
                     if (withBorder) {
                         Modifier.border(
                             dimensionResource(R.dimen.border_width),
@@ -505,7 +514,7 @@ fun <T> UiStateResult(
     uiState: UiState<T>,
     onRefresh: () -> Unit,
     successContent: @Composable
-    (T) -> Unit
+        (T) -> Unit
 ) {
     when (uiState) {
         is UiState.Loading -> LoadingScreen()
@@ -690,7 +699,10 @@ fun SearchField(
         BasicTextField(
             value = query,
             enabled = enabled,
-            modifier = Modifier.focusRequester(focusRequester).fillMaxWidth().height(40.dp),
+            modifier = Modifier
+                .focusRequester(focusRequester)
+                .fillMaxWidth()
+                .height(40.dp),
             textStyle = MaterialTheme.typography.body2.copy(color = Color.White),
             onValueChange = { value ->
                 query = value
@@ -706,7 +718,8 @@ fun SearchField(
                             width = 1.dp,
                             color = if (query.isEmpty()) Gray.copy(alpha = 0.5f) else AccentColor,
                             shape = RoundedCornerShape(size = 50.dp)
-                        ).padding(start = 5.dp),
+                        )
+                        .padding(start = 5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     SearchIcon(
@@ -851,7 +864,9 @@ fun DisabledSearchToolBar(
     onToSearch: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().background(PrimaryBackground),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

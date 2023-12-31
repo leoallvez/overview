@@ -1,6 +1,9 @@
 package br.dev.singular.overview.data.db.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.MediaTypeGenresCrossRef
 import br.dev.singular.overview.data.model.media.MediaTypeWithGenres

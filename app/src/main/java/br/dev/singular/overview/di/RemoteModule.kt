@@ -28,7 +28,7 @@ class RemoteModule {
         ).execute()
     }
 
-    @StreamingsRemote
+    @StreamingRemote
     @Provides
     fun providerStreamingRemote(
         apiLocale: ApiLocale,

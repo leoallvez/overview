@@ -16,7 +16,8 @@ class ConnectivityLiveData(
     private val _connectivityManager: ConnectivityManager
 ) : LiveData<Boolean>() {
 
-    @Inject constructor(app: Application) : this(app.getConnectivityManager())
+    @Inject
+    constructor(app: Application) : this(app.getConnectivityManager())
 
     private val _networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {

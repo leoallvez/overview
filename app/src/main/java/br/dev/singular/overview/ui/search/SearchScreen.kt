@@ -80,7 +80,9 @@ fun SearchScreen(
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
                         MediaPagingVerticalGrid(padding, items, navigate::toMediaDetails)
-                    } else -> {
+                    }
+
+                    else -> {
                         if (items.itemCount == 0 && filters.query.isNotEmpty()) {
                             NotFoundContentScreen()
                         } else {

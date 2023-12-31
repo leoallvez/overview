@@ -1,139 +1,140 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools">
-      
-  <string name="app_name_prod">개요</string>
-      
-  <!-- Home list title -->
-      
-  <string name="movie_top_rated" tools:ignore="UnusedResources">최고 평점 영화</string>
-      
-  <string name="discover_movie" tools:ignore="UnusedResources">즐길 수 있는 영화</string>
-      
-  <string name="movie_trending" tools:ignore="UnusedResources">인기 영화</string>
-      
-  <string name="movie_popular" tools:ignore="UnusedResources">인기 영화</string>
-      
-  <string name="tv_top_rated" tools:ignore="UnusedResources">스트리밍 최고 평점</string>
-      
-  <string name="discover_tv" tools:ignore="UnusedResources">스트리밍으로 감상하실 수 있습니다</string>
-      
-  <string name="tv_trending" tools:ignore="UnusedResources">스트리밍 트렌드</string>
-      
-  <string name="tv_popular" tools:ignore="UnusedResources">스트리밍에서 인기</string>
-      
-  <!-- Genre -->
-      
-  <string name="genre_10759" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10762" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10763" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10764" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10765" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10766" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10767" tools:ignore="UnusedResources"/>
-      
-  <string name="genre_10768" tools:ignore="UnusedResources"/>
-      
-  <string name="error_on_loading">로딩 중 오류가 발생했습니다 :(</string>
-      
-  <string name="btn_try_again">다시 시도하십시오</string>
-      
-  <string name="refresh_icon">새로고침 아이콘</string>
-      
-  <string name="backstack_icon">집으로 돌아가기 아이콘</string>
-      
-  <string name="search_icon">검색 아이콘</string>
-      
-  <string name="search_clean_icon">검색 아이콘 지우기</string>
-      
-  <string name="app_offline_msg">인터넷에 연결할 수 없습니다.</string>
-      
-  <string name="loading">로드 중…</string>
-      
-  <string name="synopsis">개요</string>
-      
-  <string name="biography">전기</string>
-      
-  <string name="cast">깁스</string>
-      
-  <string name="related">관련된</string>
-      
-  <string name="where_to_watch">공급자</string>
-      
-  <string name="separator">•</string>
-      
-  <string name="em_dash">-</string>
-      
-  <string name="tv_shows_participation">TV 참여</string>
-      
-  <string name="movies_participation">영화 참여</string>
-      
-  <string name="age">%s년</string>
-      
-  <string name="place_of_birth">출생지</string>
-      
-  <string name="one_season">1시즌</string>
-      
-  <string name="n_seasons">%s 시즌</string>
-      
-  <string name="one_episode">1회</string>
-      
-  <string name="n_episodes">에피소드 %s개</string>
-      
-  <string name="runtime_per_episode">런타임: 에피소드당 %s</string>
-      
-  <string name="director">감독</string>
-      
-  <string name="release_date">출시일</string>
-      
-  <string name="runtime">실행 시간</string>
-      
-  <string name="search_field_text">찾다</string>
-      
-  <string name="movies">영화 산업</string>
-      
-  <string name="tv_show">TV 프로그램</string>
-      
-  <string name="all">영화 및 TV 프로그램</string>
-      
-  <string name="search_not_started">검색결과가 여기에 표시됩니다 :)</string>
-      
-  <string name="search_result_empty">검색 결과가 없습니다 :(</string>
-      
-  <string name="empty_list_providers">스트리밍에는 사용할 수 없습니다.</string>
-      
-  <string name="not_yet_released">아직 출시되지 않음</string>
-      
-  <string name="edit">편집하다</string>
-      
-  <string name="yours_streaming">당신의 스트리밍</string>
-      
-  <string name="search_in_all_places">어디서나 검색</string>
-      
-  <string name="genres">장르</string>
-      
-  <string name="type">유형</string>
-      
-  <string name="filters">필터</string>
-      
-  <string name="close">아이콘을 닫으려면</string>
-      
-  <string name="not_found">검색 결과가 없습니다 :(</string>
-      
-  <string name="check_filters">필터를 확인하고 다시 시도해 보세요.</string>
-      
-  <string name="clear_filters">필터 지우기</string>
-      
-  <string name="main_steams">메인 스트림</string>
-      
-  <string name="favorite_streams">즐겨찾는 스트림</string>
-      
-  <string name="other_streams">기타 스트림</string>
-      
-  <string name="streaming">스트리밍</string>
-  
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name_prod">개요</string>
+
+    <!-- Home list title -->
+
+    <string name="movie_top_rated" tools:ignore="UnusedResources">최고 평점 영화</string>
+
+    <string name="discover_movie" tools:ignore="UnusedResources">즐길 수 있는 영화</string>
+
+    <string name="movie_trending" tools:ignore="UnusedResources">인기 영화</string>
+
+    <string name="movie_popular" tools:ignore="UnusedResources">인기 영화</string>
+
+    <string name="tv_top_rated" tools:ignore="UnusedResources">스트리밍 최고 평점</string>
+
+    <string name="discover_tv" tools:ignore="UnusedResources">스트리밍으로 감상하실 수 있습니다</string>
+
+    <string name="tv_trending" tools:ignore="UnusedResources">스트리밍 트렌드</string>
+
+    <string name="tv_popular" tools:ignore="UnusedResources">스트리밍에서 인기</string>
+
+    <!-- Genre -->
+
+    <string name="genre_10759" tools:ignore="UnusedResources" />
+
+    <string name="genre_10762" tools:ignore="UnusedResources" />
+
+    <string name="genre_10763" tools:ignore="UnusedResources" />
+
+    <string name="genre_10764" tools:ignore="UnusedResources" />
+
+    <string name="genre_10765" tools:ignore="UnusedResources" />
+
+    <string name="genre_10766" tools:ignore="UnusedResources" />
+
+    <string name="genre_10767" tools:ignore="UnusedResources" />
+
+    <string name="genre_10768" tools:ignore="UnusedResources" />
+
+    <string name="error_on_loading">로딩 중 오류가 발생했습니다 :(</string>
+
+    <string name="btn_try_again">다시 시도하십시오</string>
+
+    <string name="refresh_icon">새로고침 아이콘</string>
+
+    <string name="backstack_icon">집으로 돌아가기 아이콘</string>
+
+    <string name="search_icon">검색 아이콘</string>
+
+    <string name="search_clean_icon">검색 아이콘 지우기</string>
+
+    <string name="app_offline_msg">인터넷에 연결할 수 없습니다.</string>
+
+    <string name="loading">로드 중…</string>
+
+    <string name="synopsis">개요</string>
+
+    <string name="biography">전기</string>
+
+    <string name="cast">깁스</string>
+
+    <string name="related">관련된</string>
+
+    <string name="where_to_watch">공급자</string>
+
+    <string name="separator">•</string>
+
+    <string name="em_dash">-</string>
+
+    <string name="tv_shows_participation">TV 참여</string>
+
+    <string name="movies_participation">영화 참여</string>
+
+    <string name="age">%s년</string>
+
+    <string name="place_of_birth">출생지</string>
+
+    <string name="one_season">1시즌</string>
+
+    <string name="n_seasons">%s 시즌</string>
+
+    <string name="one_episode">1회</string>
+
+    <string name="n_episodes">에피소드 %s개</string>
+
+    <string name="runtime_per_episode">런타임: 에피소드당 %s</string>
+
+    <string name="director">감독</string>
+
+    <string name="release_date">출시일</string>
+
+    <string name="runtime">실행 시간</string>
+
+    <string name="search_field_text">찾다</string>
+
+    <string name="movies">영화 산업</string>
+
+    <string name="tv_show">TV 프로그램</string>
+
+    <string name="all">영화 및 TV 프로그램</string>
+
+    <string name="search_not_started">검색결과가 여기에 표시됩니다 :)</string>
+
+    <string name="search_result_empty">검색 결과가 없습니다 :(</string>
+
+    <string name="empty_list_providers">스트리밍에는 사용할 수 없습니다.</string>
+
+    <string name="not_yet_released">아직 출시되지 않음</string>
+
+    <string name="edit">편집하다</string>
+
+    <string name="yours_streaming">당신의 스트리밍</string>
+
+    <string name="search_in_all_places">어디서나 검색</string>
+
+    <string name="genres">장르</string>
+
+    <string name="type">유형</string>
+
+    <string name="filters">필터</string>
+
+    <string name="close">아이콘을 닫으려면</string>
+
+    <string name="not_found">검색 결과가 없습니다 :(</string>
+
+    <string name="check_filters">필터를 확인하고 다시 시도해 보세요.</string>
+
+    <string name="clear_filters">필터 지우기</string>
+
+    <string name="main_steams">메인 스트림</string>
+
+    <string name="favorite_streams">즐겨찾는 스트림</string>
+
+    <string name="other_streams">기타 스트림</string>
+
+    <string name="streaming">스트리밍</string>
+
 </resources>

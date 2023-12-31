@@ -5,6 +5,7 @@ import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_ES
 import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_US
 
 private const val STREAM_PREFIX = "stream"
+
 enum class RemoteConfigKey(val value: String) {
     DISPLAY_ADS_KEY(value = "display_ads"),
     STREAM_BR(value = "${STREAM_PREFIX}_BR"),

@@ -17,6 +17,7 @@ class StreamingRemoteDataSource @Inject constructor(
             is NetworkResponse.Success -> {
                 response.body.results
             }
+
             else -> listOf()
         }
 

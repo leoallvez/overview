@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".CustomApplication"
@@ -12,8 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:ignore="LockedOrientationActivity"
-        android:theme="@style/Theme.Overview">
+        android:theme="@style/Theme.Overview"
+        tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
@@ -26,7 +26,7 @@
         </activity>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2674167083358956~5137587741"/>
+            android:value="ca-app-pub-2674167083358956~5137587741" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

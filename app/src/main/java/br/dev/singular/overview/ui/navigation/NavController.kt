@@ -32,7 +32,9 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     NavHost(
         navController = navController,
         startDestination = ScreenNav.Splash.route,
-        modifier = Modifier.background(PrimaryBackground).padding(bottom = 20.dp)
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .padding(bottom = 20.dp)
     ) {
         composable(route = ScreenNav.Splash.route) {
             SplashScreen(navigate = SplashNavigate(navController))

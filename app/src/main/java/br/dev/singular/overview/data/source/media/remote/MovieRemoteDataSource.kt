@@ -20,7 +20,10 @@ class MovieRemoteDataSource @Inject constructor(
 
     override suspend fun getPaging(page: Int, searchFilters: SearchFilters): List<Movie> {
         return when (val response = makePaging(page, searchFilters)) {
-            is NetworkResponse.Success -> { response.body.results }
+            is NetworkResponse.Success -> {
+                response.body.results
+            }
+
             else -> listOf()
         }
     }
@@ -33,7 +36,10 @@ class MovieRemoteDataSource @Inject constructor(
 
     override suspend fun searchPaging(page: Int, searchFilters: SearchFilters): List<Movie> {
         return when (val response = makeSearchPaging(page, searchFilters)) {
-            is NetworkResponse.Success -> { response.body.results }
+            is NetworkResponse.Success -> {
+                response.body.results
+            }
+
             else -> listOf()
         }
     }

@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.model.media
 
-import com.squareup.moshi.Json
 import br.dev.singular.overview.util.DateHelper
+import com.squareup.moshi.Json
 
 data class Movie(
     private val title: String? = null,

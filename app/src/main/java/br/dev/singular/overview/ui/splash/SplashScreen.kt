@@ -55,7 +55,9 @@ fun SplashScreen(
 @Composable
 fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
     Box(
-        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground),
         contentAlignment = Alignment.Center
     ) {
         AppIcon(scale)
@@ -70,7 +72,9 @@ fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
         drawCircle(brush = brush)
     }
     Box(
-        modifier = Modifier.scale(scale.value).size(295.dp),
+        modifier = Modifier
+            .scale(scale.value)
+            .size(295.dp),
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.size(575.dp), onDraw)

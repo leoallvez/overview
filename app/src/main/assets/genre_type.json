@@ -1,4 +1,10 @@
 [
-  { "dbId" : 1, "key" : "movie"},
-  { "dbId" : 2, "key" : "tv"}
+  {
+    "dbId": 1,
+    "key": "movie"
+  },
+  {
+    "dbId": 2,
+    "key": "tv"
+  }
 ]

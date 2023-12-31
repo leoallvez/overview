@@ -6,4 +6,4 @@ import javax.inject.Qualifier
 annotation class ShowAds
 
 @Qualifier
-annotation class StreamingsRemote
+annotation class StreamingRemote

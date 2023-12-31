@@ -209,6 +209,7 @@ fun StreamingExploreBody(
                             MediaPagingVerticalGrid(padding, pagingMedias, navigate::toMediaDetails)
                         }
                     }
+
                     else -> {
                         NotFoundContentScreen(
                             showOnTop = filterIsVisible,
@@ -239,11 +240,17 @@ fun FiltersArea(
             modifier = Modifier
                 .clickable { onStreamingClick.invoke() }
                 .fillMaxWidth()
-                .border(2.dp, Gray.copy(alpha = 0.5f), RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                .border(
+                    2.dp,
+                    Gray.copy(alpha = 0.5f),
+                    RoundedCornerShape(dimensionResource(R.dimen.corner))
+                )
                 .background(SecondaryBackground)
         ) {
             Row(
-                Modifier.fillMaxWidth().background(PrimaryBackground),
+                Modifier
+                    .fillMaxWidth()
+                    .background(PrimaryBackground),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -515,7 +522,9 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaTypeEnum.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
-        Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .background(SecondaryBackground)) {
             options.forEach { type ->
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {

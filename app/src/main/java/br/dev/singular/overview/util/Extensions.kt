@@ -64,7 +64,11 @@ fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toStr
 fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
 
 fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
-    if (isValid(this)) { UiState.Success(data = this) } else { UiState.Error() }
+    if (isValid(this)) {
+        UiState.Success(data = this)
+    } else {
+        UiState.Error()
+    }
 
 fun <T> DataResult<out T>.toUiState(): UiState<T?> {
     val isSuccess = this is DataResult.Success

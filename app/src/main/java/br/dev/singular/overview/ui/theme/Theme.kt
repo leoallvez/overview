@@ -14,7 +14,7 @@ private val AppColorPalette = lightColors(
 @Composable
 fun AppTheme(
     content: @Composable
-    () -> Unit
+        () -> Unit
 ) {
     MaterialTheme(
         colors = AppColorPalette,

@@ -33,7 +33,9 @@ class RemoteConfigWrapper(
     private fun onCompleteListener() = with(_remote) {
         fetch().addOnCompleteListener { task ->
             with(task) {
-                if (isSuccessful) { activate() }
+                if (isSuccessful) {
+                    activate()
+                }
                 log(isSuccessful)
             }
         }

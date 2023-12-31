@@ -4,8 +4,8 @@ import br.dev.singular.overview.BuildConfig
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
-import com.squareup.moshi.Json
 import br.dev.singular.overview.util.DateHelper
+import com.squareup.moshi.Json
 
 data class Person(
     @field:Json(name = "id")
