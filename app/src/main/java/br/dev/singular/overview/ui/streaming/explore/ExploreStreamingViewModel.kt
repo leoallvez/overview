@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StreamingExploreViewModel @Inject constructor(
+class ExploreStreamingViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     private val _cache: CacheDataSource,
     val analyticsTracker: IAnalyticsTracker,

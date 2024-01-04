@@ -83,9 +83,9 @@ import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
 @Composable
-fun StreamingExploreScreen(
+fun ExploreStreamingScreen(
     navigate: StreamingExploreNavigate,
-    viewModel: StreamingExploreViewModel = hiltViewModel()
+    viewModel: ExploreStreamingViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
 
@@ -93,7 +93,7 @@ fun StreamingExploreScreen(
         viewModel.loadGenres()
     }
 
-    StreamingExploreContent(
+    ExploreStreamingContent(
         navigate = navigate,
         searchFilters = viewModel.searchFilters.collectAsState().value,
         streaming = viewModel.selectedStreaming,
@@ -109,7 +109,7 @@ fun StreamingExploreScreen(
 }
 
 @Composable
-fun StreamingExploreContent(
+fun ExploreStreamingContent(
     showAds: Boolean,
     searchFilters: SearchFilters,
     streaming: StreamingEntity?,
@@ -119,7 +119,7 @@ fun StreamingExploreContent(
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
 ) {
-    StreamingExploreBody(
+    ExploreStreamingBody(
         navigate = navigate,
         showAds = showAds,
         filters = searchFilters,
@@ -133,7 +133,7 @@ fun StreamingExploreContent(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun StreamingExploreBody(
+fun ExploreStreamingBody(
     showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
@@ -179,7 +179,7 @@ fun StreamingExploreBody(
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
-                StreamingToolBar(onNavigateToSearch = navigate::toSearch)
+                ExploreStreamingToolBar(onNavigateToSearch = navigate::toSearch)
             },
             bottomBar = {
                 AdsBanner(R.string.discover_banner, showAds)
@@ -318,10 +318,7 @@ fun PulsatingFilterButton(isActivated: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun filterDescription(
-    filters: SearchFilters,
-    genres: List<GenreEntity>
-): String {
+private fun filterDescription(filters: SearchFilters, genres: List<GenreEntity>): String {
     val mediaDescription = mediaTypeDescription(filters.mediaType)
     val genresDescription = genresDescription(filters.genresIds, genres)
 
@@ -361,9 +358,7 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreE
 }
 
 @Composable
-fun StreamingToolBar(
-    onNavigateToSearch: () -> Unit
-) {
+fun ExploreStreamingToolBar(onNavigateToSearch: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -486,7 +481,7 @@ private fun TuneIcon() {
         tint = Color.White,
         modifier = Modifier
             .size(25.dp)
-            .padding(start = 0.dp, end = 5.dp),
+            .padding(start = 0.dp, end = dimensionResource(id = R.dimen.default_padding)),
         painter = painterResource(id = R.drawable.tune),
         contentDescription = stringResource(R.string.filters)
     )
@@ -497,7 +492,7 @@ fun CloseIcon(onClick: () -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
-            .padding(top = 5.dp),
+            .padding(top = dimensionResource(id = R.dimen.default_padding)),
         contentAlignment = Alignment.TopEnd
     ) {
         Box(
@@ -522,7 +517,9 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaTypeEnum.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
-        Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .background(SecondaryBackground)) {
             options.forEach { type ->
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {

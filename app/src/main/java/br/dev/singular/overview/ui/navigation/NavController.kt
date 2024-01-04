@@ -20,7 +20,7 @@ import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
 import br.dev.singular.overview.ui.person.CastDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.splash.SplashScreen
-import br.dev.singular.overview.ui.streaming.explore.StreamingExploreScreen
+import br.dev.singular.overview.ui.streaming.explore.ExploreStreamingScreen
 import br.dev.singular.overview.ui.streaming.select.SelectStreamingScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.backstack
@@ -75,7 +75,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     }
     composable(route = ScreenNav.StreamingExplore.route) {
-        StreamingExploreScreen(
+        ExploreStreamingScreen(
             navigate = StreamingExploreNavigate(navController)
         )
     }
