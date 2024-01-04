@@ -8,8 +8,8 @@ class SelectStreamingNavigate(private val navigation: NavController) : BasicNavi
     fun toSearch() = navigation.navigate(route = ScreenNav.Search.route)
 
     fun toStreamingExplore() {
-        navigation.navigate(route = ScreenNav.StreamingExplore.route) {
-            popUpTo(ScreenNav.StreamingExplore.route) { inclusive = true }
+        navigation.navigate(route = ScreenNav.ExploreStreaming.route) {
+            popUpTo(ScreenNav.ExploreStreaming.route) { inclusive = true }
         }
     }
 }

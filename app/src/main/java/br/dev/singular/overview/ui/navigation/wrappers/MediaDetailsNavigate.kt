@@ -9,7 +9,7 @@ class MediaDetailsNavigate(
 ) : BasicNavigate(navigation, backstack) {
 
     fun toStreamingExplore() =
-        navigation.navigate(ScreenNav.StreamingExplore.route)
+        navigation.navigate(ScreenNav.ExploreStreaming.route)
 
     fun toCastDetails(apiId: Long) =
         navigation.navigate(ScreenNav.CastDetails.editRoute(apiId))

@@ -52,7 +52,7 @@ import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
-fun CastDetailsScreen(
+fun PersonDetailsScreen(
     apiId: Long,
     navigate: BasicNavigate,
     viewModel: PersonDetailsViewModel = hiltViewModel()

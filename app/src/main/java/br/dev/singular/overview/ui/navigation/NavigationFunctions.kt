@@ -12,7 +12,7 @@ fun onNavigateToMediaDetails(
 }
 
 fun onNavigateToStreamingExplore(navigate: NavController): () -> Unit = {
-    navigate.navigate(route = ScreenNav.StreamingExplore.route) {
+    navigate.navigate(route = ScreenNav.ExploreStreaming.route) {
         popUpTo(ScreenNav.Splash.route) {
             inclusive = true
         }

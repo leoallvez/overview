@@ -87,7 +87,7 @@ fun ExploreStreamingScreen(
     navigate: ExploreStreamingNavigate,
     viewModel: ExploreStreamingViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
+    TrackScreenView(screen = ScreenNav.ExploreStreaming, tracker = viewModel.analyticsTracker)
 
     LaunchedEffect(key1 = Any()) {
         viewModel.loadGenres()

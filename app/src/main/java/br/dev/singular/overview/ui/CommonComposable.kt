@@ -51,6 +51,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
@@ -423,14 +424,9 @@ fun BasicImage(
     }
 }
 
-@Composable
-private fun Modifier.border(withBorder: Boolean): Modifier {
-    return if (withBorder) {
-        border(
-            dimensionResource(R.dimen.border_width),
-            Gray,
-            RoundedCornerShape(dimensionResource(R.dimen.corner))
-        )
+private fun Modifier.border(withBorder: Boolean): Modifier = composed {
+    if (withBorder) {
+        border(dimensionResource(R.dimen.border_width), Gray, RoundedCornerShape(dimensionResource(R.dimen.corner)))
     } else {
         this
     }

@@ -3,8 +3,6 @@ package br.dev.singular.overview.ui
 sealed class ScreenNav(val route: String, val name: String) {
     object Splash : ScreenNav(route = "splash_screen", name = "SplashScreen")
 
-    object SelectStreaming : ScreenNav(route = "select_streaming", name = "SelectStreamingScreen")
-
     object MediaDetails : ScreenNav(
         route = "media_details/{$ID_PARAM}/{$TYPE_PARAM}/{$BACKSTACK_PARAM}",
         name = "MediaDetailScreen"
@@ -25,9 +23,14 @@ sealed class ScreenNav(val route: String, val name: String) {
         name = "SearchScreen"
     )
 
-    object StreamingExplore : ScreenNav(
-        route = "streaming_explore",
-        name = "StreamingExploreScreen"
+    object ExploreStreaming : ScreenNav(
+        route = "explore_streaming",
+        name = "ExploreStreamingScreen"
+    )
+
+    object SelectStreaming : ScreenNav(
+        route = "select_streaming",
+        name = "SelectStreamingScreen"
     )
 
     companion object {

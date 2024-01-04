@@ -17,7 +17,7 @@ import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
-import br.dev.singular.overview.ui.person.CastDetailsScreen
+import br.dev.singular.overview.ui.person.PersonDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.splash.SplashScreen
 import br.dev.singular.overview.ui.streaming.explore.ExploreStreamingScreen
@@ -69,12 +69,12 @@ fun NavGraphBuilder.mediaDetailsGraph(
         route = ScreenNav.CastDetails.route,
         arguments = listOf(NavArgument.ID)
     ) { navBackStackEntry ->
-        CastDetailsScreen(
+        PersonDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
             navigate = BasicNavigate(navController, backstack = true)
         )
     }
-    composable(route = ScreenNav.StreamingExplore.route) {
+    composable(route = ScreenNav.ExploreStreaming.route) {
         ExploreStreamingScreen(
             navigate = ExploreStreamingNavigate(navController)
         )
