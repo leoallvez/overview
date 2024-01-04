@@ -29,6 +29,8 @@ data class TvShow(
     override fun getRuntime() = runtimeTemplate(runtime = episodeRuntime.average().toInt())
 
     override fun getLetter() = name ?: originalName ?: ""
+
     override fun isReleased() = DateHelper(firstAirDate).isFutureDate().not()
+
     override fun getFormattedReleaseDate() = DateHelper(firstAirDate).formattedDate()
 }

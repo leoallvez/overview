@@ -3,7 +3,7 @@ package br.dev.singular.overview.ui.navigation.wrappers
 import androidx.navigation.NavController
 import br.dev.singular.overview.ui.ScreenNav
 
-class StreamingExploreNavigate(
+class ExploreStreamingNavigate(
     private val navigation: NavController
 ) : BasicNavigate(navigation, backstack = false) {
 

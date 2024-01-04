@@ -16,7 +16,6 @@ sealed class DataResult<T>(
     }
 }
 
-// TODO: log in crashlytics the NetworkResponse Error
 fun <T : Any> responseToResult(
     response: NetworkResponse<T, ErrorResponse>
 ) = when (response) {

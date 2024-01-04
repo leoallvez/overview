@@ -37,9 +37,9 @@ class StreamingSaveWorker @AssistedInject constructor(
         }
     }
 
-    private suspend fun saveData(streams: List<Streaming>) {
-        _repository.updateAllLocal(streaming = streams)
-        saveSelectedStreamCache(allStreams = streams)
+    private suspend fun saveData(streaming: List<Streaming>) {
+        _repository.updateAllLocal(streaming = streaming)
+        saveSelectedStreamCache(allStreams = streaming)
     }
 
     private suspend fun saveSelectedStreamCache(allStreams: List<Streaming>) {

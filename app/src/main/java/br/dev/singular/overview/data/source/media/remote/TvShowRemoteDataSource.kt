@@ -24,11 +24,8 @@ class TvShowRemoteDataSource @Inject constructor(
 
     override suspend fun getPaging(page: Int, searchFilters: SearchFilters): List<TvShow> {
         return when (val response = makePaging(page, searchFilters)) {
-            is NetworkResponse.Success -> {
-                response.body.results
-            }
-
-            else -> listOf()
+            is NetworkResponse.Success -> response.body.results
+            else -> emptyList()
         }
     }
 
@@ -40,11 +37,8 @@ class TvShowRemoteDataSource @Inject constructor(
 
     override suspend fun searchPaging(page: Int, searchFilters: SearchFilters): List<TvShow> {
         return when (val response = makeSearchPaging(page, searchFilters)) {
-            is NetworkResponse.Success -> {
-                response.body.results
-            }
-
-            else -> listOf()
+            is NetworkResponse.Success -> response.body.results
+            else -> emptyList()
         }
     }
 
@@ -54,11 +48,8 @@ class TvShowRemoteDataSource @Inject constructor(
 
     override suspend fun discoverByStreaming(streamingIds: List<Long>): List<TvShow> {
         return when (val response = makeTvDiscover(streamingIds)) {
-            is NetworkResponse.Success -> {
-                response.body.results
-            }
-
-            else -> listOf()
+            is NetworkResponse.Success -> response.body.results
+            else -> emptyList()
         }
     }
 

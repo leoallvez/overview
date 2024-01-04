@@ -8,12 +8,12 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PersonRepository @Inject constructor(
-    private val _remoteDataSource: IPersonRemoteDataSource,
+    private val _dataSource: IPersonRemoteDataSource,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IPersonRepository {
 
     override suspend fun getItem(apiId: Long) = withContext(_dispatcher) {
-        val result = _remoteDataSource.getItem(apiId)
+        val result = _dataSource.getItem(apiId)
         flow { emit(result) }
     }
 }

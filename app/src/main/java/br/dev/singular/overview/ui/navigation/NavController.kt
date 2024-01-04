@@ -13,10 +13,10 @@ import androidx.navigation.compose.rememberNavController
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
-import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
 import br.dev.singular.overview.ui.person.CastDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.splash.SplashScreen
@@ -76,7 +76,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
     }
     composable(route = ScreenNav.StreamingExplore.route) {
         ExploreStreamingScreen(
-            navigate = StreamingExploreNavigate(navController)
+            navigate = ExploreStreamingNavigate(navController)
         )
     }
 }

@@ -72,7 +72,7 @@ import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.nameTranslation
-import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
@@ -84,7 +84,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ExploreStreamingScreen(
-    navigate: StreamingExploreNavigate,
+    navigate: ExploreStreamingNavigate,
     viewModel: ExploreStreamingViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
@@ -115,7 +115,7 @@ fun ExploreStreamingContent(
     streaming: StreamingEntity?,
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
-    navigate: StreamingExploreNavigate,
+    navigate: ExploreStreamingNavigate,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
 ) {
@@ -139,7 +139,7 @@ fun ExploreStreamingBody(
     onRefresh: () -> Unit,
     streaming: StreamingEntity?,
     genres: List<GenreEntity>,
-    navigate: StreamingExploreNavigate,
+    navigate: ExploreStreamingNavigate,
     pagingMedias: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
 ) {
@@ -213,7 +213,7 @@ fun ExploreStreamingBody(
                     else -> {
                         NotFoundContentScreen(
                             showOnTop = filterIsVisible,
-                            hasFilters = filters.genresIsIsNotEmpty()
+                            hasFilters = filters.genresIsNotEmpty()
                         )
                     }
                 }
