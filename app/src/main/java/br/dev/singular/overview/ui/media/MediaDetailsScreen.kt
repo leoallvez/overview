@@ -428,7 +428,7 @@ fun PulsatingLikeButton(isLiked: Boolean, onClick: () -> Unit) {
         ) {
             Icon(
                 imageVector = Icons.Default.FavoriteBorder,
-                contentDescription = "", //TODO: Add content description
+                contentDescription = "", // TODO: Add content description
                 modifier = Modifier.align(Alignment.Center),
                 tint = if (isLiked) AccentColor else Gray
             )
