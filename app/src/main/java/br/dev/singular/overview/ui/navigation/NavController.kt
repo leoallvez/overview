@@ -13,14 +13,14 @@ import androidx.navigation.compose.rememberNavController
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
-import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
-import br.dev.singular.overview.ui.person.CastDetailsScreen
+import br.dev.singular.overview.ui.person.PersonDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.splash.SplashScreen
-import br.dev.singular.overview.ui.streaming.explore.StreamingExploreScreen
+import br.dev.singular.overview.ui.streaming.explore.ExploreStreamingScreen
 import br.dev.singular.overview.ui.streaming.select.SelectStreamingScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.backstack
@@ -69,14 +69,14 @@ fun NavGraphBuilder.mediaDetailsGraph(
         route = ScreenNav.CastDetails.route,
         arguments = listOf(NavArgument.ID)
     ) { navBackStackEntry ->
-        CastDetailsScreen(
+        PersonDetailsScreen(
             apiId = navBackStackEntry.getApiId(),
             navigate = BasicNavigate(navController, backstack = true)
         )
     }
-    composable(route = ScreenNav.StreamingExplore.route) {
-        StreamingExploreScreen(
-            navigate = StreamingExploreNavigate(navController)
+    composable(route = ScreenNav.ExploreStreaming.route) {
+        ExploreStreamingScreen(
+            navigate = ExploreStreamingNavigate(navController)
         )
     }
 }

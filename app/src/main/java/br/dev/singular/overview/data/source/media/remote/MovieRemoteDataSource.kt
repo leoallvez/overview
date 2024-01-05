@@ -22,9 +22,7 @@ class MovieRemoteDataSource @Inject constructor(
         return when (val response = makePaging(page, searchFilters)) {
             is NetworkResponse.Success -> {
                 response.body.results
-            }
-
-            else -> listOf()
+            } else -> listOf()
         }
     }
 
@@ -38,9 +36,7 @@ class MovieRemoteDataSource @Inject constructor(
         return when (val response = makeSearchPaging(page, searchFilters)) {
             is NetworkResponse.Success -> {
                 response.body.results
-            }
-
-            else -> listOf()
+            } else -> listOf()
         }
     }
 

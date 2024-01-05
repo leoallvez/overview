@@ -22,14 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.TrackScreenView
-import br.dev.singular.overview.ui.navigation.wrappers.ISplashNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navigate: ISplashNavigate,
+    navigate: SplashNavigate,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
@@ -47,7 +47,7 @@ fun SplashScreen(
         )
         viewModel.remoteConfig.start()
         delay(2000L)
-        navigate.toStreamingExplore()
+        navigate.toExploreStreaming()
     }
     SplashScreenContent(scale)
 }

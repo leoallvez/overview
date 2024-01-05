@@ -46,6 +46,6 @@ class StorageModule {
 
     companion object {
         private val Context.dataStore by preferencesDataStore("app_setting")
-        private const val DATABASE_NAME = "app_database"
+        private const val DATABASE_NAME = "overview_database"
     }
 }

@@ -14,11 +14,8 @@ class StreamingRemoteDataSource @Inject constructor(
 
     override suspend fun getItems(): List<StreamingEntity> =
         when (val response = getStreaming()) {
-            is NetworkResponse.Success -> {
-                response.body.results
-            }
-
-            else -> listOf()
+            is NetworkResponse.Success -> response.body.results
+            else -> emptyList()
         }
 
     private suspend fun getStreaming() = _locale.run {
@@ -28,7 +25,7 @@ class StreamingRemoteDataSource @Inject constructor(
     override suspend fun getItems(apiId: Long, type: String) =
         when (val response = getProviders(apiId, type)) {
             is NetworkResponse.Success -> mapToStreaming(response, _locale.region)
-            else -> listOf()
+            else -> emptyList()
         }
 
     private suspend fun getProviders(apiId: Long, type: String) = _locale.run {
@@ -44,7 +41,7 @@ class StreamingRemoteDataSource @Inject constructor(
         return if (entries.isNotEmpty()) {
             entries.first().value.getOrderedFlatRate()
         } else {
-            listOf()
+            emptyList()
         }
     }
 }

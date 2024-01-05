@@ -72,7 +72,7 @@ import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.nameTranslation
-import br.dev.singular.overview.ui.navigation.wrappers.StreamingExploreNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
@@ -83,17 +83,17 @@ import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
 @Composable
-fun StreamingExploreScreen(
-    navigate: StreamingExploreNavigate,
-    viewModel: StreamingExploreViewModel = hiltViewModel()
+fun ExploreStreamingScreen(
+    navigate: ExploreStreamingNavigate,
+    viewModel: ExploreStreamingViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.StreamingExplore, tracker = viewModel.analyticsTracker)
+    TrackScreenView(screen = ScreenNav.ExploreStreaming, tracker = viewModel.analyticsTracker)
 
     LaunchedEffect(key1 = Any()) {
         viewModel.loadGenres()
     }
 
-    StreamingExploreContent(
+    ExploreStreamingContent(
         navigate = navigate,
         searchFilters = viewModel.searchFilters.collectAsState().value,
         streaming = viewModel.selectedStreaming,
@@ -109,17 +109,17 @@ fun StreamingExploreScreen(
 }
 
 @Composable
-fun StreamingExploreContent(
+fun ExploreStreamingContent(
     showAds: Boolean,
     searchFilters: SearchFilters,
     streaming: StreamingEntity?,
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
-    navigate: StreamingExploreNavigate,
+    navigate: ExploreStreamingNavigate,
     pagingMediaItems: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
 ) {
-    StreamingExploreBody(
+    ExploreStreamingBody(
         navigate = navigate,
         showAds = showAds,
         filters = searchFilters,
@@ -133,13 +133,13 @@ fun StreamingExploreContent(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun StreamingExploreBody(
+fun ExploreStreamingBody(
     showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
     streaming: StreamingEntity?,
     genres: List<GenreEntity>,
-    navigate: StreamingExploreNavigate,
+    navigate: ExploreStreamingNavigate,
     pagingMedias: LazyPagingItems<Media>,
     inFiltering: (SearchFilters) -> Unit
 ) {
@@ -179,7 +179,7 @@ fun StreamingExploreBody(
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
-                StreamingToolBar(onNavigateToSearch = navigate::toSearch)
+                ExploreStreamingToolBar(onNavigateToSearch = navigate::toSearch)
             },
             bottomBar = {
                 AdsBanner(R.string.discover_banner, showAds)
@@ -213,7 +213,7 @@ fun StreamingExploreBody(
                     else -> {
                         NotFoundContentScreen(
                             showOnTop = filterIsVisible,
-                            hasFilters = filters.genresIsIsNotEmpty()
+                            hasFilters = filters.genresIsNotEmpty()
                         )
                     }
                 }
@@ -318,10 +318,7 @@ fun PulsatingFilterButton(isActivated: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun filterDescription(
-    filters: SearchFilters,
-    genres: List<GenreEntity>
-): String {
+private fun filterDescription(filters: SearchFilters, genres: List<GenreEntity>): String {
     val mediaDescription = mediaTypeDescription(filters.mediaType)
     val genresDescription = genresDescription(filters.genresIds, genres)
 
@@ -361,9 +358,7 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreE
 }
 
 @Composable
-fun StreamingToolBar(
-    onNavigateToSearch: () -> Unit
-) {
+fun ExploreStreamingToolBar(onNavigateToSearch: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -486,7 +481,7 @@ private fun TuneIcon() {
         tint = Color.White,
         modifier = Modifier
             .size(25.dp)
-            .padding(start = 0.dp, end = 5.dp),
+            .padding(start = 0.dp, end = dimensionResource(id = R.dimen.default_padding)),
         painter = painterResource(id = R.drawable.tune),
         contentDescription = stringResource(R.string.filters)
     )
@@ -497,7 +492,7 @@ fun CloseIcon(onClick: () -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
-            .padding(top = 5.dp),
+            .padding(top = dimensionResource(id = R.dimen.default_padding)),
         contentAlignment = Alignment.TopEnd
     ) {
         Box(

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StreamingExploreViewModel @Inject constructor(
+class ExploreStreamingViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     private val _cache: CacheDataSource,
     val analyticsTracker: IAnalyticsTracker,
@@ -84,7 +84,6 @@ class StreamingExploreViewModel @Inject constructor(
                 filters?.let {
                     _searchFilters.value = filters
                     _filterCacheNotLoaded = false
-                    loadMedias()
                 }
             }
         }
@@ -94,6 +93,7 @@ class StreamingExploreViewModel @Inject constructor(
         _streamingRepository.getSelectedItem().collect { streaming ->
             selectedStreaming = streaming
             _searchFilters.value.streamingId = streaming?.apiId
+            loadMedias()
         }
     }
 

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "dc9f8aa7ef01782efb1d64d77d1b5277",
+    "identityHash": "a669556f7d094f0d5785c6e8135008d3",
     "entities": [
       {
         "tableName": "genres",
@@ -99,7 +99,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "streams",
+        "tableName": "streamings",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`streaming_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `display_priority` INTEGER NOT NULL, `logo_path` TEXT NOT NULL, `provider_name` TEXT NOT NULL, `selected` INTEGER NOT NULL)",
         "fields": [
           {
@@ -218,7 +218,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dc9f8aa7ef01782efb1d64d77d1b5277')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a669556f7d094f0d5785c6e8135008d3')"
     ]
   }
 }
