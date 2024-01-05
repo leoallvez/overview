@@ -84,7 +84,6 @@ class ExploreStreamingViewModel @Inject constructor(
                 filters?.let {
                     _searchFilters.value = filters
                     _filterCacheNotLoaded = false
-                    loadMedias()
                 }
             }
         }
@@ -94,6 +93,7 @@ class ExploreStreamingViewModel @Inject constructor(
         _streamingRepository.getSelectedItem().collect { streaming ->
             selectedStreaming = streaming
             _searchFilters.value.streamingId = streaming?.apiId
+            loadMedias()
         }
     }
 
