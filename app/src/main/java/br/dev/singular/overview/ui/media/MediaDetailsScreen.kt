@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
@@ -24,11 +26,15 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -53,6 +59,7 @@ import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.MediaList
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
+import br.dev.singular.overview.ui.Pulsating
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
@@ -133,11 +140,20 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
                 textPadding = PaddingValues(start = dimensionResource(R.dimen.screen_padding)),
                 modifier = Modifier.align(Alignment.BottomStart)
             )
-            ToolbarButton(
-                painter = Icons.Default.KeyboardArrowLeft,
-                descriptionResource = R.string.backstack_icon,
-                modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
-            ) { backButtonAction.invoke() }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ToolbarButton(
+                    painter = Icons.Default.KeyboardArrowLeft,
+                    descriptionResource = R.string.backstack_icon,
+                    modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
+                ) { backButtonAction.invoke() }
+                val isLiked = remember { mutableStateOf(false) }
+                PulsatingLikeButton(isLiked = isLiked.value) {
+                    isLiked.value = !isLiked.value
+                }
+            }
         }
     }
 }
@@ -392,5 +408,30 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
             style = MaterialTheme.typography.caption,
             color = AccentColor
         )
+    }
+}
+
+@Composable
+fun PulsatingLikeButton(isLiked: Boolean, onClick: () -> Unit) {
+    val size = 40.dp
+    Box(
+        modifier = Modifier
+            .padding(PaddingValues(dimensionResource(R.dimen.screen_padding_new)))
+            .clip(CircleShape)
+            .background(PrimaryBackground.copy(alpha = 0.5f))
+            .size(size)
+            .clickable { onClick.invoke() }
+    ) {
+        Pulsating(
+            modifier = Modifier.size(size).align(Alignment.Center),
+            isPulsing = isLiked
+        ) {
+            Icon(
+                imageVector = Icons.Default.FavoriteBorder,
+                contentDescription = "", //TODO: Add content description
+                modifier = Modifier.align(Alignment.Center),
+                tint = if (isLiked) AccentColor else Gray
+            )
+        }
     }
 }
