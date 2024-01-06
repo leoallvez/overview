@@ -137,4 +137,6 @@
 
     <string name="streaming">流媒体</string>
 
+    <string name="like_button">点赞图标</string>
+
 </resources>
