@@ -58,7 +58,7 @@ class MediaDetailsViewModel @Inject constructor(
         viewModelScope.launch(_dispatcher) {
             media?.let {
                 media.isLiked = isLiked
-                _mediaRepository.updateLike(media.toMediaEntity())
+                _mediaRepository.update(media.toMediaEntity())
             }
         }
     }

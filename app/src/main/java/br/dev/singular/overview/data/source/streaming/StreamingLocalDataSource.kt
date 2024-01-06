@@ -13,5 +13,5 @@ class StreamingLocalDataSource @Inject constructor(
 
     fun getAllSelected(): List<StreamingEntity> = _dao.getAllSelected()
 
-    fun upgrade(streaming: List<StreamingEntity>) = _dao.upgrade(streaming)
+    fun upgrade(streaming: List<StreamingEntity>) = _dao.update(streaming)
 }

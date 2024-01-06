@@ -27,7 +27,7 @@ interface MediaDao {
     fun deleteNotLiked()
 
     @Transaction
-    fun updateLike(model: MediaEntity) {
+    fun update(model: MediaEntity) {
         val media = find(model.apiId)
         model.dbId = media?.dbId ?: 0
         insert(listOf(model))

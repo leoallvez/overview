@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMediaRepository {
     suspend fun getItem(apiId: Long, type: MediaTypeEnum): Flow<DataResult<out Media>>
-    suspend fun updateLike(media: MediaEntity)
+    suspend fun update(media: MediaEntity)
 }
