@@ -4,7 +4,7 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.repository.media.interfaces.IMediaCacheRepository
-import br.dev.singular.overview.data.source.media.local.suggestion.MediaLocalDataSource
+import br.dev.singular.overview.data.source.media.local.MediaLocalDataSource
 import br.dev.singular.overview.data.source.media.remote.IMediaDiscoverRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.StreamingLocalDataSource
 import javax.inject.Inject

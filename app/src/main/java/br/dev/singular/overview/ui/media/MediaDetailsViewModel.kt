@@ -3,6 +3,7 @@ package br.dev.singular.overview.ui.media
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.dev.singular.overview.IAnalyticsTracker
+import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.repository.media.interfaces.IMediaRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.data.source.media.MediaTypeEnum
@@ -50,6 +51,15 @@ class MediaDetailsViewModel @Inject constructor(
     fun saveSelectedStream(streamingJson: String?) {
         viewModelScope.launch(_dispatcher) {
             _streamingRepository.updateSelected(streamingJson?.fromJson())
+        }
+    }
+
+    fun updateLike(media: Media?, isLiked: Boolean) {
+        viewModelScope.launch(_dispatcher) {
+            media?.let {
+                media.isLiked = isLiked
+                _mediaRepository.updateLike(media.toMediaEntity())
+            }
         }
     }
 }

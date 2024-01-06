@@ -1,4 +1,4 @@
-package br.dev.singular.overview.data.source.media.local.suggestion
+package br.dev.singular.overview.data.source.media.local
 
 import br.dev.singular.overview.data.db.dao.MediaDao
 import br.dev.singular.overview.data.model.media.MediaEntity
@@ -11,4 +11,5 @@ class MediaLocalDataSource @Inject constructor(
     fun getLiked() = _dao.getLiked()
     fun deleteNotLiked() = _dao.deleteNotLiked()
     fun getIndicated() = _dao.getIndicated()
+    fun updateLike(model: MediaEntity) = _dao.updateLike(model)
 }

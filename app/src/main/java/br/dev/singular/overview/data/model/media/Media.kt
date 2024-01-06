@@ -26,7 +26,9 @@ abstract class Media {
     protected val credits: Credits = Credits()
 
     @field:Json(name = "providers")
-    var streams: List<StreamingEntity> = listOf()
+    var streamings: List<StreamingEntity> = listOf()
+
+    var isLiked: Boolean = false
 
     abstract fun getSimilarMedia(): List<Media>
     abstract fun getRuntime(): String
@@ -52,6 +54,7 @@ abstract class Media {
         backdropPath = backdropPath,
         posterPath = posterPath,
         letter = getLetter(),
+        isLiked = isLiked,
         type = getType()
     )
 }

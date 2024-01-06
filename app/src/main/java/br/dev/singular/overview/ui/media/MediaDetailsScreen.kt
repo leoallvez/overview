@@ -103,8 +103,21 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
-        val onRefresh: () -> Unit = { viewModel.refresh(apiId, type) }
-        MediaDetailsContent(media, viewModel.showAds, navigate, onRefresh) { streaming ->
+        val isLiked = remember { mutableStateOf(media?.isLiked ?: false) }
+        val onRefresh = { viewModel.refresh(apiId, type) }
+        val onLike = {
+            isLiked.value = !isLiked.value
+            viewModel.updateLike(media, isLiked.value)
+        }
+
+        MediaDetailsContent(
+            media = media,
+            showAds = viewModel.showAds,
+            isLiked = isLiked.value,
+            navigate = navigate,
+            onRefresh = onRefresh,
+            onLikeClick = onLike
+        ) { streaming ->
             viewModel.saveSelectedStream(streaming.toJson())
         }
     }
@@ -114,8 +127,10 @@ fun MediaDetailsScreen(
 fun MediaDetailsContent(
     media: Media?,
     showAds: Boolean,
+    isLiked: Boolean,
     navigate: MediaDetailsNavigate,
     onRefresh: () -> Unit,
+    onLikeClick: () -> Unit,
     onClickStreaming: (StreamingEntity) -> Unit
 ) {
     if (media == null) {
@@ -126,7 +141,7 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(media) { navigate.popBackStack() }
+                MediaToolBar(media, isLiked, onLikeClick) { navigate.popBackStack() }
             }
         ) {
             MediaBody(media, showAds, navigate, onClickStreaming)
@@ -135,7 +150,12 @@ fun MediaDetailsContent(
 }
 
 @Composable
-fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
+fun MediaToolBar(
+    media: Media,
+    isLiked: Boolean,
+    onLikeClick: () -> Unit,
+    backButtonAction: () -> Unit
+) {
     Box(Modifier.fillMaxWidth()) {
         media.apply {
             Backdrop(
@@ -157,10 +177,7 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
                     descriptionResource = R.string.backstack_icon,
                     modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
                 ) { backButtonAction.invoke() }
-                val isLiked = remember { mutableStateOf(false) }
-                LikeButton(isLiked = isLiked.value) {
-                    isLiked.value = !isLiked.value
-                }
+                LikeButton(isLiked = isLiked, onLikeClick)
             }
         }
     }
@@ -180,7 +197,7 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        StreamingOverview(media.streams, media.isReleased()) { streaming ->
+        StreamingOverview(media.streamings, media.isReleased()) { streaming ->
             onClickStreaming(streaming)
             navigate.toStreamingExplore()
         }
