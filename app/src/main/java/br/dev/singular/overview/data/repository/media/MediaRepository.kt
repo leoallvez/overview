@@ -31,7 +31,7 @@ class MediaRepository @Inject constructor(
         flow { emit(result) }
     }
 
-    override suspend fun update(media: MediaEntity): Unit = withContext(_dispatcher)  {
+    override suspend fun update(media: MediaEntity) = withContext(_dispatcher) {
         _mediaLocalDataSource.update(media)
     }
 
