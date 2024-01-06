@@ -453,7 +453,7 @@ fun LikeButton(
         Box(modifier = Modifier.size(buttonSize)) {
             Icon(
                 imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = if (isLiked) "Liked" else "Not Liked",
+                contentDescription = stringResource(id = R.string.like_button),
                 modifier = Modifier.align(Alignment.Center).scale(scale),
                 tint = background.value
             )
