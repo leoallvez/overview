@@ -2,6 +2,8 @@ package br.dev.singular.overview.ui.media
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,11 +36,13 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -154,7 +158,7 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
                     modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
                 ) { backButtonAction.invoke() }
                 val isLiked = remember { mutableStateOf(false) }
-                PulsatingLikeButton(isLiked = isLiked.value) {
+                LikeButton(isLiked = isLiked.value) {
                     isLiked.value = !isLiked.value
                 }
             }
@@ -416,28 +420,44 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
 }
 
 @Composable
-fun PulsatingLikeButton(isLiked: Boolean, onClick: () -> Unit) {
-    val size = 40.dp
-    val iconBackground = remember { Animatable(Color.LightGray) }
+fun LikeButton(
+    isLiked: Boolean,
+    onClick: () -> Unit
+) {
+    val buttonSize = 40.dp
+    val duration = 200
+    val unlikedColor = Gray
+    val likedColor = AlertColor
+    val pulsationScale = if (isLiked) 1.2f else 1f
+
+    val background = remember { Animatable(unlikedColor) }
     LaunchedEffect(isLiked) {
-        iconBackground.animateTo(if (isLiked) AlertColor else Color.LightGray, tween(1050))
+        val color = if (isLiked) likedColor else unlikedColor
+        background.animateTo(color, tween(duration))
     }
+
+    val scale by animateFloatAsState(
+        targetValue = pulsationScale,
+        tween(durationMillis = duration, easing = LinearEasing),
+        label = "PulsatingScale"
+    )
 
     Box(
         modifier = Modifier
             .padding(PaddingValues(dimensionResource(R.dimen.screen_padding_new)))
             .clip(CircleShape)
             .background(PrimaryBackground.copy(alpha = 0.5f))
-            .size(size)
+            .size(buttonSize)
             .clickable { onClick.invoke() }
     ) {
-        Box(modifier = Modifier.size(size)) {
+        Box(modifier = Modifier.size(buttonSize)) {
             Icon(
                 imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = "", // TODO: Add content description
-                modifier = Modifier.align(Alignment.Center),
-                tint = iconBackground.value //if (isLiked) AlertColor else Color.LightGray
+                contentDescription = if (isLiked) "Liked" else "Not Liked",
+                modifier = Modifier.align(Alignment.Center).scale(scale),
+                tint = background.value
             )
         }
     }
 }
+
