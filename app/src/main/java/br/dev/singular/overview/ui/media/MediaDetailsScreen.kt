@@ -1,6 +1,8 @@
 package br.dev.singular.overview.ui.media
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,9 +28,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,7 +63,6 @@ import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.MediaList
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
-import br.dev.singular.overview.ui.Pulsating
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
@@ -70,6 +73,7 @@ import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
+import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.defaultBorder
@@ -414,6 +418,11 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
 @Composable
 fun PulsatingLikeButton(isLiked: Boolean, onClick: () -> Unit) {
     val size = 40.dp
+    val iconBackground = remember { Animatable(Color.LightGray) }
+    LaunchedEffect(isLiked) {
+        iconBackground.animateTo(if (isLiked) AlertColor else Color.LightGray, tween(1050))
+    }
+
     Box(
         modifier = Modifier
             .padding(PaddingValues(dimensionResource(R.dimen.screen_padding_new)))
@@ -422,15 +431,12 @@ fun PulsatingLikeButton(isLiked: Boolean, onClick: () -> Unit) {
             .size(size)
             .clickable { onClick.invoke() }
     ) {
-        Pulsating(
-            modifier = Modifier.size(size).align(Alignment.Center),
-            isPulsing = isLiked
-        ) {
+        Box(modifier = Modifier.size(size)) {
             Icon(
-                imageVector = Icons.Default.FavoriteBorder,
+                imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "", // TODO: Add content description
                 modifier = Modifier.align(Alignment.Center),
-                tint = if (isLiked) AccentColor else Gray
+                tint = iconBackground.value //if (isLiked) AlertColor else Color.LightGray
             )
         }
     }
