@@ -3,6 +3,7 @@ package br.dev.singular.overview.data.model.media
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "medias")
 class MediaEntity(
@@ -20,5 +21,7 @@ class MediaEntity(
     @ColumnInfo(name = "is_liked")
     var isLiked: Boolean = false,
     @ColumnInfo(name = "is_indicated")
-    var isIndicated: Boolean = false
+    var isIndicated: Boolean = false,
+    @ColumnInfo(name = "last_update")
+    var lastUpdate: Date = Date()
 )
