@@ -25,7 +25,6 @@ import br.dev.singular.overview.data.model.provider.StreamingEntity
     version = 1,
     exportSchema = true
 )
-
 abstract class AppDatabase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
     abstract fun mediaDao(): MediaDao
