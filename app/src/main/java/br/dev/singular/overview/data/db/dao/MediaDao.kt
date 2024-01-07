@@ -26,6 +26,9 @@ interface MediaDao {
     @Query("DELETE FROM medias WHERE is_liked = 0")
     fun deleteNotLiked()
 
+    @Query("SELECT is_liked FROM medias WHERE api_id = :apiId")
+    fun isLiked(apiId: Long): Boolean
+
     @Transaction
     fun update(model: MediaEntity) {
         val media = find(model.apiId)

@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MediaRepository @Inject constructor(
     @IoDispatcher
     private val _dispatcher: CoroutineDispatcher,
-    private val _mediaLocalDataSource: MediaLocalDataSource,
+    private val _mediaLocalSource: MediaLocalDataSource,
     private val _movieRemoteSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowRemoteSource: IMediaRemoteDataSource<TvShow>,
     private val _streamingSource: IStreamingRemoteDataSource
@@ -27,12 +27,12 @@ class MediaRepository @Inject constructor(
 
     override suspend fun getItem(apiId: Long, type: MediaTypeEnum) = withContext(_dispatcher) {
         val result = getMedia(apiId, type)
-        setStreaming(result)
+        setMediaData(result)
         flow { emit(result) }
     }
 
     override suspend fun update(media: MediaEntity) = withContext(_dispatcher) {
-        _mediaLocalDataSource.update(media)
+        _mediaLocalSource.update(media)
     }
 
     private suspend fun getMedia(apiId: Long, type: MediaTypeEnum) = when (type) {
@@ -41,12 +41,13 @@ class MediaRepository @Inject constructor(
         else -> throw IllegalArgumentException("Unsupported media type")
     }
 
-    private suspend fun setStreaming(result: DataResult<out Media>) {
+    private suspend fun setMediaData(result: DataResult<out Media>) {
         result.data?.apply {
-            streamings = getStreaming(apiId, getType()).sortedBy { it.priority }
+            isLiked = _mediaLocalSource.isLiked(apiId)
+            streamings = getStreaming(apiId, getType())
         }
     }
 
     private suspend fun getStreaming(apiId: Long, mediaType: String) =
-        _streamingSource.getItems(apiId, mediaType)
+        _streamingSource.getItems(apiId, mediaType).sortedBy { it.priority }
 }
