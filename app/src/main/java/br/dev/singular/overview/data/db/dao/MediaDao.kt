@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import br.dev.singular.overview.data.model.media.MediaEntity
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 @Dao
 interface MediaDao {
@@ -33,6 +34,7 @@ interface MediaDao {
     fun update(model: MediaEntity) {
         val media = find(model.apiId)
         model.dbId = media?.dbId ?: 0
+        model.lastUpdate = Date()
         insert(listOf(model))
     }
 }
