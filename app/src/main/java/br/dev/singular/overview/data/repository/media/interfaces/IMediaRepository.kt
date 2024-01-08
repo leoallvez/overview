@@ -10,5 +10,5 @@ import java.util.Date
 interface IMediaRepository {
     suspend fun getItem(apiId: Long, type: MediaTypeEnum): Flow<DataResult<out Media>>
     suspend fun update(media: MediaEntity)
-    suspend fun deleteOlderThan(date: Date)
+    suspend fun deleteUnlikedOlderThan(date: Date)
 }

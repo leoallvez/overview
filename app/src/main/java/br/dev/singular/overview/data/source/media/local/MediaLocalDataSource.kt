@@ -12,5 +12,5 @@ class MediaLocalDataSource @Inject constructor(
     fun getLiked() = _dao.getLiked()
     fun update(model: MediaEntity) = _dao.update(model)
     fun isLiked(apiId: Long) = _dao.isLiked(apiId)
-    fun deleteOlderThan(date: Date) = _dao.deleteOlderThan(date)
+    fun deleteUnlikedOlderThan(date: Date) = _dao.deleteUnlikedOlderThan(date)
 }

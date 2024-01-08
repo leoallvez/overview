@@ -52,7 +52,7 @@ class MediaRepository @Inject constructor(
     private suspend fun getStreaming(apiId: Long, mediaType: String) =
         _streamingSource.getItems(apiId, mediaType).sortedBy { it.priority }
 
-    override suspend fun deleteOlderThan(date: Date) = withContext(_dispatcher) {
-        _mediaLocalSource.deleteOlderThan(date)
+    override suspend fun deleteUnlikedOlderThan(date: Date) = withContext(_dispatcher) {
+        _mediaLocalSource.deleteUnlikedOlderThan(date)
     }
 }

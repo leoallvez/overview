@@ -23,8 +23,8 @@ interface MediaDao {
     @Query("SELECT is_liked FROM medias WHERE api_id = :apiId")
     fun isLiked(apiId: Long): Boolean
 
-    @Query("DELETE FROM medias WHERE last_update < :date")
-    fun deleteOlderThan(date: Date)
+    @Query("DELETE FROM medias WHERE is_liked = 0 AND last_update < :date")
+    fun deleteUnlikedOlderThan(date: Date)
 
     @Transaction
     fun update(model: MediaEntity) {

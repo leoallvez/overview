@@ -10,14 +10,14 @@ import dagger.assisted.AssistedInject
 import java.util.Calendar
 
 @HiltWorker
-class MediaCacheWorker2 @AssistedInject constructor(
+class MediaCacheWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val repository: IMediaRepository
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        repository.deleteOlderThan(date = getMaxCacheDate())
+        repository.deleteUnlikedOlderThan(date = getMaxCacheDate())
         return Result.success()
     }
 
