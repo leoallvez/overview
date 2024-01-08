@@ -23,10 +23,13 @@ interface MediaDao {
     @Query("SELECT is_liked FROM medias WHERE api_id = :apiId")
     fun isLiked(apiId: Long): Boolean
 
+    @Query("DELETE FROM medias WHERE last_update < :date")
+    fun deleteOlderThan(date: Date)
+
     @Transaction
     fun update(model: MediaEntity) {
         val media = find(model.apiId)
-        model.dbId = media?.dbId ?: 0
+        media?.apply { model.dbId = dbId }
         model.lastUpdate = Date()
         insert(listOf(model))
     }

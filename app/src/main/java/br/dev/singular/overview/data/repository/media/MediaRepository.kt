@@ -14,6 +14,7 @@ import br.dev.singular.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import java.util.Date
 import javax.inject.Inject
 
 class MediaRepository @Inject constructor(
@@ -50,4 +51,8 @@ class MediaRepository @Inject constructor(
 
     private suspend fun getStreaming(apiId: Long, mediaType: String) =
         _streamingSource.getItems(apiId, mediaType).sortedBy { it.priority }
+
+    override suspend fun deleteOlderThan(date: Date) = withContext(_dispatcher) {
+        _mediaLocalSource.deleteOlderThan(date)
+    }
 }
