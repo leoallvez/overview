@@ -2,10 +2,8 @@ package br.dev.singular.overview.di
 
 import br.dev.singular.overview.data.repository.genre.GenreRepository
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
-import br.dev.singular.overview.data.repository.media.MediaCacheRepository
 import br.dev.singular.overview.data.repository.media.MediaPagingRepository
 import br.dev.singular.overview.data.repository.media.MediaRepository
-import br.dev.singular.overview.data.repository.media.interfaces.IMediaCacheRepository
 import br.dev.singular.overview.data.repository.media.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.media.interfaces.IMediaRepository
 import br.dev.singular.overview.data.repository.mediatype.IMediaTypeRepository
@@ -65,9 +63,4 @@ abstract class RepositoryModule {
     abstract fun bindMediaTypeRepository(
         repository: MediaTypeRepository
     ): IMediaTypeRepository
-
-    @Binds
-    abstract fun bindMediaCacheRepository(
-        repository: MediaCacheRepository
-    ): IMediaCacheRepository
 }

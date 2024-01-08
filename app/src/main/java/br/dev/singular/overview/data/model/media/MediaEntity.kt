@@ -15,13 +15,9 @@ class MediaEntity(
     val letter: String = "",
     val type: String = "",
     @ColumnInfo(name = "poster_path")
-    val posterPath: String? = null,
-    @ColumnInfo(name = "backdrop_path")
-    val backdropPath: String? = null,
+    val posterPath: String? = "",
     @ColumnInfo(name = "is_liked")
     var isLiked: Boolean = false,
-    @ColumnInfo(name = "is_indicated")
-    var isIndicated: Boolean = false,
     @ColumnInfo(name = "last_update")
     var lastUpdate: Date = Date()
 )

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8c9cfb505a680019405d17d76068cc71",
+    "identityHash": "355948b62ae7289e08e4726b4c6a4a38",
     "entities": [
       {
         "tableName": "genres",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "medias",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `api_id` INTEGER NOT NULL, `letter` TEXT NOT NULL, `type` TEXT NOT NULL, `poster_path` TEXT, `backdrop_path` TEXT, `is_liked` INTEGER NOT NULL, `is_indicated` INTEGER NOT NULL, `last_update` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`media_db_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `api_id` INTEGER NOT NULL, `letter` TEXT NOT NULL, `type` TEXT NOT NULL, `poster_path` TEXT, `is_liked` INTEGER NOT NULL, `last_update` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "dbId",
@@ -71,20 +71,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "backdropPath",
-            "columnName": "backdrop_path",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "isLiked",
             "columnName": "is_liked",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isIndicated",
-            "columnName": "is_indicated",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -224,7 +212,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8c9cfb505a680019405d17d76068cc71')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '355948b62ae7289e08e4726b4c6a4a38')"
     ]
   }
 }

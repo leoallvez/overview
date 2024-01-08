@@ -51,7 +51,6 @@ abstract class Media {
 
     fun toMediaEntity() = MediaEntity(
         apiId = apiId,
-        backdropPath = backdropPath,
         posterPath = posterPath,
         letter = getLetter(),
         isLiked = isLiked,
