@@ -31,6 +31,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.rememberModalBottomSheetState
@@ -70,6 +71,7 @@ import br.dev.singular.overview.ui.Pulsating
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.StreamingIcon
+import br.dev.singular.overview.ui.ToolbarButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
@@ -179,7 +181,10 @@ fun ExploreStreamingBody(
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
-                ExploreStreamingToolBar(onNavigateToSearch = navigate::toSearch)
+                ExploreStreamingToolBar(
+                    onToLiked = navigate::toLiked,
+                    onToSearch = navigate::toSearch
+                )
             },
             bottomBar = {
                 AdsBanner(R.string.discover_banner, showAds)
@@ -358,30 +363,35 @@ private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreE
 }
 
 @Composable
-fun ExploreStreamingToolBar(onNavigateToSearch: () -> Unit) {
+fun ExploreStreamingToolBar(
+    onToLiked: () -> Unit,
+    onToSearch: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(
-                paddingValues = PaddingValues(
-                    vertical = dimensionResource(R.dimen.screen_padding)
-                )
-            ),
+            .background(PrimaryBackground),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val defaultPadding = dimensionResource(R.dimen.default_padding)
-            SearchField(
-                enabled = false,
-                onClick = onNavigateToSearch,
-                defaultPaddingValues = PaddingValues(start = defaultPadding, end = defaultPadding),
-                placeholder = stringResource(R.string.search_in_all_places)
-            )
+            ToolbarButton(
+                painter = Icons.Default.FavoriteBorder,
+                descriptionResource = R.string.backstack_icon,
+                background = Color.White.copy(alpha = 0.1f),
+                padding = PaddingValues(
+                    vertical = dimensionResource(R.dimen.screen_padding)
+                )
+            ) { onToLiked.invoke() }
         }
+        SearchField(
+            enabled = false,
+            onClick = onToSearch,
+            defaultPaddingValues = PaddingValues(start = 13.dp, end = dimensionResource(R.dimen.default_padding)),
+            placeholder = stringResource(R.string.search_in_all_places)
+        )
     }
 }
 
