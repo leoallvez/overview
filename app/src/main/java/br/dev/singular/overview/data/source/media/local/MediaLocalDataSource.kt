@@ -9,7 +9,8 @@ class MediaLocalDataSource @Inject constructor(
     private val _dao: MediaDao
 ) {
     fun insert(models: List<MediaEntity>) = _dao.insert(models)
-    fun getLiked() = _dao.getLiked()
+    fun getAllLiked() = _dao.getAllLiked()
+    fun getAllLikedByType(type: String) = _dao.getAllLikedByType(type)
     fun update(model: MediaEntity) = _dao.update(model)
     fun isLiked(apiId: Long) = _dao.isLiked(apiId)
     fun deleteUnlikedOlderThan(date: Date) = _dao.deleteUnlikedOlderThan(date)

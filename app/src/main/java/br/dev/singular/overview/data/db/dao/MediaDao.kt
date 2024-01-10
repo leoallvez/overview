@@ -1,5 +1,6 @@
 package br.dev.singular.overview.data.db.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
@@ -18,7 +19,10 @@ interface MediaDao {
     fun find(apiId: Long): MediaEntity?
 
     @Query("SELECT * FROM medias WHERE is_liked = 1")
-    fun getLiked(): List<MediaEntity>
+    fun getAllLiked(): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT * FROM medias WHERE is_liked = 1 AND type = :type" )
+    fun getAllLikedByType(type: String): PagingSource<Int, MediaEntity>
 
     @Query("SELECT is_liked FROM medias WHERE api_id = :apiId")
     fun isLiked(apiId: Long): Boolean
