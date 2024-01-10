@@ -98,6 +98,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 toolbar-compose = { module = "me.onebone:toolbar-compose", version.ref = "toolbar-compose" }
