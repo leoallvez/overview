@@ -21,7 +21,7 @@ interface MediaDao {
     @Query("SELECT * FROM medias WHERE is_liked = 1")
     fun getAllLiked(): PagingSource<Int, MediaEntity>
 
-    @Query("SELECT * FROM medias WHERE is_liked = 1 AND type = :type" )
+    @Query("SELECT * FROM medias WHERE is_liked = 1 AND type = :type")
     fun getAllLikedByType(type: String): PagingSource<Int, MediaEntity>
 
     @Query("SELECT is_liked FROM medias WHERE api_id = :apiId")
