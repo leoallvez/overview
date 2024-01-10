@@ -31,7 +31,7 @@ class MediaEntityRepository @Inject constructor(
         )
     }
 
-    private fun getLikedPagingSource(searchFilters: SearchFilters): PagingSource<Int, MediaEntity>{
+    private fun getLikedPagingSource(searchFilters: SearchFilters): PagingSource<Int, MediaEntity> {
         val type = searchFilters.mediaType.key
         return if (type == MediaTypeEnum.ALL.key) {
             _source.getAllLiked()

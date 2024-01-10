@@ -24,4 +24,3 @@ class MediaEntity(
 ) {
     fun getPosterImage() = "${BuildConfig.TMDB_IMG_URL}/$posterPath"
 }
-
