@@ -8,5 +8,4 @@ interface IMediaEntityPagingRepository {
     suspend fun getLikedPaging(): PagingSource<Int, MediaEntity>
 
     suspend fun getLikedByTypePaging(type: String): PagingSource<Int, MediaEntity>
-
 }

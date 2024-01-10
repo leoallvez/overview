@@ -8,5 +8,4 @@ interface IMediaEntityRepository {
     suspend fun update(media: MediaEntity)
 
     suspend fun deleteUnlikedOlderThan(date: Date)
-
 }

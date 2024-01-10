@@ -13,7 +13,7 @@ import javax.inject.Inject
 class MediaEntityRepository @Inject constructor(
     private val _source: MediaLocalDataSource,
     @IoDispatcher
-    private val _dispatcher: CoroutineDispatcher,
+    private val _dispatcher: CoroutineDispatcher
 ) : IMediaEntityRepository, IMediaEntityPagingRepository {
 
     override suspend fun getLikedPaging() = withContext(_dispatcher) {
@@ -31,5 +31,4 @@ class MediaEntityRepository @Inject constructor(
     override suspend fun deleteUnlikedOlderThan(date: Date) = withContext(_dispatcher) {
         _source.deleteUnlikedOlderThan(date)
     }
-
 }

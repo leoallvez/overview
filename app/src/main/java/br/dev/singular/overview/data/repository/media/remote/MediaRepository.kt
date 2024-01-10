@@ -45,5 +45,4 @@ class MediaRepository @Inject constructor(
 
     private suspend fun getStreaming(apiId: Long, mediaType: String) =
         _streamingSource.getItems(apiId, mediaType).sortedBy { it.priority }
-
 }
