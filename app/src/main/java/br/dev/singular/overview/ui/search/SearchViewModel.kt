@@ -5,7 +5,7 @@ import androidx.paging.PagingData
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.repository.search.ISearchPagingRepository
+import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
 import br.dev.singular.overview.di.ShowAds
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
-    private val _repository: ISearchPagingRepository
+    private val _repository: IMediaSearchPagingRepository
 ) : ViewModel() {
 
     private val _filters = MutableStateFlow(SearchFilters())

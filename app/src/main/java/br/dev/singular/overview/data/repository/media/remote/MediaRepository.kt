@@ -1,10 +1,9 @@
-package br.dev.singular.overview.data.repository.media
+package br.dev.singular.overview.data.repository.media.remote
 
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
-import br.dev.singular.overview.data.repository.media.interfaces.IMediaRepository
+import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRepository
 import br.dev.singular.overview.data.source.DataResult
 import br.dev.singular.overview.data.source.media.MediaTypeEnum
 import br.dev.singular.overview.data.source.media.local.MediaLocalDataSource
@@ -14,7 +13,6 @@ import br.dev.singular.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import java.util.Date
 import javax.inject.Inject
 
 class MediaRepository @Inject constructor(
@@ -30,10 +28,6 @@ class MediaRepository @Inject constructor(
         val result = getMedia(apiId, type)
         setMediaData(result)
         flow { emit(result) }
-    }
-
-    override suspend fun update(media: MediaEntity) = withContext(_dispatcher) {
-        _mediaLocalSource.update(media)
     }
 
     private suspend fun getMedia(apiId: Long, type: MediaTypeEnum) = when (type) {
@@ -52,7 +46,4 @@ class MediaRepository @Inject constructor(
     private suspend fun getStreaming(apiId: Long, mediaType: String) =
         _streamingSource.getItems(apiId, mediaType).sortedBy { it.priority }
 
-    override suspend fun deleteUnlikedOlderThan(date: Date) = withContext(_dispatcher) {
-        _mediaLocalSource.deleteUnlikedOlderThan(date)
-    }
 }

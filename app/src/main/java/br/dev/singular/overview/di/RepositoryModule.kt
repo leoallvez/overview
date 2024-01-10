@@ -2,16 +2,19 @@ package br.dev.singular.overview.di
 
 import br.dev.singular.overview.data.repository.genre.GenreRepository
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
-import br.dev.singular.overview.data.repository.media.MediaPagingRepository
-import br.dev.singular.overview.data.repository.media.MediaRepository
-import br.dev.singular.overview.data.repository.media.interfaces.IMediaPagingRepository
-import br.dev.singular.overview.data.repository.media.interfaces.IMediaRepository
+import br.dev.singular.overview.data.repository.media.local.MediaEntityRepository
+import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
+import br.dev.singular.overview.data.repository.media.remote.MediaPagingRepository
+import br.dev.singular.overview.data.repository.media.remote.MediaRepository
+import br.dev.singular.overview.data.repository.media.remote.MediaSearchPagingRepository
+import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
+import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRepository
+import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
+import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityRepository
 import br.dev.singular.overview.data.repository.mediatype.IMediaTypeRepository
 import br.dev.singular.overview.data.repository.mediatype.MediaTypeRepository
 import br.dev.singular.overview.data.repository.person.IPersonRepository
 import br.dev.singular.overview.data.repository.person.PersonRepository
-import br.dev.singular.overview.data.repository.search.ISearchPagingRepository
-import br.dev.singular.overview.data.repository.search.SearchMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.IStreamingRepository
 import br.dev.singular.overview.data.repository.streaming.StreamingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
@@ -35,14 +38,24 @@ abstract class RepositoryModule {
     ): IMediaPagingRepository
 
     @Binds
+    abstract fun bindMediaSearchPagingRepository(
+        repository: MediaSearchPagingRepository
+    ): IMediaSearchPagingRepository
+
+    @Binds
+    abstract fun bindMediaEntityPagingRepository(
+        repository: MediaEntityRepository
+    ): IMediaEntityPagingRepository
+
+    @Binds
+    abstract fun bindMediaEntityRepository(
+        repository: MediaEntityRepository
+    ): IMediaEntityRepository
+
+    @Binds
     abstract fun bindPersonRepository(
         repository: PersonRepository
     ): IPersonRepository
-
-    @Binds
-    abstract fun bindSearchPagingRepository(
-        repository: SearchMediaPagingRepository
-    ): ISearchPagingRepository
 
     @Binds
     abstract fun bindStreamingRepository(
