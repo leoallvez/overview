@@ -1,8 +1,13 @@
 package br.dev.singular.overview.data.repository.media.local
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
+import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityRepository
+import br.dev.singular.overview.data.source.media.MediaTypeEnum
 import br.dev.singular.overview.data.source.media.local.MediaLocalDataSource
 import br.dev.singular.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,12 +21,23 @@ class MediaEntityRepository @Inject constructor(
     private val _dispatcher: CoroutineDispatcher
 ) : IMediaEntityRepository, IMediaEntityPagingRepository {
 
-    override suspend fun getLikedPaging() = withContext(_dispatcher) {
-        _source.getAllLiked()
+    override fun getLikedPaging(filters: SearchFilters): Pager<Int, MediaEntity> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { getLikedPagingSource(filters) }
+        )
     }
 
-    override suspend fun getLikedByTypePaging(type: String) = withContext(_dispatcher) {
-        _source.getAllLikedByType(type)
+    private fun getLikedPagingSource(searchFilters: SearchFilters): PagingSource<Int, MediaEntity>{
+        val type = searchFilters.mediaType.key
+        return if (type == MediaTypeEnum.ALL.key) {
+            _source.getAllLiked()
+        } else {
+            _source.getAllLikedByType(type)
+        }
     }
 
     override suspend fun update(media: MediaEntity) = withContext(_dispatcher) {
@@ -30,5 +46,9 @@ class MediaEntityRepository @Inject constructor(
 
     override suspend fun deleteUnlikedOlderThan(date: Date) = withContext(_dispatcher) {
         _source.deleteUnlikedOlderThan(date)
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 20
     }
 }

@@ -3,6 +3,7 @@ package br.dev.singular.overview.data.model.media
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import br.dev.singular.overview.BuildConfig
 import java.util.Date
 
 @Entity(tableName = "medias")
@@ -20,4 +21,7 @@ class MediaEntity(
     var isLiked: Boolean = false,
     @ColumnInfo(name = "last_update")
     var lastUpdate: Date = Date()
-)
+) {
+    fun getPosterImage() = "${BuildConfig.TMDB_IMG_URL}/$posterPath"
+}
+

@@ -81,6 +81,7 @@ import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
+import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaTypeEnum
@@ -558,6 +559,56 @@ fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
+}
+
+@Composable
+fun MediaEntityPagingVerticalGrid(
+    padding: PaddingValues,
+    pagingItems: LazyPagingItems<MediaEntity>,
+    onClickMediaItem: MediaItemClick
+) {
+    Column(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .padding(padding)
+            .fillMaxSize()
+    ) {
+        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+            items(pagingItems.itemCount) { index ->
+                GridItemMediaEntity(
+                    media = pagingItems[index],
+                    onClick = {
+                        onClickMediaItem.invoke(it.apiId, it.type)
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
+    media?.apply {
+        Column(
+            modifier = Modifier
+                .padding(2.dp)
+                .clickable { onClick(media) }
+        ) {
+            BasicImage(
+                url = getPosterImage(),
+                contentDescription = letter,
+                withBorder = true,
+                modifier = Modifier
+                    .size(width = 125.dp, height = 180.dp)
+                    .padding(1.dp)
+            )
+            BasicText(
+                text = letter,
+                style = MaterialTheme.typography.caption,
+                isBold = true
+            )
+        }
+    }
 }
 
 @Composable
