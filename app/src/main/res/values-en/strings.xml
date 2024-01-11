@@ -133,4 +133,13 @@
     <string name="streaming">Streaming</string>
 
     <string name="like_button">Like button icon</string>
+
+    <string name="liked_not_found">Your favorites will appear here :)</string>
+
+    <string name="liked_movie_not_found">Your favorite movies will appear here :)</string>
+
+    <string name="liked_tv_show_not_found">Your favorite TV shows will appear here :)</string>
+
+    <string name="my_favorite">My Favorites</string>
+
 </resources>

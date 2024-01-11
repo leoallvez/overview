@@ -138,4 +138,13 @@
     <string name="streaming">Transmisión</string>
 
     <string name="like_button">Ícono de Me gusta</string>
+
+    <string name="liked_not_found">Tus favoritos aparecerán aquí :)</string>
+
+    <string name="liked_movie_not_found">Sus películas favoritas aparecerán aquí :)</string>
+
+    <string name="liked_tv_show_not_found">Sus series favoritas aparecerán aquí :)</string>
+
+    <string name="my_favorite">Mis Favoritos</string>
+
 </resources>
