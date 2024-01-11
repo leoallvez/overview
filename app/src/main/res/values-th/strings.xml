@@ -137,4 +137,14 @@
 
     <string name="streaming">สตรีมมิ่ง</string>
 
+    <string name="like_button">ไอคอนถูกใจ</string>
+
+    <string name="liked_not_found">รายการโปรดของคุณจะปรากฏที่นี่ :)</string>
+
+    <string name="liked_movie_not_found">หนังที่คุณชื่นชอบจะปรากฏที่นี่ :)</string>
+
+    <string name="liked_tv_show_not_found">ซีรีส์ที่คุณชื่นชอบจะปรากฏที่นี่ :)</string>
+
+    <string name="my_favorite">รายการโปรดของฉัน</string>
+
 </resources>

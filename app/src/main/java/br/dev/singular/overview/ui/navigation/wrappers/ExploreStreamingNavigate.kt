@@ -9,5 +9,7 @@ class ExploreStreamingNavigate(
 
     fun toSearch() = navigation.navigate(route = ScreenNav.Search.route)
 
+    fun toLiked() = navigation.navigate(route = ScreenNav.Liked.route)
+
     fun toSelectStreaming() = navigation.navigate(route = ScreenNav.SelectStreaming.route)
 }

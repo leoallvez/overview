@@ -19,6 +19,9 @@
     <string name="person_banner">
         ca-app-pub-2674167083358956/2944299552
     </string>
+    <string name="liked_banner">
+        ca-app-pub-2674167083358956/4203722867
+    </string>
     <!--App Name-->
     <string name="app_name_homol">
         Over-Hom

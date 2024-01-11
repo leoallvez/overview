@@ -3,76 +3,143 @@
     <string name="app_name_prod">Overview</string>
     <!-- Home list title -->
     <string name="movie_top_rated" tools:ignore="UnusedResources">Top rated movies</string>
+
     <string name="discover_movie" tools:ignore="UnusedResources">Movies you can enjoy</string>
+
     <string name="movie_trending" tools:ignore="UnusedResources">Trending movies</string>
+
     <string name="movie_popular" tools:ignore="UnusedResources">Popular movies</string>
+
     <string name="tv_top_rated" tools:ignore="UnusedResources">Top rated on streaming</string>
+
     <string name="discover_tv" tools:ignore="UnusedResources">You can enjoy it on streaming</string>
+
     <string name="tv_trending" tools:ignore="UnusedResources">Streaming trends</string>
+
     <string name="tv_popular" tools:ignore="UnusedResources">Popular on streaming</string>
     <!-- Genre -->
     <string name="genre_10759" tools:ignore="UnusedResources" />
+
     <string name="genre_10762" tools:ignore="UnusedResources" />
+
     <string name="genre_10763" tools:ignore="UnusedResources" />
+
     <string name="genre_10764" tools:ignore="UnusedResources" />
+
     <string name="genre_10765" tools:ignore="UnusedResources" />
+
     <string name="genre_10766" tools:ignore="UnusedResources" />
+
     <string name="genre_10767" tools:ignore="UnusedResources" />
+
     <string name="genre_10768" tools:ignore="UnusedResources" />
 
     <string name="error_on_loading">Error loading :(</string>
+
     <string name="btn_try_again">Try again</string>
+
     <string name="refresh_icon">Reload icon</string>
+
     <string name="backstack_icon">Back home icon</string>
+
     <string name="search_icon">Search icon</string>
+
     <string name="search_clean_icon">Clear search icon</string>
+
     <string name="app_offline_msg">No internet connection available</string>
+
     <string name="loading">Loading…</string>
 
     <string name="synopsis">Synopsis</string>
+
     <string name="biography">Biography</string>
+
     <string name="cast">Cast</string>
+
     <string name="related">Related</string>
+
     <string name="where_to_watch">Providers</string>
+
     <string name="separator">•</string>
+
     <string name="em_dash">-</string>
+
     <string name="tv_shows_participation">TV participation</string>
+
     <string name="movies_participation">Film participation</string>
+
     <string name="age">%s years</string>
+
     <string name="place_of_birth">Place of birth</string>
+
     <string name="one_season">1 season</string>
+
     <string name="n_seasons">%s season</string>
+
     <string name="one_episode">1 episode</string>
+
     <string name="n_episodes">%s episodes</string>
+
     <string name="runtime_per_episode">Runtime: %s per episode</string>
+
     <string name="director">Director</string>
+
     <string name="release_date">Release Date</string>
+
     <string name="runtime">Runtime</string>
+
     <string name="search_field_text">Search</string>
 
     <string name="movies">Movies</string>
+
     <string name="tv_show">TV Shows</string>
+
     <string name="all">Movies and TV Shows</string>
 
     <string name="search_not_started">Search results will appear here :)</string>
+
     <string name="search_result_empty">no results found :(</string>
+
     <string name="empty_list_providers">Not available for streaming</string>
+
     <string name="not_yet_released">Not yet released</string>
 
     <string name="edit">Edit</string>
+
     <string name="yours_streaming">Yours streaming</string>
+
     <string name="search_in_all_places">Search everywhere</string>
+
     <string name="genres">Genres</string>
+
     <string name="type">Type</string>
+
     <string name="filters">Filters</string>
+
     <string name="close">to close icon</string>
+
     <string name="not_found">No results found :(</string>
+
     <string name="check_filters">Check the filters and try again</string>
+
     <string name="clear_filters">Clear filters</string>
 
     <string name="main_steams">Main Streams</string>
+
     <string name="favorite_streams">Favorite Streams</string>
+
     <string name="other_streams">Other Streams</string>
 
     <string name="streaming">Streaming</string>
+
+    <string name="like_button">Like button icon</string>
+
+    <string name="liked_not_found">Your favorites will appear here :)</string>
+
+    <string name="liked_movie_not_found">Your favorite movies will appear here :)</string>
+
+    <string name="liked_tv_show_not_found">Your favorite TV shows will appear here :)</string>
+
+    <string name="my_favorite">My Favorites</string>
+
 </resources>

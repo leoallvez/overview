@@ -3,75 +3,141 @@
     <string name="app_name_prod">Overview</string>
     <!-- Dynamic -->
     <string name="movie_top_rated" tools:ignore="UnusedResources">Filmes mais votados</string>
+
     <string name="discover_movie" tools:ignore="UnusedResources">Filmes que você pode curtir</string>
+
     <string name="movie_trending" tools:ignore="UnusedResources">Filmes tendência</string>
+
     <string name="movie_popular" tools:ignore="UnusedResources">Filmes populares</string>
+
     <string name="tv_top_rated" tools:ignore="UnusedResources">Mais votados no streaming</string>
+
     <string name="discover_tv" tools:ignore="UnusedResources">Você pode curtir no streaming</string>
+
     <string name="tv_trending" tools:ignore="UnusedResources">Tendência no streaming</string>
+
     <string name="tv_popular" tools:ignore="UnusedResources">Popular no streaming</string>
     <!-- Genre -->
     <string name="genre_10759" tools:ignore="UnusedResources">Ação e Aventura</string>
+
     <string name="genre_10762" tools:ignore="UnusedResources">Infantil</string>
+
     <string name="genre_10763" tools:ignore="UnusedResources">Notiticias</string>
+
     <string name="genre_10764" tools:ignore="UnusedResources">Reality Show</string>
+
     <string name="genre_10765" tools:ignore="UnusedResources">Ficção Científica e Fantasia</string>
+
     <string name="genre_10766" tools:ignore="UnusedResources">Ficção Cómica</string>
+
     <string name="genre_10767" tools:ignore="UnusedResources">Entrevista</string>
+
     <string name="genre_10768" tools:ignore="UnusedResources">Guerra e Política</string>
 
     <string name="error_on_loading">Erro ao carregar :(</string>
+
     <string name="btn_try_again">Tentar novamente</string>
+
     <string name="refresh_icon">Ícone de recarregar</string>
+
     <string name="backstack_icon">Ícone de voltar para home</string>
+
     <string name="search_icon">Ícone de pesquisar</string>
+
     <string name="search_clean_icon">Ícone de limpar pesquisa</string>
+
     <string name="app_offline_msg">Nenhuma conexão com a Internet disponível</string>
+
     <string name="loading">Carregando…</string>
 
     <string name="synopsis">Sinopse</string>
+
     <string name="biography">Biografia</string>
+
     <string name="cast">Elenco</string>
+
     <string name="related">Relacionados</string>
+
     <string name="where_to_watch">Onde assistir</string>
+
     <string name="separator">•</string>
+
     <string name="em_dash">-</string>
+
     <string name="tv_shows_participation">Participações na TV </string>
+
     <string name="movies_participation">Participações no cinema</string>
+
     <string name="age">%s anos</string>
     <string name="place_of_birth">Local de nascimento (em inglês)</string>
+
     <string name="one_season">1 temporada</string>
+
     <string name="n_seasons">%s temporadas</string>
+
     <string name="one_episode">1 episódio</string>
+
     <string name="n_episodes">%s episódios</string>
+
     <string name="runtime_per_episode">Duração: %s por episódio</string>
+
     <string name="director">Diretor</string>
+
     <string name="release_date">Lançamento</string>
+
     <string name="runtime">Duração</string>
+
     <string name="search_field_text">Pesquisar</string>
 
     <string name="movies">Filmes</string>
+
     <string name="tv_show">Séries</string>
+
     <string name="all">Filmes e Séries</string>
 
     <string name="search_not_started">Os resultados da pesquisa irão aparecer aqui :)</string>
+
     <string name="search_result_empty">Nenhum resultado encontrado :(</string>
+
     <string name="empty_list_providers">Não disponível nos streamings</string>
+
     <string name="not_yet_released">Ainda não lançado</string>
 
     <string name="edit">Editar</string>
+
     <string name="yours_streaming">Seus streamings</string>
+
     <string name="search_in_all_places">Pesquisar conteúdo em todos lugares</string>
+
     <string name="genres">Gêneros</string>
+
     <string name="type">Tipo</string>
+
     <string name="filters">Filtros</string>
+
     <string name="close">Ícone para fechar</string>
+
     <string name="not_found">Nenhum resultado encontrado :(</string>
+
     <string name="check_filters">Verifique os filtros e tente novamente</string>
+
     <string name="clear_filters">Limpar filtros</string>
 
     <string name="main_steams">Principais Streamings</string>
+
     <string name="favorite_streams">Streamings Favoritos</string>
+
     <string name="other_streams">Outros Streamings</string>
+
     <string name="streaming">Streaming</string>
+
+    <string name="like_button">Ícone de curtir</string>
+
+    <string name="liked_not_found">Os seus favoritos irão aparecer aqui :)</string>
+
+    <string name="liked_movie_not_found"> Os seus filmes favoritos irão aparecer aqui :)</string>
+
+    <string name="liked_tv_show_not_found"> As suas séries favoritas irão aparecer aqui :)</string>
+
+    <string name="my_favorite">Meus favoritos</string>
 </resources>

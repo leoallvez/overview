@@ -9,7 +9,7 @@ import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
-import br.dev.singular.overview.data.repository.media.interfaces.IMediaPagingRepository
+import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.data.source.CacheDataSource
 import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_FILTER_CACHE
@@ -49,7 +49,7 @@ class ExploreStreamingViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<GenreEntity>>(listOf())
     val genres: StateFlow<List<GenreEntity>> = _genres
 
-    var medias: Flow<PagingData<Media>> = _mediaRepository.getMediasPaging(searchFilters.value)
+    var medias: Flow<PagingData<Media>> = _mediaRepository.getPaging(searchFilters.value)
         private set
 
     var selectedStreaming: StreamingEntity? = null
@@ -70,7 +70,7 @@ class ExploreStreamingViewModel @Inject constructor(
     }
 
     fun loadMedias() {
-        medias = _mediaRepository.getMediasPaging(searchFilters.value)
+        medias = _mediaRepository.getPaging(searchFilters.value)
     }
 
     fun loadGenres() = viewModelScope.launch(_dispatcher) {

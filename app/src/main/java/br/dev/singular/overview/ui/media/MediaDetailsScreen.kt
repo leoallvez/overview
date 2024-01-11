@@ -1,6 +1,10 @@
 package br.dev.singular.overview.ui.media
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,9 +17,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
@@ -24,11 +30,19 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -63,6 +77,7 @@ import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
+import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.defaultBorder
@@ -88,8 +103,21 @@ fun MediaDetailsScreen(
         uiState = viewModel.uiState.collectAsState().value,
         onRefresh = { viewModel.refresh(apiId, type) }
     ) { media ->
-        val onRefresh: () -> Unit = { viewModel.refresh(apiId, type) }
-        MediaDetailsContent(media, viewModel.showAds, navigate, onRefresh) { streaming ->
+        val isLiked = remember { mutableStateOf(media?.isLiked ?: false) }
+        val onRefresh = { viewModel.refresh(apiId, type) }
+        val onLike = {
+            isLiked.value = !isLiked.value
+            viewModel.updateLike(media, isLiked.value)
+        }
+
+        MediaDetailsContent(
+            media = media,
+            showAds = viewModel.showAds,
+            isLiked = isLiked.value,
+            navigate = navigate,
+            onRefresh = onRefresh,
+            onLikeClick = onLike
+        ) { streaming ->
             viewModel.saveSelectedStream(streaming.toJson())
         }
     }
@@ -99,8 +127,10 @@ fun MediaDetailsScreen(
 fun MediaDetailsContent(
     media: Media?,
     showAds: Boolean,
+    isLiked: Boolean,
     navigate: MediaDetailsNavigate,
     onRefresh: () -> Unit,
+    onLikeClick: () -> Unit,
     onClickStreaming: (StreamingEntity) -> Unit
 ) {
     if (media == null) {
@@ -111,7 +141,7 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(media) { navigate.popBackStack() }
+                MediaToolBar(media, isLiked, onLikeClick) { navigate.popBackStack() }
             }
         ) {
             MediaBody(media, showAds, navigate, onClickStreaming)
@@ -120,7 +150,12 @@ fun MediaDetailsContent(
 }
 
 @Composable
-fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
+fun MediaToolBar(
+    media: Media,
+    isLiked: Boolean,
+    onLikeClick: () -> Unit,
+    backButtonAction: () -> Unit
+) {
     Box(Modifier.fillMaxWidth()) {
         media.apply {
             Backdrop(
@@ -133,11 +168,17 @@ fun MediaToolBar(media: Media, backButtonAction: () -> Unit) {
                 textPadding = PaddingValues(start = dimensionResource(R.dimen.screen_padding)),
                 modifier = Modifier.align(Alignment.BottomStart)
             )
-            ToolbarButton(
-                painter = Icons.Default.KeyboardArrowLeft,
-                descriptionResource = R.string.backstack_icon,
-                modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
-            ) { backButtonAction.invoke() }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ToolbarButton(
+                    painter = Icons.Default.KeyboardArrowLeft,
+                    descriptionResource = R.string.backstack_icon,
+                    modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
+                ) { backButtonAction.invoke() }
+                LikeButton(isLiked = isLiked, onLikeClick)
+            }
         }
     }
 }
@@ -156,7 +197,7 @@ fun MediaBody(
             .background(PrimaryBackground)
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        StreamingOverview(media.streams, media.isReleased()) { streaming ->
+        StreamingOverview(media.streamings, media.isReleased()) { streaming ->
             onClickStreaming(streaming)
             navigate.toStreamingExplore()
         }
@@ -392,5 +433,47 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
             style = MaterialTheme.typography.caption,
             color = AccentColor
         )
+    }
+}
+
+@Composable
+fun LikeButton(
+    isLiked: Boolean,
+    onClick: () -> Unit
+) {
+    val buttonSize = 40.dp
+    val duration = 200
+    val unlikedColor = Gray
+    val likedColor = AlertColor
+    val pulsationScale = if (isLiked) 1.2f else 1f
+
+    val background = remember { Animatable(unlikedColor) }
+    LaunchedEffect(isLiked) {
+        val color = if (isLiked) likedColor else unlikedColor
+        background.animateTo(color, tween(duration))
+    }
+
+    val scale by animateFloatAsState(
+        targetValue = pulsationScale,
+        tween(durationMillis = duration, easing = LinearEasing),
+        label = "PulsatingScale"
+    )
+
+    Box(
+        modifier = Modifier
+            .padding(PaddingValues(dimensionResource(R.dimen.screen_padding_new)))
+            .clip(CircleShape)
+            .background(PrimaryBackground.copy(alpha = 0.5f))
+            .size(buttonSize)
+            .clickable { onClick.invoke() }
+    ) {
+        Box(modifier = Modifier.size(buttonSize)) {
+            Icon(
+                imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                contentDescription = stringResource(id = R.string.like_button),
+                modifier = Modifier.align(Alignment.Center).scale(scale),
+                tint = background.value
+            )
+        }
     }
 }

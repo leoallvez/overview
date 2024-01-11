@@ -137,4 +137,14 @@
 
     <string name="streaming">ストリーミング</string>
 
+    <string name="like_button">いいねアイコン</string>
+
+    <string name="liked_not_found">즐겨찾기가 여기에 표시됩니다 :)</string>
+
+    <string name="liked_movie_not_found">お気に入りの映画はこちらに表示されます :)</string>
+
+    <string name="liked_tv_show_not_found">お気に入りのテレビ番組はこちらに表示されます :)</string>
+
+    <string name="my_favorite">내 즐겨찾기</string>
+
 </resources>

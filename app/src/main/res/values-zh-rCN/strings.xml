@@ -137,4 +137,14 @@
 
     <string name="streaming">流媒体</string>
 
+    <string name="like_button">点赞图标</string>
+
+    <string name="liked_not_found">您的收藏将在这里显示 :)</string>
+
+    <string name="liked_movie_not_found">您喜欢的电影将显示在这里 :)</string>
+
+    <string name="liked_tv_show_not_found">您喜欢的电视节目将显示在这里 :)</string>
+
+    <string name="my_favorite">我的收藏</string>
+
 </resources>

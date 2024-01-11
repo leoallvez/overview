@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.ui.liked.LikedScreen
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
@@ -78,5 +79,8 @@ fun NavGraphBuilder.mediaDetailsGraph(
         ExploreStreamingScreen(
             navigate = ExploreStreamingNavigate(navController)
         )
+    }
+    composable(route = ScreenNav.Liked.route) {
+        LikedScreen(navigate = BasicNavigate(navController))
     }
 }

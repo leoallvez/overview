@@ -137,4 +137,14 @@
 
     <string name="streaming">Streaming</string>
 
+    <string name="like_button">Gefällt mir Symbol</string>
+
+    <string name="liked_not_found">Ihre Favoriten werden hier angezeigt :)</string>
+
+    <string name="liked_movie_not_found">Ihre Lieblingsfilme werden hier angezeigt :)</string>
+
+    <string name="liked_tv_show_not_found">Ihre Lieblingsserien werden hier angezeigt :)</string>
+
+    <string name="my_favorite">Meine Favoriten</string>
+
 </resources>

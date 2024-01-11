@@ -1,10 +1,10 @@
-package br.dev.singular.overview.data.repository.media
+package br.dev.singular.overview.data.repository.media.remote
 
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.repository.MediaPagingRepository
-import br.dev.singular.overview.data.repository.media.interfaces.IMediaPagingRepository
+import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.source.media.remote.IMediaRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
@@ -15,7 +15,7 @@ class MediaPagingRepository @Inject constructor(
     private val _tvShowSource: IMediaRemoteDataSource<TvShow>
 ) : MediaPagingRepository(coroutineScope), IMediaPagingRepository {
 
-    override fun getMediasPaging(searchFilters: SearchFilters) = filterPaging(searchFilters)
+    override fun getPaging(searchFilters: SearchFilters) = filterPaging(searchFilters)
 
     override suspend fun getMovies(page: Int) = _movieSource.getPaging(page, searchFilters)
 

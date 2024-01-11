@@ -28,7 +28,7 @@ interface StreamingDao {
     fun deleteAll()
 
     @Transaction
-    fun upgrade(models: List<StreamingEntity>) {
+    fun update(models: List<StreamingEntity>) {
         deleteAll()
         insert(models)
     }

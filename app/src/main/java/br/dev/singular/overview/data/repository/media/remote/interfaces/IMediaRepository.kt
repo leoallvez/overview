@@ -1,4 +1,4 @@
-package br.dev.singular.overview.data.repository.media.interfaces
+package br.dev.singular.overview.data.repository.media.remote.interfaces
 
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.source.DataResult
