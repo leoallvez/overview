@@ -218,7 +218,7 @@ fun ExploreStreamingBody(
                     else -> {
                         NotFoundContentScreen(
                             showOnTop = filterIsVisible,
-                            hasFilters = filters.genreId.isNull(),
+                            hasFilters = filters.genreId.isNull()
                         )
                     }
                 }

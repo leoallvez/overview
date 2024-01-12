@@ -10,7 +10,7 @@ class SearchFilters(
     var query: String = "",
     var genreId: Long? = null,
     var streamingId: Long? = null,
-    var mediaType: MediaType = MediaType.ALL,
+    var mediaType: MediaType = MediaType.ALL
 ) : Parcelable {
 
     fun clear() {
