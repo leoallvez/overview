@@ -61,7 +61,7 @@ fun SearchScreen(
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
             SearchToolBar(filters.query, navigate::popBackStack) { newQuery ->
-                viewModel.updateData(filters.apply { query = newQuery })
+                viewModel.updateData(filters.copy(query = newQuery))
             }
         },
         bottomBar = {
@@ -71,7 +71,7 @@ fun SearchScreen(
         Column {
             if (items.itemCount > 0) {
                 MediaTypeSelector(filters.mediaType.key) { newType ->
-                    viewModel.updateData(filters.apply { mediaType = newType })
+                    viewModel.updateData(filters.copy(mediaType = newType))
                 }
             }
             Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
@@ -81,7 +81,6 @@ fun SearchScreen(
                     is LoadState.NotLoading -> {
                         MediaPagingVerticalGrid(padding, items, navigate::toMediaDetails)
                     }
-
                     else -> {
                         if (items.itemCount == 0 && filters.query.isNotEmpty()) {
                             NotFoundContentScreen()

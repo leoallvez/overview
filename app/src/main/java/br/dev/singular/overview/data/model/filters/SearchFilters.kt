@@ -6,21 +6,12 @@ import br.dev.singular.overview.util.isNull
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class SearchFilters(
-    var query: String = "",
-    var genreId: Long? = null,
-    var streamingId: Long? = null,
-    var mediaType: MediaType = MediaType.ALL
+data class SearchFilters(
+    val query: String = "",
+    val genreId: Long? = null,
+    val streamingId: Long? = null,
+    val mediaType: MediaType = MediaType.ALL
 ) : Parcelable {
-
-    fun clear() {
-        mediaType = MediaType.ALL
-        clearGenreId()
-    }
-
-    fun clearGenreId() {
-        genreId = null
-    }
 
     fun areDefaultValues(): Boolean {
         return query.isEmpty() && mediaType == MediaType.ALL && genreId.isNull()
