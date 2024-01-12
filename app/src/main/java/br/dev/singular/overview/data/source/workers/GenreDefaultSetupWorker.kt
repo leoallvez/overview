@@ -7,7 +7,7 @@ import androidx.work.WorkerParameters
 import br.dev.singular.overview.data.model.media.MediaTypeEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.mediatype.IMediaTypeRepository
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.util.IJsonFileReader
 import br.dev.singular.overview.util.parseToList
 import dagger.assisted.Assisted
@@ -37,8 +37,8 @@ class GenreDefaultSetupWorker @AssistedInject constructor(
     }
 
     private suspend fun cacheGenre() {
-        _genreRepository.cacheWithType(MediaTypeEnum.TV_SHOW)
-        _genreRepository.cacheWithType(MediaTypeEnum.MOVIE)
+        _genreRepository.cacheWithType(MediaType.TV_SHOW)
+        _genreRepository.cacheWithType(MediaType.MOVIE)
     }
 
     private fun getMediaTypeInDefault(): List<MediaTypeEntity> {

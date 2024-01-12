@@ -5,11 +5,11 @@ import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.source.DataResult
 import br.dev.singular.overview.data.source.genre.GenreLocalDataSource
 import br.dev.singular.overview.data.source.genre.IGenreRemoteDataSource
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.ALL
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.MOVIE
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.TV_SHOW
+import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.data.source.media.MediaType.ALL
+import br.dev.singular.overview.data.source.media.MediaType.MOVIE
+import br.dev.singular.overview.data.source.media.MediaType.TV_SHOW
 import javax.inject.Inject
-import br.dev.singular.overview.data.source.media.MediaTypeEnum as MediaType
 
 private typealias GenreListResult = DataResult<GenreListResponse>
 

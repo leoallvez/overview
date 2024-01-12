@@ -57,7 +57,7 @@ import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
@@ -96,7 +96,7 @@ fun MediaDetailsScreen(
     TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
 
     val (apiId: Long, mediaType: String) = params
-    val type = MediaTypeEnum.getByKey(mediaType)
+    val type = MediaType.getByKey(mediaType)
     viewModel.loadMediaDetails(apiId, type)
 
     UiStateResult(

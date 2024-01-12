@@ -5,7 +5,7 @@ import br.dev.singular.overview.data.model.media.MediaTypeEntity
 import br.dev.singular.overview.data.model.media.MediaTypeWithGenres
 import br.dev.singular.overview.data.source.genre.GenreLocalDataSource
 import br.dev.singular.overview.data.source.genre.IGenreRemoteDataSource
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.ALL
+import br.dev.singular.overview.data.source.media.MediaType.ALL
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

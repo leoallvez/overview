@@ -3,7 +3,7 @@ package br.dev.singular.overview.data.source.genre
 import br.dev.singular.overview.data.api.ApiService
 import br.dev.singular.overview.data.api.response.GenreListResponse
 import br.dev.singular.overview.data.source.DataResult
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.ALL
+import br.dev.singular.overview.data.source.media.MediaType.ALL
 import br.dev.singular.overview.util.mock.ERROR_MSG
 import br.dev.singular.overview.util.mock.ReturnType
 import br.dev.singular.overview.util.mock.mockResponse

@@ -11,9 +11,9 @@ import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.source.DataResult
 import br.dev.singular.overview.data.source.media.MediaPagingSource
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.ALL
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.MOVIE
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.TV_SHOW
+import br.dev.singular.overview.data.source.media.MediaType.ALL
+import br.dev.singular.overview.data.source.media.MediaType.MOVIE
+import br.dev.singular.overview.data.source.media.MediaType.TV_SHOW
 import br.dev.singular.overview.util.PagingMediaResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow

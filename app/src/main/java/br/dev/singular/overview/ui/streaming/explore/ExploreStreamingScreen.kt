@@ -59,7 +59,7 @@ import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
@@ -331,9 +331,9 @@ private fun filterDescription(filters: SearchFilters, genres: List<GenreEntity>)
 }
 
 @Composable
-private fun mediaTypeDescription(mediaType: MediaTypeEnum): String = when (mediaType) {
-    MediaTypeEnum.ALL -> stringResource(id = R.string.all)
-    MediaTypeEnum.TV_SHOW -> stringResource(id = R.string.tv_show)
+private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType) {
+    MediaType.ALL -> stringResource(id = R.string.all)
+    MediaType.TV_SHOW -> stringResource(id = R.string.tv_show)
     else -> stringResource(id = R.string.movies)
 }
 
@@ -524,7 +524,7 @@ fun CloseIcon(onClick: () -> Unit) {
 
 @Composable
 fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
-    val options = MediaTypeEnum.getAllOrdered()
+    val options = MediaType.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
         Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {

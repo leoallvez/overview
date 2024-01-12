@@ -7,7 +7,7 @@ import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityRepository
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.data.source.media.local.MediaLocalDataSource
 import br.dev.singular.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -33,7 +33,7 @@ class MediaEntityRepository @Inject constructor(
 
     private fun getLikedPagingSource(searchFilters: SearchFilters): PagingSource<Int, MediaEntity> {
         val type = searchFilters.mediaType.key
-        return if (type == MediaTypeEnum.ALL.key) {
+        return if (type == MediaType.ALL.key) {
             _source.getAllLiked()
         } else {
             _source.getAllLikedByType(type)

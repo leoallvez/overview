@@ -7,7 +7,7 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.di.MainDispatcher
 import br.dev.singular.overview.di.ShowAds
 import br.dev.singular.overview.ui.MediaUiState
@@ -37,7 +37,7 @@ class MediaDetailsViewModel @Inject constructor(
     private val _dataNotLoaded
         get() = (_uiState.value is UiState.Success).not()
 
-    fun loadMediaDetails(apiId: Long, type: MediaTypeEnum) = viewModelScope.launch {
+    fun loadMediaDetails(apiId: Long, type: MediaType) = viewModelScope.launch {
         if (_dataNotLoaded) {
             _mediaRepository.getItem(apiId, type).collect { result ->
                 _uiState.value = result.toUiState()
@@ -45,7 +45,7 @@ class MediaDetailsViewModel @Inject constructor(
         }
     }
 
-    fun refresh(apiId: Long, type: MediaTypeEnum) {
+    fun refresh(apiId: Long, type: MediaType) {
         _uiState.value = UiState.Loading()
         loadMediaDetails(apiId, type)
     }

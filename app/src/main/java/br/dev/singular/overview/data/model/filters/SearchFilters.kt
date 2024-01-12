@@ -3,7 +3,7 @@ package br.dev.singular.overview.data.model.filters
 import android.os.Parcelable
 import br.dev.singular.overview.util.joinToStringWithComma
 import kotlinx.parcelize.Parcelize
-import br.dev.singular.overview.data.source.media.MediaTypeEnum as MediaType
+import br.dev.singular.overview.data.source.media.MediaType
 
 @Parcelize
 class SearchFilters(

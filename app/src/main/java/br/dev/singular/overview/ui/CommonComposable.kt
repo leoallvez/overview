@@ -84,7 +84,7 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.search.ClearSearchIcon
 import br.dev.singular.overview.ui.search.SearchIcon
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -818,9 +818,9 @@ fun StreamingIcon(
 }
 
 @Composable
-fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
+fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-        val options = MediaTypeEnum.getAllOrdered()
+        val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
             MediaTypeFilterButton(mediaType, selectedKey) {
                 onClick.invoke(mediaType)
@@ -831,7 +831,7 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
 
 @Composable
 fun MediaTypeFilterButton(
-    mediaType: MediaTypeEnum,
+    mediaType: MediaType,
     selectedKey: String,
     onClick: () -> Unit
 ) {
