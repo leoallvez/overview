@@ -27,7 +27,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
-import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.LoadingScreen
@@ -49,7 +48,7 @@ fun LikedScreen(
 ) {
     TrackScreenView(screen = ScreenNav.Liked, viewModel.analyticsTracker)
 
-    val filters = viewModel.filters.collectAsState().value
+    val mediaType = viewModel.mediaType.collectAsState().value
     val items = viewModel.medias.collectAsLazyPagingItems()
 
     Scaffold(
@@ -65,8 +64,8 @@ fun LikedScreen(
         }
     ) { padding ->
         Column {
-            MediaTypeSelector(filters.mediaType.key) { newType ->
-                viewModel.updateData(filters.copy(mediaType = newType))
+            MediaTypeSelector(mediaType.key) { newType ->
+                viewModel.updateType(newType)
             }
             Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
             Box {
@@ -76,7 +75,7 @@ fun LikedScreen(
                         if (items.itemCount > 0) {
                             MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
                         } else {
-                            NothingLiked(filters)
+                            NothingLiked(mediaType)
                         }
                     }
                     else -> NotFoundContentScreen()
@@ -118,9 +117,9 @@ fun LikedToolBar(toBackStack: () -> Unit) {
 }
 
 @Composable
-fun NothingLiked(filters: SearchFilters) {
+fun NothingLiked(type: MediaType) {
     CenteredTextString(
-        textRes = when (filters.mediaType) {
+        textRes = when (type) {
             MediaType.MOVIE -> R.string.liked_movie_not_found
             MediaType.TV_SHOW -> R.string.liked_tv_show_not_found
             else -> R.string.liked_not_found

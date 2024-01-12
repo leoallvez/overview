@@ -3,7 +3,6 @@ package br.dev.singular.overview.data.repository.media.local
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
-import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityRepository
@@ -21,22 +20,21 @@ class MediaEntityRepository @Inject constructor(
     private val _dispatcher: CoroutineDispatcher
 ) : IMediaEntityRepository, IMediaEntityPagingRepository {
 
-    override fun getLikedPaging(filters: SearchFilters): Pager<Int, MediaEntity> {
+    override fun getLikedPaging(type: MediaType): Pager<Int, MediaEntity> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { getLikedPagingSource(filters) }
+            pagingSourceFactory = { getLikedPagingSource(type) }
         )
     }
 
-    private fun getLikedPagingSource(searchFilters: SearchFilters): PagingSource<Int, MediaEntity> {
-        val type = searchFilters.mediaType.key
-        return if (type == MediaType.ALL.key) {
+    private fun getLikedPagingSource(type: MediaType): PagingSource<Int, MediaEntity> {
+        return if (type.key == MediaType.ALL.key) {
             _source.getAllLiked()
         } else {
-            _source.getAllLikedByType(type)
+            _source.getAllLikedByType(type.key)
         }
     }
 
