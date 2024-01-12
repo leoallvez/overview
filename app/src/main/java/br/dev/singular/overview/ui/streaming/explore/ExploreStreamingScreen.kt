@@ -58,7 +58,6 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
@@ -99,7 +98,6 @@ fun ExploreStreamingScreen(
     ExploreStreamingContent(
         navigate = navigate,
         searchFilters = viewModel.searchFilters.collectAsState().value,
-        streaming = viewModel.selectedStreaming,
         showAds = viewModel.showAds,
         onRefresh = { viewModel.loadMedias() },
         pagingMediaItems = viewModel.medias.collectAsLazyPagingItems(),
@@ -115,7 +113,6 @@ fun ExploreStreamingScreen(
 fun ExploreStreamingContent(
     showAds: Boolean,
     searchFilters: SearchFilters,
-    streaming: StreamingEntity?,
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
     navigate: ExploreStreamingNavigate,
@@ -126,7 +123,6 @@ fun ExploreStreamingContent(
         navigate = navigate,
         showAds = showAds,
         filters = searchFilters,
-        streaming = streaming,
         onRefresh = onRefresh,
         inFiltering = inFiltering,
         genres = genres,
@@ -140,7 +136,6 @@ fun ExploreStreamingBody(
     showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
-    streaming: StreamingEntity?,
     genres: List<GenreEntity>,
     navigate: ExploreStreamingNavigate,
     pagingMedias: LazyPagingItems<Media>,
@@ -200,7 +195,6 @@ fun ExploreStreamingBody(
                 FiltersArea(
                     filters = filters,
                     genres = genres,
-                    streaming = streaming,
                     onFilterClick = closeFilterBottomSheet,
                     onStreamingClick = {
                         navigate.toSelectStreaming()
@@ -231,7 +225,6 @@ fun ExploreStreamingBody(
 fun FiltersArea(
     filters: SearchFilters,
     genres: List<GenreEntity>,
-    streaming: StreamingEntity?,
     onStreamingClick: () -> Unit,
     onFilterClick: () -> Unit
 ) {
@@ -260,8 +253,12 @@ fun FiltersArea(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    StreamingIcon(streaming = streaming, withBorder = false, clickable = false)
-                    StreamingScreamTitle(title = streaming?.name)
+                    StreamingIcon(
+                        streaming = filters.streaming,
+                        withBorder = false,
+                        clickable = false
+                    )
+                    StreamingScreamTitle(title = filters.streaming?.name)
                 }
                 Box(Modifier.padding(end = 5.dp)) {
                     Icon(
@@ -449,7 +446,7 @@ fun ClearFilter(
                     CleanFilterIcon()
                 }
             ) {
-                inFiltering.invoke(SearchFilters(streamingId = filters.streamingId))
+                inFiltering.invoke(SearchFilters(streaming = filters.streaming))
             }
         }
     }

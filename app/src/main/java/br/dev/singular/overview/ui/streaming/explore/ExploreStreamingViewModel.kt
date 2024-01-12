@@ -7,7 +7,6 @@ import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
@@ -15,7 +14,7 @@ import br.dev.singular.overview.data.source.CacheDataSource
 import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.di.ShowAds
-import br.dev.singular.overview.util.fromJson
+import br.dev.singular.overview.util.nullableFromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,8 +42,6 @@ class ExploreStreamingViewModel @Inject constructor(
         loadSelectedStreaming()
     }
 
-    private var _filterCacheNotLoaded: Boolean = true
-
     private val _searchFilters = MutableStateFlow(SearchFilters())
     val searchFilters: StateFlow<SearchFilters> = _searchFilters
 
@@ -53,9 +49,6 @@ class ExploreStreamingViewModel @Inject constructor(
     val genres: StateFlow<List<GenreEntity>> = _genres
 
     var medias: Flow<PagingData<Media>> = emptyFlow()
-        private set
-
-    var selectedStreaming: StreamingEntity? = null
         private set
 
     fun updateData(filters: SearchFilters) {
@@ -68,7 +61,7 @@ class ExploreStreamingViewModel @Inject constructor(
         _searchFilters.value = _searchFilters.value.copy(
             genreId = genreId,
             mediaType = mediaType,
-            streamingId = selectedStreaming?.apiId
+            streaming = streaming
         )
     }
 
@@ -81,23 +74,17 @@ class ExploreStreamingViewModel @Inject constructor(
     }
 
     private fun loadFilterCache() = viewModelScope.launch(_dispatcher) {
-        _cache.getValue(KEY_FILTER_CACHE).collect { jsonFiltersCache ->
-            if (_filterCacheNotLoaded && jsonFiltersCache != null) {
-                val filters = jsonFiltersCache.fromJson<SearchFilters>()
-                filters?.let {
-                    _searchFilters.value = filters
-                    _filterCacheNotLoaded = false
-                }
+        _cache.getValue(KEY_FILTER_CACHE).collect { jsonFilters ->
+            jsonFilters.nullableFromJson<SearchFilters>()?.apply {
+                _searchFilters.value = this
             }
         }
     }
 
     private fun loadSelectedStreaming() = viewModelScope.launch(_dispatcher) {
         _streamingRepository.getSelectedItem().collect { streaming ->
-            Timber.i("loadSelectedStreaming: $streaming")
-            selectedStreaming = streaming
-            _searchFilters.value = _searchFilters.value.copy(streamingId = streaming?.apiId)
-            delay(500)
+            _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
+            delay(timeMillis = 500)
             loadMedias()
         }
     }

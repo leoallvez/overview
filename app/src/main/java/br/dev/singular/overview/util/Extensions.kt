@@ -24,6 +24,18 @@ inline fun <reified T> String.fromJson(): T? = try {
     null
 }
 
+inline fun <reified T> String?.nullableFromJson(): T? = try {
+    if (this != null) {
+        val moshi = Moshi.Builder().build()
+        moshi.adapter(T::class.java).fromJson(this)
+    } else {
+        null
+    }
+} catch (io: IOException) {
+    Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${io.stackTrace}")
+    null
+}
+
 inline fun <reified T> T.toJson(): String {
     val moshi = Moshi.Builder().build()
     val jsonAdapter = moshi.adapter<Any>(T::class.java)

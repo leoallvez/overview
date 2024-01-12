@@ -30,7 +30,7 @@ class TvShowRemoteDataSource @Inject constructor(
     }
 
     private suspend fun makePaging(page: Int, searchFilters: SearchFilters) = _locale.run {
-        val streamingId = searchFilters.streamingId.toString()
+        val streamingId = searchFilters.streaming?.apiId.toString()
         val genreId = searchFilters.genreId.toString()
         _api.getTvShowsPaging(streamingId, genreId, page, language, region, region)
     }
