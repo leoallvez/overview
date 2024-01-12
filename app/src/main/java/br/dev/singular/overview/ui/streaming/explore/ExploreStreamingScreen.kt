@@ -449,8 +449,7 @@ fun ClearFilter(
                     CleanFilterIcon()
                 }
             ) {
-                filters.clear()
-                inFiltering.invoke(filters)
+                inFiltering.invoke(SearchFilters(streamingId = filters.streamingId))
             }
         }
     }
@@ -515,9 +514,7 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {
                         if (mediaType != type) {
-                            mediaType = type
-                            clearGenreId()
-                            onClick.invoke(filters)
+                            onClick.invoke(filters.copy(mediaType = type, genreId = null))
                         }
                     }
                 }
@@ -545,7 +542,7 @@ fun FilterGenres(
                     backgroundColor = SecondaryBackground,
                     isActivated = filters.genreId == genre.apiId
                 ) {
-                    onClick.invoke(filters.also { it.genreId = genre.apiId })
+                    onClick.invoke(filters.copy(genreId = genre.apiId))
                 }
             }
         }

@@ -19,10 +19,13 @@ import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,7 +52,7 @@ class ExploreStreamingViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<GenreEntity>>(listOf())
     val genres: StateFlow<List<GenreEntity>> = _genres
 
-    var medias: Flow<PagingData<Media>> = _mediaRepository.getPaging(searchFilters.value)
+    var medias: Flow<PagingData<Media>> = emptyFlow()
         private set
 
     var selectedStreaming: StreamingEntity? = null
@@ -62,7 +65,7 @@ class ExploreStreamingViewModel @Inject constructor(
     }
 
     private fun updateFilters(filters: SearchFilters) = with(filters) {
-        _searchFilters.value = SearchFilters(
+        _searchFilters.value = _searchFilters.value.copy(
             genreId = genreId,
             mediaType = mediaType,
             streamingId = selectedStreaming?.apiId
@@ -91,8 +94,10 @@ class ExploreStreamingViewModel @Inject constructor(
 
     private fun loadSelectedStreaming() = viewModelScope.launch(_dispatcher) {
         _streamingRepository.getSelectedItem().collect { streaming ->
+            Timber.i("loadSelectedStreaming: $streaming")
             selectedStreaming = streaming
-            _searchFilters.value.streamingId = streaming?.apiId
+            _searchFilters.value = _searchFilters.value.copy(streamingId = streaming?.apiId)
+            delay(500)
             loadMedias()
         }
     }

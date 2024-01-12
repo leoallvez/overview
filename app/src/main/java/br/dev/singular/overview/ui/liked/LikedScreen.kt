@@ -66,7 +66,7 @@ fun LikedScreen(
     ) { padding ->
         Column {
             MediaTypeSelector(filters.mediaType.key) { newType ->
-                viewModel.updateData(filters.apply { mediaType = newType })
+                viewModel.updateData(filters.copy(mediaType = newType))
             }
             Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
             Box {

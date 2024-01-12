@@ -13,7 +13,5 @@ data class SearchFilters(
     val mediaType: MediaType = MediaType.ALL
 ) : Parcelable {
 
-    fun areDefaultValues(): Boolean {
-        return query.isEmpty() && mediaType == MediaType.ALL && genreId.isNull()
-    }
+    fun areDefaultValues() = query.isEmpty() && mediaType == MediaType.ALL && genreId.isNull()
 }

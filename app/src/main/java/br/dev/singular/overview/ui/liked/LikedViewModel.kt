@@ -35,7 +35,7 @@ class LikedViewModel @Inject constructor(
         medias = _repository.getLikedPaging(filters.value).flow
     }
 
-    private fun updateFilters(filters: SearchFilters) = with(filters) {
-        _filters.value = SearchFilters(mediaType = mediaType)
+    private fun updateFilters(filters: SearchFilters) {
+        _filters.value = filters
     }
 }
