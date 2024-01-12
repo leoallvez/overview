@@ -36,6 +36,6 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun updateFilters(filters: SearchFilters) = with(filters) {
-        _filters.value = SearchFilters(query, mediaType)
+        _filters.value = SearchFilters(query = query, mediaType = mediaType)
     }
 }

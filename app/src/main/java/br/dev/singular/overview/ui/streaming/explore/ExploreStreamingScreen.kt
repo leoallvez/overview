@@ -80,6 +80,7 @@ import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
+import br.dev.singular.overview.util.isNull
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
@@ -214,11 +215,10 @@ fun ExploreStreamingBody(
                             MediaPagingVerticalGrid(padding, pagingMedias, navigate::toMediaDetails)
                         }
                     }
-
                     else -> {
                         NotFoundContentScreen(
                             showOnTop = filterIsVisible,
-                            hasFilters = filters.genresIsNotEmpty()
+                            hasFilters = filters.genreId.isNull(),
                         )
                     }
                 }
@@ -323,11 +323,13 @@ fun PulsatingFilterButton(isActivated: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun filterDescription(filters: SearchFilters, genres: List<GenreEntity>): String {
-    val mediaDescription = mediaTypeDescription(filters.mediaType)
-    val genresDescription = genresDescription(filters.genresIds, genres)
-
-    return "$mediaDescription $genresDescription"
+private fun filterDescription(
+    filters: SearchFilters,
+    genres: List<GenreEntity>
+): String {
+    val media = mediaTypeDescription(filters.mediaType)
+    val genre = genreDescription(filters.genreId, genres)
+    return "$media • $genre"
 }
 
 @Composable
@@ -338,28 +340,9 @@ private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType
 }
 
 @Composable
-private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreEntity>): String {
-    return if (genresSelectedIds.isNotEmpty()) {
-        var result = ""
-        val filtered = genres.filter { it.apiId in genresSelectedIds }
-
-        for ((index: Int, genre: GenreEntity) in filtered.withIndex()) {
-            val genreName: String = genre.nameTranslation()
-
-            result += if (filtered.lastIndex == index) {
-                genreName
-            } else {
-                if (index == filtered.lastIndex - 1) {
-                    "$genreName & "
-                } else {
-                    "$genreName${if (filtered.size > 1) ", " else ""}"
-                }
-            }
-        }
-        ": ${result.lowercase().replaceFirstChar { it.uppercase() }}"
-    } else {
-        ""
-    }
+private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String {
+    val genre = genres.firstOrNull { it.apiId == genreId }
+    return genre?.nameTranslation().orEmpty()
 }
 
 @Composable
@@ -533,7 +516,7 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
                     with(filters) {
                         if (mediaType != type) {
                             mediaType = type
-                            clearGenresIds()
+                            clearGenreId()
                             onClick.invoke(filters)
                         }
                     }
@@ -560,10 +543,9 @@ fun FilterGenres(
                 FilterButton(
                     buttonText = genre.nameTranslation(),
                     backgroundColor = SecondaryBackground,
-                    isActivated = filters.hasGenreWithId(genre.apiId)
+                    isActivated = filters.genreId == genre.apiId
                 ) {
-                    filters.updateGenreIds(genre.apiId)
-                    onClick.invoke(filters)
+                    onClick.invoke(filters.also { it.genreId = genre.apiId })
                 }
             }
         }

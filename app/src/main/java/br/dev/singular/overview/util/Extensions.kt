@@ -61,7 +61,6 @@ fun NavBackStackEntry.backstack(): Boolean {
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
-fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
 
 fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
     if (isValid(this)) {
@@ -74,5 +73,7 @@ fun <T> DataResult<out T>.toUiState(): UiState<T?> {
     val isSuccess = this is DataResult.Success
     return if (isSuccess) UiState.Success(this.data) else UiState.Error()
 }
+
+fun Long?.isNull() = this == null
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

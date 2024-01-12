@@ -63,8 +63,8 @@ class ExploreStreamingViewModel @Inject constructor(
 
     private fun updateFilters(filters: SearchFilters) = with(filters) {
         _searchFilters.value = SearchFilters(
+            genreId = genreId,
             mediaType = mediaType,
-            genresIds = genresIds,
             streamingId = selectedStreaming?.apiId
         )
     }

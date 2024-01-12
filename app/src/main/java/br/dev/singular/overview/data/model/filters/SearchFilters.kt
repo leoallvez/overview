@@ -1,41 +1,28 @@
 package br.dev.singular.overview.data.model.filters
 
 import android.os.Parcelable
-import br.dev.singular.overview.util.joinToStringWithComma
-import kotlinx.parcelize.Parcelize
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.util.isNull
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class SearchFilters(
     var query: String = "",
-    var mediaType: MediaType = MediaType.ALL,
+    var genreId: Long? = null,
     var streamingId: Long? = null,
-    // TODO: remover a lógica de multipla seleção de gêneros;
-    val genresIds: MutableList<Long> = mutableListOf()
+    var mediaType: MediaType = MediaType.ALL,
 ) : Parcelable {
-
-    fun hasGenreWithId(genreId: Long) = genresIds.any { it == genreId }
-
-    fun updateGenreIds(genreId: Long) {
-        val hasGenre = hasGenreWithId(genreId)
-        if (hasGenre) {
-            genresIds.remove(genreId)
-        } else {
-            genresIds.add(genreId)
-        }
-        genresIds.removeAll { it != genreId }
-    }
-
-    fun getGenreIdsSeparatedWithComma() = genresIds.joinToStringWithComma()
-
-    fun genresIsNotEmpty() = genresIds.isNotEmpty()
-    fun clearGenresIds() = genresIds.clear()
 
     fun clear() {
         mediaType = MediaType.ALL
-        clearGenresIds()
+        clearGenreId()
     }
 
-    fun areDefaultValues() =
-        query.isEmpty() && mediaType == MediaType.ALL && genresIds.isEmpty()
+    fun clearGenreId() {
+        genreId = null
+    }
+
+    fun areDefaultValues(): Boolean {
+        return query.isEmpty() && mediaType == MediaType.ALL && genreId.isNull()
+    }
 }
