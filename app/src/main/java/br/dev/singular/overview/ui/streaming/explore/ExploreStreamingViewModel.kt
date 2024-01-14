@@ -18,7 +18,6 @@ import br.dev.singular.overview.util.nullableFromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,8 +37,8 @@ class ExploreStreamingViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        loadFilterCache()
-        loadSelectedStreaming()
+        loadFilter()
+        loadStreaming()
     }
 
     private val _searchFilters = MutableStateFlow(SearchFilters())
@@ -52,17 +51,9 @@ class ExploreStreamingViewModel @Inject constructor(
         private set
 
     fun updateData(filters: SearchFilters) {
-        updateFilters(filters)
+        _searchFilters.value = filters
         loadMedias()
-        setFilterCache()
-    }
-
-    private fun updateFilters(filters: SearchFilters) = with(filters) {
-        _searchFilters.value = _searchFilters.value.copy(
-            genreId = genreId,
-            mediaType = mediaType,
-            streaming = streaming
-        )
+        setFilter()
     }
 
     fun loadMedias() {
@@ -73,7 +64,7 @@ class ExploreStreamingViewModel @Inject constructor(
         _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
     }
 
-    private fun loadFilterCache() = viewModelScope.launch(_dispatcher) {
+    private fun loadFilter() = viewModelScope.launch(_dispatcher) {
         _cache.getValue(KEY_FILTER_CACHE).collect { jsonFilters ->
             jsonFilters.nullableFromJson<SearchFilters>()?.apply {
                 _searchFilters.value = this
@@ -81,15 +72,14 @@ class ExploreStreamingViewModel @Inject constructor(
         }
     }
 
-    private fun loadSelectedStreaming() = viewModelScope.launch(_dispatcher) {
+    private fun loadStreaming() = viewModelScope.launch(_dispatcher) {
         _streamingRepository.getSelectedItem().collect { streaming ->
             _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
-            delay(timeMillis = 500)
             loadMedias()
         }
     }
 
-    private fun setFilterCache() = viewModelScope.launch(_dispatcher) {
+    private fun setFilter() = viewModelScope.launch(_dispatcher) {
         _cache.setValue(KEY_FILTER_CACHE, searchFilters.value.toJson())
     }
 }
