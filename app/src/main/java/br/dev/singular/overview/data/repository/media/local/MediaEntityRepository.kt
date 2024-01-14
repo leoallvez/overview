@@ -26,16 +26,13 @@ class MediaEntityRepository @Inject constructor(
                 pageSize = BuildConfig.PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { getLikedPagingSource(type) }
+            pagingSourceFactory = { loadLikedPagingSource(type) }
         )
     }
 
-    private fun getLikedPagingSource(type: MediaType): PagingSource<Int, MediaEntity> {
-        return if (type.key == MediaType.ALL.key) {
-            _source.getAllLiked()
-        } else {
-            _source.getAllLikedByType(type.key)
-        }
+    private fun loadLikedPagingSource(type: MediaType): PagingSource<Int, MediaEntity> {
+        val typeIsAll = type.key == MediaType.ALL.key
+        return if (typeIsAll) _source.getAllLiked() else _source.getAllLikedByType(type.key)
     }
 
     override suspend fun deleteUnlikedOlderThan(date: Date) = withContext(_dispatcher) {
