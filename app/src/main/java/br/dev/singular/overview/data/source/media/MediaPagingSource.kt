@@ -2,18 +2,17 @@ package br.dev.singular.overview.data.source.media
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import br.dev.singular.overview.data.model.media.Media
+import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.util.PagingMediaResult
 import retrofit2.HttpException
 import java.io.IOException
 
 class MediaPagingSource(
     private val _onRequest: suspend (page: Int) -> PagingMediaResult
-) : PagingSource<Int, Media>() {
+) : PagingSource<Int, MediaEntity>() {
 
     override suspend fun load(params: LoadParams<Int>) = try {
-        val pageNumber = params.key ?: STARTING_PAGE_INDEX
-        val response = _onRequest(pageNumber)
+        val response = _onRequest(params.key ?: STARTING_PAGE_INDEX)
         loadResult(response)
     } catch (e: IOException) {
         LoadResult.Error(e)
@@ -36,7 +35,7 @@ class MediaPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Media>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, MediaEntity>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)

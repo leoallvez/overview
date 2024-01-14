@@ -1,7 +1,9 @@
 package br.dev.singular.overview.ui.liked
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
@@ -24,7 +26,7 @@ class LikedViewModel @Inject constructor(
     val mediaType: StateFlow<MediaType> = _mediaType
 
     val medias: Flow<PagingData<MediaEntity>>
-        get() = _repository.getLikedPaging(mediaType.value).flow
+        get() = _repository.getLikedPaging(mediaType.value).flow.cachedIn(viewModelScope)
 
     fun updateType(mediaType: MediaType) {
         _mediaType.value = mediaType

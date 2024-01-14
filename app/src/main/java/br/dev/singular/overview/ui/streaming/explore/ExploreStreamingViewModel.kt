@@ -3,10 +3,11 @@ package br.dev.singular.overview.ui.streaming.explore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.media.Media
+import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
@@ -47,7 +48,7 @@ class ExploreStreamingViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<GenreEntity>>(listOf())
     val genres: StateFlow<List<GenreEntity>> = _genres
 
-    var medias: Flow<PagingData<Media>> = emptyFlow()
+    var medias: Flow<PagingData<MediaEntity>> = emptyFlow()
         private set
 
     fun updateData(filters: SearchFilters) {
@@ -57,7 +58,7 @@ class ExploreStreamingViewModel @Inject constructor(
     }
 
     fun loadMedias() {
-        medias = _mediaRepository.getPaging(searchFilters.value)
+        medias = _mediaRepository.getPaging(searchFilters.value).flow.cachedIn(viewModelScope)
     }
 
     fun loadGenres() = viewModelScope.launch(_dispatcher) {

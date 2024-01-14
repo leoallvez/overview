@@ -33,7 +33,7 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaPagingVerticalGrid
+import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NotFoundContentScreen
 import br.dev.singular.overview.ui.ScreenNav
@@ -61,7 +61,7 @@ fun SearchScreen(
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
             SearchToolBar(filters.query, navigate::popBackStack) { newQuery ->
-                viewModel.updateData(filters.copy(query = newQuery))
+                viewModel.updateFilter(filters.copy(query = newQuery))
             }
         },
         bottomBar = {
@@ -71,7 +71,7 @@ fun SearchScreen(
         Column {
             if (items.itemCount > 0) {
                 MediaTypeSelector(filters.mediaType.key) { newType ->
-                    viewModel.updateData(filters.copy(mediaType = newType))
+                    viewModel.updateFilter(filters.copy(mediaType = newType))
                 }
             }
             Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
@@ -79,7 +79,7 @@ fun SearchScreen(
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
-                        MediaPagingVerticalGrid(padding, items, navigate::toMediaDetails)
+                        MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
                     }
                     else -> {
                         if (items.itemCount == 0 && filters.query.isNotEmpty()) {

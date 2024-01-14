@@ -57,13 +57,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.media.Media
+import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaPagingVerticalGrid
+import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeFilterButton
 import br.dev.singular.overview.ui.NotFoundContentScreen
 import br.dev.singular.overview.ui.Pulsating
@@ -100,7 +100,7 @@ fun ExploreStreamingScreen(
         searchFilters = viewModel.searchFilters.collectAsState().value,
         showAds = viewModel.showAds,
         onRefresh = { viewModel.loadMedias() },
-        pagingMediaItems = viewModel.medias.collectAsLazyPagingItems(),
+        items = viewModel.medias.collectAsLazyPagingItems(),
         genres = viewModel.genres.collectAsState().value,
         inFiltering = { newFilters ->
             viewModel.updateData(newFilters)
@@ -116,7 +116,7 @@ fun ExploreStreamingContent(
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
     navigate: ExploreStreamingNavigate,
-    pagingMediaItems: LazyPagingItems<Media>,
+    items: LazyPagingItems<MediaEntity>,
     inFiltering: (SearchFilters) -> Unit
 ) {
     ExploreStreamingBody(
@@ -126,7 +126,7 @@ fun ExploreStreamingContent(
         onRefresh = onRefresh,
         inFiltering = inFiltering,
         genres = genres,
-        pagingMedias = pagingMediaItems
+        items = items
     )
 }
 
@@ -138,7 +138,7 @@ fun ExploreStreamingBody(
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
     navigate: ExploreStreamingNavigate,
-    pagingMedias: LazyPagingItems<Media>,
+    items: LazyPagingItems<MediaEntity>,
     inFiltering: (SearchFilters) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -200,13 +200,13 @@ fun ExploreStreamingBody(
                         navigate.toSelectStreaming()
                     }
                 )
-                when (pagingMedias.loadState.refresh) {
+                when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
                     is LoadState.NotLoading -> {
-                        if (pagingMedias.itemCount == 0) {
+                        if (items.itemCount == 0) {
                             ErrorScreen(showOnTop = filterIsVisible, refresh = onRefresh)
                         } else {
-                            MediaPagingVerticalGrid(padding, pagingMedias, navigate::toMediaDetails)
+                            MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
                         }
                     }
                     else -> {

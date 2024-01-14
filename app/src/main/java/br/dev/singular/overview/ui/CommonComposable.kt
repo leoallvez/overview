@@ -611,56 +611,6 @@ fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
     }
 }
 
-@Composable
-fun MediaPagingVerticalGrid(
-    padding: PaddingValues,
-    pagingItems: LazyPagingItems<Media>,
-    onClickMediaItem: MediaItemClick
-) {
-    Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(padding)
-            .fillMaxSize()
-    ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
-            items(pagingItems.itemCount) { index ->
-                GridItemMedia(
-                    media = pagingItems[index],
-                    onClick = {
-                        onClickMediaItem.invoke(it.apiId, it.getType())
-                    }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun GridItemMedia(media: Media?, onClick: (Media) -> Unit) {
-    media?.apply {
-        Column(
-            modifier = Modifier
-                .padding(2.dp)
-                .clickable { onClick(media) }
-        ) {
-            BasicImage(
-                url = getPosterImage(),
-                contentDescription = getLetter(),
-                withBorder = true,
-                modifier = Modifier
-                    .size(width = 125.dp, height = 180.dp)
-                    .padding(1.dp)
-            )
-            BasicText(
-                text = getLetter(),
-                style = MaterialTheme.typography.caption,
-                isBold = true
-            )
-        }
-    }
-}
-
 @Preview
 @Composable
 fun ErrorOnLoading() {

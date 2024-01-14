@@ -1,10 +1,12 @@
 package br.dev.singular.overview.ui.search
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
-import br.dev.singular.overview.data.model.media.Media
+import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
 import br.dev.singular.overview.di.ShowAds
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,19 +25,10 @@ class SearchViewModel @Inject constructor(
     private val _filters = MutableStateFlow(SearchFilters())
     val filters: StateFlow<SearchFilters> = _filters
 
-    var medias: Flow<PagingData<Media>> = _repository.searchPaging(_filters.value)
-        private set
+    val medias: Flow<PagingData<MediaEntity>>
+        get() = _repository.searchPaging(_filters.value).flow.cachedIn(viewModelScope)
 
-    fun updateData(filters: SearchFilters) {
-        updateFilters(filters)
-        reloadMedias()
-    }
-
-    private fun reloadMedias() {
-        medias = _repository.searchPaging(_filters.value)
-    }
-
-    private fun updateFilters(filters: SearchFilters) = with(filters) {
-        _filters.value = SearchFilters(query = query, mediaType = mediaType)
+    fun updateFilter(filters: SearchFilters) {
+        _filters.value = filters
     }
 }
