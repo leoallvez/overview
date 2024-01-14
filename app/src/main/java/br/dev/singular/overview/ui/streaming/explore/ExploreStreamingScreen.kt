@@ -326,7 +326,7 @@ private fun filterDescription(
 ): String {
     val media = mediaTypeDescription(filters.mediaType)
     val genre = genreDescription(filters.genreId, genres)
-    return "$media • $genre"
+    return "$media $genre"
 }
 
 @Composable
@@ -339,7 +339,7 @@ private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType
 @Composable
 private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String {
     val genre = genres.firstOrNull { it.apiId == genreId }
-    return genre?.nameTranslation().orEmpty()
+    return if (genre != null) "• ${genre.nameTranslation()}" else ""
 }
 
 @Composable
