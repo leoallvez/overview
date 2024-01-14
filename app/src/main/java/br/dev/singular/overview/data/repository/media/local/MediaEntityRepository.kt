@@ -11,14 +11,12 @@ import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.data.source.media.local.MediaLocalDataSource
 import br.dev.singular.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.withContext
 import java.util.Date
 import javax.inject.Inject
 
 class MediaEntityRepository @Inject constructor(
     private val _source: MediaLocalDataSource,
-    private val _coroutineScope: CoroutineScope,
     @IoDispatcher
     private val _dispatcher: CoroutineDispatcher
 ) : IMediaEntityRepository, IMediaEntityPagingRepository {
