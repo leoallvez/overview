@@ -25,10 +25,14 @@ class LikedViewModel @Inject constructor(
     private val _mediaType = MutableStateFlow(MediaType.ALL)
     val mediaType: StateFlow<MediaType> = _mediaType
 
-    val medias: Flow<PagingData<MediaEntity>>
-        get() = _repository.getLikedPaging(mediaType.value).flow.cachedIn(viewModelScope)
+    var medias: Flow<PagingData<MediaEntity>> = loadMediaPaging()
+        private set
 
     fun updateType(mediaType: MediaType) {
         _mediaType.value = mediaType
+        medias = loadMediaPaging()
     }
+
+    private fun loadMediaPaging() =
+        _repository.getLikedPaging(mediaType.value).flow.cachedIn(viewModelScope)
 }

@@ -25,10 +25,14 @@ class SearchViewModel @Inject constructor(
     private val _filters = MutableStateFlow(SearchFilters())
     val filters: StateFlow<SearchFilters> = _filters
 
-    val medias: Flow<PagingData<MediaEntity>>
-        get() = _repository.searchPaging(_filters.value).flow.cachedIn(viewModelScope)
+    var medias: Flow<PagingData<MediaEntity>> = loadMediaPaging()
+        private set
 
     fun updateFilter(filters: SearchFilters) {
         _filters.value = filters
+        medias = loadMediaPaging()
     }
+
+    private fun loadMediaPaging() =
+        _repository.searchPaging(_filters.value).flow.cachedIn(viewModelScope)
 }

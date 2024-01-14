@@ -53,11 +53,11 @@ class ExploreStreamingViewModel @Inject constructor(
 
     fun updateData(filters: SearchFilters) {
         _searchFilters.value = filters
-        loadMedias()
+        loadMediaPaging()
         setFilter()
     }
 
-    fun loadMedias() {
+    fun loadMediaPaging() {
         medias = _mediaRepository.getPaging(searchFilters.value).flow.cachedIn(viewModelScope)
     }
 
@@ -76,7 +76,7 @@ class ExploreStreamingViewModel @Inject constructor(
     private fun loadStreaming() = viewModelScope.launch(_dispatcher) {
         _streamingRepository.getSelectedItem().collect { streaming ->
             _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
-            loadMedias()
+            loadMediaPaging()
         }
     }
 
