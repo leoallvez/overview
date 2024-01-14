@@ -97,14 +97,17 @@ fun MediaDetailsScreen(
 
     val (apiId: Long, mediaType: String) = params
     val type = MediaType.getByKey(mediaType)
-    viewModel.loadMediaDetails(apiId, type)
+    val onRefresh = { viewModel.load(apiId, type) }
+    LaunchedEffect(true) {
+        onRefresh.invoke()
+    }
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
-        onRefresh = { viewModel.refresh(apiId, type) }
+        onRefresh = onRefresh
     ) { media ->
         val isLiked = remember { mutableStateOf(media?.isLiked ?: false) }
-        val onRefresh = { viewModel.refresh(apiId, type) }
+
         val onLike = {
             isLiked.value = !isLiked.value
             viewModel.updateLike(media, isLiked.value)
@@ -471,7 +474,9 @@ fun LikeButton(
             Icon(
                 imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = stringResource(id = R.string.like_button),
-                modifier = Modifier.align(Alignment.Center).scale(scale),
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .scale(scale),
                 tint = background.value
             )
         }

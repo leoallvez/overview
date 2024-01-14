@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMediaRepository {
     suspend fun getItem(apiId: Long, type: MediaType): Flow<DataResult<out Media>>
+    suspend fun update(media: Media)
 }

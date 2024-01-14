@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.data.source.media.MediaType
@@ -26,7 +25,6 @@ class MediaDetailsViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
     private val _mediaRepository: IMediaRepository,
-    private val _mediaEntityRepository: IMediaEntityRepository,
     private val _streamingRepository: ISelectedStreamingRepository,
     @MainDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -34,20 +32,13 @@ class MediaDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<MediaUiState>(UiState.Loading())
     val uiState: StateFlow<MediaUiState> = _uiState
 
-    private val _dataNotLoaded
-        get() = (_uiState.value is UiState.Success).not()
-
-    fun loadMediaDetails(apiId: Long, type: MediaType) = viewModelScope.launch {
-        if (_dataNotLoaded) {
+    fun load(apiId: Long, type: MediaType) {
+        _uiState.value = UiState.Loading()
+        viewModelScope.launch(_dispatcher) {
             _mediaRepository.getItem(apiId, type).collect { result ->
                 _uiState.value = result.toUiState()
             }
         }
-    }
-
-    fun refresh(apiId: Long, type: MediaType) {
-        _uiState.value = UiState.Loading()
-        loadMediaDetails(apiId, type)
     }
 
     fun saveSelectedStream(streamingJson: String?) {
@@ -59,8 +50,8 @@ class MediaDetailsViewModel @Inject constructor(
     fun updateLike(media: Media?, isLiked: Boolean) {
         viewModelScope.launch(_dispatcher) {
             media?.let {
-                media.isLiked = isLiked
-                _mediaEntityRepository.update(media.toMediaEntity())
+                it.isLiked = isLiked
+                _mediaRepository.update(media)
             }
         }
     }

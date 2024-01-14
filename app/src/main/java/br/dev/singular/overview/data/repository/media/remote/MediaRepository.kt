@@ -30,6 +30,10 @@ class MediaRepository @Inject constructor(
         flow { emit(result) }
     }
 
+    override suspend fun update(media: Media) = withContext(_dispatcher) {
+        _mediaLocalSource.update(media.toMediaEntity())
+    }
+
     private suspend fun getMedia(apiId: Long, type: MediaType) = when (type) {
         MediaType.MOVIE -> _movieRemoteSource.find(apiId)
         MediaType.TV_SHOW -> _tvShowRemoteSource.find(apiId)
