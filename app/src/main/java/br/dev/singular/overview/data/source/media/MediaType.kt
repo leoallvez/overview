@@ -8,6 +8,8 @@ enum class MediaType(val key: String, @StringRes val labelRes: Int, private val 
     MOVIE(key = "movie", labelRes = R.string.movies, order = 2),
     TV_SHOW(key = "tv", labelRes = R.string.tv_show, order = 3);
 
+    fun isDefault() = key == ALL.key
+
     companion object {
         fun getByKey(key: String): MediaType = values().first { it.key == key }
         fun getAllOrdered(): List<MediaType> = values().sortedBy { it.order }

@@ -6,7 +6,6 @@ import br.dev.singular.overview.data.source.DataResult
 import br.dev.singular.overview.data.source.genre.GenreLocalDataSource
 import br.dev.singular.overview.data.source.genre.IGenreRemoteDataSource
 import br.dev.singular.overview.data.source.media.MediaType
-import br.dev.singular.overview.data.source.media.MediaType.ALL
 import br.dev.singular.overview.data.source.media.MediaType.MOVIE
 import br.dev.singular.overview.data.source.media.MediaType.TV_SHOW
 import javax.inject.Inject
@@ -23,7 +22,7 @@ class GenreRepository @Inject constructor(
         _localSource.save(genres, type.key)
     }
 
-    override suspend fun getItemsByMediaType(type: MediaType) = if (type == ALL) {
+    override suspend fun getItemsByMediaType(type: MediaType) = if (type.isDefault()) {
         getMergedGenres()
     } else {
         filterGenres(type.key)

@@ -2,7 +2,6 @@ package br.dev.singular.overview.data.repository.media.local
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
 import br.dev.singular.overview.BuildConfig
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
@@ -30,9 +29,10 @@ class MediaEntityRepository @Inject constructor(
         )
     }
 
-    private fun loadLikedPagingSource(type: MediaType): PagingSource<Int, MediaEntity> {
-        val typeIsAll = type.key == MediaType.ALL.key
-        return if (typeIsAll) _source.getAllLiked() else _source.getAllLikedByType(type.key)
+    private fun loadLikedPagingSource(type: MediaType) = if (type.isDefault()) {
+        _source.getAllLiked()
+    } else {
+        _source.getAllLikedByType(type.key)
     }
 
     override suspend fun deleteUnlikedOlderThan(date: Date) = withContext(_dispatcher) {
