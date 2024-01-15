@@ -28,8 +28,8 @@ class LikedViewModel @Inject constructor(
     var medias: Flow<PagingData<MediaEntity>> = loadMediaPaging()
         private set
 
-    fun updateType(mediaType: MediaType) {
-        _mediaType.value = mediaType
+    fun updateType(type: MediaType) {
+        _mediaType.value = type
         medias = loadMediaPaging()
     }
 
