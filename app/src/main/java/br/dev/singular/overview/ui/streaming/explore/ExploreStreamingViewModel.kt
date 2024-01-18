@@ -15,15 +15,16 @@ import br.dev.singular.overview.data.source.CacheDataSource
 import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.di.ShowAds
-import br.dev.singular.overview.util.delay
 import br.dev.singular.overview.util.nullableFromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -43,6 +44,7 @@ class ExploreStreamingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(_dispatcher) {
+            delay(timeMillis = 500)
             loadData()
         }
     }
@@ -64,11 +66,10 @@ class ExploreStreamingViewModel @Inject constructor(
 
     private suspend fun loadData() {
         Timber.tag("steaming_values").d(message = "START")
-        delay { loadFilter() }
-        delay { loadStreaming() }
-        delay { loadMediaPaging() }
+        loadFilter()
+        loadStreaming()
+        loadMediaPaging()
         setFilter()
-        filterLoaded = true
         Timber.tag("steaming_values").d(message = "END")
     }
 
@@ -82,27 +83,21 @@ class ExploreStreamingViewModel @Inject constructor(
         _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
     }
 
-    private fun loadFilter() = viewModelScope.launch(_dispatcher) {
-        _cache.getValue(KEY_FILTER_CACHE).collect { jsonFilters ->
-            if (filterLoaded.not()) {
-                jsonFilters.nullableFromJson<SearchFilters>()?.apply {
-                    Timber.tag("steaming_values").d(message = "load_f: $streaming")
-                    _searchFilters.value = this
-                }
-            }
+    private suspend fun loadFilter() {
+        val jsonFilters = _cache.getValue(KEY_FILTER_CACHE).first()
+        jsonFilters.nullableFromJson<SearchFilters>()?.apply {
+            Timber.tag("steaming_values").d(message = "load_f: $streaming")
+            _searchFilters.value = this
         }
     }
 
-    private fun loadStreaming() = viewModelScope.launch(_dispatcher) {
-        _streamingRepository.getSelectedItem().collect { streaming ->
-            if (filterLoaded.not()) {
-                Timber.tag("steaming_values").d(message = "load_s: $streaming")
-                _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
-            }
-        }
+    private suspend fun loadStreaming() {
+        val streaming = _streamingRepository.getSelectedItem().first()
+        Timber.tag("steaming_values").d(message = "load_s: $streaming")
+        _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
     }
 
-    private suspend fun setFilter() = viewModelScope.launch(_dispatcher) {
+    private suspend fun setFilter() {
         Timber.tag("steaming_values").d(message = "load_x: ${searchFilters.value.streaming}")
         _cache.setValue(KEY_FILTER_CACHE, searchFilters.value.toJson())
     }
