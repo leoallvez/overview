@@ -86,6 +86,11 @@ fun <T> DataResult<out T>.toUiState(): UiState<T?> {
     return if (isSuccess) UiState.Success(this.data) else UiState.Error()
 }
 
+suspend fun delay(action: suspend () -> Unit) {
+    action.invoke()
+    kotlinx.coroutines.delay(timeMillis = 300)
+}
+
 fun Long?.isNull() = this == null
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

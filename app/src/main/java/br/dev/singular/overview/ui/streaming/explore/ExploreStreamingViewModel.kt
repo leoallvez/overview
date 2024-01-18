@@ -15,6 +15,7 @@ import br.dev.singular.overview.data.source.CacheDataSource
 import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.di.ShowAds
+import br.dev.singular.overview.util.delay
 import br.dev.singular.overview.util.nullableFromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,9 +39,12 @@ class ExploreStreamingViewModel @Inject constructor(
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private var filterLoaded: Boolean = false
+
     init {
-        loadFilter()
-        loadStreaming()
+        viewModelScope.launch(_dispatcher) {
+            loadData()
+        }
     }
 
     private val _searchFilters = MutableStateFlow(SearchFilters())
@@ -54,33 +59,51 @@ class ExploreStreamingViewModel @Inject constructor(
     fun updateData(filters: SearchFilters) {
         _searchFilters.value = filters
         loadMediaPaging()
+        viewModelScope.launch(_dispatcher) { setFilter() }
+    }
+
+    private suspend fun loadData() {
+        Timber.tag("steaming_values").d(message = "START")
+        delay { loadFilter() }
+        delay { loadStreaming() }
+        delay { loadMediaPaging() }
         setFilter()
+        filterLoaded = true
+        Timber.tag("steaming_values").d(message = "END")
     }
 
     fun loadMediaPaging() {
+        Timber.tag("steaming_values").d(message = "load_media")
         medias = _mediaRepository.getPaging(searchFilters.value).flow.cachedIn(viewModelScope)
     }
 
     fun loadGenres() = viewModelScope.launch(_dispatcher) {
+        Timber.tag("steaming_values").d(message = "load_genre")
         _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
     }
 
     private fun loadFilter() = viewModelScope.launch(_dispatcher) {
         _cache.getValue(KEY_FILTER_CACHE).collect { jsonFilters ->
-            jsonFilters.nullableFromJson<SearchFilters>()?.apply {
-                _searchFilters.value = this
+            if (filterLoaded.not()) {
+                jsonFilters.nullableFromJson<SearchFilters>()?.apply {
+                    Timber.tag("steaming_values").d(message = "load_f: $streaming")
+                    _searchFilters.value = this
+                }
             }
         }
     }
 
     private fun loadStreaming() = viewModelScope.launch(_dispatcher) {
         _streamingRepository.getSelectedItem().collect { streaming ->
-            _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
-            loadMediaPaging()
+            if (filterLoaded.not()) {
+                Timber.tag("steaming_values").d(message = "load_s: $streaming")
+                _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
+            }
         }
     }
 
-    private fun setFilter() = viewModelScope.launch(_dispatcher) {
+    private suspend fun setFilter() = viewModelScope.launch(_dispatcher) {
+        Timber.tag("steaming_values").d(message = "load_x: ${searchFilters.value.streaming}")
         _cache.setValue(KEY_FILTER_CACHE, searchFilters.value.toJson())
     }
 }

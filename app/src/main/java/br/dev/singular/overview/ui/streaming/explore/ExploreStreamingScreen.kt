@@ -91,7 +91,7 @@ fun ExploreStreamingScreen(
 ) {
     TrackScreenView(screen = ScreenNav.ExploreStreaming, tracker = viewModel.analyticsTracker)
 
-    LaunchedEffect(key1 = Any()) {
+    LaunchedEffect(true) {
         viewModel.loadGenres()
     }
 
