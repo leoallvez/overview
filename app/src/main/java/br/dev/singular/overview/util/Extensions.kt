@@ -24,7 +24,7 @@ inline fun <reified T> String.fromJson(): T? = try {
     null
 }
 
-inline fun <reified T> String?.nullableFromJson(): T? = try {
+inline fun <reified T> String?.fromJson(): T? = try {
     if (this != null) {
         val moshi = Moshi.Builder().build()
         moshi.adapter(T::class.java).fromJson(this)
