@@ -16,14 +16,6 @@ import java.lang.reflect.Type
 
 typealias MediaItemClick = (apiId: Long, mediaType: String?) -> Unit
 
-inline fun <reified T> String.fromJson(): T? = try {
-    val moshi = Moshi.Builder().build()
-    moshi.adapter(T::class.java).fromJson(this)
-} catch (io: IOException) {
-    Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${io.stackTrace}")
-    null
-}
-
 inline fun <reified T> String?.fromJson(): T? = try {
     if (this != null) {
         val moshi = Moshi.Builder().build()
@@ -84,11 +76,6 @@ fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
 fun <T> DataResult<out T>.toUiState(): UiState<T?> {
     val isSuccess = this is DataResult.Success
     return if (isSuccess) UiState.Success(this.data) else UiState.Error()
-}
-
-suspend fun delay(action: suspend () -> Unit) {
-    action.invoke()
-    kotlinx.coroutines.delay(timeMillis = 300)
 }
 
 fun Long?.isNull() = this == null
