@@ -485,9 +485,7 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaType.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .background(SecondaryBackground)) {
+        Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {
             options.forEach { type ->
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {
