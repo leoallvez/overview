@@ -5,7 +5,7 @@ import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRepository
 import br.dev.singular.overview.data.source.DataResult
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.data.source.media.local.MediaLocalDataSource
 import br.dev.singular.overview.data.source.media.remote.IMediaRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
@@ -16,23 +16,26 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MediaRepository @Inject constructor(
-    @IoDispatcher
-    private val _dispatcher: CoroutineDispatcher,
+    @IoDispatcher private val _dispatcher: CoroutineDispatcher,
     private val _mediaLocalSource: MediaLocalDataSource,
     private val _movieRemoteSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowRemoteSource: IMediaRemoteDataSource<TvShow>,
     private val _streamingSource: IStreamingRemoteDataSource
 ) : IMediaRepository {
 
-    override suspend fun getItem(apiId: Long, type: MediaTypeEnum) = withContext(_dispatcher) {
+    override suspend fun getItem(apiId: Long, type: MediaType) = withContext(_dispatcher) {
         val result = getMedia(apiId, type)
         setMediaData(result)
         flow { emit(result) }
     }
 
-    private suspend fun getMedia(apiId: Long, type: MediaTypeEnum) = when (type) {
-        MediaTypeEnum.MOVIE -> _movieRemoteSource.find(apiId)
-        MediaTypeEnum.TV_SHOW -> _tvShowRemoteSource.find(apiId)
+    override suspend fun update(media: Media) = withContext(_dispatcher) {
+        _mediaLocalSource.update(media.toMediaEntity())
+    }
+
+    private suspend fun getMedia(apiId: Long, type: MediaType) = when (type) {
+        MediaType.MOVIE -> _movieRemoteSource.find(apiId)
+        MediaType.TV_SHOW -> _tvShowRemoteSource.find(apiId)
         else -> throw IllegalArgumentException("Unsupported media type")
     }
 

@@ -84,7 +84,7 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.search.ClearSearchIcon
 import br.dev.singular.overview.ui.search.SearchIcon
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -611,56 +611,6 @@ fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
     }
 }
 
-@Composable
-fun MediaPagingVerticalGrid(
-    padding: PaddingValues,
-    pagingItems: LazyPagingItems<Media>,
-    onClickMediaItem: MediaItemClick
-) {
-    Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(padding)
-            .fillMaxSize()
-    ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
-            items(pagingItems.itemCount) { index ->
-                GridItemMedia(
-                    media = pagingItems[index],
-                    onClick = {
-                        onClickMediaItem.invoke(it.apiId, it.getType())
-                    }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun GridItemMedia(media: Media?, onClick: (Media) -> Unit) {
-    media?.apply {
-        Column(
-            modifier = Modifier
-                .padding(2.dp)
-                .clickable { onClick(media) }
-        ) {
-            BasicImage(
-                url = getPosterImage(),
-                contentDescription = getLetter(),
-                withBorder = true,
-                modifier = Modifier
-                    .size(width = 125.dp, height = 180.dp)
-                    .padding(1.dp)
-            )
-            BasicText(
-                text = getLetter(),
-                style = MaterialTheme.typography.caption,
-                isBold = true
-            )
-        }
-    }
-}
-
 @Preview
 @Composable
 fun ErrorOnLoading() {
@@ -818,9 +768,9 @@ fun StreamingIcon(
 }
 
 @Composable
-fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
+fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-        val options = MediaTypeEnum.getAllOrdered()
+        val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
             MediaTypeFilterButton(mediaType, selectedKey) {
                 onClick.invoke(mediaType)
@@ -831,7 +781,7 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaTypeEnum) -> Unit) {
 
 @Composable
 fun MediaTypeFilterButton(
-    mediaType: MediaTypeEnum,
+    mediaType: MediaType,
     selectedKey: String,
     onClick: () -> Unit
 ) {

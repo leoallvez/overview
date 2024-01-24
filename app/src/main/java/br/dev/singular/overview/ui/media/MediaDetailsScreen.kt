@@ -57,7 +57,7 @@ import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
@@ -96,15 +96,18 @@ fun MediaDetailsScreen(
     TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
 
     val (apiId: Long, mediaType: String) = params
-    val type = MediaTypeEnum.getByKey(mediaType)
-    viewModel.loadMediaDetails(apiId, type)
+    val type = MediaType.getByKey(mediaType)
+    val onRefresh = { viewModel.load(apiId, type) }
+    LaunchedEffect(true) {
+        onRefresh.invoke()
+    }
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
-        onRefresh = { viewModel.refresh(apiId, type) }
+        onRefresh = onRefresh
     ) { media ->
         val isLiked = remember { mutableStateOf(media?.isLiked ?: false) }
-        val onRefresh = { viewModel.refresh(apiId, type) }
+
         val onLike = {
             isLiked.value = !isLiked.value
             viewModel.updateLike(media, isLiked.value)
@@ -471,7 +474,9 @@ fun LikeButton(
             Icon(
                 imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = stringResource(id = R.string.like_button),
-                modifier = Modifier.align(Alignment.Center).scale(scale),
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .scale(scale),
                 tint = background.value
             )
         }

@@ -1,11 +1,13 @@
 package br.dev.singular.overview.ui.liked
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import br.dev.singular.overview.IAnalyticsTracker
-import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.di.ShowAds
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -20,22 +22,17 @@ class LikedViewModel @Inject constructor(
     private val _repository: IMediaEntityPagingRepository
 ) : ViewModel() {
 
-    private val _filters = MutableStateFlow(SearchFilters())
-    val filters: StateFlow<SearchFilters> = _filters
+    private val _mediaType = MutableStateFlow(MediaType.ALL)
+    val mediaType: StateFlow<MediaType> = _mediaType
 
-    var medias: Flow<PagingData<MediaEntity>> = _repository.getLikedPaging(filters.value).flow
+    var medias: Flow<PagingData<MediaEntity>> = loadMediaPaging()
         private set
 
-    fun updateData(filters: SearchFilters) {
-        updateFilters(filters)
-        reloadMedias()
+    fun updateType(type: MediaType) {
+        _mediaType.value = type
+        medias = loadMediaPaging()
     }
 
-    private fun reloadMedias() {
-        medias = _repository.getLikedPaging(filters.value).flow
-    }
-
-    private fun updateFilters(filters: SearchFilters) = with(filters) {
-        _filters.value = SearchFilters(mediaType = mediaType)
-    }
+    private fun loadMediaPaging() =
+        _repository.getLikedPaging(mediaType.value).flow.cachedIn(viewModelScope)
 }

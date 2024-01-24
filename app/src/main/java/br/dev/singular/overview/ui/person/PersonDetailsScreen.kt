@@ -19,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,11 +60,14 @@ fun PersonDetailsScreen(
 ) {
     TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
 
-    viewModel.loadPersonDetails(apiId)
+    val onRefresh = { viewModel.load(apiId) }
+    LaunchedEffect(true) {
+        onRefresh.invoke()
+    }
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
-        onRefresh = { viewModel.refresh(apiId) }
+        onRefresh = onRefresh
     ) { dataResult ->
         PersonDetailsContent(
             person = dataResult,
@@ -73,7 +77,7 @@ fun PersonDetailsScreen(
                 navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backstack = true)
             }
         ) {
-            viewModel.refresh(apiId)
+            onRefresh.invoke()
         }
     }
 }

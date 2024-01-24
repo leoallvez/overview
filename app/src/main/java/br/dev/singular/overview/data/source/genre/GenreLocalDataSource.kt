@@ -11,5 +11,5 @@ class GenreLocalDataSource @Inject constructor(
 
     fun save(models: List<GenreEntity>, mediaType: String) = _dao.saveGenres(models, mediaType)
 
-    fun getGenresWithMediaType(mediaType: String) = _dao.getGenresWithMediaType(mediaType)
+    fun getGenresWithMediaType(type: String) = _dao.getGenresWithMediaType(type)
 }

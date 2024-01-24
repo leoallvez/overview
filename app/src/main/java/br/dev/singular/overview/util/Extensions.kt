@@ -16,9 +16,13 @@ import java.lang.reflect.Type
 
 typealias MediaItemClick = (apiId: Long, mediaType: String?) -> Unit
 
-inline fun <reified T> String.fromJson(): T? = try {
-    val moshi = Moshi.Builder().build()
-    moshi.adapter(T::class.java).fromJson(this)
+inline fun <reified T> String?.fromJson(): T? = try {
+    if (this != null) {
+        val moshi = Moshi.Builder().build()
+        moshi.adapter(T::class.java).fromJson(this)
+    } else {
+        null
+    }
 } catch (io: IOException) {
     Timber.e(message = "$DESERIALIZATION_ERROR_MSG: ${io.stackTrace}")
     null
@@ -61,7 +65,6 @@ fun NavBackStackEntry.backstack(): Boolean {
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }
-fun List<Long>.joinToStringWithComma() = joinToString(separator = ",") { it.toString() }
 
 fun <T> T.toUiState(isValid: (T) -> Boolean = { true }) =
     if (isValid(this)) {
@@ -74,5 +77,7 @@ fun <T> DataResult<out T>.toUiState(): UiState<T?> {
     val isSuccess = this is DataResult.Success
     return if (isSuccess) UiState.Success(this.data) else UiState.Error()
 }
+
+fun Long?.isNull() = this == null
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

@@ -47,6 +47,7 @@ android {
         stringField(name = "TMDB_API_URL", value = "https://api.themoviedb.org/3/")
         stringField(name = "TMDB_IMG_URL", value = "https://image.tmdb.org/t/p/w780")
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
+        buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
     }
     val activeSigning = System.getenv("OVER_ACTIVE_SIGNING") == "true"
     if (activeSigning) {

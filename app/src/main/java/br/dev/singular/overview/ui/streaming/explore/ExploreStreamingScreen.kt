@@ -57,14 +57,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaTypeEnum
+import br.dev.singular.overview.data.model.media.MediaEntity
+import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaPagingVerticalGrid
+import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeFilterButton
 import br.dev.singular.overview.ui.NotFoundContentScreen
 import br.dev.singular.overview.ui.Pulsating
@@ -80,6 +79,7 @@ import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
+import br.dev.singular.overview.util.isNull
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
@@ -91,17 +91,16 @@ fun ExploreStreamingScreen(
 ) {
     TrackScreenView(screen = ScreenNav.ExploreStreaming, tracker = viewModel.analyticsTracker)
 
-    LaunchedEffect(key1 = Any()) {
+    LaunchedEffect(true) {
         viewModel.loadGenres()
     }
 
     ExploreStreamingContent(
         navigate = navigate,
         searchFilters = viewModel.searchFilters.collectAsState().value,
-        streaming = viewModel.selectedStreaming,
         showAds = viewModel.showAds,
-        onRefresh = { viewModel.loadMedias() },
-        pagingMediaItems = viewModel.medias.collectAsLazyPagingItems(),
+        onRefresh = { viewModel.loadMediaPaging() },
+        items = viewModel.medias.collectAsLazyPagingItems(),
         genres = viewModel.genres.collectAsState().value,
         inFiltering = { newFilters ->
             viewModel.updateData(newFilters)
@@ -114,22 +113,20 @@ fun ExploreStreamingScreen(
 fun ExploreStreamingContent(
     showAds: Boolean,
     searchFilters: SearchFilters,
-    streaming: StreamingEntity?,
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
     navigate: ExploreStreamingNavigate,
-    pagingMediaItems: LazyPagingItems<Media>,
+    items: LazyPagingItems<MediaEntity>,
     inFiltering: (SearchFilters) -> Unit
 ) {
     ExploreStreamingBody(
         navigate = navigate,
         showAds = showAds,
         filters = searchFilters,
-        streaming = streaming,
         onRefresh = onRefresh,
         inFiltering = inFiltering,
         genres = genres,
-        pagingMedias = pagingMediaItems
+        items = items
     )
 }
 
@@ -139,10 +136,9 @@ fun ExploreStreamingBody(
     showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
-    streaming: StreamingEntity?,
     genres: List<GenreEntity>,
     navigate: ExploreStreamingNavigate,
-    pagingMedias: LazyPagingItems<Media>,
+    items: LazyPagingItems<MediaEntity>,
     inFiltering: (SearchFilters) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -199,26 +195,24 @@ fun ExploreStreamingBody(
                 FiltersArea(
                     filters = filters,
                     genres = genres,
-                    streaming = streaming,
                     onFilterClick = closeFilterBottomSheet,
                     onStreamingClick = {
                         navigate.toSelectStreaming()
                     }
                 )
-                when (pagingMedias.loadState.refresh) {
+                when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
                     is LoadState.NotLoading -> {
-                        if (pagingMedias.itemCount == 0) {
+                        if (items.itemCount == 0) {
                             ErrorScreen(showOnTop = filterIsVisible, refresh = onRefresh)
                         } else {
-                            MediaPagingVerticalGrid(padding, pagingMedias, navigate::toMediaDetails)
+                            MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
                         }
                     }
-
                     else -> {
                         NotFoundContentScreen(
                             showOnTop = filterIsVisible,
-                            hasFilters = filters.genresIsNotEmpty()
+                            hasFilters = filters.genreId.isNull()
                         )
                     }
                 }
@@ -231,7 +225,6 @@ fun ExploreStreamingBody(
 fun FiltersArea(
     filters: SearchFilters,
     genres: List<GenreEntity>,
-    streaming: StreamingEntity?,
     onStreamingClick: () -> Unit,
     onFilterClick: () -> Unit
 ) {
@@ -260,8 +253,12 @@ fun FiltersArea(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    StreamingIcon(streaming = streaming, withBorder = false, clickable = false)
-                    StreamingScreamTitle(title = streaming?.name)
+                    StreamingIcon(
+                        streaming = filters.streaming,
+                        withBorder = false,
+                        clickable = false
+                    )
+                    StreamingScreamTitle(title = filters.streaming?.name)
                 }
                 Box(Modifier.padding(end = 5.dp)) {
                     Icon(
@@ -323,43 +320,26 @@ fun PulsatingFilterButton(isActivated: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun filterDescription(filters: SearchFilters, genres: List<GenreEntity>): String {
-    val mediaDescription = mediaTypeDescription(filters.mediaType)
-    val genresDescription = genresDescription(filters.genresIds, genres)
-
-    return "$mediaDescription $genresDescription"
+private fun filterDescription(
+    filters: SearchFilters,
+    genres: List<GenreEntity>
+): String {
+    val media = mediaTypeDescription(filters.mediaType)
+    val genre = genreDescription(filters.genreId, genres)
+    return "$media $genre"
 }
 
 @Composable
-private fun mediaTypeDescription(mediaType: MediaTypeEnum): String = when (mediaType) {
-    MediaTypeEnum.ALL -> stringResource(id = R.string.all)
-    MediaTypeEnum.TV_SHOW -> stringResource(id = R.string.tv_show)
+private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType) {
+    MediaType.ALL -> stringResource(id = R.string.all)
+    MediaType.TV_SHOW -> stringResource(id = R.string.tv_show)
     else -> stringResource(id = R.string.movies)
 }
 
 @Composable
-private fun genresDescription(genresSelectedIds: List<Long>, genres: List<GenreEntity>): String {
-    return if (genresSelectedIds.isNotEmpty()) {
-        var result = ""
-        val filtered = genres.filter { it.apiId in genresSelectedIds }
-
-        for ((index: Int, genre: GenreEntity) in filtered.withIndex()) {
-            val genreName: String = genre.nameTranslation()
-
-            result += if (filtered.lastIndex == index) {
-                genreName
-            } else {
-                if (index == filtered.lastIndex - 1) {
-                    "$genreName & "
-                } else {
-                    "$genreName${if (filtered.size > 1) ", " else ""}"
-                }
-            }
-        }
-        ": ${result.lowercase().replaceFirstChar { it.uppercase() }}"
-    } else {
-        ""
-    }
+private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String {
+    val genre = genres.firstOrNull { it.apiId == genreId }
+    return if (genre != null) "• ${genre.nameTranslation()}" else ""
 }
 
 @Composable
@@ -466,8 +446,7 @@ fun ClearFilter(
                     CleanFilterIcon()
                 }
             ) {
-                filters.clear()
-                inFiltering.invoke(filters)
+                inFiltering.invoke(SearchFilters(streaming = filters.streaming))
             }
         }
     }
@@ -524,7 +503,7 @@ fun CloseIcon(onClick: () -> Unit) {
 
 @Composable
 fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
-    val options = MediaTypeEnum.getAllOrdered()
+    val options = MediaType.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
         Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {
@@ -532,9 +511,7 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {
                         if (mediaType != type) {
-                            mediaType = type
-                            clearGenresIds()
-                            onClick.invoke(filters)
+                            onClick.invoke(filters.copy(mediaType = type, genreId = null))
                         }
                     }
                 }
@@ -560,10 +537,9 @@ fun FilterGenres(
                 FilterButton(
                     buttonText = genre.nameTranslation(),
                     backgroundColor = SecondaryBackground,
-                    isActivated = filters.hasGenreWithId(genre.apiId)
+                    isActivated = filters.genreId == genre.apiId
                 ) {
-                    filters.updateGenreIds(genre.apiId)
-                    onClick.invoke(filters)
+                    onClick.invoke(filters.copy(genreId = genre.apiId))
                 }
             }
         }

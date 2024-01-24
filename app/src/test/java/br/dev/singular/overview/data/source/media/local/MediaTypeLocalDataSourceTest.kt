@@ -2,9 +2,9 @@ package br.dev.singular.overview.data.source.media.local
 
 import br.dev.singular.overview.data.db.dao.MediaTypeDao
 import br.dev.singular.overview.data.model.media.MediaTypeEntity
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.ALL
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.MOVIE
-import br.dev.singular.overview.data.source.media.MediaTypeEnum.TV_SHOW
+import br.dev.singular.overview.data.source.media.MediaType.ALL
+import br.dev.singular.overview.data.source.media.MediaType.MOVIE
+import br.dev.singular.overview.data.source.media.MediaType.TV_SHOW
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.every
