@@ -403,6 +403,7 @@ fun BasicImage(
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
     errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
+    corner: Dp = dimensionResource(R.dimen.corner),
     withBorder: Boolean = false
 ) {
     if (url.isNotEmpty()) {
@@ -415,7 +416,7 @@ fun BasicImage(
                 .background(PrimaryBackground)
                 .fillMaxWidth()
                 .height(height)
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                .clip(RoundedCornerShape(corner))
                 .then(Modifier.border(withBorder)),
             contentScale = contentScale,
             placeholder = placeholder,
@@ -753,10 +754,12 @@ fun StreamingIcon(
     size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
     withBorder: Boolean = true,
     clickable: Boolean = true,
+    corner: Dp = dimensionResource(id = R.dimen.corner),
     onClick: () -> Unit = {}
 ) {
     streaming?.let {
         BasicImage(
+            corner = corner,
             url = streaming.getLogoImage(),
             contentDescription = streaming.name,
             withBorder = withBorder,

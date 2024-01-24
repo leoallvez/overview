@@ -97,7 +97,7 @@ fun ExploreStreamingScreen(
 
     ExploreStreamingContent(
         navigate = navigate,
-        searchFilters = viewModel.searchFilters.collectAsState().value,
+        filters = viewModel.searchFilters.collectAsState().value,
         showAds = viewModel.showAds,
         onRefresh = { viewModel.loadMediaPaging() },
         items = viewModel.medias.collectAsLazyPagingItems(),
@@ -109,30 +109,9 @@ fun ExploreStreamingScreen(
     )
 }
 
-@Composable
-fun ExploreStreamingContent(
-    showAds: Boolean,
-    searchFilters: SearchFilters,
-    onRefresh: () -> Unit,
-    genres: List<GenreEntity>,
-    navigate: ExploreStreamingNavigate,
-    items: LazyPagingItems<MediaEntity>,
-    inFiltering: (SearchFilters) -> Unit
-) {
-    ExploreStreamingBody(
-        navigate = navigate,
-        showAds = showAds,
-        filters = searchFilters,
-        onRefresh = onRefresh,
-        inFiltering = inFiltering,
-        genres = genres,
-        items = items
-    )
-}
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ExploreStreamingBody(
+fun ExploreStreamingContent(
     showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
@@ -236,13 +215,10 @@ fun FiltersArea(
     ) {
         Surface(
             modifier = Modifier
+                .height(dimensionResource(R.dimen.streaming_item_small_size))
                 .clickable { onStreamingClick.invoke() }
                 .fillMaxWidth()
-                .border(
-                    2.dp,
-                    Gray.copy(alpha = 0.5f),
-                    RoundedCornerShape(dimensionResource(R.dimen.corner))
-                )
+                .border(2.dp, AccentColor, RoundedCornerShape(dimensionResource(R.dimen.circle_conner)))
                 .background(SecondaryBackground)
         ) {
             Row(
@@ -254,15 +230,18 @@ fun FiltersArea(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     StreamingIcon(
+                        modifier = Modifier.padding(start = 4.dp),
+                        size = 30.dp,
+                        corner = dimensionResource(R.dimen.circle_conner),
                         streaming = filters.streaming,
                         withBorder = false,
                         clickable = false
                     )
                     StreamingScreamTitle(title = filters.streaming?.name)
                 }
-                Box(Modifier.padding(end = 5.dp)) {
+                Box(Modifier.padding(horizontal = 5.dp)) {
                     Icon(
-                        tint = Gray,
+                        tint = AccentColor,
                         painter = painterResource(id = R.drawable.baseline_expand_more),
                         contentDescription = stringResource(R.string.streaming)
                     )
@@ -506,7 +485,9 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaType.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
-        Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .background(SecondaryBackground)) {
             options.forEach { type ->
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {

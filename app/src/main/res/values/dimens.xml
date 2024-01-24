@@ -9,6 +9,7 @@
     <dimen name="person_profiler_width">140dp</dimen>
     <dimen name="image_height">200dp</dimen>
     <dimen name="corner">5dp</dimen>
+    <dimen name="circle_conner">50dp</dimen>
     <dimen name="border_width">1dp</dimen>
 
     <dimen name="backdrop_height">220dp</dimen>
