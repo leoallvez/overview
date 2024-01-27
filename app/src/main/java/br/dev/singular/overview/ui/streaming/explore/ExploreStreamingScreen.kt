@@ -177,7 +177,7 @@ fun ExploreStreamingContent(
                     },
                     onLikedClick = {
                         navigate.toLiked()
-                    },
+                    }
                 )
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
