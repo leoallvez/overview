@@ -3,20 +3,7 @@
   <component name="deploymentTargetDropDown">
     <value>
       <entry key="app">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="adb-8dd8e996-2XBOUh._adb-tls-connect._tcp" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-27T01:25:30.094932380Z" />
-        </State>
+        <State />
       </entry>
     </value>
   </component>
