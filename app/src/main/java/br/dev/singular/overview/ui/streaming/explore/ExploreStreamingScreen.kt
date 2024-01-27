@@ -2,6 +2,7 @@ package br.dev.singular.overview.ui.streaming.explore
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.TweenSpec
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,19 +21,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -62,15 +64,13 @@ import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
+import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeFilterButton
 import br.dev.singular.overview.ui.NotFoundContentScreen
-import br.dev.singular.overview.ui.Pulsating
 import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.SearchField
 import br.dev.singular.overview.ui.StreamingIcon
-import br.dev.singular.overview.ui.ToolbarButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
@@ -155,12 +155,6 @@ fun ExploreStreamingContent(
             modifier = Modifier
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
-            topBar = {
-                ExploreStreamingToolBar(
-                    onToLiked = navigate::toLiked,
-                    onToSearch = navigate::toSearch
-                )
-            },
             bottomBar = {
                 AdsBanner(R.string.discover_banner, showAds)
             }
@@ -177,7 +171,13 @@ fun ExploreStreamingContent(
                     onFilterClick = closeFilterBottomSheet,
                     onStreamingClick = {
                         navigate.toSelectStreaming()
-                    }
+                    },
+                    onSearchClick = {
+                        navigate.toSearch()
+                    },
+                    onLikedClick = {
+                        navigate.toLiked()
+                    },
                 )
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
@@ -205,48 +205,69 @@ fun FiltersArea(
     filters: SearchFilters,
     genres: List<GenreEntity>,
     onStreamingClick: () -> Unit,
-    onFilterClick: () -> Unit
+    onFilterClick: () -> Unit,
+    onLikedClick: () -> Unit,
+    onSearchClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(horizontal = dimensionResource(R.dimen.default_padding))
+            .padding(dimensionResource(R.dimen.default_padding))
     ) {
-        Surface(
-            modifier = Modifier
-                .height(dimensionResource(R.dimen.streaming_item_small_size))
-                .clickable { onStreamingClick.invoke() }
-                .fillMaxWidth()
-                .border(2.dp, AccentColor, RoundedCornerShape(dimensionResource(R.dimen.circle_conner)))
-                .background(SecondaryBackground)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .background(PrimaryBackground),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+            Surface(
+                modifier = Modifier
+                    .height(dimensionResource(R.dimen.streaming_item_small_size))
+                    .clickable { onStreamingClick.invoke() }
+                    .width(255.dp)
+                    .border(
+                        1.dp,
+                        AccentColor,
+                        RoundedCornerShape(dimensionResource(R.dimen.circle_conner))
+                    )
+                    .background(SecondaryBackground)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    StreamingIcon(
-                        modifier = Modifier.padding(start = 4.dp),
-                        size = 30.dp,
-                        corner = dimensionResource(R.dimen.circle_conner),
-                        streaming = filters.streaming,
-                        withBorder = false,
-                        clickable = false
-                    )
-                    StreamingScreamTitle(title = filters.streaming?.name)
-                }
-                Box(Modifier.padding(horizontal = 5.dp)) {
-                    Icon(
-                        tint = AccentColor,
-                        painter = painterResource(id = R.drawable.baseline_expand_more),
-                        contentDescription = stringResource(R.string.streaming)
-                    )
+                Row(
+                    Modifier.background(PrimaryBackground),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        StreamingIcon(
+                            modifier = Modifier.padding(start = 4.dp),
+                            size = 30.dp,
+                            corner = dimensionResource(R.dimen.circle_conner),
+                            streaming = filters.streaming,
+                            withBorder = false,
+                            clickable = false
+                        )
+                        StreamingScreamTitle(title = filters.streaming?.name)
+                    }
+                    Box(Modifier.padding(horizontal = 5.dp)) {
+                        Icon(
+                            tint = AccentColor,
+                            painter = painterResource(id = R.drawable.baseline_expand_more),
+                            contentDescription = stringResource(R.string.streaming)
+                        )
+                    }
                 }
             }
+            IconButton(
+                painter = Icons.Default.Search,
+                descriptionResource = R.string.search_icon,
+                background = Color.White.copy(alpha = 0.1f),
+                padding = PaddingValues()
+            ) { onSearchClick.invoke() }
+            IconButton(
+                painter = Icons.Default.FavoriteBorder,
+                descriptionResource = R.string.like_button,
+                background = Color.White.copy(alpha = 0.1f),
+                padding = PaddingValues()
+            ) { onLikedClick.invoke() }
         }
         Spacer(modifier = Modifier.height(10.dp))
         Row(
@@ -255,21 +276,10 @@ fun FiltersArea(
                 .padding(vertical = dimensionResource(R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            FilterButton(
+                text = filterDescription(filters, genres),
+                isActivated = filters.areDefaultValues().not()
             ) {
-                TuneIcon()
-                Text(
-                    modifier = Modifier.width(250.dp),
-                    text = filterDescription(filters, genres),
-                    color = Color.White,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            PulsatingFilterButton(isActivated = filters.areDefaultValues().not()) {
                 onFilterClick.invoke()
             }
         }
@@ -278,23 +288,35 @@ fun FiltersArea(
 }
 
 @Composable
-fun PulsatingFilterButton(isActivated: Boolean, onClick: () -> Unit) {
-    Pulsating(isPulsing = !isActivated) {
-        FilterButton(
-            padding = PaddingValues(),
-            isActivated = isActivated,
-            buttonText = stringResource(R.string.filters),
-            complement = {
-                Icon(
-                    if (isActivated) Icons.Rounded.CheckCircle else Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.filters),
-                    modifier = Modifier.size(20.dp),
-                    tint = if (isActivated) AccentColor else Gray
-                )
-            }
-        ) {
-            onClick.invoke()
-        }
+fun FilterButton(text: String, isActivated: Boolean, onClick: () -> Unit) {
+    val color = if (isActivated) AccentColor else Gray
+    OutlinedButton(
+        onClick = { onClick.invoke() },
+        shape = RoundedCornerShape(percent = 75),
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(R.dimen.default_padding)
+        ),
+        modifier = Modifier
+            .height(25.dp)
+            .fillMaxWidth(),
+        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = PrimaryBackground
+        )
+    ) {
+        Icon(
+            painterResource(id = R.drawable.tune),
+            contentDescription = stringResource(id = R.string.filters),
+            modifier = Modifier.size(20.dp),
+            tint = color
+        )
+        Text(
+            text = text,
+            color = color,
+            style = MaterialTheme.typography.caption,
+            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
+            modifier = Modifier.padding(5.dp)
+        )
     }
 }
 
@@ -319,39 +341,6 @@ private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType
 private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String {
     val genre = genres.firstOrNull { it.apiId == genreId }
     return if (genre != null) "• ${genre.nameTranslation()}" else ""
-}
-
-@Composable
-fun ExploreStreamingToolBar(
-    onToLiked: () -> Unit,
-    onToSearch: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ToolbarButton(
-                painter = Icons.Default.FavoriteBorder,
-                descriptionResource = R.string.backstack_icon,
-                background = Color.White.copy(alpha = 0.1f),
-                padding = PaddingValues(
-                    vertical = dimensionResource(R.dimen.screen_padding)
-                )
-            ) { onToLiked.invoke() }
-        }
-        SearchField(
-            enabled = false,
-            onClick = onToSearch,
-            defaultPaddingValues = PaddingValues(start = 13.dp, end = dimensionResource(R.dimen.default_padding)),
-            placeholder = stringResource(R.string.search_in_all_places)
-        )
-    }
 }
 
 @Composable
@@ -440,18 +429,6 @@ private fun CleanFilterIcon() {
             .padding(1.dp),
         painter = painterResource(id = R.drawable.delete_outline),
         contentDescription = stringResource(R.string.clear_filters)
-    )
-}
-
-@Composable
-private fun TuneIcon() {
-    Icon(
-        tint = Color.White,
-        modifier = Modifier
-            .size(25.dp)
-            .padding(start = 0.dp, end = dimensionResource(id = R.dimen.default_padding)),
-        painter = painterResource(id = R.drawable.tune),
-        contentDescription = stringResource(R.string.filters)
     )
 }
 

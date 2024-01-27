@@ -70,7 +70,7 @@ import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
-import br.dev.singular.overview.ui.ToolbarButton
+import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
@@ -175,7 +175,7 @@ fun MediaToolBar(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ToolbarButton(
+                IconButton(
                     painter = Icons.Default.KeyboardArrowLeft,
                     descriptionResource = R.string.backstack_icon,
                     modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))

@@ -278,7 +278,7 @@ fun StylizedButton(
 }
 
 @Composable
-fun ToolbarButton(
+fun IconButton(
     painter: ImageVector,
     @StringRes descriptionResource: Int,
     modifier: Modifier = Modifier,
@@ -879,7 +879,7 @@ fun DisabledSearchToolBar(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ToolbarButton(
+            IconButton(
                 painter = Icons.Default.KeyboardArrowLeft,
                 descriptionResource = R.string.backstack_icon,
                 background = Color.White.copy(alpha = 0.1f),

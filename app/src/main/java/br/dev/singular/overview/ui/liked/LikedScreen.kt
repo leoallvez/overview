@@ -34,7 +34,7 @@ import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NotFoundContentScreen
 import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.ToolbarButton
+import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.search.CenteredTextString
@@ -94,7 +94,7 @@ fun LikedToolBar(toBackStack: () -> Unit) {
             .padding(bottom = dimensionResource(R.dimen.screen_padding)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ToolbarButton(
+        IconButton(
             painter = Icons.Default.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f),
