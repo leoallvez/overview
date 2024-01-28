@@ -15,13 +15,9 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.ui.theme.Gray
 
 fun Modifier.defaultBorder(color: Color = Gray, @DimenRes corner: Int = R.dimen.corner) = composed {
-    then(
-        border(
-            color = color,
-            width = dimensionResource(R.dimen.border_width),
-            shape = RoundedCornerShape(dimensionResource(corner))
-        )
-    )
+    val width = dimensionResource(R.dimen.border_width)
+    val shape = RoundedCornerShape(dimensionResource(corner))
+    then(border(color = color, width = width, shape = shape))
 }
 
 fun Modifier.defaultPadding(
