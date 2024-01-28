@@ -466,7 +466,7 @@ fun LikeButton(
         modifier = Modifier
             .padding(PaddingValues(dimensionResource(R.dimen.screen_padding_new)))
             .clip(CircleShape)
-            .background(PrimaryBackground.copy(alpha = if (isLiked) 0.8f else 0.6f ))
+            .background(PrimaryBackground.copy(alpha = if (isLiked) 0.8f else 0.6f))
             .size(buttonSize)
             .clickable { onClick.invoke() }
     ) {
