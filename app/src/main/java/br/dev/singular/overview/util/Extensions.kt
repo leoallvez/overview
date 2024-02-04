@@ -80,4 +80,6 @@ fun <T> DataResult<out T>.toUiState(): UiState<T?> {
 
 fun Long?.isNull() = this == null
 
+fun Long?.toStringOrEmpty() = if(isNull()) String() else toString()
+
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"
