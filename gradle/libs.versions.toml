@@ -13,7 +13,7 @@ version-code = "200"
 version-name = "2.0.0"
 
 gradle-plugin = "1.7.20"
-compose-bom = "2024.01.00"
+compose-bom = "2023.10.01"
 activity-compose = "1.8.2"
 accompanist = "0.30.1"
 androidx-junit = "1.1.5"
