@@ -37,7 +37,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -92,10 +91,6 @@ fun ExploreStreamingScreen(
 ) {
     TrackScreenView(screen = ScreenNav.ExploreStreaming, tracker = viewModel.analyticsTracker)
 
-    LaunchedEffect(true) {
-        viewModel.loadGenres()
-    }
-
     ExploreStreamingContent(
         navigate = navigate,
         filters = viewModel.searchFilters.collectAsState().value,
@@ -105,7 +100,6 @@ fun ExploreStreamingScreen(
         genres = viewModel.genres.collectAsState().value,
         inFiltering = { newFilters ->
             viewModel.updateData(newFilters)
-            viewModel.loadGenres()
         }
     )
 }
