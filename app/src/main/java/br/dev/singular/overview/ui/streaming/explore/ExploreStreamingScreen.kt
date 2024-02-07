@@ -322,7 +322,8 @@ private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType
 @Composable
 private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String {
     val genre = genres.firstOrNull { it.apiId == genreId }
-    return if (genre != null) "• ${genre.nameTranslation()}" else ""
+    val name = genre?.nameTranslation()
+    return if (name == null) String() else "• $name"
 }
 
 @Composable
