@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,17 +35,12 @@ class SelectStreamingModel @Inject constructor(
 
     fun refresh() = loadUiState()
 
-    private fun loadUiState() {
-        viewModelScope.launch(_dispatcher) {
-            _repository.getAllLocal().collect { streams ->
-                _uiState.value = streams.toUiState { streams.isNotEmpty() }
-            }
-        }
+    private fun loadUiState() = viewModelScope.launch(_dispatcher) {
+        val streams = _repository.getAllLocal().first()
+        _uiState.value = streams.toUiState { streams.isNotEmpty() }
     }
 
-    fun saveSelectedStream(streamingJson: String?) {
-        viewModelScope.launch(_dispatcher) {
-            _repository.updateSelected(streamingJson?.fromJson())
-        }
+    fun saveSelectedStream(streamJson: String?) = viewModelScope.launch(_dispatcher) {
+        _repository.updateSelected(streamJson?.fromJson())
     }
 }

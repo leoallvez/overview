@@ -55,16 +55,18 @@ class ExploreStreamingViewModel @Inject constructor(
     var medias: Flow<PagingData<MediaEntity>> = emptyFlow()
         private set
 
-    fun updateData(filters: SearchFilters) {
+    fun updateData(filters: SearchFilters) = viewModelScope.launch(_dispatcher) {
         _searchFilters.value = filters
         loadMediaPaging()
-        viewModelScope.launch(_dispatcher) { setFilter() }
+        loadGenres()
+        setFilter()
     }
 
     private suspend fun prepareData() {
         loadFilter()
         loadStreaming()
         loadMediaPaging()
+        loadGenres()
         setFilter()
     }
 
@@ -72,7 +74,7 @@ class ExploreStreamingViewModel @Inject constructor(
         medias = _mediaRepository.getPaging(searchFilters.value).flow.cachedIn(viewModelScope)
     }
 
-    fun loadGenres() = viewModelScope.launch(_dispatcher) {
+    private suspend fun loadGenres() {
         _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
     }
 

@@ -5,6 +5,7 @@ import br.dev.singular.overview.data.api.IApiLocale
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.source.responseToResult
+import br.dev.singular.overview.util.toStringOrEmpty
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class MovieRemoteDataSource @Inject constructor(
 
     private suspend fun makePaging(page: Int, searchFilters: SearchFilters) = _locale.run {
         val streamingId = searchFilters.streaming?.apiId.toString()
-        val genreId = searchFilters.genreId.toString()
+        val genreId = searchFilters.genreId.toStringOrEmpty()
         _api.getMoviesPaging(streamingId, genreId, page, language, region, region)
     }
 

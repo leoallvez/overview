@@ -42,7 +42,7 @@ import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.ScreenTitle
 import br.dev.singular.overview.ui.SimpleSubtitle1
-import br.dev.singular.overview.ui.ToolbarButton
+import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
@@ -124,7 +124,7 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
                 .padding(dimensionResource(R.dimen.screen_padding))
                 .align(Alignment.Center)
         )
-        ToolbarButton(
+        IconButton(
             painter = Icons.Default.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f)

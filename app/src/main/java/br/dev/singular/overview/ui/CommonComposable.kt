@@ -2,11 +2,6 @@ package br.dev.singular.overview.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,7 +48,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
@@ -278,7 +272,7 @@ fun StylizedButton(
 }
 
 @Composable
-fun ToolbarButton(
+fun IconButton(
     painter: ImageVector,
     @StringRes descriptionResource: Int,
     modifier: Modifier = Modifier,
@@ -403,6 +397,7 @@ fun BasicImage(
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
     errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
+    corner: Dp = dimensionResource(R.dimen.corner),
     withBorder: Boolean = false
 ) {
     if (url.isNotEmpty()) {
@@ -415,7 +410,7 @@ fun BasicImage(
                 .background(PrimaryBackground)
                 .fillMaxWidth()
                 .height(height)
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                .clip(RoundedCornerShape(corner))
                 .then(Modifier.border(withBorder)),
             contentScale = contentScale,
             placeholder = placeholder,
@@ -753,10 +748,12 @@ fun StreamingIcon(
     size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
     withBorder: Boolean = true,
     clickable: Boolean = true,
+    corner: Dp = dimensionResource(id = R.dimen.corner),
     onClick: () -> Unit = {}
 ) {
     streaming?.let {
         BasicImage(
+            corner = corner,
             url = streaming.getLogoImage(),
             contentDescription = streaming.name,
             withBorder = withBorder,
@@ -837,30 +834,6 @@ fun FilterButton(
     }
 }
 
-// https://medium.com/nerd-for-tech/jetpack-compose-pulsating-effect-4b9f2928d31a
-@Composable
-fun Pulsating(
-    modifier: Modifier = Modifier,
-    isPulsing: Boolean = true,
-    content: @Composable () -> Unit
-) {
-    val infiniteTransition = rememberInfiniteTransition(label = "")
-
-    val scale by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = if (isPulsing) 1.1f else 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1_100),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = ""
-    )
-
-    Box(modifier = modifier.scale(scale)) {
-        content()
-    }
-}
-
 @Composable
 fun DisabledSearchToolBar(
     onBackstack: () -> Unit,
@@ -876,7 +849,7 @@ fun DisabledSearchToolBar(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ToolbarButton(
+            IconButton(
                 painter = Icons.Default.KeyboardArrowLeft,
                 descriptionResource = R.string.backstack_icon,
                 background = Color.White.copy(alpha = 0.1f),
