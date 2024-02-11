@@ -276,7 +276,8 @@ fun SelectFilter(text: String, isActivated: Boolean, onClick: () -> Unit) {
                 text = text,
                 color = color,
                 fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
-                modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
+                modifier = Modifier.padding(dimensionResource(R.dimen.default_padding)),
+                overflow = TextOverflow.Ellipsis
             )
         },
         isActive = isActivated,
