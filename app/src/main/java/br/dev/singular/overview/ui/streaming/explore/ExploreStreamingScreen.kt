@@ -3,7 +3,6 @@ package br.dev.singular.overview.ui.streaming.explore
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.TweenSpec
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,15 +18,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -49,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,6 +56,7 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.MediaEntity
+import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
@@ -79,7 +77,6 @@ import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.defaultBorder
-import br.dev.singular.overview.util.isNull
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
@@ -163,6 +160,7 @@ fun ExploreStreamingContent(
             }
         ) { padding ->
             val filterIsVisible = sheetState.isVisible
+            val hasFilter = filters.areDefaultValues().not()
             when (items.loadState.refresh) {
                 is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
                 is LoadState.NotLoading -> {
@@ -173,10 +171,7 @@ fun ExploreStreamingContent(
                     }
                 }
                 else -> {
-                    NotFoundContentScreen(
-                        showOnTop = filterIsVisible,
-                        hasFilters = filters.genreId.isNull()
-                    )
+                    NotFoundContentScreen(showOnTop = filterIsVisible, hasFilters = hasFilter)
                 }
             }
         }
@@ -197,42 +192,15 @@ fun ExploreStreamingToolBar(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = dimensionResource(R.dimen.default_padding)),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = dimensionResource(R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Surface(
-                modifier = Modifier
-                    .height(dimensionResource(R.dimen.streaming_item_small_size))
-                    .clickable { navigate.toSelectStreaming() }
-                    .width(255.dp)
-                    .defaultBorder(color = AccentColor, corner = R.dimen.circle_conner)
-                    .background(SecondaryBackground)
-            ) {
-                Row(
-                    Modifier.background(PrimaryBackground),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        StreamingIcon(
-                            modifier = Modifier.padding(start = 4.dp),
-                            size = 30.dp,
-                            corner = dimensionResource(R.dimen.circle_conner),
-                            streaming = filters.streaming,
-                            withBorder = false,
-                            clickable = false
-                        )
-                        StreamingScreamTitle(title = filters.streaming?.name)
-                    }
-                    Box(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-                        Icon(
-                            tint = AccentColor,
-                            painter = painterResource(id = R.drawable.baseline_expand_more),
-                            contentDescription = stringResource(R.string.streaming)
-                        )
-                    }
-                }
-            }
+            SelectStreaming(
+                streaming = filters.streaming,
+                onClick = { navigate.toSelectStreaming() }
+            )
             ToolBarIcon(
                 painter = Icons.Default.Search,
                 description = R.string.search_icon
@@ -248,7 +216,7 @@ fun ExploreStreamingToolBar(
                 .padding(vertical = dimensionResource(R.dimen.screen_padding_new)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            FilterButton(
+            SelectFilter(
                 text = filterDescription(filters, genres),
                 isActivated = filters.areDefaultValues().not()
             ) {
@@ -270,35 +238,84 @@ fun ToolBarIcon(painter: ImageVector, @StringRes description: Int, onClick: () -
 }
 
 @Composable
-fun FilterButton(text: String, isActivated: Boolean, onClick: () -> Unit) {
-    val color = if (isActivated) AccentColor else Gray
-    OutlinedButton(
+fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
+    SelectButton(
         onClick = { onClick.invoke() },
-        shape = RoundedCornerShape(percent = 75),
-        contentPadding = PaddingValues(
-            horizontal = dimensionResource(R.dimen.default_padding)
-        ),
+        content = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                StreamingIcon(
+                    modifier = Modifier.padding(start = 4.dp),
+                    size = 30.dp,
+                    corner = dimensionResource(R.dimen.circle_conner),
+                    streaming = streaming,
+                    withBorder = false,
+                    clickable = false
+                )
+                StreamingScreamTitle(title = streaming?.name ?: String())
+            }
+        },
+        width = 255.dp
+    )
+}
+
+@Composable
+fun SelectFilter(text: String, isActivated: Boolean, onClick: () -> Unit) {
+    val color = if (isActivated) AccentColor else Gray
+    SelectButton(
+        onClick = { onClick.invoke() },
+        content = {
+            Icon(
+                painterResource(id = R.drawable.tune),
+                contentDescription = stringResource(id = R.string.filters),
+                modifier = Modifier
+                    .padding(start = dimensionResource(id = R.dimen.screen_padding))
+                    .size(20.dp),
+                tint = color
+            )
+            Text(
+                text = text,
+                color = color,
+                fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
+                modifier = Modifier.padding(dimensionResource(R.dimen.default_padding)),
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        isActive = isActivated,
+        height = 35.dp
+    )
+}
+
+@Composable
+fun SelectButton(
+    onClick: () -> Unit,
+    content: @Composable () -> Unit,
+    width: Dp? = null,
+    height: Dp = dimensionResource(R.dimen.streaming_item_small_size),
+    isActive: Boolean = true
+) {
+    val color = if (isActive) AccentColor else Gray
+    Surface(
         modifier = Modifier
-            .height(25.dp)
-            .fillMaxWidth(),
-        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = PrimaryBackground
-        )
+            .height(height)
+            .clickable { onClick.invoke() }
+            .then(if (width == null) Modifier.fillMaxWidth() else Modifier.width(width))
+            .defaultBorder(color = color, corner = R.dimen.circle_conner)
+            .background(SecondaryBackground)
     ) {
-        Icon(
-            painterResource(id = R.drawable.tune),
-            contentDescription = stringResource(id = R.string.filters),
-            modifier = Modifier.size(20.dp),
-            tint = color
-        )
-        Text(
-            text = text,
-            color = color,
-            style = MaterialTheme.typography.caption,
-            fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
-            modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
-        )
+        Row(
+            Modifier.background(PrimaryBackground),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            content.invoke()
+            Box(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+                Icon(
+                    tint = color,
+                    painter = painterResource(id = R.drawable.baseline_expand_more),
+                    contentDescription = ""
+                )
+            }
+        }
     }
 }
 
