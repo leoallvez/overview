@@ -29,12 +29,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
+import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NotFoundContentScreen
 import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.search.CenteredTextString
@@ -67,7 +67,7 @@ fun LikedScreen(
             MediaTypeSelector(mediaType.key) { newType ->
                 viewModel.updateType(newType)
             }
-            Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
+            Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
             Box {
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
@@ -91,7 +91,7 @@ fun LikedToolBar(toBackStack: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.screen_padding)),
+            .padding(bottom = dimensionResource(R.dimen.default_padding)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(

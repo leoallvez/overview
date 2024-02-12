@@ -69,12 +69,12 @@ fun SearchScreen(
         }
     ) { padding ->
         Column {
-            if (items.itemCount > 0) {
+            if (items.itemCount > 0 || filters.query.isNotEmpty()) {
                 MediaTypeSelector(filters.mediaType.key) { newType ->
                     viewModel.updateFilter(filters.copy(mediaType = newType))
                 }
             }
-            Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)))
+            Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
             Box {
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
