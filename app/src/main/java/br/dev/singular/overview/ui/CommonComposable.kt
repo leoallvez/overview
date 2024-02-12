@@ -25,17 +25,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Snackbar
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -66,7 +66,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction.Companion
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -116,7 +115,7 @@ fun BasicTitle(title: String) {
                 top = 10.dp,
                 start = dimensionResource(R.dimen.screen_padding)
             ),
-        style = MaterialTheme.typography.h6,
+        style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold
     )
 }
@@ -131,7 +130,7 @@ fun SimpleTitle(title: String, modifier: Modifier = Modifier) {
                 bottom = 5.dp,
                 top = 10.dp
             ),
-        style = MaterialTheme.typography.h6,
+        style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold
     )
 }
@@ -220,7 +219,7 @@ fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = fals
             Text(
                 text = stringResource(id = R.string.check_filters),
                 color = AccentColor,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
             )
         }
@@ -232,7 +231,7 @@ fun IntermediateScreensText(text: String, color: Color = AccentColor) {
     Text(
         text = text,
         color = color,
-        style = MaterialTheme.typography.h6,
+        style = MaterialTheme.typography.titleLarge,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .padding(bottom = 20.dp)
@@ -252,7 +251,7 @@ fun StylizedButton(
         contentPadding = PaddingValues(10.dp),
         shape = RoundedCornerShape(percent = 50),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = AccentColor
+            containerColor = AccentColor
         )
     ) {
         Icon(
@@ -272,7 +271,7 @@ fun StylizedButton(
 }
 
 @Composable
-fun IconButton(
+fun ButtonWithIcon(
     painter: ImageVector,
     @StringRes descriptionResource: Int,
     modifier: Modifier = Modifier,
@@ -305,7 +304,7 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
     Text(
         text = text,
         color = AccentColor,
-        style = MaterialTheme.typography.h6,
+        style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold,
         modifier = modifier.padding(
             horizontal = dimensionResource(R.dimen.default_padding),
@@ -382,7 +381,7 @@ fun MediaItem(mediaItem: Media, imageWithBorder: Boolean = false, onClick: () ->
         )
         BasicText(
             text = mediaItem.getLetter(),
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.bodySmall,
             isBold = true
         )
     }
@@ -460,7 +459,7 @@ fun SimpleSubtitle1(text: String, display: Boolean = true, isBold: Boolean = tru
         Text(
             text = text,
             color = Color.White,
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
         )
     }
@@ -477,7 +476,7 @@ fun SimpleSubtitle2(
         Text(
             text = text,
             color = color,
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.titleSmall,
             fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
         )
     }
@@ -536,7 +535,7 @@ fun BasicParagraph(paragraph: String) {
     Text(
         text = paragraph,
         color = Color.White,
-        style = MaterialTheme.typography.body1,
+        style = MaterialTheme.typography.bodyLarge,
         modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
         textAlign = TextAlign.Justify
     )
@@ -558,9 +557,9 @@ fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
 
 @Composable
 fun MediaEntityPagingVerticalGrid(
-    padding: PaddingValues,
-    pagingItems: LazyPagingItems<MediaEntity>,
-    onClickMediaItem: MediaItemClick
+    padding: PaddingValues = PaddingValues(),
+    items: LazyPagingItems<MediaEntity>,
+    onClick: MediaItemClick
 ) {
     Column(
         modifier = Modifier
@@ -569,11 +568,11 @@ fun MediaEntityPagingVerticalGrid(
             .fillMaxSize()
     ) {
         LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
-            items(pagingItems.itemCount) { index ->
+            items(items.itemCount) { index ->
                 GridItemMediaEntity(
-                    media = pagingItems[index],
+                    media = items[index],
                     onClick = {
-                        onClickMediaItem.invoke(it.apiId, it.type)
+                        onClick.invoke(it.apiId, it.type)
                     }
                 )
             }
@@ -599,25 +598,9 @@ fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
             )
             BasicText(
                 text = letter,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.bodySmall,
                 isBold = true
             )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ErrorOnLoading() {
-    Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Column {
-            IntermediateScreensText(stringResource(R.string.error_on_loading))
         }
     }
 }
@@ -697,7 +680,7 @@ fun SearchField(
                 .focusRequester(focusRequester)
                 .fillMaxWidth()
                 .height(40.dp),
-            textStyle = MaterialTheme.typography.body2.copy(color = Color.White),
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
             onValueChange = { value ->
                 query = value
                 onSearch(query)
@@ -725,7 +708,7 @@ fun SearchField(
                                 placeholder,
                                 style = LocalTextStyle.current.copy(
                                     color = Gray,
-                                    fontSize = MaterialTheme.typography.body2.fontSize
+                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
                                 )
                             )
                         }
@@ -766,7 +749,12 @@ fun StreamingIcon(
 
 @Composable
 fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
-    Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground)
+            .padding(horizontal = dimensionResource(R.dimen.default_padding))
+    ) {
         val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
             MediaTypeFilterButton(mediaType, selectedKey) {
@@ -818,14 +806,14 @@ fun FilterButton(
             .padding(padding),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = backgroundColor
+            containerColor = backgroundColor
         )
     ) {
         buttonText?.let {
             Text(
                 text = it,
                 color = color,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.bodySmall,
                 fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
                 modifier = Modifier.padding(5.dp)
             )
@@ -849,8 +837,8 @@ fun DisabledSearchToolBar(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                painter = Icons.Default.KeyboardArrowLeft,
+            ButtonWithIcon(
+                painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 descriptionResource = R.string.backstack_icon,
                 background = Color.White.copy(alpha = 0.1f),
                 padding = PaddingValues(
@@ -865,6 +853,15 @@ fun DisabledSearchToolBar(
             placeholder = stringResource(R.string.search_in_all_places)
         )
     }
+}
+
+@Composable
+fun DefaultVerticalSpace() {
+    Spacer(
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .padding(vertical = dimensionResource(R.dimen.default_padding))
+    )
 }
 
 const val STREAMING_GRID_COLUMNS = 4

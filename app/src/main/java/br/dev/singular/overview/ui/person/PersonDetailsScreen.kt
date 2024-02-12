@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,6 +34,7 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
+import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.MediaItemList
 import br.dev.singular.overview.ui.PartingEmDash
@@ -42,7 +43,6 @@ import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.ScreenTitle
 import br.dev.singular.overview.ui.SimpleSubtitle1
-import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
@@ -124,8 +124,8 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
                 .padding(dimensionResource(R.dimen.screen_padding))
                 .align(Alignment.Center)
         )
-        IconButton(
-            painter = Icons.Default.KeyboardArrowLeft,
+        ButtonWithIcon(
+            painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f)
         ) { backButtonAction.invoke() }
@@ -207,7 +207,7 @@ fun PersonAge(age: String) {
         Text(
             text = stringResource(R.string.age, age),
             color = Color.White,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.titleMedium
         )
     }
 }

@@ -2,12 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="Source.overview.Overview.app">
-        <State />
-      </entry>
-      <entry key="app">
-        <State />
-      </entry>
       <entry key="overview.Overview.app">
         <State />
       </entry>

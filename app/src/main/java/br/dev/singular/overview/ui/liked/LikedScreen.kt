@@ -5,14 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -29,7 +28,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
-import br.dev.singular.overview.ui.IconButton
+import br.dev.singular.overview.ui.ButtonWithIcon
+import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
@@ -52,7 +52,7 @@ fun LikedScreen(
     val items = viewModel.medias.collectAsLazyPagingItems()
 
     Scaffold(
-        backgroundColor = PrimaryBackground,
+        containerColor = PrimaryBackground,
         modifier = Modifier
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
@@ -63,17 +63,20 @@ fun LikedScreen(
             AdsBanner(R.string.liked_banner, viewModel.showAds)
         }
     ) { padding ->
-        Column {
+        Column(modifier = Modifier.padding(padding)) {
             MediaTypeSelector(mediaType.key) { newType ->
                 viewModel.updateType(newType)
             }
-            Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
+            DefaultVerticalSpace()
             Box {
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
                         if (items.itemCount > 0) {
-                            MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
+                            MediaEntityPagingVerticalGrid(
+                                items = items,
+                                onClick = navigate::toMediaDetails
+                            )
                         } else {
                             NothingLiked(mediaType)
                         }
@@ -94,8 +97,8 @@ fun LikedToolBar(toBackStack: () -> Unit) {
             .padding(bottom = dimensionResource(R.dimen.default_padding)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(
-            painter = Icons.Default.KeyboardArrowLeft,
+        ButtonWithIcon(
+            painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f),
             padding = PaddingValues(
@@ -106,7 +109,7 @@ fun LikedToolBar(toBackStack: () -> Unit) {
         Text(
             text = stringResource(id = R.string.my_favorite),
             color = AccentColor,
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(
                 start = dimensionResource(R.dimen.screen_padding)

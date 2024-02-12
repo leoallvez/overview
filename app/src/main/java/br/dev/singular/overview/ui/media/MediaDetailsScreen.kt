@@ -24,15 +24,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -63,8 +63,8 @@ import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
 import br.dev.singular.overview.ui.BasicText
 import br.dev.singular.overview.ui.BasicTitle
+import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ErrorScreen
-import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.MediaList
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
@@ -175,8 +175,8 @@ fun MediaToolBar(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                IconButton(
-                    painter = Icons.Default.KeyboardArrowLeft,
+                ButtonWithIcon(
+                    painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     descriptionResource = R.string.backstack_icon,
                     modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
                 ) { backButtonAction.invoke() }
@@ -387,13 +387,13 @@ fun GenreItem(name: String) {
             .height(25.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = AccentColor,
-            backgroundColor = AccentColor
+            containerColor = AccentColor
         )
     ) {
         Text(
             text = name,
             color = PrimaryBackground,
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.Bold
         )
     }
@@ -428,12 +428,12 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         PersonImageCircle(castPerson)
         BasicText(
             text = castPerson.name,
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.bodySmall,
             isBold = true
         )
         BasicText(
             text = castPerson.getCharacterName(),
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.bodySmall,
             color = AccentColor
         )
     }
