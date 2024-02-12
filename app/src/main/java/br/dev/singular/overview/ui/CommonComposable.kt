@@ -749,10 +749,11 @@ fun StreamingIcon(
 
 @Composable
 fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .background(PrimaryBackground)
-        .padding(horizontal = dimensionResource(R.dimen.default_padding))
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground)
+            .padding(horizontal = dimensionResource(R.dimen.default_padding))
     ) {
         val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
