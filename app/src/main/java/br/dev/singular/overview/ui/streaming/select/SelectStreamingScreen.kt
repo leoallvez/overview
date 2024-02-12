@@ -1,5 +1,6 @@
 package br.dev.singular.overview.ui.streaming.select
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -56,7 +57,7 @@ fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectS
         bottomBar = {
             AdsBanner(R.string.select_streaming_banner, isVisible = viewModel.showAds)
         },
-        backgroundColor = PrimaryBackground
+        contentColor = PrimaryBackground
     ) { padding ->
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,
@@ -76,6 +77,7 @@ fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectS
 fun StreamingGrid(streaming: StreamingData, onClick: (String) -> Unit) {
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
+        modifier = Modifier.background(PrimaryBackground),
         columns = GridCells.Fixed(count = STREAMING_GRID_COLUMNS),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)

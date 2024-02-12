@@ -7,17 +7,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -31,7 +30,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
 import br.dev.singular.overview.ui.AdsBanner
-import br.dev.singular.overview.ui.IconButton
+import br.dev.singular.overview.ui.ButtonWithIcon
+import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
@@ -55,7 +55,7 @@ fun SearchScreen(
     val items = viewModel.medias.collectAsLazyPagingItems()
 
     Scaffold(
-        backgroundColor = PrimaryBackground,
+        contentColor = PrimaryBackground,
         modifier = Modifier
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
@@ -68,18 +68,20 @@ fun SearchScreen(
             AdsBanner(R.string.search_banner, viewModel.showAds)
         }
     ) { padding ->
-        Column {
+        Column(
+            modifier = Modifier.background(PrimaryBackground).padding(padding)
+        ) {
             if (items.itemCount > 0 || filters.query.isNotEmpty()) {
                 MediaTypeSelector(filters.mediaType.key) { newType ->
                     viewModel.updateFilter(filters.copy(mediaType = newType))
                 }
             }
-            Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
+            DefaultVerticalSpace()
             Box {
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen()
                     is LoadState.NotLoading -> {
-                        MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
+                        MediaEntityPagingVerticalGrid(items = items, onClick = navigate::toMediaDetails)
                     }
                     else -> {
                         if (items.itemCount == 0 && filters.query.isNotEmpty()) {
@@ -107,8 +109,8 @@ fun SearchToolBar(
             .padding(bottom = dimensionResource(R.dimen.screen_padding)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(
-            painter = Icons.Default.KeyboardArrowLeft,
+        ButtonWithIcon(
+            painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f),
             padding = PaddingValues(

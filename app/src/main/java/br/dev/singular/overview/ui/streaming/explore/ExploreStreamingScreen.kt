@@ -18,20 +18,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetLayout
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Close
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,9 +62,9 @@ import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
+import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
-import br.dev.singular.overview.ui.IconButton
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeFilterButton
@@ -135,7 +138,7 @@ fun ExploreStreamingContent(
         }
         Unit
     }
-
+    // TODO: migrate this for material3
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
@@ -144,6 +147,7 @@ fun ExploreStreamingContent(
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
+            contentColor = PrimaryBackground,
             modifier = Modifier
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
@@ -228,7 +232,7 @@ fun ExploreStreamingToolBar(
 
 @Composable
 fun ToolBarIcon(painter: ImageVector, @StringRes description: Int, onClick: () -> Unit) {
-    IconButton(
+    ButtonWithIcon(
         painter = painter,
         descriptionResource = description,
         background = Color.White.copy(alpha = 0.1f),
@@ -349,7 +353,7 @@ fun StreamingScreamTitle(title: String?) {
         Text(
             text = title,
             color = AccentColor,
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(
                 horizontal = dimensionResource(R.dimen.screen_padding),
@@ -379,7 +383,7 @@ fun FilterBottomSheet(
     ) {
         CloseIcon(closeAction)
         FilterMediaType(filters, inFiltering)
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.padding(
                 top = 20.dp,
                 bottom = dimensionResource(id = R.dimen.screen_padding_new)

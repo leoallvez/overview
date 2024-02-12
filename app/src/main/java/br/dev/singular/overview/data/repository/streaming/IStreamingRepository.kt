@@ -13,5 +13,5 @@ interface IStreamingRepository {
 
     suspend fun getAllRemote(region: String): List<StreamingEntity>
 
-    suspend fun updateAllLocal(steaming: List<StreamingEntity>)
+    suspend fun updateAllLocal(streaming: List<StreamingEntity>)
 }
