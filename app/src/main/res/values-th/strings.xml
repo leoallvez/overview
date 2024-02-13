@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
-    <string name="app_name_prod">ภาพรวม</string>
-
-    <!-- Home list title -->
-
+    <!-- Dynamic -->
     <string name="movie_top_rated" tools:ignore="UnusedResources">ภาพยนตร์ยอดนิยม</string>
 
     <string name="discover_movie" tools:ignore="UnusedResources">ภาพยนตร์ที่คุณสามารถเพลิดเพลินได้</string>

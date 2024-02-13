@@ -24,9 +24,12 @@
     </string>
     <!--App Name-->
     <string name="app_name_homol">
-        Over-Hom
+        Over.HOMOL
     </string>
     <string name="app_name_dev">
-        Over-Dev
+        Over.DEV
+    </string>
+    <string name="app_name_prod">
+        Overview
     </string>
 </resources>

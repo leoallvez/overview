@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
-    <string name="app_name_prod">Panoramica</string>
-
-    <!-- Home list title -->
-
+    <!-- Dynamic -->
     <string name="movie_top_rated" tools:ignore="UnusedResources">Film più votati</string>
 
     <string name="discover_movie" tools:ignore="UnusedResources">Film che puoi goderti</string>
