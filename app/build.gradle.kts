@@ -178,7 +178,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
-    // noinspection GradleDependency
+
     implementation(libs.network.response.adapter)
     implementation(libs.coil.compose)
     implementation(libs.toolbar.compose)
