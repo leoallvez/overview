@@ -43,14 +43,19 @@ android {
                 arguments["room.schemaLocation"] = "$projectDir/schemas"
             }
         }
+        // API keys and URLs
         stringField(name = "TMDB_API_KEY", value = System.getenv("OVER_TMDB_API_KEY"))
         stringField(name = "TMDB_API_URL", value = "https://api.themoviedb.org/3/")
         stringField(name = "TMDB_IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+
+        // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
         buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
     }
+    // Signing configurations
     val activeSigning = System.getenv("OVER_ACTIVE_SIGNING") == "true"
     if (activeSigning) {
+        // Signing configurations for different environments
         signingConfigs {
             create("prod") {
                 storeFile = rootProject.file(System.getenv("OVER_PROD_KEYSTORE"))
@@ -66,6 +71,7 @@ android {
             }
         }
     }
+    // Build types configurations
     buildTypes {
         named("release") {
             isMinifyEnabled = true
@@ -138,58 +144,70 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.runtime.livedata)
 
-    implementation(libs.lifecycle.runtime)
-    implementation(libs.activity.compose)
-    // Firebase Module
-    implementation(project(path = ":firebase"))
     // Lifecycle
+    implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.livedata)
+
+    // Firebase Module
+    implementation(project(path = ":firebase"))
+
     // Navigation
     implementation(libs.navigation.compose)
+
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
+
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
     ksp(libs.room.compiler)
+
     // Paging
     implementation(libs.paging.runtime.ktx)
     implementation(libs.paging.compose)
+
     // WorkManager
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
     kapt(libs.hilt.compiler)
+
     // DataStore
     implementation(libs.datastore.preferences)
+
     // Google Ads
     implementation(libs.play.services.ads)
+
     // Accompanist
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.accompanist.flowlayout)
 
-    // Third party library
+    // Third-party libraries
     implementation(libs.timber)
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
-
     implementation(libs.network.response.adapter)
     implementation(libs.coil.compose)
     implementation(libs.toolbar.compose)
     implementation(libs.progress.indicator)
 
+    // Test dependencies
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kluent)
     testImplementation(libs.kotlinx.coroutines.test)
+
+    // Android Test dependencies
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
+
+    // Debug-specific dependencies
     debugImplementation(libs.compose.tooling)
 }
