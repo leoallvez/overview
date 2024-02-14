@@ -52,8 +52,8 @@ class MainActivity : ComponentActivity() {
 fun OverviewApp(isOnline: Boolean) {
     Box(Modifier.fillMaxSize().background(PrimaryBackground)) {
         NavController()
-        Column(Modifier.align(Alignment.BottomCenter)) {
-            OfflineSnackBar(isNotOnline = isOnline.not())
+        Column(Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
+            // OfflineSnackBar(isNotOnline = isOnline.not())
             AppVersion()
         }
     }
