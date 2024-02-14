@@ -1,7 +1,11 @@
 package br.dev.singular.overview.ui.streaming.explore
 
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -118,7 +122,7 @@ fun ExploreStreamingContent(
     val sheetState = rememberModalBottomSheetState(
         skipHalfExpanded = true,
         initialValue = ModalBottomSheetValue.Hidden,
-        animationSpec = TweenSpec(durationMillis = 300, delay = 10),
+        animationSpec = TweenSpec(durationMillis = 350, delay = 350),
         confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded }
     )
 
@@ -142,7 +146,9 @@ fun ExploreStreamingContent(
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            FilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
+            AnimatedVisibility(visible = sheetState.isVisible) {
+                FilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
+            }
         },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -252,8 +258,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                     size = 30.dp,
                     corner = dimensionResource(R.dimen.circle_conner),
                     streaming = streaming,
-                    withBorder = false,
-                    clickable = false
+                    withBorder = false
                 )
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
@@ -280,7 +285,9 @@ fun SelectFilter(text: String, isActivated: Boolean, onClick: () -> Unit) {
                 text = text,
                 color = color,
                 fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
-                modifier = Modifier.width(300.dp).padding(dimensionResource(R.dimen.default_padding)),
+                modifier = Modifier
+                    .width(300.dp)
+                    .padding(dimensionResource(R.dimen.default_padding)),
                 overflow = TextOverflow.Ellipsis
             )
         },
@@ -412,7 +419,7 @@ fun ClearFilter(
             FilterButton(
                 isActivated = true,
                 colorActivated = AlertColor,
-                backgroundColor = SecondaryBackground,
+                backgroundColor = Color.Black,
                 buttonText = stringResource(R.string.clear_filters),
                 complement = {
                     CleanFilterIcon()
@@ -430,7 +437,8 @@ private fun CleanFilterIcon() {
         tint = AlertColor,
         modifier = Modifier
             .size(20.dp)
-            .padding(1.dp),
+            .padding(1.dp)
+            .background(Color.Black),
         painter = painterResource(id = R.drawable.delete_outline),
         contentDescription = stringResource(R.string.clear_filters)
     )
@@ -466,7 +474,11 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
     val options = MediaType.getAllOrdered()
     Column {
         FilterTitle(stringResource(R.string.type))
-        Row(modifier = Modifier.fillMaxWidth().background(SecondaryBackground)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(SecondaryBackground)
+        ) {
             options.forEach { type ->
                 MediaTypeFilterButton(type, filters.mediaType.key) {
                     with(filters) {
