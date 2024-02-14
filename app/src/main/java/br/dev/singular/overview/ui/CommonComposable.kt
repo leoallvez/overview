@@ -651,13 +651,10 @@ fun ToolbarTitle(
 
 @Composable
 fun SearchField(
-    modifier: Modifier = Modifier,
     placeholder: String,
-    enabled: Boolean = true,
     autoOpenKeyboard: Boolean = true,
     defaultPaddingValues: PaddingValues = PaddingValues(start = 13.dp, end = 5.dp),
-    onClick: () -> Unit = {},
-    onSearch: (query: String) -> Unit = {}
+    onSearch: ((query: String) -> Unit)? = null
 ) {
     var query by rememberSaveable { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
@@ -668,22 +665,20 @@ fun SearchField(
         }
     }
     Box(
-        modifier = modifier
+        modifier = Modifier
             .background(PrimaryBackground)
             .padding(defaultPaddingValues)
-            .clickable { onClick() }
     ) {
         BasicTextField(
             value = query,
-            enabled = enabled,
+            enabled = onSearch != null,
             modifier = Modifier
                 .focusRequester(focusRequester)
                 .fillMaxWidth()
                 .height(40.dp),
             textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
-            onValueChange = { value ->
-                query = value
-                onSearch(query)
+            onValueChange = { newValue ->
+                onSearch?.invoke(newValue.also { query = it })
             },
             keyboardOptions = KeyboardOptions(imeAction = Companion.Search),
             singleLine = true,
@@ -709,12 +704,12 @@ fun SearchField(
                                 style = LocalTextStyle.current.copy(
                                     color = Gray,
                                     fontSize = MaterialTheme.typography.bodyMedium.fontSize
-                                )
+                                ),
+                                modifier = Modifier.padding(top = 2.dp)
                             )
                         }
                         innerTextField()
                     }
-
                     if (query.isNotEmpty()) {
                         ClearSearchIcon(query) { query = "" }
                     }
@@ -728,11 +723,10 @@ fun SearchField(
 fun StreamingIcon(
     modifier: Modifier = Modifier,
     streaming: StreamingEntity?,
-    size: Dp = dimensionResource(R.dimen.streaming_item_small_size),
+    size: Dp = dimensionResource(R.dimen.streaming_item_medium_size),
     withBorder: Boolean = true,
-    clickable: Boolean = true,
     corner: Dp = dimensionResource(id = R.dimen.corner),
-    onClick: () -> Unit = {}
+    onClick: (() -> Unit)? = null
 ) {
     streaming?.let {
         BasicImage(
@@ -742,7 +736,7 @@ fun StreamingIcon(
             withBorder = withBorder,
             modifier = modifier
                 .size(size)
-                .onClick(active = clickable) { onClick.invoke() }
+                .onClick(action = onClick)
         )
     }
 }
@@ -846,12 +840,12 @@ fun DisabledSearchToolBar(
                 )
             ) { onBackstack.invoke() }
         }
-        SearchField(
-            enabled = false,
-            onClick = onToSearch,
-            defaultPaddingValues = PaddingValues(start = 13.dp, end = 0.dp),
-            placeholder = stringResource(R.string.search_in_all_places)
-        )
+        Box(Modifier.clickable { onToSearch.invoke() }) {
+            SearchField(
+                defaultPaddingValues = PaddingValues(start = 13.dp, end = 0.dp),
+                placeholder = stringResource(R.string.search_in_all_places)
+            )
+        }
     }
 }
 

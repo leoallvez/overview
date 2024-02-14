@@ -27,8 +27,6 @@ fun Modifier.defaultPadding(
     bottom: Dp = 5.dp
 ) = then(padding(start, top, end, bottom))
 
-fun Modifier.onClick(active: Boolean, onClick: () -> Unit) = if (active) {
-    clickable { onClick.invoke() }
-} else {
-    this
+fun Modifier.onClick(action: (() -> Unit)? = null): Modifier {
+    return if (action == null) this else clickable { action() }
 }
