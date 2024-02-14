@@ -3,30 +3,31 @@
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Badge in development](http://img.shields.io/static/v1?label=STATUS&message=IN%20DEVELOPMENT&color=GREEN&style=for-the-badge)
-[![CI](https://github.com/leoallvez/overview/actions/workflows/ci.yml/badge.svg)](https://github.com/leoallvez/overview/actions/workflows/ci.yml)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 <!--index-->
-
 - [About](#about)
+- [Goals](#goals)
 - [Setup](#setup)
 - [Contributing](#contributing)
 - [Author](#author)
 
 ## About
 
-Overview is an easy-to-use app that consolidates content from major streaming services into a
-unified interface. Offers personalized recommendations, easy search and filtering. With real-time
-updates, it simplifies content discovery and provides a comprehensive overview of movies and TV
-shows available across different platforms.
+Overview is an easy-to-use app that consolidates content from major streaming services into a unified interface. It simplifies content discovery with easy search and filtering options, providing a comprehensive overview of movies and TV shows available across different platforms, all with real-time updates. 
 
 ### Main features
 
-- Overview of content from the main streaming services.
-- Search and filter specific content by content type.
-- Manage favorite content.
+- Efficiently and conveniently search for content across various streaming services all in one app.
+- Filter content by type and genre across various streaming services.
+- Save and visualize your favorite content.
 - Details of the content with which streaming service this media can be watched.
-- Filters by genre and content type.
+- Search for content everywhere, not restricting yourself to streaming services.
+
+## Goals
+
+The main objective of this project is to serve as a dedicated testing ground for exploring and evaluating new Android libraries. It offers an environment that closely mimics real production settings, facilitating comprehensive testing and experimentation with the latest advancements in Android technologies.
+
+In addition to this, the project aims to gather valuable insights into UI/UX and user behavior by leveraging Google Analytics. This dual focus on testing innovation and understanding user interactions enhances the project's potential to contribute to the advancement of Android development practices.
 
 ### Main libraries
 
@@ -55,7 +56,7 @@ shows available across different platforms.
 
 <!--Jetpack links-->
 
-[1]: https://developer.android.com/jetpack/compose?hl=pt-br
+[1]: https://developer.android.com/jetpack/compose?hl=en
 
 [2]: https://developer.android.com/topic/libraries/architecture/datastore?hl=en
 
@@ -63,13 +64,13 @@ shows available across different platforms.
 
 [4]: https://developer.android.com/training/dependency-injection/hilt-android?hl=en
 
-[5]: https://developer.android.com/training/data-storage/room
+[5]: https://developer.android.com/training/data-storage/room?hl=en
 
-[6]: https://developer.android.com/jetpack/androidx
+[6]: https://developer.android.com/jetpack/androidx?hl=en
 
-[7]: https://developer.android.com/kotlin/ktx
+[7]: https://developer.android.com/kotlin/ktx?hl=en
 
-[8]: https://developer.android.com/topic/libraries/architecture/livedata
+[8]: https://developer.android.com/topic/libraries/architecture/livedata?hl=en
 
 [9]: https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=en
 <!--Third Part library links-->
@@ -99,8 +100,8 @@ shows available across different platforms.
 
 ## Setup
 
-This repository contains environment variables that streamline the compilation process in the *
-*homologation** and **production** environments (PROD and HOMOL) for the Overview Android project.
+This project contains environment variables that streamline the compilation process in the 
+**homologation** and **production** environments (HOMOL and PROD) for the Overview Android project.
 These variables encompass the API key, signature flags, and key storage information for different
 environments.
 
