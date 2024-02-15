@@ -15,7 +15,7 @@ sealed class ScreenNav(val route: String, val name: String) {
         route = "person_details/{$ID_PARAM}",
         name = "PersonDetailsScreen"
     ) {
-        fun editRoute(id: Long) = "cast_details/$id"
+        fun editRoute(id: Long) = "person_details/$id"
     }
 
     object Search : ScreenNav(
