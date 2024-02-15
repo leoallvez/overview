@@ -3,9 +3,11 @@ package br.dev.singular.overview.ui
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -92,6 +94,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
 import kotlinx.coroutines.delay
+import timber.log.Timber
 
 @Composable
 fun GenreEntity.nameTranslation(): String {
@@ -270,6 +273,7 @@ fun StylizedButton(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ButtonWithIcon(
     painter: ImageVector,
@@ -286,7 +290,11 @@ fun ButtonWithIcon(
             .clip(CircleShape)
             .background(background)
             .size(40.dp)
-            .clickable { onClick.invoke() }
+            //.clickable { onClick.invoke() }
+            .combinedClickable(
+                onClick = { onClick.invoke() },
+                onLongClick = { Timber.tag("here_we_hare").i("We long press it") }
+            )
     ) {
         Icon(
             painter,
