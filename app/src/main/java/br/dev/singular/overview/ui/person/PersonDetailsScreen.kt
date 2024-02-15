@@ -58,7 +58,7 @@ fun PersonDetailsScreen(
     navigate: BasicNavigate,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.CastDetails, tracker = viewModel.analyticsTracker)
+    TrackScreenView(screen = ScreenNav.PersonDetails, tracker = viewModel.analyticsTracker)
 
     val onRefresh = { viewModel.load(apiId) }
     LaunchedEffect(true) {

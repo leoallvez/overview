@@ -11,9 +11,9 @@ sealed class ScreenNav(val route: String, val name: String) {
             "media_details/$id/$type/$backstack"
     }
 
-    object CastDetails : ScreenNav(
-        route = "cast_details/{$ID_PARAM}",
-        name = "CastDetailsScreen"
+    object PersonDetails : ScreenNav(
+        route = "person_details/{$ID_PARAM}",
+        name = "PersonDetailsScreen"
     ) {
         fun editRoute(id: Long) = "cast_details/$id"
     }

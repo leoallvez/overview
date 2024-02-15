@@ -58,7 +58,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         arguments = listOf(NavArgument.ID, NavArgument.TYPE, NavArgument.BACKSTACK)
     ) { navBackStackEntry ->
         val navigate = MediaDetailsNavigate(
-            navigation = navController,
+            nav = navController,
             backstack = navBackStackEntry.backstack()
         )
         MediaDetailsScreen(
@@ -67,7 +67,7 @@ fun NavGraphBuilder.mediaDetailsGraph(
         )
     }
     composable(
-        route = ScreenNav.CastDetails.route,
+        route = ScreenNav.PersonDetails.route,
         arguments = listOf(NavArgument.ID)
     ) { navBackStackEntry ->
         PersonDetailsScreen(

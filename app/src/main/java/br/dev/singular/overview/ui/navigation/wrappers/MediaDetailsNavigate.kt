@@ -4,13 +4,11 @@ import androidx.navigation.NavController
 import br.dev.singular.overview.ui.ScreenNav
 
 class MediaDetailsNavigate(
-    private val navigation: NavController,
+    private val nav: NavController,
     backstack: Boolean = false
-) : BasicNavigate(navigation, backstack) {
+) : BasicNavigate(nav, backstack) {
 
-    fun toStreamingExplore() =
-        navigation.navigate(ScreenNav.ExploreStreaming.route)
+    fun toExploreStreaming() = nav.navigate(ScreenNav.ExploreStreaming.route)
 
-    fun toCastDetails(apiId: Long) =
-        navigation.navigate(ScreenNav.CastDetails.editRoute(apiId))
+    fun toPersonDetails(apiId: Long) = nav.navigate(ScreenNav.PersonDetails.editRoute(apiId))
 }

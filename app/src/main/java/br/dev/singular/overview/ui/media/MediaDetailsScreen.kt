@@ -202,7 +202,7 @@ fun MediaBody(
     ) {
         StreamingOverview(media.streamings, media.isReleased()) { streaming ->
             onClickStreaming(streaming)
-            navigate.toStreamingExplore()
+            navigate.toExploreStreaming()
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())
@@ -225,7 +225,7 @@ fun MediaBody(
             isVisible = showAds
         )
         CastList(media.getOrderedCast()) { apiId ->
-            navigate.toCastDetails(apiId = apiId)
+            navigate.toPersonDetails(apiId = apiId)
         }
         MediaList(
             listTitle = stringResource(R.string.related),
