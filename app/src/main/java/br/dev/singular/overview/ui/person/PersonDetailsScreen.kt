@@ -114,7 +114,7 @@ fun PersonToolBar(
     person: Person,
     onBackstackClick: () -> Unit,
     onBackstackLongClick: () -> Unit
-    ) {
+) {
     Box(
         Modifier
             .fillMaxWidth()

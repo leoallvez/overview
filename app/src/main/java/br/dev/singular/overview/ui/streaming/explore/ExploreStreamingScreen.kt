@@ -210,7 +210,7 @@ fun ExploreStreamingToolBar(
             )
             ToolBarIcon(
                 painter = Icons.Default.Search,
-                description = R.string.search_icon,
+                description = R.string.search_icon
             ) { navigate.toSearch() }
             ToolBarIcon(
                 painter = Icons.Default.FavoriteBorder,

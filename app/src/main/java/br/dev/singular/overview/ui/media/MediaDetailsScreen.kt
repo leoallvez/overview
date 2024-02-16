@@ -164,7 +164,7 @@ fun MediaToolBar(
     isLiked: Boolean,
     onLikeClick: () -> Unit,
     onBackstackClick: () -> Unit,
-    onBackstackLongClick: () -> Unit,
+    onBackstackLongClick: () -> Unit
 ) {
     Box(Modifier.fillMaxWidth()) {
         media.apply {
