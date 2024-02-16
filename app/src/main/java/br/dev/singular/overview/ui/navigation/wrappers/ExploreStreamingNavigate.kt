@@ -5,7 +5,7 @@ import br.dev.singular.overview.ui.ScreenNav
 
 class ExploreStreamingNavigate(
     private val nav: NavController
-) : BasicNavigate(nav, backstack = false) {
+) : BasicNavigate(nav) {
 
     fun toSearch() = nav.navigate(route = ScreenNav.Search.route)
 

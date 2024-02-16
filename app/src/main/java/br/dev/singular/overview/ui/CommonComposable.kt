@@ -94,7 +94,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
 import kotlinx.coroutines.delay
-import timber.log.Timber
 
 @Composable
 fun GenreEntity.nameTranslation(): String {
@@ -282,6 +281,7 @@ fun ButtonWithIcon(
     iconTint: Color = Color.White,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
     padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.screen_padding)),
+    onLongClick: () -> Unit = {},
     onClick: () -> Unit
 ) {
     Box(
@@ -290,10 +290,9 @@ fun ButtonWithIcon(
             .clip(CircleShape)
             .background(background)
             .size(40.dp)
-            //.clickable { onClick.invoke() }
             .combinedClickable(
-                onClick = { onClick.invoke() },
-                onLongClick = { Timber.tag("here_we_hare").i("We long press it") }
+                onClick = onClick::invoke,
+                onLongClick = onLongClick::invoke
             )
     ) {
         Icon(
@@ -845,8 +844,10 @@ fun DisabledSearchToolBar(
                 background = Color.White.copy(alpha = 0.1f),
                 padding = PaddingValues(
                     vertical = dimensionResource(R.dimen.screen_padding)
-                )
-            ) { onBackstack.invoke() }
+                ),
+                onClick = onBackstack::invoke,
+                onLongClick = onBackstack::invoke
+            )
         }
         Box(Modifier.clickable { onToSearch.invoke() }) {
             SearchField(

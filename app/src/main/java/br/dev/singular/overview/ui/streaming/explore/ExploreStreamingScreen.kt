@@ -1,8 +1,5 @@
 package br.dev.singular.overview.ui.streaming.explore
 
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
@@ -213,7 +210,7 @@ fun ExploreStreamingToolBar(
             )
             ToolBarIcon(
                 painter = Icons.Default.Search,
-                description = R.string.search_icon
+                description = R.string.search_icon,
             ) { navigate.toSearch() }
             ToolBarIcon(
                 painter = Icons.Default.FavoriteBorder,

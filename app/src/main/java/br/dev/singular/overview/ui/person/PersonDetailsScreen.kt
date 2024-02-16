@@ -72,13 +72,11 @@ fun PersonDetailsScreen(
         PersonDetailsContent(
             person = dataResult,
             showAds = viewModel.showAds,
-            navigate::popBackStack,
-            { apiId, mediaType ->
-                navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backstack = true)
-            }
-        ) {
-            onRefresh.invoke()
-        }
+            onRefresh = onRefresh::invoke,
+            onBackstackClick = navigate::popBackStack,
+            onBackstackLongClick = navigate::toExploreStreaming,
+            onNavigateToMediaDetails = navigate::toMediaDetails
+        )
     }
 }
 
@@ -86,9 +84,10 @@ fun PersonDetailsScreen(
 fun PersonDetailsContent(
     person: Person?,
     showAds: Boolean,
-    onBackstack: () -> Unit,
-    onNavigateToMediaDetails: MediaItemClick,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onBackstackClick: () -> Unit,
+    onBackstackLongClick: () -> Unit,
+    onNavigateToMediaDetails: MediaItemClick
 ) {
     if (person == null) {
         ErrorScreen { onRefresh.invoke() }
@@ -98,18 +97,24 @@ fun PersonDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                PersonToolBar(person) {
-                    onBackstack.invoke()
-                }
+                PersonToolBar(
+                    person = person,
+                    onBackstackClick = onBackstackClick::invoke,
+                    onBackstackLongClick = onBackstackLongClick::invoke
+                )
             }
         ) {
-            PersonBody(person, showAds, onNavigateToMediaDetails)
+            PersonBody(person, showAds, onNavigateToMediaDetails::invoke)
         }
     }
 }
 
 @Composable
-fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
+fun PersonToolBar(
+    person: Person,
+    onBackstackClick: () -> Unit,
+    onBackstackLongClick: () -> Unit
+    ) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -127,8 +132,10 @@ fun PersonToolBar(person: Person, backButtonAction: () -> Unit) {
         ButtonWithIcon(
             painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
-            background = Color.White.copy(alpha = 0.1f)
-        ) { backButtonAction.invoke() }
+            background = Color.White.copy(alpha = 0.1f),
+            onClick = onBackstackClick::invoke,
+            onLongClick = onBackstackLongClick::invoke
+        )
     }
 }
 

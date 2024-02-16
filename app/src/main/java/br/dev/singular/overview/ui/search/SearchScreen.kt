@@ -116,8 +116,10 @@ fun SearchToolBar(
             padding = PaddingValues(
                 vertical = dimensionResource(R.dimen.screen_padding),
                 horizontal = 2.dp
-            )
-        ) { backButtonAction.invoke() }
+            ),
+            onClick = backButtonAction::invoke,
+            onLongClick = backButtonAction::invoke
+        )
         SearchField(
             onSearch = onSearch,
             autoOpenKeyboard = query.isEmpty(),

@@ -58,10 +58,6 @@ fun NavBackStackEntry.getParams(): Pair<Long, String> {
     return Pair(id ?: 0, type ?: "")
 }
 
-fun NavBackStackEntry.backstack(): Boolean {
-    return arguments?.getBoolean(ScreenNav.BACKSTACK_PARAM) ?: false
-}
-
 fun NavBackStackEntry.getApiId(): Long = arguments?.getLong(ScreenNav.ID_PARAM) ?: 0
 
 fun List<Long>.joinToStringWithPipe() = joinToString(separator = "|") { it.toString() }

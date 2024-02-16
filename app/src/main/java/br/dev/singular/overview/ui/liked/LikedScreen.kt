@@ -104,8 +104,10 @@ fun LikedToolBar(toBackStack: () -> Unit) {
             padding = PaddingValues(
                 vertical = dimensionResource(R.dimen.screen_padding),
                 horizontal = 2.dp
-            )
-        ) { toBackStack.invoke() }
+            ),
+            onClick = toBackStack::invoke,
+            onLongClick = toBackStack::invoke
+        )
         Text(
             text = stringResource(id = R.string.my_favorite),
             color = AccentColor,

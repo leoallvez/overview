@@ -4,7 +4,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import br.dev.singular.overview.ui.ScreenNav
 
-class NavArgument {
+class NavArg {
     companion object {
         val ID = navArgument(name = ScreenNav.ID_PARAM) { type = NavType.LongType }
         val TYPE = navArgument(name = ScreenNav.TYPE_PARAM) { type = NavType.StringType }
