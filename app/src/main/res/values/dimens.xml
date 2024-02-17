@@ -18,5 +18,5 @@
     <dimen name="streaming_item_lager_size">60.dp</dimen>
     <dimen name="streaming_item_medium_size">48.dp</dimen>
     <dimen name="streaming_item_small_size">40.dp</dimen>
-    <dimen name="transition_screen_top_padding">80.dp</dimen>
+    <dimen name="transition_screen_top_padding">135.dp</dimen>
 </resources>

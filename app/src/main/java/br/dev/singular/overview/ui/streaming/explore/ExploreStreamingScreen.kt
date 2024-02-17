@@ -99,9 +99,7 @@ fun ExploreStreamingScreen(
         onRefresh = { viewModel.loadMediaPaging() },
         items = viewModel.medias.collectAsLazyPagingItems(),
         genres = viewModel.genres.collectAsState().value,
-        inFiltering = { newFilters ->
-            viewModel.updateData(newFilters)
-        }
+        inFiltering = viewModel::updateData
     )
 }
 
