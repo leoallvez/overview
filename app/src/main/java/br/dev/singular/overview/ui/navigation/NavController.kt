@@ -1,5 +1,8 @@
 package br.dev.singular.overview.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,7 +37,11 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         composable(route = ScreenNav.Splash.route) {
             SplashScreen(navigate = SplashNavigate(navController))
         }
-        composable(route = ScreenNav.SelectStreaming.route) {
+        composable(
+            route = ScreenNav.SelectStreaming.route,
+            enterTransition = { onInAnimation() },
+            exitTransition = { onOutAnimation() }
+        ) {
             SelectStreamingScreen(navigate = SelectStreamingNavigate(navController))
         }
         composable(route = ScreenNav.Search.route) {
@@ -68,3 +75,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
     }
 }
+
+fun onInAnimation() = slideInHorizontally(animationSpec = tween(ANIMATION_DURATION_MILLIS))
+fun onOutAnimation() = slideOutHorizontally(animationSpec = tween(ANIMATION_DURATION_MILLIS))
+
+const val ANIMATION_DURATION_MILLIS = 450

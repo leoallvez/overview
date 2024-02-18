@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -43,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -258,7 +260,8 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
         },
-        width = 255.dp
+        width = 255.dp,
+        icon = painterResource(id = R.drawable.keyboard_arrow_right)
     )
 }
 
@@ -297,6 +300,7 @@ fun SelectButton(
     content: @Composable () -> Unit,
     width: Dp? = null,
     height: Dp = dimensionResource(R.dimen.streaming_item_small_size),
+    icon: Painter = painterResource(id = R.drawable.baseline_expand_more),
     isActive: Boolean = true
 ) {
     val color = if (isActive) AccentColor else Gray
@@ -315,11 +319,7 @@ fun SelectButton(
         ) {
             content.invoke()
             Box(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-                Icon(
-                    tint = color,
-                    painter = painterResource(id = R.drawable.baseline_expand_more),
-                    contentDescription = ""
-                )
+                Icon(tint = color, painter = icon, contentDescription = "")
             }
         }
     }
@@ -360,7 +360,7 @@ fun StreamingScreamTitle(title: String?) {
             modifier = Modifier.padding(
                 horizontal = dimensionResource(R.dimen.screen_padding),
                 vertical = dimensionResource(R.dimen.default_padding)
-            ),
+            ).widthIn(max = 170.dp),
             overflow = TextOverflow.Ellipsis
         )
     }
@@ -408,7 +408,7 @@ fun ClearFilter(
         Column(
             modifier = modifier
                 .fillMaxHeight()
-                .padding(bottom = dimensionResource(R.dimen.screen_padding)),
+                .padding(bottom = 30.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
             FilterButton(
