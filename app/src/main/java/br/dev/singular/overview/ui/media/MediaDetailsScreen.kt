@@ -5,6 +5,7 @@ import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -398,7 +399,8 @@ fun GenreItem(name: String) {
         colors = ButtonDefaults.buttonColors(
             contentColor = AccentColor,
             containerColor = AccentColor
-        )
+        ),
+        border = BorderStroke(dimensionResource(R.dimen.border_width), AccentColor)
     ) {
         Text(
             text = name,
