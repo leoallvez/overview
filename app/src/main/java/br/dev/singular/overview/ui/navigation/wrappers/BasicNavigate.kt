@@ -1,23 +1,23 @@
 package br.dev.singular.overview.ui.navigation.wrappers
 
 import androidx.navigation.NavController
-import br.dev.singular.overview.ui.navigation.onNavigateToMediaDetails
-import br.dev.singular.overview.ui.navigation.onNavigateToStreamingExplore
+import br.dev.singular.overview.ui.ScreenNav
 
-open class BasicNavigate(
-    private val navigation: NavController,
-    private val backstack: Boolean = false
-) {
+open class BasicNavigate(private val nav: NavController) {
 
-    fun toMediaDetails(apiId: Long, mediaType: String?, backstack: Boolean = false) =
-        onNavigateToMediaDetails(navigation, backstack)
-            .invoke(apiId, mediaType)
+    // TODO: remove long press parameter.
+    fun toMediaDetails(apiId: Long, mediaType: String?) {
+        nav.navigate(ScreenNav.MediaDetails.editRoute(apiId, mediaType))
+    }
+    fun popBackStack() = nav.popBackStack()
 
-    fun popBackStack() {
-        if (backstack) {
-            onNavigateToStreamingExplore(navigation).invoke()
-        } else {
-            navigation.popBackStack()
+    // TODO: user this with long press.
+    // https://stackoverflow.com/questions/76395349/jetpack-compose-android-button-detect-long-click
+    fun toExploreStreaming() {
+        nav.navigate(route = ScreenNav.ExploreStreaming.route) {
+            popUpTo(ScreenNav.Splash.route) {
+                inclusive = true
+            }
         }
     }
 }

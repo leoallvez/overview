@@ -3,9 +3,11 @@ package br.dev.singular.overview.ui
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -270,6 +272,7 @@ fun StylizedButton(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ButtonWithIcon(
     painter: ImageVector,
@@ -278,6 +281,7 @@ fun ButtonWithIcon(
     iconTint: Color = Color.White,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
     padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.screen_padding)),
+    onLongClick: () -> Unit = {},
     onClick: () -> Unit
 ) {
     Box(
@@ -286,7 +290,10 @@ fun ButtonWithIcon(
             .clip(CircleShape)
             .background(background)
             .size(40.dp)
-            .clickable { onClick.invoke() }
+            .combinedClickable(
+                onClick = onClick::invoke,
+                onLongClick = onLongClick::invoke
+            )
     ) {
         Icon(
             painter,
@@ -837,8 +844,10 @@ fun DisabledSearchToolBar(
                 background = Color.White.copy(alpha = 0.1f),
                 padding = PaddingValues(
                     vertical = dimensionResource(R.dimen.screen_padding)
-                )
-            ) { onBackstack.invoke() }
+                ),
+                onClick = onBackstack::invoke,
+                onLongClick = onBackstack::invoke
+            )
         }
         Box(Modifier.clickable { onToSearch.invoke() }) {
             SearchField(

@@ -4,12 +4,12 @@ import androidx.navigation.NavController
 import br.dev.singular.overview.ui.ScreenNav
 
 class ExploreStreamingNavigate(
-    private val navigation: NavController
-) : BasicNavigate(navigation, backstack = false) {
+    private val nav: NavController
+) : BasicNavigate(nav) {
 
-    fun toSearch() = navigation.navigate(route = ScreenNav.Search.route)
+    fun toSearch() = nav.navigate(route = ScreenNav.Search.route)
 
-    fun toLiked() = navigation.navigate(route = ScreenNav.Liked.route)
+    fun toLiked() = nav.navigate(route = ScreenNav.Liked.route)
 
-    fun toSelectStreaming() = navigation.navigate(route = ScreenNav.SelectStreaming.route)
+    fun toSelectStreaming() = nav.navigate(route = ScreenNav.SelectStreaming.route)
 }

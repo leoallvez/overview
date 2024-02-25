@@ -5,6 +5,7 @@ import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -144,7 +145,13 @@ fun MediaDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             state = rememberCollapsingToolbarScaffoldState(),
             toolbar = {
-                MediaToolBar(media, isLiked, onLikeClick) { navigate.popBackStack() }
+                MediaToolBar(
+                    media = media,
+                    isLiked = isLiked,
+                    onLikeClick = onLikeClick::invoke,
+                    onBackstackClick = navigate::popBackStack,
+                    onBackstackLongClick = navigate::toExploreStreaming
+                )
             }
         ) {
             MediaBody(media, showAds, navigate, onClickStreaming)
@@ -157,7 +164,8 @@ fun MediaToolBar(
     media: Media,
     isLiked: Boolean,
     onLikeClick: () -> Unit,
-    backButtonAction: () -> Unit
+    onBackstackClick: () -> Unit,
+    onBackstackLongClick: () -> Unit
 ) {
     Box(Modifier.fillMaxWidth()) {
         media.apply {
@@ -178,8 +186,11 @@ fun MediaToolBar(
                 ButtonWithIcon(
                     painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     descriptionResource = R.string.backstack_icon,
-                    modifier = Modifier.padding(dimensionResource(R.dimen.default_padding))
-                ) { backButtonAction.invoke() }
+                    modifier = Modifier.padding(dimensionResource(R.dimen.default_padding)),
+                    onClick = onBackstackClick::invoke,
+                    onLongClick = onBackstackLongClick::invoke
+
+                )
                 LikeButton(isLiked = isLiked, onLikeClick)
             }
         }
@@ -202,7 +213,7 @@ fun MediaBody(
     ) {
         StreamingOverview(media.streamings, media.isReleased()) { streaming ->
             onClickStreaming(streaming)
-            navigate.toStreamingExplore()
+            navigate.toExploreStreaming()
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())
@@ -225,13 +236,13 @@ fun MediaBody(
             isVisible = showAds
         )
         CastList(media.getOrderedCast()) { apiId ->
-            navigate.toCastDetails(apiId = apiId)
+            navigate.toPersonDetails(apiId = apiId)
         }
         MediaList(
             listTitle = stringResource(R.string.related),
             medias = media.getSimilarMedia()
         ) { apiId, mediaType ->
-            navigate.toMediaDetails(apiId = apiId, mediaType = mediaType, backstack = true)
+            navigate.toMediaDetails(apiId = apiId, mediaType = mediaType)
         }
     }
 }
@@ -388,7 +399,8 @@ fun GenreItem(name: String) {
         colors = ButtonDefaults.buttonColors(
             contentColor = AccentColor,
             containerColor = AccentColor
-        )
+        ),
+        border = BorderStroke(dimensionResource(R.dimen.border_width), AccentColor)
     ) {
         Text(
             text = name,
