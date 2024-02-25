@@ -2,9 +2,11 @@ package br.dev.singular.overview.data.source.streaming
 
 import br.dev.singular.overview.data.api.ApiService
 import br.dev.singular.overview.data.api.IApiLocale
+import br.dev.singular.overview.data.api.response.ErrorResponse
 import br.dev.singular.overview.data.api.response.ProviderResponse
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.cnradapter.invoke
 import javax.inject.Inject
 
 class StreamingRemoteDataSource @Inject constructor(
@@ -33,14 +35,15 @@ class StreamingRemoteDataSource @Inject constructor(
     }
 
     private fun mapToStreaming(
-        response: NetworkResponse.Success<ProviderResponse>,
+        response: NetworkResponse<ProviderResponse, ErrorResponse>,
         region: String
     ): List<StreamingEntity> {
-        val resultsMap = response.body.results
-        val entries = resultsMap.filter { it.key == region }.entries
+
+        val results = response.invoke()?.results ?: mapOf()
+        val entries = results.filter { it.key == region }.entries
         return if (entries.isNotEmpty()) {
-            entries.first().value.getOrderedFlatRate()
-        } else {
+            entries.first().value.getOrderedFlatRate() }
+        else {
             emptyList()
         }
     }
