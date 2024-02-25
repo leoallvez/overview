@@ -38,12 +38,11 @@ class StreamingRemoteDataSource @Inject constructor(
         response: NetworkResponse<ProviderResponse, ErrorResponse>,
         region: String
     ): List<StreamingEntity> {
-
         val results = response.invoke()?.results ?: mapOf()
         val entries = results.filter { it.key == region }.entries
         return if (entries.isNotEmpty()) {
-            entries.first().value.getOrderedFlatRate() }
-        else {
+            entries.first().value.getOrderedFlatRate()
+        } else {
             emptyList()
         }
     }
