@@ -1,11 +1,12 @@
 package br.dev.singular.overview.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,6 +28,8 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
+typealias AnimatedTransition = AnimatedContentTransitionScope<NavBackStackEntry>
+
 @Composable
 fun NavController(navController: NavHostController = rememberNavController()) {
     NavHost(
@@ -39,8 +42,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = ScreenNav.SelectStreaming.route,
-            enterTransition = { onInAnimation() },
-            exitTransition = { onOutAnimation() }
+            enterTransition = { makeEnterTransition() },
+            exitTransition = { makeExitTransition() }
         ) {
             SelectStreamingScreen(navigate = SelectStreamingNavigate(navController))
         }
@@ -49,7 +52,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = ScreenNav.MediaDetails.route,
-            arguments = listOf(NavArg.ID, NavArg.TYPE, NavArg.BACKSTACK)
+            arguments = listOf(NavArg.ID, NavArg.TYPE, NavArg.BACKSTACK),
+            exitTransition = { makeExitTransition() }
         ) { navBackStackEntry ->
             MediaDetailsScreen(
                 params = navBackStackEntry.getParams(),
@@ -58,7 +62,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = ScreenNav.PersonDetails.route,
-            arguments = listOf(NavArg.ID)
+            arguments = listOf(NavArg.ID),
+            exitTransition = { makeExitTransition() }
         ) { navBackStackEntry ->
             PersonDetailsScreen(
                 apiId = navBackStackEntry.getApiId(),
@@ -76,7 +81,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     }
 }
 
-fun onInAnimation() = slideInHorizontally(animationSpec = tween(ANIMATION_DURATION_MILLIS))
-fun onOutAnimation() = slideOutHorizontally(animationSpec = tween(ANIMATION_DURATION_MILLIS))
+fun AnimatedTransition.makeEnterTransition(duration: Int = 700) =
+    slideIntoContainer(SlideDirection.Start, tween(duration))
 
-const val ANIMATION_DURATION_MILLIS = 450
+fun AnimatedTransition.makeExitTransition(duration: Int = 300) =
+    slideOutOfContainer(SlideDirection.End, tween(duration))
