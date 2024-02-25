@@ -28,7 +28,7 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
-typealias AnimatedTransition = AnimatedContentTransitionScope<NavBackStackEntry>
+private typealias AnimatedTransition = AnimatedContentTransitionScope<NavBackStackEntry>
 
 @Composable
 fun NavController(navController: NavHostController = rememberNavController()) {
@@ -81,8 +81,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     }
 }
 
-fun AnimatedTransition.makeEnterTransition(duration: Int = 700) =
+private fun AnimatedTransition.makeEnterTransition(duration: Int = 700) =
     slideIntoContainer(SlideDirection.Start, tween(duration))
 
-fun AnimatedTransition.makeExitTransition(duration: Int = 300) =
+private fun AnimatedTransition.makeExitTransition(duration: Int = 300) =
     slideOutOfContainer(SlideDirection.End, tween(duration))
