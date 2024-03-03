@@ -87,6 +87,7 @@ import br.dev.singular.overview.util.toJson
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import timber.log.Timber
 
 @Composable
 fun MediaDetailsScreen(
@@ -122,6 +123,7 @@ fun MediaDetailsScreen(
             onRefresh = onRefresh,
             onLikeClick = onLike
         ) { streaming ->
+            Timber.tag("stream_view").i(message = "streaming: $streaming")
             viewModel.saveSelectedStream(streaming.toJson())
         }
     }
