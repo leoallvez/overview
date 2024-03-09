@@ -1,0 +1,184 @@
+[
+  {
+    "display_priority": 1,
+    "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+    "provider_id": 8,
+    "provider_name": "Netflix",
+    "selected": true
+  },
+  {
+    "display_priority": 2,
+    "logo_path": "/oBoWstXQFHAlPApyxIQ31CIbNQk.jpg",
+    "provider_id": 307,
+    "provider_name": "Globoplay",
+    "selected": true
+  },
+  {
+    "display_priority": 3,
+    "logo_path": "/7rwgEs15tFwyR9NPQ5vpzxTj19Q.jpg",
+    "provider_id": 337,
+    "provider_name": "Disney+",
+    "selected": true
+  },
+  {
+    "display_priority": 4,
+    "logo_path": "/fksCUZ9QDWZMUwL2LgMtLckROUN.jpg",
+    "provider_id": 1899,
+    "provider_name": "Max",
+    "selected": true
+  },
+  {
+    "display_priority": 5,
+    "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+    "provider_id": 119,
+    "provider_name": "Prime Video",
+    "selected": true
+  },
+  {
+    "display_priority": 6,
+    "logo_path": "/hR9vWd8hWEVQKD6eOnBneKRFEW3.jpg",
+    "provider_id": 619,
+    "provider_name": "Star+",
+    "selected": true
+  },
+  {
+    "display_priority": 7,
+    "logo_path": "/5jdN9E9Ftxxbg711crjOyCagTy8.jpg",
+    "provider_id": 227,
+    "provider_name": "Telecine",
+    "selected": true
+  },
+  {
+    "display_priority": 8,
+    "logo_path": "/xbhHHa1YgtpwhC8lb1NQ3ACVcLd.jpg",
+    "provider_id": 531,
+    "provider_name": "Paramount+",
+    "selected": true
+  },
+  {
+    "display_priority": 9,
+    "logo_path": "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
+    "provider_id": 350,
+    "provider_name": "Apple TV+",
+    "selected": false
+  },
+  {
+    "display_priority": 10,
+    "logo_path": "/8Gt1iClBlzTeQs8WQm8UrCoIxnQ.jpg",
+    "provider_id": 283,
+    "provider_name": "Crunchyroll",
+    "selected": false
+  },
+  {
+    "display_priority": 11,
+    "logo_path": "/bVR4Z1LCHY7gidXAJF5pMa4QrDS.jpg",
+    "provider_id": 11,
+    "provider_name": "MUBI",
+    "selected": false
+  },
+  {
+    "display_priority": 12,
+    "logo_path": "/ytSbyHt45x7igOgC8GVzR7RLJVo.jpg",
+    "provider_id": 1790,
+    "provider_name": "Lionsgate+",
+    "selected": false
+  },
+  {
+    "display_priority": 15,
+    "logo_path": "/mPDlxHokGsEc84OOhp9qjeynq2U.jpg",
+    "provider_id": 47,
+    "provider_name": "Looke",
+    "selected": false
+  },
+  {
+    "display_priority": 16,
+    "logo_path": "/cQQYtdaCg7vDo28JPru4v8Ypi8x.jpg",
+    "provider_id": 484,
+    "provider_name": "NOW",
+    "selected": false
+  },
+  {
+    "display_priority": 17,
+    "logo_path": "/xbdgLcQ6kRrcVe1uJAG9lzlkSbY.jpg",
+    "provider_id": 574,
+    "provider_name": "Oi Play",
+    "selected": false
+  },
+  {
+    "display_priority": 18,
+    "logo_path": "/lJT7r1nprk1Z8t1ywiIa8h9d3rc.jpg",
+    "provider_id": 167,
+    "provider_name": "Claro Video",
+    "selected": false
+  },
+  {
+    "display_priority": 19,
+    "logo_path": "/1bbExrGyEuUFAEWMBSN76bwacQ0.jpg",
+    "provider_id": 499,
+    "provider_name": "Oldflix",
+    "selected": false
+  },
+  {
+    "display_priority": 20,
+    "logo_path": "/xfAAOAERZCnPB5jW5lhboAcXk8L.jpg",
+    "provider_id": 464,
+    "provider_name": "Kocowa",
+    "selected": false
+  },
+  {
+    "display_priority": 24,
+    "logo_path": "/dUokaRky9vs1u2PFRzFDV4iIx6A.jpg",
+    "provider_id": 512,
+    "provider_name": "TNTGo",
+    "selected": false
+  },
+  {
+    "display_priority": 25,
+    "logo_path": "/gekkP93StjYdiMAInViVmrnldNY.jpg",
+    "provider_id": 551,
+    "provider_name": "Magellan TV",
+    "selected": false
+  },
+  {
+    "display_priority": 26,
+    "logo_path": "/9pdeflA0P1b8qlkeDA1oLfyvR06.jpg",
+    "provider_id": 1853,
+    "provider_name": "Paramount+ na Apple TV",
+    "selected": false
+  },
+  {
+    "display_priority": 27,
+    "logo_path": "/3E0RkIEQrrGYazs63NMsn3XONT6.jpg",
+    "provider_id": 582,
+    "provider_name": "Paramount+ no Prime Video",
+    "selected": false
+  },
+  {
+    "display_priority": 28,
+    "logo_path": "/x36C6aseF5l4uX99Kpse9dbPwBo.jpg",
+    "provider_id": 194,
+    "provider_name": "Starz Play no Prime Video",
+    "selected": false
+  },
+  {
+    "display_priority": 29,
+    "logo_path": "/4FqTBYsUSZgS9z9UGKgxSDBbtc8.jpg",
+    "provider_id": 701,
+    "provider_name": "FilmBox+",
+    "selected": false
+  },
+  {
+    "display_priority": 30,
+    "logo_path": "/fy4svqyray3cnkuEqGIXL3i2WQw.jpg",
+    "provider_id": 447,
+    "provider_name": "Belas Artes à La Carte",
+    "selected": false
+  },
+  {
+    "display_priority": 42,
+    "logo_path": "/gzHzhgt6cVSn4yy6UnJvLGbOSwL.jpg",
+    "provider_id": 573,
+    "provider_name": "KinoPop",
+    "selected": false
+  }
+]

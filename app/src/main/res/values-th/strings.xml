@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Dynamic -->
+    <string name="movie_top_rated" tools:ignore="UnusedResources">ภาพยนตร์ยอดนิยม</string>
+
+    <string name="discover_movie" tools:ignore="UnusedResources">ภาพยนตร์ที่คุณสามารถเพลิดเพลินได้</string>
+
+    <string name="movie_trending" tools:ignore="UnusedResources">ภาพยนตร์ที่กำลังมาแรง</string>
+
+    <string name="movie_popular" tools:ignore="UnusedResources">ภาพยนตร์ยอดนิยม</string>
+
+    <string name="tv_top_rated" tools:ignore="UnusedResources">เรตติ้งสูงสุดในการสตรีมมิ่ง</string>
+
+    <string name="discover_tv" tools:ignore="UnusedResources">คุณสามารถเพลิดเพลินกับการสตรีมได้</string>
+
+    <string name="tv_trending" tools:ignore="UnusedResources">สตรีมมิ่งแนวโน้ม</string>
+
+    <string name="tv_popular" tools:ignore="UnusedResources">เป็นที่นิยมในการสตรีมมิ่ง</string>
+
+    <!-- Genre -->
+
+    <string name="genre_10759" tools:ignore="UnusedResources" />
+
+    <string name="genre_10762" tools:ignore="UnusedResources" />
+
+    <string name="genre_10763" tools:ignore="UnusedResources" />
+
+    <string name="genre_10764" tools:ignore="UnusedResources" />
+
+    <string name="genre_10765" tools:ignore="UnusedResources" />
+
+    <string name="genre_10766" tools:ignore="UnusedResources" />
+
+    <string name="genre_10767" tools:ignore="UnusedResources" />
+
+    <string name="genre_10768" tools:ignore="UnusedResources" />
+
+    <string name="error_on_loading">เกิดข้อผิดพลาดในการโหลด :(</string>
+
+    <string name="btn_try_again">ลองอีกครั้ง</string>
+
+    <string name="refresh_icon">ไอคอนโหลดซ้ำ</string>
+
+    <string name="backstack_icon">ไอคอนกลับบ้าน</string>
+
+    <string name="search_icon">ค้นหาไอคอน</string>
+
+    <string name="search_clean_icon">ล้างไอคอนการค้นหา</string>
+
+    <string name="app_offline_msg">ไม่มีการเชื่อมต่ออินเทอร์เน็ต</string>
+
+    <string name="loading">กำลังโหลด…</string>
+
+    <string name="synopsis">เรื่องย่อ</string>
+
+    <string name="biography">ชีวประวัติ</string>
+
+    <string name="cast">หล่อ</string>
+
+    <string name="related">ที่เกี่ยวข้อง</string>
+
+    <string name="where_to_watch">ผู้ให้บริการ</string>
+
+    <string name="separator">•</string>
+
+    <string name="em_dash">- -</string>
+
+    <string name="tv_shows_participation">การมีส่วนร่วมทางทีวี</string>
+
+    <string name="movies_participation">การเข้าร่วมภาพยนตร์</string>
+
+    <string name="age">%s ปี</string>
+
+    <string name="place_of_birth">สถานที่เกิด</string>
+
+    <string name="one_season">1 ฤดูกาล</string>
+
+    <string name="n_seasons">%s ซีซัน</string>
+
+    <string name="one_episode">1 ตอน</string>
+
+    <string name="n_episodes">%s ตอน</string>
+
+    <string name="runtime_per_episode">รันไทม์: %s ต่อตอน</string>
+
+    <string name="director">ผู้อำนวยการ</string>
+
+    <string name="release_date">วันที่วางจำหน่าย</string>
+
+    <string name="runtime">รันไทม์</string>
+
+    <string name="search_field_text">ค้นหา</string>
+
+    <string name="movies">ภาพยนตร์</string>
+
+    <string name="tv_show">รายการโทรทัศน์</string>
+
+    <string name="all">ภาพยนตร์และรายการทีวี</string>
+
+    <string name="search_not_started">ผลการค้นหาจะปรากฏที่นี่ :)</string>
+
+    <string name="search_result_empty">ไม่พบผลลัพธ์ :(</string>
+
+    <string name="empty_list_providers">ไม่สามารถใช้ได้กับสตรีมมิ่ง</string>
+
+    <string name="not_yet_released">ยังไม่ปล่อย</string>
+
+    <string name="edit">แก้ไข</string>
+
+    <string name="yours_streaming">สตรีมมิงของคุณ</string>
+
+    <string name="search_in_all_places">ค้นหาทุกที่</string>
+
+    <string name="genres">ประเภท</string>
+
+    <string name="type">พิมพ์</string>
+
+    <string name="filters">ตัวกรอง</string>
+
+    <string name="close">เพื่อปิดไอคอน</string>
+
+    <string name="not_found">ไม่พบผลลัพธ์ :(</string>
+
+    <string name="check_filters">ตรวจสอบตัวกรองแล้วลองอีกครั้ง</string>
+
+    <string name="clear_filters">ล้างตัวกรอง</string>
+
+    <string name="main_steams">กระแสหลัก</string>
+
+    <string name="favorite_streams">สตรีมที่ชื่นชอบ</string>
+
+    <string name="other_streams">สตรีมอื่น ๆ</string>
+
+    <string name="streaming">สตรีมมิ่ง</string>
+
+    <string name="like_button">ไอคอนถูกใจ</string>
+
+    <string name="liked_not_found">รายการโปรดของคุณจะปรากฏที่นี่ :)</string>
+
+    <string name="liked_movie_not_found">หนังที่คุณชื่นชอบจะปรากฏที่นี่ :)</string>
+
+    <string name="liked_tv_show_not_found">ซีรีส์ที่คุณชื่นชอบจะปรากฏที่นี่ :)</string>
+
+    <string name="my_favorite">รายการโปรดของฉัน</string>
+
+</resources>
