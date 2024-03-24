@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -77,7 +78,7 @@ fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectS
 fun StreamingGrid(streaming: StreamingData, onClick: (String) -> Unit) {
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
-        modifier = Modifier.background(PrimaryBackground),
+        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
         columns = GridCells.Fixed(count = STREAMING_GRID_COLUMNS),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)
