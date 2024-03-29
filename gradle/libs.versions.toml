@@ -5,7 +5,7 @@ firebase-crashlytics-gradle = "2.9.9"
 google-services = "4.4.1"
 gradle = "8.3.1"
 hilt-android-gradle-plugin = "2.46.1"
-kotlin-gradle-plugin = "1.9.23"
+kotlin-gradle-plugin = "1.7.20"
 ktlint-gradle = "11.5.1"
 min-sdk = "21"
 target-sdk = "33"
@@ -45,7 +45,7 @@ work-runtime-ktx = "2.8.1"
 appcompat = "1.6.1"
 androidx-core = "1.12.0"
 firebase-bom = "32.3.1"
-ksp = "1.9.23-1.0.19"
+ksp = "1.7.20-1.0.8"
 
 [libraries]
 # Compose
