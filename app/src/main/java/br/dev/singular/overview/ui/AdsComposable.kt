@@ -28,8 +28,8 @@ fun AdsBanner(
     isVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Column {
-        if (isVisible) {
+    if (isVisible) {
+        Column {
             AndroidView(
                 modifier = modifier
                     .fillMaxWidth()
@@ -45,8 +45,8 @@ fun AdsBanner(
                     }
                 }
             )
+            AppVersion()
         }
-        AppVersion()
     }
 }
 
