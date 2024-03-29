@@ -42,13 +42,6 @@
     "selected": true
   },
   {
-    "display_priority": 7,
-    "logo_path": "/5jdN9E9Ftxxbg711crjOyCagTy8.jpg",
-    "provider_id": 227,
-    "provider_name": "Telecine",
-    "selected": true
-  },
-  {
     "display_priority": 8,
     "logo_path": "/xbhHHa1YgtpwhC8lb1NQ3ACVcLd.jpg",
     "provider_id": 531,
@@ -60,7 +53,7 @@
     "logo_path": "/6uhKBfmtzFqOcLousHwZuzcrScK.jpg",
     "provider_id": 350,
     "provider_name": "Apple TV+",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 10,
