@@ -2,14 +2,14 @@ package br.dev.singular.overview.di
 
 import javax.inject.Qualifier
 
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class DefaultDispatcher
 
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class IoDispatcher
 
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class MainDispatcher

@@ -23,7 +23,8 @@ buildscript {
 
 // Apply plugins
 plugins {
-    alias(libs.plugins.ksp) apply false // Apply KSP plugin with apply false
+    alias(libs.plugins.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 // Custom clean task

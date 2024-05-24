@@ -1,26 +1,24 @@
 [versions]
 
-compile-sdk = "34"
-firebase-crashlytics-gradle = "2.9.9"
-google-services = "4.4.1"
+kotlin = "2.0.0"
+hilt = "2.47"
 gradle = "8.3.1"
-hilt-android-gradle-plugin = "2.46.1"
-kotlin-gradle-plugin = "1.7.20"
+google-services = "4.4.1"
 ktlint-gradle = "11.5.1"
+firebase-crashlytics-gradle = "2.9.9"
+
 min-sdk = "21"
 target-sdk = "33"
+compile-sdk = "34"
 version-code = "20000"
 version-name = "2.0.0"
 
-gradle-plugin = "1.7.20"
 compose-bom = "2024.03.00"
-activity-compose = "1.8.2"
 accompanist = "0.30.1"
 androidx-junit = "1.1.5"
 coil-compose = "2.4.0"
 datastore-preferences = "1.0.0"
 espresso-core = "3.5.1"
-hilt = "2.46.1"
 hilt-android = "2.47"
 hilt-navigation-compose = "1.0.0"
 junit = "4.13.2"
@@ -37,7 +35,7 @@ paging-compose = "3.2.1"
 paging-runtime-ktx = "3.2.1"
 play-services-ads = "23.0.0"
 retrofit = "2.9.0"
-room = "2.5.2"
+room = "2.6.1"
 timber = "5.0.1"
 toolbar-compose = "2.3.5"
 ui-test-junit4 = "1.7.0-alpha05"
@@ -45,7 +43,6 @@ work-runtime-ktx = "2.8.1"
 appcompat = "1.6.1"
 androidx-core = "1.12.0"
 firebase-bom = "32.3.1"
-ksp = "1.7.20-1.0.8"
 
 [libraries]
 # Compose
@@ -56,7 +53,6 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime" }
-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 # Lifecycle
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
@@ -112,14 +108,17 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 remote-config-ktx = { module = "com.google.firebase:firebase-config-ktx" }
 crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
-# Classpath
+# Outher
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
 google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-android-gradle-plugin" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
 
 [plugins]
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 
