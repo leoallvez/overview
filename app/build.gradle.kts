@@ -18,8 +18,8 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp")
     id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -132,10 +132,6 @@ android {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
-
 dependencies {
     // Compose
     implementation(platform(libs.compose.bom))
@@ -165,7 +161,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
-    ksp(libs.room.compiler)
+    kapt(libs.room.compiler)
 
     // Paging
     implementation(libs.paging.runtime.ktx)
