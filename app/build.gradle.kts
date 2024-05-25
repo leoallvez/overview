@@ -1,16 +1,6 @@
 import com.android.build.api.dsl.ApplicationProductFlavor
 import com.android.build.api.dsl.VariantDimension
 
-// extensions
-fun VariantDimension.stringField(name: String, value: String?) {
-    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
-}
-
-fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue(type = "string", name = "app_name", value = "@string/$appName")
-}
-
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -207,4 +197,13 @@ dependencies {
 
     // Debug-specific dependencies
     debugImplementation(libs.compose.tooling)
+}
+
+// extensions
+fun VariantDimension.stringField(name: String, value: String?) {
+    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
+}
+
+fun ApplicationProductFlavor.setAppName(appName: String) {
+    resValue(type = "string", name = "app_name", value = "@string/$appName")
 }
