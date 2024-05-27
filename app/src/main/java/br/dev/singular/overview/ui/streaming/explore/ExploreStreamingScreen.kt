@@ -115,7 +115,7 @@ fun ExploreStreamingContent(
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipHalfExpanded = true,
-        initialValue = ModalBottomSheetValue.Hidden,
+        initialValue = ModalBottomSheetValue.Hidden
     )
     val scope = rememberCoroutineScope()
 
