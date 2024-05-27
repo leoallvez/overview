@@ -1,9 +1,6 @@
 package br.dev.singular.overview.ui.streaming.explore
 
-import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -118,34 +115,20 @@ fun ExploreStreamingContent(
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipHalfExpanded = true,
-        initialValue = ModalBottomSheetValue.Hidden,
-        animationSpec = TweenSpec(durationMillis = 350, delay = 350),
-        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded }
+        initialValue = ModalBottomSheetValue.Hidden
     )
+    val scope = rememberCoroutineScope()
 
-    val coroutineScope = rememberCoroutineScope()
-
-    BackHandler(sheetState.isVisible) {
-        coroutineScope.launch { sheetState.hide() }
-    }
-
-    val closeFilterBottomSheet = {
-        coroutineScope.launch {
-            if (sheetState.isVisible) {
-                sheetState.hide()
-            } else {
-                sheetState.show()
-            }
+    val toggleSheetState = {
+        scope.launch {
+            with(sheetState) { if (isVisible) hide() else show() }
         }
-        Unit
     }
-    // TODO: migrate this for material3
+
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            AnimatedVisibility(visible = sheetState.isVisible) {
-                FilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
-            }
+            FilterBottomSheet(filters, genres, { toggleSheetState.invoke() }, inFiltering)
         },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -159,7 +142,7 @@ fun ExploreStreamingContent(
                     filters = filters,
                     genres = genres,
                     navigate = navigate,
-                    onFilter = closeFilterBottomSheet
+                    onFilter = { toggleSheetState.invoke() }
                 )
             },
             bottomBar = {
