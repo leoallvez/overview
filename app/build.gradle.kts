@@ -1,16 +1,6 @@
 import com.android.build.api.dsl.ApplicationProductFlavor
 import com.android.build.api.dsl.VariantDimension
 
-// extensions
-fun VariantDimension.stringField(name: String, value: String?) {
-    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
-}
-
-fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue(type = "string", name = "app_name", value = "@string/$appName")
-}
-
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -18,8 +8,9 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp")
     id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -132,10 +123,6 @@ android {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
-
 dependencies {
     // Compose
     implementation(platform(libs.compose.bom))
@@ -158,7 +145,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 
     // Room
@@ -210,4 +197,13 @@ dependencies {
 
     // Debug-specific dependencies
     debugImplementation(libs.compose.tooling)
+}
+
+// extensions
+fun VariantDimension.stringField(name: String, value: String?) {
+    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
+}
+
+fun ApplicationProductFlavor.setAppName(appName: String) {
+    resValue(type = "string", name = "app_name", value = "@string/$appName")
 }
