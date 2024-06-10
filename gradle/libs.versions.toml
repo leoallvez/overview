@@ -5,7 +5,7 @@ hilt = "2.47"
 gradle = "8.4.1"
 google-services = "4.4.1"
 ktlint-gradle = "11.5.1"
-firebase-crashlytics-gradle = "3.0.1"
+firebase-crashlytics-gradle = "2.9.9"
 
 min-sdk = "21"
 target-sdk = "33"
