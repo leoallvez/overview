@@ -23,8 +23,8 @@ plugins {
 }
 
 android {
-    val id = "br.dev.singular.overview"
-    namespace = id
+    val id = "br.com.deepbyte.overview"
+    namespace = "br.dev.singular.overview"
     compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
         applicationId = id
