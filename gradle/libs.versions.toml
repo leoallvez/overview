@@ -8,44 +8,11 @@ version-code = "200"
 version-name = "2.0.0"
 jvm-target = "11"
 
-# Kotlin
-kotlin = "2.1.20"
-kotlin-gradle-plugin = "1.9.22"
-compose-compiler = "2.1.20"
-
-# Android Core
-agp = "8.9.2"
-core-ktx = "1.15.0"
-appcompat = "1.7.0"
-material = "1.12.0"
-
-# Compose
-compose-bom = "2025.04.01"
-navigation-compose = "2.8.9"
-paging-compose = "3.3.6"
-activity-compose = "1.10.1"
-
-# Lifecycle and Work
-lifecycle = "2.8.7"
-work-runtime-ktx = "2.8.1"
-
-# Hilt
-hilt = "2.55"
-hilt-navigation-compose = "1.2.0"
-
-# Room
-room = "2.7.1"
-paging-runtime-ktx = "3.3.4"
-
-# Firebase
-firebase-bom = "33.13.0"
-
-# Network
-retrofit = "2.9.0"
-logging-interceptor = "4.11.0"
-network-response-adapter = "4.2.1"
-
-# UI
+gradle-plugin = "1.7.20"
+compose-bom = "2024.03.00"
+activity-compose = "1.8.2"
+accompanist = "0.30.1"
+androidx-junit = "1.2.1"
 coil-compose = "2.4.0"
 toolbar-compose = "2.3.5"
 progress-indicator = "0.2.0"
