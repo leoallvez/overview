@@ -101,20 +101,20 @@ In addition to this, the project aims to gather valuable insights into UI/UX and
 ## Setup
 
 This project contains environment variables that streamline the compilation process in the 
-**homologation** and **production** environments (HOMOL and PROD) for the Overview Android project.
+**homologation** and **production** environments (HMG and PRD) for the Overview Android project.
 These variables encompass the API key, signature flags, and key storage information for different
 environments.
 
-| Environment Variables  | Description                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| `OVER_TMDB_API_KEY`    | API key for [**TMDB API**][50]                                              |
-| `OVER_ACTIVE_SIGNING`  | Boolean Flag to activate or not App Signing, value is **true** or **false** |
-| `OVER_PROD_KEYSTORE`   | **Production** keystore file path                                           |
-| `OVER_PROD_PASSWORD`   | Password for **production** keystore                                        |
-| `OVER_PROD_KEY_ALIAS`  | Key alias for **production** keystore                                       |
-| `OVER_HOMOL_KEYSTORE`  | **Homologation** keystore file path                                         |
-| `OVER_HOMOL_PASSWORD`  | Password for **homologation** keystore                                      |
-| `OVER_HOMOL_KEY_ALIAS` | Key alias for **homologation** keystore                                     |
+| Environment Variables | Description                                                                 |
+|-----------------------|-----------------------------------------------------------------------------|
+| `OVER_API_KEY`        | API key for [**TMDB API**][50]                                              |
+| `OVER_ACTIVE_SIGNING` | Boolean Flag to activate or not App Signing, value is **true** or **false** |
+| `OVER_PRD_KEYSTORE`   | **Production** keystore file path                                           |
+| `OVER_PRD_PASSWORD`   | Password for **production** keystore                                        |
+| `OVER_PRD_KEY_ALIAS`  | Key alias for **production** keystore                                       |
+| `OVER_HMG_KEYSTORE`   | **Homologation** keystore file path                                         |
+| `OVER_HMG_PASSWORD`   | Password for **homologation** keystore                                      |
+| `OVER_HMG_KEY_ALIAS`  | Key alias for **homologation** keystore                                     |
 
 [50]: https://developers.themoviedb.org/3/getting-started/introduction
 
@@ -133,16 +133,16 @@ operating systems.
 
 ```bat
 
-setx OVER_TMDB_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
+setx OVER_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
 setx OVER_ACTIVE_SIGNING true
 
-setx OVER_PROD_KEYSTORE "C:\\Keystores\\overview\\prod\\prod_keystore.jks"
-setx OVER_PROD_PASSWORD "set_here_your_password_value"
-setx OVER_PROD_KEY_ALIAS "upload"
+setx OVER_PRD_KEYSTORE "C:\\Keystores\\overview\\prd\\prd_keystore.jks"
+setx OVER_PRD_PASSWORD "set_here_your_password_value"
+setx OVER_PRD_KEY_ALIAS "upload"
 
-setx OVER_HOMOL_KEYSTORE "C:\\Keystore\\overview\\homol\\homol_keystore.jks"
-setx OVER_HOMOL_PASSWORD "set_here_your_password_value"
-setx OVER_HOMOL_KEY_ALIAS "upload"
+setx OVER_HMG_KEYSTORE "C:\\Keystore\\overview\\hmg\\hmg_keystore.jks"
+setx OVER_HMG_PASSWORD "set_here_your_password_value"
+setx OVER_HMG_KEY_ALIAS "upload"
 
 ```
 
@@ -153,16 +153,16 @@ setx OVER_HOMOL_KEY_ALIAS "upload"
 ```bash
 #!/bin/bash
 
-export OVER_TMDB_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
+export OVER_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
 export OVER_ACTIVE_SIGNING=true
 
-export OVER_PROD_KEYSTORE="~/Keystores/overview/prod/prod_keystore.jks"
-export OVER_PROD_PASSWORD="set_here_your_password_value"
-export OVER_PROD_KEY_ALIAS="upload"
+export OVER_PRD_KEYSTORE="~/Keystores/overview/prd/prd_keystore.jks"
+export OVER_PRD_PASSWORD="set_here_your_password_value"
+export OVER_PRD_KEY_ALIAS="upload"
 
-export OVER_HOMOL_KEYSTORE="~/Keystores/overview/homol/homol_keystore.jks"
-export OVER_HOMOL_PASSWORD="set_here_your_password_value"
-export OVER_HOMOL_KEY_ALIAS="upload"
+export OVER_HMG_KEYSTORE="~/Keystores/overview/hmg/hmg_keystore.jks"
+export OVER_HMG_PASSWORD="set_here_your_password_value"
+export OVER_HMG_KEY_ALIAS="upload"
 
 ```
 
