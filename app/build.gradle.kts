@@ -57,13 +57,13 @@ android {
     if (activeSigning) {
         // Signing configurations for different environments
         signingConfigs {
-            create("prod") {
+            create("prd") {
                 storeFile = rootProject.file(System.getenv("OVER_PROD_KEYSTORE"))
                 storePassword = System.getenv("OVER_PROD_PASSWORD")
                 keyAlias = System.getenv("OVER_PROD_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_PROD_PASSWORD")
             }
-            create("homol") {
+            create("hmg") {
                 storeFile = rootProject.file(System.getenv("OVER_HOMOL_KEYSTORE"))
                 storePassword = System.getenv("OVER_HOMOL_PASSWORD")
                 keyAlias = System.getenv("OVER_HOMOL_KEY_ALIAS")
@@ -100,13 +100,13 @@ android {
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-homol"
             if (activeSigning) {
-                signingConfig = signingConfigs.getByName(name = "homol")
+                signingConfig = signingConfigs.getByName(name = "hmg")
             }
         }
         create("prod") {
             setAppName(appName = "app_name_prod")
             if (activeSigning) {
-                signingConfig = signingConfigs.getByName(name = "prod")
+                signingConfig = signingConfigs.getByName(name = "prd")
             }
         }
     }
