@@ -27,7 +27,7 @@ data class Person(
     @field:Json(name = "movie_credits")
     private val movies: MediaCredits<Movie> = MediaCredits()
 ) {
-    fun getProfileImage() = "${BuildConfig.TMDB_IMG_URL}/$profilePath"
+    fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
     fun getFilmography() = movies.items
     fun getTvShows() = tvShows.items
     fun getFormattedBirthday() = DateHelper(birthday).formattedDate()

@@ -44,9 +44,9 @@ android {
             }
         }
         // API keys and URLs
-        stringField(name = "TMDB_API_KEY", value = System.getenv("OVER_TMDB_API_KEY"))
-        stringField(name = "TMDB_API_URL", value = "https://api.themoviedb.org/3/")
-        stringField(name = "TMDB_IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
+        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
+        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
 
         // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
@@ -58,16 +58,16 @@ android {
         // Signing configurations for different environments
         signingConfigs {
             create("prd") {
-                storeFile = rootProject.file(System.getenv("OVER_PROD_KEYSTORE"))
+                storeFile = rootProject.file(System.getenv("OVER_PRD_KEYSTORE"))
                 storePassword = System.getenv("OVER_PROD_PASSWORD")
                 keyAlias = System.getenv("OVER_PROD_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_PROD_PASSWORD")
             }
             create("hmg") {
-                storeFile = rootProject.file(System.getenv("OVER_HOMOL_KEYSTORE"))
-                storePassword = System.getenv("OVER_HOMOL_PASSWORD")
-                keyAlias = System.getenv("OVER_HOMOL_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
+                storeFile = rootProject.file(System.getenv("OVER_HMG_KEYSTORE"))
+                storePassword = System.getenv("OVER_HMG_PASSWORD")
+                keyAlias = System.getenv("OVER_HMG_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_HMG_PASSWORD")
             }
         }
     }
@@ -94,17 +94,17 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
         }
-        create("homol") {
-            setAppName(appName = "app_name_homol")
+        create("hmg") {
+            setAppName(appName = "app_name_hmg")
             dimension = "version"
             applicationIdSuffix = ".homol"
-            versionNameSuffix = "-homol"
+            versionNameSuffix = "-hmg"
             if (activeSigning) {
                 signingConfig = signingConfigs.getByName(name = "hmg")
             }
         }
-        create("prod") {
-            setAppName(appName = "app_name_prod")
+        create("prd") {
+            setAppName(appName = "app_name_prd")
             if (activeSigning) {
                 signingConfig = signingConfigs.getByName(name = "prd")
             }
