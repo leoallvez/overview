@@ -23,11 +23,11 @@ plugins {
 }
 
 android {
-    val id = "br.dev.singular.overview"
-    namespace = id
+    val appId = "br.dev.singular.overview"
+    namespace = appId
     compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
-        applicationId = id
+        applicationId = appId
         minSdk = libs.versions.min.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
@@ -44,9 +44,9 @@ android {
             }
         }
         // API keys and URLs
-        stringField(name = "TMDB_API_KEY", value = System.getenv("OVER_TMDB_API_KEY"))
-        stringField(name = "TMDB_API_URL", value = "https://api.themoviedb.org/3/")
-        stringField(name = "TMDB_IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
+        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
+        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
 
         // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
@@ -57,17 +57,17 @@ android {
     if (activeSigning) {
         // Signing configurations for different environments
         signingConfigs {
-            create("prod") {
-                storeFile = rootProject.file(System.getenv("OVER_PROD_KEYSTORE"))
+            create("prd") {
+                storeFile = rootProject.file(System.getenv("OVER_PRD_KEYSTORE"))
                 storePassword = System.getenv("OVER_PROD_PASSWORD")
                 keyAlias = System.getenv("OVER_PROD_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_PROD_PASSWORD")
             }
-            create("homol") {
-                storeFile = rootProject.file(System.getenv("OVER_HOMOL_KEYSTORE"))
-                storePassword = System.getenv("OVER_HOMOL_PASSWORD")
-                keyAlias = System.getenv("OVER_HOMOL_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_HOMOL_PASSWORD")
+            create("hmg") {
+                storeFile = rootProject.file(System.getenv("OVER_HMG_KEYSTORE"))
+                storePassword = System.getenv("OVER_HMG_PASSWORD")
+                keyAlias = System.getenv("OVER_HMG_KEY_ALIAS")
+                keyPassword = System.getenv("OVER_HMG_PASSWORD")
             }
         }
     }
@@ -94,19 +94,19 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
         }
-        create("homol") {
-            setAppName(appName = "app_name_homol")
+        create("hmg") {
+            setAppName(appName = "app_name_hmg")
             dimension = "version"
             applicationIdSuffix = ".homol"
-            versionNameSuffix = "-homol"
+            versionNameSuffix = "-hmg"
             if (activeSigning) {
-                signingConfig = signingConfigs.getByName(name = "homol")
+                signingConfig = signingConfigs.getByName(name = "hmg")
             }
         }
-        create("prod") {
-            setAppName(appName = "app_name_prod")
+        create("prd") {
+            setAppName(appName = "app_name_prd")
             if (activeSigning) {
-                signingConfig = signingConfigs.getByName(name = "prod")
+                signingConfig = signingConfigs.getByName(name = "prd")
             }
         }
     }
@@ -116,7 +116,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
+        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
     }
     buildFeatures {
         compose = true
