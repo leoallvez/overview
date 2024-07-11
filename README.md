@@ -13,7 +13,7 @@
 
 ## About
 
-Overview is an easy-to-use app that consolidates content from major streaming services into a unified interface. It simplifies content discovery with easy search and filtering options, providing a comprehensive overview of movies and TV shows available across different platforms, all with real-time updates. 
+Overview is an Android app that allows you to easily navigate different streaming services all in one place to discover movies and TV shows. You can favorite your content, filter by genre, and search across all platforms.
 
 ### Main features
 
@@ -25,9 +25,8 @@ Overview is an easy-to-use app that consolidates content from major streaming se
 
 ## Goals
 
-The main objective of this project is to serve as a dedicated testing ground for exploring and evaluating new Android libraries. It offers an environment that closely mimics real production settings, facilitating comprehensive testing and experimentation with the latest advancements in Android technologies.
+The main objective of this project is to serve as a dedicated testing ground for exploring new Android libraries and technologies.
 
-In addition to this, the project aims to gather valuable insights into UI/UX and user behavior by leveraging Google Analytics. This dual focus on testing innovation and understanding user interactions enhances the project's potential to contribute to the advancement of Android development practices.
 
 ### Main libraries
 
@@ -109,12 +108,12 @@ environments.
 |-----------------------|-----------------------------------------------------------------------------|
 | `OVER_API_KEY`        | API key for [**TMDB API**][50]                                              |
 | `OVER_ACTIVE_SIGNING` | Boolean Flag to activate or not App Signing, value is **true** or **false** |
-| `OVER_PRD_KEYSTORE`   | **Production** keystore file path                                           |
-| `OVER_PRD_PASSWORD`   | Password for **production** keystore                                        |
-| `OVER_PRD_KEY_ALIAS`  | Key alias for **production** keystore                                       |
 | `OVER_HMG_KEYSTORE`   | **Homologation** keystore file path                                         |
 | `OVER_HMG_PASSWORD`   | Password for **homologation** keystore                                      |
 | `OVER_HMG_KEY_ALIAS`  | Key alias for **homologation** keystore                                     |
+| `OVER_PRD_KEYSTORE`   | **Production** keystore file path                                           |
+| `OVER_PRD_PASSWORD`   | Password for **production** keystore                                        |
+| `OVER_PRD_KEY_ALIAS`  | Key alias for **production** keystore                                       |
 
 [50]: https://developers.themoviedb.org/3/getting-started/introduction
 
@@ -136,13 +135,13 @@ operating systems.
 setx OVER_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
 setx OVER_ACTIVE_SIGNING true
 
-setx OVER_PRD_KEYSTORE "C:\\Keystores\\overview\\prd\\prd_keystore.jks"
+setx OVER_PRD_KEYSTORE "C:\\keystores\\overview\\prd\\prd_keystore.jks"
 setx OVER_PRD_PASSWORD "set_here_your_password_value"
-setx OVER_PRD_KEY_ALIAS "upload"
+setx OVER_PRD_KEY_ALIAS "alias"
 
-setx OVER_HMG_KEYSTORE "C:\\Keystore\\overview\\hmg\\hmg_keystore.jks"
+setx OVER_HMG_KEYSTORE "C:\\keystores\\overview\\hmg\\hmg_keystore.jks"
 setx OVER_HMG_PASSWORD "set_here_your_password_value"
-setx OVER_HMG_KEY_ALIAS "upload"
+setx OVER_HMG_KEY_ALIAS "alias"
 
 ```
 
@@ -156,13 +155,13 @@ setx OVER_HMG_KEY_ALIAS "upload"
 export OVER_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
 export OVER_ACTIVE_SIGNING=true
 
-export OVER_PRD_KEYSTORE="~/Keystores/overview/prd/prd_keystore.jks"
+export OVER_PRD_KEYSTORE="~/keystores/overview/prd/prd_keystore.jks"
 export OVER_PRD_PASSWORD="set_here_your_password_value"
-export OVER_PRD_KEY_ALIAS="upload"
+export OVER_PRD_KEY_ALIAS="alias"
 
-export OVER_HMG_KEYSTORE="~/Keystores/overview/hmg/hmg_keystore.jks"
+export OVER_HMG_KEYSTORE="~/keystores/overview/hmg/hmg_keystore.jks"
 export OVER_HMG_PASSWORD="set_here_your_password_value"
-export OVER_HMG_KEY_ALIAS="upload"
+export OVER_HMG_KEY_ALIAS="alias"
 
 ```
 
