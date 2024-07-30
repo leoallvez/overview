@@ -208,14 +208,14 @@ fun ExploreStreamingToolBar(
                 streaming = filters.streaming,
                 onClick = { navigate.toSelectStreaming() }
             )
-            ToolBarIcon(
-                painter = Icons.Default.Search,
-                description = R.string.search_icon
-            ) { navigate.toSearch() }
-            ToolBarIcon(
-                painter = Icons.Default.FavoriteBorder,
-                description = R.string.like_button
-            ) { navigate.toLiked() }
+//            ToolBarIcon(
+//                painter = Icons.Default.Search,
+//                description = R.string.search_icon
+//            ) { navigate.toSearch() }
+//            ToolBarIcon(
+//                painter = Icons.Default.FavoriteBorder,
+//                description = R.string.like_button
+//            ) { navigate.toLiked() }
         }
         Row(
             modifier = Modifier
@@ -260,8 +260,8 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
         },
-        width = 255.dp,
-        icon = painterResource(id = R.drawable.keyboard_arrow_right)
+        //width = 255.dp,
+        icon = painterResource(id = R.drawable.baseline_expand_more)
     )
 }
 
