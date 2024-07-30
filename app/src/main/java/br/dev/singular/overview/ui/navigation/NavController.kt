@@ -42,8 +42,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = ScreenNav.SelectStreaming.route,
-            enterTransition = { makeEnterTransition() },
-            exitTransition = { makeExitTransition() }
+            enterTransition = { makeDownEnterTransition() },
+            exitTransition = { makeUpExitTransition() }
         ) {
             SelectStreamingScreen(navigate = SelectStreamingNavigate(navController))
         }
@@ -53,7 +53,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         composable(
             route = ScreenNav.MediaDetails.route,
             arguments = listOf(NavArg.ID, NavArg.TYPE, NavArg.BACKSTACK),
-            exitTransition = { makeExitTransition() }
+            exitTransition = { makeRightExitTransition() }
         ) { navBackStackEntry ->
             MediaDetailsScreen(
                 params = navBackStackEntry.getParams(),
@@ -63,7 +63,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         composable(
             route = ScreenNav.PersonDetails.route,
             arguments = listOf(NavArg.ID),
-            exitTransition = { makeExitTransition() }
+            exitTransition = { makeRightExitTransition() }
         ) { navBackStackEntry ->
             PersonDetailsScreen(
                 apiId = navBackStackEntry.getApiId(),
@@ -81,8 +81,11 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     }
 }
 
-private fun AnimatedTransition.makeEnterTransition(duration: Int = 700) =
-    slideIntoContainer(SlideDirection.Start, tween(duration))
+private fun AnimatedTransition.makeDownEnterTransition(duration: Int = 700) =
+    slideIntoContainer(SlideDirection.Up, tween(duration))
 
-private fun AnimatedTransition.makeExitTransition(duration: Int = 300) =
+private fun AnimatedTransition.makeUpExitTransition(duration: Int = 700) =
+    slideOutOfContainer(SlideDirection.Down, tween(duration))
+
+private fun AnimatedTransition.makeRightExitTransition(duration: Int = 300) =
     slideOutOfContainer(SlideDirection.End, tween(duration))
