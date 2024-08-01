@@ -1,7 +1,6 @@
 package br.dev.singular.overview.ui.streaming.explore
 
 import androidx.activity.compose.BackHandler
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
@@ -9,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,8 +24,6 @@ import androidx.compose.material.ModalBottomSheetLayout
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Close
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.rememberModalBottomSheetState
@@ -45,7 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,7 +60,6 @@ import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.ui.AdsBanner
-import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
@@ -208,14 +202,6 @@ fun ExploreStreamingToolBar(
                 streaming = filters.streaming,
                 onClick = { navigate.toSelectStreaming() }
             )
-//            ToolBarIcon(
-//                painter = Icons.Default.Search,
-//                description = R.string.search_icon
-//            ) { navigate.toSearch() }
-//            ToolBarIcon(
-//                painter = Icons.Default.FavoriteBorder,
-//                description = R.string.like_button
-//            ) { navigate.toLiked() }
         }
         Row(
             modifier = Modifier
@@ -234,17 +220,6 @@ fun ExploreStreamingToolBar(
 }
 
 @Composable
-fun ToolBarIcon(painter: ImageVector, @StringRes description: Int, onClick: () -> Unit) {
-    ButtonWithIcon(
-        painter = painter,
-        descriptionResource = description,
-        background = Color.White.copy(alpha = 0.1f),
-        padding = PaddingValues(),
-        onClick = onClick
-    )
-}
-
-@Composable
 fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
     SelectButton(
         onClick = { onClick.invoke() },
@@ -260,7 +235,6 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
         },
-        //width = 255.dp,
         icon = painterResource(id = R.drawable.baseline_expand_more)
     )
 }
