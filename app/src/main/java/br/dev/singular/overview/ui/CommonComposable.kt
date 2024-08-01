@@ -574,7 +574,7 @@ fun MediaEntityPagingVerticalGrid(
             .padding(padding)
             .fillMaxSize()
     ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+        LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 128.dp)) {
             items(items.itemCount) { index ->
                 GridItemMediaEntity(
                     media = items[index],

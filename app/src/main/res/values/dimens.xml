@@ -15,7 +15,7 @@
 
     <dimen name="backdrop_height">220dp</dimen>
     <dimen name="toolbar_element_size">56.dp</dimen>
-    <dimen name="streaming_item_big_size">85.dp</dimen>
+    <dimen name="streaming_item_big_size">80.dp</dimen>
     <dimen name="streaming_item_lager_size">60.dp</dimen>
     <dimen name="streaming_item_medium_size">48.dp</dimen>
     <dimen name="streaming_item_small_size">40.dp</dimen>
