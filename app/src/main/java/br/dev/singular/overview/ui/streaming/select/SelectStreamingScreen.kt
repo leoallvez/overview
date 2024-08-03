@@ -8,17 +8,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,15 +29,17 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.ui.AdsBanner
-import br.dev.singular.overview.ui.BasicImage
 import br.dev.singular.overview.ui.DisabledSearchToolBar
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
+import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.toJson
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 @Composable
 fun SelectStreamingScreen(
@@ -122,13 +127,18 @@ fun StreamingItem(
     streaming: StreamingEntity,
     onClick: (String) -> Unit
 ) {
-    BasicImage(
-        url = streaming.getLogoImage(),
-        contentDescription = streaming.name,
-        contentScale = ContentScale.FillBounds,
-        withBorder = true,
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data = streaming.getLogoImage())
+            .crossfade(true)
+            .build(),
         modifier = Modifier
-            .size(dimensionResource(R.dimen.streaming_item_big_size))
-            .clickable { onClick.invoke(streaming.toJson()) }
+            .background(PrimaryBackground)
+            .then(Modifier.border(true))
+            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+            .clickable { onClick.invoke(streaming.toJson()) },
+        contentScale = ContentScale.Fit,
+        contentDescription = streaming.name,
+        error = painterResource(R.drawable.placeholder)
     )
 }

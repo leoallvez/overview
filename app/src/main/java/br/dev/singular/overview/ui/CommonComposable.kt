@@ -426,7 +426,7 @@ fun BasicImage(
     }
 }
 
-private fun Modifier.border(withBorder: Boolean): Modifier = composed {
+fun Modifier.border(withBorder: Boolean): Modifier = composed {
     if (withBorder) {
         border(dimensionResource(R.dimen.border_width), Gray, RoundedCornerShape(dimensionResource(R.dimen.corner)))
     } else {
