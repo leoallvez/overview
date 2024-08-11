@@ -56,13 +56,6 @@
     "selected": true
   },
   {
-    "display_priority": 9,
-    "logo_path": "/eWp5LdR4p4uKL0wACBBXapDV2lB.jpg",
-    "provider_id": 43,
-    "provider_name": "Starz",
-    "selected": false
-  },
-  {
     "display_priority": 10,
     "logo_path": "/8Gt1iClBlzTeQs8WQm8UrCoIxnQ.jpg",
     "provider_id": 283,
@@ -186,13 +179,6 @@
     "logo_path": "/iieEQVJIEOSfDj477zG8sSTtr25.jpg",
     "provider_id": 1773,
     "provider_name": "SkyShowtime",
-    "selected": false
-  },
-  {
-    "display_priority": 28,
-    "logo_path": "/8qNJcPBHZ4qewHrDJ7C7s2DBQ3V.jpg",
-    "provider_id": 255,
-    "provider_name": "Yupp TV",
     "selected": false
   }
 ]
