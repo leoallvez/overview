@@ -83,7 +83,7 @@ fun LikedToolBar() {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.screen_padding)),
+            .padding(bottom = dimensionResource(R.dimen.screen_padding))
     ) {
         ToolbarTitle(title = stringResource(id = R.string.favorites))
     }
