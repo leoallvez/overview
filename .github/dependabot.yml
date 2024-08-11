@@ -14,7 +14,7 @@ updates:
       prefix: "chore(gradle): "
     # Raise pull requests for version updates
     # to pip against the `develop` branch
-    target-branch: "develop"
+    target-branch: "libs-updates"
     # Labels on pull requests for version updates only
     labels:
       - "upgrade dependencies"
