@@ -892,7 +892,7 @@ fun BottomNavigationBar(navController: NavController) {
                             Icon(
                                 item.icon,
                                 contentDescription = stringResource(id = item.title),
-                                tint = color,
+                                tint = color
                             )
                         },
                         label = { Text(stringResource(item.title), color = color) },

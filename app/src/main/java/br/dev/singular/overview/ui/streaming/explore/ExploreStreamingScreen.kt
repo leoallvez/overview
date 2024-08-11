@@ -59,7 +59,6 @@ import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
-import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
