@@ -1,5 +1,7 @@
 package br.dev.singular.overview.ui
 
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -27,6 +29,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.BottomNavigation
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
@@ -71,6 +77,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.R
@@ -80,6 +88,7 @@ import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.search.ClearSearchIcon
 import br.dev.singular.overview.ui.search.SearchIcon
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -660,7 +669,7 @@ fun ToolbarTitle(
 fun SearchField(
     placeholder: String,
     autoOpenKeyboard: Boolean = true,
-    defaultPaddingValues: PaddingValues = PaddingValues(start = 13.dp, end = 5.dp),
+    defaultPaddingValues: PaddingValues = PaddingValues(),
     onSearch: ((query: String) -> Unit)? = null
 ) {
     var query by rememberSaveable { mutableStateOf("") }
@@ -867,4 +876,37 @@ fun DefaultVerticalSpace() {
     )
 }
 
-const val STREAMING_GRID_COLUMNS = 4
+@Composable
+fun BottomNavigationBar(navController: NavController) {
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    if (currentRoute != ScreenNav.Splash.route) {
+        Column {
+            BottomNavigation {
+                val items = BottomNavigation.items
+                items.forEach { item ->
+                    val isSelected = currentRoute == item.nav.route
+                    val color = if (isSelected) AccentColor else Gray
+                    BottomNavigationItem(
+                        modifier = Modifier.background(PrimaryBackground).padding(bottom = 10.dp),
+                        icon = {
+                            Icon(
+                                item.icon,
+                                contentDescription = stringResource(id = item.title),
+                                tint = color,
+                            )
+                        },
+                        label = { Text(stringResource(item.title), color = color) },
+                        selected = isSelected,
+                        onClick = {
+                            navController.navigate(item.nav.route) {
+                                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}

@@ -157,7 +157,8 @@ fun ExploreStreamingContent(
                 )
             },
             bottomBar = {
-                AdsBanner(R.string.discover_banner, showAds)
+                // TODO: find a better way to do this
+                // AdsBanner(R.string.discover_banner, showAds)
             }
         ) { padding ->
             val filterIsVisible = sheetState.isVisible
