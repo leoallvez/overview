@@ -35,13 +35,6 @@
     "selected": true
   },
   {
-    "display_priority": 6,
-    "logo_path": "/hR9vWd8hWEVQKD6eOnBneKRFEW3.jpg",
-    "provider_id": 619,
-    "provider_name": "Star+",
-    "selected": true
-  },
-  {
     "display_priority": 8,
     "logo_path": "/xbhHHa1YgtpwhC8lb1NQ3ACVcLd.jpg",
     "provider_id": 531,
@@ -60,20 +53,13 @@
     "logo_path": "/8Gt1iClBlzTeQs8WQm8UrCoIxnQ.jpg",
     "provider_id": 283,
     "provider_name": "Crunchyroll",
-    "selected": false
+    "selected": true
   },
   {
     "display_priority": 11,
     "logo_path": "/bVR4Z1LCHY7gidXAJF5pMa4QrDS.jpg",
     "provider_id": 11,
     "provider_name": "MUBI",
-    "selected": false
-  },
-  {
-    "display_priority": 12,
-    "logo_path": "/ytSbyHt45x7igOgC8GVzR7RLJVo.jpg",
-    "provider_id": 1790,
-    "provider_name": "Lionsgate+",
     "selected": false
   },
   {
@@ -88,13 +74,6 @@
     "logo_path": "/cQQYtdaCg7vDo28JPru4v8Ypi8x.jpg",
     "provider_id": 484,
     "provider_name": "NOW",
-    "selected": false
-  },
-  {
-    "display_priority": 17,
-    "logo_path": "/xbdgLcQ6kRrcVe1uJAG9lzlkSbY.jpg",
-    "provider_id": 574,
-    "provider_name": "Oi Play",
     "selected": false
   },
   {
@@ -133,24 +112,10 @@
     "selected": false
   },
   {
-    "display_priority": 26,
-    "logo_path": "/9pdeflA0P1b8qlkeDA1oLfyvR06.jpg",
-    "provider_id": 1853,
-    "provider_name": "Paramount+ na Apple TV",
-    "selected": false
-  },
-  {
     "display_priority": 27,
     "logo_path": "/3E0RkIEQrrGYazs63NMsn3XONT6.jpg",
     "provider_id": 582,
     "provider_name": "Paramount+ no Prime Video",
-    "selected": false
-  },
-  {
-    "display_priority": 28,
-    "logo_path": "/x36C6aseF5l4uX99Kpse9dbPwBo.jpg",
-    "provider_id": 194,
-    "provider_name": "Starz Play no Prime Video",
     "selected": false
   },
   {
