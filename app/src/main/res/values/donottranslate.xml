@@ -23,13 +23,13 @@
         ca-app-pub-2674167083358956/4203722867
     </string>
     <!--App Name-->
-    <string name="app_name_homol">
-        Over.HOMOL
+    <string name="app_name_hmg">
+        Over.HMG
     </string>
     <string name="app_name_dev">
         Over.DEV
     </string>
-    <string name="app_name_prod">
+    <string name="app_name_prd">
         Overview
     </string>
 </resources>
