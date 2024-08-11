@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Overview.iml" filepath="$PROJECT_DIR$/.idea/modules/Overview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Overview.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Overview.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Overview.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Overview.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Overview.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Overview.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Overview.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Overview.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/firebase/Overview.firebase.iml" filepath="$PROJECT_DIR$/.idea/modules/firebase/Overview.firebase.iml" />
+    </modules>
+  </component>
+</project>
