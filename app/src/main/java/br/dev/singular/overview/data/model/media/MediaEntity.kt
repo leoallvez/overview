@@ -22,5 +22,5 @@ class MediaEntity(
     @ColumnInfo(name = "last_update")
     var lastUpdate: Date = Date()
 ) {
-    fun getPosterImage() = "${BuildConfig.TMDB_IMG_URL}/$posterPath"
+    fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"
 }

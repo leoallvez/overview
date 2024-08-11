@@ -29,7 +29,7 @@ class RetrofitModule {
 
     private fun buildRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.TMDB_API_URL)
+            .baseUrl(BuildConfig.API_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .client(buildOkHttpClient())
