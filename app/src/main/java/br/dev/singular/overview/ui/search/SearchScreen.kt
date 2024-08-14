@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -65,7 +67,9 @@ fun SearchScreen(
         }
     ) { padding ->
         Column(
-            modifier = Modifier.background(PrimaryBackground).padding(padding)
+            modifier = Modifier
+                .background(PrimaryBackground)
+                .padding(padding)
         ) {
             if (items.itemCount > 0 || filters.query.isNotEmpty()) {
                 MediaTypeSelector(filters.mediaType.key) { newType ->
@@ -101,9 +105,11 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
             .padding(bottom = dimensionResource(R.dimen.screen_padding))
     ) {
         ToolbarTitle(title = stringResource(id = R.string.search))
+        DefaultVerticalSpace()
         SearchField(
             onSearch = onSearch,
             autoOpenKeyboard = false,
+            defaultPaddingValues = PaddingValues(horizontal = 6.dp),
             placeholder = stringResource(R.string.search_in_all_places)
         )
     }
