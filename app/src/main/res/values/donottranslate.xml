@@ -36,4 +36,5 @@
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
     <string name="search">Search</string>
+    <string name="select_streaming">Select Streaming</string>
 </resources>

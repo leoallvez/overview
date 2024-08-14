@@ -34,7 +34,6 @@ import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -833,41 +832,6 @@ fun FilterButton(
 }
 
 @Composable
-fun DisabledSearchToolBar(
-    onBackstack: () -> Unit,
-    onToSearch: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ButtonWithIcon(
-                painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                descriptionResource = R.string.backstack_icon,
-                background = Color.White.copy(alpha = 0.1f),
-                padding = PaddingValues(
-                    vertical = dimensionResource(R.dimen.screen_padding)
-                ),
-                onClick = onBackstack::invoke,
-                onLongClick = onBackstack::invoke
-            )
-        }
-        Box(Modifier.clickable { onToSearch.invoke() }) {
-            SearchField(
-                defaultPaddingValues = PaddingValues(start = 13.dp, end = 0.dp),
-                placeholder = stringResource(R.string.search_in_all_places)
-            )
-        }
-    }
-}
-
-@Composable
 fun DefaultVerticalSpace() {
     Spacer(
         modifier = Modifier
@@ -887,7 +851,9 @@ fun BottomNavigationBar(navController: NavController) {
                     val isSelected = currentRoute == item.nav.route
                     val color = if (isSelected) AccentColor else Gray
                     BottomNavigationItem(
-                        modifier = Modifier.background(PrimaryBackground).padding(bottom = 10.dp),
+                        modifier = Modifier
+                            .background(PrimaryBackground)
+                            .padding(bottom = 10.dp),
                         icon = {
                             Icon(
                                 item.icon,
