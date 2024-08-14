@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,29 +15,38 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.ui.AdsBanner
-import br.dev.singular.overview.ui.DisabledSearchToolBar
+import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
+import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
@@ -57,10 +68,7 @@ fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectS
             horizontal = dimensionResource(R.dimen.screen_padding_new)
         ),
         topBar = {
-            DisabledSearchToolBar(
-                onBackstack = navigate::popBackStack,
-                onToSearch = navigate::toSearch
-            )
+            ToolBar(onBackstack = navigate::popBackStack)
         },
         bottomBar = {
             AdsBanner(R.string.select_streaming_banner, isVisible = viewModel.showAds)
@@ -118,6 +126,39 @@ private fun LazyGridScope.streamingSession(
         }
         items(streaming.size) { index ->
             StreamingItem(streaming = streaming[index], onClick = onClick)
+        }
+    }
+}
+
+@Composable
+fun ToolBar(onBackstack: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = stringResource(R.string.select_streaming),
+            color = AccentColor,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Ellipsis
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ButtonWithIcon(
+                painter = Icons.Filled.Clear,
+                descriptionResource = R.string.backstack_icon,
+                background = Color.White.copy(alpha = 0.1f),
+                padding = PaddingValues(
+                    vertical = dimensionResource(R.dimen.screen_padding)
+                ),
+                onClick = onBackstack::invoke,
+                onLongClick = onBackstack::invoke
+            )
         }
     }
 }
