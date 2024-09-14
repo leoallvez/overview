@@ -6,7 +6,7 @@ buildscript {
         google()
         mavenCentral()
         maven {
-            url = uri(path = "https://plugins.gradle.org/m2/")
+            url = uri(path = "https://jitpack.io")
         }
     }
     dependencies {
@@ -30,8 +30,14 @@ plugins {
 tasks.register<Delete>(name = "clean") {
     delete(layout.buildDirectory)
 }
-
-// Apply Ktlint to all projects
+// Kotlin plugin
 allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url = uri(path = "https://jitpack.io")
+        }
+    }
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
