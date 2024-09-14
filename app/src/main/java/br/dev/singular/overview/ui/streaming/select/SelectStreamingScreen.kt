@@ -45,7 +45,7 @@ import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.border
-import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.toJson
@@ -54,7 +54,7 @@ import coil.request.ImageRequest
 
 @Composable
 fun SelectStreamingScreen(
-    navigate: SelectStreamingNavigate,
+    navigate: BasicNavigate,
     viewModel: SelectStreamingModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.SelectStreaming, tracker = viewModel.analyticsTracker)
@@ -62,7 +62,7 @@ fun SelectStreamingScreen(
 }
 
 @Composable
-fun SelectStreamingContent(navigate: SelectStreamingNavigate, viewModel: SelectStreamingModel) {
+fun SelectStreamingContent(navigate: BasicNavigate, viewModel: SelectStreamingModel) {
     Scaffold(
         modifier = Modifier.padding(
             horizontal = dimensionResource(R.dimen.screen_padding_new)

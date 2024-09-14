@@ -17,7 +17,6 @@ import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
-import br.dev.singular.overview.ui.navigation.wrappers.SelectStreamingNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
 import br.dev.singular.overview.ui.person.PersonDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
@@ -45,7 +44,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             enterTransition = { makeDownEnterTransition() },
             exitTransition = { makeUpExitTransition() }
         ) {
-            SelectStreamingScreen(navigate = SelectStreamingNavigate(navController))
+            SelectStreamingScreen(navigate = BasicNavigate(navController))
         }
         composable(route = ScreenNav.Search.route) {
             SearchScreen(navigate = BasicNavigate(navController))
