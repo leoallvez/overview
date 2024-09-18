@@ -3,7 +3,7 @@
 compile-sdk = "34"
 firebase-crashlytics-gradle = "2.9.9"
 google-services = "4.4.1"
-gradle = "8.5.2"
+gradle = "8.6.1"
 hilt-android-gradle-plugin = "2.46.1"
 kotlin-gradle-plugin = "1.7.20"
 ktlint-gradle = "11.5.1"
