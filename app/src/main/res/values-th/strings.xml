@@ -125,11 +125,11 @@
 
     <string name="clear_filters">ล้างตัวกรอง</string>
 
-    <string name="main_steams">กระแสหลัก</string>
+    <string name="main_steams">หลัก</string>
 
-    <string name="favorite_streams">สตรีมที่ชื่นชอบ</string>
+    <string name="favorite_streams">รายการโปรด</string>
 
-    <string name="other_streams">สตรีมอื่น ๆ</string>
+    <string name="other_streams">อื่นๆ</string>
 
     <string name="streaming">สตรีมมิ่ง</string>
 

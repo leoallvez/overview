@@ -125,11 +125,11 @@
 
     <string name="clear_filters">Hapus filter</string>
 
-    <string name="main_steams">Aliran Utama</string>
+    <string name="main_steams">Utama</string>
 
-    <string name="favorite_streams">Aliran Favorit</string>
+    <string name="favorite_streams">Favorit</string>
 
-    <string name="other_streams">Aliran Lainnya</string>
+    <string name="other_streams">Lainnya</string>
 
     <string name="streaming">Mengalir</string>
 

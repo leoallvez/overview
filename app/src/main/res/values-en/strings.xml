@@ -123,12 +123,12 @@
 
     <string name="clear_filters">Clear filters</string>
 
-    <string name="main_steams">Main Streams</string>
+    <string name="main_steams">Main</string>
 
-    <string name="favorite_streams">Favorite Streams</string>
+    <string name="favorite_streams">Favorites</string>
 
-    <string name="other_streams">Other Streams</string>
-
+    <string name="other_streams">Other</string>
+    
     <string name="streaming">Streaming</string>
 
     <string name="like_button">Like button icon</string>

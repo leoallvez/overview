@@ -125,11 +125,11 @@
 
     <string name="clear_filters">フィルターをクリアする</string>
 
-    <string name="main_steams">メインストリーム</string>
+    <string name="main_steams">メイン</string>
 
-    <string name="favorite_streams">お気に入りのストリーム</string>
+    <string name="favorite_streams">お気に入り</string>
 
-    <string name="other_streams">その他のストリーム</string>
+    <string name="other_streams">その他</string>
 
     <string name="streaming">ストリーミング</string>
 

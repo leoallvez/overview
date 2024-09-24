@@ -125,11 +125,11 @@
 
     <string name="clear_filters">필터 지우기</string>
 
-    <string name="main_steams">메인 스트림</string>
+    <string name="main_steams">메인</string>
 
-    <string name="favorite_streams">즐겨찾는 스트림</string>
+    <string name="favorite_streams">즐겨찾기</string>
 
-    <string name="other_streams">기타 스트림</string>
+    <string name="other_streams">기타</string>
 
     <string name="streaming">스트리밍</string>
 
