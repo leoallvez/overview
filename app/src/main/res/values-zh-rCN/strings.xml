@@ -125,11 +125,11 @@
 
     <string name="clear_filters">清除过滤器</string>
 
-    <string name="main_steams">主流</string>
+    <string name="main_steams">主要</string>
 
-    <string name="favorite_streams">最喜欢的流媒体</string>
+    <string name="favorite_streams">收藏夹</string>
 
-    <string name="other_streams">其他流</string>
+    <string name="other_streams">其他</string>
 
     <string name="streaming">流媒体</string>
 
