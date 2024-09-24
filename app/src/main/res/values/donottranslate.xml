@@ -32,9 +32,4 @@
     <string name="app_name_prd">
         Overview
     </string>
-    <!-- TODO: translate it -->
-    <string name="home">Home</string>
-    <string name="favorites">Favorites</string>
-    <string name="search">Search</string>
-    <string name="select_streaming">Select Streaming</string>
 </resources>
