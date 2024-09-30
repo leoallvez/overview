@@ -152,7 +152,7 @@ fun ExploreStreamingContent(
                     genres = genres,
                     navigate = navigate,
                     openGenreFilter = closeFilterBottomSheet,
-                    onSelectMediaType = inFiltering,
+                    onSelectMediaType = inFiltering
                 )
             },
             bottomBar = {
@@ -415,14 +415,14 @@ fun NewFilterMediaType(
     filters: SearchFilters,
     genres: List<GenreEntity>,
     onSelectMedia: (SearchFilters) -> Unit,
-    onOpenGenreFilter: () -> Unit,
+    onOpenGenreFilter: () -> Unit
 ) {
     val onClearFilter = {
         onSelectMedia(filters.copy(mediaType = MediaType.ALL, genreId = null))
     }
     Column {
         Row(modifier = Modifier.fillMaxWidth().background(PrimaryBackground)) {
-            when(filters.mediaType.key) {
+            when (filters.mediaType.key) {
                 MediaType.ALL.key -> {
                     val options = MediaType.getAllOrdered()
                     options.forEach { type ->
@@ -448,7 +448,7 @@ fun NewFilterMediaType(
                         },
                         isActivated = true,
                         backgroundColor = SecondaryBackground,
-                        buttonText = stringResource(R.string.tv_show),
+                        buttonText = stringResource(R.string.tv_show)
                     )
                     SelectGenreButton(filters, genres, onOpenGenreFilter)
                 }
@@ -463,7 +463,7 @@ fun NewFilterMediaType(
                         },
                         isActivated = true,
                         backgroundColor = SecondaryBackground,
-                        buttonText = stringResource(R.string.movies),
+                        buttonText = stringResource(R.string.movies)
                     )
                     SelectGenreButton(filters, genres, onOpenGenreFilter)
                 }
@@ -479,13 +479,13 @@ fun CloseMediaTypeFilter(onClick: () -> Unit) {
             .clip(CircleShape)
             .size(25.dp)
             .background(Gray.copy(alpha = 0.5f))
-            .clickable { onClick.invoke() },
+            .clickable { onClick.invoke() }
     ) {
         Icon(
             tint = Color.White,
             modifier = Modifier.size(20.dp).align(Alignment.Center),
             imageVector = Icons.Rounded.Close,
-            contentDescription = stringResource(R.string.close),
+            contentDescription = stringResource(R.string.close)
         )
     }
 }

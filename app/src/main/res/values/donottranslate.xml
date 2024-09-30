@@ -32,6 +32,4 @@
     <string name="app_name_prd">
         Overview
     </string>
-    <!-- TODO: translate this for all languages -->
-    <string name="genre">Gênero</string>
 </resources>
