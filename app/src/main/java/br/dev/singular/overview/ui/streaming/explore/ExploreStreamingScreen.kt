@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ExperimentalMaterialApi
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetLayout
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -98,7 +98,6 @@ fun ExploreStreamingScreen(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ExploreStreamingContent(
     showAds: Boolean,
@@ -152,7 +151,8 @@ fun ExploreStreamingContent(
                     filters = filters,
                     genres = genres,
                     navigate = navigate,
-                    onFilter = closeFilterBottomSheet
+                    openGenreFilter = closeFilterBottomSheet,
+                    onSelectMediaType = inFiltering,
                 )
             },
             bottomBar = {
@@ -183,7 +183,8 @@ fun ExploreStreamingContent(
 fun ExploreStreamingToolBar(
     filters: SearchFilters,
     genres: List<GenreEntity>,
-    onFilter: () -> Unit,
+    openGenreFilter: () -> Unit,
+    onSelectMediaType: (SearchFilters) -> Unit,
     navigate: ExploreStreamingNavigate
 ) {
     Column(
@@ -206,15 +207,10 @@ fun ExploreStreamingToolBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.default_padding)),
+                .padding(vertical = dimensionResource(R.dimen.screen_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            SelectFilter(
-                text = filterDescription(filters, genres),
-                isActivated = filters.areDefaultValues().not()
-            ) {
-                onFilter.invoke()
-            }
+            NewFilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
         }
     }
 }
@@ -236,35 +232,6 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
             }
         },
         icon = painterResource(id = R.drawable.baseline_expand_more)
-    )
-}
-
-@Composable
-fun SelectFilter(text: String, isActivated: Boolean, onClick: () -> Unit) {
-    val color = if (isActivated) AccentColor else Gray
-    SelectButton(
-        onClick = { onClick.invoke() },
-        content = {
-            Icon(
-                painterResource(id = R.drawable.tune),
-                contentDescription = stringResource(id = R.string.filters),
-                modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.screen_padding))
-                    .size(20.dp),
-                tint = color
-            )
-            Text(
-                text = text,
-                color = color,
-                fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
-                modifier = Modifier
-                    .width(300.dp)
-                    .padding(dimensionResource(R.dimen.default_padding)),
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        isActive = isActivated,
-        height = 35.dp
     )
 }
 
@@ -300,27 +267,9 @@ fun SelectButton(
 }
 
 @Composable
-private fun filterDescription(
-    filters: SearchFilters,
-    genres: List<GenreEntity>
-): String {
-    val media = mediaTypeDescription(filters.mediaType)
-    val genre = genreDescription(filters.genreId, genres)
-    return "$media $genre"
-}
-
-@Composable
-private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType) {
-    MediaType.ALL -> stringResource(id = R.string.all)
-    MediaType.TV_SHOW -> stringResource(id = R.string.tv_show)
-    else -> stringResource(id = R.string.movies)
-}
-
-@Composable
 private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String {
     val genre = genres.firstOrNull { it.apiId == genreId }
-    val name = genre?.nameTranslation()
-    return if (name == null) String() else "• $name"
+    return genre?.nameTranslation() ?: String()
 }
 
 @Composable
@@ -459,6 +408,109 @@ fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
             }
         }
     }
+}
+
+@Composable
+fun NewFilterMediaType(
+    filters: SearchFilters,
+    genres: List<GenreEntity>,
+    onSelectMedia: (SearchFilters) -> Unit,
+    onOpenGenreFilter: () -> Unit,
+) {
+    val onClearFilter = {
+        onSelectMedia(filters.copy(mediaType = MediaType.ALL, genreId = null))
+    }
+    Column {
+        Row(modifier = Modifier.fillMaxWidth().background(PrimaryBackground)) {
+            when(filters.mediaType.key) {
+                MediaType.ALL.key -> {
+                    val options = MediaType.getAllOrdered()
+                    options.forEach { type ->
+                        MediaTypeFilterButton(type, filters.mediaType.key) {
+                            with(filters) {
+                                if (mediaType != type) {
+                                    onSelectMedia(
+                                        filters.copy(mediaType = type, genreId = null)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                MediaType.TV_SHOW.key -> {
+                    CloseMediaTypeFilter(onClick = { onClearFilter.invoke() })
+                    Spacer(modifier = Modifier.width(10.dp))
+                    FilterButton(
+                        onClick = {
+                            onSelectMedia(
+                                filters.copy(mediaType = MediaType.TV_SHOW, genreId = null)
+                            )
+                        },
+                        isActivated = true,
+                        backgroundColor = SecondaryBackground,
+                        buttonText = stringResource(R.string.tv_show),
+                    )
+                    SelectGenreButton(filters, genres, onOpenGenreFilter)
+                }
+                MediaType.MOVIE.key -> {
+                    CloseMediaTypeFilter(onClick = { onClearFilter.invoke() })
+                    Spacer(modifier = Modifier.width(10.dp))
+                    FilterButton(
+                        onClick = {
+                            onSelectMedia(
+                                filters.copy(mediaType = MediaType.MOVIE, genreId = null)
+                            )
+                        },
+                        isActivated = true,
+                        backgroundColor = SecondaryBackground,
+                        buttonText = stringResource(R.string.movies),
+                    )
+                    SelectGenreButton(filters, genres, onOpenGenreFilter)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CloseMediaTypeFilter(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .clip(CircleShape)
+            .size(25.dp)
+            .background(Gray.copy(alpha = 0.5f))
+            .clickable { onClick.invoke() },
+    ) {
+        Icon(
+            tint = Color.White,
+            modifier = Modifier.size(20.dp).align(Alignment.Center),
+            imageVector = Icons.Rounded.Close,
+            contentDescription = stringResource(R.string.close),
+        )
+    }
+}
+
+@Composable
+fun SelectGenreButton(filters: SearchFilters, genres: List<GenreEntity>, onClick: () -> Unit) {
+    val isActivated = filters.genreId != null
+    FilterButton(
+        onClick = onClick,
+        isActivated = isActivated,
+        backgroundColor = SecondaryBackground,
+        buttonText = if (isActivated) {
+            genreDescription(filters.genreId, genres)
+        } else {
+            stringResource(R.string.genres)
+        },
+        complement = {
+            Icon(
+                tint = if (isActivated) AccentColor else Gray,
+                modifier = Modifier.size(20.dp),
+                painter = painterResource(id = R.drawable.baseline_expand_more),
+                contentDescription = stringResource(R.string.filters)
+            )
+        }
+    )
 }
 
 @Composable
