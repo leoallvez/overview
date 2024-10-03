@@ -41,8 +41,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = ScreenNav.SelectStreaming.route,
-            enterTransition = { makeDownEnterTransition() },
-            exitTransition = { makeUpExitTransition() }
+            enterTransition = { makeLeftEnterTransition(duration = 550) },
+            exitTransition = { makeRightExitTransition(duration = 550) }
         ) {
             SelectStreamingScreen(navigate = BasicNavigate(navController))
         }
@@ -80,11 +80,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     }
 }
 
-private fun AnimatedTransition.makeDownEnterTransition(duration: Int = 700) =
-    slideIntoContainer(SlideDirection.Up, tween(duration))
-
-private fun AnimatedTransition.makeUpExitTransition(duration: Int = 700) =
-    slideOutOfContainer(SlideDirection.Down, tween(duration))
-
 private fun AnimatedTransition.makeRightExitTransition(duration: Int = 300) =
     slideOutOfContainer(SlideDirection.End, tween(duration))
+
+private fun AnimatedTransition.makeLeftEnterTransition(duration: Int = 300) =
+    slideIntoContainer(SlideDirection.Start, tween(duration))
