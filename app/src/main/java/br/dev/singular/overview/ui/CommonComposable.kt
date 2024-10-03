@@ -811,7 +811,7 @@ fun FilterButton(
             horizontal = dimensionResource(R.dimen.default_padding)
         ),
         modifier = Modifier
-            .height(25.dp)
+            .height(30.dp)
             .padding(padding),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetLayout
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -137,6 +138,7 @@ fun ExploreStreamingContent(
                 FilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
             }
         },
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
@@ -229,10 +231,11 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
         },
-        icon = painterResource(id = R.drawable.baseline_expand_more)
+        icon = painterResource(id = R.drawable.keyboard_arrow_right)
     )
 }
 
+// TODO: this component must be merged with the SelectStreaming component and simplified
 @Composable
 fun SelectButton(
     onClick: () -> Unit,
@@ -258,7 +261,12 @@ fun SelectButton(
         ) {
             content.invoke()
             Box(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-                Icon(tint = color, painter = icon, contentDescription = "")
+                Icon(
+                    tint = color,
+                    painter = icon,
+                    contentDescription = "",
+                    modifier = Modifier.size(25.dp)
+                )
             }
         }
     }
@@ -301,9 +309,12 @@ fun FilterBottomSheet(
             .fillMaxWidth()
             .wrapContentHeight()
             .background(SecondaryBackground)
-            .padding(dimensionResource(R.dimen.screen_padding_new))
+            .padding(
+                dimensionResource(R.dimen.screen_padding_new),
+                //horizontal = dimensionResource(R.dimen.screen_padding_new)
+            )
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
+        //Spacer(modifier = Modifier.height(10.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -311,7 +322,7 @@ fun FilterBottomSheet(
             FilterTitle(stringResource(R.string.genres))
             CloseIcon(closeAction)
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
         FilterGenres(genres, filters) {
             if (filters.genreId == it.genreId) {
                 inFiltering.invoke(filters.copy(genreId = null))
@@ -320,7 +331,7 @@ fun FilterBottomSheet(
                 closeAction.invoke()
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
     }
 }
 
@@ -329,14 +340,13 @@ fun CloseIcon(onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .clip(CircleShape)
-            .size(20.dp)
-            .background(Gray.copy(alpha = 0.5f))
+            .size(25.dp)
             .clickable { onClick.invoke() }
     ) {
         Icon(
             tint = Color.White,
             modifier = Modifier
-                .size(15.dp)
+                .size(20.dp)
                 .align(Alignment.Center),
             imageVector = Icons.Rounded.Close,
             contentDescription = stringResource(R.string.close)
@@ -403,13 +413,13 @@ fun CloseMediaTypeFilter(onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .clip(CircleShape)
-            .size(25.dp)
+            .size(30.dp)
             .background(Color.DarkGray.copy(alpha = 0.5f))
             .clickable { onClick.invoke() }
     ) {
         Icon(
             tint = Color.White,
-            modifier = Modifier.size(15.dp).align(Alignment.Center),
+            modifier = Modifier.size(20.dp).align(Alignment.Center),
             imageVector = Icons.Rounded.Close,
             contentDescription = stringResource(R.string.close)
         )
