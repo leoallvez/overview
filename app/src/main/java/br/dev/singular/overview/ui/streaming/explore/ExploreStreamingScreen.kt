@@ -309,12 +309,8 @@ fun FilterBottomSheet(
             .fillMaxWidth()
             .wrapContentHeight()
             .background(SecondaryBackground)
-            .padding(
-                dimensionResource(R.dimen.screen_padding_new),
-                //horizontal = dimensionResource(R.dimen.screen_padding_new)
-            )
+            .padding(dimensionResource(R.dimen.screen_padding_new))
     ) {
-        //Spacer(modifier = Modifier.height(10.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
