@@ -111,7 +111,9 @@
 
     <string name="search_in_all_places">어디서나 검색</string>
 
-    <string name="genres">장르</string>
+    <string name="genre">장르</string>
+
+    <string name="filter_by_genre">장르 필터링</string>
 
     <string name="type">유형</string>
 

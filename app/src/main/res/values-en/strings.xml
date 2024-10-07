@@ -109,7 +109,9 @@
 
     <string name="search_in_all_places">Search everywhere</string>
 
-    <string name="genres">Genres</string>
+    <string name="genre">Genre</string>
+
+    <string name="filter_by_genre">Filter by genre</string>
 
     <string name="type">Type</string>
 

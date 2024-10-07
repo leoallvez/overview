@@ -111,7 +111,9 @@
 
     <string name="search_in_all_places">到处搜索</string>
 
-    <string name="genres">流派</string>
+    <string name="genre">类型</string>
+
+    <string name="filter_by_genre">按类型筛选</string>
 
     <string name="type">类型</string>
 
