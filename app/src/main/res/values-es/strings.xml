@@ -111,7 +111,9 @@
 
     <string name="search_in_all_places">Buscar en todas partes</string>
 
-    <string name="genres">Géneros</string>
+    <string name="genre">Género</string>
+
+    <string name="filter_by_genre">Filtrar por un género</string>
 
     <string name="type">Tipo</string>
 

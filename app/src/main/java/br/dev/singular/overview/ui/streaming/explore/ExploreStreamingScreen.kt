@@ -195,7 +195,7 @@ fun ExploreStreamingToolBar(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                //.fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -251,7 +251,7 @@ fun SelectButton(
             .height(height)
             .clickable { onClick.invoke() }
             .then(if (width == null) Modifier.fillMaxWidth() else Modifier.width(width))
-            .defaultBorder(color = color, corner = R.dimen.circle_conner)
+            .defaultBorder(color = Color.Black, corner = R.dimen.circle_conner)
             .background(SecondaryBackground)
     ) {
         Row(
@@ -315,7 +315,7 @@ fun FilterBottomSheet(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            FilterTitle(stringResource(R.string.genres))
+            FilterTitle(stringResource(R.string.filter_by_genre))
             CloseIcon(closeAction)
         }
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
@@ -432,7 +432,7 @@ fun SelectGenreButton(filters: SearchFilters, genres: List<GenreEntity>, onClick
         buttonText = if (isActivated) {
             genreDescription(filters.genreId, genres)
         } else {
-            stringResource(R.string.genres)
+            stringResource(R.string.genre)
         },
         complement = {
             Icon(
