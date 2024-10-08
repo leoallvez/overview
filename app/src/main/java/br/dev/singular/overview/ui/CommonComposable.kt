@@ -799,7 +799,9 @@ fun FilterButton(
     isActivated: Boolean = false,
     colorActivated: Color = AccentColor,
     backgroundColor: Color = PrimaryBackground,
-    padding: PaddingValues = PaddingValues(end = dimensionResource(R.dimen.screen_padding)),
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = dimensionResource(R.dimen.default_padding)
+    ),
     complement: @Composable () -> Unit = {},
     onClick: () -> Unit
 ) {
@@ -807,12 +809,10 @@ fun FilterButton(
     OutlinedButton(
         onClick = { onClick.invoke() },
         shape = RoundedCornerShape(percent = 100),
-        contentPadding = PaddingValues(
-            horizontal = dimensionResource(R.dimen.default_padding)
-        ),
+        contentPadding = contentPadding,
         modifier = Modifier
             .height(30.dp)
-            .padding(padding),
+            .padding(PaddingValues(end = dimensionResource(R.dimen.screen_padding))),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor

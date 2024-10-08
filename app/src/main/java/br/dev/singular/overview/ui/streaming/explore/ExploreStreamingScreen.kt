@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -191,10 +192,11 @@ fun ExploreStreamingToolBar(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(dimensionResource(R.dimen.default_padding))
+            //.padding(dimensionResource(R.dimen.default_padding))
+            .padding(bottom = dimensionResource(R.dimen.screen_padding))
     ) {
         Row(
-            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)),
+            modifier = Modifier.height(50.dp).padding(top = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             SelectStreaming(
@@ -205,7 +207,8 @@ fun ExploreStreamingToolBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.screen_padding)),
+                .padding(top = 10.dp)
+                .padding(horizontal = dimensionResource(R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
@@ -376,47 +379,23 @@ fun FilterMediaType(
                     }
                 }
                 MediaType.TV_SHOW.key -> {
-                    CloseMediaTypeFilter(onClick = { onClearFilter.invoke() })
-                    Spacer(modifier = Modifier.width(10.dp))
-                    FilterButton(
-                        onClick = onClearFilter,
+                    ClosableFilterButton(
+                        buttonText = stringResource(R.string.tv_show),
                         isActivated = true,
-                        backgroundColor = SecondaryBackground,
-                        buttonText = stringResource(R.string.tv_show)
+                        onClick = onClearFilter
                     )
                     SelectGenreButton(filters, genres, onOpenGenreFilter)
                 }
                 MediaType.MOVIE.key -> {
-                    CloseMediaTypeFilter(onClick = { onClearFilter.invoke() })
-                    Spacer(modifier = Modifier.width(10.dp))
-                    FilterButton(
-                        onClick = onClearFilter,
+                    ClosableFilterButton(
+                        buttonText = stringResource(R.string.movies),
                         isActivated = true,
-                        backgroundColor = SecondaryBackground,
-                        buttonText = stringResource(R.string.movies)
+                        onClick = onClearFilter
                     )
                     SelectGenreButton(filters, genres, onOpenGenreFilter)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun CloseMediaTypeFilter(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .clip(CircleShape)
-            .size(30.dp)
-            .background(Color.DarkGray.copy(alpha = 0.5f))
-            .clickable { onClick.invoke() }
-    ) {
-        Icon(
-            tint = Color.White,
-            modifier = Modifier.size(20.dp).align(Alignment.Center),
-            imageVector = Icons.Rounded.Close,
-            contentDescription = stringResource(R.string.close)
-        )
     }
 }
 
@@ -456,25 +435,41 @@ fun FilterGenres(
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
-                FilterButton(
+                ClosableFilterButton(
                     buttonText = genre.nameTranslation(),
-                    backgroundColor = SecondaryBackground,
-                    isActivated = filters.genreId == genre.apiId,
-                    complement = {
-                        if (filters.genreId == genre.apiId) {
-                            Icon(
-                                tint = AccentColor,
-                                modifier = Modifier.size(15.dp),
-                                imageVector = Icons.Rounded.Close,
-                                contentDescription = stringResource(R.string.filters)
-                            )
-                        }
-                    }
+                    isActivated = filters.genreId == genre.apiId
                 ) {
                     onClick.invoke(filters.copy(genreId = genre.apiId))
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ClosableFilterButton(
+    buttonText: String,
+    isActivated: Boolean,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
+    onClick: () -> Unit
+) {
+    FilterButton(
+        buttonText = buttonText,
+        backgroundColor = SecondaryBackground,
+        isActivated = isActivated,
+        contentPadding = contentPadding,
+        complement = {
+            if (isActivated) {
+                Icon(
+                    tint = AccentColor,
+                    modifier = Modifier.size(15.dp),
+                    imageVector = Icons.Rounded.Close,
+                    contentDescription = stringResource(R.string.close)
+                )
+            }
+        }
+    ) {
+        onClick.invoke()
     }
 }
 
