@@ -76,6 +76,7 @@ class ExploreStreamingViewModel @Inject constructor(
 
     private suspend fun loadGenres() {
         _genres.value = _genreRepository.getItemsByMediaType(searchFilters.value.mediaType)
+            .sortedBy { it.name }
     }
 
     private suspend fun loadFilter() {
