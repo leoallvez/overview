@@ -194,9 +194,7 @@ fun ExploreStreamingToolBar(
             .padding(dimensionResource(R.dimen.default_padding))
     ) {
         Row(
-            modifier = Modifier
-                //.fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.default_padding)),
+            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             SelectStreaming(
