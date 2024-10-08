@@ -192,7 +192,6 @@ fun ExploreStreamingToolBar(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            //.padding(dimensionResource(R.dimen.default_padding))
             .padding(bottom = dimensionResource(R.dimen.screen_padding))
     ) {
         Row(
