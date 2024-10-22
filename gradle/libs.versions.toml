@@ -44,7 +44,7 @@ ui-test-junit4 = "1.8.0-alpha03"
 work-runtime-ktx = "2.8.1"
 appcompat = "1.6.1"
 androidx-core = "1.13.1"
-firebase-bom = "32.3.1"
+firebase-bom = "33.5.0"
 ksp = "1.7.20-1.0.8"
 
 [libraries]
