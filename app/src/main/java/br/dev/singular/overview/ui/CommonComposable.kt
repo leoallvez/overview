@@ -421,7 +421,7 @@ fun BasicImage(
                 .crossfade(true)
                 .build(),
             modifier = modifier
-                .background(PrimaryBackground)
+                .background(SecondaryBackground)
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(corner))
@@ -608,7 +608,8 @@ fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
                 contentDescription = letter,
                 withBorder = true,
                 modifier = Modifier
-                    .size(width = 125.dp, height = 180.dp)
+                    //.size(width = 125.dp, height = 180.dp)
+                    //.onSizeChanged { it == IntSize.Zero}
                     .padding(1.dp)
             )
             BasicText(
