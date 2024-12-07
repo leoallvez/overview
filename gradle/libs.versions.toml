@@ -9,7 +9,7 @@ kotlin-gradle-plugin = "1.7.20"
 ktlint-gradle = "11.5.1"
 min-sdk = "21"
 target-sdk = "33"
-version-code = "20000"
+version-code = "200"
 version-name = "2.0.0"
 
 gradle-plugin = "1.7.20"
