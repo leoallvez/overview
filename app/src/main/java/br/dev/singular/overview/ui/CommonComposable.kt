@@ -267,7 +267,7 @@ fun StylizedButton(
         Icon(
             iconImageVector,
             contentDescription = iconDescription,
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(35.dp),
             tint = PrimaryBackground
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -297,7 +297,7 @@ fun ButtonWithIcon(
             .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(30.dp)
+            .size(35.dp)
             .combinedClickable(
                 onClick = onClick::invoke,
                 onLongClick = onLongClick::invoke
