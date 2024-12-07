@@ -122,9 +122,11 @@ private fun LazyGridScope.streamingSession(
 ) {
     if (streaming.isNotEmpty()) {
         item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
                 top()
             }
         }
