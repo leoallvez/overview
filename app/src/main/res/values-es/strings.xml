@@ -95,7 +95,7 @@
 
     <string name="tv_show">Programas de televisión</string>
 
-    <string name="all">Películas y programas de televisión</string>
+    <string name="all">Todo</string>
 
     <string name="search_not_started">Los resultados de la búsqueda aparecerán aquí :)</string>
 
@@ -111,7 +111,9 @@
 
     <string name="search_in_all_places">Buscar en todas partes</string>
 
-    <string name="genres">Géneros</string>
+    <string name="genre">Género</string>
+
+    <string name="filter_by_genre">Filtrar por un género</string>
 
     <string name="type">Tipo</string>
 

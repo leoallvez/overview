@@ -95,7 +95,7 @@
 
     <string name="tv_show">Acara TV</string>
 
-    <string name="all">Film dan Acara TV</string>
+    <string name="all">Semua</string>
 
     <string name="search_not_started">Hasil pencarian akan muncul di sini :)</string>
 
@@ -111,7 +111,9 @@
 
     <string name="search_in_all_places">Cari di mana-mana</string>
 
-    <string name="genres">Genre</string>
+    <string name="genre">Genre</string>
+
+    <string name="filter_by_genre">Filtrasi oleh genre</string>
 
     <string name="type">Jenis</string>
 

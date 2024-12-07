@@ -8,8 +8,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +18,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetLayout
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -27,7 +29,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -71,7 +72,6 @@ import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
-import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
@@ -98,7 +98,6 @@ fun ExploreStreamingScreen(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ExploreStreamingContent(
     showAds: Boolean,
@@ -140,6 +139,7 @@ fun ExploreStreamingContent(
                 FilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
             }
         },
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
@@ -152,7 +152,8 @@ fun ExploreStreamingContent(
                     filters = filters,
                     genres = genres,
                     navigate = navigate,
-                    onFilter = closeFilterBottomSheet
+                    openGenreFilter = closeFilterBottomSheet,
+                    onSelectMediaType = inFiltering
                 )
             },
             bottomBar = {
@@ -183,19 +184,20 @@ fun ExploreStreamingContent(
 fun ExploreStreamingToolBar(
     filters: SearchFilters,
     genres: List<GenreEntity>,
-    onFilter: () -> Unit,
+    openGenreFilter: () -> Unit,
+    onSelectMediaType: (SearchFilters) -> Unit,
     navigate: ExploreStreamingNavigate
 ) {
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(dimensionResource(R.dimen.default_padding))
+            .padding(bottom = dimensionResource(R.dimen.screen_padding))
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.default_padding)),
+                .height(50.dp)
+                .padding(top = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             SelectStreaming(
@@ -206,15 +208,11 @@ fun ExploreStreamingToolBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.default_padding)),
+                .padding(top = 10.dp)
+                .padding(horizontal = dimensionResource(R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            SelectFilter(
-                text = filterDescription(filters, genres),
-                isActivated = filters.areDefaultValues().not()
-            ) {
-                onFilter.invoke()
-            }
+            FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
         }
     }
 }
@@ -227,7 +225,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 StreamingIcon(
                     modifier = Modifier.padding(start = 4.dp),
-                    size = 30.dp,
+                    size = dimensionResource(id = R.dimen.icon_medium_size),
                     corner = dimensionResource(R.dimen.circle_conner),
                     streaming = streaming,
                     withBorder = false
@@ -235,39 +233,11 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
         },
-        icon = painterResource(id = R.drawable.baseline_expand_more)
+        icon = painterResource(id = R.drawable.keyboard_arrow_right)
     )
 }
 
-@Composable
-fun SelectFilter(text: String, isActivated: Boolean, onClick: () -> Unit) {
-    val color = if (isActivated) AccentColor else Gray
-    SelectButton(
-        onClick = { onClick.invoke() },
-        content = {
-            Icon(
-                painterResource(id = R.drawable.tune),
-                contentDescription = stringResource(id = R.string.filters),
-                modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.screen_padding))
-                    .size(20.dp),
-                tint = color
-            )
-            Text(
-                text = text,
-                color = color,
-                fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
-                modifier = Modifier
-                    .width(300.dp)
-                    .padding(dimensionResource(R.dimen.default_padding)),
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        isActive = isActivated,
-        height = 35.dp
-    )
-}
-
+// TODO: this component must be merged with the SelectStreaming component and simplified
 @Composable
 fun SelectButton(
     onClick: () -> Unit,
@@ -283,7 +253,7 @@ fun SelectButton(
             .height(height)
             .clickable { onClick.invoke() }
             .then(if (width == null) Modifier.fillMaxWidth() else Modifier.width(width))
-            .defaultBorder(color = color, corner = R.dimen.circle_conner)
+            .defaultBorder(color = Color.Black, corner = R.dimen.circle_conner)
             .background(SecondaryBackground)
     ) {
         Row(
@@ -292,35 +262,29 @@ fun SelectButton(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             content.invoke()
-            Box(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
-                Icon(tint = color, painter = icon, contentDescription = "")
+            Box(
+                Modifier
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.default_padding)
+                    )
+                    .clip(CircleShape)
+                    .background(SecondaryBackground)
+            ) {
+                Icon(
+                    tint = color,
+                    painter = icon,
+                    contentDescription = "",
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
+                )
             }
         }
     }
 }
 
 @Composable
-private fun filterDescription(
-    filters: SearchFilters,
-    genres: List<GenreEntity>
-): String {
-    val media = mediaTypeDescription(filters.mediaType)
-    val genre = genreDescription(filters.genreId, genres)
-    return "$media $genre"
-}
-
-@Composable
-private fun mediaTypeDescription(mediaType: MediaType): String = when (mediaType) {
-    MediaType.ALL -> stringResource(id = R.string.all)
-    MediaType.TV_SHOW -> stringResource(id = R.string.tv_show)
-    else -> stringResource(id = R.string.movies)
-}
-
-@Composable
 private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String {
     val genre = genres.firstOrNull { it.apiId == genreId }
-    val name = genre?.nameTranslation()
-    return if (name == null) String() else "• $name"
+    return genre?.nameTranslation() ?: String()
 }
 
 @Composable
@@ -331,10 +295,12 @@ fun StreamingScreamTitle(title: String?) {
             color = AccentColor,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.screen_padding),
-                vertical = dimensionResource(R.dimen.default_padding)
-            ).widthIn(max = 170.dp),
+            modifier = Modifier
+                .padding(
+                    horizontal = dimensionResource(R.dimen.screen_padding),
+                    vertical = dimensionResource(R.dimen.default_padding)
+                )
+                .widthIn(max = 170.dp),
             overflow = TextOverflow.Ellipsis
         )
     }
@@ -350,115 +316,120 @@ fun FilterBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(500.dp)
+            .wrapContentHeight()
             .background(SecondaryBackground)
-            .padding(
-                vertical = dimensionResource(R.dimen.default_padding),
-                horizontal = dimensionResource(R.dimen.screen_padding_new)
-            )
+            .padding(dimensionResource(R.dimen.screen_padding_new))
     ) {
-        CloseIcon(closeAction)
-        FilterMediaType(filters, inFiltering)
-        HorizontalDivider(
-            modifier = Modifier.padding(
-                top = 20.dp,
-                bottom = dimensionResource(id = R.dimen.screen_padding_new)
-            ),
-            thickness = 1.dp,
-            color = Gray
-        )
-        FilterGenres(genres, filters, inFiltering)
-        ClearFilter(filters, inFiltering, Modifier.align(Alignment.End))
-    }
-}
-
-@Composable
-fun ClearFilter(
-    filters: SearchFilters,
-    inFiltering: (SearchFilters) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    if (filters.areDefaultValues().not()) {
-        Column(
-            modifier = modifier
-                .fillMaxHeight()
-                .padding(bottom = 30.dp),
-            verticalArrangement = Arrangement.Bottom
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            FilterButton(
-                isActivated = true,
-                colorActivated = AlertColor,
-                backgroundColor = Color.Black,
-                buttonText = stringResource(R.string.clear_filters),
-                complement = {
-                    CleanFilterIcon()
-                }
-            ) {
-                inFiltering.invoke(SearchFilters(streaming = filters.streaming))
+            FilterTitle(stringResource(R.string.filter_by_genre))
+            CloseIcon(closeAction)
+        }
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
+        FilterGenres(genres, filters) {
+            if (filters.genreId == it.genreId) {
+                inFiltering.invoke(filters.copy(genreId = null))
+            } else {
+                inFiltering.invoke(it)
+                closeAction.invoke()
             }
         }
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
     }
-}
-
-@Composable
-private fun CleanFilterIcon() {
-    Icon(
-        tint = AlertColor,
-        modifier = Modifier
-            .size(20.dp)
-            .padding(1.dp)
-            .background(Color.Black),
-        painter = painterResource(id = R.drawable.delete_outline),
-        contentDescription = stringResource(R.string.clear_filters)
-    )
 }
 
 @Composable
 fun CloseIcon(onClick: () -> Unit) {
     Box(
-        Modifier
-            .fillMaxWidth()
-            .padding(top = dimensionResource(id = R.dimen.default_padding)),
-        contentAlignment = Alignment.TopEnd
+        modifier = Modifier
+            .clip(CircleShape)
+            .size(25.dp)
+            .clickable { onClick.invoke() }
     ) {
-        Box(
+        Icon(
+            tint = Color.White,
             modifier = Modifier
-                .clip(CircleShape)
-                .height(20.dp)
-                .background(Gray.copy(alpha = 0.5f))
-                .clickable { onClick.invoke() }
+                .size(20.dp)
+                .align(Alignment.Center),
+            imageVector = Icons.Rounded.Close,
+            contentDescription = stringResource(R.string.close)
+        )
+    }
+}
+
+@Composable
+fun FilterMediaType(
+    filters: SearchFilters,
+    genres: List<GenreEntity>,
+    onSelectMedia: (SearchFilters) -> Unit,
+    onOpenGenreFilter: () -> Unit
+) {
+    val onClearFilter = {
+        onSelectMedia(filters.copy(mediaType = MediaType.ALL, genreId = null))
+    }
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth().background(PrimaryBackground)
         ) {
-            Icon(
-                tint = SecondaryBackground,
-                modifier = Modifier.size(20.dp),
-                imageVector = Icons.Rounded.Close,
-                contentDescription = stringResource(R.string.close)
-            )
+            when (filters.mediaType.key) {
+                MediaType.ALL.key -> {
+                    val options = MediaType.getAllOrdered()
+                    options.forEach { type ->
+                        MediaTypeFilterButton(type, filters.mediaType.key) {
+                            with(filters) {
+                                if (mediaType != type) {
+                                    onSelectMedia(
+                                        filters.copy(mediaType = type, genreId = null)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                MediaType.TV_SHOW.key -> {
+                    ClosableFilterButton(
+                        buttonText = stringResource(R.string.tv_show),
+                        isActivated = true,
+                        onClick = onClearFilter
+                    )
+                    SelectGenreButton(filters, genres, onOpenGenreFilter)
+                }
+                MediaType.MOVIE.key -> {
+                    ClosableFilterButton(
+                        buttonText = stringResource(R.string.movies),
+                        isActivated = true,
+                        onClick = onClearFilter
+                    )
+                    SelectGenreButton(filters, genres, onOpenGenreFilter)
+                }
+            }
         }
     }
 }
 
 @Composable
-fun FilterMediaType(filters: SearchFilters, onClick: (SearchFilters) -> Unit) {
-    val options = MediaType.getAllOrdered()
-    Column {
-        FilterTitle(stringResource(R.string.type))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(SecondaryBackground)
-        ) {
-            options.forEach { type ->
-                MediaTypeFilterButton(type, filters.mediaType.key) {
-                    with(filters) {
-                        if (mediaType != type) {
-                            onClick.invoke(filters.copy(mediaType = type, genreId = null))
-                        }
-                    }
-                }
-            }
+fun SelectGenreButton(filters: SearchFilters, genres: List<GenreEntity>, onClick: () -> Unit) {
+    val isActivated = filters.genreId != null
+    FilterButton(
+        onClick = onClick,
+        isActivated = isActivated,
+        backgroundColor = SecondaryBackground,
+        buttonText = if (isActivated) {
+            genreDescription(filters.genreId, genres)
+        } else {
+            stringResource(R.string.genre)
+        },
+        complement = {
+            Icon(
+                tint = if (isActivated) AccentColor else Gray,
+                modifier = Modifier.size(20.dp),
+                painter = painterResource(id = R.drawable.baseline_expand_more),
+                contentDescription = stringResource(R.string.filters)
+            )
         }
-    }
+    )
 }
 
 @Composable
@@ -468,16 +439,14 @@ fun FilterGenres(
     onClick: (SearchFilters) -> Unit
 ) {
     Column {
-        FilterTitle(stringResource(R.string.genres))
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
             modifier = Modifier.fillMaxWidth(),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
-                FilterButton(
+                ClosableFilterButton(
                     buttonText = genre.nameTranslation(),
-                    backgroundColor = SecondaryBackground,
                     isActivated = filters.genreId == genre.apiId
                 ) {
                     onClick.invoke(filters.copy(genreId = genre.apiId))
@@ -488,11 +457,37 @@ fun FilterGenres(
 }
 
 @Composable
+fun ClosableFilterButton(
+    buttonText: String,
+    isActivated: Boolean,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
+    onClick: () -> Unit
+) {
+    FilterButton(
+        buttonText = buttonText,
+        backgroundColor = SecondaryBackground,
+        isActivated = isActivated,
+        contentPadding = contentPadding,
+        complement = {
+            if (isActivated) {
+                Icon(
+                    tint = AccentColor,
+                    modifier = Modifier.size(15.dp),
+                    imageVector = Icons.Rounded.Close,
+                    contentDescription = stringResource(R.string.close)
+                )
+            }
+        }
+    ) {
+        onClick.invoke()
+    }
+}
+
+@Composable
 fun FilterTitle(title: String) {
     Text(
         text = title,
         color = Color.White,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.screen_padding_new)),
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold
     )

@@ -5,18 +5,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,7 +41,6 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.ui.AdsBanner
-import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
@@ -48,6 +49,7 @@ import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.util.onClick
 import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -120,7 +122,11 @@ private fun LazyGridScope.streamingSession(
 ) {
     if (streaming.isNotEmpty()) {
         item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-            Box(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
                 top()
             }
         }
@@ -135,7 +141,8 @@ fun ToolBar(onBackstack: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(PrimaryBackground),
+            .background(PrimaryBackground)
+            .padding(top = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -149,16 +156,19 @@ fun ToolBar(onBackstack: () -> Unit) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ButtonWithIcon(
-                painter = Icons.Filled.Clear,
-                descriptionResource = R.string.backstack_icon,
-                background = Color.White.copy(alpha = 0.1f),
-                padding = PaddingValues(
-                    vertical = dimensionResource(R.dimen.screen_padding)
-                ),
-                onClick = onBackstack::invoke,
-                onLongClick = onBackstack::invoke
-            )
+            Box(
+                Modifier
+                    .clip(CircleShape)
+                    .background(PrimaryBackground)
+                    .onClick(onBackstack)
+            ) {
+                Icon(
+                    Icons.Filled.Clear,
+                    tint = Color.White,
+                    contentDescription = stringResource(id = R.string.backstack_icon),
+                    modifier = Modifier.size(25.dp)
+                )
+            }
         }
     }
 }

@@ -95,7 +95,7 @@
 
     <string name="tv_show">รายการโทรทัศน์</string>
 
-    <string name="all">ภาพยนตร์และรายการทีวี</string>
+    <string name="all">ทั้งหมด</string>
 
     <string name="search_not_started">ผลการค้นหาจะปรากฏที่นี่ :)</string>
 
@@ -111,7 +111,9 @@
 
     <string name="search_in_all_places">ค้นหาทุกที่</string>
 
-    <string name="genres">ประเภท</string>
+    <string name="genre">แนวเพลง</string>
+
+    <string name="filter_by_genre">กรองโดยแนวเพลง</string>
 
     <string name="type">พิมพ์</string>
 

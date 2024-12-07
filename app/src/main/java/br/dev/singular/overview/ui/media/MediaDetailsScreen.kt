@@ -458,11 +458,11 @@ fun LikeButton(
     isLiked: Boolean,
     onClick: () -> Unit
 ) {
-    val buttonSize = 40.dp
+    val buttonSize = 30.dp
     val duration = 200
     val unlikedColor = Gray
     val likedColor = AlertColor
-    val pulsationScale = if (isLiked) 1.2f else 1f
+    val pulsationScale = if (isLiked) 0.9f else 0.7f
 
     val background = remember { Animatable(unlikedColor) }
     LaunchedEffect(isLiked) {

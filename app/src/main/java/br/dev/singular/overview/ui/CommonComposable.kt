@@ -297,7 +297,7 @@ fun ButtonWithIcon(
             .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(40.dp)
+            .size(30.dp)
             .combinedClickable(
                 onClick = onClick::invoke,
                 onLongClick = onLongClick::invoke
@@ -607,9 +607,7 @@ fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
                 url = getPosterImage(),
                 contentDescription = letter,
                 withBorder = true,
-                modifier = Modifier
-                    .size(width = 125.dp, height = 180.dp)
-                    .padding(1.dp)
+                modifier = Modifier.padding(1.dp)
             )
             BasicText(
                 text = letter,
@@ -799,7 +797,9 @@ fun FilterButton(
     isActivated: Boolean = false,
     colorActivated: Color = AccentColor,
     backgroundColor: Color = PrimaryBackground,
-    padding: PaddingValues = PaddingValues(end = dimensionResource(R.dimen.screen_padding)),
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = dimensionResource(R.dimen.default_padding)
+    ),
     complement: @Composable () -> Unit = {},
     onClick: () -> Unit
 ) {
@@ -807,12 +807,10 @@ fun FilterButton(
     OutlinedButton(
         onClick = { onClick.invoke() },
         shape = RoundedCornerShape(percent = 100),
-        contentPadding = PaddingValues(
-            horizontal = dimensionResource(R.dimen.default_padding)
-        ),
+        contentPadding = contentPadding,
         modifier = Modifier
-            .height(25.dp)
-            .padding(padding),
+            .height(30.dp)
+            .padding(PaddingValues(end = dimensionResource(R.dimen.screen_padding))),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor
