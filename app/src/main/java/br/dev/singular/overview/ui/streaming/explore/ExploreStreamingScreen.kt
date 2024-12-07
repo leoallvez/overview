@@ -370,9 +370,9 @@ fun FilterMediaType(
         onSelectMedia(filters.copy(mediaType = MediaType.ALL, genreId = null))
     }
     Column {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground)) {
+        Row(
+            modifier = Modifier.fillMaxWidth().background(PrimaryBackground)
+        ) {
             when (filters.mediaType.key) {
                 MediaType.ALL.key -> {
                     val options = MediaType.getAllOrdered()
