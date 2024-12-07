@@ -297,7 +297,7 @@ fun ButtonWithIcon(
             .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(40.dp)
+            .size(30.dp)
             .combinedClickable(
                 onClick = onClick::invoke,
                 onLongClick = onLongClick::invoke
@@ -421,7 +421,7 @@ fun BasicImage(
                 .crossfade(true)
                 .build(),
             modifier = modifier
-                .background(SecondaryBackground)
+                .background(PrimaryBackground)
                 .fillMaxWidth()
                 .height(height)
                 .clip(RoundedCornerShape(corner))

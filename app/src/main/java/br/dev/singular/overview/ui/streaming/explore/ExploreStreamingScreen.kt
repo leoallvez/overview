@@ -195,7 +195,9 @@ fun ExploreStreamingToolBar(
             .padding(bottom = dimensionResource(R.dimen.screen_padding))
     ) {
         Row(
-            modifier = Modifier.height(50.dp).padding(top = 10.dp),
+            modifier = Modifier
+                .height(50.dp)
+                .padding(top = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             SelectStreaming(
@@ -223,7 +225,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 StreamingIcon(
                     modifier = Modifier.padding(start = 4.dp),
-                    size = 30.dp,
+                    size = dimensionResource(id = R.dimen.icon_medium_size),
                     corner = dimensionResource(R.dimen.circle_conner),
                     streaming = streaming,
                     withBorder = false
@@ -260,12 +262,19 @@ fun SelectButton(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             content.invoke()
-            Box(Modifier.padding(horizontal = dimensionResource(R.dimen.default_padding))) {
+            Box(
+                Modifier
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.default_padding)
+                    )
+                    .clip(CircleShape)
+                    .background(SecondaryBackground)
+            ) {
                 Icon(
                     tint = color,
                     painter = icon,
                     contentDescription = "",
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
                 )
             }
         }
@@ -361,7 +370,9 @@ fun FilterMediaType(
         onSelectMedia(filters.copy(mediaType = MediaType.ALL, genreId = null))
     }
     Column {
-        Row(modifier = Modifier.fillMaxWidth().background(PrimaryBackground)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .background(PrimaryBackground)) {
             when (filters.mediaType.key) {
                 MediaType.ALL.key -> {
                     val options = MediaType.getAllOrdered()
