@@ -458,7 +458,7 @@ fun LikeButton(
     isLiked: Boolean,
     onClick: () -> Unit
 ) {
-    val buttonSize = 30.dp
+    val buttonSize = 35.dp
     val duration = 200
     val unlikedColor = Gray
     val likedColor = AlertColor
