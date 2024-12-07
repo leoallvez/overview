@@ -607,10 +607,7 @@ fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
                 url = getPosterImage(),
                 contentDescription = letter,
                 withBorder = true,
-                modifier = Modifier
-                    //.size(width = 125.dp, height = 180.dp)
-                    //.onSizeChanged { it == IntSize.Zero}
-                    .padding(1.dp)
+                modifier = Modifier.padding(1.dp)
             )
             BasicText(
                 text = letter,
