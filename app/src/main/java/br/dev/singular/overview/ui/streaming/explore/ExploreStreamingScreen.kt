@@ -233,7 +233,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
         },
-        icon = painterResource(id = R.drawable.keyboard_arrow_right)
+        icon = painterResource(id = R.drawable.keyboard_arrow_down)
     )
 }
 

@@ -16,8 +16,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -49,6 +47,7 @@ import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.onClick
 import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
@@ -158,15 +157,18 @@ fun ToolBar(onBackstack: () -> Unit) {
         ) {
             Box(
                 Modifier
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.default_padding)
+                    )
                     .clip(CircleShape)
-                    .background(PrimaryBackground)
+                    .background(SecondaryBackground)
                     .onClick(onBackstack)
             ) {
                 Icon(
-                    Icons.Filled.Clear,
                     tint = Color.White,
+                    painter = painterResource(id = R.drawable.keyboard_arrow_up),
                     contentDescription = stringResource(id = R.string.backstack_icon),
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
                 )
             }
         }
