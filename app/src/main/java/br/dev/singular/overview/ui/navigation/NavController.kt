@@ -1,12 +1,8 @@
 package br.dev.singular.overview.ui.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,8 +23,6 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
-private typealias AnimatedTransition = AnimatedContentTransitionScope<NavBackStackEntry>
-
 @Composable
 fun NavController(navController: NavHostController = rememberNavController()) {
     NavHost(
@@ -41,8 +35,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = ScreenNav.SelectStreaming.route,
-            enterTransition = { makeLeftEnterTransition(duration = 550) },
-            exitTransition = { makeRightExitTransition(duration = 550) }
+            exitTransition  = { upExitTransition(duration = AnimationDurations.LONG) },
+            enterTransition = { downEnterTransition(duration = AnimationDurations.LONG) }
         ) {
             SelectStreamingScreen(navigate = BasicNavigate(navController))
         }
@@ -52,7 +46,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         composable(
             route = ScreenNav.MediaDetails.route,
             arguments = listOf(NavArg.ID, NavArg.TYPE, NavArg.BACKSTACK),
-            exitTransition = { makeRightExitTransition() }
+            exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
         ) { navBackStackEntry ->
             MediaDetailsScreen(
                 params = navBackStackEntry.getParams(),
@@ -62,7 +56,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         composable(
             route = ScreenNav.PersonDetails.route,
             arguments = listOf(NavArg.ID),
-            exitTransition = { makeRightExitTransition() }
+            exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
         ) { navBackStackEntry ->
             PersonDetailsScreen(
                 apiId = navBackStackEntry.getApiId(),
@@ -80,8 +74,3 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     }
 }
 
-private fun AnimatedTransition.makeRightExitTransition(duration: Int = 300) =
-    slideOutOfContainer(SlideDirection.End, tween(duration))
-
-private fun AnimatedTransition.makeLeftEnterTransition(duration: Int = 300) =
-    slideIntoContainer(SlideDirection.Start, tween(duration))
