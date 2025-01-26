@@ -1,5 +1,6 @@
 package br.dev.singular.overview.ui.streaming.select
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -33,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
@@ -46,6 +49,7 @@ import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
+import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.onClick
@@ -130,7 +134,13 @@ private fun LazyGridScope.streamingSession(
             }
         }
         items(streaming.size) { index ->
-            StreamingItem(streaming = streaming[index], onClick = onClick)
+            with(streaming[index]) {
+                StreamingItem(
+                    imageUri = getLogoImage(),
+                    contentDescription = name,
+                    onClick = { onClick(toJson()) }
+                )
+            }
         }
     }
 }
@@ -177,21 +187,69 @@ fun ToolBar(onBackstack: () -> Unit) {
 
 @Composable
 fun StreamingItem(
-    streaming: StreamingEntity,
-    onClick: (String) -> Unit
+    imageUri: String = "",
+    painter: Painter? = null,
+    isSelected : Boolean = false,
+    contentDescription: String,
+    onClick: () -> Unit
 ) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(data = streaming.getLogoImage())
-            .crossfade(true)
-            .build(),
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .then(Modifier.border(true))
-            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-            .clickable { onClick.invoke(streaming.toJson()) },
-        contentScale = ContentScale.Fit,
-        contentDescription = streaming.name,
-        error = painterResource(R.drawable.placeholder)
-    )
+
+    val modifier = Modifier
+        .background(PrimaryBackground)
+        .then(
+            Modifier.border(
+                withBorder = true,
+                width = if (isSelected) 5.dp else 1.dp,
+                color = if (isSelected) AccentColor else Gray
+            )
+        )
+        .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+        .clickable { onClick() }
+
+    val contentScale = ContentScale.Fit
+
+    if (painter != null) {
+        Image(
+            painter = painter,
+            modifier = modifier,
+            contentScale = contentScale,
+            contentDescription = contentDescription,
+        )
+    } else {
+        AsyncImage(
+            model = createImageRequest(uri = imageUri),
+            modifier = modifier,
+            contentScale = contentScale,
+            contentDescription = contentDescription,
+            error = painterResource(R.drawable.placeholder)
+        )
+    }
 }
+
+@Composable
+private fun createImageRequest(uri: String) =
+    ImageRequest.Builder(LocalContext.current)
+        .data(data = uri)
+        .crossfade(true)
+        .build()
+
+@Preview
+@Composable
+fun StreamingItemNotActivePreview() {
+    StreamingItem(
+        painter = painterResource(id = R.drawable.netflix_icon),
+        contentDescription = "Netflix",
+        isSelected = false,
+    ) {}
+}
+
+@Preview
+@Composable
+fun StreamingItemActivePreview() {
+    StreamingItem(
+        painter = painterResource(id = R.drawable.netflix_icon),
+        contentDescription = "Netflix",
+        isSelected = true,
+    ) {}
+}
+
