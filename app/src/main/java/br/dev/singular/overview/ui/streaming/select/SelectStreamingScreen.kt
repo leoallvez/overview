@@ -135,7 +135,7 @@ fun StreamingItem(
                 painter = painter,
                 modifier = modifier,
                 contentScale = contentScale,
-                contentDescription = contentDescription,
+                contentDescription = contentDescription
             )
         } else {
             AsyncImage(
@@ -247,7 +247,7 @@ fun StreamingItemNotActivatedPreview() {
     StreamingItem(
         painter = painterResource(id = R.drawable.netflix_icon),
         contentDescription = "Netflix",
-        isSelected = false,
+        isSelected = false
     ) {}
 }
 
@@ -257,6 +257,6 @@ fun StreamingItemActivatedPreview() {
     StreamingItem(
         painter = painterResource(id = R.drawable.netflix_icon),
         contentDescription = "Netflix",
-        isSelected = true,
+        isSelected = true
     ) {}
 }
