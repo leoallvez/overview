@@ -35,7 +35,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = ScreenNav.SelectStreaming.route,
-            exitTransition  = { upExitTransition(duration = AnimationDurations.LONG) },
+            exitTransition = { upExitTransition(duration = AnimationDurations.LONG) },
             enterTransition = { downEnterTransition(duration = AnimationDurations.LONG) }
         ) {
             SelectStreamingScreen(navigate = BasicNavigate(navController))
@@ -73,4 +73,3 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         }
     }
 }
-
