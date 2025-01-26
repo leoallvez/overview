@@ -2,6 +2,7 @@ package br.dev.singular.overview.ui
 
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
+import android.icu.text.ListFormatter.Width
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -434,9 +435,14 @@ fun BasicImage(
     }
 }
 
-fun Modifier.border(withBorder: Boolean): Modifier = composed {
+@Composable
+fun Modifier.border(
+    withBorder: Boolean,
+    color: Color = Gray,
+    width: Dp = dimensionResource(R.dimen.border_width)
+): Modifier = composed {
     if (withBorder) {
-        border(dimensionResource(R.dimen.border_width), Gray, RoundedCornerShape(dimensionResource(R.dimen.corner)))
+        border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner)))
     } else {
         this
     }
