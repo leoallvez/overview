@@ -2,7 +2,6 @@ package br.dev.singular.overview.ui
 
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
-import android.icu.text.ListFormatter.Width
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
