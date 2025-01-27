@@ -196,6 +196,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.toolbar.compose)
     implementation(libs.progress.indicator)
+    implementation(libs.youtube.player)
 
     // Test dependencies
     testImplementation(libs.junit)
