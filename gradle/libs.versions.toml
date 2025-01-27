@@ -1,6 +1,7 @@
 [versions]
 
 compile-sdk = "34"
+core = "12.1.0"
 firebase-crashlytics-gradle = "2.9.9"
 google-services = "4.4.1"
 gradle = "8.5.2"
@@ -55,6 +56,7 @@ compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 
+youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core" }
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 # Lifecycle

@@ -50,6 +50,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
@@ -81,6 +82,7 @@ import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.util.YouTubePlayerListener
 import br.dev.singular.overview.util.defaultBorder
 import br.dev.singular.overview.util.defaultPadding
 import br.dev.singular.overview.util.toJson
@@ -88,6 +90,7 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import timber.log.Timber
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 @Composable
 fun MediaDetailsScreen(
@@ -237,6 +240,7 @@ fun MediaBody(
             prodBannerId = R.string.media_details_banner,
             isVisible = showAds
         )
+        YoutubePlayer(videoId = "Hd4B0nIuaTc")
         CastList(media.getOrderedCast()) { apiId ->
             navigate.toPersonDetails(apiId = apiId)
         }
@@ -431,6 +435,18 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
             }
         }
     }
+}
+
+@Composable
+fun YoutubePlayer(videoId: String) {
+    AndroidView(
+        modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.screen_padding)),
+        factory = {
+            YouTubePlayerView(it).apply {
+                addYouTubePlayerListener(YouTubePlayerListener(videoId))
+            }
+        }
+    )
 }
 
 @Composable
