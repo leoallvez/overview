@@ -56,6 +56,7 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
+import br.dev.singular.overview.data.model.media.Trailer
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
@@ -240,7 +241,7 @@ fun MediaBody(
             prodBannerId = R.string.media_details_banner,
             isVisible = showAds
         )
-        YoutubePlayer(videoId = "Hd4B0nIuaTc")
+        YoutubePlayer(media.trailers)
         CastList(media.getOrderedCast()) { apiId ->
             navigate.toPersonDetails(apiId = apiId)
         }
@@ -438,15 +439,21 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 }
 
 @Composable
-fun YoutubePlayer(videoId: String) {
-    AndroidView(
-        modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.screen_padding)),
-        factory = {
-            YouTubePlayerView(it).apply {
-                addYouTubePlayerListener(YouTubePlayerListener(videoId))
-            }
+fun YoutubePlayer(trailers: List<Trailer>) {
+
+    if (trailers.isNotEmpty()) {
+        trailers.forEach { trailer ->
+            AndroidView(
+                modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.screen_padding)),
+                factory = {
+                    YouTubePlayerView(it).apply {
+                        addYouTubePlayerListener(YouTubePlayerListener(trailer.key))
+                    }
+                }
+            )
         }
-    )
+    }
+
 }
 
 @Composable
