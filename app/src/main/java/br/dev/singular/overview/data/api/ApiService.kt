@@ -199,7 +199,7 @@ interface ApiService {
         @Query(value = "api_key")
         apiKey: String = API_KEY,
         @Query(value = "language")
-        language: String,
+        language: String = ""
     ): NetworkResponse<ListResponse<Trailer>, ErrorResponse>
 
     companion object {
