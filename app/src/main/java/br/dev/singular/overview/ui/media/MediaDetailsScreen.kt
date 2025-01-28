@@ -440,7 +440,6 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 
 @Composable
 fun YoutubePlayer(trailers: List<Trailer>) {
-
     if (trailers.isNotEmpty()) {
         trailers.forEach { trailer ->
             AndroidView(
@@ -453,7 +452,6 @@ fun YoutubePlayer(trailers: List<Trailer>) {
             )
         }
     }
-
 }
 
 @Composable

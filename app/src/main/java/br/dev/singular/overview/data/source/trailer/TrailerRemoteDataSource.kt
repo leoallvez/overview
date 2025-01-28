@@ -21,5 +21,4 @@ class TrailerRemoteDataSource @Inject constructor(
     private suspend fun getTrailers(apiId: Long, type: String) = _locale.run {
         _api.getTrailers(id = apiId, mediaType = type, language = language)
     }
-
 }
