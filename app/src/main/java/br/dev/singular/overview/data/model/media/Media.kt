@@ -28,7 +28,7 @@ abstract class Media {
     @field:Json(name = "providers")
     var streamings: List<StreamingEntity> = listOf()
 
-    var trailers: List<Trailer> = listOf()
+    var videos: List<Video> = listOf()
     var isLiked: Boolean = false
 
     abstract fun getSimilarMedia(): List<Media>
