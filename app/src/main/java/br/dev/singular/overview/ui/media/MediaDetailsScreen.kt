@@ -56,7 +56,7 @@ import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
-import br.dev.singular.overview.data.model.media.Trailer
+import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
@@ -241,7 +241,7 @@ fun MediaBody(
             prodBannerId = R.string.media_details_banner,
             isVisible = showAds
         )
-        YoutubePlayer(media.trailers)
+        YoutubePlayer(media.videos)
         CastList(media.getOrderedCast()) { apiId ->
             navigate.toPersonDetails(apiId = apiId)
         }
@@ -439,7 +439,7 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 }
 
 @Composable
-fun YoutubePlayer(trailers: List<Trailer>) {
+fun YoutubePlayer(trailers: List<Video>) {
     if (trailers.isNotEmpty()) {
         trailers.forEach { trailer ->
             AndroidView(

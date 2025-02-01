@@ -7,7 +7,7 @@ import br.dev.singular.overview.data.api.response.ListResponse
 import br.dev.singular.overview.data.api.response.PagingResponse
 import br.dev.singular.overview.data.api.response.ProviderResponse
 import br.dev.singular.overview.data.model.media.Movie
-import br.dev.singular.overview.data.model.media.Trailer
+import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
@@ -191,7 +191,7 @@ interface ApiService {
 
     // Trailers
     @GET(value = "{media_type}/{api_id}/videos")
-    suspend fun getTrailers(
+    suspend fun getVideos(
         @Path(value = "media_type", encoded = true)
         mediaType: String,
         @Path(value = "api_id", encoded = true)
@@ -200,7 +200,7 @@ interface ApiService {
         apiKey: String = API_KEY,
         @Query(value = "language")
         language: String = ""
-    ): NetworkResponse<ListResponse<Trailer>, ErrorResponse>
+    ): NetworkResponse<ListResponse<Video>, ErrorResponse>
 
     companion object {
         private const val API_KEY = BuildConfig.API_KEY

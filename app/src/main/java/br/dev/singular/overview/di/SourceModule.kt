@@ -12,8 +12,8 @@ import br.dev.singular.overview.data.source.person.IPersonRemoteDataSource
 import br.dev.singular.overview.data.source.person.PersonRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.StreamingRemoteDataSource
-import br.dev.singular.overview.data.source.trailer.ITrailerRemoteDataSource
-import br.dev.singular.overview.data.source.trailer.TrailerRemoteDataSource
+import br.dev.singular.overview.data.source.video.IVideoRemoteDataSource
+import br.dev.singular.overview.data.source.video.VideoRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -55,6 +55,6 @@ abstract class SourceModule {
 
     @Binds
     abstract fun bindTrailerRemoteDataSource(
-        source: TrailerRemoteDataSource
-    ): ITrailerRemoteDataSource
+        source: VideoRemoteDataSource
+    ): IVideoRemoteDataSource
 }
