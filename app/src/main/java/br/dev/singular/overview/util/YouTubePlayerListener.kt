@@ -5,11 +5,11 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import timber.log.Timber
 
-class YouTubePlayerListener(private val videoId: String) : AbstractYouTubePlayerListener() {
+class YouTubePlayerListener(private val videoKey: String) : AbstractYouTubePlayerListener() {
 
     override fun onReady(youTubePlayer: YouTubePlayer) {
         super.onReady(youTubePlayer)
-        youTubePlayer.cueVideo(videoId, 0f)
+        youTubePlayer.cueVideo(videoKey, startSeconds = 0f)
     }
 
     override fun onStateChange(
@@ -26,9 +26,7 @@ class YouTubePlayerListener(private val videoId: String) : AbstractYouTubePlayer
             PlayerConstants.PlayerState.ENDED -> {
                 Timber.d("Video ended.")
             }
-            else -> {
-                Timber.d("Actual state: $state")
-            }
+            else -> { Timber.d("Actual state: $state") }
         }
     }
 }

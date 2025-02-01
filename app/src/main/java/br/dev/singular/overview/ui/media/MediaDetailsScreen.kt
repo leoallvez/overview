@@ -1,5 +1,6 @@
 package br.dev.singular.overview.ui.media
 
+import android.content.res.Configuration
 import androidx.annotation.StringRes
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -27,10 +29,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -40,24 +45,28 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
-import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.media.TvShow
+import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
@@ -87,11 +96,13 @@ import br.dev.singular.overview.util.YouTubePlayerListener
 import br.dev.singular.overview.util.defaultBorder
 import br.dev.singular.overview.util.defaultPadding
 import br.dev.singular.overview.util.toJson
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import timber.log.Timber
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 @Composable
 fun MediaDetailsScreen(
@@ -241,7 +252,8 @@ fun MediaBody(
             prodBannerId = R.string.media_details_banner,
             isVisible = showAds
         )
-        YoutubePlayer(media.videos)
+        // VideoPlayer(media.videos)
+        YouTubePlayer(media.videos.first().key)
         CastList(media.getOrderedCast()) { apiId ->
             navigate.toPersonDetails(apiId = apiId)
         }
@@ -439,17 +451,158 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 }
 
 @Composable
-fun YoutubePlayer(trailers: List<Video>) {
-    if (trailers.isNotEmpty()) {
-        trailers.forEach { trailer ->
-            AndroidView(
-                modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.screen_padding)),
-                factory = {
-                    YouTubePlayerView(it).apply {
-                        addYouTubePlayerListener(YouTubePlayerListener(trailer.key))
+fun VideoPlayer(videos: List<Video>) {
+    videos.forEach { video ->
+        AndroidView(
+            factory = {
+                YouTubePlayerView(it).apply {
+                    addYouTubePlayerListener(YouTubePlayerListener(video.key))
+                }
+            },
+            modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.screen_padding))
+        )
+    }
+}
+
+@Composable
+fun YouTubePlayerScreen(videoId: String) {
+    var showFullScreen by remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        AndroidView(
+            factory = { context ->
+                YouTubePlayerView(context).apply {
+                    enableAutomaticInitialization = false
+                    initialize(object : AbstractYouTubePlayerListener() {
+                        override fun onReady(youTubePlayer: YouTubePlayer) {
+                            youTubePlayer.cueVideo(videoId, 0f)
+                        }
+                    })
+                }
+            },
+            modifier = Modifier.height(250.dp).fillMaxWidth()
+        )
+
+        Button(
+            onClick = { showFullScreen = true },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("Fullscreen")
+        }
+
+        if (showFullScreen) {
+            Dialog(
+                onDismissRequest = { showFullScreen = false },
+                properties = DialogProperties(usePlatformDefaultWidth = false)
+            ) {
+                Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+                    AndroidView(
+                        factory = { context ->
+                            YouTubePlayerView(context).apply {
+                                enableAutomaticInitialization = false
+                                initialize(object : AbstractYouTubePlayerListener() {
+                                    override fun onReady(youTubePlayer: YouTubePlayer) {
+                                        youTubePlayer.loadVideo(videoId, 0f)
+                                    }
+                                })
+                            }
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    )
+
+                    IconButton(
+                        onClick = { showFullScreen = false },
+                        modifier = Modifier.align(Alignment.TopStart).padding(16.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = "Close",
+                            tint = Color.White
+                        )
                     }
                 }
-            )
+            }
+        }
+    }
+}
+
+@Composable
+fun YouTubePlayer(videoId: String) {
+    var showFullScreen by remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        AndroidView(
+            factory = { context ->
+                YouTubePlayerView(context).apply {
+                    enableAutomaticInitialization = false
+                    initialize(object : AbstractYouTubePlayerListener() {
+                        override fun onReady(youTubePlayer: YouTubePlayer) {
+                            youTubePlayer.cueVideo(videoId, 0f)
+                        }
+                    })
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp) // Altura padrão no modo normal
+        )
+
+        Button(
+            onClick = { showFullScreen = true },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("Fullscreen")
+        }
+    }
+
+    if (showFullScreen) {
+        Dialog(
+            onDismissRequest = { showFullScreen = false },
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+            ) {
+                AndroidView(
+                    factory = { context ->
+                        YouTubePlayerView(context).apply {
+                            enableAutomaticInitialization = false
+                            initialize(object : AbstractYouTubePlayerListener() {
+                                override fun onReady(youTubePlayer: YouTubePlayer) {
+                                    youTubePlayer.loadVideo(videoId, 0f)
+                                }
+                            })
+                        }
+                    },
+                    modifier = Modifier
+                        .width(if (isLandscape) screenWidth else screenHeight * (16f / 9f))
+                        .height(if (isLandscape) screenHeight else screenWidth * (9f / 16f))
+                        .align(Alignment.Center) // Mantém o vídeo centralizado
+                )
+
+                IconButton(
+                    onClick = { showFullScreen = false },
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(16.dp)
+                        .background(Color.Black.copy(alpha = 0.5f), shape = CircleShape)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Fechar",
+                        tint = Color.White
+                    )
+                }
+            }
         }
     }
 }
