@@ -60,7 +60,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             route = ScreenNav.YouTubePlayer.route,
             arguments = listOf(
                 navArgument(name = ScreenNav.VIDEO_KEY_PARAM) { type = NavType.StringType }
-            ),
+            )
         ) { backStackEntry ->
             YouTubePlayerFullscreen(
                 videoKey = backStackEntry.arguments?.getString(ScreenNav.VIDEO_KEY_PARAM) ?: "",
