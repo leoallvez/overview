@@ -1,7 +1,9 @@
 package br.dev.singular.overview.util
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
 import br.dev.singular.overview.data.source.DataResult
@@ -77,5 +79,13 @@ fun <T> DataResult<out T>.toUiState(): UiState<T?> {
 fun Long?.isNull() = this == null
 
 fun Long?.toStringOrEmpty() = if (isNull()) String() else toString()
+
+fun Activity?.setFullscreen(isFullscreen: Boolean) {
+    this?.requestedOrientation = if (isFullscreen) {
+        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+    } else {
+        ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    }
+}
 
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

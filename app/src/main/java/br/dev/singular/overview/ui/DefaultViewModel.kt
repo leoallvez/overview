@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui.splash
+package br.dev.singular.overview.ui
 
 import androidx.lifecycle.ViewModel
 import br.dev.singular.overview.IAnalyticsTracker
@@ -7,7 +7,7 @@ import io.github.leoallvez.firebase.RemoteSource
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
+class DefaultViewModel @Inject constructor(
     val remoteConfig: RemoteSource,
     val analyticsTracker: IAnalyticsTracker
 ) : ViewModel()

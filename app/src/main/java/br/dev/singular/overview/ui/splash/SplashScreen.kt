@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.ui.DefaultViewModel
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -30,7 +31,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(
     navigate: SplashNavigate,
-    viewModel: SplashViewModel = hiltViewModel()
+    viewModel: DefaultViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
 

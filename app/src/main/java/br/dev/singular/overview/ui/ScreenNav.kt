@@ -11,6 +11,13 @@ sealed class ScreenNav(val route: String, val name: String) {
             "media_details/$id/$type/$backstack"
     }
 
+    object YouTubePlayer : ScreenNav(
+        route = "youtube_player/{$VIDEO_KEY_PARAM}",
+        name = "YouTubePlayerFullscreen"
+    ) {
+        fun editRoute(videoKey: String) = "youtube_player/$videoKey"
+    }
+
     object PersonDetails : ScreenNav(
         route = "person_details/{$ID_PARAM}",
         name = "PersonDetailsScreen"
@@ -41,6 +48,7 @@ sealed class ScreenNav(val route: String, val name: String) {
     companion object {
         const val ID_PARAM = "id"
         const val TYPE_PARAM = "type"
+        const val VIDEO_KEY_PARAM = "videoKey"
         const val BACKSTACK_PARAM = "backstack"
     }
 }

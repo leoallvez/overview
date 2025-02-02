@@ -846,7 +846,7 @@ fun DefaultVerticalSpace() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-    if (currentRoute != ScreenNav.Splash.route) {
+    if (currentRoute != ScreenNav.Splash.route && currentRoute != ScreenNav.YouTubePlayer.route) {
         Column {
             BottomNavigation {
                 val items = BottomNavigation.items
