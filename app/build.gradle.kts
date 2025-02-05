@@ -49,8 +49,6 @@ android {
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
         stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
         stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
-
-
         // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
         buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
