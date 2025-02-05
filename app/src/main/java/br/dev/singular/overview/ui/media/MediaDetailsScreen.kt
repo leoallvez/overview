@@ -14,11 +14,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -29,7 +31,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,10 +47,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
@@ -77,6 +81,7 @@ import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
+import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -86,6 +91,8 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.defaultBorder
 import br.dev.singular.overview.util.defaultPadding
 import br.dev.singular.overview.util.toJson
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -441,16 +448,52 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 @Composable
 fun VideoList(videos: List<Video>, onClick: (videoKey: String) -> Unit) {
     if (videos.isNotEmpty()) {
+        BasicTitle("Videos")
         LazyRow {
             items(videos) { video ->
-                Button(
-                    onClick = { onClick.invoke(video.key) },
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(video.name)
+                VideoItem(video = video) {
+                    onClick.invoke(it)
                 }
             }
         }
+    }
+}
+
+@Composable
+fun VideoItem(video: Video, onClick: (String) -> Unit) {
+    Column(
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding))
+    ) {
+        val with = 300.dp
+        Box(
+            modifier = Modifier
+                .width(with)
+                .aspectRatio(16f / 9f)
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                .clickable { onClick(video.key) }
+                .background(PrimaryBackground)
+                .then(Modifier.border(withBorder = true))
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(video.getThumbnailImage())
+                    .crossfade(true)
+                    .build(),
+                contentDescription = video.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        Spacer(modifier = Modifier.height(5.dp))
+        Text(
+            text = video.name,
+            color = Color.White,
+            overflow = TextOverflow.Ellipsis,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.width(with)
+        )
     }
 }
 

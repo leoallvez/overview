@@ -47,6 +47,9 @@ android {
         stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
         stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
+        stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
+
 
         // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
