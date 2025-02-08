@@ -28,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -146,6 +145,19 @@ fun StreamingItem(
                 error = painterResource(R.drawable.placeholder)
             )
         }
+
+        if (isSelected) {
+            Icon(
+                painterResource(id = R.drawable.radio_button_checked),
+                contentDescription = null,
+                tint = AccentColor,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .size(15.dp)
+                    .background(PrimaryBackground.copy(0.7f), CircleShape)
+                    .align(Alignment.BottomEnd)
+            )
+        }
     }
 }
 
@@ -190,20 +202,17 @@ fun ToolBar(onBackstack: () -> Unit) {
 }
 
 @Composable
-private fun Modifier.setStreamingIcon(isSelected: Boolean, onClick: () -> Unit) =
-    background(SecondaryBackground)
+private fun Modifier.setStreamingIcon(isSelected: Boolean, onClick: () -> Unit): Modifier {
+    val shape = RoundedCornerShape(dimensionResource(R.dimen.corner))
+    return background(SecondaryBackground)
         .border(
-            width = if (isSelected) 4.dp else 1.dp,
+            width = if (isSelected) 3.dp else 1.dp,
             color = if (isSelected) AccentColor else Gray,
-            shape = if (isSelected) {
-                RoundedCornerShape(topEnd = 5.dp, bottomStart = 5.dp)
-            } else {
-                RectangleShape
-            }
+            shape = shape
         )
-        .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+        .clip(shape)
         .clickable { onClick() }
-        .size(78.dp)
+}
 
 private fun LazyGridScope.streamingSession(
     top: @Composable () -> Unit,
