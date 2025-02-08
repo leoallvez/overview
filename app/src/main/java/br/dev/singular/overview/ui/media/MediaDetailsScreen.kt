@@ -507,7 +507,7 @@ fun VideoItem(video: Video, onClick: (String) -> Unit) {
             color = Color.White,
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,
-            maxLines = 1,
+            maxLines = 2,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(with)
         )
