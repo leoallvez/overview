@@ -9,6 +9,7 @@ import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.data.source.media.local.MediaLocalDataSource
 import br.dev.singular.overview.data.source.media.remote.IMediaRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
+import br.dev.singular.overview.data.source.video.IVideoRemoteDataSource
 import br.dev.singular.overview.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
@@ -20,12 +21,13 @@ class MediaRepository @Inject constructor(
     private val _mediaLocalSource: MediaLocalDataSource,
     private val _movieRemoteSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowRemoteSource: IMediaRemoteDataSource<TvShow>,
-    private val _streamingSource: IStreamingRemoteDataSource
+    private val _videosRemoteSource: IVideoRemoteDataSource,
+    private val _streamingDataSource: IStreamingRemoteDataSource
 ) : IMediaRepository {
 
     override suspend fun getItem(apiId: Long, type: MediaType) = withContext(_dispatcher) {
         val result = getMedia(apiId, type)
-        setMediaData(result)
+        setProperties(result)
         flow { emit(result) }
     }
 
@@ -39,13 +41,19 @@ class MediaRepository @Inject constructor(
         else -> throw IllegalArgumentException("Unsupported media type")
     }
 
-    private suspend fun setMediaData(result: DataResult<out Media>) {
-        result.data?.apply {
+    private suspend fun setProperties(result: DataResult<out Media>) {
+        val media = result.data ?: return
+
+        with(media) {
             isLiked = _mediaLocalSource.isLiked(apiId)
+            videos = getVideos(apiId, getType())
             streamings = getStreaming(apiId, getType())
         }
     }
 
     private suspend fun getStreaming(apiId: Long, mediaType: String) =
-        _streamingSource.getItems(apiId, mediaType).sortedBy { it.priority }
+        _streamingDataSource.getItems(apiId, mediaType).sortedBy { it.priority }
+
+    private suspend fun getVideos(apiId: Long, mediaType: String) =
+        _videosRemoteSource.getItems(apiId, mediaType).sortedBy { it.isValid }
 }

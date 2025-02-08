@@ -233,7 +233,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 StreamingScreamTitle(title = streaming?.name ?: String())
             }
         },
-        icon = painterResource(id = R.drawable.keyboard_arrow_right)
+        icon = painterResource(id = R.drawable.keyboard_arrow_down)
     )
 }
 
@@ -325,7 +325,7 @@ fun FilterBottomSheet(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             FilterTitle(stringResource(R.string.filter_by_genre))
-            CloseIcon(closeAction)
+            CloseIcon(onClick = closeAction)
         }
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
         FilterGenres(genres, filters) {
@@ -341,9 +341,9 @@ fun FilterBottomSheet(
 }
 
 @Composable
-fun CloseIcon(onClick: () -> Unit) {
+fun CloseIcon(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clip(CircleShape)
             .size(25.dp)
             .clickable { onClick.invoke() }

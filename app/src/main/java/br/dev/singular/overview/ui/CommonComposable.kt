@@ -434,9 +434,14 @@ fun BasicImage(
     }
 }
 
-fun Modifier.border(withBorder: Boolean): Modifier = composed {
+@Composable
+fun Modifier.border(
+    withBorder: Boolean,
+    color: Color = Gray,
+    width: Dp = dimensionResource(R.dimen.border_width)
+): Modifier = composed {
     if (withBorder) {
-        border(dimensionResource(R.dimen.border_width), Gray, RoundedCornerShape(dimensionResource(R.dimen.corner)))
+        border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner)))
     } else {
         this
     }
@@ -841,7 +846,7 @@ fun DefaultVerticalSpace() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-    if (currentRoute != ScreenNav.Splash.route) {
+    if (currentRoute != ScreenNav.Splash.route && currentRoute != ScreenNav.YouTubePlayer.route) {
         Column {
             BottomNavigation {
                 val items = BottomNavigation.items

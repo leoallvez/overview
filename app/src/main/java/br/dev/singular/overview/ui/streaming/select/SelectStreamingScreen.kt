@@ -1,6 +1,8 @@
 package br.dev.singular.overview.ui.streaming.select
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,8 +18,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -28,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -35,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
@@ -45,26 +48,21 @@ import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
-import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
+import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.onClick
-import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
 fun SelectStreamingScreen(
     navigate: BasicNavigate,
-    viewModel: SelectStreamingModel = hiltViewModel()
+    viewModel: SelectStreamingViewModel = hiltViewModel()
 ) {
     TrackScreenView(screen = ScreenNav.SelectStreaming, tracker = viewModel.analyticsTracker)
-    SelectStreamingContent(navigate = navigate, viewModel = viewModel)
-}
-
-@Composable
-fun SelectStreamingContent(navigate: BasicNavigate, viewModel: SelectStreamingModel) {
     Scaffold(
         modifier = Modifier.padding(
             horizontal = dimensionResource(R.dimen.screen_padding_new)
@@ -80,10 +78,10 @@ fun SelectStreamingContent(navigate: BasicNavigate, viewModel: SelectStreamingMo
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,
             onRefresh = { viewModel.refresh() }
-        ) { streaming ->
+        ) { streamingData ->
             Column(modifier = Modifier.padding(padding)) {
-                StreamingGrid(streaming = streaming) { stream ->
-                    viewModel.saveSelectedStream(stream)
+                StreamingGrid(data = streamingData) { streaming ->
+                    viewModel.saveSelectedStreaming(streaming)
                     navigate.toExploreStreaming()
                 }
             }
@@ -92,7 +90,10 @@ fun SelectStreamingContent(navigate: BasicNavigate, viewModel: SelectStreamingMo
 }
 
 @Composable
-fun StreamingGrid(streaming: StreamingData, onClick: (String) -> Unit) {
+fun StreamingGrid(
+    data: StreamingData,
+    onClick: (StreamingEntity) -> Unit
+) {
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
         modifier = Modifier
@@ -104,34 +105,46 @@ fun StreamingGrid(streaming: StreamingData, onClick: (String) -> Unit) {
     ) {
         streamingSession(
             top = { SimpleTitle(title = stringResource(R.string.main_steams)) },
-            streaming = streaming.selected,
+            streamingEntities = data.mains,
+            selectedId = data.selectedId,
             onClick = onClick
         )
         streamingSession(
             top = { SimpleTitle(title = stringResource(R.string.other_streams)) },
-            streaming = streaming.unselected,
+            streamingEntities = data.others,
+            selectedId = data.selectedId,
             onClick = onClick
         )
     }
 }
 
-private fun LazyGridScope.streamingSession(
-    top: @Composable () -> Unit,
-    streaming: List<StreamingEntity>,
-    onClick: (String) -> Unit
+@Composable
+fun StreamingItem(
+    imageUri: String = "",
+    painter: Painter? = null,
+    isSelected: Boolean = false,
+    contentDescription: String,
+    onClick: () -> Unit
 ) {
-    if (streaming.isNotEmpty()) {
-        item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
-            ) {
-                top()
-            }
-        }
-        items(streaming.size) { index ->
-            StreamingItem(streaming = streaming[index], onClick = onClick)
+    val modifier = Modifier.setStreamingIcon(isSelected, onClick)
+    val contentScale = ContentScale.Fit
+
+    Box {
+        if (painter != null) {
+            Image(
+                painter = painter,
+                modifier = modifier,
+                contentScale = contentScale,
+                contentDescription = contentDescription
+            )
+        } else {
+            AsyncImage(
+                model = createImageRequest(uri = imageUri),
+                modifier = modifier,
+                contentScale = contentScale,
+                contentDescription = contentDescription,
+                error = painterResource(R.drawable.placeholder)
+            )
         }
     }
 }
@@ -158,15 +171,18 @@ fun ToolBar(onBackstack: () -> Unit) {
         ) {
             Box(
                 Modifier
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.default_padding)
+                    )
                     .clip(CircleShape)
-                    .background(PrimaryBackground)
+                    .background(SecondaryBackground)
                     .onClick(onBackstack)
             ) {
                 Icon(
-                    Icons.Filled.Clear,
                     tint = Color.White,
+                    painter = painterResource(id = R.drawable.keyboard_arrow_up),
                     contentDescription = stringResource(id = R.string.backstack_icon),
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
                 )
             }
         }
@@ -174,22 +190,73 @@ fun ToolBar(onBackstack: () -> Unit) {
 }
 
 @Composable
-fun StreamingItem(
-    streaming: StreamingEntity,
-    onClick: (String) -> Unit
+private fun Modifier.setStreamingIcon(isSelected: Boolean, onClick: () -> Unit) =
+    background(SecondaryBackground)
+        .border(
+            width = if (isSelected) 4.dp else 1.dp,
+            color = if (isSelected) AccentColor else Gray,
+            shape = if (isSelected) {
+                RoundedCornerShape(topEnd = 5.dp, bottomStart = 5.dp)
+            } else {
+                RectangleShape
+            }
+        )
+        .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+        .clickable { onClick() }
+        .size(78.dp)
+
+private fun LazyGridScope.streamingSession(
+    top: @Composable () -> Unit,
+    streamingEntities: List<StreamingEntity>,
+    selectedId: Long,
+    onClick: (StreamingEntity) -> Unit
 ) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(data = streaming.getLogoImage())
-            .crossfade(true)
-            .build(),
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .then(Modifier.border(true))
-            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
-            .clickable { onClick.invoke(streaming.toJson()) },
-        contentScale = ContentScale.Fit,
-        contentDescription = streaming.name,
-        error = painterResource(R.drawable.placeholder)
-    )
+    if (streamingEntities.isNotEmpty()) {
+        item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
+                top()
+            }
+        }
+        items(streamingEntities.size) { index ->
+            with(streamingEntities[index]) {
+                StreamingItem(
+                    imageUri = getLogoImage(),
+                    contentDescription = name,
+                    isSelected = apiId == selectedId,
+                    onClick = { onClick(this) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun createImageRequest(uri: String) =
+    ImageRequest.Builder(LocalContext.current)
+        .data(data = uri)
+        .crossfade(true)
+        .build()
+
+@Preview
+@Composable
+fun StreamingItemNotActivatedPreview() {
+    StreamingItem(
+        painter = painterResource(id = R.drawable.netflix_icon),
+        contentDescription = "Netflix",
+        isSelected = false
+    ) {}
+}
+
+@Preview
+@Composable
+fun StreamingItemActivatedPreview() {
+    StreamingItem(
+        painter = painterResource(id = R.drawable.netflix_icon),
+        contentDescription = "Netflix",
+        isSelected = true
+    ) {}
 }

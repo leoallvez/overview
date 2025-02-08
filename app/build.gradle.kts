@@ -47,7 +47,8 @@ android {
         stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
         stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
-
+        stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
+        stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
         // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
         buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
@@ -186,6 +187,7 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.accompanist.flowlayout)
+    implementation(libs.accompanist.systemuicontroller)
 
     // Third-party libraries
     implementation(libs.timber)
@@ -196,6 +198,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.toolbar.compose)
     implementation(libs.progress.indicator)
+    implementation(libs.youtube.player)
 
     // Test dependencies
     testImplementation(libs.junit)
