@@ -1,4 +1,4 @@
-package br.dev.singular.overview.data.source
+package br.dev.singular.overview.data.local.source
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -26,6 +26,7 @@ class CacheDataSource @Inject constructor(
 
     companion object {
         val KEY_FILTER_CACHE = stringPreferencesKey(name = "filter_cache")
+        val KEY_LAST_CACHE_TIME = stringPreferencesKey(name = "last_cache_time")
         val KEY_SELECTED_STREAMING_CACHE = stringPreferencesKey(name = "selected_streaming_cache")
     }
 }

@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.model
 
 enum class MediaUIType {
     MOVIE,
-    TV_SHOW,
-    ALL
+    TV,
+    ALL,
+    UNKNOWN
 }

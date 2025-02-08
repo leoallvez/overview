@@ -40,7 +40,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run ktlint
-        run: ./gradlew ktlintCheck --stacktrace
+        run: ./gradlew ktlintCheck --continue --stacktrace
 
   lint:
     needs: [ build ]
@@ -60,7 +60,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run lint
-        run: ./gradlew lint --stacktrace
+        run: ./gradlew lint --continue --stacktrace
 
       - name: Upload lint report
         uses: actions/upload-artifact@v4
@@ -85,10 +85,14 @@ jobs:
           cache: gradle
 
       - name: Run unit tests
-        run: bash ./gradlew test --stacktrace
+        run: bash ./gradlew test --continue --stacktrace
 
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: unit_test_report
-          path: app/build/reports/tests/testDevDebugUnitTest
+          path: |
+            app/build/reports/tests/testDevDebugUnitTest
+            core/build/reports/tests/testDebugUnitTest
+            data/build/reports/tests/testDebugUnitTest
+            presentation/build/reports/tests/testDebugUnitTest

@@ -1,10 +1,9 @@
 package br.dev.singular.overview.domain.usecase.suggestions
 
 import br.dev.singular.overview.domain.model.Suggestion
-import br.dev.singular.overview.domain.repository.Delete
+import br.dev.singular.overview.domain.repository.DeleteAll
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
-import br.dev.singular.overview.domain.usecase.createSuggestionMock
 import br.dev.singular.overview.domain.usecase.suggetions.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggetions.IDeleteSuggestionsUseCase
 import io.mockk.coEvery
@@ -18,48 +17,34 @@ import org.junit.Test
 
 class DeleteSuggestionsUseCaseTest {
 
-    private lateinit var suggestionMock: Suggestion
     private lateinit var sut: IDeleteSuggestionsUseCase
-    private lateinit var deleterMock: Delete<Suggestion>
+    private lateinit var deleteAllMock: DeleteAll<Suggestion>
 
     @Before
     fun setup() {
-        deleterMock = mockk()
-        sut = DeleteSuggestionsUseCase(deleterMock)
-        suggestionMock = createSuggestionMock()
+        deleteAllMock = mockk()
+        sut = DeleteSuggestionsUseCase(deleteAllMock)
     }
 
     @Test
-    fun `invoke should return success when a single suggestion is deleted successfully`() = runTest {
+    fun `invoke should return success when delete all successfully`() = runTest {
         // arrange
-        coEvery { deleterMock.delete(suggestionMock) } returns Unit
+        coEvery { deleteAllMock.deleteAll() } returns Unit
         // act
-        val result = sut.invoke(suggestionMock)
+        val result = sut.invoke()
         // assert
-        coVerify { deleterMock.delete(suggestionMock) }
+        coVerify { deleteAllMock.deleteAll() }
         assertEquals(UseCaseState.Success(Unit), result)
     }
 
     @Test
-    fun `invoke should return success when multiple suggestions are deleted successfully`() = runTest {
+    fun `invoke should return failure when delete all throws exception`() = runTest {
         // arrange
-        val suggestions = arrayOf(suggestionMock, suggestionMock)
-        coEvery { deleterMock.delete(*suggestions) } returns Unit
+        coEvery { deleteAllMock.deleteAll() } throws Exception()
         // act
-        val result = sut.invoke(*suggestions)
+        val result = sut.invoke()
         // assert
-        coVerify { deleterMock.delete(*suggestions) }
-        assertEquals(UseCaseState.Success(Unit), result)
-    }
-
-    @Test
-    fun `invoke should return failure when deleter throws exception`() = runTest {
-        // arrange
-        coEvery { deleterMock.delete(suggestionMock) } throws Exception()
-        // act
-        val result = sut.invoke(suggestionMock)
-        // assert
-        coVerify { deleterMock.delete(suggestionMock) }
+        coVerify { deleteAllMock.deleteAll() }
         assertTrue(result is UseCaseState.Failure)
         assertTrue((result as UseCaseState.Failure).type is FailType.Exception)
     }

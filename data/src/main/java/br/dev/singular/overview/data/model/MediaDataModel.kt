@@ -1,32 +1,28 @@
 package br.dev.singular.overview.data.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import java.util.Date
 
-@Entity(tableName = "medias")
-class MediaDataModel(
-    @PrimaryKey
-    @field:Json(name = "id")
+@Serializable
+data class MediaDataModel(
     var id: Long = 0,
-    private val name: String? = "",
-    private val title: String? = "",
-    @field:Json(name = "poster_path")
-    @ColumnInfo(name = "poster_path")
-    val posterPath: String? = "",
-    @field:Json(name = "media_type")
-    var type: String? = "",
-    @ColumnInfo(name = "is_liked")
+    private val name: String = "",
+    private val title: String = "",
+    @SerialName("poster_path")
+    val posterPath: String,
+    @SerialName("media_type")
+    val type: MediaDataType = MediaDataType.UNKNOWN,
+    @Transient
     var isLiked: Boolean = false,
-    @ColumnInfo(name = "last_update")
+    @Transient
     var lastUpdate: Date = Date()
 ) {
     val betterTitle: String
         get() = when {
-            name.isNullOrBlank().not() -> name
-            title.isNullOrBlank().not() -> title
+            name.isBlank().not() -> name
+            title.isBlank().not() -> title
             else -> ""
         }
 }

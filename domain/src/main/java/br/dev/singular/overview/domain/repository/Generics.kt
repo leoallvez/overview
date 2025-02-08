@@ -12,6 +12,10 @@ interface Delete<T> {
     suspend fun delete(vararg items: T)
 }
 
+interface DeleteAll<T> {
+    suspend fun deleteAll()
+}
+
 interface GetAll<T> {
     suspend fun getAll(): List<T>
 }

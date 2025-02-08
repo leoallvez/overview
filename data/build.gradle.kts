@@ -3,6 +3,7 @@ import com.android.build.api.dsl.VariantDimension
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    kotlin("plugin.serialization") version "1.8.0"
 }
 
 android {
@@ -43,13 +44,26 @@ dependencies {
     implementation(libs.material)
     implementation(libs.hilt.android)
     api(libs.retrofit)
+    
     // Room
     api(libs.room.runtime)
     api(libs.room.ktx)
     api(libs.room.paging)
-    api(libs.converter.moshi)
+
+    // DataStore
+    api(libs.datastore.preferences)
+
+    api(libs.kotlinx.serialization.json)
+    api(libs.network.response.adapter)
+
+    implementation(project(":core"))
     implementation(project(":domain"))
+
+    // Test dependencies
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kluent)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

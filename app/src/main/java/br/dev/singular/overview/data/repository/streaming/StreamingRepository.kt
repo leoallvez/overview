@@ -1,10 +1,10 @@
 package br.dev.singular.overview.data.repository.streaming
 
+import br.dev.singular.overview.data.local.source.CacheDataSource
+import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_SELECTED_STREAMING_CACHE
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
-import br.dev.singular.overview.data.source.CacheDataSource
-import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_SELECTED_STREAMING_CACHE
 import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.StreamingLocalDataSource
 import br.dev.singular.overview.di.IoDispatcher

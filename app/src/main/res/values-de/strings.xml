@@ -1,158 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Dynamic -->
+    <string name="all_trending" tools:ignore="UnusedResources">Trends</string>
     <string name="movie_top_rated" tools:ignore="UnusedResources">Am besten bewertete Filme</string>
-
     <string name="discover_movie" tools:ignore="UnusedResources">Filme, die Sie genießen können</string>
-
     <string name="movie_trending" tools:ignore="UnusedResources">Trendfilme</string>
-
     <string name="movie_popular" tools:ignore="UnusedResources">Beliebte Filme</string>
-
     <string name="tv_top_rated" tools:ignore="UnusedResources">Beim Streaming am besten bewertet</string>
-
     <string name="discover_tv" tools:ignore="UnusedResources">Sie können es per Streaming genießen</string>
-
     <string name="tv_trending" tools:ignore="UnusedResources">Streaming-Trends</string>
-
     <string name="tv_popular" tools:ignore="UnusedResources">Beliebt beim Streaming</string>
-
+    <!-- Dynamic -->
     <!-- Genre -->
-
     <string name="genre_10759" tools:ignore="UnusedResources" />
-
     <string name="genre_10762" tools:ignore="UnusedResources" />
-
     <string name="genre_10763" tools:ignore="UnusedResources" />
-
     <string name="genre_10764" tools:ignore="UnusedResources" />
-
     <string name="genre_10765" tools:ignore="UnusedResources" />
-
     <string name="genre_10766" tools:ignore="UnusedResources" />
-
     <string name="genre_10767" tools:ignore="UnusedResources" />
-
     <string name="genre_10768" tools:ignore="UnusedResources" />
-
+    <!-- Genre -->
     <string name="error_on_loading">Ladefehler :(</string>
-
     <string name="btn_try_again">Versuchen Sie es erneut</string>
-
     <string name="refresh_icon">Symbol „Neu laden“.</string>
-
     <string name="backstack_icon">Symbol „Zurück nach Hause“.</string>
-
     <string name="search_icon">Suchsymbol</string>
-
     <string name="search_clean_icon">Suchsymbol löschen</string>
-
     <string name="app_offline_msg">Keine Internetverbindung verfügbar</string>
-
     <string name="loading">Wird geladen…</string>
-
     <string name="synopsis">Zusammenfassung</string>
-
     <string name="biography">Biografie</string>
-
     <string name="cast">Gießen</string>
-
     <string name="related">Verwandt</string>
-
     <string name="where_to_watch">Anbieter</string>
-
     <string name="separator">•</string>
-
     <string name="em_dash">-</string>
-
     <string name="tv_shows_participation">TV-Teilnahme</string>
-
     <string name="movies_participation">Filmbeteiligung</string>
-
     <string name="age">%s Jahre</string>
-
     <string name="place_of_birth">Geburtsort</string>
-
     <string name="one_season">1 Saison</string>
-
     <string name="n_seasons">%s-Saison</string>
-
     <string name="one_episode">1 Folge</string>
-
     <string name="n_episodes">%s Folgen</string>
-
     <string name="runtime_per_episode">Laufzeit: %s pro Episode</string>
-
     <string name="director">Direktor</string>
-
     <string name="release_date">Veröffentlichungsdatum</string>
-
     <string name="runtime">Laufzeit</string>
-
     <string name="search_field_text">Suchen</string>
-
     <string name="movies">Filme</string>
-
     <string name="tv_show">Fernsehshows</string>
-
     <string name="all">Alles</string>
-
     <string name="search_not_started">Suchergebnisse werden hier angezeigt :)</string>
-
     <string name="search_result_empty">keine Ergebnisse gefunden :(</string>
-
     <string name="empty_list_providers">Nicht zum Streamen verfügbar</string>
-
     <string name="not_yet_released">Noch nicht veröffentlicht</string>
-
     <string name="edit">Bearbeiten</string>
-
     <string name="yours_streaming">Dein Streaming</string>
-
     <string name="search_in_all_places">Überall suchen</string>
-
     <string name="genre">Genre</string>
-
     <string name="filter_by_genre">Filtrar nach einem Genre</string>
-
     <string name="type">Typ</string>
-
     <string name="filters">Filter</string>
-
     <string name="close">Symbol zum Schließen</string>
-
     <string name="not_found">Keine Ergebnisse gefunden :(</string>
-
     <string name="check_filters">Überprüfen Sie die Filter und versuchen Sie es erneut</string>
-
     <string name="clear_filters">Filter löschen</string>
-
     <string name="main_steams">Haupt</string>
-
     <string name="favorite_streams">Favoriten</string>
-
     <string name="other_streams">Andere</string>
-
     <string name="streaming">Streaming</string>
-
     <string name="like_button">Gefällt mir Symbol</string>
-
     <string name="liked_not_found">Ihre Favoriten werden hier angezeigt :)</string>
-
     <string name="liked_movie_not_found">Ihre Lieblingsfilme werden hier angezeigt :)</string>
-
     <string name="liked_tv_show_not_found">Ihre Lieblingsserien werden hier angezeigt :)</string>
-
     <string name="my_favorite">Meine Favoriten</string>
-
     <string name="home">Startseite</string>
-
     <string name="favorites">Favoriten</string>
-
     <string name="search">Suche</string>
-
     <string name="select_streaming">Streaming auswählen</string>
-
     <string name="videos">Videos</string>
-
 </resources>

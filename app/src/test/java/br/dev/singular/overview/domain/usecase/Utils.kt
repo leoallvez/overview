@@ -8,7 +8,7 @@ fun createSuggestionMock(): Suggestion {
     return Suggestion(
         path = "path1",
         order = 1,
-        type = "movie",
+        type = MediaType.MOVIE,
         titleKey = "sampleTitleKey",
         isActive = true,
         medias = emptyList()

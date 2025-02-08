@@ -1,7 +1,7 @@
 package br.dev.singular.overview.di
 
 import br.dev.singular.overview.BuildConfig.ADS_ARE_VISIBLE
-import br.dev.singular.overview.core.remote.RemoteSource
+import br.dev.singular.overview.core.remote.RemoteConfigProvider
 import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
@@ -20,7 +20,7 @@ class RemoteModule {
     @ShowAds
     @Provides
     fun providerDisplayAdsRemote(
-        remoteSource: RemoteSource
+        remoteSource: RemoteConfigProvider
     ): Boolean {
         return DisplayAdsRemoteConfig(
             _localPermission = ADS_ARE_VISIBLE,
@@ -32,7 +32,7 @@ class RemoteModule {
     @Provides
     fun providerStreamingRemote(
         apiLocale: ApiLocale,
-        remoteSource: RemoteSource,
+        remoteSource: RemoteConfigProvider,
         jsonFileReader: IJsonFileReader
     ): RemoteConfig<List<StreamingEntity>> {
         val region = apiLocale.region

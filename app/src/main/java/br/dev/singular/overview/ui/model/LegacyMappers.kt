@@ -18,10 +18,10 @@ fun Media.toUIModel(): MediaUIModel {
 
 fun String.MediaUIType() = when (this) {
     MediaType.MOVIE.key -> MediaUIType.MOVIE
-    else -> MediaUIType.TV_SHOW
+    else -> MediaUIType.TV
 }
 
 fun MediaUIType.toMediaType() = when (this) {
     MediaUIType.MOVIE -> MediaType.MOVIE.key
-    else -> MediaType.MOVIE.key
+    else -> MediaType.TV_SHOW.key
 }

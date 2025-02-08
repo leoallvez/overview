@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import br.dev.singular.overview.IAnalyticsTracker
+import br.dev.singular.overview.data.local.source.CacheDataSource
+import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
-import br.dev.singular.overview.data.source.CacheDataSource
-import br.dev.singular.overview.data.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.di.ShowAds
 import br.dev.singular.overview.util.fromJson

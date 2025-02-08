@@ -1,158 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Dynamic -->
+    <string name="all_trending" tools:ignore="UnusedResources">趋势</string>
     <string name="movie_top_rated" tools:ignore="UnusedResources">最受好评的电影</string>
-
     <string name="discover_movie" tools:ignore="UnusedResources">您可以欣赏的电影</string>
-
     <string name="movie_trending" tools:ignore="UnusedResources">热门电影</string>
-
     <string name="movie_popular" tools:ignore="UnusedResources">热门电影</string>
-
     <string name="tv_top_rated" tools:ignore="UnusedResources">流媒体评分最高</string>
-
     <string name="discover_tv" tools:ignore="UnusedResources">您可以在流媒体上欣赏它</string>
-
     <string name="tv_trending" tools:ignore="UnusedResources">流媒体趋势</string>
-
     <string name="tv_popular" tools:ignore="UnusedResources">在流媒体上很受欢迎</string>
-
+    <!-- Dynamic -->
     <!-- Genre -->
-
     <string name="genre_10759" tools:ignore="UnusedResources" />
-
     <string name="genre_10762" tools:ignore="UnusedResources" />
-
     <string name="genre_10763" tools:ignore="UnusedResources" />
-
     <string name="genre_10764" tools:ignore="UnusedResources" />
-
     <string name="genre_10765" tools:ignore="UnusedResources" />
-
     <string name="genre_10766" tools:ignore="UnusedResources" />
-
     <string name="genre_10767" tools:ignore="UnusedResources" />
-
     <string name="genre_10768" tools:ignore="UnusedResources" />
-
-    <string name="error_on_loading">错误加载 ：（</string>
-
+    <!-- Genre -->
+    <string name="error_on_loading">错误加载 ：(</string>
     <string name="btn_try_again">再试一次</string>
-
     <string name="refresh_icon">重新加载图标</string>
-
     <string name="backstack_icon">返回主页图标</string>
-
     <string name="search_icon">搜索图标</string>
-
     <string name="search_clean_icon">清除搜索图标</string>
-
     <string name="app_offline_msg">没有可用的互联网连接</string>
-
     <string name="loading">加载中…</string>
-
     <string name="synopsis">概要</string>
-
     <string name="biography">传</string>
-
     <string name="cast">投掷</string>
-
     <string name="related">有关的</string>
-
     <string name="where_to_watch">供应商</string>
-
     <string name="separator">•</string>
-
     <string name="em_dash">-</string>
-
     <string name="tv_shows_participation">电视参与</string>
-
     <string name="movies_participation">电影参与</string>
-
     <string name="age">%s 年</string>
-
     <string name="place_of_birth">出生地</string>
-
     <string name="one_season">1 季</string>
-
     <string name="n_seasons">%s 季</string>
-
     <string name="one_episode">1 集</string>
-
     <string name="n_episodes">%s 集</string>
-
     <string name="runtime_per_episode">时长：每集 %s</string>
-
     <string name="director">导演</string>
-
     <string name="release_date">发布日期</string>
-
     <string name="runtime">运行</string>
-
     <string name="search_field_text">搜索</string>
-
     <string name="movies">电影</string>
-
     <string name="tv_show">电视节目</string>
-
     <string name="all">全部</string>
-
     <string name="search_not_started">搜索结果将出现在这里 :)</string>
-
-    <string name="search_result_empty">未找到结果 ：（</string>
-
+    <string name="search_result_empty">未找到结果 ：(</string>
     <string name="empty_list_providers">不可用于流式传输</string>
-
     <string name="not_yet_released">尚未公布</string>
-
     <string name="edit">编辑</string>
-
     <string name="yours_streaming">你的流媒体</string>
-
     <string name="search_in_all_places">到处搜索</string>
-
     <string name="genre">类型</string>
-
     <string name="filter_by_genre">按类型筛选</string>
-
     <string name="type">类型</string>
-
     <string name="filters">过滤器</string>
-
     <string name="close">关闭图标</string>
-
     <string name="not_found">未找到结果 ：（</string>
-
     <string name="check_filters">检查过滤器并重试</string>
-
     <string name="clear_filters">清除过滤器</string>
-
     <string name="main_steams">主要</string>
-
     <string name="favorite_streams">收藏夹</string>
-
     <string name="other_streams">其他</string>
-
     <string name="streaming">流媒体</string>
-
     <string name="like_button">点赞图标</string>
-
     <string name="liked_not_found">您的收藏将在这里显示 :)</string>
-
     <string name="liked_movie_not_found">您喜欢的电影将显示在这里 :)</string>
-
     <string name="liked_tv_show_not_found">您喜欢的电视节目将显示在这里 :)</string>
-
     <string name="my_favorite">我的收藏</string>
-
     <string name="home">主页</string>
-
     <string name="favorites">收藏夹</string>
-
     <string name="search">搜索</string>
-
     <string name="select_streaming">选择流媒体</string>
-
     <string name="videos">视频</string>
-
 </resources>

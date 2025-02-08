@@ -6,12 +6,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import timber.log.Timber
 
 class AnalyticsTracker(
-    private val _source: AnalyticsSource
+    private val source: AnalyticsSource
 ) : IAnalyticsTracker {
 
     override fun screenViewEvent(screenName: String, className: String) {
         val bundle = createScreenViewBundle(screenName, className)
-        _source.screenViewEvent(bundle)
+        source.screenViewEvent(bundle)
         Timber.i(message = "$screenName $className")
     }
 

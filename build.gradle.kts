@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     id("org.jlleitschuh.gradle.ktlint") version "12.3.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
 }
 
 buildscript {

@@ -1,4 +1,4 @@
-package br.dev.singular.overview.di
+package br.dev.singular.overview.di.core
 
 import android.content.Context
 import br.dev.singular.overview.AnalyticsTracker
@@ -6,8 +6,8 @@ import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.core.analytics.AnalyticsWrapper
 import br.dev.singular.overview.core.crashlytics.CrashlyticsSource
 import br.dev.singular.overview.core.crashlytics.CrashlyticsWrapper
+import br.dev.singular.overview.core.remote.RemoteConfigProvider
 import br.dev.singular.overview.core.remote.RemoteConfigWrapper
-import br.dev.singular.overview.core.remote.RemoteSource
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
@@ -21,13 +21,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class FirebaseModule {
+class CoreModule {
 
     @Singleton
     @Provides
-    fun provideRemoteSource(): RemoteSource {
-        val remote = Firebase.remoteConfig
-        return RemoteConfigWrapper(remote)
+    fun provideRemoteConfigProvider(): RemoteConfigProvider {
+        return RemoteConfigWrapper(Firebase.remoteConfig)
     }
 
     @Singleton
@@ -36,12 +35,12 @@ class FirebaseModule {
         @ApplicationContext context: Context
     ): IAnalyticsTracker {
         val wrapper = AnalyticsWrapper(FirebaseAnalytics.getInstance(context))
-        return AnalyticsTracker(_source = wrapper)
+        return AnalyticsTracker(wrapper)
     }
 
     @Singleton
     @Provides
-    fun provideCrashlytics(): CrashlyticsSource {
+    fun provideCrashlyticsSource(): CrashlyticsSource {
         return CrashlyticsWrapper(FirebaseCrashlytics.getInstance())
     }
 }

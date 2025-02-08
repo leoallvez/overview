@@ -6,31 +6,29 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import timber.log.Timber
 
-interface RemoteSource {
+interface RemoteConfigProvider {
     fun getString(key: RemoteConfigKey): String
     fun getBoolean(key: RemoteConfigKey): Boolean
     fun start()
 }
 
 class RemoteConfigWrapper(
-    private val _remote: FirebaseRemoteConfig
-) : RemoteSource {
+    private val remote: FirebaseRemoteConfig
+) : RemoteConfigProvider {
 
-    override fun getString(key: RemoteConfigKey) =
-        _remote.getString(key.value)
+    override fun getString(key: RemoteConfigKey) = remote.getString(key.value)
 
-    override fun getBoolean(key: RemoteConfigKey) =
-        _remote.getBoolean(key.value)
+    override fun getBoolean(key: RemoteConfigKey) = remote.getBoolean(key.value)
 
     override fun start() {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
         }
-        _remote.setConfigSettingsAsync(configSettings)
+        remote.setConfigSettingsAsync(configSettings)
         onCompleteListener()
     }
 
-    private fun onCompleteListener() = with(_remote) {
+    private fun onCompleteListener() = with(remote) {
         fetch().addOnCompleteListener { task ->
             with(task) {
                 if (isSuccessful) {

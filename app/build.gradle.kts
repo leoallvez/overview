@@ -10,6 +10,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    kotlin("plugin.serialization") version "1.8.0"
 }
 
 android {
@@ -141,9 +142,6 @@ dependencies {
     implementation(libs.hilt.work)
     ksp(libs.hilt.compiler)
 
-    // DataStore
-    implementation(libs.datastore.preferences)
-
     // Google Ads
     implementation(libs.play.services.ads)
 
@@ -156,10 +154,11 @@ dependencies {
     // Third-party libraries
     implementation(libs.timber)
     implementation(libs.logging.interceptor)
-    implementation(libs.network.response.adapter)
     implementation(libs.toolbar.compose)
     implementation(libs.progress.indicator)
     implementation(libs.youtube.player)
+    implementation(libs.converter.moshi)
+    implementation(libs.converter.serialization)
 
     // Modules
     implementation(project(path = ":core"))

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "355948b62ae7289e08e4726b4c6a4a38",
+    "identityHash": "0d6ccd7f86f051870876e713af2b5ef2",
     "entities": [
       {
         "tableName": "genres",
@@ -32,9 +32,7 @@
           "columnNames": [
             "genre_db_id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "medias",
@@ -67,8 +65,7 @@
           {
             "fieldPath": "posterPath",
             "columnName": "poster_path",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "isLiked",
@@ -88,9 +85,7 @@
           "columnNames": [
             "media_db_id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "streamings",
@@ -132,9 +127,7 @@
           "columnNames": [
             "streaming_db_id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "media_types",
@@ -158,9 +151,7 @@
           "columnNames": [
             "media_type_db_id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "media_type_cross_ref",
@@ -205,14 +196,60 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_media_type_cross_ref_genre_db_id` ON `${TABLE_NAME}` (`genre_db_id`)"
           }
+        ]
+      },
+      {
+        "tableName": "suggestions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `path` TEXT NOT NULL, `order` INTEGER NOT NULL, `type` TEXT NOT NULL, `title_key` TEXT NOT NULL, `is_active` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "path",
+            "columnName": "path",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleKey",
+            "columnName": "title_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isActive",
+            "columnName": "is_active",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
         ],
-        "foreignKeys": []
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
       }
     ],
-    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '355948b62ae7289e08e4726b4c6a4a38')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0d6ccd7f86f051870876e713af2b5ef2')"
     ]
   }
 }

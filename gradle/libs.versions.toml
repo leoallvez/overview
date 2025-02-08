@@ -1,6 +1,7 @@
 [versions]
 # Global Settings
 app-id = "br.dev.singular.overview"
+kotlinx-serialization-json = "1.8.0"
 sdk-compile = "35"
 sdk-min = "24"
 sdk-target = "35"
@@ -43,6 +44,7 @@ firebase-bom = "33.14.0"
 # Network
 retrofit = "2.9.0"
 logging-interceptor = "4.11.0"
+converter-serialization = "1.0.0"
 network-response-adapter = "4.2.1"
 
 # UI
@@ -79,6 +81,7 @@ androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
 toolbar-compose = { module = "me.onebone:toolbar-compose", version.ref = "toolbar-compose" }
 
@@ -111,11 +114,12 @@ hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", ve
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
-compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "compose-compiler" } # Corrigido a referência
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "compose-compiler" }
 
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+converter-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "converter-serialization" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
 network-response-adapter = { module = "com.github.haroldadmin:NetworkResponseAdapter", version.ref = "network-response-adapter" }
 

@@ -8,7 +8,6 @@ interface ILocaleProvider {
     val language: String
 }
 
-// Named as ApiLocale on app module
 class LocaleProvider @Inject constructor() : ILocaleProvider {
 
     private val locale: Locale by lazy { Locale.getDefault() }

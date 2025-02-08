@@ -2,6 +2,7 @@ package br.dev.singular.overview.domain.model
 
 enum class MediaType {
     MOVIE,
-    TV_SHOW,
-    ALL
+    TV,
+    ALL,
+    UNKNOWN
 }
