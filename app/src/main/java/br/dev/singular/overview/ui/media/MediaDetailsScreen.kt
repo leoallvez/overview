@@ -31,6 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -88,6 +89,7 @@ import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.defaultBorder
 import br.dev.singular.overview.util.defaultPadding
 import br.dev.singular.overview.util.toJson
@@ -465,6 +467,7 @@ fun VideoItem(video: Video, onClick: (String) -> Unit) {
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding))
     ) {
         val with = 300.dp
+        val iconAlpha = 0.8f
         Box(
             modifier = Modifier
                 .width(with)
@@ -483,7 +486,21 @@ fun VideoItem(video: Video, onClick: (String) -> Unit) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
+            Box(
+                Modifier
+                    .clip(CircleShape)
+                    .background(SecondaryBackground.copy(alpha = iconAlpha))
+                    .align(Alignment.Center)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.PlayArrow,
+                    tint = AccentColor.copy(alpha = iconAlpha),
+                    contentDescription = null,
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
+                )
+            }
         }
+
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = video.name,
