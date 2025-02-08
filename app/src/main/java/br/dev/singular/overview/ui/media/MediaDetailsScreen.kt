@@ -329,7 +329,7 @@ fun StreamingOverview(
     isReleased: Boolean,
     onClickItem: (StreamingEntity) -> Unit
 ) {
-    BasicTitle(stringResource(R.string.where_to_watch))
+    BasicTitle(title = stringResource(R.string.where_to_watch))
     if (streaming.isNotEmpty()) {
         LazyRow(
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
@@ -448,7 +448,7 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 @Composable
 fun VideoList(videos: List<Video>, onClick: (videoKey: String) -> Unit) {
     if (videos.isNotEmpty()) {
-        BasicTitle("Videos")
+        BasicTitle(title = stringResource(R.string.videos))
         LazyRow {
             items(videos) { video ->
                 VideoItem(video = video) {
