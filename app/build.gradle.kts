@@ -91,7 +91,7 @@ android {
         create("hmg") {
             setAppName(appName = "app_name_hmg")
             dimension = "version"
-            applicationIdSuffix = ".hmg"
+            applicationIdSuffix = ".homol"
             versionNameSuffix = "-hmg"
             if (activeSigning) {
                 signingConfig = signingConfigs.getByName(name = "hmg")
