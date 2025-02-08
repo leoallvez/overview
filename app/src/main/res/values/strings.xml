@@ -149,4 +149,7 @@
     <string name="search">Buscar</string>
 
     <string name="select_streaming">Selecionar Streaming</string>
+
+    <string name="videos">Vídeos</string>
+
 </resources>
