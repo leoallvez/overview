@@ -28,7 +28,7 @@ sealed class BottomNavigation(
     )
 
     object Favorites : BottomNavigation(
-        nav = ScreenNav.Liked,
+        nav = ScreenNav.Favorites,
         title = R.string.favorites,
         icon = Icons.Default.Favorite
     )

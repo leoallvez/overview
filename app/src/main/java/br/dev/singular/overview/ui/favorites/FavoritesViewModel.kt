@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui.liked
+package br.dev.singular.overview.ui.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class LikedViewModel @Inject constructor(
+class FavoritesViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
     private val _repository: IMediaEntityPagingRepository
