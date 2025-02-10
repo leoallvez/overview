@@ -1,7 +1,8 @@
 package br.dev.singular.overview.ui
 
 sealed class ScreenNav(val route: String, val name: String) {
-    object Splash : ScreenNav(route = "splash_screen", name = "SplashScreen")
+
+    object Splash : ScreenNav(route = "splash-screen", name = "SplashScreen")
 
     object Home : ScreenNav(
         route = "home",
@@ -14,34 +15,34 @@ sealed class ScreenNav(val route: String, val name: String) {
     )
 
     object Favorites : ScreenNav(
-        route = "liked",
+        route = "favorites",
         name = "FavoritesScreen"
     )
 
     object MediaDetails : ScreenNav(
-        route = "media_details/{$ID_PARAM}/{$TYPE_PARAM}/{$BACKSTACK_PARAM}",
+        route = "media-details/{$ID_PARAM}/{$TYPE_PARAM}/{$BACKSTACK_PARAM}",
         name = "MediaDetailScreen"
     ) {
         fun editRoute(id: Long, type: String?, backstack: Boolean = false) =
-            "media_details/$id/$type/$backstack"
+            "media-details/$id/$type/$backstack"
     }
 
     object YouTubePlayer : ScreenNav(
-        route = "youtube_player/{$VIDEO_KEY_PARAM}",
+        route = "youtube-player/{$VIDEO_KEY_PARAM}",
         name = "YouTubePlayerFullscreen"
     ) {
-        fun editRoute(videoKey: String) = "youtube_player/$videoKey"
+        fun editRoute(videoKey: String) = "youtube-player/$videoKey"
     }
 
     object PersonDetails : ScreenNav(
-        route = "person_details/{$ID_PARAM}",
+        route = "person-details/{$ID_PARAM}",
         name = "PersonDetailsScreen"
     ) {
-        fun editRoute(id: Long) = "person_details/$id"
+        fun editRoute(id: Long) = "person-details/$id"
     }
 
     object SelectStreaming : ScreenNav(
-        route = "select_streaming",
+        route = "select-streaming",
         name = "SelectStreamingScreen"
     )
 
