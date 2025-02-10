@@ -13,9 +13,9 @@ sealed class ScreenNav(val route: String, val name: String) {
         name = "SearchScreen"
     )
 
-    object Liked : ScreenNav(
+    object Favorites : ScreenNav(
         route = "liked",
-        name = "LikedScreen"
+        name = "FavoritesScreen"
     )
 
     object MediaDetails : ScreenNav(

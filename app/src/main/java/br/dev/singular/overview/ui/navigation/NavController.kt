@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.liked.LikedScreen
+import br.dev.singular.overview.ui.favorites.FavoritesScreen
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
@@ -82,8 +82,8 @@ fun NavController(navController: NavHostController = rememberNavController()) {
                 navigate = HomeNavigate(nav = navController)
             )
         }
-        composable(route = ScreenNav.Liked.route) {
-            LikedScreen(navigate = BasicNavigate(nav = navController))
+        composable(route = ScreenNav.Favorites.route) {
+            FavoritesScreen(navigate = BasicNavigate(nav = navController))
         }
     }
 }
