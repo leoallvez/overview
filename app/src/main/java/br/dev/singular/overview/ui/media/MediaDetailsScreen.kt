@@ -163,7 +163,7 @@ fun MediaDetailsContent(
                     isLiked = isLiked,
                     onLikeClick = onLikeClick::invoke,
                     onBackstackClick = navigate::popBackStack,
-                    onBackstackLongClick = navigate::toExploreStreaming
+                    onBackstackLongClick = navigate::toHome
                 )
             }
         ) {
@@ -226,7 +226,7 @@ fun MediaBody(
     ) {
         StreamingOverview(media.streamings, media.isReleased()) { streaming ->
             onClickStreaming(streaming)
-            navigate.toExploreStreaming()
+            navigate.toHome()
         }
         MediaSpace()
         Info(stringResource(R.string.release_date), media.getFormattedReleaseDate())

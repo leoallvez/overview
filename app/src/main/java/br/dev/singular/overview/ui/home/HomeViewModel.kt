@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui.streaming.explore
+package br.dev.singular.overview.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExploreStreamingViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     @ShowAds val showAds: Boolean,
     private val _cache: CacheDataSource,
     val analyticsTracker: IAnalyticsTracker,
