@@ -16,7 +16,7 @@ sealed class BottomNavigation(
 ) {
 
     object Home : BottomNavigation(
-        nav = ScreenNav.ExploreStreaming,
+        nav = ScreenNav.Home,
         title = R.string.home,
         icon = Icons.Default.Home
     )
