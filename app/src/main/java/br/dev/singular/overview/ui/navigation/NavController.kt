@@ -13,13 +13,13 @@ import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.liked.LikedScreen
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
-import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
 import br.dev.singular.overview.ui.person.PersonDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.splash.SplashScreen
-import br.dev.singular.overview.ui.streaming.explore.ExploreStreamingScreen
+import br.dev.singular.overview.ui.home.HomeScreen
 import br.dev.singular.overview.ui.streaming.select.SelectStreamingScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.video.YouTubePlayerFullscreen
@@ -77,9 +77,9 @@ fun NavController(navController: NavHostController = rememberNavController()) {
                 navigate = BasicNavigate(nav = navController)
             )
         }
-        composable(route = ScreenNav.ExploreStreaming.route) {
-            ExploreStreamingScreen(
-                navigate = ExploreStreamingNavigate(nav = navController)
+        composable(route = ScreenNav.Home.route) {
+            HomeScreen(
+                navigate = HomeNavigate(nav = navController)
             )
         }
         composable(route = ScreenNav.Liked.route) {

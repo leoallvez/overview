@@ -81,7 +81,7 @@ fun SelectStreamingScreen(
             Column(modifier = Modifier.padding(padding)) {
                 StreamingGrid(data = streamingData) { streaming ->
                     viewModel.saveSelectedStreaming(streaming)
-                    navigate.toExploreStreaming()
+                    navigate.toHome()
                 }
             }
         }

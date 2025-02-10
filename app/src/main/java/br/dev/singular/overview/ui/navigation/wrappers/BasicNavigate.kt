@@ -13,8 +13,8 @@ open class BasicNavigate(private val nav: NavController) {
 
     // TODO: user this with long press.
     // https://stackoverflow.com/questions/76395349/jetpack-compose-android-button-detect-long-click
-    fun toExploreStreaming() {
-        nav.navigate(route = ScreenNav.ExploreStreaming.route) {
+    fun toHome() {
+        nav.navigate(route = ScreenNav.Home.route) {
             popUpTo(ScreenNav.Splash.route) {
                 inclusive = true
             }

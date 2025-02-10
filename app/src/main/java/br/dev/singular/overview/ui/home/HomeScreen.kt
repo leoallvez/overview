@@ -1,6 +1,5 @@
-package br.dev.singular.overview.ui.streaming.explore
+package br.dev.singular.overview.ui.home
 
-import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
@@ -71,7 +70,7 @@ import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.nameTranslation
-import br.dev.singular.overview.ui.navigation.wrappers.ExploreStreamingNavigate
+import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -82,13 +81,13 @@ import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
 @Composable
-fun ExploreStreamingScreen(
-    navigate: ExploreStreamingNavigate,
-    viewModel: ExploreStreamingViewModel = hiltViewModel()
+fun HomeScreen(
+    navigate: HomeNavigate,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.ExploreStreaming, tracker = viewModel.analyticsTracker)
+    TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
 
-    ExploreStreamingContent(
+    HomeContent(
         navigate = navigate,
         filters = viewModel.searchFilters.collectAsState().value,
         showAds = viewModel.showAds,
@@ -100,13 +99,12 @@ fun ExploreStreamingScreen(
 }
 
 @Composable
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun ExploreStreamingContent(
+fun HomeContent(
     showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
-    navigate: ExploreStreamingNavigate,
+    navigate: HomeNavigate,
     items: LazyPagingItems<MediaEntity>,
     inFiltering: (SearchFilters) -> Unit
 ) {
@@ -150,7 +148,7 @@ fun ExploreStreamingContent(
                 .background(PrimaryBackground)
                 .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
             topBar = {
-                ExploreStreamingToolBar(
+                HomeToolBar(
                     filters = filters,
                     genres = genres,
                     navigate = navigate,
@@ -183,12 +181,12 @@ fun ExploreStreamingContent(
 }
 
 @Composable
-fun ExploreStreamingToolBar(
+fun HomeToolBar(
     filters: SearchFilters,
     genres: List<GenreEntity>,
     openGenreFilter: () -> Unit,
     onSelectMediaType: (SearchFilters) -> Unit,
-    navigate: ExploreStreamingNavigate
+    navigate: HomeNavigate
 ) {
     Column(
         modifier = Modifier
@@ -232,7 +230,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                     streaming = streaming,
                     withBorder = false
                 )
-                StreamingScreamTitle(title = streaming?.name ?: String())
+                HomeScreamTitle(title = streaming?.name ?: String())
             }
         },
         icon = painterResource(id = R.drawable.keyboard_arrow_down)
@@ -290,7 +288,7 @@ private fun genreDescription(genreId: Long?, genres: List<GenreEntity>): String 
 }
 
 @Composable
-fun StreamingScreamTitle(title: String?) {
+fun HomeScreamTitle(title: String?) {
     title?.let {
         Text(
             text = title,

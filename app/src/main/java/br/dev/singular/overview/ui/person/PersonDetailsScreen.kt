@@ -74,7 +74,7 @@ fun PersonDetailsScreen(
             showAds = viewModel.showAds,
             onRefresh = onRefresh::invoke,
             onBackstackClick = navigate::popBackStack,
-            onBackstackLongClick = navigate::toExploreStreaming,
+            onBackstackLongClick = navigate::toHome,
             onNavigateToMediaDetails = navigate::toMediaDetails
         )
     }
