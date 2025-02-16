@@ -534,7 +534,6 @@ fun openSpotifyPlaylist(context: Context, playlistId: String) {
     }
 }
 
-
 @Composable
 fun VideoItem(video: Video, onClick: (String) -> Unit) {
     Column(
