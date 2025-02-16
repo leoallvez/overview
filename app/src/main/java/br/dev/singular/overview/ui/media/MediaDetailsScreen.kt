@@ -1,5 +1,15 @@
 package br.dev.singular.overview.ui.media
 
+import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -32,6 +42,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +59,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -56,6 +68,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
@@ -251,6 +264,14 @@ fun MediaBody(
         VideoList(media.videos) { videoKey ->
             navigate.toYouTubePlayer(videoKey = videoKey)
         }
+        val context = LocalContext.current
+        Button(
+            content = { Text("Open Spotify Playlist", color = Color.White) },
+            onClick = {
+                openSpotifyPlaylist(context, "3JUrJP460nFIqwjxM19slT")
+            }
+        )
+
         CastList(media.getOrderedCast()) { apiId ->
             navigate.toPersonDetails(apiId = apiId)
         }
@@ -460,6 +481,59 @@ fun VideoList(videos: List<Video>, onClick: (videoKey: String) -> Unit) {
         }
     }
 }
+
+@SuppressLint("SetJavaScriptEnabled")
+@Composable
+fun SpotifyEmbedScreen(playlistId: String) {
+    val spotifyEmbedUrl = "https://open.spotify.com/embed/album/$playlistId"
+
+    Column {
+        BasicTitle(title = "Music")
+        AndroidView(
+            factory = { context ->
+                WebView(context).apply {
+                    layoutParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    settings.apply {
+                        javaScriptEnabled = true
+                        domStorageEnabled = true
+                        mediaPlaybackRequiresUserGesture = false
+                        cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+                    }
+                    setBackgroundColor(PrimaryBackground.toArgb())
+                    webChromeClient = object : WebChromeClient() {}
+                    loadUrl(spotifyEmbedUrl)
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .padding(5.dp)
+                .background(PrimaryBackground),
+            onRelease = { webView ->
+                webView.loadUrl("about:blank")
+                webView.clearHistory()
+            }
+        )
+    }
+}
+
+fun openSpotifyPlaylist(context: Context, playlistId: String) {
+    val spotifyUri = "spotify:album:$playlistId"
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(spotifyUri)
+        setPackage("com.spotify.music")
+    }
+    try {
+        context.startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://open.spotify.com/album/$playlistId"))
+        context.startActivity(webIntent)
+    }
+}
+
 
 @Composable
 fun VideoItem(video: Video, onClick: (String) -> Unit) {
