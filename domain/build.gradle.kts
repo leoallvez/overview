@@ -11,5 +11,5 @@ java {
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = libs.plugins.jetbrains.kotlin.jvm.toString()
+    languageVersion = "1.8"
 }
