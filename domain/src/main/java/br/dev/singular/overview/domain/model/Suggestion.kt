@@ -1,6 +1,6 @@
 package br.dev.singular.overview.domain.model
 
-data class Suggestion (
+data class Suggestion(
     val path: String,
     val order: Int,
     val type: String,
