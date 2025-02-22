@@ -11,5 +11,5 @@ java {
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "2.0.0"
+    languageVersion = "1.9"
 }
