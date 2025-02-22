@@ -1,0 +1,13 @@
+package br.dev.singular.overview.domain.usecase
+
+sealed class UseCaseState<out T> {
+    data class Success<out T>(val data: T) : UseCaseState<T>()
+    data class Failure(val type: FailType = FailType.Unknown) : UseCaseState<Nothing>()
+}
+
+sealed class FailType {
+    data object NotFound : FailType()
+    data object Invalid : FailType()
+    data object Unknown : FailType()
+    data object Exception : FailType()
+}

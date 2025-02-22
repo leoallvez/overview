@@ -1,5 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":domain")
+include(":app")
+include(":firebase")
+
 dependencyResolutionManagement {
     repositories {
         google()
@@ -8,5 +12,3 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Overview"
-include(":app")
-include(":firebase")
