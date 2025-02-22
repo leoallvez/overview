@@ -1,6 +1,6 @@
 package br.dev.singular.overview.domain.model
 
-class Media (
+class Media(
     val id: Long,
     val type: String,
     val letter: String,

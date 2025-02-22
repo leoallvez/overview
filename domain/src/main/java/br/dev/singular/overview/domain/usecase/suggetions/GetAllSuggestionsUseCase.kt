@@ -35,4 +35,3 @@ class GetAllSuggestionsUseCase(
         const val MAX_MEDIA = 10
     }
 }
-
