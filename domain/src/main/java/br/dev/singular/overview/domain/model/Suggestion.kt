@@ -5,5 +5,6 @@ data class Suggestion(
     val order: Int,
     val type: String,
     val titleKey: String,
+    val isActive: Boolean,
     val medias: List<Media> = emptyList()
 )

@@ -8,6 +8,10 @@ interface Update<T> {
     suspend fun update(vararg items: T)
 }
 
+interface Delete<T> {
+    suspend fun delete(vararg items: T)
+}
+
 interface GetAll<T> {
     suspend fun getAll(): List<T>
 }
@@ -16,11 +20,7 @@ interface GetById<T> {
     suspend fun getById(id: Int): T?
 }
 
-interface Delete {
-    suspend fun deleteById(id: Int)
-}
-
-interface Writer<T> : Create<T>, Update<T>, Delete
+interface Writer<T> : Create<T>, Update<T>, Delete<T>
 
 interface Reader<T> : GetAll<T>, GetById<T>
 
