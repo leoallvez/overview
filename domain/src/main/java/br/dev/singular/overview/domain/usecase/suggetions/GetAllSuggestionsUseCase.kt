@@ -18,6 +18,7 @@ class GetAllSuggestionsUseCase(
     override suspend fun invoke(): UseCaseState<List<Suggestion>> {
         return runCatching {
             suggestionGetter.getAll()
+                .filter { it.isActive }
                 .map { suggestion ->
                     val medias = mediaRepository.getByPath(suggestion.path).take(MAX_MEDIA)
                     suggestion.copy(medias = medias)
