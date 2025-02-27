@@ -151,9 +151,6 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.livedata)
 
-    // Firebase Module
-    implementation(project(path = ":firebase"))
-
     // Navigation
     implementation(libs.navigation.compose)
 
@@ -199,6 +196,10 @@ dependencies {
     implementation(libs.toolbar.compose)
     implementation(libs.progress.indicator)
     implementation(libs.youtube.player)
+
+    // Modules
+    implementation(project(path = ":domain"))
+    implementation(project(path = ":firebase"))
 
     // Test dependencies
     testImplementation(libs.junit)
