@@ -32,7 +32,7 @@ class GetAllSuggestionsUseCase(
         )
     }
 
-    private companion object {
+    companion object {
         const val MAX_MEDIA = 10
     }
 }
