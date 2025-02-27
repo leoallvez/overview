@@ -16,7 +16,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-
 class CreateSuggestionsUseCaseTest {
 
     private lateinit var suggestionMock: Suggestion
