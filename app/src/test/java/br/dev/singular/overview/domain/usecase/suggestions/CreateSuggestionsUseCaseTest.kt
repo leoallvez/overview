@@ -4,7 +4,7 @@ import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.Create
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
-import br.dev.singular.overview.domain.usecase.createDomainSuggestionMock
+import br.dev.singular.overview.domain.usecase.createSuggestionMock
 import br.dev.singular.overview.domain.usecase.suggetions.CreateSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggetions.ICreateSuggestionsUseCase
 import io.mockk.coEvery
@@ -26,7 +26,7 @@ class CreateSuggestionsUseCaseTest {
     fun setup() {
         creatorMock = mockk()
         sut = CreateSuggestionsUseCase(creatorMock)
-        suggestionMock = createDomainSuggestionMock()
+        suggestionMock = createSuggestionMock()
     }
 
     @Test
