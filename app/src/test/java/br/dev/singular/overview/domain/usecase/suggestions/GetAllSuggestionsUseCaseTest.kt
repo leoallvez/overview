@@ -40,11 +40,10 @@ class GetAllSuggestionsUseCaseTest {
     @Test
     fun `invoke should return sorted active suggestions with media`() = runBlocking {
         // arrange
-        val suggestions = listOf(
+        coEvery { getterMock.getAll() } returns listOf(
             suggestionMock.copy(order = 2, isActive = true, path = "path1"),
             suggestionMock.copy(order = 1, isActive = true, path = "path2")
         )
-        coEvery { getterMock.getAll() } returns suggestions
         coEvery { mediaRepositoryMock.getByPath(any()) } returns listOf(mediaMock)
 
         // act
@@ -55,7 +54,7 @@ class GetAllSuggestionsUseCaseTest {
         coVerify(exactly = 2) { mediaRepositoryMock.getByPath(any()) }
         assertTrue(result is UseCaseState.Success)
         assertEquals(2, (result as UseCaseState.Success).data.size)
-        assertEquals("path2", result.data[0].path)
+        assertEquals("path2", result.data.first().path)
     }
 
     @Test
@@ -76,9 +75,10 @@ class GetAllSuggestionsUseCaseTest {
     @Test
     fun `invoke should exclude inactive suggestions from the result`() = runBlocking {
         // arrange
-        val activeSuggestion = suggestionMock.copy(isActive = true)
-        val inactiveSuggestion = suggestionMock.copy(isActive = false)
-        coEvery { getterMock.getAll() } returns listOf(activeSuggestion, inactiveSuggestion)
+        coEvery { getterMock.getAll() } returns listOf(
+            suggestionMock.copy(isActive = true),
+            suggestionMock.copy(isActive = false)
+        )
         coEvery { mediaRepositoryMock.getByPath(any()) } returns emptyList()
 
         // act
