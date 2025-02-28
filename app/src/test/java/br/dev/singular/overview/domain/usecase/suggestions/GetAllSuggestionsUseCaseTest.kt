@@ -32,7 +32,7 @@ class GetAllSuggestionsUseCaseTest {
     fun setup() {
         mediaRepositoryMock = mockk()
         getterMock = mockk()
-        sut = GetAllSuggestionsUseCase(mediaRepositoryMock, getterMock)
+        sut = GetAllSuggestionsUseCase(getterMock, mediaRepositoryMock)
         suggestionMock = createSuggestionMock()
         mediaMock = createMediaMock()
     }
