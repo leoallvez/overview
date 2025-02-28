@@ -19,10 +19,9 @@ class GetAllSuggestionsUseCase(
         return runCatching {
             suggestionGetter.getAll()
                 .filter { it.isActive }
-                .map { suggestion ->
-                    val medias = mediaRepository.getByPath(suggestion.path).take(MAX_MEDIA)
-                    suggestion.copy(medias = medias)
-                }
+                .map { suggestion -> suggestion.copy(medias = getMediasByPath(suggestion.path)) }
+                .filter { it.medias.isNotEmpty() }
+
         }.fold(
             onSuccess = { suggestions ->
                 suggestions.ifEmpty { return UseCaseState.Failure(FailType.NothingFound) }
@@ -31,6 +30,9 @@ class GetAllSuggestionsUseCase(
             onFailure = { UseCaseState.Failure(FailType.Exception(it)) }
         )
     }
+
+    private suspend fun getMediasByPath(path: String) =
+        mediaRepository.getByPath(path).take(MAX_MEDIA)
 
     companion object {
         const val MAX_MEDIA = 10
