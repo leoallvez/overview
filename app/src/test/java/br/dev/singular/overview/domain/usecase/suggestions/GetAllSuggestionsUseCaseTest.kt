@@ -92,6 +92,21 @@ class GetAllSuggestionsUseCaseTest {
     }
 
     @Test
+    fun `invoke should exclude suggestions without medias from the result`() = runBlocking {
+        // arrange
+        coEvery { getterMock.getAll() } returns listOf(suggestionMock, suggestionMock)
+        coEvery { mediaRepositoryMock.getByPath(any()) } returns emptyList()
+
+        // act
+        val result = sut.invoke()
+
+        // assert
+        coVerify { getterMock.getAll() }
+        coVerify { mediaRepositoryMock.getByPath(any()) }
+        assertEquals(UseCaseState.Failure(FailType.NothingFound), result)
+    }
+
+    @Test
     fun `invoke should return failure when no active suggestions are found`() = runBlocking {
         // arrange
         coEvery { getterMock.getAll() } returns emptyList()
