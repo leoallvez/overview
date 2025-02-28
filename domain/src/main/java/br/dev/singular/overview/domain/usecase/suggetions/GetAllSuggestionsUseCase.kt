@@ -21,7 +21,7 @@ class GetAllSuggestionsUseCase(
                 .filter { it.isActive }
                 .mapNotNull { suggestion ->
                     val medias = getMediasByPath(suggestion.path)
-                    if(medias.isNotEmpty()) suggestion.copy(medias = medias) else null
+                    if (medias.isNotEmpty()) suggestion.copy(medias = medias) else null
                 }
         }.fold(
             onSuccess = { suggestions ->
