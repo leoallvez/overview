@@ -11,17 +11,18 @@ interface IGetAllSuggestionsUseCase {
 }
 
 class GetAllSuggestionsUseCase(
-    private val mediaRepository: IMediaRepository,
-    private val suggestionGetter: GetAll<Suggestion>
+    private val getter: GetAll<Suggestion>,
+    private val mediaRepository: IMediaRepository
 ) : IGetAllSuggestionsUseCase {
 
     override suspend fun invoke(): UseCaseState<List<Suggestion>> {
         return runCatching {
-            suggestionGetter.getAll()
+            getter.getAll()
                 .filter { it.isActive }
-                .map { suggestion -> suggestion.copy(medias = getMediasByPath(suggestion.path)) }
-                .filter { it.medias.isNotEmpty() }
-
+                .mapNotNull { suggestion ->
+                    val medias = getMediasByPath(suggestion.path)
+                    if(medias.isNotEmpty()) suggestion.copy(medias = medias) else null
+                }
         }.fold(
             onSuccess = { suggestions ->
                 suggestions.ifEmpty { return UseCaseState.Failure(FailType.NothingFound) }

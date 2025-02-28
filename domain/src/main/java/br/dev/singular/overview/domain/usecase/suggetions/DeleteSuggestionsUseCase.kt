@@ -10,11 +10,11 @@ interface IDeleteSuggestionsUseCase {
 }
 
 class DeleteSuggestionsUseCase(
-    private val suggestionDeleter: Delete<Suggestion>
+    private val deleter: Delete<Suggestion>
 ) : IDeleteSuggestionsUseCase {
 
     override suspend fun invoke(vararg suggestions: Suggestion): UseCaseState<Unit> {
-        return runCatching { suggestionDeleter.delete(*suggestions) }
+        return runCatching { deleter.delete(*suggestions) }
             .fold(
                 onSuccess = { UseCaseState.Success(Unit) },
                 onFailure = { UseCaseState.Failure(FailType.Exception(it)) }
