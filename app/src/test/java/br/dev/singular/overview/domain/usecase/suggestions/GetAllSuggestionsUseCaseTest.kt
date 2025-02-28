@@ -79,7 +79,7 @@ class GetAllSuggestionsUseCaseTest {
             suggestionMock.copy(isActive = true),
             suggestionMock.copy(isActive = false)
         )
-        coEvery { mediaRepositoryMock.getByPath(any()) } returns emptyList()
+        coEvery { mediaRepositoryMock.getByPath(any()) } returns listOf(mediaMock)
 
         // act
         val result = sut.invoke()
