@@ -1,9 +1,10 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":presentation")
-include(":domain")
 include(":app")
+include(":data")
+include(":domain")
 include(":firebase")
+include(":presentation")
 
 dependencyResolutionManagement {
     repositories {
