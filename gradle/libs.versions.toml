@@ -49,6 +49,8 @@ androidx-core = "1.13.1"
 firebase-bom = "32.3.1"
 ksp = "1.7.20-1.0.8"
 jetbrains-kotlin-jvm = "1.7.20"
+kotlin-bom = "1.8.0"
+material = "1.12.0"
 
 [libraries]
 # Compose
@@ -124,8 +126,9 @@ gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-android-gradle-plugin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
 ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
+kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrains-kotlin-jvm" }
-

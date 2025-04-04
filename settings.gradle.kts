@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":presentation")
 include(":domain")
 include(":app")
 include(":firebase")
