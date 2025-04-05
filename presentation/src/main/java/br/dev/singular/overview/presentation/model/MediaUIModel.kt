@@ -4,5 +4,5 @@ class MediaUIModel(
     val id: Long,
     val type: String,
     val title: String,
-    val posterPath: String,
+    val posterPath: String
 )
