@@ -7,11 +7,9 @@ plugins {
 
 android {
     namespace = "br.dev.singular.overview.presentation"
-    compileSdk = 34
-
+    compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
-        minSdk = 24
-
+        minSdk = libs.versions.min.sdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -32,14 +30,26 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
 }
 
 dependencies {
+    api(platform(libs.compose.bom))
+    api(libs.compose.ui)
+    api(libs.compose.material3)
+    api(libs.compose.ui.tooling.preview)
+    api(libs.compose.runtime.livedata)
+
     implementation(libs.androidx.core)
     implementation(platform(libs.kotlin.bom))
     implementation(libs.appcompat)
     implementation(libs.material)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    debugImplementation(libs.androidx.ui.tooling)
 }
