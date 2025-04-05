@@ -138,9 +138,6 @@ ksp {
 }
 
 dependencies {
-    // presentation
-    implementation(project(":presentation"))
-
     // Lifecycle
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.runtime.ktx)
@@ -194,7 +191,9 @@ dependencies {
     implementation(libs.youtube.player)
 
     // Modules
+    implementation(project(path = ":presentation"))
     implementation(project(path = ":domain"))
+    implementation(project(path = ":data"))
     implementation(project(path = ":firebase"))
 
     // Test dependencies
