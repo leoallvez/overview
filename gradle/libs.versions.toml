@@ -1,7 +1,7 @@
 [versions]
 
 accompanist-systemuicontroller = "0.30.1"
-compile-sdk = "34"
+compile-sdk = "35"
 core = "12.1.0"
 firebase-crashlytics-gradle = "3.0.2"
 google-services = "4.4.2"
@@ -9,7 +9,7 @@ gradle = "8.5.2"
 hilt-android-gradle-plugin = "2.46.1"
 kotlin-gradle-plugin = "1.7.20"
 ktlint-gradle = "11.5.1"
-min-sdk = "21"
+min-sdk = "24"
 target-sdk = "33"
 version-code = "200"
 version-name = "2.0.0"
@@ -51,6 +51,7 @@ ksp = "1.7.20-1.0.8"
 jetbrains-kotlin-jvm = "1.7.20"
 kotlin-bom = "1.8.0"
 material = "1.12.0"
+ui-tooling = "1.7.8"
 
 [libraries]
 # Compose
@@ -128,6 +129,7 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "ui-tooling" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
