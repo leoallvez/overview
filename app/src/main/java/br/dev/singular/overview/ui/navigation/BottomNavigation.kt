@@ -16,7 +16,7 @@ sealed class BottomNavigation(
 ) {
 
     object Home : BottomNavigation(
-        nav = ScreenNav.ExploreStreaming,
+        nav = ScreenNav.Home,
         title = R.string.home,
         icon = Icons.Default.Home
     )
@@ -28,7 +28,7 @@ sealed class BottomNavigation(
     )
 
     object Favorites : BottomNavigation(
-        nav = ScreenNav.Liked,
+        nav = ScreenNav.Favorites,
         title = R.string.favorites,
         icon = Icons.Default.Favorite
     )

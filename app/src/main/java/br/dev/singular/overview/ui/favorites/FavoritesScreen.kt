@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui.liked
+package br.dev.singular.overview.ui.favorites
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -32,13 +32,13 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun LikedScreen(
+fun FavoritesScreen(
     navigate: BasicNavigate,
-    viewModel: LikedViewModel = hiltViewModel()
+    viewModel: FavoritesViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.Liked, viewModel.analyticsTracker)
+    TrackScreenView(screen = ScreenNav.Favorites, viewModel.analyticsTracker)
 
-    val mediaType = viewModel.mediaType.collectAsState().value
+    val type = viewModel.mediaType.collectAsState().value
     val items = viewModel.medias.collectAsLazyPagingItems()
 
     Scaffold(
@@ -47,7 +47,7 @@ fun LikedScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            LikedToolBar()
+            FavoritesToolBar()
         },
         bottomBar = {
             // TODO: Find a better way to show ads
@@ -55,7 +55,7 @@ fun LikedScreen(
         }
     ) { padding ->
         Column {
-            MediaTypeSelector(mediaType.key) { newType ->
+            MediaTypeSelector(type.key) { newType ->
                 viewModel.updateType(newType)
             }
             DefaultVerticalSpace()
@@ -69,7 +69,7 @@ fun LikedScreen(
                                 onClick = navigate::toMediaDetails
                             )
                         } else {
-                            NothingLiked(mediaType)
+                            NothingWasFavorite(type)
                         }
                     }
                     else -> NotFoundContentScreen()
@@ -80,7 +80,7 @@ fun LikedScreen(
 }
 
 @Composable
-fun LikedToolBar() {
+fun FavoritesToolBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -92,7 +92,7 @@ fun LikedToolBar() {
 }
 
 @Composable
-fun NothingLiked(type: MediaType) {
+fun NothingWasFavorite(type: MediaType) {
     CenteredTextString(
         textRes = when (type) {
             MediaType.MOVIE -> R.string.liked_movie_not_found

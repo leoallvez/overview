@@ -2,10 +2,20 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
+      <module name="overview" target="21" />
       <module name="Overview.app" target="21" />
+      <module name="overview.app" target="21" />
+      <module name="overview.core" target="21" />
+      <module name="overview.data" target="21" />
       <module name="Overview.data" target="21" />
+      <module name="overview.domain" target="11" />
+      <module name="overview.domain.main" target="11" />
+      <module name="overview.domain.test" target="11" />
       <module name="Overview.firebase" target="21" />
+      <module name="overview.main" target="21" />
       <module name="Overview.presentation" target="21" />
+      <module name="overview.presentation" target="21" />
+      <module name="overview.test" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

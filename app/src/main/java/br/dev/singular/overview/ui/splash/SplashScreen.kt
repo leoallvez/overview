@@ -48,7 +48,7 @@ fun SplashScreen(
         )
         viewModel.remoteConfig.start()
         delay(2000L)
-        navigate.toExploreStreaming()
+        navigate.toHome()
     }
     SplashScreenContent(scale)
 }
