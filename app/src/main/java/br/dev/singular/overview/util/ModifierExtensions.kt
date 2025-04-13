@@ -1,5 +1,6 @@
 package br.dev.singular.overview.util
 
+import android.annotation.SuppressLint
 import androidx.annotation.DimenRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,12 +15,14 @@ import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.R
 import br.dev.singular.overview.ui.theme.Gray
 
+@SuppressLint("SuspiciousModifierThen")
 fun Modifier.defaultBorder(color: Color = Gray, @DimenRes corner: Int = R.dimen.corner) = composed {
     val width = dimensionResource(R.dimen.border_width)
     val shape = RoundedCornerShape(dimensionResource(corner))
     then(border(color = color, width = width, shape = shape))
 }
 
+@SuppressLint("SuspiciousModifierThen")
 fun Modifier.defaultPadding(
     start: Dp = 10.dp,
     top: Dp = 5.dp,

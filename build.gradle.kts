@@ -1,43 +1,24 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.android.library) apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false
+    id("com.google.firebase.crashlytics") version "3.0.3" apply false
+    id("com.google.dagger.hilt.android") version "2.55" apply false
+    id("com.google.devtools.ksp") version "2.1.20-2.0.0" apply false
+    id("org.jetbrains.kotlin.jvm") version "2.1.20"
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
+}
 
-// Repositories configuration
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri(path = "https://jitpack.io")
-        }
     }
     dependencies {
-        classpath(libs.gradle)
         classpath(libs.kotlin.gradle.plugin)
-        classpath(libs.google.services)
-        classpath(libs.hilt.android.gradle.plugin)
-        classpath(libs.ktlint.gradle)
-        classpath(libs.firebase.crashlytics.gradle)
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath(libs.compose.compiler.gradle.plugin)
     }
-}
-
-// Apply plugins
-plugins {
-    alias(libs.plugins.ksp) apply false // Apply KSP plugin with apply false
-}
-
-// Custom clean task
-tasks.register<Delete>(name = "clean") {
-    delete(layout.buildDirectory)
-}
-// Kotlin plugin
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            url = uri(path = "https://jitpack.io")
-        }
-    }
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }

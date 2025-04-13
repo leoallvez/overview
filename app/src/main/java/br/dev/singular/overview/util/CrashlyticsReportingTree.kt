@@ -1,7 +1,7 @@
 package br.dev.singular.overview.util
 
 import android.util.Log
-import io.github.leoallvez.firebase.CrashlyticsSource
+import br.dev.singular.overview.core.crashlytics.CrashlyticsSource
 import timber.log.Timber
 import javax.inject.Inject
 

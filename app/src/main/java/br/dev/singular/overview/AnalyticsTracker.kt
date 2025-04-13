@@ -1,8 +1,8 @@
 package br.dev.singular.overview
 
 import android.os.Bundle
+import br.dev.singular.overview.core.analytics.AnalyticsSource
 import com.google.firebase.analytics.FirebaseAnalytics
-import io.github.leoallvez.firebase.AnalyticsSource
 import timber.log.Timber
 
 class AnalyticsTracker(

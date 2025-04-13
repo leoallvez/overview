@@ -1,5 +1,6 @@
 package br.dev.singular.overview.ui.home
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
@@ -99,6 +100,7 @@ fun HomeScreen(
 }
 
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun HomeContent(
     showAds: Boolean,
     filters: SearchFilters,
