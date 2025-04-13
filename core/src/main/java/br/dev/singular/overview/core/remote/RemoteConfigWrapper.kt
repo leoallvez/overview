@@ -1,9 +1,9 @@
-package io.github.leoallvez.firebase
+package br.dev.singular.overview.core.remote
 
+import br.dev.singular.overview.core.BuildConfig.REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
+import br.dev.singular.overview.core.remote.RemoteConfigKey.FIREBASE_ENVIRONMENT_KEY
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import io.github.leoallvez.firebase.BuildConfig.REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
-import io.github.leoallvez.firebase.RemoteConfigKey.FIREBASE_ENVIRONMENT_KEY
 import timber.log.Timber
 
 interface RemoteSource {

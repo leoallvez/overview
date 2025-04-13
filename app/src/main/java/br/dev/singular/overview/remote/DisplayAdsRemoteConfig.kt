@@ -1,7 +1,7 @@
 package br.dev.singular.overview.remote
 
-import io.github.leoallvez.firebase.RemoteConfigKey.DISPLAY_ADS_KEY
-import io.github.leoallvez.firebase.RemoteSource
+import br.dev.singular.overview.core.remote.RemoteSource
+import br.dev.singular.overview.core.remote.RemoteConfigKey.DISPLAY_ADS_KEY
 
 data class DisplayAdsRemoteConfig(
     private val _localPermission: Boolean,

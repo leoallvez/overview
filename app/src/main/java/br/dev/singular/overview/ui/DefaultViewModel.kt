@@ -2,8 +2,8 @@ package br.dev.singular.overview.ui
 
 import androidx.lifecycle.ViewModel
 import br.dev.singular.overview.IAnalyticsTracker
+import br.dev.singular.overview.core.remote.RemoteSource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.leoallvez.firebase.RemoteSource
 import javax.inject.Inject
 
 @HiltViewModel

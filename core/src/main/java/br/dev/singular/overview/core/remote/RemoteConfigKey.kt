@@ -1,8 +1,8 @@
-package io.github.leoallvez.firebase
+package br.dev.singular.overview.core.remote
 
-import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_BR
-import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_ES
-import io.github.leoallvez.firebase.RemoteConfigKey.STREAM_US
+import br.dev.singular.overview.core.remote.RemoteConfigKey.STREAM_BR
+import br.dev.singular.overview.core.remote.RemoteConfigKey.STREAM_ES
+import br.dev.singular.overview.core.remote.RemoteConfigKey.STREAM_US
 
 private const val STREAM_PREFIX = "stream"
 

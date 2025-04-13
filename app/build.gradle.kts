@@ -1,48 +1,31 @@
 import com.android.build.api.dsl.ApplicationProductFlavor
 import com.android.build.api.dsl.VariantDimension
 
-// extensions
-fun VariantDimension.stringField(name: String, value: String?) {
-    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
-}
-
-fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue(type = "string", name = "app_name", value = "@string/$appName")
-}
-
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("com.google.gms.google-services")
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
-    id("com.google.firebase.crashlytics")
     id("com.google.devtools.ksp")
-    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
     val appId = "br.dev.singular.overview"
     namespace = appId
-    compileSdk = libs.versions.compile.sdk.get().toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
+
     defaultConfig {
         applicationId = appId
-        minSdk = libs.versions.min.sdk.get().toInt()
-        targetSdk = libs.versions.target.sdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments["room.schemaLocation"] = "$projectDir/schemas"
-            }
-        }
         // API keys and URLs
         stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
         stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
@@ -52,6 +35,16 @@ android {
         // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
         buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
     // Signing configurations
     val activeSigning = System.getenv("OVER_ACTIVE_SIGNING") == "true"
@@ -112,21 +105,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
+        jvmTarget = libs.versions.jvmTarget.get()
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.11"
     }
     hilt {
         enableAggregatingTask = true
@@ -138,6 +128,10 @@ ksp {
 }
 
 dependencies {
+
+    implementation(libs.androidx.core.ktx)
+//    implementation(libs.androidx.lifecycle.runtime.ktx)
+
     // Lifecycle
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.runtime.ktx)
@@ -145,11 +139,11 @@ dependencies {
     implementation(libs.lifecycle.livedata)
 
     // Navigation
-    implementation(libs.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 
     // Room
@@ -165,7 +159,7 @@ dependencies {
     // WorkManager
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // DataStore
     implementation(libs.datastore.preferences)
@@ -191,10 +185,11 @@ dependencies {
     implementation(libs.youtube.player)
 
     // Modules
-    implementation(project(path = ":presentation"))
-    implementation(project(path = ":domain"))
+    implementation(project(path = ":core"))
     implementation(project(path = ":data"))
-    implementation(project(path = ":firebase"))
+    implementation(project(path = ":domain"))
+    implementation(project(path = ":presentation"))
+
 
     // Test dependencies
     testImplementation(libs.junit)
@@ -202,11 +197,20 @@ dependencies {
     testImplementation(libs.kluent)
     testImplementation(libs.kotlinx.coroutines.test)
 
-    // Android Test dependencies
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.ui.test.junit4)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+}
 
-    // Debug-specific dependencies
-    debugImplementation(libs.compose.tooling)
+// extensions
+fun VariantDimension.stringField(name: String, value: String?) {
+    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
+}
+
+fun ApplicationProductFlavor.setAppName(appName: String) {
+    resValue(type = "string", name = "app_name", value = "@string/$appName")
 }

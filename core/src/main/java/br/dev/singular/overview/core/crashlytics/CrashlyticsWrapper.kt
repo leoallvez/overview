@@ -1,4 +1,4 @@
-package io.github.leoallvez.firebase
+package br.dev.singular.overview.core.crashlytics
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 

@@ -1,9 +1,12 @@
-package br.dev.singular.overview
+package br.dev.singular.overview.core.analytics
 
 import android.os.Bundle
-import br.dev.singular.overview.core.analytics.AnalyticsSource
 import com.google.firebase.analytics.FirebaseAnalytics
 import timber.log.Timber
+
+interface IAnalyticsTracker {
+    fun screenViewEvent(screenName: String, className: String)
+}
 
 class AnalyticsTracker(
     private val _source: AnalyticsSource

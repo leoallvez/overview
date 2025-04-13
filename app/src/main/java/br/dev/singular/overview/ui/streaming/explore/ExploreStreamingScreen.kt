@@ -1,5 +1,6 @@
 package br.dev.singular.overview.ui.streaming.explore
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
@@ -99,6 +100,7 @@ fun ExploreStreamingScreen(
 }
 
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun ExploreStreamingContent(
     showAds: Boolean,
     filters: SearchFilters,

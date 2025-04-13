@@ -1,6 +1,7 @@
 package br.dev.singular.overview.di
 
 import br.dev.singular.overview.BuildConfig.ADS_ARE_VISIBLE
+import br.dev.singular.overview.core.remote.RemoteSource
 import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
@@ -11,7 +12,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.leoallvez.firebase.RemoteSource
 
 @Module
 @InstallIn(SingletonComponent::class)
