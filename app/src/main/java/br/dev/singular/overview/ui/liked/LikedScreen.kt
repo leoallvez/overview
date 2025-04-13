@@ -1,5 +1,6 @@
 package br.dev.singular.overview.ui.liked
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import br.dev.singular.overview.ui.search.CenteredTextString
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun LikedScreen(
     navigate: BasicNavigate,
     viewModel: LikedViewModel = hiltViewModel()
@@ -52,7 +54,7 @@ fun LikedScreen(
             // AdsBanner(R.string.liked_banner, viewModel.showAds)
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column {
             MediaTypeSelector(mediaType.key) { newType ->
                 viewModel.updateType(newType)
             }

@@ -1,4 +1,4 @@
-package io.github.leoallvez.firebase
+package br.dev.singular.overview.core.analytics
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics

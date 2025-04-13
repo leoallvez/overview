@@ -584,7 +584,7 @@ fun MediaEntityPagingVerticalGrid(
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(padding)
+            .padding(top = padding.calculateTopPadding())
             .fillMaxSize()
     ) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 128.dp)) {
@@ -856,7 +856,7 @@ fun BottomNavigationBar(navController: NavController) {
                     BottomNavigationItem(
                         modifier = Modifier
                             .background(PrimaryBackground)
-                            .padding(bottom = 10.dp),
+                            .padding(bottom = 5.dp),
                         icon = {
                             Icon(
                                 item.icon,

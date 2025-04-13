@@ -1,11 +1,12 @@
+import com.android.build.api.dsl.LibraryBuildType
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "br.dev.singular.overview.presentation"
+    namespace = "br.dev.singular.overview.core"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -22,6 +23,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            setRemoteInterval("3600")
+        }
+        debug {
+            setRemoteInterval("0")
         }
     }
     compileOptions {
@@ -32,7 +37,6 @@ android {
         jvmTarget = libs.versions.jvmTarget.get()
     }
     buildFeatures {
-        compose = true
         buildConfig = true
     }
 }
@@ -41,16 +45,23 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    // Compose
-    api(libs.androidx.activity.compose)
-    api(platform(libs.androidx.compose.bom))
-    api(libs.androidx.ui)
-    api(libs.androidx.ui.graphics)
-    api(libs.androidx.ui.tooling.preview)
-    api(libs.androidx.material3)
+    implementation(libs.material)
+
+    api(platform(libs.firebase.bom))
+    api(libs.firebase.config)
+    api(libs.firebase.analytics)
+    api(libs.firebase.crashlytics)
+    api(libs.timber)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    debugImplementation(libs.androidx.ui.tooling)
+}
+
+fun LibraryBuildType.setRemoteInterval(value: String) {
+    buildConfigField(
+        type = "long",
+        name = "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS",
+        value = value
+    )
 }
