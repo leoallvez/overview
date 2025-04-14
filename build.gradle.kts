@@ -9,7 +9,7 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.55" apply false
     id("com.google.devtools.ksp") version "2.1.20-2.0.0" apply false
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 
 buildscript {
