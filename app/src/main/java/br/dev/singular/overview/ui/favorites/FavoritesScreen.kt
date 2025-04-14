@@ -1,5 +1,6 @@
 package br.dev.singular.overview.ui.favorites
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,7 +53,7 @@ fun FavoritesScreen(
             // AdsBanner(R.string.liked_banner, viewModel.showAds)
         }
     ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column(Modifier.padding(top = padding.calculateTopPadding())) {
             MediaTypeSelector(type.key) { newType ->
                 viewModel.updateType(newType)
             }
