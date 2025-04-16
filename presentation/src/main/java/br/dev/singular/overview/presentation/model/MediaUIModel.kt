@@ -1,8 +1,8 @@
 package br.dev.singular.overview.presentation.model
 
-class MediaUIModel(
+data class MediaUIModel(
     val id: Long,
-    val type: String,
+    val contentType: ContentType,
     val title: String,
     val posterURLPath: String
 )
