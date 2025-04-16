@@ -23,7 +23,7 @@ import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
 fun BasicImage(
     url: String,
     modifier: Modifier = Modifier,
-    contentDescription: String?,
+    contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
     errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
