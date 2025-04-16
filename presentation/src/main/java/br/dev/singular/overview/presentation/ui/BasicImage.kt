@@ -22,6 +22,7 @@ import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
 @Composable
 fun BasicImage(
     url: String,
+    previewPainter: Painter? = null,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.FillHeight,
@@ -35,9 +36,9 @@ fun BasicImage(
         .clip(RoundedCornerShape(corner))
         .then(Modifier.border(withBorder))
 
-    if (LocalInspectionMode.current) {
+    if (LocalInspectionMode.current && previewPainter != null) {
         Image(
-            painter = painterResource(R.drawable.matrix),
+            painter = previewPainter,
             contentDescription = contentDescription,
             contentScale = contentScale,
             modifier = imageModifier
@@ -63,5 +64,6 @@ fun BasicImagePreview() {
     BasicImage(
         url = "https://imagens.com/movie.jpg",
         contentDescription = "Image description",
+        previewPainter = painterResource(R.drawable.samper_poster_matrix)
     )
 }

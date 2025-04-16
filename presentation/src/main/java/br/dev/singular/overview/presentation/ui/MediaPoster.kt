@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -21,18 +23,15 @@ import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
 @Composable
 fun MediaPoster(
     media: MediaUIModel,
+    previewPainter: Painter? = null,
     onClick: () -> Unit
 ) {
-    val posterWidth = dimensionResource(R.dimen.poster_width)
-    val posterHeight = dimensionResource(R.dimen.poster_height)
+    val width = dimensionResource(R.dimen.poster_width)
+    val height = dimensionResource(R.dimen.poster_height)
 
     val a11yDescription = when (media.contentType) {
-        ContentType.MOVIE -> {
-            stringResource(R.string.movie_poster_description, media.title)
-        }
-        ContentType.TV_SHOW -> {
-            stringResource(R.string.tv_show_poster_description, media.title)
-        }
+        ContentType.MOVIE -> stringResource(R.string.movie_poster_description, media.title)
+        ContentType.TV_SHOW -> stringResource(R.string.tv_show_poster_description, media.title)
     }
 
     Column(
@@ -43,16 +42,15 @@ fun MediaPoster(
     ) {
         BasicImage(
             url = media.posterURLPath,
+            previewPainter = previewPainter,
             withBorder = true,
-            modifier = Modifier.size(posterWidth, posterHeight)
+            modifier = Modifier.size(width, height)
         )
         BasicText(
             text = media.title,
             modifier = Modifier
-                .width(posterWidth)
-                .semantics {
-                    contentDescription = a11yDescription
-                },
+                .width(width)
+                .semantics { contentDescription = a11yDescription },
             style = MaterialTheme.typography.bodySmall,
             isBold = true
         )
@@ -68,6 +66,7 @@ fun MediaPosterPreview() {
             title = "Matrix",
             posterURLPath = "https://imagens.com/movie.jpg",
             contentType = ContentType.MOVIE
-        )
+        ),
+        painterResource(R.drawable.samper_poster_matrix)
     ) { }
 }
