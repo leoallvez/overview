@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.painter.Painter
 
 data class MediaUIModel(
     val id: Long,
-    val contentType: ContentType,
     val title: String,
     val posterURLPath: String,
+    val contentType: ContentType,
     val previewContent: Painter = ColorPainter(Color.Gray),
 )

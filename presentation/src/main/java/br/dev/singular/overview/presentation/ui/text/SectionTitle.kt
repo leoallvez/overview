@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui
+package br.dev.singular.overview.presentation.ui.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,17 +12,18 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
 @Composable
 fun SectionTitle(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.White
+    color: Color = DefaultTextColor
 ) {
     Text(
         text = text,
         color = color,
-        modifier = modifier,
+        modifier = modifier.padding(vertical = dimensionResource(R.dimen.spacing_xs)),
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold
     )

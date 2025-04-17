@@ -18,6 +18,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
+import br.dev.singular.overview.presentation.ui.utils.border
 
 @Composable
 fun BasicImage(

@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui
+package br.dev.singular.overview.presentation.ui.utils
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
