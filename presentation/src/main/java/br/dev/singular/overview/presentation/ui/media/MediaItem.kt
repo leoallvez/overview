@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui
+package br.dev.singular.overview.presentation.ui.media
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -18,12 +17,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.ContentType
 import br.dev.singular.overview.presentation.model.MediaUIModel
+import br.dev.singular.overview.presentation.ui.BasicImage
+import br.dev.singular.overview.presentation.ui.text.BasicText
 import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
+import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
 @Composable
-fun MediaPoster(
+fun MediaItem(
     media: MediaUIModel,
-    onClick: (MediaUIModel) -> Unit
+    onClick: (MediaUIModel) -> Unit = {}
 ) {
     val width = dimensionResource(R.dimen.poster_width)
     val height = dimensionResource(R.dimen.poster_height)
@@ -60,13 +62,5 @@ fun MediaPoster(
 @Preview
 @Composable
 fun MediaPosterPreview() {
-    MediaPoster(
-        MediaUIModel(
-            id = 1,
-            title = "Matrix",
-            posterURLPath = "https://imagens.com/movie.jpg",
-            contentType = ContentType.MOVIE,
-            previewContent = painterResource(R.drawable.samper_poster_matrix)
-        ),
-    ) { }
+    MediaItem(getMediaMocks().first())
 }

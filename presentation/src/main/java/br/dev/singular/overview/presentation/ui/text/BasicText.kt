@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui
+package br.dev.singular.overview.presentation.ui.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,13 +15,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
 @Composable
 fun BasicText(
     text: String,
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
-    color: Color = Color.White,
+    color: Color = DefaultTextColor,
     isBold: Boolean = false
 ) {
     Text(
