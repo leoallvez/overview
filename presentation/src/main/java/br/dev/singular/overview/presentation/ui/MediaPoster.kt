@@ -3,12 +3,12 @@ package br.dev.singular.overview.presentation.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,8 +23,7 @@ import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
 @Composable
 fun MediaPoster(
     media: MediaUIModel,
-    previewPainter: Painter? = null,
-    onClick: () -> Unit
+    onClick: (MediaUIModel) -> Unit
 ) {
     val width = dimensionResource(R.dimen.poster_width)
     val height = dimensionResource(R.dimen.poster_height)
@@ -37,12 +36,12 @@ fun MediaPoster(
     Column(
         Modifier
             .background(PrimaryBackground)
-            .clickable { onClick.invoke() }
+            .clickable { onClick.invoke(media) }
             .semantics(mergeDescendants = true) {}
     ) {
         BasicImage(
             url = media.posterURLPath,
-            previewPainter = previewPainter,
+            previewPainter = media.previewContent,
             withBorder = true,
             modifier = Modifier.size(width, height)
         )
@@ -50,6 +49,7 @@ fun MediaPoster(
             text = media.title,
             modifier = Modifier
                 .width(width)
+                .padding(top = dimensionResource(R.dimen.spacing_xs))
                 .semantics { contentDescription = a11yDescription },
             style = MaterialTheme.typography.bodySmall,
             isBold = true
@@ -65,8 +65,8 @@ fun MediaPosterPreview() {
             id = 1,
             title = "Matrix",
             posterURLPath = "https://imagens.com/movie.jpg",
-            contentType = ContentType.MOVIE
+            contentType = ContentType.MOVIE,
+            previewContent = painterResource(R.drawable.samper_poster_matrix)
         ),
-        painterResource(R.drawable.samper_poster_matrix)
     ) { }
 }
