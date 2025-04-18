@@ -8,6 +8,6 @@ data class MediaUIModel(
     val id: Long,
     val title: String,
     val posterURLPath: String,
-    val contentType: ContentType,
+    val mediaType: MediaType,
     val previewContent: Painter = ColorPainter(Color.Gray),
 )

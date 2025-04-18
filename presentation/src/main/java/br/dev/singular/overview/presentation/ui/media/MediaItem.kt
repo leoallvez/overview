@@ -15,7 +15,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.model.ContentType
+import br.dev.singular.overview.presentation.model.MediaType
 import br.dev.singular.overview.presentation.model.MediaUIModel
 import br.dev.singular.overview.presentation.ui.BasicImage
 import br.dev.singular.overview.presentation.ui.text.BasicText
@@ -24,31 +24,31 @@ import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
 @Composable
 fun MediaItem(
-    media: MediaUIModel,
+    model: MediaUIModel,
     onClick: (MediaUIModel) -> Unit = {}
 ) {
     val width = dimensionResource(R.dimen.poster_width)
     val height = dimensionResource(R.dimen.poster_height)
 
-    val a11yDescription = when (media.contentType) {
-        ContentType.MOVIE -> stringResource(R.string.movie_poster_description, media.title)
-        ContentType.TV_SHOW -> stringResource(R.string.tv_show_poster_description, media.title)
+    val a11yDescription = when (model.mediaType) {
+        MediaType.MOVIE -> stringResource(R.string.movie_poster_description, model.title)
+        MediaType.TV_SHOW -> stringResource(R.string.tv_show_poster_description, model.title)
     }
 
     Column(
         Modifier
             .background(PrimaryBackground)
-            .clickable { onClick.invoke(media) }
+            .clickable { onClick.invoke(model) }
             .semantics(mergeDescendants = true) {}
     ) {
         BasicImage(
-            url = media.posterURLPath,
-            previewPainter = media.previewContent,
+            url = model.posterURLPath,
+            previewPainter = model.previewContent,
             withBorder = true,
             modifier = Modifier.size(width, height)
         )
         BasicText(
-            text = media.title,
+            text = model.title,
             modifier = Modifier
                 .width(width)
                 .padding(top = dimensionResource(R.dimen.spacing_xs))
