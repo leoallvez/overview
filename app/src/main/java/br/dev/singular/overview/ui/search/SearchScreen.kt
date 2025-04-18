@@ -1,6 +1,5 @@
 package br.dev.singular.overview.ui.search
 
-import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -43,7 +42,6 @@ import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 
 @Composable
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun SearchScreen(
     navigate: BasicNavigate,
     viewModel: SearchViewModel = hiltViewModel()
@@ -68,7 +66,11 @@ fun SearchScreen(
             // AdsBanner(R.string.search_banner, viewModel.showAds)
         }
     ) { padding ->
-        Column(modifier = Modifier.background(PrimaryBackground)) {
+        Column(
+            modifier = Modifier
+                .background(PrimaryBackground)
+                .padding(top = padding.calculateTopPadding())
+        ) {
             if (items.itemCount > 0 || filters.query.isNotEmpty()) {
                 MediaTypeSelector(filters.mediaType.key) { newType ->
                     viewModel.updateFilter(filters.copy(mediaType = newType))

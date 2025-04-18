@@ -31,7 +31,6 @@ import br.dev.singular.overview.ui.search.CenteredTextString
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 
 @Composable
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun FavoritesScreen(
     navigate: BasicNavigate,
     viewModel: FavoritesViewModel = hiltViewModel()
@@ -54,7 +53,7 @@ fun FavoritesScreen(
             // AdsBanner(R.string.liked_banner, viewModel.showAds)
         }
     ) { padding ->
-        Column {
+        Column(Modifier.padding(top = padding.calculateTopPadding())) {
             MediaTypeSelector(type.key) { newType ->
                 viewModel.updateType(newType)
             }
