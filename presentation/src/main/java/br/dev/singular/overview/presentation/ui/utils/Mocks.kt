@@ -12,28 +12,28 @@ internal fun getMediaMocks() = listOf(
         id = 1,
         title = "Matrix",
         posterURLPath = "https://imagens.com/movie.jpg",
-        mediaType = MediaType.MOVIE,
+        type = MediaType.MOVIE,
         previewContent = painterResource(R.drawable.samper_poster_matrix)
     ),
     MediaUIModel(
         id = 1,
         title = "Matrix",
         posterURLPath = "https://imagens.com/movie.jpg",
-        mediaType = MediaType.MOVIE,
+        type = MediaType.MOVIE,
         previewContent = painterResource(R.drawable.samper_poster_matrix)
     ),
     MediaUIModel(
         id = 1,
         title = "Matrix",
         posterURLPath = "https://imagens.com/movie.jpg",
-        mediaType = MediaType.MOVIE,
+        type = MediaType.MOVIE,
         previewContent = painterResource(R.drawable.samper_poster_matrix)
     ),
     MediaUIModel(
         id = 1,
         title = "Matrix",
         posterURLPath = "https://imagens.com/movie.jpg",
-        mediaType = MediaType.MOVIE,
+        type = MediaType.MOVIE,
         previewContent = painterResource(R.drawable.samper_poster_matrix)
     )
 )

@@ -32,11 +32,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
+import br.dev.singular.overview.presentation.ui.media.HorizontalMediaList
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
 import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ErrorScreen
-import br.dev.singular.overview.ui.MediaItemList
 import br.dev.singular.overview.ui.PartingEmDash
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
@@ -45,6 +45,8 @@ import br.dev.singular.overview.ui.ScreenTitle
 import br.dev.singular.overview.ui.SimpleSubtitle1
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
+import br.dev.singular.overview.ui.model.toOldMediaType
+import br.dev.singular.overview.ui.model.toUIModel
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.MediaItemClick
@@ -230,9 +232,10 @@ fun ParticipationList(
     medias: List<Media>,
     onClickItem: MediaItemClick
 ) {
-    MediaItemList(
-        items = medias,
-        onClickItem = onClickItem,
-        listTitle = stringResource(listTitleRes)
+    HorizontalMediaList(
+        title = stringResource(listTitleRes),
+        modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding)),
+        items = medias.map { it.toUIModel() },
+        onClick = { media -> onClickItem.invoke(media.id, media.type.toOldMediaType()) },
     )
 }
