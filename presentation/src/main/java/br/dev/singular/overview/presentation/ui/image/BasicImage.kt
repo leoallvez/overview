@@ -33,7 +33,6 @@ fun BasicImage(
     withBorder: Boolean = false
 ) {
     val imageModifier = modifier
-        .background(PrimaryBackground)
         .clip(RoundedCornerShape(corner))
         .then(Modifier.border(withBorder))
 

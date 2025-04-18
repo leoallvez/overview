@@ -30,7 +30,6 @@ fun MediaItem(
 
     Column(
         modifier
-            .background(PrimaryBackground)
             .clickable { onClick.invoke(model) }
             .semantics(mergeDescendants = true) {}
     ) {

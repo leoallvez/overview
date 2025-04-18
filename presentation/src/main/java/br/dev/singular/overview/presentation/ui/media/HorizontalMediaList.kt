@@ -25,11 +25,7 @@ fun HorizontalMediaList(
 ) {
     if (items.isNotEmpty()) {
         val spacingXS = dimensionResource(R.dimen.spacing_xs)
-        Column(
-            modifier = modifier
-                .background(PrimaryBackground)
-                .padding(vertical = spacingXS)
-        ) {
+        Column(modifier = modifier.padding(vertical = spacingXS)) {
             SectionTitle(title)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(spacingXS)) {
                 items(items) { item ->
