@@ -33,7 +33,7 @@ fun HorizontalMediaList(
             SectionTitle(title)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(spacingXS)) {
                 items(items) { item ->
-                    MediaItem(item, onClick)
+                    MediaItem(item, onClick = onClick)
                 }
             }
         }
