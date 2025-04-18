@@ -179,7 +179,6 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
     implementation(libs.network.response.adapter)
-    implementation(libs.coil.compose)
     implementation(libs.toolbar.compose)
     implementation(libs.progress.indicator)
     implementation(libs.youtube.player)

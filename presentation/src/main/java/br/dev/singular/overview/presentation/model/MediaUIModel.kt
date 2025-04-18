@@ -1,8 +1,13 @@
 package br.dev.singular.overview.presentation.model
 
-class MediaUIModel(
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.graphics.painter.Painter
+
+data class MediaUIModel(
     val id: Long,
-    val type: String,
-    val letter: String,
-    val posterPath: String
+    val title: String,
+    val type: MediaType,
+    val posterURLPath: String,
+    val previewContent: Painter = ColorPainter(Color.Gray),
 )
