@@ -314,6 +314,13 @@ fun ButtonWithIcon(
     }
 }
 
+@Deprecated(
+    message = """
+        br.dev.singular.overview.ui.ScreenTitle is deprecated. 
+        Use br.dev.singular.overview.presentation.ui.text.SectionTitle
+        instead for better flexibility and design consistency.""",
+    level = DeprecationLevel.WARNING
+)
 @Composable
 fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int.MAX_VALUE) {
     Text(
@@ -330,33 +337,13 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
     )
 }
 
-@Composable
-fun MediaItemList(
-    listTitle: String,
-    items: List<Media>,
-    onClickItem: MediaItemClick
-) {
-    val sortedItems = items.sortedBy { it.voteAverage }
-    if (sortedItems.isNotEmpty()) {
-        Column {
-            BasicTitle(listTitle)
-            LazyRow(
-                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)),
-                contentPadding = PaddingValues(
-                    horizontal = dimensionResource(R.dimen.screen_padding)
-                )
-            ) {
-                items(sortedItems.size) { index ->
-                    val item = sortedItems[index]
-                    MediaItem(item, imageWithBorder = true) {
-                        onClickItem.invoke(item.apiId, item.getType())
-                    }
-                }
-            }
-        }
-    }
-}
-
+@Deprecated(
+    message = """
+        br.dev.singular.overview.ui.MediaList is deprecated. 
+        Use br.dev.singular.overview.presentation.ui.media.HorizontalMediaList 
+        instead for better flexibility and design consistency.""",
+    level = DeprecationLevel.WARNING
+)
 @Composable
 fun MediaList(
     listTitle: String,
@@ -386,6 +373,13 @@ fun MediaList(
     }
 }
 
+@Deprecated(
+    message = """
+        br.dev.singular.overview.ui.MediaItem is deprecated. 
+        Use br.dev.singular.overview.presentation.ui.media.MediaItem
+        instead for better flexibility and design consistency.""",
+    level = DeprecationLevel.WARNING
+)
 @Composable
 fun MediaItem(mediaItem: Media, imageWithBorder: Boolean = false, onClick: () -> Unit) {
     Column(Modifier.clickable { onClick.invoke() }) {
@@ -402,6 +396,13 @@ fun MediaItem(mediaItem: Media, imageWithBorder: Boolean = false, onClick: () ->
     }
 }
 
+@Deprecated(
+    message = """
+        br.dev.singular.overview.ui.image.BasicImage is deprecated. 
+        Use br.dev.singular.overview.presentation.ui.image.BasicImage
+        instead for better flexibility and design consistency.""",
+    level = DeprecationLevel.WARNING
+)
 @Composable
 fun BasicImage(
     url: String,
@@ -434,6 +435,13 @@ fun BasicImage(
     }
 }
 
+@Deprecated(
+    message = """
+        br.dev.singular.overview.ui.border is deprecated. 
+        Use br.dev.singular.overview.presentation.ui.utils.border
+        instead for better flexibility and design consistency.""",
+    level = DeprecationLevel.WARNING
+)
 @Composable
 fun Modifier.border(
     withBorder: Boolean,
@@ -447,6 +455,13 @@ fun Modifier.border(
     }
 }
 
+@Deprecated(
+    message = """
+        br.dev.singular.overview.ui.border is deprecated. 
+        Use br.dev.singular.overview.presentation.ui.utils.border
+        instead for better flexibility and design consistency.""",
+    level = DeprecationLevel.WARNING
+)
 @Composable
 fun BasicText(text: String, style: TextStyle, color: Color = Color.White, isBold: Boolean = false) {
     Text(
