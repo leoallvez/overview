@@ -30,11 +30,6 @@ fun MediaItem(
     val width = dimensionResource(R.dimen.poster_width)
     val height = dimensionResource(R.dimen.poster_height)
 
-    val a11yDescription = when (model.mediaType) {
-        MediaType.MOVIE -> stringResource(R.string.movie_poster_description, model.title)
-        MediaType.TV_SHOW -> stringResource(R.string.tv_show_poster_description, model.title)
-    }
-
     Column(
         Modifier
             .background(PrimaryBackground)
@@ -51,8 +46,7 @@ fun MediaItem(
             text = model.title,
             modifier = Modifier
                 .width(width)
-                .padding(top = dimensionResource(R.dimen.spacing_xs))
-                .semantics { contentDescription = a11yDescription },
+                .padding(top = dimensionResource(R.dimen.spacing_xs)),
             style = MaterialTheme.typography.bodySmall,
             isBold = true
         )

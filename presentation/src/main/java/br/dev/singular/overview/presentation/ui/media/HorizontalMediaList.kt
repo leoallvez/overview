@@ -19,13 +19,14 @@ import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 @Composable
 fun HorizontalMediaList(
     title: String,
+    modifier: Modifier = Modifier,
     items: List<MediaUIModel>,
     onClick: (MediaUIModel) -> Unit = {}
 ) {
     if (items.isNotEmpty()) {
         val spacingXS = dimensionResource(R.dimen.spacing_xs)
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .background(PrimaryBackground)
                 .padding(vertical = spacingXS)
         ) {
