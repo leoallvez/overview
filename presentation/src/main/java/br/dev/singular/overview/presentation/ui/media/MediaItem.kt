@@ -10,14 +10,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.model.MediaType
 import br.dev.singular.overview.presentation.model.MediaUIModel
-import br.dev.singular.overview.presentation.ui.BasicImage
+import br.dev.singular.overview.presentation.ui.image.BasicImage
 import br.dev.singular.overview.presentation.ui.text.BasicText
 import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks

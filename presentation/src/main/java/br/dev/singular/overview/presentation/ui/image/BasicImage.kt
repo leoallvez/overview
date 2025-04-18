@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui
+package br.dev.singular.overview.presentation.ui.image
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
