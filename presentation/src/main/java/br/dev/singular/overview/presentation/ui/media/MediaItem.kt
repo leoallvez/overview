@@ -22,13 +22,14 @@ import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 @Composable
 fun MediaItem(
     model: MediaUIModel,
+    modifier: Modifier = Modifier,
     onClick: (MediaUIModel) -> Unit = {}
 ) {
     val width = dimensionResource(R.dimen.poster_width)
     val height = dimensionResource(R.dimen.poster_height)
 
     Column(
-        Modifier
+        modifier
             .background(PrimaryBackground)
             .clickable { onClick.invoke(model) }
             .semantics(mergeDescendants = true) {}
