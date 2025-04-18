@@ -1,6 +1,5 @@
 package br.dev.singular.overview.ui.model
 
-import androidx.compose.runtime.Composable
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.presentation.model.MediaType
 import br.dev.singular.overview.presentation.model.MediaUIModel
@@ -8,7 +7,6 @@ import br.dev.singular.overview.data.source.media.MediaType as LegacyMediaType
 
 //TODO: this file going to be delete in the future
 
-@Composable
 fun Media.toUIModel(): MediaUIModel {
     return MediaUIModel(
         id = apiId,
