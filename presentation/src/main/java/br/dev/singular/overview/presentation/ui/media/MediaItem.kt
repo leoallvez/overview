@@ -1,6 +1,5 @@
 package br.dev.singular.overview.presentation.ui.media
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUIModel
 import br.dev.singular.overview.presentation.ui.image.BasicImage
 import br.dev.singular.overview.presentation.ui.text.BasicText
-import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
 @Composable
@@ -54,4 +52,10 @@ fun MediaItem(
 @Composable
 fun MediaPosterPreview() {
     MediaItem(getMediaMocks().first())
+}
+
+@Preview(name = "Long Title")
+@Composable
+fun MediaPosterWithLongTitlePreview() {
+    MediaItem(getMediaMocks().first { it.id == 2L })
 }
