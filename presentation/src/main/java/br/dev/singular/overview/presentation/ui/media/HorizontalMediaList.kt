@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.media
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,21 +37,31 @@ fun HorizontalMediaList(
     }
 }
 
-@Preview
-@Composable
+@Preview(name = "Filled")
+@Composable()
 fun FilledHorizontalMediaListPreview() {
     HorizontalMediaList(
-        title = "My Favorites Movies",
+        title = "Imagined Movies",
         items = getMediaMocks()
     )
 }
 
-@Preview
+@Preview(name = "Filled with background")
+@Composable
+fun FilledWithBackgroundHorizontalMediaListPreview() {
+    HorizontalMediaList(
+        title = "Imagined Movies",
+        modifier = Modifier.background(PrimaryBackground),
+        items = getMediaMocks()
+    )
+}
+
+@Preview("Empty List (can't show anything)")
 @Composable
 fun EmptyHorizontalMediaListPreview() {
     HorizontalMediaList(
         title = "Empty List",
+        modifier = Modifier.background(PrimaryBackground),
         items = listOf()
     )
 }
-

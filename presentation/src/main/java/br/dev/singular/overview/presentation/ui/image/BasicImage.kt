@@ -1,7 +1,6 @@
 package br.dev.singular.overview.presentation.ui.image
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,14 +16,13 @@ import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
 import br.dev.singular.overview.presentation.ui.utils.border
 
 @Composable
 fun BasicImage(
     url: String,
-    previewPainter: Painter? = null,
     modifier: Modifier = Modifier,
+    previewPainter: Painter? = null,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
@@ -64,6 +62,6 @@ fun BasicImagePreview() {
     BasicImage(
         url = "https://imagens.com/movie.jpg",
         contentDescription = "Image description",
-        previewPainter = painterResource(R.drawable.samper_poster_matrix)
+        previewPainter = painterResource(R.drawable.sample_poster_the_equinox)
     )
 }
