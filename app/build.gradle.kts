@@ -130,7 +130,6 @@ ksp {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // Lifecycle
     implementation(libs.lifecycle.runtime)
@@ -196,7 +195,6 @@ dependencies {
     testImplementation(libs.kluent)
     testImplementation(libs.kotlinx.coroutines.test)
 
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

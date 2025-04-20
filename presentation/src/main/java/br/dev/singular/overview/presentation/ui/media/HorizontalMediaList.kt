@@ -1,6 +1,5 @@
 package br.dev.singular.overview.presentation.ui.media
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
