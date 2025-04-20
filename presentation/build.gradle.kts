@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("app.cash.paparazzi") version "1.3.0"
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
     api(libs.coil.compose)
 
     testImplementation(libs.junit)
+    testImplementation(libs.paparazzi)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)

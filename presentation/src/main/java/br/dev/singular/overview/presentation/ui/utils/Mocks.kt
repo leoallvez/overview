@@ -2,7 +2,6 @@ package br.dev.singular.overview.presentation.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaType
 import br.dev.singular.overview.presentation.model.MediaUIModel
