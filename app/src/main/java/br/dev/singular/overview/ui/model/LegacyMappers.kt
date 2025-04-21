@@ -11,7 +11,7 @@ fun Media.toUIModel(): MediaUIModel {
     return MediaUIModel(
         id = apiId,
         title = getLetter(),
-        posterURLPath = getPosterImage(),
+        posterURL = getPosterImage(),
         type = getType().MediaUIType()
     )
 }

@@ -32,7 +32,7 @@ fun MediaItem(
             .semantics(mergeDescendants = true) {}
     ) {
         BasicImage(
-            url = model.posterURLPath,
+            url = model.posterURL,
             previewPainter = model.previewContent,
             withBorder = true,
             modifier = Modifier.size(width, height)

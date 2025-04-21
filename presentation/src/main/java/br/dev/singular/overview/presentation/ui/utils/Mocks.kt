@@ -12,7 +12,7 @@ internal fun getMediaMocks(): List<MediaUIModel> {
     val model = MediaUIModel(
         id = 1,
         title = "The Equinox",
-        posterURLPath = "https://imagens.com/movie.jpg",
+        posterURL = "https://imagens.com/movie.jpg",
         type = MediaUIType.MOVIE,
         previewContent = painterResource(R.drawable.sample_poster)
     )
