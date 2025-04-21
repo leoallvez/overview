@@ -234,7 +234,7 @@ fun ParticipationList(
 ) {
     HorizontalMediaList(
         title = stringResource(listTitleRes),
-        modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         items = medias.map { it.toUIModel() },
         onClick = { media -> onClickItem.invoke(media.id, media.type.toOldMediaType()) },
     )
