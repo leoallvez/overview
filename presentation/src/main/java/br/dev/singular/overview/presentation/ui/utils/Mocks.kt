@@ -17,24 +17,24 @@ internal fun getMediaMocks() = listOf(
     ),
     MediaUIModel(
         id = 2,
-        title = "Iron Titans: Warriors Against the Infinite Swarm from the Dark Expanse",
+        title = "The Equinox: Warriors Against the Infinite Swarm from the Dark Expanse",
         posterURLPath = "https://imagens.com/movie.jpg",
         type = MediaType.MOVIE,
-        previewContent = painterResource(R.drawable.sample_poster_iron_titans)
+        previewContent = painterResource(R.drawable.sample_poster_the_equinox)
     ),
     MediaUIModel(
         id = 3,
-        title = "The Haunting",
+        title = "The Equinox",
         posterURLPath = "https://imagens.com/movie.jpg",
         type = MediaType.MOVIE,
-        previewContent = painterResource(R.drawable.sample_poster_the_haunting)
+        previewContent = painterResource(R.drawable.sample_poster_the_equinox)
     ),
     MediaUIModel(
         id = 4,
-        title = "Matrix",
+        title = "The Equinox",
         posterURLPath = "https://imagens.com/movie.jpg",
         type = MediaType.MOVIE,
-        previewContent = painterResource(R.drawable.samper_poster_matrix)
+        previewContent = painterResource(R.drawable.sample_poster_the_equinox)
     )
 )
 
