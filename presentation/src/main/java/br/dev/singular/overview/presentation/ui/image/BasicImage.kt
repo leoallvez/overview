@@ -62,6 +62,6 @@ fun BasicImagePreview() {
     BasicImage(
         url = "https://imagens.com/movie.jpg",
         contentDescription = "Image description",
-        previewPainter = painterResource(R.drawable.sample_poster_the_equinox)
+        previewPainter = painterResource(R.drawable.sample_poster)
     )
 }
