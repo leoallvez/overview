@@ -12,7 +12,7 @@ interface IGetAllSuggestionsUseCase {
 
 class GetAllSuggestionsUseCase(
     private val getter: GetAll<Suggestion>,
-    private val mediaRepository: IMediaRepository
+    private val repository: IMediaRepository
 ) : IGetAllSuggestionsUseCase {
 
     override suspend fun invoke(): UseCaseState<List<Suggestion>> {
@@ -32,8 +32,7 @@ class GetAllSuggestionsUseCase(
         )
     }
 
-    private suspend fun getMediasByPath(path: String) =
-        mediaRepository.getByPath(path).take(MAX_MEDIA)
+    private suspend fun getMediasByPath(path: String) = repository.getByPath(path).take(MAX_MEDIA)
 
     companion object {
         const val MAX_MEDIA = 10

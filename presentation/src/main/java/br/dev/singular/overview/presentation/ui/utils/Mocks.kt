@@ -3,7 +3,7 @@ package br.dev.singular.overview.presentation.ui.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.model.MediaType
+import br.dev.singular.overview.presentation.model.MediaUIType
 import br.dev.singular.overview.presentation.model.MediaUIModel
 
 @Composable
@@ -13,7 +13,7 @@ internal fun getMediaMocks(): List<MediaUIModel> {
         id = 1,
         title = "The Equinox",
         posterURLPath = "https://imagens.com/movie.jpg",
-        type = MediaType.MOVIE,
+        type = MediaUIType.MOVIE,
         previewContent = painterResource(R.drawable.sample_poster)
     )
 
