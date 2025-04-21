@@ -42,6 +42,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
+    implementation(project(":domain"))
+
     api(libs.androidx.activity.compose)
     api(platform(libs.androidx.compose.bom))
     api(libs.androidx.ui)
