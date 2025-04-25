@@ -7,9 +7,9 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.hilt.android.plugin) apply false
-    alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 
 buildscript {
