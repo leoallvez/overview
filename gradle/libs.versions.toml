@@ -11,10 +11,11 @@ jvm-target = "11"
 # Kotlin
 kotlin = "2.1.20"
 kotlin-gradle-plugin = "1.9.22"
+compose-compiler = "2.1.20"
 
 # Android Core
 agp = "8.9.1"
-coreKtx = "1.15.0"
+core-ktx = "1.15.0"
 appcompat = "1.7.0"
 material = "1.12.0"
 activity-compose = "1.10.1"
@@ -37,7 +38,7 @@ room = "2.7.0"
 paging-runtime-ktx = "3.3.4"
 
 # Firebase
-firebaseBom = "33.12.0"
+firebase-bom = "33.12.0"
 
 # Network
 retrofit = "2.9.0"
@@ -66,7 +67,7 @@ core = "12.1.1"
 
 [libraries]
 # AndroidX Core
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 
@@ -97,7 +98,7 @@ paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.re
 
 # Firebase
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-config = { module = "com.google.firebase:firebase-config" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 
@@ -110,7 +111,7 @@ hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", ve
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
-compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "compose-compiler" } # Corrigido a referência
 
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
