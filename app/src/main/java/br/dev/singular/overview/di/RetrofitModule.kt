@@ -1,6 +1,6 @@
 package br.dev.singular.overview.di
 
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.data.BuildConfig
 import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.api.ApiService
 import br.dev.singular.overview.data.api.IApiLocale

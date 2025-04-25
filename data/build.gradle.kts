@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.VariantDimension
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -12,11 +14,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField(
-            type = "String",
-            name = "API_KEY",
-            value = getenv("OVER_API_KEY")
-        )
+        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
+        stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
     }
     buildFeatures {
         buildConfig = true
@@ -51,4 +50,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-fun getenv(key: String) = "\"${System.getenv(key)}\""
+fun VariantDimension.stringField(name: String, value: String) {
+    buildConfigField(type = "String", name = name, value = "\"$value\"")
+}

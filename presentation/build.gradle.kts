@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.VariantDimension
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -10,9 +12,11 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
+        stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
     }
 
     buildTypes {
@@ -56,4 +60,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)
+}
+
+fun VariantDimension.stringField(name: String, value: String) {
+    buildConfigField(type = "String", name = name, value = "\"$value\"")
 }
