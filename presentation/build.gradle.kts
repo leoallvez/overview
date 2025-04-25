@@ -61,6 +61,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
 }
 
-fun VariantDimension.stringField(name: String, value: String) {
+private fun VariantDimension.stringField(name: String, value: String) {
     buildConfigField(type = "String", name = name, value = "\"$value\"")
 }
