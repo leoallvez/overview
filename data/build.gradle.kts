@@ -6,12 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "br.dev.singular.overview.data"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    namespace = "${libs.versions.app.id.get()}.data"
+    compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-
+        minSdk = libs.versions.sdk.min.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
@@ -34,7 +33,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = libs.versions.jvm.target.get()
     }
 }
 

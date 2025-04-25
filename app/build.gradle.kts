@@ -13,14 +13,12 @@ plugins {
 }
 
 android {
-    val appId = "br.dev.singular.overview"
-    namespace = appId
-    compileSdk = libs.versions.compileSdk.get().toInt()
-
+    namespace = libs.versions.app.id.get()
+    compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
-        applicationId = appId
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        applicationId = libs.versions.app.id.get()
+        minSdk = libs.versions.sdk.min.get().toInt()
+        targetSdk = libs.versions.sdk.target.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -98,7 +96,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = libs.versions.jvm.target.get()
     }
     buildFeatures {
         compose = true
