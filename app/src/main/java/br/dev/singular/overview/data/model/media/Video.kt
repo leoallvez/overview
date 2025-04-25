@@ -1,6 +1,6 @@
 package br.dev.singular.overview.data.model.media
 
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.presentation.BuildConfig
 
 data class Video(
     val id: String,

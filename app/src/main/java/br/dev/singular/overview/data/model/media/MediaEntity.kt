@@ -3,7 +3,7 @@ package br.dev.singular.overview.data.model.media
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.presentation.BuildConfig
 import java.util.Date
 
 @Entity(tableName = "medias")

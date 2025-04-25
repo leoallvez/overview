@@ -1,6 +1,6 @@
 package br.dev.singular.overview.data.model.media
 
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import com.squareup.moshi.Json
