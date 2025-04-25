@@ -7,11 +7,10 @@ plugins {
 }
 
 android {
-    namespace = "br.dev.singular.overview.presentation"
-    compileSdk = libs.versions.compileSdk.get().toInt()
-
+    namespace = "${libs.versions.app.id.get()}.presentation"
+    compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = libs.versions.sdk.min.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
@@ -33,7 +32,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = libs.versions.jvm.target.get()
     }
     buildFeatures {
         compose = true

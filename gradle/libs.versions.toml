@@ -1,28 +1,27 @@
 [versions]
 # Global Settings
-compileSdk = "35"
-minSdk = "24"
-targetSdk = "35"
+app-id = "br.dev.singular.overview"
+sdk-compile = "35"
+sdk-min = "24"
+sdk-target = "35"
 version-code = "200"
 version-name = "2.0.0"
-jvmTarget = "11"
+jvm-target = "11"
 
 # Kotlin
-kotlinGradlePlugin = "1.9.22"
 kotlin = "2.1.20"
-kotlin-compose = "2.1.20"
-composeCompilerGradlePlugin = "2.1.20"
+kotlin-gradle-plugin = "1.9.22"
 
 # Android Core
 agp = "8.9.1"
 coreKtx = "1.15.0"
 appcompat = "1.7.0"
 material = "1.12.0"
-activityCompose = "1.10.1"
+activity-compose = "1.10.1"
 
 # Compose
-composeBom = "2025.04.00"
-navigationCompose = "2.8.9"
+compose-bom = "2025.04.00"
+navigation-compose = "2.8.9"
 paging-compose = "3.3.5"
 
 # Lifecycle and Work
@@ -69,11 +68,11 @@ core = "12.1.1"
 # AndroidX Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 
 # AndroidX Compose
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -110,8 +109,8 @@ hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-na
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 
 # Kotlin
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
-compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "composeCompilerGradlePlugin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -148,5 +147,5 @@ youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:cor
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-compose" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
