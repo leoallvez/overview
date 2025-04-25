@@ -27,7 +27,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // API keys and URLs
-        stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
         stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
         stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
@@ -174,7 +173,7 @@ dependencies {
 
     // Third-party libraries
     implementation(libs.timber)
-    implementation(libs.retrofit)
+    // implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
     implementation(libs.network.response.adapter)

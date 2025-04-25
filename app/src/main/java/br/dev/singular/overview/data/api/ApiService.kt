@@ -1,6 +1,6 @@
 package br.dev.singular.overview.data.api
 
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.data.BuildConfig
 import br.dev.singular.overview.data.api.response.ErrorResponse
 import br.dev.singular.overview.data.api.response.GenreListResponse
 import br.dev.singular.overview.data.api.response.ListResponse
