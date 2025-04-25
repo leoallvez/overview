@@ -2,7 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
-      <module name="overview" target="21" />
       <module name="Overview.app" target="21" />
       <module name="overview.app" target="21" />
       <module name="overview.core" target="21" />

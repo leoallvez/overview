@@ -57,7 +57,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-fun LibraryBuildType.setRemoteInterval(value: String) {
+private fun LibraryBuildType.setRemoteInterval(value: String) {
     buildConfigField(
         type = "long",
         name = "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS",
