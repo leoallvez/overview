@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import java.util.Date
 
 @Entity(tableName = "medias")
 class MediaDataModel(
@@ -16,8 +17,11 @@ class MediaDataModel(
     @ColumnInfo(name = "poster_path")
     val posterPath: String? = "",
     @field:Json(name = "media_type")
-    @ColumnInfo(name = "media_type")
-    var type: String? = ""
+    var type: String? = "",
+    @ColumnInfo(name = "is_liked")
+    var isLiked: Boolean = false,
+    @ColumnInfo(name = "last_update")
+    var lastUpdate: Date = Date()
 ) {
     val betterTitle: String
         get() = when {
