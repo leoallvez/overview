@@ -9,5 +9,6 @@ data class MediaUIModel(
     val title: String,
     val type: MediaUIType,
     val posterURL: String,
+    var isLiked: Boolean = false,
     val previewContent: Painter = ColorPainter(Color.Gray),
 )
