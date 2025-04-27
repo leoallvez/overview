@@ -43,6 +43,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.hilt.android)
     api(libs.retrofit)
+    // Room
+    api(libs.room.runtime)
+    api(libs.room.ktx)
+    api(libs.room.paging)
+    api(libs.converter.moshi)
     implementation(project(":domain"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -130,9 +130,6 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     // Room
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    implementation(libs.room.paging)
     ksp(libs.room.compiler)
 
     // Paging
@@ -158,7 +155,6 @@ dependencies {
 
     // Third-party libraries
     implementation(libs.timber)
-    implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
     implementation(libs.network.response.adapter)
     implementation(libs.toolbar.compose)

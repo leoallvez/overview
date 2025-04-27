@@ -1,0 +1,51 @@
+[
+  {
+    "order": 1,
+    "type": "all",
+    "titleKey": "all_trending",
+    "path": "trending/all/day",
+    "isActive": true
+  },
+  {
+    "order": 2,
+    "type": "movie",
+    "titleKey": "movie_popular",
+    "path": "movie/popular",
+    "isActive": true
+  },
+  {
+    "order": 3,
+    "type": "movie",
+    "titleKey": "movie_top_rated",
+    "path": "movie/top_rated",
+    "isActive": true
+  },
+  {
+    "order": 4,
+    "type": "movie",
+    "titleKey": "discover_movie",
+    "path": "discover/movie",
+    "isActive": true
+  },
+  {
+    "order": 5,
+    "type": "movie",
+    "titleKey": "movie_trending",
+    "path": "trending/movie/day",
+    "isActive": true
+  },
+  {
+    "order": 6,
+    "type": "tv",
+    "titleKey": "tv_trending",
+    "path": "trending/tv/day",
+    "isActive": true
+  },
+  {
+    "order": 7,
+    "type": "tv",
+    "titleKey": "tv_popular",
+    "path": "tv/top_rated",
+    "isActive": true
+  }
+]
