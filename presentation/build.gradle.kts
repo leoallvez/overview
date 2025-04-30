@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.VariantDimension
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -5,14 +7,15 @@ plugins {
 }
 
 android {
-    namespace = "br.dev.singular.overview.presentation"
-    compileSdk = libs.versions.compileSdk.get().toInt()
-
+    namespace = "${libs.versions.app.id.get()}.presentation"
+    compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-
+        minSdk = libs.versions.sdk.min.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
+        stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
     }
 
     buildTypes {
@@ -29,7 +32,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = libs.versions.jvm.target.get()
     }
     buildFeatures {
         compose = true
@@ -41,6 +44,8 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+
+    implementation(project(":domain"))
 
     api(libs.androidx.activity.compose)
     api(platform(libs.androidx.compose.bom))
@@ -54,4 +59,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)
+}
+
+private fun VariantDimension.stringField(name: String, value: String) {
+    buildConfigField(type = "String", name = name, value = "\"$value\"")
 }

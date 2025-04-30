@@ -1,6 +1,7 @@
 package br.dev.singular.overview.domain.usecase
 
 import br.dev.singular.overview.domain.model.Media
+import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Suggestion
 
 fun createSuggestionMock(): Suggestion {
@@ -17,8 +18,8 @@ fun createSuggestionMock(): Suggestion {
 fun createMediaMock(): Media {
     return Media(
         id = 1L,
-        type = "movie",
-        letter = "A",
+        type = MediaType.MOVIE,
+        title = "A",
         posterPath = "path/to/poster"
     )
 }

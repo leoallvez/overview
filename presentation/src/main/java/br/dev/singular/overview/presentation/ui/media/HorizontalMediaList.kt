@@ -25,36 +25,42 @@ fun HorizontalMediaList(
 ) {
     if (items.isNotEmpty()) {
         val spacingXS = dimensionResource(R.dimen.spacing_xs)
-        Column(
-            modifier = modifier
-                .background(PrimaryBackground)
-                .padding(vertical = spacingXS)
-        ) {
+        Column(modifier = modifier.padding(vertical = spacingXS)) {
             SectionTitle(title)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(spacingXS)) {
                 items(items) { item ->
-                    MediaItem(item, onClick)
+                    MediaItem(item, onClick = onClick)
                 }
             }
         }
     }
 }
 
-@Preview
-@Composable
+@Preview(name = "Filled")
+@Composable()
 fun FilledHorizontalMediaListPreview() {
     HorizontalMediaList(
-        title = "My Favorites Movies",
+        title = "Imagined Movies",
         items = getMediaMocks()
     )
 }
 
-@Preview
+@Preview(name = "Filled with background")
+@Composable
+fun FilledWithBackgroundHorizontalMediaListPreview() {
+    HorizontalMediaList(
+        title = "Imagined Movies",
+        modifier = Modifier.background(PrimaryBackground),
+        items = getMediaMocks()
+    )
+}
+
+@Preview("Empty List (can't show anything)")
 @Composable
 fun EmptyHorizontalMediaListPreview() {
     HorizontalMediaList(
         title = "Empty List",
+        modifier = Modifier.background(PrimaryBackground),
         items = listOf()
     )
 }
-

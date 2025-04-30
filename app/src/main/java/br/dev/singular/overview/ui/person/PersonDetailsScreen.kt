@@ -45,7 +45,7 @@ import br.dev.singular.overview.ui.ScreenTitle
 import br.dev.singular.overview.ui.SimpleSubtitle1
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
-import br.dev.singular.overview.ui.model.toOldMediaType
+import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.model.toUIModel
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -234,8 +234,8 @@ fun ParticipationList(
 ) {
     HorizontalMediaList(
         title = stringResource(listTitleRes),
-        modifier = Modifier.padding(dimensionResource(R.dimen.screen_padding)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         items = medias.map { it.toUIModel() },
-        onClick = { media -> onClickItem.invoke(media.id, media.type.toOldMediaType()) },
+        onClick = { media -> onClickItem.invoke(media.id, media.type.toMediaType()) },
     )
 }

@@ -13,26 +13,15 @@ plugins {
 }
 
 android {
-    val appId = "br.dev.singular.overview"
-    namespace = appId
-    compileSdk = libs.versions.compileSdk.get().toInt()
-
+    namespace = libs.versions.app.id.get()
+    compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
-        applicationId = appId
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        applicationId = libs.versions.app.id.get()
+        minSdk = libs.versions.sdk.min.get().toInt()
+        targetSdk = libs.versions.sdk.target.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        // API keys and URLs
-        stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
-        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
-        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
-        stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
-        stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
-        // Build configurations
         buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
         buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
     }
@@ -46,9 +35,7 @@ android {
             )
         }
     }
-    // Signing configurations
-    val activeSigning = System.getenv("OVER_ACTIVE_SIGNING") == "true"
-    if (activeSigning) {
+    if (isActiveSigning()) {
         // Signing configurations for different environments
         signingConfigs {
             create("prd") {
@@ -93,13 +80,13 @@ android {
             dimension = "version"
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-hmg"
-            if (activeSigning) {
+            if (isActiveSigning()) {
                 signingConfig = signingConfigs.getByName(name = "hmg")
             }
         }
         create("prd") {
             setAppName(appName = "app_name_prd")
-            if (activeSigning) {
+            if (isActiveSigning()) {
                 signingConfig = signingConfigs.getByName(name = "prd")
             }
         }
@@ -109,14 +96,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = libs.versions.jvm.target.get()
     }
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
     }
     hilt {
         enableAggregatingTask = true
@@ -130,7 +114,6 @@ ksp {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // Lifecycle
     implementation(libs.lifecycle.runtime)
@@ -147,9 +130,6 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     // Room
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    implementation(libs.room.paging)
     ksp(libs.room.compiler)
 
     // Paging
@@ -175,8 +155,6 @@ dependencies {
 
     // Third-party libraries
     implementation(libs.timber)
-    implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
     implementation(libs.network.response.adapter)
     implementation(libs.toolbar.compose)
@@ -189,14 +167,12 @@ dependencies {
     implementation(project(path = ":domain"))
     implementation(project(path = ":presentation"))
 
-
     // Test dependencies
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kluent)
     testImplementation(libs.kotlinx.coroutines.test)
 
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -205,11 +181,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
-// extensions
-fun VariantDimension.stringField(name: String, value: String?) {
-    buildConfigField(type = "String", name = name, value = "\"${value ?: ""}\"")
+private fun VariantDimension.stringField(name: String, value: String) {
+    buildConfigField(type = "String", name = name, value = "\"$value\"")
 }
 
-fun ApplicationProductFlavor.setAppName(appName: String) {
+private fun ApplicationProductFlavor.setAppName(appName: String) {
     resValue(type = "string", name = "app_name", value = "@string/$appName")
 }
+
+private fun isActiveSigning() = System.getenv("OVER_ACTIVE_SIGNING") == "true"

@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.presentation.BuildConfig
 import com.squareup.moshi.Json
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize

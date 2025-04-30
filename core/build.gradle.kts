@@ -6,12 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "br.dev.singular.overview.core"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    namespace = "${libs.versions.app.id.get()}.core"
+    compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-
+        minSdk = libs.versions.sdk.min.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -34,7 +33,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = libs.versions.jvm.target.get()
     }
     buildFeatures {
         buildConfig = true
@@ -58,7 +57,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-fun LibraryBuildType.setRemoteInterval(value: String) {
+private fun LibraryBuildType.setRemoteInterval(value: String) {
     buildConfigField(
         type = "long",
         name = "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS",

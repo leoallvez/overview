@@ -1,6 +1,6 @@
 package br.dev.singular.overview.data.model.person
 
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
