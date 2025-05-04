@@ -1,56 +1,69 @@
 [versions]
-
-compile-sdk = "34"
-core = "12.1.0"
-firebase-crashlytics-gradle = "3.0.2"
-google-services = "4.4.2"
-gradle = "8.5.2"
-hilt-android-gradle-plugin = "2.46.1"
-kotlin-gradle-plugin = "1.7.20"
-ktlint-gradle = "11.5.1"
-min-sdk = "21"
-target-sdk = "33"
+# Global Settings
+app-id = "br.dev.singular.overview"
+sdk-compile = "35"
+sdk-min = "24"
+sdk-target = "35"
 version-code = "200"
 version-name = "2.0.0"
 jvm-target = "11"
 
-gradle-plugin = "1.7.20"
-compose-bom = "2025.01.01"
-activity-compose = "1.9.3"
-accompanist = "0.30.1"
-androidx-junit = "1.2.1"
+# Kotlin
+kotlin = "2.1.20"
+kotlin-gradle-plugin = "1.9.22"
+compose-compiler = "2.1.20"
+
+# Android Core
+agp = "8.9.2"
+core-ktx = "1.15.0"
+appcompat = "1.7.0"
+material = "1.12.0"
+
+# Compose
+compose-bom = "2025.04.01"
+navigation-compose = "2.8.9"
+paging-compose = "3.3.6"
+activity-compose = "1.10.1"
+
+# Lifecycle and Work
+lifecycle = "2.8.7"
+work-runtime-ktx = "2.8.1"
+
+# Hilt
+hilt = "2.55"
+hilt-navigation-compose = "1.2.0"
+
+# Room
+room = "2.7.1"
+paging-runtime-ktx = "3.3.4"
+
+# Firebase
+firebase-bom = "33.13.0"
+
+# Network
+retrofit = "2.9.0"
+logging-interceptor = "4.11.0"
+network-response-adapter = "4.2.1"
+
+# UI
 coil-compose = "2.4.0"
-datastore-preferences = "1.0.0"
-espresso-core = "3.6.1"
-hilt = "2.46.1"
-hilt-android = "2.47"
-hilt-navigation-compose = "1.0.0"
+toolbar-compose = "2.3.5"
+progress-indicator = "0.2.0"
+accompanist = "0.30.1"
+
+# Testing
 junit = "4.13.2"
 junit-version = "1.2.1"
 espresso-core = "3.6.1"
 mockk = "1.14.2"
 kluent = "1.73"
 kotlinx-coroutines-test = "1.7.3"
-lifecycle = "2.7.0"
-logging-interceptor = "4.11.0"
-mockk = "1.13.7"
-mockito-core = "5.14.2"
-progress-indicator = "0.2.0"
-navigation-compose = "2.7.7"
-network-response-adapter = "4.2.1"
-paging-compose = "3.3.4"
-paging-runtime-ktx = "3.3.2"
+
+# Others
 play-services-ads = "23.3.0"
-retrofit = "2.9.0"
-room = "2.5.2"
+datastore-preferences = "1.0.0"
 timber = "5.0.1"
-toolbar-compose = "2.3.5"
-ui-test-junit4 = "1.8.0-beta01"
-work-runtime-ktx = "2.8.1"
-appcompat = "1.6.1"
-androidx-core = "1.13.1"
-firebase-bom = "32.3.1"
-ksp = "1.7.20-1.0.8"
+core = "12.1.1"
 
 [libraries]
 # AndroidX Core
