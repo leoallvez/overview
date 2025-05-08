@@ -20,13 +20,13 @@ appcompat = "1.7.0"
 material = "1.12.0"
 
 # Compose
-compose-bom = "2025.04.01"
-navigation-compose = "2.8.9"
+compose-bom = "2025.05.00"
+navigation-compose = "2.9.0"
 paging-compose = "3.3.6"
 activity-compose = "1.10.1"
 
 # Lifecycle and Work
-lifecycle = "2.8.7"
+lifecycle = "2.9.0"
 work-runtime-ktx = "2.8.1"
 
 # Hilt
@@ -61,7 +61,7 @@ kotlinx-coroutines-test = "1.7.3"
 
 # Others
 play-services-ads = "23.3.0"
-datastore-preferences = "1.0.0"
+datastore-preferences = "1.1.6"
 timber = "5.0.1"
 core = "12.1.1"
 
