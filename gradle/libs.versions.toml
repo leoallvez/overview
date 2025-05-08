@@ -26,7 +26,7 @@ paging-compose = "3.3.6"
 activity-compose = "1.10.1"
 
 # Lifecycle and Work
-lifecycle = "2.8.7"
+lifecycle = "2.9.0"
 work-runtime-ktx = "2.8.1"
 
 # Hilt
