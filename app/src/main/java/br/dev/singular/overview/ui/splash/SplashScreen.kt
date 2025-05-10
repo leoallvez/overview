@@ -4,7 +4,7 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,16 +15,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.R
 import br.dev.singular.overview.ui.DefaultViewModel
+import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
-import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import kotlinx.coroutines.delay
 
@@ -67,21 +66,18 @@ fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
 
 @Composable
 fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
-    val colors = listOf(Color.Cyan, AccentColor, AccentColor)
-    val brush = Brush.linearGradient(colors = colors)
-    val onDraw: DrawScope.() -> Unit = {
-        drawCircle(brush = brush)
-    }
     Box(
         modifier = Modifier
             .scale(scale.value)
-            .size(295.dp),
+            .size(400.dp),
         contentAlignment = Alignment.Center
     ) {
-        Canvas(modifier = Modifier.size(575.dp), onDraw)
-        Canvas(modifier = Modifier.size(275.dp), onDraw = {
-            drawCircle(color = Color.Black)
-        })
-        Canvas(modifier = Modifier.size(175.dp), onDraw)
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_playstore),
+            contentDescription = null,
+            modifier = Modifier
+                .size(300.dp),
+            contentScale = ContentScale.Crop
+        )
     }
 }
