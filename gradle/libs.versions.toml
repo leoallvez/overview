@@ -61,7 +61,7 @@ kotlinx-coroutines-test = "1.7.3"
 
 # Others
 play-services-ads = "24.2.0"
-datastore-preferences = "1.1.6"
+datastore-preferences = "1.1.7"
 timber = "5.0.1"
 core = "12.1.1"
 
