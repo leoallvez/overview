@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.hilt.android.plugin) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
-    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.3.0"
 }
 
 buildscript {
