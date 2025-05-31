@@ -70,10 +70,6 @@ fun SearchScreen(
             SearchToolBar { newQuery ->
                 viewModel.onSearching(filters.copy(query = newQuery))
             }
-        },
-        bottomBar = {
-            // TODO: Find a better way to show ads
-            // AdsBanner(R.string.search_banner, viewModel.showAds)
         }
     ) { padding ->
         Column(

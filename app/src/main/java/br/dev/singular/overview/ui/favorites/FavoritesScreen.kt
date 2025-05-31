@@ -1,6 +1,5 @@
 package br.dev.singular.overview.ui.favorites
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,10 +46,6 @@ fun FavoritesScreen(
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
             FavoritesToolBar()
-        },
-        bottomBar = {
-            // TODO: Find a better way to show ads
-            // AdsBanner(R.string.liked_banner, viewModel.showAds)
         }
     ) { padding ->
         Column(Modifier.padding(top = padding.calculateTopPadding())) {

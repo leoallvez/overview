@@ -8,7 +8,6 @@ import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
-import br.dev.singular.overview.di.ShowAds
 import br.dev.singular.overview.domain.usecase.suggetions.IGetAllSuggestionsUseCase
 import br.dev.singular.overview.presentation.UIState
 import br.dev.singular.overview.presentation.model.MediaUIModel
@@ -25,7 +24,6 @@ typealias SuggestionUIState = UIState<Map<String, List<MediaUIModel>>>
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
     private val _repository: IMediaSearchPagingRepository,
     private val suggestionsUseCase: IGetAllSuggestionsUseCase

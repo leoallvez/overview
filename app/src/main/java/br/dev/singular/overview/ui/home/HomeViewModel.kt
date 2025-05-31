@@ -14,7 +14,6 @@ import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.di.IoDispatcher
-import br.dev.singular.overview.di.ShowAds
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +29,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    @ShowAds val showAds: Boolean,
     private val _cache: CacheDataSource,
     val analyticsTracker: IAnalyticsTracker,
     private val _genreRepository: IGenreRepository,

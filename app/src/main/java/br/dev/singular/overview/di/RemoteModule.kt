@@ -1,6 +1,6 @@
 package br.dev.singular.overview.di
 
-import br.dev.singular.overview.BuildConfig.ADS_ARE_VISIBLE
+import br.dev.singular.overview.BuildConfig
 import br.dev.singular.overview.core.remote.RemoteConfigProvider
 import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.model.provider.StreamingEntity
@@ -17,15 +17,14 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 class RemoteModule {
 
-    @ShowAds
     @Provides
     fun providerDisplayAdsRemote(
         remoteSource: RemoteConfigProvider
-    ): Boolean {
+    ): RemoteConfig<Boolean> {
         return DisplayAdsRemoteConfig(
-            _localPermission = ADS_ARE_VISIBLE,
+            _localPermission = BuildConfig.DEBUG,
             _remoteSource = remoteSource
-        ).execute()
+        )
     }
 
     @StreamingRemote

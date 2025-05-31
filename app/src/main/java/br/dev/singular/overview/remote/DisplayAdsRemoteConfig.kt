@@ -9,6 +9,6 @@ data class DisplayAdsRemoteConfig(
 ) : RemoteConfig<Boolean> {
     override fun execute(): Boolean {
         val remotePermission = _remoteSource.getBoolean(DISPLAY_ADS_KEY)
-        return _localPermission && remotePermission
+        return _localPermission || remotePermission
     }
 }

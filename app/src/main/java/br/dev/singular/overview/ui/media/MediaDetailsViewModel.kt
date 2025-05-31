@@ -1,6 +1,5 @@
 package br.dev.singular.overview.ui.media
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.media.Media
@@ -8,7 +7,8 @@ import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRe
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.di.MainDispatcher
-import br.dev.singular.overview.di.ShowAds
+import br.dev.singular.overview.remote.RemoteConfig
+import br.dev.singular.overview.ui.AdViewModel
 import br.dev.singular.overview.ui.MediaUiState
 import br.dev.singular.overview.ui.UiState
 import br.dev.singular.overview.util.fromJson
@@ -22,12 +22,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MediaDetailsViewModel @Inject constructor(
-    @ShowAds val showAds: Boolean,
+    adsManager: RemoteConfig<Boolean>,
     val analyticsTracker: IAnalyticsTracker,
     private val _mediaRepository: IMediaRepository,
     private val _streamingRepository: ISelectedStreamingRepository,
     @MainDispatcher private val _dispatcher: CoroutineDispatcher
-) : ViewModel() {
+) : AdViewModel(adsManager) {
 
     private val _uiState = MutableStateFlow<MediaUiState>(UiState.Loading())
     val uiState: StateFlow<MediaUiState> = _uiState

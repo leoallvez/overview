@@ -90,7 +90,6 @@ fun HomeScreen(
     HomeContent(
         navigate = navigate,
         filters = viewModel.searchFilters.collectAsState().value,
-        showAds = viewModel.showAds,
         onRefresh = { viewModel.loadMediaPaging() },
         items = viewModel.medias.collectAsLazyPagingItems(),
         genres = viewModel.genres.collectAsState().value,
@@ -100,7 +99,6 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(
-    showAds: Boolean,
     filters: SearchFilters,
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
@@ -155,10 +153,6 @@ fun HomeContent(
                     openGenreFilter = closeFilterBottomSheet,
                     onSelectMediaType = inFiltering
                 )
-            },
-            bottomBar = {
-                // TODO: find a better way to do this
-                // AdsBanner(R.string.discover_banner, showAds)
             }
         ) { padding ->
             val filterIsVisible = sheetState.isVisible

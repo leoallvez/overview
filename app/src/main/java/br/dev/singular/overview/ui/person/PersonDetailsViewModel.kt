@@ -1,11 +1,11 @@
 package br.dev.singular.overview.ui.person
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.repository.person.IPersonRepository
 import br.dev.singular.overview.di.MainDispatcher
-import br.dev.singular.overview.di.ShowAds
+import br.dev.singular.overview.remote.RemoteConfig
+import br.dev.singular.overview.ui.AdViewModel
 import br.dev.singular.overview.ui.PersonUiState
 import br.dev.singular.overview.ui.UiState
 import br.dev.singular.overview.util.toUiState
@@ -18,11 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonDetailsViewModel @Inject constructor(
-    @ShowAds val showAds: Boolean,
+    adsManager: RemoteConfig<Boolean>,
     val analyticsTracker: IAnalyticsTracker,
     private val _repository: IPersonRepository,
     @MainDispatcher private val _dispatcher: CoroutineDispatcher
-) : ViewModel() {
+) : AdViewModel(adsManager) {
 
     private val _uiState = MutableStateFlow<PersonUiState>(UiState.Loading())
     val uiState: StateFlow<PersonUiState> = _uiState

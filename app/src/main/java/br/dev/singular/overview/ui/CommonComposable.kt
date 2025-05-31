@@ -859,19 +859,18 @@ fun DefaultVerticalSpace() {
 }
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     if (currentRoute != ScreenNav.Splash.route && currentRoute != ScreenNav.YouTubePlayer.route) {
         Column {
+            AdsBanner(R.string.bottom_navigation, isVisible = adBannerIsVisible)
             BottomNavigation {
                 val items = BottomNavigation.items
                 items.forEach { item ->
                     val isSelected = currentRoute == item.nav.route
                     val color = if (isSelected) AccentColor else Gray
                     BottomNavigationItem(
-                        modifier = Modifier
-                            .background(PrimaryBackground)
-                            .padding(bottom = 5.dp),
+                        modifier = Modifier.background(PrimaryBackground).padding(bottom = 5.dp),
                         icon = {
                             Icon(
                                 item.icon,
@@ -882,6 +881,7 @@ fun BottomNavigationBar(navController: NavController) {
                         label = { Text(stringResource(item.title), color = color) },
                         selected = isSelected,
                         onClick = {
+                            if (currentRoute == item.nav.route) return@BottomNavigationItem
                             navController.navigate(item.nav.route) {
                                 popUpTo(navController.graph.startDestinationId) { saveState = true }
                                 launchSingleTop = true

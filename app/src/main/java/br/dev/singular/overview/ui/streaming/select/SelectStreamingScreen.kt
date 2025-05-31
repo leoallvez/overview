@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,7 +43,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.ui.AdsBanner
 import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleTitle
 import br.dev.singular.overview.ui.TrackScreenView
@@ -63,16 +63,14 @@ fun SelectStreamingScreen(
 ) {
     TrackScreenView(screen = ScreenNav.SelectStreaming, tracker = viewModel.analyticsTracker)
     Scaffold(
+        contentColor = PrimaryBackground,
         modifier = Modifier.padding(
             horizontal = dimensionResource(R.dimen.screen_padding_new)
         ),
         topBar = {
             ToolBar(onBackstack = navigate::popBackStack)
         },
-        bottomBar = {
-            AdsBanner(R.string.select_streaming_banner, isVisible = viewModel.showAds)
-        },
-        contentColor = PrimaryBackground
+        bottomBar = { Spacer(Modifier.size(0.dp)) },
     ) { padding ->
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,

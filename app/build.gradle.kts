@@ -23,7 +23,6 @@ android {
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField(type = "boolean", name = "ADS_ARE_VISIBLE", value = "true")
         buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
     }
 

@@ -7,7 +7,7 @@ import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.streaming.StreamingRepository
 import br.dev.singular.overview.di.MainDispatcher
-import br.dev.singular.overview.di.ShowAds
+import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.StreamingUiState
 import br.dev.singular.overview.ui.UiState
 import br.dev.singular.overview.util.toUiState
@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SelectStreamingViewModel @Inject constructor(
-    @ShowAds val showAds: Boolean,
     val analyticsTracker: IAnalyticsTracker,
     private val _repository: StreamingRepository,
     @MainDispatcher private val _dispatcher: CoroutineDispatcher

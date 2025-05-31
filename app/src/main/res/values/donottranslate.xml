@@ -4,22 +4,13 @@
     <string name="debug_banner">
         ca-app-pub-3940256099942544/6300978111
     </string>
-    <string name="select_streaming_banner">
-        ca-app-pub-2674167083358956/8388197922
-    </string>
     <string name="media_details_banner">
         ca-app-pub-2674167083358956/5720590415
-    </string>
-    <string name="discover_banner">
-        ca-app-pub-2674167083358956/2875220631
-    </string>
-    <string name="search_banner">
-        ca-app-pub-2674167083358956/7995685374
     </string>
     <string name="person_banner">
         ca-app-pub-2674167083358956/2944299552
     </string>
-    <string name="liked_banner">
+    <string name="bottom_navigation">
         ca-app-pub-2674167083358956/4203722867
     </string>
     <!--App Name-->

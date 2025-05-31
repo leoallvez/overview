@@ -41,14 +41,14 @@ class DisplayAdsRemoteConfigTest {
     }
 
     @Test
-    fun `should be false result when local is true and remote is false`() {
+    fun `should be true result when local is true and remote is false`() {
         // Arrange
         val experiment = _remote.copy(_localPermission = true)
         every { _remoteConfig.getBoolean(any()) } returns false
         // Act
         val result = experiment.execute()
         // Assert
-        result.shouldBeFalse()
+        result.shouldBeTrue()
     }
 
     @Test
@@ -63,14 +63,14 @@ class DisplayAdsRemoteConfigTest {
     }
 
     @Test
-    fun `should be false result when local is false and remote is true`() {
+    fun `should be true result when local is false and remote is true`() {
         // Arrange
         val experiment = _remote.copy(_localPermission = false)
         every { _remoteConfig.getBoolean(any()) } returns true
         // Act
         val result = experiment.execute()
         // Assert
-        result.shouldBeFalse()
+        result.shouldBeTrue()
     }
 
     @Test
