@@ -38,7 +38,8 @@ val params = Bundle().apply {
 
 analytics.logEvent("click", params)
 ```
-> - Possible values for the **STATUS** parameter are: **activing** and **deactivating**.
+
+> - Possible values for the **STATUS** parameter are: **activating** and **deactivating**.
 
 
 ### Providers
@@ -49,12 +50,13 @@ analytics.logEvent("click", params)
 ```kotlin
 val params = Bundle().apply {
     putString("custom_path", "/media-details")
-    putString("detail", "<STREAMING>")
+    putString("detail", "select-streaming")
+    putLong("item_id", 42L) // This id value will change dinamically.
 }
 
 analytics.logEvent("click", params)
 ```
-> - The placeholder **STREAMING** will be replaced with the name of the selected streaming service.
+> - In this tagging we will create a logic to get the **streaming** id clicked dynamically.
 
 ### Genres
 
@@ -64,12 +66,13 @@ analytics.logEvent("click", params)
 ```kotlin
 val params = Bundle().apply {
     putString("custom_path", "/media-details")
-    putString("detail", "<GENRE>")
+    putString("detail", "select-genre")
+     putLong("item_id", 42L) // This id value will change dinamically.
 }
 
 analytics.logEvent("click", params)
 ```
-> - The placeholder **GENRE** will be replaced with the name of the clicked genre.
+> - In this tagging we will create a logic to get the **genre** id clicked dynamically.
 
 
 ### Videos
@@ -97,9 +100,12 @@ analytics.logEvent("click", params)
 val params = Bundle().apply {
     putString("custom_path", "/media-details")
     putString("detail", "media-item")
+    putLong("item_id", 42L) // This id value will change dinamically.
 }
 
 analytics.logEvent("click", params)
 ```
+
+> - In this tagging we will create a logic to get the **media** id clicked dynamically.
 
 [Back to index](index.md)

@@ -17,25 +17,30 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.params.TagFavorites
+import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
-import br.dev.singular.overview.ui.NotFoundContentScreen
-import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.ui.NothingFoundScreen
+import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.ToolbarTitle
-import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.search.CenteredTextString
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+
+private fun tagClick(detail: String, id: Long = 0L) {
+    TagManager.logClick(TagFavorites.PATH, detail, id)
+}
 
 @Composable
 fun FavoritesScreen(
     navigate: BasicNavigate,
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.Favorites, viewModel.analyticsTracker)
-
     val type = viewModel.mediaType.collectAsState().value
     val items = viewModel.medias.collectAsLazyPagingItems()
 
@@ -50,23 +55,27 @@ fun FavoritesScreen(
     ) { padding ->
         Column(Modifier.padding(top = padding.calculateTopPadding())) {
             MediaTypeSelector(type.key) { newType ->
+                tagClick("${TagMediaManager.Detail.SELECT_MEDIA_TYPE}${newType.key}")
                 viewModel.updateType(newType)
             }
             DefaultVerticalSpace()
             Box {
                 when (items.loadState.refresh) {
-                    is LoadState.Loading -> LoadingScreen()
+                    is LoadState.Loading -> LoadingScreen(TagFavorites.PATH)
                     is LoadState.NotLoading -> {
                         if (items.itemCount > 0) {
                             MediaEntityPagingVerticalGrid(
                                 items = items,
-                                onClick = navigate::toMediaDetails
+                                tagPath = TagFavorites.PATH,
+                                onClick = { id: Long, type: String? ->
+                                    navigate.toMediaDetails(id, type)
+                                }
                             )
                         } else {
                             NothingWasFavorite(type)
                         }
                     }
-                    else -> NotFoundContentScreen()
+                    else -> NothingFoundScreen(TagFavorites.PATH)
                 }
             }
         }
@@ -87,6 +96,7 @@ fun FavoritesToolBar() {
 
 @Composable
 fun NothingWasFavorite(type: MediaType) {
+    TagScreenView(TagFavorites.PATH, TagStatus.NOTHING_FOUND)
     CenteredTextString(
         textRes = when (type) {
             MediaType.MOVIE -> R.string.liked_movie_not_found

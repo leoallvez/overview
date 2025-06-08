@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.local.source.CacheDataSource
 import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.data.model.filters.SearchFilters
@@ -30,7 +29,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val _cache: CacheDataSource,
-    val analyticsTracker: IAnalyticsTracker,
     private val _genreRepository: IGenreRepository,
     private val _mediaRepository: IMediaPagingRepository,
     private val _streamingRepository: ISelectedStreamingRepository,

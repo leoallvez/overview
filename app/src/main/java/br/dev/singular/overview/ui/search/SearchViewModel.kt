@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
@@ -24,7 +23,6 @@ typealias SuggestionUIState = UIState<Map<String, List<MediaUIModel>>>
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    val analyticsTracker: IAnalyticsTracker,
     private val _repository: IMediaSearchPagingRepository,
     private val suggestionsUseCase: IGetAllSuggestionsUseCase
 ) : ViewModel() {

@@ -58,12 +58,12 @@ analytics.logEvent("click", params)
 ```kotlin
 val params = Bundle().apply {
     putString("custom_path", "/search")
-    putString("detail", "media-type:<MEDIA-TYPE>")
+    putString("detail", "select-media-type:<MEDIA-TYPE>")
 }
 
 analytics.logEvent("click", params)
 ```
->  - Possible values for the **MEDIA-TYPE** value are: **all**, **movie**, or **tv**. For example, if selected filter is **'all'**, the **"detail"** will be: **"media-type:all"**.
+>  - Possible values for the **MEDIA-TYPE** value are: **all**, **movie**, or **tv**. For example, if selected filter is **'all'**, the **"detail"** will be: **"select-media-type:all"**.
 
 ### Media Item
 
@@ -75,10 +75,13 @@ analytics.logEvent("click", params)
 val params = Bundle().apply {
     putString("custom_path", "/search")
     putString("detail", "media-item")
+    putLong("item_id", 42L) // This id value will change dinamically.
 }
 
 analytics.logEvent("click", params)
 ```
+
+> - In this tagging we will create a logic to get the **media** id clicked dynamically.
 
 ## Suggestions
 
@@ -108,10 +111,13 @@ analytics.logEvent("screen_view", params)
 val params = Bundle().apply {
     putString("custom_path", "/search:suggestions")
     putString("detail", "media-item")
+    putLong("item_id", 42L) // This id value will change dinamically.
 }
 
 analytics.logEvent("click", params)
 ```
+
+> - In this tagging we will create a logic to get the **media** id clicked dynamically.
 
 
 [Back to index](index.md)
