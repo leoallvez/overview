@@ -49,9 +49,10 @@ import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
-import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
+import br.dev.singular.overview.ui.theme.DarkGray
+import br.dev.singular.overview.util.animatedBorder
 import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -143,19 +144,6 @@ fun StreamingItem(
                 error = painterResource(R.drawable.placeholder)
             )
         }
-
-        if (isSelected) {
-            Icon(
-                painterResource(id = R.drawable.radio_button_checked),
-                contentDescription = null,
-                tint = AccentColor,
-                modifier = Modifier
-                    .padding(5.dp)
-                    .size(15.dp)
-                    .background(PrimaryBackground.copy(0.7f), CircleShape)
-                    .align(Alignment.BottomEnd)
-            )
-        }
     }
 }
 
@@ -203,11 +191,15 @@ fun ToolBar(onBackstack: () -> Unit) {
 private fun Modifier.setStreamingIcon(isSelected: Boolean, onClick: () -> Unit): Modifier {
     val shape = RoundedCornerShape(dimensionResource(R.dimen.corner))
     return background(SecondaryBackground)
-        .border(
-            width = if (isSelected) 3.dp else 1.dp,
-            color = if (isSelected) AccentColor else Gray,
-            shape = shape
-        )
+        .then(if (isSelected) Modifier.animatedBorder(
+            borderColors = listOf(
+                PrimaryBackground,
+                AccentColor
+            ),
+            backgroundColor = PrimaryBackground,
+            shape = shape,
+            borderWidth = 5.dp
+        ) else Modifier.border(2.dp, DarkGray, shape))
         .clip(shape)
         .clickable { onClick() }
 }
