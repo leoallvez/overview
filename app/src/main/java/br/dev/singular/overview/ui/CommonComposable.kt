@@ -154,18 +154,10 @@ fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
 }
 
 @Composable
-fun LoadingScreen(showOnTop: Boolean = false) {
-    val padding = if (showOnTop) {
-        dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else {
-        0.dp
-    }
+fun LoadingScreen() {
     Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .fillMaxSize()
-            .padding(top = padding),
-        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
+        modifier = Modifier.background(PrimaryBackground).fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IntermediateScreensText(text = stringResource(R.string.loading))
@@ -178,18 +170,10 @@ fun LoadingScreen(showOnTop: Boolean = false) {
 }
 
 @Composable
-fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
-    val padding = if (showOnTop) {
-        dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else {
-        0.dp
-    }
+fun ErrorScreen(refresh: () -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground)
-            .padding(top = padding),
-        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
+        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IntermediateScreensText(
@@ -207,18 +191,10 @@ fun ErrorScreen(showOnTop: Boolean = false, refresh: () -> Unit) {
 }
 
 @Composable
-fun NotFoundContentScreen(showOnTop: Boolean = false, hasFilters: Boolean = false) {
-    val padding = if (showOnTop) {
-        dimensionResource(id = R.dimen.transition_screen_top_padding)
-    } else {
-        0.dp
-    }
+fun NotFoundContentScreen(hasFilters: Boolean = false) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground)
-            .padding(top = padding),
-        verticalArrangement = if (showOnTop) Arrangement.Top else Arrangement.Center,
+        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IntermediateScreensText(

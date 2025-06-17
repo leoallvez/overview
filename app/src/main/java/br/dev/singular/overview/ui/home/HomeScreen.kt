@@ -155,20 +155,16 @@ fun HomeContent(
                 )
             }
         ) { padding ->
-            val filterIsVisible = sheetState.isVisible
-            val hasFilter = filters.areDefaultValues().not()
             when (items.loadState.refresh) {
-                is LoadState.Loading -> LoadingScreen(showOnTop = filterIsVisible)
+                is LoadState.Loading -> LoadingScreen()
                 is LoadState.NotLoading -> {
-                    if (items.itemCount == 0) {
-                        ErrorScreen(showOnTop = filterIsVisible, refresh = onRefresh)
-                    } else {
+                    if (items.itemCount != 0) {
                         MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
+                    } else {
+                        ErrorScreen(refresh = onRefresh)
                     }
                 }
-                else -> {
-                    NotFoundContentScreen(showOnTop = filterIsVisible, hasFilters = hasFilter)
-                }
+                else -> NotFoundContentScreen(hasFilters = filters.areDefaultValues().not())
             }
         }
     }
