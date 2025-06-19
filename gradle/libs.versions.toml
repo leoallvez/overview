@@ -28,7 +28,7 @@ activity-compose = "1.10.1"
 
 # Lifecycle and Work
 lifecycle = "2.9.1"
-work-runtime-ktx = "2.8.1"
+work-runtime-ktx = "2.10.2"
 
 # Hilt
 hilt = "2.55"
