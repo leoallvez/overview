@@ -65,7 +65,7 @@ kotlinx-coroutines-test = "1.7.3"
 play-services-ads = "24.4.0"
 datastore-preferences = "1.1.7"
 timber = "5.0.1"
-core = "12.1.1"
+youtube-player = "12.1.0"
 
 [libraries]
 # AndroidX Core
@@ -146,7 +146,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "play-services-ads" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core" }
+youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtube-player" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
