@@ -10,7 +10,7 @@ version-name = "2.0.0"
 jvm-target = "11"
 
 # Kotlin
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 kotlin-gradle-plugin = "2.1.21"
 compose-compiler = "2.1.21"
 
