@@ -65,7 +65,7 @@ kotlinx-coroutines-test = "1.7.3"
 play-services-ads = "24.4.0"
 datastore-preferences = "1.1.7"
 timber = "5.0.1"
-youtube-player = "12.1.0"
+youtube-player = "12.1.2"
 
 [libraries]
 # AndroidX Core
