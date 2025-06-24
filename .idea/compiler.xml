@@ -16,6 +16,7 @@
       <module name="overview.presentation" target="21" />
       <module name="overview.sample" target="21" />
       <module name="overview.test" target="21" />
+      <module name="Source.overview.core" target="21" />
       <module name="Source.overview.presentation" target="21" />
     </bytecodeTargetLevel>
   </component>

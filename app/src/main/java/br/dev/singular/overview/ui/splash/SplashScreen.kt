@@ -20,9 +20,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.params.TagSplash
 import br.dev.singular.overview.ui.DefaultViewModel
-import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import kotlinx.coroutines.delay
@@ -32,10 +32,9 @@ fun SplashScreen(
     navigate: SplashNavigate,
     viewModel: DefaultViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.Splash, tracker = viewModel.analyticsTracker)
-
     val scale = remember { Animatable(0f) }
     LaunchedEffect(key1 = Unit) {
+        TagManager.logScreenView(TagSplash.PATH)
         scale.animateTo(
             targetValue = 0.6f,
             animationSpec = tween(

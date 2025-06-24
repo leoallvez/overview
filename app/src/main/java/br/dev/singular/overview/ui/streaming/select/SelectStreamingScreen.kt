@@ -43,9 +43,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.params.TagCommon
+import br.dev.singular.overview.presentation.tagging.params.TagStreaming
 import br.dev.singular.overview.ui.SimpleTitle
-import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -57,28 +58,33 @@ import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
+private fun tagClick(detail: String, id: Long = 0L) =
+    TagManager.logClick(TagStreaming.PATH, detail, id)
+
 @Composable
 fun SelectStreamingScreen(
     navigate: BasicNavigate,
     viewModel: SelectStreamingViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.SelectStreaming, tracker = viewModel.analyticsTracker)
     Scaffold(
         contentColor = PrimaryBackground,
-        modifier = Modifier.padding(
-            horizontal = dimensionResource(R.dimen.screen_padding_new)
-        ),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding_new)),
         topBar = {
-            ToolBar(onBackstack = navigate::popBackStack)
+            ToolBar {
+                tagClick(TagCommon.Detail.CLOSE)
+                navigate.popBackStack()
+            }
         },
         bottomBar = { Spacer(Modifier.size(0.dp)) },
     ) { padding ->
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,
+            tagPath = TagStreaming.PATH,
             onRefresh = { viewModel.refresh() }
         ) { streamingData ->
             Column(modifier = Modifier.padding(padding)) {
                 StreamingGrid(data = streamingData) { streaming ->
+                    tagClick(TagStreaming.Detail.STREAMING_CHANGE, streaming.apiId)
                     viewModel.saveSelectedStreaming(streaming)
                     navigate.toHome()
                 }
@@ -94,9 +100,7 @@ fun StreamingGrid(
 ) {
     val padding = dimensionResource(R.dimen.default_padding)
     LazyVerticalGrid(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
+        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
         columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.streaming_item_big_size)),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)

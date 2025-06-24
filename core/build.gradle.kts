@@ -48,7 +48,6 @@ dependencies {
 
     api(platform(libs.firebase.bom))
     api(libs.firebase.config)
-    api(libs.firebase.analytics)
     api(libs.firebase.crashlytics)
     api(libs.timber)
 

@@ -60,15 +60,17 @@ import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.params.TagCommon
+import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeFilterButton
-import br.dev.singular.overview.ui.NotFoundContentScreen
-import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.StreamingIcon
-import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -80,13 +82,15 @@ import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
+private fun tagClick(detail: String, id: Long = 0L) {
+    TagManager.logClick(TagHome.PATH, detail, id)
+}
+
 @Composable
 fun HomeScreen(
     navigate: HomeNavigate,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.Home, tracker = viewModel.analyticsTracker)
-
     HomeContent(
         navigate = navigate,
         filters = viewModel.searchFilters.collectAsState().value,
@@ -134,7 +138,7 @@ fun HomeContent(
         sheetState = sheetState,
         sheetContent = {
             AnimatedVisibility(visible = sheetState.isVisible) {
-                FilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
+                GenreFilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
             }
         },
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -156,15 +160,25 @@ fun HomeContent(
             }
         ) { padding ->
             when (items.loadState.refresh) {
-                is LoadState.Loading -> LoadingScreen()
+                is LoadState.Loading -> LoadingScreen(tagPath = TagHome.PATH)
                 is LoadState.NotLoading -> {
-                    if (items.itemCount != 0) {
-                        MediaEntityPagingVerticalGrid(padding, items, navigate::toMediaDetails)
+                    if (items.itemCount == 0) {
+                        ErrorScreen(tagPath = TagHome.PATH, refresh = onRefresh)
                     } else {
-                        ErrorScreen(refresh = onRefresh)
+                        MediaEntityPagingVerticalGrid(
+                            items = items,
+                            padding = padding,
+                            tagPath = TagHome.PATH,
+                            onClick = navigate::toMediaDetails
+                        )
                     }
                 }
-                else -> NotFoundContentScreen(hasFilters = filters.areDefaultValues().not())
+                else -> {
+                    NothingFoundScreen(
+                        tagPath = TagHome.PATH,
+                        hasFilters = filters.areDefaultValues().not()
+                    )
+                }
             }
         }
     }
@@ -185,14 +199,15 @@ fun HomeToolBar(
             .padding(bottom = dimensionResource(R.dimen.screen_padding))
     ) {
         Row(
-            modifier = Modifier
-                .height(50.dp)
-                .padding(top = 10.dp),
+            modifier = Modifier.height(50.dp).padding(top = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             SelectStreaming(
                 streaming = filters.streaming,
-                onClick = { navigate.toSelectStreaming() }
+                onClick = {
+                    tagClick(TagCommon.Detail.SELECT_STREAMING)
+                    navigate.toSelectStreaming()
+                }
             )
         }
         Row(
@@ -297,7 +312,7 @@ fun HomeScreamTitle(title: String?) {
 }
 
 @Composable
-fun FilterBottomSheet(
+fun GenreFilterBottomSheet(
     filters: SearchFilters,
     genres: List<GenreEntity>,
     closeAction: () -> Unit,
@@ -315,7 +330,12 @@ fun FilterBottomSheet(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             FilterTitle(stringResource(R.string.filter_by_genre))
-            CloseIcon(onClick = closeAction)
+            CloseIcon(
+                onClick = {
+                    tagClick(TagHome.Detail.CLOSE_GENRE_FILTER)
+                    closeAction.invoke()
+                }
+            )
         }
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
         FilterGenres(genres, filters) {
@@ -370,9 +390,8 @@ fun FilterMediaType(
                         MediaTypeFilterButton(type, filters.mediaType.key) {
                             with(filters) {
                                 if (mediaType != type) {
-                                    onSelectMedia(
-                                        filters.copy(mediaType = type, genreId = null)
-                                    )
+                                    tagClick("${TagMediaManager.Detail.SELECT_MEDIA_TYPE}${type.key}")
+                                    onSelectMedia(filters.copy(mediaType = type, genreId = null))
                                 }
                             }
                         }
@@ -382,17 +401,29 @@ fun FilterMediaType(
                     ClosableFilterButton(
                         buttonText = stringResource(R.string.tv_show),
                         isActivated = true,
-                        onClick = onClearFilter
+                        onClick = {
+                            tagClick(TagHome.Detail.UNSELECT_MEDIA_TYPE_TV)
+                            onClearFilter.invoke()
+                        }
                     )
-                    SelectGenreButton(filters, genres, onOpenGenreFilter)
+                    SelectGenreButton(filters, genres) {
+                        tagClick(TagHome.Detail.OPEN_GENRE_FILTER)
+                        onOpenGenreFilter.invoke()
+                    }
                 }
                 MediaType.MOVIE.key -> {
                     ClosableFilterButton(
                         buttonText = stringResource(R.string.movies),
                         isActivated = true,
-                        onClick = onClearFilter
+                        onClick = {
+                            tagClick(TagHome.Detail.UNSELECT_MEDIA_TYPE_MOVIE)
+                            onClearFilter.invoke()
+                        }
                     )
-                    SelectGenreButton(filters, genres, onOpenGenreFilter)
+                    SelectGenreButton(filters, genres) {
+                        tagClick(TagHome.Detail.OPEN_GENRE_FILTER)
+                        onOpenGenreFilter.invoke()
+                    }
                 }
             }
         }
@@ -428,6 +459,10 @@ fun FilterGenres(
     filters: SearchFilters,
     onClick: (SearchFilters) -> Unit
 ) {
+    val tagGenreClick = { isActive: Boolean, itemId: Long ->
+        val detail = if (isActive) TagHome.Detail.UNSELECT_GENRE else TagHome.Detail.SELECT_GENRE
+        tagClick(detail, itemId)
+    }
     Column {
         FlowRow(
             crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
@@ -435,10 +470,12 @@ fun FilterGenres(
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
+                val isActive = filters.genreId == genre.apiId
                 ClosableFilterButton(
                     buttonText = genre.nameTranslation(),
-                    isActivated = filters.genreId == genre.apiId
+                    isActivated = isActive
                 ) {
+                    tagGenreClick.invoke(isActive, genre.apiId)
                     onClick.invoke(filters.copy(genreId = genre.apiId))
                 }
             }

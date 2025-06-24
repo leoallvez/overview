@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
 import br.dev.singular.overview.data.source.media.MediaType
@@ -16,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    val analyticsTracker: IAnalyticsTracker,
     private val _repository: IMediaEntityPagingRepository
 ) : ViewModel() {
 

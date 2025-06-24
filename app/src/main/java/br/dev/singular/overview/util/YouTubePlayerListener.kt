@@ -1,9 +1,10 @@
 package br.dev.singular.overview.util
 
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.params.TagPlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import timber.log.Timber
 
 class YouTubePlayerListener(private val videoKey: String) : AbstractYouTubePlayerListener() {
 
@@ -16,17 +17,9 @@ class YouTubePlayerListener(private val videoKey: String) : AbstractYouTubePlaye
         youTubePlayer: YouTubePlayer,
         state: PlayerConstants.PlayerState
     ) {
-        when (state) {
-            PlayerConstants.PlayerState.PLAYING -> {
-                Timber.d("video is playing.")
-            }
-            PlayerConstants.PlayerState.PAUSED -> {
-                Timber.d("video is paused.")
-            }
-            PlayerConstants.PlayerState.ENDED -> {
-                Timber.d("Video ended.")
-            }
-            else -> { Timber.d("Actual state: $state") }
-        }
+        TagManager.logInteraction(TagPlayer.PATH, makeDetail(state.name.lowercase()))
     }
+
+    private fun makeDetail(state: String) = "${TagPlayer.Detail.PLAYER_STATUS}$state"
+
 }

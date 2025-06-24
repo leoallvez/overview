@@ -34,12 +34,13 @@ analytics.logEvent("click", params)
 ```kotlin
 val params = Bundle().apply {
     putString("custom_path", "/select-streaming")
-    putString("detail", "<STREAMING>")
+    putString("detail", "streaming-change")
+    putLong("item_id", 100L) // This id value will change dinamically.
 }
 
 analytics.logEvent("click", params)
 ```
 
-> - The placeholder **STREAMING** will be replaced with the name of the selected streaming service.
+> - In this tagging we will create a logic to get the **streaming** id clicked dynamically.
 
 [Back to index](index.md)
