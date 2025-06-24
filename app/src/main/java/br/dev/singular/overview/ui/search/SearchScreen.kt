@@ -26,17 +26,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
@@ -70,7 +66,6 @@ import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
-import kotlinx.coroutines.delay
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagSearch.PATH, detail, id)
@@ -239,16 +234,11 @@ fun SuggestionsVerticalList(
 fun SearchField(onSearch: (String) -> Unit) {
 
     var query by rememberSaveable { mutableStateOf("") }
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        delay(200)
-        focusRequester.requestFocus()
-    }
     Box(modifier = Modifier.background(PrimaryBackground).padding(horizontal = 6.dp)) {
         BasicTextField(
             value = query,
             enabled = true,
-            modifier = Modifier.focusRequester(focusRequester).fillMaxWidth().height(40.dp),
+            modifier = Modifier.fillMaxWidth().height(40.dp),
             textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
             onValueChange = { newValue ->
                 TagManager.logInteraction(TagSearch.PATH, TagSearch.Detail.SEARCH_FIELD)
