@@ -1,7 +1,6 @@
 package br.dev.singular.overview.ui.media
 
 import androidx.lifecycle.viewModelScope
-import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
@@ -23,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MediaDetailsViewModel @Inject constructor(
     adsManager: RemoteConfig<Boolean>,
-    val analyticsTracker: IAnalyticsTracker,
     private val _mediaRepository: IMediaRepository,
     private val _streamingRepository: ISelectedStreamingRepository,
     @MainDispatcher private val _dispatcher: CoroutineDispatcher

@@ -66,6 +66,10 @@ import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.params.TagCommon
+import br.dev.singular.overview.presentation.tagging.params.TagMedia
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
@@ -76,11 +80,9 @@ import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.MediaList
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
-import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.ToolbarTitle
-import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.border
 import br.dev.singular.overview.ui.nameTranslation
@@ -100,14 +102,16 @@ import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import timber.log.Timber
 
+private fun tagClick(detail: String, id: Long = 0L) {
+    TagManager.logClick(TagMedia.PATH, detail, id)
+}
+
 @Composable
 fun MediaDetailsScreen(
     params: Pair<Long, String>,
     navigate: MediaDetailsNavigate,
     viewModel: MediaDetailsViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.MediaDetails, tracker = viewModel.analyticsTracker)
-
     val (apiId: Long, mediaType: String) = params
     val type = MediaType.getByKey(mediaType)
     val onRefresh = { viewModel.load(apiId, type) }
@@ -117,12 +121,18 @@ fun MediaDetailsScreen(
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
+        tagPath = TagMedia.PATH,
         onRefresh = onRefresh
     ) { media ->
         val isLiked = remember { mutableStateOf(media?.isLiked ?: false) }
 
         val onLike = {
             isLiked.value = !isLiked.value
+            tagClick(if (isLiked.value) {
+                TagMedia.Detail.LIKE_ACTIVATING
+            } else {
+                TagMedia.Detail.LIKE_DEACTIVATING
+            })
             viewModel.updateLike(media, isLiked.value)
         }
 
@@ -135,6 +145,7 @@ fun MediaDetailsScreen(
             onLikeClick = onLike
         ) { streaming ->
             Timber.tag("stream_view").i(message = "streaming: $streaming")
+            tagClick(TagCommon.Detail.SELECT_STREAMING, streaming.apiId)
             viewModel.saveSelectedStream(streaming.toJson())
         }
     }
@@ -151,7 +162,7 @@ fun MediaDetailsContent(
     onClickStreaming: (StreamingEntity) -> Unit
 ) {
     if (media == null) {
-        ErrorScreen { onRefresh.invoke() }
+        ErrorScreen(TagMedia.PATH) { onRefresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
             modifier = Modifier,
@@ -200,8 +211,14 @@ fun MediaToolBar(
                     painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     descriptionResource = R.string.backstack_icon,
                     modifier = Modifier.padding(dimensionResource(R.dimen.default_padding)),
-                    onClick = onBackstackClick::invoke,
-                    onLongClick = onBackstackLongClick::invoke
+                    onClick = {
+                        tagClick(TagCommon.Detail.BACK)
+                        onBackstackClick.invoke()
+                    },
+                    onLongClick = {
+                        tagClick(TagCommon.Detail.BACK)
+                        onBackstackLongClick.invoke()
+                    }
 
                 )
                 LikeButton(isLiked = isLiked, onLikeClick)
@@ -249,15 +266,18 @@ fun MediaBody(
             isVisible = showAds
         )
         VideoList(media.videos) { videoKey ->
+            tagClick(TagMedia.Detail.VIDEO)
             navigate.toYouTubePlayer(videoKey = videoKey)
         }
         CastList(media.getOrderedCast()) { apiId ->
+            tagClick(TagMedia.Detail.CAST, apiId)
             navigate.toPersonDetails(apiId = apiId)
         }
         MediaList(
             listTitle = stringResource(R.string.related),
             medias = media.getSimilarMedia()
         ) { apiId, mediaType ->
+            TagMediaManager.logClick(TagMedia.PATH, apiId)
             navigate.toMediaDetails(apiId = apiId, mediaType = mediaType)
         }
     }
@@ -342,6 +362,7 @@ fun StreamingOverview(
         ) {
             items(streaming) { streaming ->
                 StreamingIcon(streaming = streaming) {
+                    tagClick(TagCommon.Detail.SELECT_STREAMING, streaming.apiId)
                     onClickItem.invoke(streaming)
                 }
             }
@@ -396,16 +417,18 @@ fun GenreList(genres: List<GenreEntity>) {
             )
         ) {
             items(genres) { genre ->
-                GenreItem(name = genre.nameTranslation())
+                GenreItem(name = genre.nameTranslation()) {
+                    tagClick(TagMedia.Detail.SELECT_GENRE, genre.apiId)
+                }
             }
         }
     }
 }
 
 @Composable
-fun GenreItem(name: String) {
+fun GenreItem(name: String, onClick: () -> Unit) {
     OutlinedButton(
-        onClick = {},
+        onClick = onClick,
         shape = RoundedCornerShape(percent = 100),
         contentPadding = PaddingValues(
             horizontal = dimensionResource(R.dimen.default_padding)

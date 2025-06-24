@@ -55,6 +55,9 @@ dependencies {
     api(libs.androidx.material3)
     api(libs.coil.compose)
 
+    api(platform(libs.firebase.bom))
+    api(libs.firebase.analytics)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

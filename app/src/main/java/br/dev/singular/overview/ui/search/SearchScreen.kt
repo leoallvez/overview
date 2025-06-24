@@ -2,29 +2,47 @@ package br.dev.singular.overview.ui.search
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction.Companion
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -32,31 +50,37 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.R
 import br.dev.singular.overview.presentation.UIState
 import br.dev.singular.overview.presentation.model.MediaUIModel
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.params.TagSearch
+import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.media.HorizontalMediaList
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
-import br.dev.singular.overview.ui.NotFoundContentScreen
-import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.SearchField
+import br.dev.singular.overview.ui.NothingFoundScreen
+import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.ToolbarTitle
-import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
+import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
+import kotlinx.coroutines.delay
+
+private fun tagClick(detail: String, id: Long = 0L) {
+    TagManager.logClick(TagSearch.PATH, detail, id)
+}
 
 @Composable
 fun SearchScreen(
     navigate: BasicNavigate,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.Search, viewModel.analyticsTracker)
-
     val filters = viewModel.searchFilters.collectAsState().value
     val items = viewModel.mediasSearch.collectAsLazyPagingItems()
     val suggestionsUIState = viewModel.suggestionsUIState.collectAsState().value
@@ -67,8 +91,8 @@ fun SearchScreen(
             .background(PrimaryBackground)
             .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         topBar = {
-            SearchToolBar { newQuery ->
-                viewModel.onSearching(filters.copy(query = newQuery))
+            SearchToolBar { query ->
+                viewModel.onSearching(filters.copy(query = query))
             }
         }
     ) { padding ->
@@ -78,22 +102,36 @@ fun SearchScreen(
                 .padding(top = padding.calculateTopPadding())
         ) {
             if (items.itemCount > 0 || filters.query.isNotEmpty()) {
-                MediaTypeSelector(filters.mediaType.key) { newType ->
-                    viewModel.onSearching(filters.copy(mediaType = newType))
+                MediaTypeSelector(filters.mediaType.key) { type ->
+                    tagClick("${TagMediaManager.Detail.SELECT_MEDIA_TYPE}${type.key}")
+                    viewModel.onSearching(filters.copy(mediaType = type))
                 }
             }
             DefaultVerticalSpace()
             Box {
                 when (items.loadState.refresh) {
-                    is LoadState.Loading -> LoadingScreen()
+                    is LoadState.Loading -> LoadingScreen(TagSearch.PATH)
                     is LoadState.NotLoading -> {
-                        MediaEntityPagingVerticalGrid(items = items, onClick = navigate::toMediaDetails)
+                        MediaEntityPagingVerticalGrid(
+                            items = items,
+                            tagPath = TagSearch.PATH,
+                            onClick = { id: Long, type: String? ->
+                                navigate.toMediaDetails(id, type)
+                            }
+                        )
                     }
                     else -> {
                         if (items.itemCount == 0 && filters.query.isNotEmpty()) {
-                            NotFoundContentScreen()
+                            NothingFoundScreen(TagSearch.PATH)
                         } else {
-                            SearchInitialScreen(suggestionsUIState, navigate::toMediaDetails)
+                            SearchInitialScreen(
+                                suggestions = suggestionsUIState,
+                                tagPath = TagSearch.PATH,
+                                onClick = { id: Long, type: String? ->
+                                    TagMediaManager.logClick(TagSearch.PATH_SUGGESTIONS, id)
+                                    navigate.toMediaDetails(id, type)
+                                }
+                            )
                         }
                     }
                 }
@@ -112,26 +150,26 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
     ) {
         ToolbarTitle(title = stringResource(id = R.string.search))
         DefaultVerticalSpace()
-        SearchField(
-            onSearch = onSearch,
-            autoOpenKeyboard = false,
-            defaultPaddingValues = PaddingValues(horizontal = 6.dp),
-            placeholder = stringResource(R.string.search_in_all_places)
-        )
+        SearchField(onSearch = onSearch)
     }
 }
 
 @Composable
-fun SearchInitialScreen(suggestions: SuggestionUIState, onClickItem: MediaItemClick) {
+fun SearchInitialScreen(
+    suggestions: SuggestionUIState,
+    tagPath: String,
+    onClick: MediaItemClick
+) {
     when (suggestions) {
-        is UIState.Loading -> LoadingScreen()
+        is UIState.Loading -> LoadingScreen(tagPath)
         is UIState.Success -> {
-            SuggestionsVerticalList(
-                suggestions = suggestions.data,
-                onClickItem = onClickItem
-            )
+            TagScreenView(tagPath, TagStatus.SUCCESS)
+            SuggestionsVerticalList(suggestions = suggestions.data, onClick = onClick)
         }
-        is UIState.Error -> CenteredTextString(R.string.search_not_started)
+        is UIState.Error -> {
+            TagScreenView(tagPath, TagStatus.ERROR)
+            CenteredTextString(R.string.search_not_started)
+        }
     }
 }
 
@@ -178,7 +216,7 @@ fun SearchIcon(modifier: Modifier = Modifier) {
 @Composable
 fun SuggestionsVerticalList(
     suggestions: Map<String, List<MediaUIModel>>,
-    onClickItem: MediaItemClick
+    onClick: MediaItemClick
 ) {
     val context = LocalContext.current
     Column(
@@ -191,8 +229,69 @@ fun SuggestionsVerticalList(
             HorizontalMediaList(
                 title = context.getStringByName(titleKey).orEmpty(),
                 items = mediaItems,
-                onClick = { media -> onClickItem(media.id, media.type.toMediaType()) }
+                onClick = { media -> onClick(media.id, media.type.toMediaType()) }
             )
         }
+    }
+}
+
+@Composable
+fun SearchField(onSearch: (String) -> Unit) {
+
+    var query by rememberSaveable { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        delay(200)
+        focusRequester.requestFocus()
+    }
+    Box(modifier = Modifier.background(PrimaryBackground).padding(horizontal = 6.dp)) {
+        BasicTextField(
+            value = query,
+            enabled = true,
+            modifier = Modifier.focusRequester(focusRequester).fillMaxWidth().height(40.dp),
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
+            onValueChange = { newValue ->
+                TagManager.logInteraction(TagSearch.PATH, TagSearch.Detail.SEARCH_FIELD)
+                onSearch.invoke(newValue.also { query = it })
+            },
+            keyboardOptions = KeyboardOptions(imeAction = Companion.Search),
+            singleLine = true,
+            cursorBrush = SolidColor(Color.White),
+            decorationBox = { innerTextField ->
+                Row(
+                    Modifier
+                        .border(
+                            width = 1.dp,
+                            color = if (query.isEmpty()) Gray.copy(alpha = 0.5f) else AccentColor,
+                            shape = RoundedCornerShape(size = 50.dp)
+                        )
+                        .padding(start = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    SearchIcon(
+                        modifier = Modifier.padding(5.dp)
+                    )
+                    Box(Modifier.weight(1f)) {
+                        if (query.isEmpty()) {
+                            Text(
+                                stringResource(R.string.search_in_all_places),
+                                style = LocalTextStyle.current.copy(
+                                    color = Gray,
+                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                                ),
+                                modifier = Modifier.padding(top = 2.dp)
+                            )
+                        }
+                        innerTextField()
+                    }
+                    if (query.isNotEmpty()) {
+                        ClearSearchIcon(query) {
+                            tagClick(TagSearch.Detail.CLEAN_SEARCH_FIELD)
+                            query = ""
+                        }
+                    }
+                }
+            }
+        )
     }
 }

@@ -2,6 +2,9 @@ package br.dev.singular.overview.ui
 
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -27,8 +30,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -38,28 +39,18 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -70,7 +61,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction.Companion
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -79,7 +69,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.compose.LazyPagingItems
-import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
@@ -87,9 +76,11 @@ import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
+import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.ui.navigation.BottomNavigation
-import br.dev.singular.overview.ui.search.ClearSearchIcon
-import br.dev.singular.overview.ui.search.SearchIcon
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.Gray
@@ -101,7 +92,6 @@ import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
-import kotlinx.coroutines.delay
 
 @Composable
 fun GenreEntity.nameTranslation(): String {
@@ -146,15 +136,20 @@ fun SimpleTitle(title: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TrackScreenView(screen: ScreenNav, tracker: IAnalyticsTracker) {
+fun TagScreenView(
+    tagPath: String,
+    status: String = ""
+) {
     DisposableEffect(Unit) {
-        tracker.screenViewEvent(screen.name, screen.name)
-        onDispose {}
+        TagManager.logScreenView(tagPath, status)
+        onDispose { /* no-op */ }
     }
 }
 
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(tagPath: String) {
+
+    TagScreenView(tagPath, TagStatus.LOADING)
     Column(
         modifier = Modifier.background(PrimaryBackground).fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -170,7 +165,11 @@ fun LoadingScreen() {
 }
 
 @Composable
-fun ErrorScreen(refresh: () -> Unit) {
+fun ErrorScreen(
+    tagPath: String,
+    refresh: () -> Unit
+) {
+    TagScreenView(tagPath, TagStatus.ERROR)
     Column(
         modifier = Modifier.fillMaxSize().background(PrimaryBackground),
         verticalArrangement = Arrangement.Center,
@@ -191,7 +190,12 @@ fun ErrorScreen(refresh: () -> Unit) {
 }
 
 @Composable
-fun NotFoundContentScreen(hasFilters: Boolean = false) {
+fun NothingFoundScreen(
+    tagPath: String,
+    hasFilters: Boolean = false
+) {
+    TagScreenView(tagPath, TagStatus.NOTHING_FOUND)
+
     Column(
         modifier = Modifier.fillMaxSize().background(PrimaryBackground),
         verticalArrangement = Arrangement.Center,
@@ -517,13 +521,17 @@ fun Backdrop(
 @Composable
 fun <T> UiStateResult(
     uiState: UiState<T>,
+    tagPath: String,
     onRefresh: () -> Unit,
     successContent: @Composable (T) -> Unit
 ) {
     when (uiState) {
-        is UiState.Loading -> LoadingScreen()
-        is UiState.Success -> successContent(uiState.data)
-        else -> ErrorScreen { onRefresh() }
+        is UiState.Loading -> LoadingScreen(tagPath)
+        is UiState.Success -> {
+            TagScreenView(tagPath, TagStatus.SUCCESS)
+            successContent(uiState.data)
+        }
+        else -> ErrorScreen(tagPath) { onRefresh() }
     }
 }
 
@@ -569,9 +577,11 @@ fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
 @Composable
 fun MediaEntityPagingVerticalGrid(
     padding: PaddingValues = PaddingValues(),
+    tagPath: String,
     items: LazyPagingItems<MediaEntity>,
     onClick: MediaItemClick
 ) {
+    TagScreenView(tagPath, TagStatus.SUCCESS)
     Column(
         modifier = Modifier
             .background(PrimaryBackground)
@@ -583,6 +593,7 @@ fun MediaEntityPagingVerticalGrid(
                 GridItemMediaEntity(
                     media = items[index],
                     onClick = {
+                        TagMediaManager.logClick(tagPath, it.apiId)
                         onClick.invoke(it.apiId, it.type)
                     }
                 )
@@ -654,76 +665,6 @@ fun ToolbarTitle(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(textPadding)
-        )
-    }
-}
-
-@Composable
-fun SearchField(
-    placeholder: String,
-    autoOpenKeyboard: Boolean = true,
-    defaultPaddingValues: PaddingValues = PaddingValues(),
-    onSearch: ((query: String) -> Unit)? = null
-) {
-    var query by rememberSaveable { mutableStateOf("") }
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        if (autoOpenKeyboard) {
-            delay(200)
-            focusRequester.requestFocus()
-        }
-    }
-    Box(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(defaultPaddingValues)
-    ) {
-        BasicTextField(
-            value = query,
-            enabled = onSearch != null,
-            modifier = Modifier
-                .focusRequester(focusRequester)
-                .fillMaxWidth()
-                .height(40.dp),
-            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
-            onValueChange = { newValue ->
-                onSearch?.invoke(newValue.also { query = it })
-            },
-            keyboardOptions = KeyboardOptions(imeAction = Companion.Search),
-            singleLine = true,
-            cursorBrush = SolidColor(Color.White),
-            decorationBox = { innerTextField ->
-                Row(
-                    Modifier
-                        .border(
-                            width = 1.dp,
-                            color = if (query.isEmpty()) Gray.copy(alpha = 0.5f) else AccentColor,
-                            shape = RoundedCornerShape(size = 50.dp)
-                        )
-                        .padding(start = 5.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    SearchIcon(
-                        modifier = Modifier.padding(5.dp)
-                    )
-                    Box(Modifier.weight(1f)) {
-                        if (query.isEmpty()) {
-                            Text(
-                                placeholder,
-                                style = LocalTextStyle.current.copy(
-                                    color = Gray,
-                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
-                                ),
-                                modifier = Modifier.padding(top = 2.dp)
-                            )
-                        }
-                        innerTextField()
-                    }
-                    if (query.isNotEmpty()) {
-                        ClearSearchIcon(query) { query = "" }
-                    }
-                }
-            }
         )
     }
 }
@@ -858,6 +799,7 @@ fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean
                         selected = isSelected,
                         onClick = {
                             if (currentRoute == item.nav.route) return@BottomNavigationItem
+                            TagManager.logClick(TagBottomNavigation.PATH, item.tagDetail)
                             navController.navigate(item.nav.route) {
                                 popUpTo(navController.graph.startDestinationId) { saveState = true }
                                 launchSingleTop = true

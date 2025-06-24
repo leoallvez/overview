@@ -11,7 +11,7 @@ enum class MediaType(val key: String, @StringRes val labelRes: Int, private val 
     fun isDefault() = key == ALL.key
 
     companion object {
-        fun getByKey(key: String): MediaType = values().first { it.key == key }
-        fun getAllOrdered(): List<MediaType> = values().sortedBy { it.order }
+        fun getByKey(key: String): MediaType = entries.first { it.key == key }
+        fun getAllOrdered(): List<MediaType> = entries.sortedBy { it.order }
     }
 }

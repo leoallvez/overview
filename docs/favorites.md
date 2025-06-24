@@ -26,7 +26,7 @@ analytics.logEvent("screen_view", params)
 ```kotlin
 val params = Bundle().apply {
     putString("custom_path", "/favorites")
-    putString("detail", "media-type:<MEDIA-TYPE>")
+    putString("detail", "select-media-type:<MEDIA-TYPE>")
 }
 
 analytics.logEvent("click", params)
@@ -44,9 +44,12 @@ analytics.logEvent("click", params)
 val params = Bundle().apply {
     putString("custom_path", "/favorites")
     putString("detail", "media-item")
+    putLong("item_id", 42L) // This id value will change dinamically.
 }
 
 analytics.logEvent("click", params)
 ```
+
+> - In this tagging we will create a logic to get the **media** id clicked dynamically.
 
 [Back to index](index.md)

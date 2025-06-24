@@ -14,10 +14,10 @@
     <!-- Genre -->
     <string name="genre_10759" tools:ignore="UnusedResources">Ação e Aventura</string>
     <string name="genre_10762" tools:ignore="UnusedResources">Infantil</string>
-    <string name="genre_10763" tools:ignore="UnusedResources">Notiticias</string>
+    <string name="genre_10763" tools:ignore="UnusedResources">Notícias</string>
     <string name="genre_10764" tools:ignore="UnusedResources">Reality Show</string>
     <string name="genre_10765" tools:ignore="UnusedResources">Ficção Científica e Fantasia</string>
-    <string name="genre_10766" tools:ignore="UnusedResources">Ficção Cómica</string>
+    <string name="genre_10766" tools:ignore="UnusedResources">Novela</string>
     <string name="genre_10767" tools:ignore="UnusedResources">Entrevista</string>
     <string name="genre_10768" tools:ignore="UnusedResources">Guerra e Política</string>
     <!-- Genre -->

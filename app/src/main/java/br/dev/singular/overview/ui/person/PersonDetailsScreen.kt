@@ -32,6 +32,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.params.TagCommon
+import br.dev.singular.overview.presentation.tagging.params.TagPerson
 import br.dev.singular.overview.presentation.ui.media.HorizontalMediaList
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
@@ -40,10 +44,8 @@ import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.PartingEmDash
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
-import br.dev.singular.overview.ui.ScreenNav
 import br.dev.singular.overview.ui.ScreenTitle
 import br.dev.singular.overview.ui.SimpleSubtitle1
-import br.dev.singular.overview.ui.TrackScreenView
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.model.toUIModel
@@ -60,8 +62,6 @@ fun PersonDetailsScreen(
     navigate: BasicNavigate,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
-    TrackScreenView(screen = ScreenNav.PersonDetails, tracker = viewModel.analyticsTracker)
-
     val onRefresh = { viewModel.load(apiId) }
     LaunchedEffect(true) {
         onRefresh.invoke()
@@ -69,6 +69,7 @@ fun PersonDetailsScreen(
 
     UiStateResult(
         uiState = viewModel.uiState.collectAsState().value,
+        tagPath = TagPerson.PATH,
         onRefresh = onRefresh
     ) { dataResult ->
         PersonDetailsContent(
@@ -92,7 +93,7 @@ fun PersonDetailsContent(
     onNavigateToMediaDetails: MediaItemClick
 ) {
     if (person == null) {
-        ErrorScreen { onRefresh.invoke() }
+        ErrorScreen(TagPerson.PATH) { onRefresh.invoke() }
     } else {
         CollapsingToolbarScaffold(
             modifier = Modifier.background(PrimaryBackground),
@@ -117,6 +118,7 @@ fun PersonToolBar(
     onBackstackClick: () -> Unit,
     onBackstackLongClick: () -> Unit
 ) {
+    val tagBack = { TagManager.logClick(TagPerson.PATH, TagCommon.Detail.BACK) }
     Box(
         Modifier
             .fillMaxWidth()
@@ -135,8 +137,14 @@ fun PersonToolBar(
             painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
             background = Color.White.copy(alpha = 0.1f),
-            onClick = onBackstackClick::invoke,
-            onLongClick = onBackstackLongClick::invoke
+            onClick = {
+                tagBack.invoke()
+                onBackstackClick.invoke()
+            },
+            onLongClick = {
+                tagBack.invoke()
+                onBackstackLongClick.invoke()
+            }
         )
     }
 }
@@ -236,6 +244,9 @@ fun ParticipationList(
         title = stringResource(listTitleRes),
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
         items = medias.map { it.toUIModel() },
-        onClick = { media -> onClickItem.invoke(media.id, media.type.toMediaType()) },
+        onClick = { media ->
+            TagMediaManager.logClick(TagPerson.PATH, media.id)
+            onClickItem.invoke(media.id, media.type.toMediaType())
+        },
     )
 }

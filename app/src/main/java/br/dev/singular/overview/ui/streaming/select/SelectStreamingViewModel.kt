@@ -2,12 +2,10 @@ package br.dev.singular.overview.ui.streaming.select
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.dev.singular.overview.IAnalyticsTracker
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.streaming.StreamingRepository
 import br.dev.singular.overview.di.MainDispatcher
-import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.StreamingUiState
 import br.dev.singular.overview.ui.UiState
 import br.dev.singular.overview.util.toUiState
@@ -21,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SelectStreamingViewModel @Inject constructor(
-    val analyticsTracker: IAnalyticsTracker,
     private val _repository: StreamingRepository,
     @MainDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {

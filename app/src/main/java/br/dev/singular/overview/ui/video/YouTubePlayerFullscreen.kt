@@ -16,12 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.R
+import br.dev.singular.overview.presentation.tagging.TagManager
+import br.dev.singular.overview.presentation.tagging.params.TagCommon
+import br.dev.singular.overview.presentation.tagging.params.TagPlayer
 import br.dev.singular.overview.ui.ButtonWithIcon
-import br.dev.singular.overview.ui.DefaultViewModel
-import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.TrackScreenView
+import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.util.YouTubePlayerListener
 import br.dev.singular.overview.util.setFullscreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -30,11 +30,9 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 @Composable
 fun YouTubePlayerFullscreen(
     videoKey: String,
-    onBackstackClick: () -> Unit,
-    viewModel: DefaultViewModel = hiltViewModel()
+    onBackstackClick: () -> Unit
 ) {
-    TrackScreenView(screen = ScreenNav.YouTubePlayer, tracker = viewModel.analyticsTracker)
-
+    TagScreenView(TagPlayer.PATH)
     val context = LocalContext.current
     val activity = remember { context as? Activity }
     val systemUiController = rememberSystemUiController()
@@ -74,7 +72,10 @@ fun YouTubePlayerFullscreen(
             descriptionResource = R.string.backstack_icon,
             background = Color.Gray.copy(alpha = 0.1f),
             modifier = Modifier.align(Alignment.CenterStart),
-            onClick = { exitFullscreen() }
+            onClick = {
+                TagManager.logClick(TagPlayer.PATH, TagCommon.Detail.CLOSE)
+                exitFullscreen()
+            }
         )
     }
 }

@@ -6,8 +6,10 @@ import androidx.work.Configuration
 import androidx.work.Configuration.Provider
 import br.dev.singular.overview.core.crashlytics.CrashlyticsSource
 import br.dev.singular.overview.data.source.workers.WorkManagerFacade
+import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.util.CrashlyticsReportingTree
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,6 +30,7 @@ class CustomApplication : Application(), Provider {
     override fun onCreate() {
         super.onCreate()
         MobileAds.initialize(this)
+        TagManager.init(instance = FirebaseAnalytics.getInstance(this))
         workerFacade.init()
         initTimber()
     }
