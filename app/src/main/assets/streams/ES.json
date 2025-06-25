@@ -22,7 +22,7 @@
   },
   {
     "display_priority": 4,
-    "logo_path": "/fksCUZ9QDWZMUwL2LgMtLckROUN.jpg",
+    "logo_path": "170ZfHTLT6ZlG38iLLpNYcBGUkG.jpg",
     "provider_id": 1899,
     "provider_name": "Max",
     "selected": true
@@ -158,13 +158,6 @@
     "logo_path": "/uW4dPCcbXaaFTyfL5HwhuDt5akK.jpg",
     "provider_id": 309,
     "provider_name": "Sun Nxt",
-    "selected": false
-  },
-  {
-    "display_priority": 25,
-    "logo_path": "/iaMw6nOyxUzXSacrLQ0Au6CfZkc.jpg",
-    "provider_id": 445,
-    "provider_name": "Classix",
     "selected": false
   },
   {
