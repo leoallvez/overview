@@ -57,7 +57,7 @@
   },
   {
     "display_priority": 11,
-    "logo_path": "/fksCUZ9QDWZMUwL2LgMtLckROUN.jpg",
+    "logo_path": "170ZfHTLT6ZlG38iLLpNYcBGUkG.jpg",
     "provider_id": 1899,
     "provider_name": "Max",
     "selected": true
@@ -175,24 +175,10 @@
     "selected": false
   },
   {
-    "display_priority": 31,
-    "logo_path": "/94IdHexespnJs96kmGiJlflfiwU.jpg",
-    "provider_id": 247,
-    "provider_name": "Pantaya",
-    "selected": false
-  },
-  {
     "display_priority": 32,
     "logo_path": "/5uTsmZnDQmIOjZPEv8TNTy7GRJB.jpg",
     "provider_id": 251,
     "provider_name": "Urban Movie Channel",
-    "selected": false
-  },
-  {
-    "display_priority": 33,
-    "logo_path": "/4XYI2rzRm34skcvamytegQx7Dmu.jpg",
-    "provider_id": 218,
-    "provider_name": "Eros Now",
     "selected": false
   },
   {
@@ -207,13 +193,6 @@
     "logo_path": "/9baY98ZKyDaNArp1H9fAWqiR3Zi.jpg",
     "provider_id": 430,
     "provider_name": "HiDive",
-    "selected": false
-  },
-  {
-    "display_priority": 38,
-    "logo_path": "/iaMw6nOyxUzXSacrLQ0Au6CfZkc.jpg",
-    "provider_id": 445,
-    "provider_name": "Classix",
     "selected": false
   },
   {

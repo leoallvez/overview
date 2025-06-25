@@ -304,8 +304,7 @@ fun HomeScreamTitle(title: String?) {
                 .padding(
                     horizontal = dimensionResource(R.dimen.screen_padding),
                     vertical = dimensionResource(R.dimen.default_padding)
-                )
-                .widthIn(max = 170.dp),
+                ).widthIn(max = 200.dp),
             overflow = TextOverflow.Ellipsis
         )
     }
