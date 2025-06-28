@@ -6,18 +6,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.ui.theme.Gray
 
 @Composable
 fun Modifier.border(
-    withBorder: Boolean,
-    color: Color = Gray,
+    isVisible: Boolean = true,
+    color: Color = DarkGray,
     width: Dp = dimensionResource(R.dimen.border)
 ): Modifier = composed {
-    if (withBorder) {
+    if (isVisible) {
         border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner)))
     } else {
         this

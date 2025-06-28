@@ -184,7 +184,9 @@ fun ToolBar(onBackstack: () -> Unit) {
                     tint = Color.White,
                     painter = painterResource(id = R.drawable.keyboard_arrow_up),
                     contentDescription = stringResource(id = R.string.backstack_icon),
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
+                    modifier = Modifier
+                        .size(dimensionResource(id = R.dimen.icon_medium_size))
+                        .border(1.dp, DarkGray, CircleShape)
                 )
             }
         }

@@ -83,6 +83,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
+import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
@@ -267,6 +268,7 @@ fun ButtonWithIcon(
     @StringRes descriptionResource: Int,
     modifier: Modifier = Modifier,
     iconTint: Color = Color.White,
+    withBorder: Boolean = true,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
     padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.screen_padding)),
     onLongClick: () -> Unit = {},
@@ -282,6 +284,7 @@ fun ButtonWithIcon(
                 onClick = onClick::invoke,
                 onLongClick = onLongClick::invoke
             )
+            .then(if (withBorder) Modifier.border(1.dp, DarkGray, CircleShape) else Modifier)
     ) {
         Icon(
             painter,
@@ -425,7 +428,7 @@ fun BasicImage(
 @Composable
 fun Modifier.border(
     withBorder: Boolean,
-    color: Color = Gray,
+    color: Color = DarkGray,
     width: Dp = dimensionResource(R.dimen.border_width)
 ): Modifier = composed {
     if (withBorder) {

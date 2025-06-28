@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -89,6 +90,7 @@ import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
+import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
@@ -211,6 +213,7 @@ fun MediaToolBar(
                     painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     descriptionResource = R.string.backstack_icon,
                     modifier = Modifier.padding(dimensionResource(R.dimen.default_padding)),
+                    withBorder = false,
                     onClick = {
                         tagClick(TagCommon.Detail.BACK)
                         onBackstackClick.invoke()
@@ -387,7 +390,7 @@ fun StreamingNotFound(@StringRes stringResource: Int) {
                 vertical = dimensionResource(R.dimen.default_padding)
             )
             .height(dimensionResource(R.dimen.streaming_item_small_size))
-            .defaultBorder(),
+            .defaultBorder(DarkGray),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -543,7 +546,7 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
-        PersonImageCircle(castPerson)
+        PersonImageCircle(castPerson, Modifier.border(1.dp, DarkGray, CircleShape))
         BasicText(
             text = castPerson.name,
             style = MaterialTheme.typography.bodySmall,
@@ -566,7 +569,7 @@ fun LikeButton(
     val duration = 200
     val unlikedColor = Gray
     val likedColor = AlertColor
-    val pulsationScale = if (isLiked) 1.1f else 0.9f
+    val pulsationScale = if (isLiked) 0.9f else 0.7f
 
     val background = remember { Animatable(unlikedColor) }
     LaunchedEffect(isLiked) {
@@ -586,6 +589,7 @@ fun LikeButton(
             .clip(CircleShape)
             .background(PrimaryBackground.copy(alpha = if (isLiked) 0.8f else 0.6f))
             .size(buttonSize)
+            .border(1.dp, if (isLiked) likedColor else unlikedColor, CircleShape)
             .clickable { onClick.invoke() }
     ) {
         Box(modifier = Modifier.size(buttonSize)) {
