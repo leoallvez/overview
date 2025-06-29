@@ -5,8 +5,8 @@ kotlinx-serialization-json = "1.9.0"
 sdk-compile = "35"
 sdk-min = "24"
 sdk-target = "35"
-version-code = "200"
-version-name = "2.0.0"
+version-code = "1"
+version-name = "3.0.0"
 jvm-target = "11"
 
 # Kotlin
