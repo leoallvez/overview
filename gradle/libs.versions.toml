@@ -1,7 +1,7 @@
 [versions]
 # Global Settings
 app-id = "br.dev.singular.overview"
-kotlinx-serialization-json = "1.8.1"
+kotlinx-serialization-json = "1.9.0"
 sdk-compile = "35"
 sdk-min = "24"
 sdk-target = "35"
