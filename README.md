@@ -13,20 +13,20 @@
 
 ## About
 
-Overview is an Android app that allows you to easily navigate different streaming services all in one place to discover movies and TV shows. You can favorite your content, filter by genre, and search across all platforms.
+Overview allows easy navigation across different streaming services. You can favorite your content, filter by genre, and search across all platforms.
 
 ### Main features
 
-- Efficiently and conveniently search for content across various streaming services all in one app.
-- Filter content by type and genre across various streaming services.
-- Save and visualize your favorite content.
-- Details of the content with which streaming service this media can be watched.
-- Search for content everywhere, not restricting yourself to streaming services.
+- **Search efficiently and conveniently for content across multiple streaming platforms.**  
+- **Filter content by type and genre across various streaming services.**  
+- **Search for content everywhere, not restricting yourself to streaming services**  
+- **Save your favorite content and visualize it in a collection.**  
+- **View detailed information, including which streaming service offers each piece of content.**
+
 
 ## Goals
 
-The main objective of this project is to serve as a dedicated testing ground for exploring new Android libraries and technologies.
-
+The main goal of this project is to build an app using the most important libraries of the Android platform.
 
 ### Main libraries
 
@@ -119,16 +119,10 @@ environments.
 
 ### Script
 
-We recommend developing a script to systematically configure environment variables in your operating
-system. The use of scripts provides notable advantages in terms of automation, reproducibility,
-clarity, ease of modification, version control, batch execution, consistency, deployment efficiency,
-customization, and error handling when establishing environment variables. In the subsequent
-sections, we will illustrate the process of crafting such scripts for both Windows and Linux
-operating systems.
+You can create a script to configure all environment variables in your operating system. Using scripts offers significant advantages in terms of automation and reproducibility.
+In the following sections, we will demonstrate how to create such scripts for both Windows and Linux operating systems.
 
 #### Script Windows
-
-> Example of a windows script .bat file to set environment variables.
 
 ```bat
 
@@ -144,10 +138,9 @@ setx OVER_HMG_PASSWORD "set_here_your_password_value"
 setx OVER_HMG_KEY_ALIAS "alias"
 
 ```
+> Windows `.bat` script to set environment variables.
 
 #### Script Linux
-
-> Example of a linux .bash script file to set environment variables.
 
 ```bash
 #!/bin/bash
@@ -164,6 +157,8 @@ export OVER_HMG_PASSWORD="set_here_your_password_value"
 export OVER_HMG_KEY_ALIAS="alias"
 
 ```
+
+> Linux `.bash` script to set environment variables.
 
 ## Contributing
 
