@@ -8,16 +8,17 @@ updates:
   - package-ecosystem: gradle
     directory: "/"
     schedule:
-      interval: monthly
-    open-pull-requests-limit: 99
+      interval: weekly
+    open-pull-requests-limit: 15
     commit-message:
       prefix: "chore(gradle): "
     # Raise pull requests for version updates
     # to pip against the `develop` branch
-    target-branch: "develop"
+    target-branch: "chore/update-dependencies"
     # Labels on pull requests for version updates only
     labels:
-      - "upgrade dependencies"
+      - "chore"
+      - "dependencies"
     ignore:
       # Ignore some updates to the packages
       - dependency-name: "NetworkResponseAdapter"
