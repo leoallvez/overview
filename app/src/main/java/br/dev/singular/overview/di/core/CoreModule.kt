@@ -4,9 +4,9 @@ import br.dev.singular.overview.core.crashlytics.CrashlyticsSource
 import br.dev.singular.overview.core.crashlytics.CrashlyticsWrapper
 import br.dev.singular.overview.core.remote.RemoteConfigProvider
 import br.dev.singular.overview.core.remote.RemoteConfigWrapper
+import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
