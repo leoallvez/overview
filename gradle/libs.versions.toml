@@ -155,6 +155,6 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.4" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.5" }
 hilt-android-plugin = { id = "com.google.dagger.hilt.android", version = "2.55" }
 ksp = { id = "com.google.devtools.ksp", version = "2.1.21-2.0.2" }
