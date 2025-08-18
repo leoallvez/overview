@@ -11,7 +11,7 @@ jvm-target = "11"
 
 # Kotlin
 kotlin = "2.1.21"
-kotlin-gradle-plugin = "2.1.21"
+kotlin-gradle-plugin = "2.2.10"
 compose-compiler = "2.1.21"
 
 # Android Core
