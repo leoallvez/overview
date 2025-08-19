@@ -11,7 +11,7 @@ data class MediaDataModel(
     private val name: String = "",
     private val title: String = "",
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String = "",
     @SerialName("media_type")
     val type: MediaDataType = MediaDataType.UNKNOWN,
     @Transient
