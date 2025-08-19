@@ -20,6 +20,10 @@ interface GetAll<T> {
     suspend fun getAll(): List<T>
 }
 
+interface GetAllByParam<T, P> {
+    suspend fun getAll(param: P): List<T>
+}
+
 interface GetById<T> {
     suspend fun getById(id: Int): T?
 }
