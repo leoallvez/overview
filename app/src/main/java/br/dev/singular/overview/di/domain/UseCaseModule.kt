@@ -1,6 +1,6 @@
 package br.dev.singular.overview.di.domain
 
-import br.dev.singular.overview.data.repository.MediaRepository
+import br.dev.singular.overview.data.repository.MediaByPathRepository
 import br.dev.singular.overview.data.repository.SuggestionRepository
 import br.dev.singular.overview.domain.usecase.suggetions.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggetions.GetAllSuggestionsUseCase
@@ -26,8 +26,11 @@ class UseCaseModule {
     @Provides
     fun provideGetAllSuggestionsUseCase(
         suggestionRepo: SuggestionRepository,
-        mediaRepo: MediaRepository
+        mediaByPathRepo: MediaByPathRepository
     ): IGetAllSuggestionsUseCase {
-        return GetAllSuggestionsUseCase(suggestionRepo, mediaRepo)
+        return GetAllSuggestionsUseCase(
+            suggestionRepo,
+            mediaByPathRepo
+        )
     }
 }

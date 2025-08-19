@@ -5,7 +5,7 @@ import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
 import br.dev.singular.overview.data.util.mediaDataModel
 import br.dev.singular.overview.domain.model.Media
-import br.dev.singular.overview.domain.repository.IMediaRepository
+import br.dev.singular.overview.domain.repository.GetAllByParam
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -23,14 +23,14 @@ class MediaRepositoryTest {
     @MockK(relaxed = true)
     private lateinit var remoteSource: IMediaRemoteDataSource
 
-    private lateinit var sut: IMediaRepository
+    private lateinit var sut: GetAllByParam<Media, String>
 
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        sut = MediaRepository(remoteSource)
+        sut = MediaByPathRepository(remoteSource)
     }
 
     @Test
@@ -41,7 +41,7 @@ class MediaRepositoryTest {
         )
 
         // Act
-        val result: List<Media> = sut.getByPath("some-path")
+        val result: List<Media> = sut.getAll("some-path")
 
         // Assert
         assertTrue(result.isNotEmpty())
@@ -55,7 +55,7 @@ class MediaRepositoryTest {
 
         // Act & Assert
         val exception = assertFailsWith<RepositoryException> {
-            sut.getByPath("some-path")
+            sut.getAll("some-path")
         }
         assertEquals(errorMessage, exception.message)
     }

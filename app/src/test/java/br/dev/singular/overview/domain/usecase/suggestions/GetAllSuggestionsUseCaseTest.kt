@@ -3,7 +3,7 @@ package br.dev.singular.overview.domain.usecase.suggestions
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.GetAll
-import br.dev.singular.overview.domain.repository.IMediaRepository
+import br.dev.singular.overview.domain.repository.GetAllByParam
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.createMediaMock
@@ -22,7 +22,7 @@ import org.junit.Test
 
 class GetAllSuggestionsUseCaseTest {
 
-    private lateinit var mediaRepositoryMock: IMediaRepository
+    private lateinit var mediaRepositoryMock: GetAllByParam<Media, String>
     private lateinit var getterMock: GetAll<Suggestion>
     private lateinit var sut: IGetAllSuggestionsUseCase
     private lateinit var suggestionMock: Suggestion
@@ -44,14 +44,14 @@ class GetAllSuggestionsUseCaseTest {
             suggestionMock.copy(order = 2, isActive = true, path = "path1"),
             suggestionMock.copy(order = 1, isActive = true, path = "path2")
         )
-        coEvery { mediaRepositoryMock.getByPath(any()) } returns listOf(mediaMock)
+        coEvery { mediaRepositoryMock.getAll(any()) } returns listOf(mediaMock)
 
         // act
         val result = sut.invoke()
 
         // assert
         coVerify { getterMock.getAll() }
-        coVerify(exactly = 2) { mediaRepositoryMock.getByPath(any()) }
+        coVerify(exactly = 2) { mediaRepositoryMock.getAll(any()) }
         assertTrue(result is UseCaseState.Success)
         assertEquals(2, (result as UseCaseState.Success).data.size)
         assertEquals("path2", result.data.first().path)
@@ -61,7 +61,7 @@ class GetAllSuggestionsUseCaseTest {
     fun `invoke should respect MAX_MEDIA constant`() = runBlocking {
         // arrange
         coEvery { getterMock.getAll() } returns listOf(suggestionMock)
-        coEvery { mediaRepositoryMock.getByPath(any()) } returns List(MAX_MEDIA * 2) { mediaMock }
+        coEvery { mediaRepositoryMock.getAll(any()) } returns List(MAX_MEDIA * 2) { mediaMock }
 
         // act
         val result = sut.invoke()
@@ -79,7 +79,7 @@ class GetAllSuggestionsUseCaseTest {
             suggestionMock.copy(isActive = true),
             suggestionMock.copy(isActive = false)
         )
-        coEvery { mediaRepositoryMock.getByPath(any()) } returns listOf(mediaMock)
+        coEvery { mediaRepositoryMock.getAll(any()) } returns listOf(mediaMock)
 
         // act
         val result = sut.invoke()
@@ -95,14 +95,14 @@ class GetAllSuggestionsUseCaseTest {
     fun `invoke should exclude suggestions without medias from the result`() = runBlocking {
         // arrange
         coEvery { getterMock.getAll() } returns listOf(suggestionMock, suggestionMock)
-        coEvery { mediaRepositoryMock.getByPath(any()) } returns emptyList()
+        coEvery { mediaRepositoryMock.getAll(any()) } returns emptyList()
 
         // act
         val result = sut.invoke()
 
         // assert
         coVerify { getterMock.getAll() }
-        coVerify { mediaRepositoryMock.getByPath(any()) }
+        coVerify { mediaRepositoryMock.getAll(any()) }
         assertEquals(UseCaseState.Failure(FailType.NothingFound), result)
     }
 
