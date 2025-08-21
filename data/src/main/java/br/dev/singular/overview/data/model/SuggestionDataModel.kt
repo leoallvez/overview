@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-@Entity(tableName = "suggestions")
+@Entity(tableName = "suggestion")
 data class SuggestionDataModel(
     @PrimaryKey(autoGenerate = true)
     @Transient

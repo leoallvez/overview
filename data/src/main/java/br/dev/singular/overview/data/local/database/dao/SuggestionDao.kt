@@ -12,9 +12,9 @@ interface SuggestionDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(models: List<SuggestionDataModel>)
 
-    @Query("SELECT * FROM suggestions")
+    @Query("SELECT * FROM suggestion")
     suspend fun getAll(): List<SuggestionDataModel>
 
-    @Query("DELETE FROM suggestions")
+    @Query("DELETE FROM suggestion")
     suspend fun deleteAll()
 }

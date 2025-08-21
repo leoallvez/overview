@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0d6ccd7f86f051870876e713af2b5ef2",
+    "identityHash": "78ac95a1eec4d9117236cb2d9f1469bf",
     "entities": [
       {
         "tableName": "genres",
@@ -199,7 +199,7 @@
         ]
       },
       {
-        "tableName": "suggestions",
+        "tableName": "suggestion",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `path` TEXT NOT NULL, `order` INTEGER NOT NULL, `type` TEXT NOT NULL, `title_key` TEXT NOT NULL, `is_active` INTEGER NOT NULL)",
         "fields": [
           {
@@ -249,7 +249,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0d6ccd7f86f051870876e713af2b5ef2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '78ac95a1eec4d9117236cb2d9f1469bf')"
     ]
   }
 }
