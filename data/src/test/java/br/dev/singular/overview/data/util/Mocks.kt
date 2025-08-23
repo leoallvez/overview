@@ -7,18 +7,16 @@ import br.dev.singular.overview.data.model.SuggestionDataModel
 val suggestionModels = listOf(
     SuggestionDataModel(
         id = 1,
-        path = "/media/the-witcher",
         order = 1,
         type = MediaDataType.TV,
-        titleKey = "suggestion_the_witcher",
+        key = "suggestion_the_witcher",
         isActive = true
     ),
     SuggestionDataModel(
         id = 2,
-        path = "/media/dark",
         order = 2,
         type = MediaDataType.MOVIE,
-        titleKey = "suggestion_dark",
+        key = "suggestion_dark",
         isActive = true
     )
 )

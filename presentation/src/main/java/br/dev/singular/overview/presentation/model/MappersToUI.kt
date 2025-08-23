@@ -5,7 +5,7 @@ import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.presentation.ui.utils.toMediaUIType
 
-fun List<Suggestion>.toUIMap() = associate { it.titleKey to it.medias.map(Media::toUIModel) }
+fun List<Suggestion>.toUIMap() = associate { it.key to it.medias.map(Media::toUIModel) }
 
 fun Media.toUIModel() = MediaUIModel(
     id = id,

@@ -5,7 +5,8 @@ import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
 import br.dev.singular.overview.data.util.mediaDataModel
 import br.dev.singular.overview.domain.model.Media
-import br.dev.singular.overview.domain.repository.IMediaRepository
+import br.dev.singular.overview.domain.model.MediaParam
+import br.dev.singular.overview.domain.repository.GetAllByParam
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -23,9 +24,13 @@ class MediaRepositoryTest {
     @MockK(relaxed = true)
     private lateinit var remoteSource: IMediaRemoteDataSource
 
-    private lateinit var sut: IMediaRepository
+    private lateinit var sut: GetAllByParam<Media, MediaParam>
 
     private val dispatcher = UnconfinedTestDispatcher()
+
+    private val param = MediaParam(key = "all_trending")
+
+    private val path: String = "trending/all/day"
 
     @Before
     fun setup() {
@@ -36,12 +41,12 @@ class MediaRepositoryTest {
     @Test
     fun `should return list of media when response is success`() = runTest(dispatcher) {
         // Arrange
-        coEvery { remoteSource.getByPath("some-path") } returns DataResult.Success(
+        coEvery { remoteSource.getByPath(path) } returns DataResult.Success(
             ListResponse(results = listOf(mediaDataModel))
         )
 
         // Act
-        val result: List<Media> = sut.getByPath("some-path")
+        val result: List<Media> = sut.getAll(param)
 
         // Assert
         assertTrue(result.isNotEmpty())
@@ -51,11 +56,11 @@ class MediaRepositoryTest {
     fun `should throw RepositoryException when response is error`() = runTest(dispatcher) {
         // Arrange
         val errorMessage = "Failed to fetch data"
-        coEvery { remoteSource.getByPath("some-path") } returns DataResult.Error(errorMessage)
+        coEvery { remoteSource.getByPath(path) } returns DataResult.Error(errorMessage)
 
         // Act & Assert
         val exception = assertFailsWith<RepositoryException> {
-            sut.getByPath("some-path")
+            sut.getAll(param)
         }
         assertEquals(errorMessage, exception.message)
     }

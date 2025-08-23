@@ -1,10 +1,11 @@
 package br.dev.singular.overview.domain.usecase.suggetions
 
 import br.dev.singular.overview.domain.model.Media
+import br.dev.singular.overview.domain.model.MediaParam
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.GetAll
-import br.dev.singular.overview.domain.repository.IMediaRepository
+import br.dev.singular.overview.domain.repository.GetAllByParam
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
 
@@ -13,16 +14,16 @@ interface IGetAllSuggestionsUseCase {
 }
 
 class GetAllSuggestionsUseCase(
-    private val getter: GetAll<Suggestion>,
-    private val repository: IMediaRepository
+    private val getterSuggestion: GetAll<Suggestion>,
+    private val getterMedia: GetAllByParam<Media, MediaParam>
 ) : IGetAllSuggestionsUseCase {
 
     override suspend fun invoke(): UseCaseState<List<Suggestion>> {
         return runCatching {
-            getter.getAll()
+            getterSuggestion.getAll()
                 .filter { it.isActive }
                 .mapNotNull { suggestion ->
-                    val medias = getMediasByPath(suggestion.path, suggestion.type)
+                    val medias = getMediaKey(suggestion.key, suggestion.type)
                     if (medias.isNotEmpty()) suggestion.copy(medias = medias) else null
                 }
         }.fold(
@@ -34,8 +35,8 @@ class GetAllSuggestionsUseCase(
         )
     }
 
-    private suspend fun getMediasByPath(path: String, type: MediaType): List<Media> {
-        val result = repository.getByPath(path).take(MAX_MEDIA)
+    private suspend fun getMediaKey(key: String, type: MediaType): List<Media> {
+        val result = getterMedia.getAll(param = MediaParam(key = key)).take(MAX_MEDIA)
         return when (type) {
             MediaType.ALL -> result
             else -> result.map { it.copy(type = type) }

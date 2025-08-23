@@ -6,10 +6,9 @@ import br.dev.singular.overview.domain.model.Suggestion
 
 fun createSuggestionMock(): Suggestion {
     return Suggestion(
-        path = "path1",
         order = 1,
         type = MediaType.MOVIE,
-        titleKey = "sampleTitleKey",
+        key = "key1",
         isActive = true,
         medias = emptyList()
     )
