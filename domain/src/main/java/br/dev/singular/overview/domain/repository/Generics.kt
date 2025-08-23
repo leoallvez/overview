@@ -20,12 +20,10 @@ interface GetAll<T> {
     suspend fun getAll(): List<T>
 }
 
+interface GetAllByParam<T, P> {
+    suspend fun getAllByParam(param: P): List<T>
+}
+
 interface GetById<T> {
     suspend fun getById(id: Int): T?
 }
-
-interface Writer<T> : Create<T>, Update<T>, Delete<T>
-
-interface Reader<T> : GetAll<T>, GetById<T>
-
-interface Repository<T> : Writer<T>, Reader<T>

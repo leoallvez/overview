@@ -1,4 +1,4 @@
-package br.dev.singular.overview.util
+package br.dev.singular.overview.data.util
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -6,15 +6,17 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-class JsonFileReader @Inject constructor(
+interface IJsonFileReaderProvider {
+    fun read(filePath: String): String
+}
+
+class JsonFileReaderProvider @Inject constructor(
     @ApplicationContext private val context: Context
-) : IJsonFileReader {
+) : IJsonFileReaderProvider {
 
     override fun read(filePath: String): String {
         return try {
-            context.assets.open(filePath)
-                .bufferedReader()
-                .use { it.readText() }
+            context.assets.open(filePath).bufferedReader().use { it.readText() }
         } catch (ioException: IOException) {
             Timber.d(ioException)
             ""

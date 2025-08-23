@@ -12,11 +12,10 @@ data class SuggestionDataModel(
     @PrimaryKey(autoGenerate = true)
     @Transient
     var id: Long = 0,
-    val path: String,
     val order: Int,
     val type: MediaDataType = MediaDataType.UNKNOWN,
-    @ColumnInfo(name = "title_key")
-    val titleKey: String,
+    @ColumnInfo(name = "source_key")
+    val sourceKey: String,
     @ColumnInfo(name = "is_active")
     val isActive: Boolean
 )

@@ -1,9 +1,9 @@
 package br.dev.singular.overview.di
 
 import androidx.lifecycle.LiveData
+import br.dev.singular.overview.data.util.IJsonFileReaderProvider
+import br.dev.singular.overview.data.util.JsonFileReaderProvider
 import br.dev.singular.overview.util.ConnectivityLiveData
-import br.dev.singular.overview.util.IJsonFileReader
-import br.dev.singular.overview.util.JsonFileReader
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,9 +16,9 @@ import javax.inject.Singleton
 abstract class UtilModule {
 
     @Binds
-    abstract fun bindJsonFileReader(
-        jsonFileReader: JsonFileReader
-    ): IJsonFileReader
+    abstract fun bindJsonFileReaderProvider(
+        jsonFileReader: JsonFileReaderProvider
+    ): IJsonFileReaderProvider
 
     @IsOnline
     @Singleton

@@ -7,7 +7,7 @@ import br.dev.singular.overview.core.remote.RemoteConfigKey.STREAM_US
 private const val STREAM_PREFIX = "stream"
 
 enum class RemoteConfigKey(val value: String) {
-    SUGGESTIONS_KEY(value = "suggestions"),
+    SUGGESTIONS_KEY(value = "suggestions_v1"),
     DISPLAY_ADS_KEY(value = "display_ads"),
     STREAM_BR(value = "${STREAM_PREFIX}_BR"),
     STREAM_US(value = "${STREAM_PREFIX}_US"),

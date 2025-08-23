@@ -11,10 +11,10 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET(value = "{url}")
+    @GET(value = "{path}")
     suspend fun getMediasByPath(
-        @Path(value = "url", encoded = true)
-        url: String,
+        @Path(value = "path", encoded = true)
+        path: String,
         @Query(value = "api_key")
         apiKey: String = API_KEY,
         @Query(value = "language")
