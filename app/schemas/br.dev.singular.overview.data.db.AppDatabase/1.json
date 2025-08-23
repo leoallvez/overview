@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "78ac95a1eec4d9117236cb2d9f1469bf",
+    "identityHash": "1947fb46bd5853c4d846d408572d8d49",
     "entities": [
       {
         "tableName": "genres",
@@ -200,18 +200,12 @@
       },
       {
         "tableName": "suggestion",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `path` TEXT NOT NULL, `order` INTEGER NOT NULL, `type` TEXT NOT NULL, `title_key` TEXT NOT NULL, `is_active` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `order` INTEGER NOT NULL, `type` TEXT NOT NULL, `source_key` TEXT NOT NULL, `is_active` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "path",
-            "columnName": "path",
-            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -227,8 +221,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "titleKey",
-            "columnName": "title_key",
+            "fieldPath": "sourceKey",
+            "columnName": "source_key",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -249,7 +243,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '78ac95a1eec4d9117236cb2d9f1469bf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1947fb46bd5853c4d846d408572d8d49')"
     ]
   }
 }

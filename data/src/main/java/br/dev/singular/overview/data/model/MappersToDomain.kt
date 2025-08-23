@@ -13,10 +13,9 @@ fun MediaDataModel.toDomainModel() = Media(
 )
 
 fun SuggestionDataModel.toDomainModel() = Suggestion(
-    path = path,
+    key = sourceKey,
     order = order,
     type = type.toMediaDomainType(),
-    titleKey = titleKey,
     isActive = isActive
 )
 

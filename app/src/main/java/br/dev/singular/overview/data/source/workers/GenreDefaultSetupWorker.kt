@@ -8,7 +8,7 @@ import br.dev.singular.overview.data.model.media.MediaTypeEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.mediatype.IMediaTypeRepository
 import br.dev.singular.overview.data.source.media.MediaType
-import br.dev.singular.overview.util.IJsonFileReader
+import br.dev.singular.overview.data.util.IJsonFileReaderProvider
 import br.dev.singular.overview.util.parseToList
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -17,7 +17,7 @@ import dagger.assisted.AssistedInject
 class GenreDefaultSetupWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val _jsonFileReader: IJsonFileReader,
+    private val _jsonFileReader: IJsonFileReaderProvider,
     private val _genreRepository: IGenreRepository,
     private val _mediaTypeRepository: IMediaTypeRepository
 ) : CoroutineWorker(context, params) {

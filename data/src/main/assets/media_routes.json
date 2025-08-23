@@ -1,0 +1,9 @@
+[
+  { "key": "all_trending", "path": "trending/all/day" },
+  { "key": "tv_popular", "path": "tv/top_rated" },
+  { "key": "tv_trending", "path": "trending/tv/day" },
+  { "key": "movie_popular", "path": "movie/top_rated" },
+  { "key": "movie_discover", "path": "discover/movie" },
+  { "key": "movie_trending", "path": "trending/movie/day" },
+  { "key": "movie_top_rated", "path": "movie/top_rated" }
+]

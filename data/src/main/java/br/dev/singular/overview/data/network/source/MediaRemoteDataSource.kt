@@ -7,7 +7,7 @@ import br.dev.singular.overview.data.network.response.ListResponse
 import javax.inject.Inject
 
 interface IMediaRemoteDataSource {
-    suspend fun getByPath(url: String): DataResult<ListResponse<MediaDataModel>>
+    suspend fun getByPath(path: String): DataResult<ListResponse<MediaDataModel>>
 }
 
 class MediaRemoteDataSource @Inject constructor(
@@ -15,8 +15,8 @@ class MediaRemoteDataSource @Inject constructor(
     private val locale: LocaleProvider
 ) : IMediaRemoteDataSource {
 
-    override suspend fun getByPath(url: String) = locale.run {
-        val response = api.getMediasByPath(url = url, language = language, region = region)
+    override suspend fun getByPath(path: String) = locale.run {
+        val response = api.getMediasByPath(path = path, language = language, region = region)
         responseToResult(response)
     }
 }
