@@ -26,8 +26,11 @@ class UseCaseModule {
     @Provides
     fun provideGetAllSuggestionsUseCase(
         suggestionRepo: SuggestionRepository,
-        mediaRepo: MediaRepository
+        mediaRepo: MediaRepository,
     ): IGetAllSuggestionsUseCase {
-        return GetAllSuggestionsUseCase(suggestionRepo, mediaRepo)
+        return GetAllSuggestionsUseCase(
+            suggestionRepo,
+            mediaRepo
+        )
     }
 }
