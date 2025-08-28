@@ -7,7 +7,6 @@ import kotlinx.serialization.json.Json
 import timber.log.Timber
 import javax.inject.Inject
 
-
 interface IMediaRouteLocalDataSource {
     suspend fun getByKey(key: String): MediaRouteDataModel?
 }
