@@ -2,7 +2,9 @@ package br.dev.singular.overview.data.local.source
 
 import br.dev.singular.overview.data.model.MediaRouteDataModel
 import br.dev.singular.overview.data.util.IJsonFileReaderProvider
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -15,14 +17,18 @@ class MediaRouteLocalDataSource @Inject constructor(
 ) : IMediaRouteLocalDataSource {
 
     override suspend fun getByKey(key: String): MediaRouteDataModel? {
-        return getAll().find { it.key == key }
-    }
 
-    private fun getAll(): List<MediaRouteDataModel> {
-        return routes.ifEmpty {
+        if (routes.isEmpty()) {
             val json = jsonFileReaderProvider.read(MEDIA_ROUTES_FILE_NAME)
-            Json.decodeFromString<List<MediaRouteDataModel>>(json).also { routes = it }
+            routes = try {
+                Json.decodeFromString<List<MediaRouteDataModel>>(json)
+            } catch (e: SerializationException) {
+                Timber.e(e)
+                emptyList()
+            }
         }
+
+        return routes.find { it.key == key }
     }
 
     private companion object {
