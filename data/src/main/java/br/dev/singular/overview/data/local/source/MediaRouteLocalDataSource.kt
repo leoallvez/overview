@@ -7,14 +7,14 @@ import javax.inject.Inject
 
 
 interface IMediaRouteLocalDataSource {
-    fun getByKey(key: String): MediaRouteDataModel?
+    suspend fun getByKey(key: String): MediaRouteDataModel?
 }
 
 class MediaRouteLocalDataSource @Inject constructor(
     private val jsonFileReaderProvider: IJsonFileReaderProvider
 ) : IMediaRouteLocalDataSource {
 
-    override fun getByKey(key: String): MediaRouteDataModel? {
+    override suspend fun getByKey(key: String): MediaRouteDataModel? {
         return getAll().find { it.key == key }
     }
 
