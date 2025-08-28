@@ -1,13 +1,13 @@
 package br.dev.singular.overview.data.repository
 
-import br.dev.singular.overview.data.network.response.ListResponse
+import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
 import br.dev.singular.overview.data.util.MockMediaRouteLocalDataSource
 import br.dev.singular.overview.data.util.mediaDataModel
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaParam
-import br.dev.singular.overview.domain.repository.GetAllByParam
+import br.dev.singular.overview.domain.repository.GetPage
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -18,12 +18,12 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MediaRepositoryTest {
+class MediaRemoteRepositoryTest {
 
     @MockK(relaxed = true)
     private lateinit var remoteSource: IMediaRemoteDataSource
 
-    private lateinit var sut: GetAllByParam<Media, MediaParam>
+    private lateinit var sut: GetPage<Media, MediaParam>
 
     private val dispatcher = UnconfinedTestDispatcher()
 
@@ -34,7 +34,7 @@ class MediaRepositoryTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        sut = MediaRepository(
+        sut = MediaRemoteRepository(
             remoteSource,
             MockMediaRouteLocalDataSource()
         )
@@ -44,11 +44,11 @@ class MediaRepositoryTest {
     fun `should return list of media when response is success`() = runTest(dispatcher) {
         // Arrange
         coEvery { remoteSource.getByPath(validPath) } returns DataResult.Success(
-            ListResponse(results = listOf(mediaDataModel))
+            MediaDataPage(items = listOf(mediaDataModel))
         )
 
         // Act
-        val result: List<Media> = sut.getAllByParam(param)
+        val result: List<Media> = sut.getPage(param).items
 
         // Assert
         assertTrue(result.isNotEmpty())
@@ -61,7 +61,7 @@ class MediaRepositoryTest {
         coEvery { remoteSource.getByPath(validPath) } returns DataResult.Error(errorMessage)
 
         // Act
-        val result = sut.getAllByParam(param)
+        val result = sut.getPage(param).items
 
         // Assert
         assertTrue(result.isEmpty())
@@ -71,11 +71,11 @@ class MediaRepositoryTest {
     fun `should return a empty list when it fails to get the route` () = runTest(dispatcher) {
         // Arrange
         coEvery { remoteSource.getByPath(validPath) } returns DataResult.Success(
-            ListResponse(results = listOf(mediaDataModel))
+            MediaDataPage(items = listOf(mediaDataModel))
         )
 
         // Act
-        val result = sut.getAllByParam(MediaParam(key = "invalid_key"))
+        val result = sut.getPage(MediaParam(key = "invalid_key")).items
 
         // Assert
         assertTrue(result.isEmpty())

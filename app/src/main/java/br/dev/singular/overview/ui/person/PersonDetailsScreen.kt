@@ -40,7 +40,6 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
 import br.dev.singular.overview.ui.ButtonWithIcon
-import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.PartingEmDash
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
@@ -51,6 +50,7 @@ import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 
 @Composable
 fun PersonDetailsScreen(
@@ -238,7 +238,7 @@ fun ParticipationList(
         contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
         items = medias,
         onClick = {
-            TagMediaManager.logClick(TagPerson.PATH, it.id)
+            TagMediaManager.logMediaClick(TagPerson.PATH, it.id)
             onClickItem.invoke(it)
         },
     )

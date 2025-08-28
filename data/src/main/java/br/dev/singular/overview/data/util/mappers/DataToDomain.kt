@@ -1,10 +1,13 @@
 package br.dev.singular.overview.data.util.mappers
 
+import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.MediaDataType
+import br.dev.singular.overview.data.model.MediaDataType.*
 import br.dev.singular.overview.data.model.SuggestionDataModel
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
+import br.dev.singular.overview.domain.repository.Page
 import br.dev.singular.overview.domain.model.Suggestion
 
 fun MediaDataModel.toDomain() = Media(
@@ -12,7 +15,8 @@ fun MediaDataModel.toDomain() = Media(
     type = type.toDomain(),
     title = betterTitle,
     isLiked = isLiked,
-    posterPath = posterPath
+    posterPath = posterPath,
+    lastUpdate = lastUpdate
 )
 
 fun SuggestionDataModel.toDomain() = Suggestion(
@@ -22,9 +26,15 @@ fun SuggestionDataModel.toDomain() = Suggestion(
     isActive = isActive
 )
 
+fun MediaDataPage.toDomain(): Page<Media> = Page(
+    items = items.map { it.toDomain() },
+    currentPage = page,
+    isLastPage = isLastPage
+)
+
 internal fun MediaDataType.toDomain() = when(this) {
-    MediaDataType.MOVIE -> MediaType.MOVIE
-    MediaDataType.TV -> MediaType.TV
-    MediaDataType.ALL -> MediaType.ALL
+    MOVIE -> MediaType.MOVIE
+    TV -> MediaType.TV
+    ALL -> MediaType.ALL
     else -> MediaType.UNKNOWN
 }

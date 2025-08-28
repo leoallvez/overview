@@ -1,17 +1,16 @@
-package br.dev.singular.overview.domain.usecase.suggestions
+package br.dev.singular.overview.domain.usecase.suggestion
 
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaParam
+import br.dev.singular.overview.domain.repository.Page
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.GetAll
-import br.dev.singular.overview.domain.repository.GetAllByParam
+import br.dev.singular.overview.domain.repository.GetPage
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.createMediaMock
 import br.dev.singular.overview.domain.usecase.createSuggestionMock
-import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase.Companion.MAX_MEDIA
-import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -22,8 +21,7 @@ import org.junit.Before
 import org.junit.Test
 
 class GetAllSuggestionsUseCaseTest {
-
-    private lateinit var getterMediaMock: GetAllByParam<Media, MediaParam>
+    private lateinit var getterMediaMock: GetPage<Media, MediaParam>
     private lateinit var getterSuggestionMock: GetAll<Suggestion>
     private lateinit var sut: IGetAllSuggestionsUseCase
     private lateinit var suggestionMock: Suggestion
@@ -48,14 +46,14 @@ class GetAllSuggestionsUseCaseTest {
             suggestionMock.copy(order = 2, isActive = true, key = "key1"),
             suggestionMock.copy(order = 1, isActive = true, key = "key2")
         )
-        coEvery { getterMediaMock.getAllByParam(any()) } returns listOf(mediaMock)
+        coEvery { getterMediaMock.getPage(any()) } returns Page(items = listOf(mediaMock))
 
         // act
         val result = sut.invoke()
 
         // assert
         coVerify { getterSuggestionMock.getAll() }
-        coVerify(exactly = 2) { getterMediaMock.getAllByParam(any()) }
+        coVerify(exactly = 2) { getterMediaMock.getPage(any()) }
         assertTrue(result is UseCaseState.Success)
         assertEquals(2, (result as UseCaseState.Success).data.size)
         assertEquals("key2", result.data.first().key)
@@ -65,7 +63,9 @@ class GetAllSuggestionsUseCaseTest {
     fun `invoke should respect MAX_MEDIA constant`() = runBlocking {
         // arrange
         coEvery { getterSuggestionMock.getAll() } returns listOf(suggestionMock)
-        coEvery { getterMediaMock.getAllByParam(any()) } returns List(MAX_MEDIA * 2) { mediaMock }
+        coEvery {
+            getterMediaMock.getPage(any())
+        } returns Page(items = List(MAX_MEDIA * 2) { mediaMock })
 
         // act
         val result = sut.invoke()
@@ -83,7 +83,7 @@ class GetAllSuggestionsUseCaseTest {
             suggestionMock.copy(isActive = true),
             suggestionMock.copy(isActive = false)
         )
-        coEvery { getterMediaMock.getAllByParam(any()) } returns listOf(mediaMock)
+        coEvery { getterMediaMock.getPage(any()) } returns Page(items = listOf(mediaMock))
 
         // act
         val result = sut.invoke()
@@ -99,14 +99,14 @@ class GetAllSuggestionsUseCaseTest {
     fun `invoke should exclude suggestions without medias from the result`() = runBlocking {
         // arrange
         coEvery { getterSuggestionMock.getAll() } returns listOf(suggestionMock, suggestionMock)
-        coEvery { getterMediaMock.getAllByParam(any()) } returns emptyList()
+        coEvery { getterMediaMock.getPage(any()) } returns Page(items = listOf())
 
         // act
         val result = sut.invoke()
 
         // assert
         coVerify { getterSuggestionMock.getAll() }
-        coVerify { getterMediaMock.getAllByParam(any()) }
+        coVerify { getterMediaMock.getPage(any()) }
         assertEquals(UseCaseState.Failure(FailType.NothingFound), result)
     }
 

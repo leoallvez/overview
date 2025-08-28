@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import br.dev.singular.overview.BuildConfig
 import br.dev.singular.overview.data.api.response.PagingResponse
+import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.filters.SearchFilters
-import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
 import br.dev.singular.overview.data.source.DataResult
@@ -30,7 +30,7 @@ abstract class MediaPagingRepository {
                         ALL -> getMergedMedias(page)
                     }
                     DataResult.Success(
-                        data = PagingResponse(page, result.map { it.toMediaEntity() })
+                        data = PagingResponse(page, result.map { it.toData() })
                     )
                 } else {
                     DataResult.UnknownError()
@@ -44,7 +44,7 @@ abstract class MediaPagingRepository {
 
     private fun createPaging(
         onRequest: suspend (page: Int) -> PagingMediaResult
-    ): Pager<Int, MediaEntity> {
+    ): Pager<Int, MediaDataModel> {
         return Pager(PagingConfig(pageSize = BuildConfig.PAGE_SIZE)) {
             MediaPagingSource(onRequest)
         }

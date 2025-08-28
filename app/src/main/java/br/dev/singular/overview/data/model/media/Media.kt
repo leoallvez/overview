@@ -1,8 +1,10 @@
 package br.dev.singular.overview.data.model.media
 
+import br.dev.singular.overview.data.model.MediaDataModel
+import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.data.source.media.MediaType.*
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import com.squareup.moshi.Json
 
@@ -41,7 +43,7 @@ abstract class Media {
     fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
     fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
-    fun getType() = if (this is Movie) MediaType.MOVIE.key else MediaType.TV_SHOW.key
+    fun getType() = if (this is Movie) MOVIE.key else TV_SHOW.key
 
     protected fun runtimeTemplate(runtime: Int) = if (runtime > 0) {
         val hours = runtime / 60
@@ -51,11 +53,12 @@ abstract class Media {
         ""
     }
 
-    fun toMediaEntity() = MediaEntity(
-        apiId = apiId,
-        posterPath = posterPath,
-        letter = getLetter(),
+    fun toData() = MediaDataModel(
+        id = apiId,
+        posterPath = posterPath ?: "",
+        name = getLetter(),
+        title = getLetter(),
         isLiked = isLiked,
-        type = getType()
+        type = MediaDataType.fromKey(getType())
     )
 }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -13,6 +14,7 @@ android {
         minSdk = libs.versions.sdk.min.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
         stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
         stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
@@ -44,6 +46,9 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     implementation(project(":domain"))
 
@@ -54,7 +59,9 @@ dependencies {
     api(libs.androidx.ui.tooling.preview)
     api(libs.androidx.material3)
     api(libs.coil.compose)
+    api(libs.hilt.navigation.compose)
     implementation(libs.material)
+    implementation(libs.progress.indicator)
 
     api(platform(libs.firebase.bom))
     api(libs.firebase.analytics)

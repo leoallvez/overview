@@ -16,7 +16,7 @@ import br.dev.singular.overview.di.HighlightIconsQualifier
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.remote.RemoteConfig
-import br.dev.singular.overview.ui.model.toUiModel
+import br.dev.singular.overview.ui.model.toUi
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -78,7 +78,7 @@ class HomeViewModel @Inject constructor(
 
     fun loadMediaPaging() {
         medias = _mediaRepository
-            .getPaging(searchFilters.value).flow.cachedIn(viewModelScope).toUiModel()
+            .getPaging(searchFilters.value).flow.cachedIn(viewModelScope).toUi()
     }
 
     private suspend fun loadGenres() {

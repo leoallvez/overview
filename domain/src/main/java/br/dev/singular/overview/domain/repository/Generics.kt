@@ -20,10 +20,16 @@ interface GetAll<T> {
     suspend fun getAll(): List<T>
 }
 
-interface GetAllByParam<T, P> {
-    suspend fun getAllByParam(param: P): List<T>
+interface GetPage<T, P> {
+    suspend fun getPage(param: P): Page<T>
 }
 
 interface GetById<T> {
     suspend fun getById(id: Int): T?
 }
+
+data class Page<T>(
+    val items: List<T> = emptyList(),
+    val currentPage: Int = 0,
+    val isLastPage: Boolean = false
+)

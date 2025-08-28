@@ -5,7 +5,7 @@ import br.dev.singular.overview.domain.model.MediaParam
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.GetAll
-import br.dev.singular.overview.domain.repository.GetAllByParam
+import br.dev.singular.overview.domain.repository.GetPage
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
 
@@ -15,7 +15,7 @@ interface IGetAllSuggestionsUseCase {
 
 class GetAllSuggestionsUseCase(
     private val getterSuggestion: GetAll<Suggestion>,
-    private val getterMedia: GetAllByParam<Media, MediaParam>
+    private val getterMedia: GetPage<Media, MediaParam>
 ) : IGetAllSuggestionsUseCase {
 
     override suspend fun invoke(): UseCaseState<List<Suggestion>> {
@@ -45,9 +45,9 @@ class GetAllSuggestionsUseCase(
     }
 
     private suspend fun fetchMediasByKey(key: String): List<Media> =
-        getterMedia.getAllByParam(param = MediaParam(key = key)).take(MAX_MEDIA)
+        getterMedia.getPage(param = MediaParam(key = key)).items.take(MAX_MEDIA)
 
     companion object {
-        const val MAX_MEDIA = 10
+        const val MAX_MEDIA = 20
     }
 }

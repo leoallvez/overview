@@ -1,7 +1,9 @@
 package br.dev.singular.overview.di.data.local
 
+import br.dev.singular.overview.data.local.source.IMediaLocalDataSource
 import br.dev.singular.overview.data.local.source.IMediaRouteLocalDataSource
 import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
+import br.dev.singular.overview.data.local.source.MediaLocalDataSource
 import br.dev.singular.overview.data.local.source.MediaRouteLocalDataSource
 import br.dev.singular.overview.data.local.source.SuggestionLocalDataSource
 import dagger.Binds
@@ -17,6 +19,11 @@ abstract class LocalDataSourceModule {
     abstract fun bindSuggestionLocalDataSource(
         source: SuggestionLocalDataSource
     ): ISuggestionLocalDataSource
+
+    @Binds
+    abstract fun bindMediaLocalDataSource(
+        source: MediaLocalDataSource
+    ): IMediaLocalDataSource
 
     @Binds
     abstract fun bindMediaRouteLocalDataSource(

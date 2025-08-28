@@ -1,6 +1,5 @@
 package br.dev.singular.overview.ui.search
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -52,10 +49,6 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagSearch
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
-import br.dev.singular.overview.ui.IntermediateScreensText
-import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.NothingFoundScreen
-import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.Gray
@@ -64,11 +57,16 @@ import br.dev.singular.overview.util.getStringByName
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.model.MediaUiType
-import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
-import br.dev.singular.overview.ui.MainToolbarTitle
+import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
+import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
+import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
+import br.dev.singular.overview.presentation.ui.components.UiToolbar
+import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
+import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagSearch.PATH, detail, id)
@@ -102,7 +100,7 @@ fun SearchScreen(
                     modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
                 ) {
                     val newType = MediaType.getByKey(it.name.lowercase())
-                    tagClick("${SELECT_MEDIA_TYPE}${newType.key}")
+                    TagMediaManager.logTypeClick(TagSearch.PATH, it)
                     viewModel.onSearching(filters.copy(mediaType = newType))
                 }
             } else {
@@ -112,13 +110,13 @@ fun SearchScreen(
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(TagSearch.PATH)
                     is LoadState.NotLoading -> {
-                        TagScreenView(TagSearch.PATH, TagStatus.SUCCESS)
+                        TrackScreenView(TagSearch.PATH, TagStatus.SUCCESS)
                         UiMediaGrid(
                             items = items,
                             modifier = Modifier
                                 .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
                             onClick = {
-                                TagMediaManager.logClick(TagSearch.PATH, it.id)
+                                TagMediaManager.logMediaClick(TagSearch.PATH, it.id)
                                 navigate.toMediaDetails(it)
                             }
                         )
@@ -131,7 +129,7 @@ fun SearchScreen(
                                 suggestions = suggestionsUIState,
                                 tagPath = TagSearch.PATH_SUGGESTIONS,
                                 onClick = {
-                                    TagMediaManager.logClick(TagSearch.PATH_SUGGESTIONS, it.id)
+                                    TagMediaManager.logMediaClick(TagSearch.PATH_SUGGESTIONS, it.id)
                                     navigate.toMediaDetails(it)
                                 }
                             )
@@ -150,7 +148,7 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
     ) {
-        MainToolbarTitle(title = stringResource(id = R.string.search))
+        UiToolbar(title = stringResource(id = R.string.search))
         SearchField(onSearch = onSearch)
     }
 }
@@ -164,29 +162,17 @@ fun SearchInitialScreen(
     when (suggestions) {
         is UiState.Loading -> LoadingScreen(tagPath)
         is UiState.Success -> {
-            TagScreenView(tagPath, TagStatus.SUCCESS)
+            TrackScreenView(tagPath, TagStatus.SUCCESS)
             SuggestionsVerticalList(suggestions = suggestions.data, onClick = onClick)
         }
         is UiState.Error -> {
-            TagScreenView(tagPath, TagStatus.ERROR)
-            CenteredTextString(R.string.search_not_started)
-        }
-    }
-}
-
-@Composable
-fun CenteredTextString(@StringRes textRes: Int, color: Color = AccentColor) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            IntermediateScreensText(stringResource(textRes), color)
+            TrackScreenView(tagPath, TagStatus.ERROR)
+            UiCenteredColumn {
+                UiTitle(
+                    text = stringResource(R.string.search_not_started),
+                    color = HighlightColor
+                )
+            }
         }
     }
 }

@@ -17,11 +17,11 @@ class Converters {
 
     @TypeConverter
     fun fromMediaDataType(type: MediaDataType): String {
-        return type.value
+        return type.key
     }
 
     @TypeConverter
     fun toMediaDataType(value: String): MediaDataType {
-        return MediaDataType.fromValue(value)
+        return MediaDataType.fromKey(value)
     }
 }

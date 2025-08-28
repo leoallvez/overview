@@ -1,9 +1,8 @@
 package br.dev.singular.overview.data.network
 
 import br.dev.singular.overview.data.BuildConfig
-import br.dev.singular.overview.data.model.MediaDataModel
+import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.network.response.ErrorResponse
-import br.dev.singular.overview.data.network.response.ListResponse
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -21,7 +20,7 @@ interface ApiService {
         language: String = "",
         @Query(value = "region")
         region: String = ""
-    ): NetworkResponse<ListResponse<MediaDataModel>, ErrorResponse>
+    ): NetworkResponse<MediaDataPage, ErrorResponse>
 
     private companion object {
         const val API_KEY = BuildConfig.API_KEY
