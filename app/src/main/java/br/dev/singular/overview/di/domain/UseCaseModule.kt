@@ -2,10 +2,10 @@ package br.dev.singular.overview.di.domain
 
 import br.dev.singular.overview.data.repository.MediaRepository
 import br.dev.singular.overview.data.repository.SuggestionRepository
-import br.dev.singular.overview.domain.usecase.suggetions.DeleteSuggestionsUseCase
-import br.dev.singular.overview.domain.usecase.suggetions.GetAllSuggestionsUseCase
-import br.dev.singular.overview.domain.usecase.suggetions.IDeleteSuggestionsUseCase
-import br.dev.singular.overview.domain.usecase.suggetions.IGetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.IDeleteSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

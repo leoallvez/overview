@@ -1,4 +1,4 @@
-package br.dev.singular.overview.domain.usecase.suggetions
+package br.dev.singular.overview.domain.usecase.suggestion
 
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.DeleteAll

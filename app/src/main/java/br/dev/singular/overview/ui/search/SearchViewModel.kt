@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
-import br.dev.singular.overview.domain.usecase.suggetions.IGetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import br.dev.singular.overview.presentation.UIState
 import br.dev.singular.overview.presentation.model.MediaUIModel
 import br.dev.singular.overview.presentation.model.toUIMap

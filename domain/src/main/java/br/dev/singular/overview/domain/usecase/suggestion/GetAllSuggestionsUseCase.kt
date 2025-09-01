@@ -1,4 +1,4 @@
-package br.dev.singular.overview.domain.usecase.suggetions
+package br.dev.singular.overview.domain.usecase.suggestion
 
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaParam

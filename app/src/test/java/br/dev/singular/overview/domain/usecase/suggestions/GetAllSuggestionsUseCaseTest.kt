@@ -9,9 +9,9 @@ import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.createMediaMock
 import br.dev.singular.overview.domain.usecase.createSuggestionMock
-import br.dev.singular.overview.domain.usecase.suggetions.GetAllSuggestionsUseCase
-import br.dev.singular.overview.domain.usecase.suggetions.GetAllSuggestionsUseCase.Companion.MAX_MEDIA
-import br.dev.singular.overview.domain.usecase.suggetions.IGetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase.Companion.MAX_MEDIA
+import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

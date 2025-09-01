@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import br.dev.singular.overview.data.local.source.CacheDataSource
 import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_LAST_CACHE_TIME
-import br.dev.singular.overview.domain.usecase.suggetions.IDeleteSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.IDeleteSuggestionsUseCase
 import br.dev.singular.overview.BuildConfig
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
