@@ -19,7 +19,7 @@ data class MediaRouteDataModel(
 
     fun containsMediaType(): Boolean = path.contains(MEDIA_TYPE_ALIAS)
 
-    private companion object {
-        const val MEDIA_TYPE_ALIAS = "{media_type}"
+    companion object {
+        private const val MEDIA_TYPE_ALIAS = "{media_type}"
     }
 }
