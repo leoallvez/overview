@@ -5,7 +5,6 @@ import br.dev.singular.overview.data.util.IJsonFileReaderProvider
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-
 interface IMediaRouteLocalDataSource {
     suspend fun getByKey(key: String): MediaRouteDataModel?
 }
