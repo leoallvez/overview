@@ -4,6 +4,10 @@
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Badge in development](http://img.shields.io/static/v1?label=STATUS&message=IN%20DEVELOPMENT&color=GREEN&style=for-the-badge)
 
+
+<img src="docs/img/github_readme.png" />
+
+## Index
 <!--index-->
 - [About](#about)
 - [Goals](#goals)
