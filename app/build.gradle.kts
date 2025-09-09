@@ -38,14 +38,15 @@ android {
     if (isActiveSigning()) {
         // Signing configurations for different environments
         signingConfigs {
+            val home = System.getProperty("user.home")
             create("prd") {
-                storeFile = rootProject.file(System.getenv("OVER_PRD_KEYSTORE"))
+                storeFile = rootProject.file("$home${System.getenv("OVER_PRD_KEYSTORE")}")
                 storePassword = System.getenv("OVER_PRD_PASSWORD")
                 keyAlias = System.getenv("OVER_PRD_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_PRD_PASSWORD")
             }
             create("hmg") {
-                storeFile = rootProject.file(System.getenv("OVER_HMG_KEYSTORE"))
+                storeFile = rootProject.file("$home${System.getenv("OVER_HMG_KEYSTORE")}")
                 storePassword = System.getenv("OVER_HMG_PASSWORD")
                 keyAlias = System.getenv("OVER_HMG_KEY_ALIAS")
                 keyPassword = System.getenv("OVER_HMG_PASSWORD")
@@ -55,8 +56,6 @@ android {
     // Build types configurations
     buildTypes {
         named("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
