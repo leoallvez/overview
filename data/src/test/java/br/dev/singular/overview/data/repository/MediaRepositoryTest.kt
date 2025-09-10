@@ -3,6 +3,7 @@ package br.dev.singular.overview.data.repository
 import br.dev.singular.overview.data.network.response.ListResponse
 import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
+import br.dev.singular.overview.data.util.MockMediaLocalDataSource
 import br.dev.singular.overview.data.util.MockMediaRouteLocalDataSource
 import br.dev.singular.overview.data.util.mediaDataModel
 import br.dev.singular.overview.domain.model.Media
@@ -36,6 +37,7 @@ class MediaRepositoryTest {
         MockKAnnotations.init(this)
         sut = MediaRepository(
             remoteSource,
+            MockMediaLocalDataSource(),
             MockMediaRouteLocalDataSource()
         )
     }

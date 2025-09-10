@@ -1,5 +1,6 @@
 package br.dev.singular.overview.data.repository
 
+import br.dev.singular.overview.data.local.source.IMediaLocalDataSource
 import br.dev.singular.overview.data.local.source.IMediaRouteLocalDataSource
 import br.dev.singular.overview.data.model.toDomainModel
 import br.dev.singular.overview.data.network.source.DataResult
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 class MediaRepository @Inject constructor(
     private val mediaRemoteSource: IMediaRemoteDataSource,
+    private val mediaLocalSource: IMediaLocalDataSource,
     private val routeLocalSource: IMediaRouteLocalDataSource
 ) : GetAllByParam<Media, MediaParam>, GetAll<Media> {
 
@@ -24,7 +26,5 @@ class MediaRepository @Inject constructor(
         }
     }
 
-    override suspend fun getAll(): List<Media> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getAll() = mediaLocalSource.getAll().map { it.toDomainModel() }
 }
