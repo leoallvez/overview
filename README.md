@@ -7,6 +7,12 @@
 
 <img src="docs/img/github_readme.png" />
 
+<br/>
+
+<a href="https://play.google.com/store/apps/details?id=br.dev.singular.overview" target="_blank">
+  <img src="docs/img/google_play_badge.png" width="250" />
+</a>
+
 ## Index
 <!--index-->
 - [About](#about)
@@ -179,6 +185,10 @@ Thank you for considering contributing to this project! Follow these steps to co
 
 Please make sure to provide a clear description of your changes when submitting a pull request. We
 appreciate your contributions!
+
+<a href="https://play.google.com/store/apps/details?id=br.dev.singular.overview" target="_blank">
+  <img src="docs/img/google_play_badge.png" width="250" />
+</a>
 
 ## Author
 
