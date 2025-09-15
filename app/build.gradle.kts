@@ -10,7 +10,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    kotlin("plugin.serialization") version "1.8.0"
+    kotlin("plugin.serialization") version "2.2.20"
 }
 
 android {
