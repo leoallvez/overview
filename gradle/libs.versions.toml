@@ -21,7 +21,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 
 # Compose
-compose-bom = "2025.08.01"
+compose-bom = "2025.09.00"
 navigation-compose = "2.9.4"
 paging-compose = "3.3.6"
 activity-compose = "1.10.1"
