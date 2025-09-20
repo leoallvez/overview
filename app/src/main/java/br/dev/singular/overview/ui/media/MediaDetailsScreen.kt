@@ -58,7 +58,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
@@ -67,6 +66,7 @@ import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
@@ -202,7 +202,7 @@ fun MediaToolBar(
             )
             ToolbarTitle(
                 title = getLetter(),
-                textPadding = PaddingValues(start = dimensionResource(R.dimen.screen_padding)),
+                textPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_s)),
                 modifier = Modifier.align(Alignment.BottomStart)
             )
             Row(
@@ -212,7 +212,7 @@ fun MediaToolBar(
                 ButtonWithIcon(
                     painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     descriptionResource = R.string.backstack_icon,
-                    modifier = Modifier.padding(dimensionResource(R.dimen.default_padding)),
+                    modifier = Modifier.padding(dimensionResource(R.dimen.spacing_xs)),
                     withBorder = false,
                     onClick = {
                         tagClick(TagCommon.Detail.BACK)
@@ -242,7 +242,7 @@ fun MediaBody(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
-            .padding(dimensionResource(R.dimen.default_padding))
+            .padding(dimensionResource(R.dimen.spacing_xs))
     ) {
         StreamingOverview(media.streamings, media.isReleased()) { streaming ->
             onClickStreaming(streaming)
@@ -288,7 +288,7 @@ fun MediaBody(
 
 @Composable
 fun MediaSpace() {
-    Spacer(Modifier.padding(vertical = dimensionResource(R.dimen.default_padding)))
+    Spacer(Modifier.padding(vertical = dimensionResource(R.dimen.spacing_xs)))
 }
 
 @Composable
@@ -296,7 +296,7 @@ fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
     if (numberOfSeasons > 0) {
         Row(
             modifier = Modifier
-                .padding(horizontal = dimensionResource(R.dimen.screen_padding))
+                .padding(horizontal = dimensionResource(R.dimen.spacing_s))
                 .padding(top = 2.dp)
         ) {
             val spacerModifier = Modifier.padding(horizontal = 2.dp)
@@ -312,7 +312,7 @@ fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
 @Composable
 fun EpisodesRunTime(runtime: String) {
     if (runtime.isNotEmpty()) {
-        val padding = dimensionResource(R.dimen.screen_padding)
+        val padding = dimensionResource(R.dimen.spacing_s)
         Row(modifier = Modifier.padding(horizontal = padding)) {
             SimpleSubtitle2(text = stringResource(R.string.runtime_per_episode, runtime))
         }
@@ -336,7 +336,7 @@ fun Info(label: String = "", info: String, color: Color = Color.White) {
     if (info.isNotEmpty()) {
         Row(
             Modifier.padding(
-                horizontal = dimensionResource(R.dimen.screen_padding),
+                horizontal = dimensionResource(R.dimen.spacing_s),
                 vertical = 2.dp
             )
         ) {
@@ -357,10 +357,10 @@ fun StreamingOverview(
     BasicTitle(title = stringResource(R.string.where_to_watch))
     if (streaming.isNotEmpty()) {
         LazyRow(
-            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.screen_padding)),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
+            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_s)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_xs)),
             contentPadding = PaddingValues(
-                horizontal = dimensionResource(R.dimen.screen_padding)
+                horizontal = dimensionResource(R.dimen.spacing_s)
             )
         ) {
             items(streaming) { streaming ->
@@ -386,10 +386,10 @@ fun StreamingNotFound(@StringRes stringResource: Int) {
     Row(
         modifier = Modifier
             .padding(
-                horizontal = dimensionResource(R.dimen.screen_padding),
-                vertical = dimensionResource(R.dimen.default_padding)
+                horizontal = dimensionResource(R.dimen.spacing_s),
+                vertical = dimensionResource(R.dimen.spacing_xs)
             )
-            .height(dimensionResource(R.dimen.streaming_item_small_size))
+            .height(40.dp)
             .defaultBorder(DarkGray),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -412,11 +412,11 @@ fun GenreList(genres: List<GenreEntity>) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
-                vertical = dimensionResource(R.dimen.default_padding)
+                vertical = dimensionResource(R.dimen.spacing_xs)
             ),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.default_padding)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_xs)),
             contentPadding = PaddingValues(
-                horizontal = dimensionResource(R.dimen.screen_padding)
+                horizontal = dimensionResource(R.dimen.spacing_s)
             )
         ) {
             items(genres) { genre ->
@@ -434,7 +434,7 @@ fun GenreItem(name: String, onClick: () -> Unit) {
         onClick = onClick,
         shape = RoundedCornerShape(percent = 100),
         contentPadding = PaddingValues(
-            horizontal = dimensionResource(R.dimen.default_padding)
+            horizontal = dimensionResource(R.dimen.spacing_xs)
         ),
         modifier = Modifier
             .height(25.dp),
@@ -460,7 +460,7 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
             BasicTitle(title = stringResource(R.string.cast))
             LazyRow(
                 contentPadding = PaddingValues(
-                    vertical = dimensionResource(R.dimen.screen_padding)
+                    vertical = dimensionResource(R.dimen.spacing_s)
                 )
             ) {
                 items(cast) { castPerson ->
@@ -490,7 +490,7 @@ fun VideoList(videos: List<Video>, onClick: (videoKey: String) -> Unit) {
 @Composable
 fun VideoItem(video: Video, onClick: (String) -> Unit) {
     Column(
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding))
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_s))
     ) {
         val with = 300.dp
         val iconAlpha = 0.8f
@@ -498,7 +498,7 @@ fun VideoItem(video: Video, onClick: (String) -> Unit) {
             modifier = Modifier
                 .width(with)
                 .aspectRatio(16f / 9f)
-                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
                 .clickable { onClick(video.key) }
                 .background(PrimaryBackground)
                 .then(Modifier.border(withBorder = true))
@@ -522,7 +522,7 @@ fun VideoItem(video: Video, onClick: (String) -> Unit) {
                     imageVector = Icons.Filled.PlayArrow,
                     tint = AccentColor.copy(alpha = iconAlpha),
                     contentDescription = null,
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_xxl))
                 )
             }
         }
@@ -585,7 +585,7 @@ fun LikeButton(
 
     Box(
         modifier = Modifier
-            .padding(PaddingValues(dimensionResource(R.dimen.screen_padding_new)))
+            .padding(PaddingValues(dimensionResource(R.dimen.spacing_m)))
             .clip(CircleShape)
             .background(PrimaryBackground.copy(alpha = if (isLiked) 0.8f else 0.6f))
             .size(buttonSize)

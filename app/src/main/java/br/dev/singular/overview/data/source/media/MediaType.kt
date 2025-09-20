@@ -1,7 +1,8 @@
 package br.dev.singular.overview.data.source.media
 
 import androidx.annotation.StringRes
-import br.dev.singular.overview.R
+import br.dev.singular.overview.presentation.R
+
 
 enum class MediaType(val key: String, @StringRes val labelRes: Int, private val order: Int) {
     ALL(key = "all", labelRes = R.string.all, order = 1),

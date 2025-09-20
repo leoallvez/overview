@@ -40,9 +40,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagStreaming
@@ -68,7 +68,7 @@ fun SelectStreamingScreen(
 ) {
     Scaffold(
         contentColor = PrimaryBackground,
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding_new)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_m)),
         topBar = {
             ToolBar {
                 tagClick(TagCommon.Detail.CLOSE)
@@ -98,10 +98,10 @@ fun StreamingGrid(
     data: StreamingData,
     onClick: (StreamingEntity) -> Unit
 ) {
-    val padding = dimensionResource(R.dimen.default_padding)
+    val padding = dimensionResource(R.dimen.spacing_xs)
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize().background(PrimaryBackground),
-        columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.streaming_item_big_size)),
+        columns = GridCells.Adaptive(minSize = 65.dp),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
@@ -174,7 +174,7 @@ fun ToolBar(onBackstack: () -> Unit) {
             Box(
                 Modifier
                     .padding(
-                        horizontal = dimensionResource(R.dimen.default_padding)
+                        horizontal = dimensionResource(R.dimen.spacing_xs)
                     )
                     .clip(CircleShape)
                     .background(SecondaryBackground)
@@ -185,7 +185,7 @@ fun ToolBar(onBackstack: () -> Unit) {
                     painter = painterResource(id = R.drawable.keyboard_arrow_up),
                     contentDescription = stringResource(id = R.string.backstack_icon),
                     modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.icon_medium_size))
+                        .size(dimensionResource(id = R.dimen.spacing_xxl))
                         .border(1.dp, DarkGray, CircleShape)
                 )
             }
@@ -195,7 +195,7 @@ fun ToolBar(onBackstack: () -> Unit) {
 
 @Composable
 private fun Modifier.setStreamingIcon(isSelected: Boolean, onClick: () -> Unit): Modifier {
-    val shape = RoundedCornerShape(dimensionResource(R.dimen.corner))
+    val shape = RoundedCornerShape(dimensionResource(R.dimen.corner_width))
     return background(SecondaryBackground)
         .then(if (isSelected) Modifier.animatedBorder(
             borderColors = listOf(

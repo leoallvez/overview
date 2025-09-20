@@ -12,7 +12,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import br.dev.singular.overview.BuildConfig
-import br.dev.singular.overview.R
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize

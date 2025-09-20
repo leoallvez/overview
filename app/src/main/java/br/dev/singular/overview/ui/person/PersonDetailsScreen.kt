@@ -29,9 +29,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
@@ -123,14 +123,14 @@ fun PersonToolBar(
         Modifier
             .fillMaxWidth()
             .height(300.dp)
-            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner)))
+            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
             .background(PrimaryBackground)
     ) {
         PersonImageCircle(
             person,
             modifier = Modifier
                 .size(300.dp)
-                .padding(dimensionResource(R.dimen.screen_padding))
+                .padding(dimensionResource(R.dimen.spacing_s))
                 .align(Alignment.Center)
         )
         ButtonWithIcon(
@@ -180,7 +180,7 @@ fun PersonDates(person: Person) {
             Row(
                 modifier = Modifier.padding(
                     vertical = 10.dp,
-                    horizontal = dimensionResource(R.dimen.screen_padding)
+                    horizontal = dimensionResource(R.dimen.spacing_s)
                 )
             ) {
                 SimpleSubtitle1(getFormattedBirthday())
@@ -196,7 +196,7 @@ fun PlaceOfBirth(placeOfBirth: String) {
     if (placeOfBirth.isNotEmpty()) {
         Column(
             modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.screen_padding)
+                horizontal = dimensionResource(R.dimen.spacing_s)
             )
         ) {
             SimpleSubtitle1(stringResource(R.string.place_of_birth), isBold = true)
@@ -242,7 +242,7 @@ fun ParticipationList(
 ) {
     HorizontalMediaList(
         title = stringResource(listTitleRes),
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_s)),
         items = medias.map { it.toUIModel() },
         onClick = { media ->
             TagMediaManager.logClick(TagPerson.PATH, media.id)

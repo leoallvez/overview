@@ -27,7 +27,7 @@ fun BasicImage(
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
     errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
-    corner: Dp = dimensionResource(R.dimen.corner),
+    corner: Dp = dimensionResource(R.dimen.corner_width),
     withBorder: Boolean = false
 ) {
     val imageModifier = modifier

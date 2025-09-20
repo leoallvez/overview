@@ -55,12 +55,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
@@ -150,7 +150,7 @@ fun HomeContent(
             contentColor = PrimaryBackground,
             modifier = Modifier
                 .background(PrimaryBackground)
-                .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+                .padding(horizontal = dimensionResource(R.dimen.spacing_s)),
             topBar = {
                 HomeToolBar(
                     filters = filters,
@@ -198,7 +198,7 @@ fun HomeToolBar(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(bottom = dimensionResource(R.dimen.screen_padding))
+            .padding(bottom = dimensionResource(R.dimen.spacing_s))
     ) {
         Row(
             modifier = Modifier.height(50.dp).padding(top = 10.dp),
@@ -216,7 +216,7 @@ fun HomeToolBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp)
-                .padding(horizontal = dimensionResource(R.dimen.default_padding)),
+                .padding(horizontal = dimensionResource(R.dimen.spacing_xs)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
@@ -232,7 +232,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 StreamingIcon(
                     modifier = Modifier.padding(start = 4.dp),
-                    size = dimensionResource(id = R.dimen.icon_medium_size),
+                    size = 30.dp,
                     corner = dimensionResource(R.dimen.circle_conner),
                     streaming = streaming,
                     withBorder = false
@@ -250,7 +250,7 @@ fun SelectButton(
     onClick: () -> Unit,
     content: @Composable () -> Unit,
     width: Dp? = null,
-    height: Dp = dimensionResource(R.dimen.streaming_item_small_size),
+    height: Dp = 40.dp,
     icon: Painter = painterResource(id = R.drawable.baseline_expand_more),
     isActive: Boolean = true
 ) {
@@ -272,7 +272,7 @@ fun SelectButton(
             Box(
                 Modifier
                     .padding(
-                        horizontal = dimensionResource(R.dimen.default_padding)
+                        horizontal = dimensionResource(R.dimen.spacing_xs)
                     )
                     .clip(CircleShape)
                     .background(SecondaryBackground)
@@ -282,7 +282,7 @@ fun SelectButton(
                     tint = color,
                     painter = icon,
                     contentDescription = "",
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_medium_size))
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_xxl))
                 )
             }
         }
@@ -305,8 +305,8 @@ fun HomeScreamTitle(title: String?) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(
-                    horizontal = dimensionResource(R.dimen.screen_padding),
-                    vertical = dimensionResource(R.dimen.default_padding)
+                    horizontal = dimensionResource(R.dimen.spacing_s),
+                    vertical = dimensionResource(R.dimen.spacing_xs)
                 ).widthIn(max = 200.dp),
             overflow = TextOverflow.Ellipsis
         )
@@ -325,7 +325,7 @@ fun GenreFilterBottomSheet(
             .fillMaxWidth()
             .wrapContentHeight()
             .background(SecondaryBackground)
-            .padding(dimensionResource(R.dimen.screen_padding_new))
+            .padding(dimensionResource(R.dimen.spacing_m))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -339,7 +339,7 @@ fun GenreFilterBottomSheet(
                 }
             )
         }
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_m)))
         FilterGenres(genres, filters) {
             if (filters.genreId == it.genreId) {
                 inFiltering.invoke(filters.copy(genreId = null))
@@ -348,7 +348,7 @@ fun GenreFilterBottomSheet(
                 closeAction.invoke()
             }
         }
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.screen_padding_new)))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_m)))
     }
 }
 
@@ -467,7 +467,7 @@ fun FilterGenres(
     }
     Column {
         FlowRow(
-            crossAxisSpacing = dimensionResource(R.dimen.screen_padding),
+            crossAxisSpacing = dimensionResource(R.dimen.spacing_m),
             modifier = Modifier.fillMaxWidth(),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {

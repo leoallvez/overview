@@ -69,13 +69,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.compose.LazyPagingItems
-import br.dev.singular.overview.R
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
@@ -114,7 +114,7 @@ fun BasicTitle(title: String) {
             .padding(
                 bottom = 5.dp,
                 top = 10.dp,
-                start = dimensionResource(R.dimen.screen_padding)
+                start = dimensionResource(R.dimen.spacing_s)
             ),
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold
@@ -270,7 +270,7 @@ fun ButtonWithIcon(
     iconTint: Color = Color.White,
     withBorder: Boolean = true,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
-    padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.screen_padding)),
+    padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.spacing_s)),
     onLongClick: () -> Unit = {},
     onClick: () -> Unit
 ) {
@@ -290,7 +290,7 @@ fun ButtonWithIcon(
             painter,
             contentDescription = stringResource(descriptionResource),
             modifier = Modifier
-                .size(dimensionResource(R.dimen.icon_size))
+                .size(dimensionResource(R.dimen.spacing_xl))
                 .align(Alignment.Center),
             tint = iconTint
         )
@@ -312,8 +312,8 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold,
         modifier = modifier.padding(
-            horizontal = dimensionResource(R.dimen.default_padding),
-            vertical = dimensionResource(R.dimen.default_padding)
+            horizontal = dimensionResource(R.dimen.spacing_xs),
+            vertical = dimensionResource(R.dimen.spacing_xs)
         ),
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis
@@ -339,10 +339,10 @@ fun MediaList(
             LazyRow(
                 Modifier
                     .padding(
-                        vertical = dimensionResource(R.dimen.default_padding)
+                        vertical = dimensionResource(R.dimen.spacing_s)
                     ),
                 contentPadding = PaddingValues(
-                    horizontal = dimensionResource(R.dimen.screen_padding)
+                    horizontal = dimensionResource(R.dimen.spacing_xs)
                 )
             ) {
                 items(medias.size) { index ->
@@ -391,11 +391,11 @@ fun BasicImage(
     url: String,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    height: Dp = dimensionResource(R.dimen.image_height),
+    height: Dp = dimensionResource(R.dimen.poster_height),
     contentScale: ContentScale = ContentScale.FillHeight,
     placeholder: Painter = painterResource(R.drawable.placeholder),
     errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
-    corner: Dp = dimensionResource(R.dimen.corner),
+    corner: Dp = dimensionResource(R.dimen.corner_width),
     withBorder: Boolean = false
 ) {
     if (url.isNotEmpty()) {
@@ -432,7 +432,7 @@ fun Modifier.border(
     width: Dp = dimensionResource(R.dimen.border_width)
 ): Modifier = composed {
     if (withBorder) {
-        border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner)))
+        border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
     } else {
         this
     }
@@ -514,8 +514,8 @@ fun Backdrop(
         modifier = modifier
             .background(SecondaryBackground)
             .fillMaxWidth()
-            .height(dimensionResource(R.dimen.backdrop_height))
-            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner))),
+            .height(dimensionResource(R.dimen.poster_height))
+            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width))),
         contentScale = ContentScale.Crop,
         contentDescription = contentDescription
     )
@@ -543,7 +543,7 @@ fun BasicParagraph(@StringRes paragraphTitle: Int, paragraph: String) {
     if (paragraph.isNotBlank()) {
         Column(
             modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.screen_padding)
+                horizontal = dimensionResource(R.dimen.spacing_s)
             )
         ) {
             SimpleTitle(stringResource(paragraphTitle))
@@ -676,9 +676,9 @@ fun ToolbarTitle(
 fun StreamingIcon(
     modifier: Modifier = Modifier,
     streaming: StreamingEntity?,
-    size: Dp = dimensionResource(R.dimen.streaming_item_medium_size),
+    size: Dp = 48.dp,
     withBorder: Boolean = true,
-    corner: Dp = dimensionResource(id = R.dimen.corner),
+    corner: Dp = dimensionResource(id = R.dimen.corner_width),
     onClick: (() -> Unit)? = null
 ) {
     streaming?.let {
@@ -700,7 +700,7 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.default_padding))
+            .padding(horizontal = dimensionResource(R.dimen.spacing_xs))
     ) {
         val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
@@ -738,7 +738,7 @@ fun FilterButton(
     colorActivated: Color = AccentColor,
     backgroundColor: Color = PrimaryBackground,
     contentPadding: PaddingValues = PaddingValues(
-        horizontal = dimensionResource(R.dimen.default_padding)
+        horizontal = dimensionResource(R.dimen.spacing_xs)
     ),
     complement: @Composable () -> Unit = {},
     onClick: () -> Unit
@@ -750,7 +750,7 @@ fun FilterButton(
         contentPadding = contentPadding,
         modifier = Modifier
             .height(30.dp)
-            .padding(PaddingValues(end = dimensionResource(R.dimen.screen_padding))),
+            .padding(PaddingValues(end = dimensionResource(R.dimen.spacing_s))),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor
@@ -774,7 +774,7 @@ fun DefaultVerticalSpace() {
     Spacer(
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(vertical = dimensionResource(R.dimen.default_padding))
+            .padding(vertical = dimensionResource(R.dimen.spacing_xs))
     )
 }
 

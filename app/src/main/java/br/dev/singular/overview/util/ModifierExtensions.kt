@@ -29,11 +29,11 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import br.dev.singular.overview.R
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.ui.theme.Gray
 
 @SuppressLint("SuspiciousModifierThen")
-fun Modifier.defaultBorder(color: Color = Gray, @DimenRes corner: Int = R.dimen.corner) = composed {
+fun Modifier.defaultBorder(color: Color = Gray, @DimenRes corner: Int = R.dimen.corner_width) = composed {
     val width = dimensionResource(R.dimen.border_width)
     val shape = RoundedCornerShape(dimensionResource(corner))
     then(border(color = color, width = width, shape = shape))

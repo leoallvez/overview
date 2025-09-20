@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.dev.singular.overview.R
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UIState
 import br.dev.singular.overview.presentation.model.MediaUIModel
 import br.dev.singular.overview.presentation.tagging.TagManager
@@ -84,7 +84,7 @@ fun SearchScreen(
         contentColor = PrimaryBackground,
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+            .padding(horizontal = dimensionResource(R.dimen.spacing_s)),
         topBar = {
             SearchToolBar { query ->
                 viewModel.onSearching(filters.copy(query = query))
@@ -141,7 +141,7 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.screen_padding))
+            .padding(bottom = dimensionResource(R.dimen.spacing_s))
     ) {
         ToolbarTitle(title = stringResource(id = R.string.search))
         DefaultVerticalSpace()
@@ -217,7 +217,7 @@ fun SuggestionsVerticalList(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = dimensionResource(R.dimen.default_padding))
+            .padding(start = dimensionResource(R.dimen.spacing_xs))
             .verticalScroll(rememberScrollState())
     ) {
         suggestions.forEach { (titleKey, mediaItems) ->

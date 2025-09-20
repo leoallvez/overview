@@ -15,10 +15,10 @@ import br.dev.singular.overview.presentation.R
 fun Modifier.border(
     isVisible: Boolean = true,
     color: Color = DarkGray,
-    width: Dp = dimensionResource(R.dimen.border)
+    width: Dp = dimensionResource(R.dimen.border_width)
 ): Modifier = composed {
     if (isVisible) {
-        border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner)))
+        border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
     } else {
         this
     }

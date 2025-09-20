@@ -15,8 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.dev.singular.overview.R
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagFavorites
@@ -48,7 +48,7 @@ fun FavoritesScreen(
         containerColor = PrimaryBackground,
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.screen_padding)),
+            .padding(horizontal = dimensionResource(R.dimen.spacing_s)),
         topBar = {
             FavoritesToolBar()
         }
@@ -88,7 +88,7 @@ fun FavoritesToolBar() {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.screen_padding))
+            .padding(bottom = dimensionResource(R.dimen.spacing_s))
     ) {
         ToolbarTitle(title = stringResource(id = R.string.favorites))
     }
