@@ -27,7 +27,7 @@ paging-compose = "3.3.6"
 activity-compose = "1.10.1"
 
 # Lifecycle and Work
-lifecycle = "2.9.3"
+lifecycle = "2.9.4"
 work-runtime-ktx = "2.8.1"
 
 # Hilt
@@ -39,7 +39,7 @@ room = "2.8.0"
 paging-runtime-ktx = "3.3.6"
 
 # Firebase
-firebase-bom = "34.2.0"
+firebase-bom = "34.3.0"
 
 # Network
 retrofit = "2.9.0"
@@ -65,7 +65,7 @@ kotlinx-coroutines-test = "1.10.2"
 play-services-ads = "24.6.0"
 datastore-preferences = "1.1.7"
 timber = "5.0.1"
-youtube-player = "12.1.2"
+youtube-player = "13.0.0"
 
 [libraries]
 # AndroidX Core
