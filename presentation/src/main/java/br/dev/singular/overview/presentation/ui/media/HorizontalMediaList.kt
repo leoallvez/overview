@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUIModel
 import br.dev.singular.overview.presentation.ui.text.SectionTitle
-import br.dev.singular.overview.presentation.ui.theme.PrimaryBackground
+import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
 @Composable
@@ -50,7 +50,7 @@ fun FilledHorizontalMediaListPreview() {
 fun FilledWithBackgroundHorizontalMediaListPreview() {
     HorizontalMediaList(
         title = "Imagined Movies",
-        modifier = Modifier.background(PrimaryBackground),
+        modifier = Modifier.background(Background),
         items = getMediaMocks()
     )
 }
@@ -60,7 +60,7 @@ fun FilledWithBackgroundHorizontalMediaListPreview() {
 fun EmptyHorizontalMediaListPreview() {
     HorizontalMediaList(
         title = "Empty List",
-        modifier = Modifier.background(PrimaryBackground),
+        modifier = Modifier.background(Background),
         items = listOf()
     )
 }
