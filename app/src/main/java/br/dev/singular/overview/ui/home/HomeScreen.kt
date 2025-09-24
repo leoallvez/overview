@@ -240,7 +240,7 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 HomeScreamTitle(title = streaming?.name ?: String())
             }
         },
-        icon = painterResource(id = R.drawable.keyboard_arrow_down)
+        icon = painterResource(id = R.drawable.ic_arrow_down)
     )
 }
 
@@ -251,7 +251,7 @@ fun SelectButton(
     content: @Composable () -> Unit,
     width: Dp? = null,
     height: Dp = 40.dp,
-    icon: Painter = painterResource(id = R.drawable.baseline_expand_more),
+    icon: Painter = painterResource(id = R.drawable.ic_arrow_down),
     isActive: Boolean = true
 ) {
     val color = if (isActive) AccentColor else Gray
@@ -448,7 +448,7 @@ fun SelectGenreButton(filters: SearchFilters, genres: List<GenreEntity>, onClick
             Icon(
                 tint = if (isActivated) AccentColor else Gray,
                 modifier = Modifier.size(20.dp),
-                painter = painterResource(id = R.drawable.baseline_expand_more),
+                painter = painterResource(id = R.drawable.ic_arrow_down),
                 contentDescription = stringResource(R.string.filters)
             )
         }

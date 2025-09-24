@@ -399,7 +399,7 @@ fun StreamingNotFound(@StringRes stringResource: Int) {
             color = Gray
         )
         Icon(
-            painter = painterResource(R.drawable.outline_alert),
+            painter = painterResource(R.drawable.ic_outline_alert),
             tint = Gray,
             contentDescription = stringResource(stringResource),
             modifier = Modifier.defaultPadding()

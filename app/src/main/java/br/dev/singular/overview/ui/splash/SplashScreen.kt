@@ -72,7 +72,7 @@ fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_playstore),
+            painter = painterResource(id = R.drawable.launcher_playstore),
             contentDescription = null,
             modifier = Modifier
                 .size(300.dp),
