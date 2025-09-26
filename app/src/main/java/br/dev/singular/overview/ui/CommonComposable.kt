@@ -114,7 +114,7 @@ fun BasicTitle(title: String) {
             .padding(
                 bottom = 5.dp,
                 top = 10.dp,
-                start = dimensionResource(R.dimen.spacing_s)
+                start = dimensionResource(R.dimen.spacing_small)
             ),
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold
@@ -270,7 +270,7 @@ fun ButtonWithIcon(
     iconTint: Color = Color.White,
     withBorder: Boolean = true,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
-    padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.spacing_s)),
+    padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.spacing_small)),
     onLongClick: () -> Unit = {},
     onClick: () -> Unit
 ) {
@@ -290,7 +290,7 @@ fun ButtonWithIcon(
             painter,
             contentDescription = stringResource(descriptionResource),
             modifier = Modifier
-                .size(dimensionResource(R.dimen.spacing_xl))
+                .size(dimensionResource(R.dimen.spacing_extra_large))
                 .align(Alignment.Center),
             tint = iconTint
         )
@@ -312,8 +312,8 @@ fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold,
         modifier = modifier.padding(
-            horizontal = dimensionResource(R.dimen.spacing_xs),
-            vertical = dimensionResource(R.dimen.spacing_xs)
+            horizontal = dimensionResource(R.dimen.spacing_extra_small),
+            vertical = dimensionResource(R.dimen.spacing_extra_small)
         ),
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis
@@ -339,10 +339,10 @@ fun MediaList(
             LazyRow(
                 Modifier
                     .padding(
-                        vertical = dimensionResource(R.dimen.spacing_s)
+                        vertical = dimensionResource(R.dimen.spacing_small)
                     ),
                 contentPadding = PaddingValues(
-                    horizontal = dimensionResource(R.dimen.spacing_xs)
+                    horizontal = dimensionResource(R.dimen.spacing_extra_small)
                 )
             ) {
                 items(medias.size) { index ->
@@ -543,7 +543,7 @@ fun BasicParagraph(@StringRes paragraphTitle: Int, paragraph: String) {
     if (paragraph.isNotBlank()) {
         Column(
             modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.spacing_s)
+                horizontal = dimensionResource(R.dimen.spacing_small)
             )
         ) {
             SimpleTitle(stringResource(paragraphTitle))
@@ -700,7 +700,7 @@ fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_xs))
+            .padding(horizontal = dimensionResource(R.dimen.spacing_extra_small))
     ) {
         val options = MediaType.getAllOrdered()
         options.forEach { mediaType ->
@@ -738,7 +738,7 @@ fun FilterButton(
     colorActivated: Color = AccentColor,
     backgroundColor: Color = PrimaryBackground,
     contentPadding: PaddingValues = PaddingValues(
-        horizontal = dimensionResource(R.dimen.spacing_xs)
+        horizontal = dimensionResource(R.dimen.spacing_extra_small)
     ),
     complement: @Composable () -> Unit = {},
     onClick: () -> Unit
@@ -750,7 +750,7 @@ fun FilterButton(
         contentPadding = contentPadding,
         modifier = Modifier
             .height(30.dp)
-            .padding(PaddingValues(end = dimensionResource(R.dimen.spacing_s))),
+            .padding(PaddingValues(end = dimensionResource(R.dimen.spacing_small))),
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor
@@ -774,7 +774,7 @@ fun DefaultVerticalSpace() {
     Spacer(
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(vertical = dimensionResource(R.dimen.spacing_xs))
+            .padding(vertical = dimensionResource(R.dimen.spacing_extra_small))
     )
 }
 

@@ -84,7 +84,7 @@ fun SearchScreen(
         contentColor = PrimaryBackground,
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_s)),
+            .padding(horizontal = dimensionResource(R.dimen.spacing_small)),
         topBar = {
             SearchToolBar { query ->
                 viewModel.onSearching(filters.copy(query = query))
@@ -141,7 +141,7 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.spacing_s))
+            .padding(bottom = dimensionResource(R.dimen.spacing_small))
     ) {
         ToolbarTitle(title = stringResource(id = R.string.search))
         DefaultVerticalSpace()
@@ -217,7 +217,7 @@ fun SuggestionsVerticalList(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = dimensionResource(R.dimen.spacing_xs))
+            .padding(start = dimensionResource(R.dimen.spacing_extra_small))
             .verticalScroll(rememberScrollState())
     ) {
         suggestions.forEach { (titleKey, mediaItems) ->

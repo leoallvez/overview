@@ -23,7 +23,7 @@ fun UiTitle(
     Text(
         text = text,
         color = color,
-        modifier = modifier.padding(vertical = dimensionResource(R.dimen.spacing_xs)),
+        modifier = modifier.padding(vertical = dimensionResource(R.dimen.spacing_extra_small)),
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold
     )
@@ -39,7 +39,7 @@ internal fun UiTitlePreview() {
             text = "Title Three",
             modifier = Modifier
                 .background(Color.White)
-                .padding(vertical = dimensionResource(R.dimen.spacing_s)),
+                .padding(vertical = dimensionResource(R.dimen.spacing_small)),
             color = Color.Black
         )
     }

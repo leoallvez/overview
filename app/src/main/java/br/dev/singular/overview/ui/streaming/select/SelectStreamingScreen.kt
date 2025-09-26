@@ -68,7 +68,7 @@ fun SelectStreamingScreen(
 ) {
     Scaffold(
         contentColor = PrimaryBackground,
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_m)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_medium)),
         topBar = {
             ToolBar {
                 tagClick(TagCommon.Detail.CLOSE)
@@ -98,7 +98,7 @@ fun StreamingGrid(
     data: StreamingData,
     onClick: (StreamingEntity) -> Unit
 ) {
-    val padding = dimensionResource(R.dimen.spacing_xs)
+    val padding = dimensionResource(R.dimen.spacing_extra_small)
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize().background(PrimaryBackground),
         columns = GridCells.Adaptive(minSize = 65.dp),
@@ -174,7 +174,7 @@ fun ToolBar(onBackstack: () -> Unit) {
             Box(
                 Modifier
                     .padding(
-                        horizontal = dimensionResource(R.dimen.spacing_xs)
+                        horizontal = dimensionResource(R.dimen.spacing_extra_small)
                     )
                     .clip(CircleShape)
                     .background(SecondaryBackground)
@@ -185,7 +185,7 @@ fun ToolBar(onBackstack: () -> Unit) {
                     painter = painterResource(id = R.drawable.ic_arrow_up),
                     contentDescription = stringResource(id = R.string.backstack_icon),
                     modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.spacing_xxl))
+                        .size(dimensionResource(id = R.dimen.spacing_extra_extra_large))
                         .border(1.dp, DarkGray, CircleShape)
                 )
             }

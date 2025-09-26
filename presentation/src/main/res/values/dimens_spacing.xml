@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="spacing_xs">5dp</dimen>   <!-- Extra Small (1x) -->
-    <dimen name="spacing_s">10dp</dimen>   <!-- Small (2x) -->
-    <dimen name="spacing_m">15dp</dimen>   <!-- Medium (3x) -->
-    <dimen name="spacing_l">20dp</dimen>   <!-- Large (4x) -->
-    <dimen name="spacing_xl">25dp</dimen>  <!-- Extra Large (5x) -->
-    <dimen name="spacing_xxl">30dp</dimen> <!-- Extra Extra Large (6x) -->
+    <dimen name="spacing_extra_small">5dp</dimen>   <!-- Extra Small (1x) -->
+    <dimen name="spacing_small">10dp</dimen>   <!-- Small (2x) -->
+    <dimen name="spacing_medium">15dp</dimen>   <!-- Medium (3x) -->
+    <dimen name="spacing_large">20dp</dimen>   <!-- Large (4x) -->
+    <dimen name="spacing_extra_large">25dp</dimen>  <!-- Extra Large (5x) -->
+    <dimen name="spacing_extra_extra_large">30dp</dimen> <!-- Extra Extra Large (6x) -->
 </resources>

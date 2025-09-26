@@ -130,7 +130,7 @@ fun PersonToolBar(
             person,
             modifier = Modifier
                 .size(300.dp)
-                .padding(dimensionResource(R.dimen.spacing_s))
+                .padding(dimensionResource(R.dimen.spacing_small))
                 .align(Alignment.Center)
         )
         ButtonWithIcon(
@@ -180,7 +180,7 @@ fun PersonDates(person: Person) {
             Row(
                 modifier = Modifier.padding(
                     vertical = 10.dp,
-                    horizontal = dimensionResource(R.dimen.spacing_s)
+                    horizontal = dimensionResource(R.dimen.spacing_small)
                 )
             ) {
                 SimpleSubtitle1(getFormattedBirthday())
@@ -196,7 +196,7 @@ fun PlaceOfBirth(placeOfBirth: String) {
     if (placeOfBirth.isNotEmpty()) {
         Column(
             modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.spacing_s)
+                horizontal = dimensionResource(R.dimen.spacing_small)
             )
         ) {
             SimpleSubtitle1(stringResource(R.string.place_of_birth), isBold = true)
@@ -242,7 +242,7 @@ fun ParticipationList(
 ) {
     UiMediaList(
         title = stringResource(listTitleRes),
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_s)),
+        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small)),
         items = medias.map { it.toUIModel() },
         onClick = { media ->
             TagMediaManager.logClick(TagPerson.PATH, media.id)

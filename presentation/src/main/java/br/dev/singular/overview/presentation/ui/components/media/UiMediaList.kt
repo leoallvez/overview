@@ -1,6 +1,5 @@
 package br.dev.singular.overview.presentation.ui.components.media
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -24,7 +23,7 @@ fun UiMediaList(
     onClick: (MediaUiModel) -> Unit = {}
 ) {
     if (items.isNotEmpty()) {
-        val spacingXS = dimensionResource(R.dimen.spacing_xs)
+        val spacingXS = dimensionResource(R.dimen.spacing_extra_small)
         Column(modifier = modifier.padding(vertical = spacingXS)) {
             UiTitle(title)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(spacingXS)) {

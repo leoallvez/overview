@@ -48,7 +48,7 @@ fun FavoritesScreen(
         containerColor = PrimaryBackground,
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_s)),
+            .padding(horizontal = dimensionResource(R.dimen.spacing_small)),
         topBar = {
             FavoritesToolBar()
         }
@@ -88,7 +88,7 @@ fun FavoritesToolBar() {
         modifier = Modifier
             .fillMaxWidth()
             .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.spacing_s))
+            .padding(bottom = dimensionResource(R.dimen.spacing_small))
     ) {
         ToolbarTitle(title = stringResource(id = R.string.favorites))
     }

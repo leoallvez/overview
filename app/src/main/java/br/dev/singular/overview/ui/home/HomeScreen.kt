@@ -150,7 +150,7 @@ fun HomeContent(
             contentColor = PrimaryBackground,
             modifier = Modifier
                 .background(PrimaryBackground)
-                .padding(horizontal = dimensionResource(R.dimen.spacing_s)),
+                .padding(horizontal = dimensionResource(R.dimen.spacing_small)),
             topBar = {
                 HomeToolBar(
                     filters = filters,
@@ -198,7 +198,7 @@ fun HomeToolBar(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(bottom = dimensionResource(R.dimen.spacing_s))
+            .padding(bottom = dimensionResource(R.dimen.spacing_small))
     ) {
         Row(
             modifier = Modifier.height(50.dp).padding(top = 10.dp),
@@ -216,7 +216,7 @@ fun HomeToolBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp)
-                .padding(horizontal = dimensionResource(R.dimen.spacing_xs)),
+                .padding(horizontal = dimensionResource(R.dimen.spacing_extra_small)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
@@ -272,7 +272,7 @@ fun SelectButton(
             Box(
                 Modifier
                     .padding(
-                        horizontal = dimensionResource(R.dimen.spacing_xs)
+                        horizontal = dimensionResource(R.dimen.spacing_extra_small)
                     )
                     .clip(CircleShape)
                     .background(SecondaryBackground)
@@ -282,7 +282,7 @@ fun SelectButton(
                     tint = color,
                     painter = icon,
                     contentDescription = "",
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_xxl))
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_extra_extra_large))
                 )
             }
         }
@@ -305,8 +305,8 @@ fun HomeScreamTitle(title: String?) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(
-                    horizontal = dimensionResource(R.dimen.spacing_s),
-                    vertical = dimensionResource(R.dimen.spacing_xs)
+                    horizontal = dimensionResource(R.dimen.spacing_small),
+                    vertical = dimensionResource(R.dimen.spacing_extra_small)
                 ).widthIn(max = 200.dp),
             overflow = TextOverflow.Ellipsis
         )
@@ -325,7 +325,7 @@ fun GenreFilterBottomSheet(
             .fillMaxWidth()
             .wrapContentHeight()
             .background(SecondaryBackground)
-            .padding(dimensionResource(R.dimen.spacing_m))
+            .padding(dimensionResource(R.dimen.spacing_medium))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -339,7 +339,7 @@ fun GenreFilterBottomSheet(
                 }
             )
         }
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_m)))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_medium)))
         FilterGenres(genres, filters) {
             if (filters.genreId == it.genreId) {
                 inFiltering.invoke(filters.copy(genreId = null))
@@ -348,7 +348,7 @@ fun GenreFilterBottomSheet(
                 closeAction.invoke()
             }
         }
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_m)))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_medium)))
     }
 }
 
@@ -467,7 +467,7 @@ fun FilterGenres(
     }
     Column {
         FlowRow(
-            crossAxisSpacing = dimensionResource(R.dimen.spacing_m),
+            crossAxisSpacing = dimensionResource(R.dimen.spacing_medium),
             modifier = Modifier.fillMaxWidth(),
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
