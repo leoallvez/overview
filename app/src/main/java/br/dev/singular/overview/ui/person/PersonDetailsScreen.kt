@@ -37,6 +37,7 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
+import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
 import br.dev.singular.overview.ui.ButtonWithIcon
@@ -44,12 +45,12 @@ import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.PartingEmDash
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
-import br.dev.singular.overview.ui.ScreenTitle
 import br.dev.singular.overview.ui.SimpleSubtitle1
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.model.toMediaType
-import br.dev.singular.overview.ui.model.toUIModel
+import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
+import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -162,7 +163,12 @@ fun PersonBody(
             .background(PrimaryBackground)
     ) {
         person.apply {
-            ScreenTitle(name)
+            UiTitle(
+                text = name,
+                modifier = Modifier
+                    .padding(start = dimensionResource(R.dimen.spacing_small)),
+                color = AccentColor
+            )
             PersonDates(person)
             PlaceOfBirth(birthPlace())
             BasicParagraph(R.string.biography, biography)
@@ -243,7 +249,7 @@ fun ParticipationList(
     UiMediaList(
         title = stringResource(listTitleRes),
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small)),
-        items = medias.map { it.toUIModel() },
+        items = medias.map { it.toUiModel() },
         onClick = { media ->
             TagMediaManager.logClick(TagPerson.PATH, media.id)
             onClickItem.invoke(media.id, media.type.toMediaType())

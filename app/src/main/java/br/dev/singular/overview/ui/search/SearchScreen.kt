@@ -54,7 +54,7 @@ import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
+import br.dev.singular.overview.ui.MediaGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
@@ -107,7 +107,7 @@ fun SearchScreen(
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(TagSearch.PATH)
                     is LoadState.NotLoading -> {
-                        MediaEntityPagingVerticalGrid(
+                        MediaGrid(
                             items = items,
                             tagPath = TagSearch.PATH,
                             onClick = { id: Long, type: String? ->

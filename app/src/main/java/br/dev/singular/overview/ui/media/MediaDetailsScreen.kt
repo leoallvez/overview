@@ -71,21 +71,24 @@ import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagMedia
+import br.dev.singular.overview.presentation.tagging.params.TagPerson
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
+import br.dev.singular.overview.presentation.ui.components.text.UiText
+import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.utils.border
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
-import br.dev.singular.overview.ui.BasicText
-import br.dev.singular.overview.ui.BasicTitle
 import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.ErrorScreen
-import br.dev.singular.overview.ui.MediaList
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.UiStateResult
-import br.dev.singular.overview.ui.border
+import br.dev.singular.overview.ui.model.toMediaType
+import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -202,7 +205,7 @@ fun MediaToolBar(
             )
             ToolbarTitle(
                 title = getLetter(),
-                textPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_small)),
+                textPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_medium)),
                 modifier = Modifier.align(Alignment.BottomStart)
             )
             Row(
@@ -276,13 +279,15 @@ fun MediaBody(
             tagClick(TagMedia.Detail.CAST, apiId)
             navigate.toPersonDetails(apiId = apiId)
         }
-        MediaList(
-            listTitle = stringResource(R.string.related),
-            medias = media.getSimilarMedia()
-        ) { apiId, mediaType ->
-            TagMediaManager.logClick(TagMedia.PATH, apiId)
-            navigate.toMediaDetails(apiId = apiId, mediaType = mediaType)
-        }
+        UiMediaList(
+            title = stringResource(R.string.related),
+            modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small)),
+            items = media.getSimilarMedia().map { it.toUiModel() },
+            onClick = {
+                TagMediaManager.logClick(TagPerson.PATH, it.id)
+                navigate.toMediaDetails(apiId = it.id, mediaType = it.type.toMediaType())
+            }
+        )
     }
 }
 
@@ -354,7 +359,10 @@ fun StreamingOverview(
     isReleased: Boolean,
     onClickItem: (StreamingEntity) -> Unit
 ) {
-    BasicTitle(title = stringResource(R.string.where_to_watch))
+    UiTitle(
+        stringResource(R.string.where_to_watch),
+        modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small))
+    )
     if (streaming.isNotEmpty()) {
         LazyRow(
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_small)),
@@ -456,12 +464,11 @@ fun GenreItem(name: String, onClick: () -> Unit) {
 @Composable
 fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
     if (cast.isNotEmpty()) {
-        Column {
-            BasicTitle(title = stringResource(R.string.cast))
+        Column(modifier = Modifier.padding(dimensionResource(R.dimen.spacing_small))) {
+            UiTitle(stringResource(R.string.cast))
             LazyRow(
-                contentPadding = PaddingValues(
-                    vertical = dimensionResource(R.dimen.spacing_small)
-                )
+                horizontalArrangement = Arrangement
+                    .spacedBy(dimensionResource(R.dimen.spacing_medium))
             ) {
                 items(cast) { castPerson ->
                     CastItem(castPerson = castPerson) {
@@ -476,7 +483,10 @@ fun CastList(cast: List<Person>, onClickItem: (Long) -> Unit) {
 @Composable
 fun VideoList(videos: List<Video>, onClick: (videoKey: String) -> Unit) {
     if (videos.isNotEmpty()) {
-        BasicTitle(title = stringResource(R.string.videos))
+        UiTitle(
+            stringResource(R.string.videos),
+            modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small))
+        )
         LazyRow {
             items(videos) { video ->
                 VideoItem(video = video) {
@@ -501,7 +511,7 @@ fun VideoItem(video: Video, onClick: (String) -> Unit) {
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
                 .clickable { onClick(video.key) }
                 .background(PrimaryBackground)
-                .then(Modifier.border(withBorder = true))
+                .then(Modifier.border())
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -546,14 +556,22 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
-        PersonImageCircle(castPerson, Modifier.border(1.dp, DarkGray, CircleShape))
-        BasicText(
+        PersonImageCircle(
+            castPerson, Modifier
+                .border(
+                dimensionResource(R.dimen.border_width),
+                DarkGray,
+                    CircleShape
+                )
+            )
+        UiText(
             text = castPerson.name,
-            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_extra_small)),
             isBold = true
         )
-        BasicText(
+        UiText(
             text = castPerson.getCharacterName(),
+            modifier = Modifier.width(100.dp),
             style = MaterialTheme.typography.bodySmall,
             color = AccentColor
         )
