@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.image
+package br.dev.singular.overview.presentation.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +19,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.utils.border
 
 @Composable
-fun BasicImage(
+internal fun UiImage(
     url: String,
     modifier: Modifier = Modifier,
     previewPainter: Painter? = null,
@@ -58,8 +58,8 @@ fun BasicImage(
 
 @Preview
 @Composable
-fun BasicImagePreview() {
-    BasicImage(
+internal fun UiImagePreview() {
+    UiImage(
         url = "https://imagens.com/movie.jpg",
         contentDescription = "Image description",
         previewPainter = painterResource(R.drawable.sample_poster)

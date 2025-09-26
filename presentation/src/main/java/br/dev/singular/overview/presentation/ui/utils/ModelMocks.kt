@@ -3,17 +3,17 @@ package br.dev.singular.overview.presentation.ui.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.model.MediaUIType
-import br.dev.singular.overview.presentation.model.MediaUIModel
+import br.dev.singular.overview.presentation.model.MediaUiType
+import br.dev.singular.overview.presentation.model.MediaUiModel
 
 @Composable
-internal fun getMediaMocks(): List<MediaUIModel> {
+internal fun getMediaMocks(): List<MediaUiModel> {
 
-    val model = MediaUIModel(
+    val model = MediaUiModel(
         id = 1,
         title = "The Equinox",
         posterURL = "https://imagens.com/movie.jpg",
-        type = MediaUIType.MOVIE,
+        type = MediaUiType.MOVIE,
         previewContent = painterResource(R.drawable.sample_poster)
     )
 

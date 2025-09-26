@@ -8,10 +8,10 @@ import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
-import br.dev.singular.overview.presentation.UIState
-import br.dev.singular.overview.presentation.model.MediaUIModel
-import br.dev.singular.overview.presentation.model.toUIMap
-import br.dev.singular.overview.presentation.ui.utils.toUiState
+import br.dev.singular.overview.presentation.UiState
+import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.ui.utils.mappers.toUiMap
+import br.dev.singular.overview.presentation.ui.utils.mappers.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-typealias SuggestionUIState = UIState<Map<String, List<MediaUIModel>>>
+typealias SuggestionUIState = UiState<Map<String, List<MediaUiModel>>>
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(
     private val _searchFilters = MutableStateFlow(SearchFilters())
     val searchFilters: StateFlow<SearchFilters> = _searchFilters
 
-    private val _suggestionsUIState = MutableStateFlow<SuggestionUIState>(UIState.Loading())
+    private val _suggestionsUIState = MutableStateFlow<SuggestionUIState>(UiState.Loading())
     val suggestionsUIState: StateFlow<SuggestionUIState> = _suggestionsUIState
 
     var mediasSearch: Flow<PagingData<MediaEntity>> = onLoadMediaSearching()
@@ -50,7 +50,7 @@ class SearchViewModel @Inject constructor(
             .flow.cachedIn(viewModelScope)
 
     private fun onLoadSuggestions() = viewModelScope.launch {
-        suggestionsUseCase.invoke().toUiState { it.toUIMap() }.let {
+        suggestionsUseCase.invoke().toUiState { it.toUiMap() }.let {
             _suggestionsUIState.value = it
         }
     }

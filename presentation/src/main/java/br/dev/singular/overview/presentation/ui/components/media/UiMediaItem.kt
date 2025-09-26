@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.media
+package br.dev.singular.overview.presentation.ui.components.media
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,16 +12,16 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.model.MediaUIModel
-import br.dev.singular.overview.presentation.ui.image.BasicImage
-import br.dev.singular.overview.presentation.ui.text.BasicText
+import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.ui.components.UiImage
+import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
 @Composable
-fun MediaItem(
-    model: MediaUIModel,
+internal fun UiMediaItem(
+    model: MediaUiModel,
     modifier: Modifier = Modifier,
-    onClick: (MediaUIModel) -> Unit = {}
+    onClick: (MediaUiModel) -> Unit = {}
 ) {
     val width = dimensionResource(R.dimen.poster_width)
     val height = dimensionResource(R.dimen.poster_height)
@@ -31,13 +31,13 @@ fun MediaItem(
             .clickable { onClick.invoke(model) }
             .semantics(mergeDescendants = true) {}
     ) {
-        BasicImage(
+        UiImage(
             url = model.posterURL,
             previewPainter = model.previewContent,
             withBorder = true,
             modifier = Modifier.size(width, height)
         )
-        BasicText(
+        UiText(
             text = model.title,
             modifier = Modifier
                 .width(width)
@@ -50,12 +50,12 @@ fun MediaItem(
 
 @Preview
 @Composable
-fun MediaPosterPreview() {
-    MediaItem(getMediaMocks().first())
+internal fun UiMediaItemPreview() {
+    UiMediaItem(getMediaMocks().first())
 }
 
 @Preview(name = "Long Title")
 @Composable
-fun MediaPosterWithLongTitlePreview() {
-    MediaItem(getMediaMocks().first { it.id == 2L })
+internal fun UiMediaWithLongTitlePreview() {
+    UiMediaItem(getMediaMocks().first { it.id == 2L })
 }

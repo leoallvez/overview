@@ -1,14 +1,14 @@
 package br.dev.singular.overview.ui.model
 
 import br.dev.singular.overview.data.model.media.Media
-import br.dev.singular.overview.presentation.model.MediaUIType
-import br.dev.singular.overview.presentation.model.MediaUIModel
+import br.dev.singular.overview.presentation.model.MediaUiType
+import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.data.source.media.MediaType
 
 //TODO: this file going to be delete in the future
 
-fun Media.toUIModel(): MediaUIModel {
-    return MediaUIModel(
+fun Media.toUIModel(): MediaUiModel {
+    return MediaUiModel(
         id = apiId,
         title = getLetter(),
         posterURL = getPosterImage(),
@@ -17,11 +17,11 @@ fun Media.toUIModel(): MediaUIModel {
 }
 
 fun String.MediaUIType() = when (this) {
-    MediaType.MOVIE.key -> MediaUIType.MOVIE
-    else -> MediaUIType.TV
+    MediaType.MOVIE.key -> MediaUiType.MOVIE
+    else -> MediaUiType.TV
 }
 
-fun MediaUIType.toMediaType() = when (this) {
-    MediaUIType.MOVIE -> MediaType.MOVIE.key
+fun MediaUiType.toMediaType() = when (this) {
+    MediaUiType.MOVIE -> MediaType.MOVIE.key
     else -> MediaType.TV_SHOW.key
 }

@@ -44,13 +44,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.UIState
-import br.dev.singular.overview.presentation.model.MediaUIModel
+import br.dev.singular.overview.presentation.UiState
+import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagSearch
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
-import br.dev.singular.overview.presentation.ui.media.HorizontalMediaList
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
@@ -156,12 +156,12 @@ fun SearchInitialScreen(
     onClick: MediaItemClick
 ) {
     when (suggestions) {
-        is UIState.Loading -> LoadingScreen(tagPath)
-        is UIState.Success -> {
+        is UiState.Loading -> LoadingScreen(tagPath)
+        is UiState.Success -> {
             TagScreenView(tagPath, TagStatus.SUCCESS)
             SuggestionsVerticalList(suggestions = suggestions.data, onClick = onClick)
         }
-        is UIState.Error -> {
+        is UiState.Error -> {
             TagScreenView(tagPath, TagStatus.ERROR)
             CenteredTextString(R.string.search_not_started)
         }
@@ -210,7 +210,7 @@ fun SearchIcon(modifier: Modifier = Modifier) {
 
 @Composable
 fun SuggestionsVerticalList(
-    suggestions: Map<String, List<MediaUIModel>>,
+    suggestions: Map<String, List<MediaUiModel>>,
     onClick: MediaItemClick
 ) {
     val context = LocalContext.current
@@ -221,7 +221,7 @@ fun SuggestionsVerticalList(
             .verticalScroll(rememberScrollState())
     ) {
         suggestions.forEach { (titleKey, mediaItems) ->
-            HorizontalMediaList(
+            UiMediaList(
                 title = context.getStringByName(titleKey).orEmpty(),
                 items = mediaItems,
                 onClick = { media -> onClick(media.id, media.type.toMediaType()) }

@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.text
+package br.dev.singular.overview.presentation.ui.components.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
 @Composable
-fun SectionTitle(
+fun UiTitle(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = DefaultTextColor
@@ -31,11 +31,11 @@ fun SectionTitle(
 
 @Preview
 @Composable
-fun SectionTitlePreview() {
+internal fun UiTitlePreview() {
     Column {
-        SectionTitle(text = "Title One")
-        SectionTitle(text = "Title Two", color = Color.Gray)
-        SectionTitle(
+        UiTitle(text = "Title One")
+        UiTitle(text = "Title Two", color = Color.Gray)
+        UiTitle(
             text = "Title Three",
             modifier = Modifier
                 .background(Color.White)

@@ -36,7 +36,7 @@ import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
-import br.dev.singular.overview.presentation.ui.media.HorizontalMediaList
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
 import br.dev.singular.overview.ui.ButtonWithIcon
@@ -240,7 +240,7 @@ fun ParticipationList(
     medias: List<Media>,
     onClickItem: MediaItemClick
 ) {
-    HorizontalMediaList(
+    UiMediaList(
         title = stringResource(listTitleRes),
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_s)),
         items = medias.map { it.toUIModel() },

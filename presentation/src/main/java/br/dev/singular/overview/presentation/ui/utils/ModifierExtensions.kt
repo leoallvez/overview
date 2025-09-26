@@ -1,5 +1,7 @@
 package br.dev.singular.overview.presentation.ui.utils
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -10,6 +12,8 @@ import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.theme.Background
+import br.dev.singular.overview.presentation.ui.theme.Surface
 
 @Composable
 fun Modifier.border(
@@ -23,3 +27,9 @@ fun Modifier.border(
         this
     }
 }
+
+@Composable
+fun Modifier.defaultBackground() = background(Background)
+
+@Composable
+fun Modifier.surfaceBackground() = background(Surface)

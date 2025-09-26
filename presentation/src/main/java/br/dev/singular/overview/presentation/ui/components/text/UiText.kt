@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.text
+package br.dev.singular.overview.presentation.ui.components.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
 @Composable
-fun BasicText(
+fun UiText(
     text: String,
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
@@ -39,12 +39,12 @@ fun BasicText(
 
 @Preview
 @Composable
-fun BasicTextPreview() {
+internal fun UiTextPreview() {
     Column {
-        BasicText(text = "Text One")
-        BasicText(text = "Text Two", isBold = true)
-        BasicText(text = "Text Three", color = Color.Gray)
-        BasicText(
+        UiText(text = "Text One")
+        UiText(text = "Text Two", isBold = true)
+        UiText(text = "Text Three", color = Color.Gray)
+        UiText(
             text = "Text Four",
             modifier = Modifier
                 .background(Color.White)
