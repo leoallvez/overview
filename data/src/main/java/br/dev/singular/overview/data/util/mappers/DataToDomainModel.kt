@@ -1,5 +1,8 @@
-package br.dev.singular.overview.data.model
+package br.dev.singular.overview.data.util.mappers
 
+import br.dev.singular.overview.data.model.MediaDataModel
+import br.dev.singular.overview.data.model.MediaDataType
+import br.dev.singular.overview.data.model.SuggestionDataModel
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Suggestion
@@ -19,7 +22,7 @@ fun SuggestionDataModel.toDomainModel() = Suggestion(
     isActive = isActive
 )
 
-private fun MediaDataType.toMediaDomainType() = when(this) {
+internal fun MediaDataType.toMediaDomainType() = when(this) {
     MediaDataType.MOVIE -> MediaType.MOVIE
     MediaDataType.TV -> MediaType.TV
     MediaDataType.ALL -> MediaType.ALL
