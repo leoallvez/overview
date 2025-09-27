@@ -19,7 +19,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.utils.border
 
 @Composable
-internal fun UiImage(
+fun UiImage(
     url: String,
     modifier: Modifier = Modifier,
     previewPainter: Painter? = null,

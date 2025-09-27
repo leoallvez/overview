@@ -23,7 +23,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagFavorites
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
+import br.dev.singular.overview.ui.MediaGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
@@ -64,7 +64,7 @@ fun FavoritesScreen(
                     is LoadState.Loading -> LoadingScreen(TagFavorites.PATH)
                     is LoadState.NotLoading -> {
                         if (items.itemCount > 0) {
-                            MediaEntityPagingVerticalGrid(
+                            MediaGrid(
                                 items = items,
                                 tagPath = TagFavorites.PATH,
                                 onClick = { id: Long, type: String? ->

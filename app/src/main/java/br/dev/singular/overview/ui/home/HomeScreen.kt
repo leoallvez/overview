@@ -68,7 +68,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaEntityPagingVerticalGrid
+import br.dev.singular.overview.ui.MediaGrid
 import br.dev.singular.overview.ui.MediaTypeFilterButton
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.StreamingIcon
@@ -167,7 +167,7 @@ fun HomeContent(
                     if (items.itemCount == 0) {
                         ErrorScreen(tagPath = TagHome.PATH, refresh = onRefresh)
                     } else {
-                        MediaEntityPagingVerticalGrid(
+                        MediaGrid(
                             items = items,
                             padding = padding,
                             tagPath = TagHome.PATH,

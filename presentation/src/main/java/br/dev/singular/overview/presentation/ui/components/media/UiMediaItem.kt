@@ -18,7 +18,7 @@ import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
 @Composable
-internal fun UiMediaItem(
+fun UiMediaItem(
     model: MediaUiModel,
     modifier: Modifier = Modifier,
     onClick: (MediaUiModel) -> Unit = {}

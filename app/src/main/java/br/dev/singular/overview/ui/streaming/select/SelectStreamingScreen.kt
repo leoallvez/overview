@@ -46,7 +46,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagStreaming
-import br.dev.singular.overview.ui.SimpleTitle
+import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -106,13 +106,13 @@ fun StreamingGrid(
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
         streamingSession(
-            top = { SimpleTitle(title = stringResource(R.string.main_steams)) },
+            top = { UiTitle(stringResource(R.string.main_steams)) },
             streamingEntities = data.mains,
             selectedId = data.selectedId,
             onClick = onClick
         )
         streamingSession(
-            top = { SimpleTitle(title = stringResource(R.string.other_streams)) },
+            top = { UiTitle(stringResource(R.string.other_streams)) },
             streamingEntities = data.others,
             selectedId = data.selectedId,
             onClick = onClick

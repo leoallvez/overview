@@ -4,14 +4,18 @@ package br.dev.singular.overview.ui
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,7 +29,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
@@ -41,17 +44,14 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -59,10 +59,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +68,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
@@ -80,6 +77,11 @@ import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.UiImage
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaItem
+import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.ui.model.toMediaType
+import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
@@ -103,37 +105,6 @@ fun GenreEntity.nameTranslation(): String {
 private val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
     current.getStringByName(resource = "genre_$apiId")
-}
-
-@Composable
-fun BasicTitle(title: String) {
-    Text(
-        text = title,
-        color = Color.White,
-        modifier = Modifier
-            .padding(
-                bottom = 5.dp,
-                top = 10.dp,
-                start = dimensionResource(R.dimen.spacing_small)
-            ),
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold
-    )
-}
-
-@Composable
-fun SimpleTitle(title: String, modifier: Modifier = Modifier) {
-    Text(
-        text = title,
-        color = Color.White,
-        modifier = modifier
-            .padding(
-                bottom = 5.dp,
-                top = 10.dp
-            ),
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold
-    )
 }
 
 @Composable
@@ -297,170 +268,6 @@ fun ButtonWithIcon(
     }
 }
 
-@Deprecated(
-    message = """
-        br.dev.singular.overview.ui.ScreenTitle is deprecated. 
-        Use br.dev.singular.overview.presentation.ui.text.SectionTitle
-        instead for better flexibility and design consistency.""",
-    level = DeprecationLevel.WARNING
-)
-@Composable
-fun ScreenTitle(text: String, modifier: Modifier = Modifier, maxLines: Int = Int.MAX_VALUE) {
-    Text(
-        text = text,
-        color = AccentColor,
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold,
-        modifier = modifier.padding(
-            horizontal = dimensionResource(R.dimen.spacing_extra_small),
-            vertical = dimensionResource(R.dimen.spacing_extra_small)
-        ),
-        maxLines = maxLines,
-        overflow = TextOverflow.Ellipsis
-    )
-}
-
-@Deprecated(
-    message = """
-        br.dev.singular.overview.ui.MediaList is deprecated. 
-        Use br.dev.singular.overview.presentation.ui.media.HorizontalMediaList 
-        instead for better flexibility and design consistency.""",
-    level = DeprecationLevel.WARNING
-)
-@Composable
-fun MediaList(
-    listTitle: String,
-    medias: List<Media>,
-    onClickItem: MediaItemClick
-) {
-    if (medias.isNotEmpty()) {
-        Column {
-            BasicTitle(listTitle)
-            LazyRow(
-                Modifier
-                    .padding(
-                        vertical = dimensionResource(R.dimen.spacing_small)
-                    ),
-                contentPadding = PaddingValues(
-                    horizontal = dimensionResource(R.dimen.spacing_extra_small)
-                )
-            ) {
-                items(medias.size) { index ->
-                    val media = medias[index]
-                    MediaItem(media, imageWithBorder = true) {
-                        onClickItem.invoke(media.apiId, media.getType())
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Deprecated(
-    message = """
-        br.dev.singular.overview.ui.MediaItem is deprecated. 
-        Use br.dev.singular.overview.presentation.ui.media.MediaItem
-        instead for better flexibility and design consistency.""",
-    level = DeprecationLevel.WARNING
-)
-@Composable
-fun MediaItem(mediaItem: Media, imageWithBorder: Boolean = false, onClick: () -> Unit) {
-    Column(Modifier.clickable { onClick.invoke() }) {
-        BasicImage(
-            url = mediaItem.getPosterImage(),
-            contentDescription = mediaItem.getLetter(),
-            withBorder = imageWithBorder
-        )
-        BasicText(
-            text = mediaItem.getLetter(),
-            style = MaterialTheme.typography.bodySmall,
-            isBold = true
-        )
-    }
-}
-
-@Deprecated(
-    message = """
-        br.dev.singular.overview.ui.image.BasicImage is deprecated. 
-        Use br.dev.singular.overview.presentation.ui.image.BasicImage
-        instead for better flexibility and design consistency.""",
-    level = DeprecationLevel.WARNING
-)
-@Composable
-fun BasicImage(
-    url: String,
-    contentDescription: String?,
-    modifier: Modifier = Modifier,
-    height: Dp = dimensionResource(R.dimen.poster_height),
-    contentScale: ContentScale = ContentScale.FillHeight,
-    placeholder: Painter = painterResource(R.drawable.placeholder),
-    errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
-    corner: Dp = dimensionResource(R.dimen.corner_width),
-    withBorder: Boolean = false
-) {
-    if (url.isNotEmpty()) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data = url)
-                .crossfade(true)
-                .build(),
-            modifier = modifier
-                .background(PrimaryBackground)
-                .fillMaxWidth()
-                .height(height)
-                .clip(RoundedCornerShape(corner))
-                .then(Modifier.border(withBorder)),
-            contentScale = contentScale,
-            placeholder = placeholder,
-            contentDescription = contentDescription,
-            error = errorDefaultImage
-        )
-    }
-}
-
-@Deprecated(
-    message = """
-        br.dev.singular.overview.ui.border is deprecated. 
-        Use br.dev.singular.overview.presentation.ui.utils.border
-        instead for better flexibility and design consistency.""",
-    level = DeprecationLevel.WARNING
-)
-@Composable
-fun Modifier.border(
-    withBorder: Boolean,
-    color: Color = DarkGray,
-    width: Dp = dimensionResource(R.dimen.border_width)
-): Modifier = composed {
-    if (withBorder) {
-        border(width, color, RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
-    } else {
-        this
-    }
-}
-
-@Deprecated(
-    message = """
-        br.dev.singular.overview.ui.border is deprecated. 
-        Use br.dev.singular.overview.presentation.ui.utils.border
-        instead for better flexibility and design consistency.""",
-    level = DeprecationLevel.WARNING
-)
-@Composable
-fun BasicText(text: String, style: TextStyle, color: Color = Color.White, isBold: Boolean = false) {
-    Text(
-        color = color,
-        text = text,
-        modifier = Modifier
-            .padding(top = 3.dp)
-            .width(dimensionResource(R.dimen.person_profiler_width)),
-        maxLines = 3,
-        overflow = TextOverflow.Ellipsis,
-        textAlign = TextAlign.Center,
-        fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
-        style = style
-    )
-}
-
 @Composable
 fun PartingPoint(display: Boolean = true) {
     SimpleSubtitle1(text = stringResource(R.string.separator), display = display)
@@ -539,14 +346,12 @@ fun <T> UiStateResult(
 }
 
 @Composable
-fun BasicParagraph(@StringRes paragraphTitle: Int, paragraph: String) {
+fun BasicParagraph(@StringRes title: Int, paragraph: String) {
     if (paragraph.isNotBlank()) {
         Column(
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.spacing_small)
-            )
+            modifier = Modifier.padding(dimensionResource(R.dimen.spacing_small))
         ) {
-            SimpleTitle(stringResource(paragraphTitle))
+            UiTitle(stringResource(title))
             BasicParagraph(paragraph)
         }
     }
@@ -565,20 +370,25 @@ fun BasicParagraph(paragraph: String) {
 
 @Composable
 fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
-    BasicImage(
+    UiImage(
         url = person.getProfileImage(),
         contentDescription = person.name,
         contentScale = ContentScale.Crop,
         modifier = modifier
             .size(120.dp)
-            .clip(CircleShape),
+            .clip(CircleShape)
+            .border(
+                dimensionResource(R.dimen.border_width),
+                DarkGray,
+                CircleShape
+            ),
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
 }
 
 @Composable
-fun MediaEntityPagingVerticalGrid(
+fun MediaGrid(
     padding: PaddingValues = PaddingValues(),
     tagPath: String,
     items: LazyPagingItems<MediaEntity>,
@@ -593,56 +403,13 @@ fun MediaEntityPagingVerticalGrid(
     ) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 128.dp)) {
             items(items.itemCount) { index ->
-                GridItemMediaEntity(
-                    media = items[index],
-                    onClick = {
-                        TagMediaManager.logClick(tagPath, it.apiId)
-                        onClick.invoke(it.apiId, it.type)
+                items[index]?.apply {
+                    UiMediaItem(toUiModel()) {
+                        TagMediaManager.logClick(tagPath, it.id)
+                        onClick.invoke(it.id, it.type.toMediaType())
                     }
-                )
+                }
             }
-        }
-    }
-}
-
-@Composable
-fun GridItemMediaEntity(media: MediaEntity?, onClick: (MediaEntity) -> Unit) {
-    media?.apply {
-        Column(
-            modifier = Modifier
-                .padding(2.dp)
-                .clickable { onClick(media) }
-        ) {
-            BasicImage(
-                url = getPosterImage(),
-                contentDescription = letter,
-                withBorder = true,
-                modifier = Modifier.padding(1.dp)
-            )
-            BasicText(
-                text = letter,
-                style = MaterialTheme.typography.bodySmall,
-                isBold = true
-            )
-        }
-    }
-}
-
-@Composable
-fun OfflineSnackBar(isNotOnline: Boolean, modifier: Modifier = Modifier) {
-    AnimatedVisibility(
-        visible = isNotOnline,
-        modifier = modifier
-    ) {
-        Snackbar(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(R.string.app_offline_msg),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
         }
     }
 }
@@ -663,11 +430,12 @@ fun ToolbarTitle(
                 )
             )
     ) {
-        ScreenTitle(
+        UiTitle(
             text = title,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(textPadding)
+                .padding(textPadding),
+            color = AccentColor
         )
     }
 }
@@ -682,7 +450,7 @@ fun StreamingIcon(
     onClick: (() -> Unit)? = null
 ) {
     streaming?.let {
-        BasicImage(
+        UiImage(
             corner = corner,
             url = streaming.getLogoImage(),
             contentDescription = streaming.name,
