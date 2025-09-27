@@ -13,7 +13,7 @@ fun Media.toUiModel(): MediaUiModel {
         id = apiId,
         title = getLetter(),
         posterURL = getPosterImage(),
-        type = getType().MediaUiType()
+        type = getType().toMediaUiType()
     )
 }
 
@@ -22,11 +22,11 @@ fun MediaEntity.toUiModel(): MediaUiModel {
         id = apiId,
         title = letter,
         posterURL = getPosterImage(),
-        type = type.MediaUiType()
+        type = type.toMediaUiType()
     )
 }
 
-fun String.MediaUiType() = when (this) {
+fun String.toMediaUiType() = when (this) {
     MediaType.MOVIE.key -> MediaUiType.MOVIE
     else -> MediaUiType.TV
 }
