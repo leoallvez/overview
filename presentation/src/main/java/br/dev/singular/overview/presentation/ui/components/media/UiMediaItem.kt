@@ -41,14 +41,14 @@ fun UiMediaItem(
             text = model.title,
             modifier = Modifier
                 .width(width)
-                .padding(top = dimensionResource(R.dimen.spacing_extra_small)),
+                .padding(vertical = dimensionResource(R.dimen.spacing_extra_small)),
             style = MaterialTheme.typography.bodySmall,
             isBold = true
         )
     }
 }
 
-@Preview
+@Preview(name = "Short Title")
 @Composable
 internal fun UiMediaItemPreview() {
     UiMediaItem(getMediaMocks().first())
@@ -57,5 +57,5 @@ internal fun UiMediaItemPreview() {
 @Preview(name = "Long Title")
 @Composable
 internal fun UiMediaWithLongTitlePreview() {
-    UiMediaItem(getMediaMocks().first { it.id == 2L })
+    UiMediaItem(getMediaMocks().first { it.title.length > 20 })
 }

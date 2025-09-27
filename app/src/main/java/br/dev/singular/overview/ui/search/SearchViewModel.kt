@@ -12,6 +12,7 @@ import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.utils.mappers.toUiMap
 import br.dev.singular.overview.presentation.ui.utils.mappers.toUiState
+import br.dev.singular.overview.ui.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,12 +38,12 @@ class SearchViewModel @Inject constructor(
     private val _suggestionsUIState = MutableStateFlow<SuggestionUIState>(UiState.Loading())
     val suggestionsUIState: StateFlow<SuggestionUIState> = _suggestionsUIState
 
-    var mediasSearch: Flow<PagingData<MediaEntity>> = onLoadMediaSearching()
+    var mediasSearch: Flow<PagingData<MediaUiModel>> = onLoadMediaSearching().toUiModel()
         private set
 
     fun onSearching(filters: SearchFilters) {
         _searchFilters.value = filters
-        mediasSearch = onLoadMediaSearching()
+        mediasSearch = onLoadMediaSearching().toUiModel()
     }
 
     private fun onLoadMediaSearching() =

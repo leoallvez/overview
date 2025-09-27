@@ -59,6 +59,10 @@ dependencies {
     api(platform(libs.firebase.bom))
     api(libs.firebase.analytics)
 
+    // Paging
+    api(libs.paging.runtime.ktx)
+    api(libs.paging.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

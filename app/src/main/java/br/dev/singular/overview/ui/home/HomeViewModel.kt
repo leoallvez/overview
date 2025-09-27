@@ -8,11 +8,12 @@ import br.dev.singular.overview.data.local.source.CacheDataSource
 import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_FILTER_CACHE
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.di.IoDispatcher
+import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,7 +49,7 @@ class HomeViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<GenreEntity>>(listOf())
     val genres: StateFlow<List<GenreEntity>> = _genres
 
-    var medias: Flow<PagingData<MediaEntity>> = emptyFlow()
+    var medias: Flow<PagingData<MediaUiModel>> = emptyFlow()
         private set
 
     fun updateData(filters: SearchFilters) = viewModelScope.launch(_dispatcher) {
@@ -67,7 +68,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadMediaPaging() {
-        medias = _mediaRepository.getPaging(searchFilters.value).flow.cachedIn(viewModelScope)
+        medias = _mediaRepository
+            .getPaging(searchFilters.value).flow.cachedIn(viewModelScope).toUiModel()
     }
 
     private suspend fun loadGenres() {

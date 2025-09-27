@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.local.interfaces.IMediaEntityPagingRepository
 import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.ui.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,7 @@ class FavoritesViewModel @Inject constructor(
     private val _mediaType = MutableStateFlow(MediaType.ALL)
     val mediaType: StateFlow<MediaType> = _mediaType
 
-    var medias: Flow<PagingData<MediaEntity>> = loadMediaPaging()
+    var medias:  Flow<PagingData<MediaUiModel>> = loadMediaPaging()
         private set
 
     fun updateType(type: MediaType) {
@@ -30,5 +31,8 @@ class FavoritesViewModel @Inject constructor(
     }
 
     private fun loadMediaPaging() =
-        _repository.getLikedPaging(mediaType.value).flow.cachedIn(viewModelScope)
+        _repository.getLikedPaging(mediaType.value)
+            .flow.cachedIn(viewModelScope)
+            .toUiModel()
+
 }

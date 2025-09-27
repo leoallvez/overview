@@ -1,16 +1,5 @@
 package br.dev.singular.overview.ui
 
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -29,8 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -66,22 +53,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
-import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiImage
-import br.dev.singular.overview.presentation.ui.components.media.UiMediaItem
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
-import br.dev.singular.overview.ui.model.toMediaType
-import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.AlertColor
@@ -89,7 +70,6 @@ import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
-import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
 import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
@@ -385,33 +365,6 @@ fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
         placeholder = painterResource(R.drawable.avatar),
         errorDefaultImage = painterResource(R.drawable.avatar)
     )
-}
-
-@Composable
-fun MediaGrid(
-    padding: PaddingValues = PaddingValues(),
-    tagPath: String,
-    items: LazyPagingItems<MediaEntity>,
-    onClick: MediaItemClick
-) {
-    TagScreenView(tagPath, TagStatus.SUCCESS)
-    Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(top = padding.calculateTopPadding())
-            .fillMaxSize()
-    ) {
-        LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 128.dp)) {
-            items(items.itemCount) { index ->
-                items[index]?.apply {
-                    UiMediaItem(toUiModel()) {
-                        TagMediaManager.logClick(tagPath, it.id)
-                        onClick.invoke(it.id, it.type.toMediaType())
-                    }
-                }
-            }
-        }
-    }
 }
 
 @Composable

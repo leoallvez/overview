@@ -3,53 +3,35 @@ package br.dev.singular.overview.presentation.ui.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.model.MediaUiType
+
+
+private const val BASE_TITLE = "The Equinox"
+private const val LONG_TITLE = "The Equinox: Warriors Against the Infinite Swarm from the Dark Expanse"
 
 @Composable
-internal fun getMediaMocks(): List<MediaUiModel> {
+internal fun getMediaMocks(count: Int = 10): List<MediaUiModel> {
 
-    val model = MediaUiModel(
-        id = 1,
-        title = "The Equinox",
+    val baseModel = MediaUiModel(
+        id = 0,
+        title = BASE_TITLE,
         posterURL = "https://imagens.com/movie.jpg",
         type = MediaUiType.MOVIE,
         previewContent = painterResource(R.drawable.sample_poster)
     )
 
-    return listOf(
-        model.copy(
-            id = 1,
-            title = "The Equinox 1"
-        ),
-        model.copy(
-            id = 2,
-            title = "The Equinox: Warriors Against the Infinite Swarm from the Dark Expanse"
-        ),
-        model.copy(
-            id = 3,
-            title = "The Equinox 3"
-        ),
-        model.copy(
-            id = 4,
-            title = "The Equinox 4"
-        ),
-        model.copy(
-            id = 5,
-            title = "The Equinox 5"
-        ),
-        model.copy(
-            id = 6,
-            title = "The Equinox 6"
-        ),
-        model.copy(
-            id = 7,
-            title = "The Equinox 7"
-        ),
-        model.copy(
-            id = 8,
-            title = "The Equinox 8"
-        ),
-    )
+    return buildList {
+        repeat(count) { index ->
+            val title = if (index % 2 == 1) LONG_TITLE else "$BASE_TITLE ${index + 1}"
+            add(
+                baseModel.copy(
+                    id = index.toLong(),
+                    title = title
+                )
+            )
+        }
+    }
 }
+
 
