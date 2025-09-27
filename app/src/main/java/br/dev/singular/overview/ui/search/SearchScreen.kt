@@ -40,7 +40,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction.Companion
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.presentation.R
@@ -66,6 +65,7 @@ import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagSearch.PATH, detail, id)

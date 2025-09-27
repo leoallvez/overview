@@ -39,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.presentation.R
@@ -57,6 +56,7 @@ import br.dev.singular.overview.util.animatedBorder
 import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 private fun tagClick(detail: String, id: Long = 0L) =
     TagManager.logClick(TagStreaming.PATH, detail, id)

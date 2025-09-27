@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.presentation.R
@@ -56,6 +55,7 @@ import br.dev.singular.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
 fun PersonDetailsScreen(
