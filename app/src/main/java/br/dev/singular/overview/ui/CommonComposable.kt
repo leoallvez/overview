@@ -1,7 +1,6 @@
 package br.dev.singular.overview.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +28,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -42,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -56,7 +52,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
@@ -412,81 +407,6 @@ fun StreamingIcon(
                 .size(size)
                 .onClick(action = onClick)
         )
-    }
-}
-
-@Composable
-fun MediaTypeSelector(selectedKey: String, onClick: (MediaType) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_extra_small))
-    ) {
-        val options = MediaType.getAllOrdered()
-        options.forEach { mediaType ->
-            MediaTypeFilterButton(mediaType, selectedKey) {
-                onClick.invoke(mediaType)
-            }
-        }
-    }
-}
-
-@Composable
-fun MediaTypeFilterButton(
-    mediaType: MediaType,
-    selectedKey: String,
-    onClick: () -> Unit
-) {
-    val isActivated = selectedKey == mediaType.key
-    val focusManager = LocalFocusManager.current
-
-    FilterButton(
-        onClick = {
-            onClick.invoke()
-            focusManager.clearFocus()
-        },
-        isActivated = isActivated,
-        backgroundColor = SecondaryBackground,
-        buttonText = stringResource(mediaType.labelRes)
-    )
-}
-
-@Composable
-fun FilterButton(
-    buttonText: String?,
-    isActivated: Boolean = false,
-    colorActivated: Color = AccentColor,
-    backgroundColor: Color = PrimaryBackground,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = dimensionResource(R.dimen.spacing_extra_small)
-    ),
-    complement: @Composable () -> Unit = {},
-    onClick: () -> Unit
-) {
-    val color = if (isActivated) colorActivated else Gray
-    OutlinedButton(
-        onClick = { onClick.invoke() },
-        shape = RoundedCornerShape(percent = 100),
-        contentPadding = contentPadding,
-        modifier = Modifier
-            .height(30.dp)
-            .padding(PaddingValues(end = dimensionResource(R.dimen.spacing_small))),
-        border = BorderStroke(dimensionResource(R.dimen.border_width), color),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor
-        )
-    ) {
-        buttonText?.let {
-            Text(
-                text = it,
-                color = color,
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = if (isActivated) FontWeight.Bold else FontWeight.Normal,
-                modifier = Modifier.padding(5.dp)
-            )
-        }
-        complement()
     }
 }
 

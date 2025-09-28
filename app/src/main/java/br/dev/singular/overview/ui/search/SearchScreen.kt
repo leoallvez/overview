@@ -53,7 +53,6 @@ import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.ToolbarTitle
@@ -63,7 +62,11 @@ import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.getStringByName
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.model.MediaUiType
+import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagSearch.PATH, detail, id)
@@ -95,9 +98,10 @@ fun SearchScreen(
                 .padding(top = padding.calculateTopPadding())
         ) {
             if (items.itemCount > 0 || filters.query.isNotEmpty()) {
-                MediaTypeSelector(filters.mediaType.key) { type ->
-                    tagClick("${TagMediaManager.Detail.SELECT_MEDIA_TYPE}${type.key}")
-                    viewModel.onSearching(filters.copy(mediaType = type))
+                UiMediaTypeSelector(type = MediaUiType.getByName(name = filters.mediaType.key)) {
+                    val newType = MediaType.getByKey(it.name.lowercase())
+                    tagClick("${SELECT_MEDIA_TYPE}${newType.key}")
+                    viewModel.onSearching(filters.copy(mediaType = newType))
                 }
             }
             DefaultVerticalSpace()

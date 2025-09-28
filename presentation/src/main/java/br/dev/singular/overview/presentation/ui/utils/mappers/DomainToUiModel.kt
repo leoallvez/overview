@@ -20,8 +20,7 @@ fun Media.toUiModel() = MediaUiModel(
 internal fun MediaType.toMediaUiType() = when(this) {
     MediaType.MOVIE -> MediaUiType.MOVIE
     MediaType.TV -> MediaUiType.TV
-    MediaType.ALL -> MediaUiType.ALL
-    else -> MediaUiType.UNKNOWN
+    else -> MediaUiType.ALL
 }
 
 private fun buildImageFullURL(path: String) = "${BuildConfig.IMG_URL}$path}"

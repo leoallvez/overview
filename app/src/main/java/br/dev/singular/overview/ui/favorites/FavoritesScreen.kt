@@ -17,14 +17,16 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 import br.dev.singular.overview.presentation.tagging.params.TagFavorites
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.ToolbarTitle
@@ -54,8 +56,9 @@ fun FavoritesScreen(
         }
     ) { padding ->
         Column(Modifier.padding(top = padding.calculateTopPadding())) {
-            MediaTypeSelector(type.key) { newType ->
-                tagClick("${TagMediaManager.Detail.SELECT_MEDIA_TYPE}${newType.key}")
+            UiMediaTypeSelector(type = MediaUiType.getByName(name = type.key)) {
+                val newType = MediaType.getByKey(it.name.lowercase())
+                tagClick("${SELECT_MEDIA_TYPE}${newType.key}")
                 viewModel.updateType(newType)
             }
             DefaultVerticalSpace()

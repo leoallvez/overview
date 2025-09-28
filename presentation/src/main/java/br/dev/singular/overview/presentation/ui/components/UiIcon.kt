@@ -20,21 +20,29 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
 
 @Composable
-fun UiIcon(icon: ImageVector, color: Color = HighlightColor) {
+fun UiIcon(
+    icon: ImageVector,
+    contentDescription: String? = null,
+    color: Color = HighlightColor
+) {
     Icon(
         tint = color,
         imageVector = icon,
-        contentDescription = null,
+        contentDescription = contentDescription,
         modifier = Modifier.size(dimensionResource(R.dimen.spacing_large))
     )
 }
 
 @Composable
-fun UiIcon(icon: Painter, color: Color = HighlightColor) {
+fun UiIcon(
+    icon: Painter,
+    contentDescription: String? = null,
+    color: Color = HighlightColor
+) {
     Icon(
         tint = color,
         painter = icon,
-        contentDescription = null,
+        contentDescription = contentDescription,
         modifier = Modifier.size(dimensionResource(R.dimen.spacing_large))
     )
 }
