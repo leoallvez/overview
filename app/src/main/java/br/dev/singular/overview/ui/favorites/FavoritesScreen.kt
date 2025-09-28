@@ -28,7 +28,6 @@ import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.ToolbarTitle
-import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.search.CenteredTextString
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -70,7 +69,7 @@ fun FavoritesScreen(
                                 items = items,
                                 onClick = {
                                     TagMediaManager.logClick(TagFavorites.PATH, it.id)
-                                    navigate.toMediaDetails(it.id, it.type.toMediaType())
+                                    navigate.toMediaDetails(it)
                                 }
                             )
                         } else {

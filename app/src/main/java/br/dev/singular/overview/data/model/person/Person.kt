@@ -4,6 +4,7 @@ import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
+import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.util.DateHelper
 import com.squareup.moshi.Json
 
@@ -28,8 +29,8 @@ data class Person(
     private val movies: MediaCredits<Movie> = MediaCredits()
 ) {
     fun getProfileImage() = "${BuildConfig.IMG_URL}/$profilePath"
-    fun getFilmography() = movies.items
-    fun getTvShows() = tvShows.items
+    fun getFilmography() = movies.items.map { it.toUiModel() }
+    fun getTvShows() = tvShows.items.map { it.toUiModel() }
     fun getFormattedBirthday() = DateHelper(birthday).formattedDate()
     fun getFormattedDeathDay() = DateHelper(deathDay).formattedDate()
     fun birthPlace() = placeOfBirth ?: ""

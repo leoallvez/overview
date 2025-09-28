@@ -16,8 +16,6 @@ import okio.IOException
 import timber.log.Timber
 import java.lang.reflect.Type
 
-typealias MediaItemClick = (apiId: Long, mediaType: String?) -> Unit
-
 inline fun <reified T> String?.fromJson(): T? = try {
     if (this != null) {
         val moshi = Moshi.Builder().build()

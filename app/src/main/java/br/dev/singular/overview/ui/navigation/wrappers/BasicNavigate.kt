@@ -1,18 +1,17 @@
 package br.dev.singular.overview.ui.navigation.wrappers
 
 import androidx.navigation.NavController
+import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.ui.ScreenNav
 
 open class BasicNavigate(private val nav: NavController) {
 
-    // TODO: remove long press parameter.
-    fun toMediaDetails(apiId: Long, mediaType: String?) {
-        nav.navigate(ScreenNav.MediaDetails.editRoute(apiId, mediaType))
+    fun toMediaDetails(media: MediaUiModel) = media.apply {
+        nav.navigate(ScreenNav.MediaDetails.editRoute(id, type.name.lowercase()))
     }
+
     fun popBackStack() = nav.popBackStack()
 
-    // TODO: user this with long press.
-    // https://stackoverflow.com/questions/76395349/jetpack-compose-android-button-detect-long-click
     fun toHome() {
         nav.navigate(route = ScreenNav.Home.route) {
             popUpTo(ScreenNav.Splash.route) {

@@ -1,5 +1,6 @@
 package br.dev.singular.overview.data.model.media
 
+import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.util.DateHelper
 import com.squareup.moshi.Json
 
@@ -24,7 +25,7 @@ data class TvShow(
     private val similar: Similar<TvShow> = Similar()
 ) : Media() {
 
-    override fun getSimilarMedia() = similar.results
+    override fun getSimilarMedia() = similar.results.map { it.toUiModel() }
 
     override fun getRuntime() = runtimeTemplate(runtime = episodeRuntime.average().toInt())
 

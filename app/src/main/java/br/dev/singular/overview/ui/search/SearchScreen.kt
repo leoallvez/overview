@@ -57,15 +57,12 @@ import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.ToolbarTitle
-import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
-import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 
 private fun tagClick(detail: String, id: Long = 0L) {
@@ -113,7 +110,7 @@ fun SearchScreen(
                             items = items,
                             onClick = {
                                 TagMediaManager.logClick(TagSearch.PATH, it.id)
-                                navigate.toMediaDetails(it.id, it.type.toMediaType())
+                                navigate.toMediaDetails(it)
                             }
                         )
                     }
@@ -124,9 +121,9 @@ fun SearchScreen(
                             SearchInitialScreen(
                                 suggestions = suggestionsUIState,
                                 tagPath = TagSearch.PATH,
-                                onClick = { id: Long, type: String? ->
-                                    TagMediaManager.logClick(TagSearch.PATH_SUGGESTIONS, id)
-                                    navigate.toMediaDetails(id, type)
+                                onClick = {
+                                    TagMediaManager.logClick(TagSearch.PATH_SUGGESTIONS, it.id)
+                                    navigate.toMediaDetails(it)
                                 }
                             )
                         }
@@ -155,7 +152,7 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
 fun SearchInitialScreen(
     suggestions: SuggestionUIState,
     tagPath: String,
-    onClick: MediaItemClick
+    onClick: (MediaUiModel) -> Unit
 ) {
     when (suggestions) {
         is UiState.Loading -> LoadingScreen(tagPath)
@@ -213,7 +210,7 @@ fun SearchIcon(modifier: Modifier = Modifier) {
 @Composable
 fun SuggestionsVerticalList(
     suggestions: Map<String, List<MediaUiModel>>,
-    onClick: MediaItemClick
+    onClick: (MediaUiModel) -> Unit
 ) {
     val context = LocalContext.current
     Column(
@@ -226,7 +223,7 @@ fun SuggestionsVerticalList(
             UiMediaList(
                 title = context.getStringByName(titleKey).orEmpty(),
                 items = mediaItems,
-                onClick = { media -> onClick(media.id, media.type.toMediaType()) }
+                onClick = onClick
             )
         }
     }

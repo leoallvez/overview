@@ -86,8 +86,6 @@ import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.UiStateResult
-import br.dev.singular.overview.ui.model.toMediaType
-import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -282,10 +280,10 @@ fun MediaBody(
         UiMediaList(
             title = stringResource(R.string.related),
             modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small)),
-            items = media.getSimilarMedia().map { it.toUiModel() },
+            items = media.getSimilarMedia(),
             onClick = {
                 TagMediaManager.logClick(TagPerson.PATH, it.id)
-                navigate.toMediaDetails(apiId = it.id, mediaType = it.type.toMediaType())
+                navigate.toMediaDetails(it)
             }
         )
     }

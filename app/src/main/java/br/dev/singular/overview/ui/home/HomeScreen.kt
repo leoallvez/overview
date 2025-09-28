@@ -74,7 +74,6 @@ import br.dev.singular.overview.ui.MediaTypeFilterButton
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.TagScreenView
-import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -179,7 +178,7 @@ fun HomeContent(
                                 .fillMaxSize(),
                             onClick = {
                                 TagMediaManager.logClick(TagHome.PATH, it.id)
-                                navigate.toMediaDetails(it.id, it.type.toMediaType())
+                                navigate.toMediaDetails(it)
                             }
                         )
                     }

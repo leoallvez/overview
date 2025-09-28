@@ -1,14 +1,11 @@
 package br.dev.singular.overview.ui.model
 
-import androidx.compose.runtime.Composable
 import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.MediaEntity
-import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.data.source.media.MediaType
+import br.dev.singular.overview.presentation.model.MediaUiType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,7 +16,7 @@ fun Media.toUiModel(): MediaUiModel {
         id = apiId,
         title = getLetter(),
         posterURL = getPosterImage(),
-        type = getType().toMediaUiType()
+        type = MediaUiType.getByName(getType())
     )
 }
 
@@ -28,19 +25,9 @@ fun MediaEntity.toUiModel(): MediaUiModel {
         id = apiId,
         title = letter,
         posterURL = getPosterImage(),
-        type = type.toMediaUiType()
+        type = MediaUiType.getByName(type)
     )
 }
 
 fun Flow<PagingData<MediaEntity>>.toUiModel() =
     map { pagingData -> pagingData.map { it.toUiModel() } }
-
-fun String.toMediaUiType() = when (this) {
-    MediaType.MOVIE.key -> MediaUiType.MOVIE
-    else -> MediaUiType.TV
-}
-
-fun MediaUiType.toMediaType() = when (this) {
-    MediaUiType.MOVIE -> MediaType.MOVIE.key
-    else -> MediaType.TV_SHOW.key
-}

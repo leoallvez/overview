@@ -46,16 +46,14 @@ import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.SimpleSubtitle1
 import br.dev.singular.overview.ui.UiStateResult
-import br.dev.singular.overview.ui.model.toMediaType
-import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
-import br.dev.singular.overview.util.MediaItemClick
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import br.dev.singular.overview.presentation.model.MediaUiModel
 
 @Composable
 fun PersonDetailsScreen(
@@ -91,7 +89,7 @@ fun PersonDetailsContent(
     onRefresh: () -> Unit,
     onBackstackClick: () -> Unit,
     onBackstackLongClick: () -> Unit,
-    onNavigateToMediaDetails: MediaItemClick
+    onNavigateToMediaDetails: (MediaUiModel) -> Unit
 ) {
     if (person == null) {
         ErrorScreen(TagPerson.PATH) { onRefresh.invoke() }
@@ -154,7 +152,7 @@ fun PersonToolBar(
 fun PersonBody(
     person: Person,
     showAds: Boolean,
-    onClickItem: MediaItemClick
+    onClickItem: (MediaUiModel) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -243,16 +241,16 @@ fun PersonSpace() {
 @Composable
 fun ParticipationList(
     @StringRes listTitleRes: Int,
-    medias: List<Media>,
-    onClickItem: MediaItemClick
+    medias: List<MediaUiModel>,
+    onClickItem: (MediaUiModel) -> Unit
 ) {
     UiMediaList(
         title = stringResource(listTitleRes),
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small)),
-        items = medias.map { it.toUiModel() },
-        onClick = { media ->
-            TagMediaManager.logClick(TagPerson.PATH, media.id)
-            onClickItem.invoke(media.id, media.type.toMediaType())
+        items = medias,
+        onClick = {
+            TagMediaManager.logClick(TagPerson.PATH, it.id)
+            onClickItem.invoke(it)
         },
     )
 }
