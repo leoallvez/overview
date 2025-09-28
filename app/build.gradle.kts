@@ -131,10 +131,6 @@ dependencies {
     // Room
     ksp(libs.room.compiler)
 
-    // Paging
-    implementation(libs.paging.runtime.ktx)
-    implementation(libs.paging.compose)
-
     // WorkManager
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)

@@ -53,7 +53,6 @@ import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
@@ -66,6 +65,8 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.MediaItemClick
 import br.dev.singular.overview.util.getStringByName
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import br.dev.singular.overview.presentation.tagging.params.TagHome
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagSearch.PATH, detail, id)
@@ -107,11 +108,12 @@ fun SearchScreen(
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(TagSearch.PATH)
                     is LoadState.NotLoading -> {
-                        MediaGrid(
+                        TagScreenView(TagSearch.PATH, TagStatus.SUCCESS)
+                        UiMediaGrid(
                             items = items,
-                            tagPath = TagSearch.PATH,
-                            onClick = { id: Long, type: String? ->
-                                navigate.toMediaDetails(id, type)
+                            onClick = {
+                                TagMediaManager.logClick(TagSearch.PATH, it.id)
+                                navigate.toMediaDetails(it.id, it.type.toMediaType())
                             }
                         )
                     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="poster_height">200.dp</dimen>
-    <dimen name="poster_width">130.dp</dimen>
+    <dimen name="poster_height">200dp</dimen>
+    <dimen name="poster_width">128dp</dimen>
     <dimen name="person_profiler_width">140dp</dimen>
 </resources>

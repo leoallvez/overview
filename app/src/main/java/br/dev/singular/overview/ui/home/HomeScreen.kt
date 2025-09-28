@@ -1,5 +1,8 @@
 package br.dev.singular.overview.ui.home
 
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
@@ -22,13 +25,10 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetLayout
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,26 +51,30 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagHome
+import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaGrid
 import br.dev.singular.overview.ui.MediaTypeFilterButton
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.StreamingIcon
+import br.dev.singular.overview.ui.TagScreenView
+import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -82,7 +86,6 @@ import br.dev.singular.overview.util.defaultBorder
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagHome.PATH, detail, id)
@@ -109,7 +112,7 @@ fun HomeContent(
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
     navigate: HomeNavigate,
-    items: LazyPagingItems<MediaEntity>,
+    items: LazyPagingItems<MediaUiModel>,
     inFiltering: (SearchFilters) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -167,11 +170,17 @@ fun HomeContent(
                     if (items.itemCount == 0) {
                         ErrorScreen(tagPath = TagHome.PATH, refresh = onRefresh)
                     } else {
-                        MediaGrid(
+                        TagScreenView(TagHome.PATH, TagStatus.SUCCESS)
+                        UiMediaGrid(
                             items = items,
-                            padding = padding,
-                            tagPath = TagHome.PATH,
-                            onClick = navigate::toMediaDetails
+                            modifier = Modifier
+                                .background(PrimaryBackground)
+                                .padding(top = padding.calculateTopPadding())
+                                .fillMaxSize(),
+                            onClick = {
+                                TagMediaManager.logClick(TagHome.PATH, it.id)
+                                navigate.toMediaDetails(it.id, it.type.toMediaType())
+                            }
                         )
                     }
                 }

@@ -21,13 +21,14 @@ import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagFavorites
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaGrid
 import br.dev.singular.overview.ui.MediaTypeSelector
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.ToolbarTitle
+import br.dev.singular.overview.ui.model.toMediaType
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.search.CenteredTextString
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -64,11 +65,12 @@ fun FavoritesScreen(
                     is LoadState.Loading -> LoadingScreen(TagFavorites.PATH)
                     is LoadState.NotLoading -> {
                         if (items.itemCount > 0) {
-                            MediaGrid(
+                            TagScreenView(TagFavorites.PATH, TagStatus.SUCCESS)
+                            UiMediaGrid(
                                 items = items,
-                                tagPath = TagFavorites.PATH,
-                                onClick = { id: Long, type: String? ->
-                                    navigate.toMediaDetails(id, type)
+                                onClick = {
+                                    TagMediaManager.logClick(TagFavorites.PATH, it.id)
+                                    navigate.toMediaDetails(it.id, it.type.toMediaType())
                                 }
                             )
                         } else {
