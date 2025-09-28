@@ -220,7 +220,6 @@ fun SuggestionsVerticalList(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = dimensionResource(R.dimen.spacing_extra_small))
             .verticalScroll(rememberScrollState())
     ) {
         suggestions.forEach { (titleKey, mediaItems) ->
@@ -237,7 +236,7 @@ fun SuggestionsVerticalList(
 fun SearchField(onSearch: (String) -> Unit) {
 
     var query by rememberSaveable { mutableStateOf("") }
-    Box(modifier = Modifier.background(PrimaryBackground).padding(horizontal = 6.dp)) {
+    Box(modifier = Modifier.background(PrimaryBackground)) {
         BasicTextField(
             value = query,
             enabled = true,
