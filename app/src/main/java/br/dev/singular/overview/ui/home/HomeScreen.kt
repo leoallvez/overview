@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -82,7 +83,6 @@ import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.defaultBorder
-import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
@@ -475,9 +475,9 @@ fun FilterGenres(
     }
     Column {
         FlowRow(
-            crossAxisSpacing = dimensionResource(R.dimen.spacing_medium),
-            modifier = Modifier.fillMaxWidth(),
-            mainAxisAlignment = MainAxisAlignment.Start
+            verticalArrangement = Arrangement
+                .spacedBy(dimensionResource(R.dimen.spacing_small)),
+            horizontalArrangement = Arrangement.Start
         ) {
             genres.forEach { genre ->
                 val isActive = filters.genreId == genre.apiId
