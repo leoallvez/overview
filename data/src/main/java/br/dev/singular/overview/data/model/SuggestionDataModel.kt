@@ -4,13 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 @Entity(tableName = "suggestion")
 data class SuggestionDataModel(
     @PrimaryKey(autoGenerate = true)
-    @Transient
     var id: Long = 0,
     val order: Int,
     val type: MediaDataType = MediaDataType.UNKNOWN,

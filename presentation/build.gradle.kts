@@ -55,6 +55,7 @@ dependencies {
     api(libs.androidx.material3)
     api(libs.coil.compose)
     implementation(libs.material)
+    api(libs.androidx.material.icons.extended)
 
     api(platform(libs.firebase.bom))
     api(libs.firebase.analytics)
