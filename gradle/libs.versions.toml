@@ -31,7 +31,7 @@ lifecycle = "2.9.4"
 work-runtime-ktx = "2.8.1"
 
 # Hilt
-hilt = "2.55"
+hilt = "2.57.2"
 hilt-navigation-compose = "1.3.0"
 
 # Room
