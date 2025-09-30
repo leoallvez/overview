@@ -3,8 +3,6 @@ package br.dev.singular.overview.ui.favorites
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -27,9 +25,9 @@ import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.LoadingScreen
+import br.dev.singular.overview.ui.MainToolbarTitle
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
-import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.search.CenteredTextString
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -50,13 +48,16 @@ fun FavoritesScreen(
         containerColor = PrimaryBackground,
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_small)),
+            .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
         topBar = {
-            FavoritesToolBar()
+            MainToolbarTitle(title = stringResource(id = R.string.favorites))
         }
     ) { padding ->
         Column(Modifier.padding(top = padding.calculateTopPadding())) {
-            UiMediaTypeSelector(type = MediaUiType.getByName(name = type.key)) {
+            UiMediaTypeSelector(
+                type = MediaUiType.getByName(name = type.key),
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_2x))
+            ) {
                 val newType = MediaType.getByKey(it.name.lowercase())
                 tagClick("${SELECT_MEDIA_TYPE}${newType.key}")
                 viewModel.updateType(newType)
@@ -83,18 +84,6 @@ fun FavoritesScreen(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun FavoritesToolBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.spacing_small))
-    ) {
-        ToolbarTitle(title = stringResource(id = R.string.favorites))
     }
 }
 

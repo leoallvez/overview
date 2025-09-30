@@ -6,16 +6,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
@@ -50,12 +52,10 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagSearch
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
-import br.dev.singular.overview.ui.DefaultVerticalSpace
 import br.dev.singular.overview.ui.IntermediateScreensText
 import br.dev.singular.overview.ui.LoadingScreen
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
-import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.Gray
@@ -67,6 +67,7 @@ import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
+import br.dev.singular.overview.ui.MainToolbarTitle
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagSearch.PATH, detail, id)
@@ -83,9 +84,7 @@ fun SearchScreen(
 
     Scaffold(
         contentColor = PrimaryBackground,
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_small)),
+        modifier = Modifier.background(PrimaryBackground),
         topBar = {
             SearchToolBar { query ->
                 viewModel.onSearching(filters.copy(query = query))
@@ -98,13 +97,17 @@ fun SearchScreen(
                 .padding(top = padding.calculateTopPadding())
         ) {
             if (items.itemCount > 0 || filters.query.isNotEmpty()) {
-                UiMediaTypeSelector(type = MediaUiType.getByName(name = filters.mediaType.key)) {
+                UiMediaTypeSelector(
+                    type = MediaUiType.getByName(name = filters.mediaType.key),
+                    modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+                ) {
                     val newType = MediaType.getByKey(it.name.lowercase())
                     tagClick("${SELECT_MEDIA_TYPE}${newType.key}")
                     viewModel.onSearching(filters.copy(mediaType = newType))
                 }
+            } else {
+                Spacer(Modifier.padding(vertical = dimensionResource(R.dimen.spacing_2x)))
             }
-            DefaultVerticalSpace()
             Box {
                 when (items.loadState.refresh) {
                     is LoadState.Loading -> LoadingScreen(TagSearch.PATH)
@@ -112,6 +115,8 @@ fun SearchScreen(
                         TagScreenView(TagSearch.PATH, TagStatus.SUCCESS)
                         UiMediaGrid(
                             items = items,
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
                             onClick = {
                                 TagMediaManager.logClick(TagSearch.PATH, it.id)
                                 navigate.toMediaDetails(it)
@@ -124,7 +129,7 @@ fun SearchScreen(
                         } else {
                             SearchInitialScreen(
                                 suggestions = suggestionsUIState,
-                                tagPath = TagSearch.PATH,
+                                tagPath = TagSearch.PATH_SUGGESTIONS,
                                 onClick = {
                                     TagMediaManager.logClick(TagSearch.PATH_SUGGESTIONS, it.id)
                                     navigate.toMediaDetails(it)
@@ -143,11 +148,9 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(bottom = dimensionResource(R.dimen.spacing_small))
+            .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
     ) {
-        ToolbarTitle(title = stringResource(id = R.string.search))
-        DefaultVerticalSpace()
+        MainToolbarTitle(title = stringResource(id = R.string.search))
         SearchField(onSearch = onSearch)
     }
 }
@@ -217,14 +220,14 @@ fun SuggestionsVerticalList(
     onClick: (MediaUiModel) -> Unit
 ) {
     val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    LazyColumn(
+        verticalArrangement = Arrangement
+            .spacedBy(dimensionResource(R.dimen.spacing_1x))
     ) {
-        suggestions.forEach { (titleKey, mediaItems) ->
+        itemsIndexed(items = suggestions.toList()) { _, (titleKey, mediaItems) ->
             UiMediaList(
                 title = context.getStringByName(titleKey).orEmpty(),
+                contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
                 items = mediaItems,
                 onClick = onClick
             )
@@ -240,7 +243,7 @@ fun SearchField(onSearch: (String) -> Unit) {
         BasicTextField(
             value = query,
             enabled = true,
-            modifier = Modifier.fillMaxWidth().height(40.dp),
+            modifier = Modifier.fillMaxWidth().height(dimensionResource(R.dimen.spacing_9x)),
             textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
             onValueChange = { newValue ->
                 TagManager.logInteraction(TagSearch.PATH, TagSearch.Detail.SEARCH_FIELD)
@@ -253,15 +256,15 @@ fun SearchField(onSearch: (String) -> Unit) {
                 Row(
                     Modifier
                         .border(
-                            width = 1.dp,
+                            width = dimensionResource(R.dimen.border_width),
                             color = if (query.isEmpty()) Gray.copy(alpha = 0.5f) else AccentColor,
                             shape = RoundedCornerShape(size = 50.dp)
                         )
-                        .padding(start = 5.dp),
+                        .padding(start = dimensionResource(R.dimen.spacing_1x)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     SearchIcon(
-                        modifier = Modifier.padding(5.dp)
+                        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
                     )
                     Box(Modifier.weight(1f)) {
                         if (query.isEmpty()) {

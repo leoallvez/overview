@@ -30,8 +30,8 @@ fun AdsBanner(
                 modifier = modifier
                     .fillMaxWidth()
                     .background(color = PrimaryBackground)
-                    .padding(vertical = dimensionResource(R.dimen.ad_banner_padding))
-                    .height(dimensionResource(R.dimen.ads_banner_height)),
+                    .padding(vertical = dimensionResource(R.dimen.spacing_1x))
+                    .height(dimensionResource(R.dimen.spacing_15x)),
                 factory = { context ->
                     val debugBannerId = BuildConfig.DEBUG_BANNER_ID
                     AdView(context).apply {
@@ -55,7 +55,7 @@ fun AdsMediumRectangle(
         AndroidView(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(vertical = 20.dp)
+                .padding(vertical = dimensionResource(R.dimen.spacing_5x))
                 .height(250.dp),
             factory = { context ->
                 val debugBannerId = BuildConfig.DEBUG_BANNER_ID

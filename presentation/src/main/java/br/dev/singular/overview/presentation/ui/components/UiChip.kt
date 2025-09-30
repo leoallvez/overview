@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -33,7 +34,7 @@ fun UiChip(
     val color = if (activated) HighlightColor else LowlightColor
     FilterChip(
         onClick = onClick,
-        modifier = modifier.height(30.dp),
+        modifier = modifier.height(dimensionResource(R.dimen.spacing_7x)),
         label = {
             UiText(text, isBold = activated, color = color)
         },
@@ -65,6 +66,7 @@ private fun UiChipPreviewHelper(initialState: Boolean) {
     UiChip(
         text = "Label",
         activated = activated,
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x)),
         icon = {
             if (activated) {
                 UiIcon(

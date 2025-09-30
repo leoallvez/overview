@@ -68,7 +68,7 @@ fun SelectStreamingScreen(
 ) {
     Scaffold(
         contentColor = PrimaryBackground,
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_medium)),
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
         topBar = {
             ToolBar {
                 tagClick(TagCommon.Detail.CLOSE)
@@ -98,10 +98,10 @@ fun StreamingGrid(
     data: StreamingData,
     onClick: (StreamingEntity) -> Unit
 ) {
-    val padding = dimensionResource(R.dimen.spacing_extra_small)
+    val padding = dimensionResource(R.dimen.spacing_1x)
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize().background(PrimaryBackground),
-        columns = GridCells.Adaptive(minSize = 65.dp),
+        columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.spacing_15x)),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {
@@ -156,8 +156,7 @@ fun ToolBar(onBackstack: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(PrimaryBackground)
-            .padding(top = 15.dp),
+            .background(PrimaryBackground),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -168,14 +167,9 @@ fun ToolBar(onBackstack: () -> Unit) {
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis
         )
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 Modifier
-                    .padding(
-                        horizontal = dimensionResource(R.dimen.spacing_extra_small)
-                    )
                     .clip(CircleShape)
                     .background(SecondaryBackground)
                     .onClick(onBackstack)
@@ -185,8 +179,12 @@ fun ToolBar(onBackstack: () -> Unit) {
                     painter = painterResource(id = R.drawable.ic_arrow_up),
                     contentDescription = stringResource(id = R.string.backstack_icon),
                     modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.spacing_extra_extra_large))
-                        .border(1.dp, DarkGray, CircleShape)
+                        .size(dimensionResource(id = R.dimen.spacing_8x))
+                        .border(
+                            dimensionResource(R.dimen.border_width),
+                            DarkGray,
+                            CircleShape
+                        )
                 )
             }
         }
@@ -221,7 +219,7 @@ private fun LazyGridScope.streamingSession(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp)
+                    .padding(top = dimensionResource(R.dimen.spacing_2x))
             ) {
                 top()
             }
