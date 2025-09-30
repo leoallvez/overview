@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import br.dev.singular.overview.presentation.R
@@ -26,7 +25,7 @@ fun UiMediaGrid(
         columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.poster_width)),
         modifier = modifier.fillMaxSize(),
         horizontalArrangement = Arrangement
-            .spacedBy(dimensionResource(R.dimen.spacing_extra_small))
+            .spacedBy(dimensionResource(R.dimen.spacing_1x))
     ) {
         items(
             items.itemCount,
@@ -49,7 +48,7 @@ fun UiMediaGrid(
         columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.poster_width)),
         modifier = modifier.fillMaxSize(),
         horizontalArrangement = Arrangement
-            .spacedBy(dimensionResource(R.dimen.spacing_extra_small))
+            .spacedBy(dimensionResource(R.dimen.spacing_1x))
     ) {
         items(items.size) { index ->
             UiMediaItem(items[index], onClick = onClick)
@@ -66,7 +65,7 @@ fun UiMediaGrid(
 internal fun UiMediaGridVerticalPreview() {
     UiMediaGrid(
         items = getMediaMocks(90),
-        modifier = Modifier.padding(5.dp)
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
     )
 }
 
@@ -79,6 +78,6 @@ internal fun UiMediaGridVerticalPreview() {
 internal fun UiMediaGridHorizontalPreview() {
     UiMediaGrid(
         items = getMediaMocks(90),
-        modifier = Modifier.padding(5.dp)
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
     )
 }

@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="spacing_extra_small">5dp</dimen>   <!-- Extra Small (1x) -->
-    <dimen name="spacing_small">10dp</dimen>   <!-- Small (2x) -->
-    <dimen name="spacing_medium">15dp</dimen>   <!-- Medium (3x) -->
-    <dimen name="spacing_large">20dp</dimen>   <!-- Large (4x) -->
-    <dimen name="spacing_extra_large">25dp</dimen>  <!-- Extra Large (5x) -->
-    <dimen name="spacing_extra_extra_large">30dp</dimen> <!-- Extra Extra Large (6x) -->
+    <dimen name="spacing_1x">4dp</dimen>
+    <dimen name="spacing_2x">8dp</dimen>
+    <dimen name="spacing_3x">12dp</dimen>
+    <dimen name="spacing_4x">16dp</dimen>
+    <dimen name="spacing_5x">20dp</dimen>
+    <dimen name="spacing_6x">24dp</dimen>
+    <dimen name="spacing_7x">28dp</dimen>
+    <dimen name="spacing_8x">32dp</dimen>
+    <dimen name="spacing_9x">36dp</dimen>
+    <dimen name="spacing_10x">40dp</dimen>
+    <dimen name="spacing_11x">44dp</dimen>
+    <dimen name="spacing_12x">48dp</dimen>
+    <dimen name="spacing_13x">52dp</dimen>
+    <dimen name="spacing_14x">56dp</dimen>
+    <dimen name="spacing_15x">60dp</dimen>
 </resources>

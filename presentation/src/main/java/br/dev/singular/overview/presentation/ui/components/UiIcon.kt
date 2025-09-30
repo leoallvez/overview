@@ -29,7 +29,7 @@ fun UiIcon(
         tint = color,
         imageVector = icon,
         contentDescription = contentDescription,
-        modifier = Modifier.size(dimensionResource(R.dimen.spacing_large))
+        modifier = Modifier.size(dimensionResource(R.dimen.spacing_5x))
     )
 }
 
@@ -43,7 +43,7 @@ fun UiIcon(
         tint = color,
         painter = icon,
         contentDescription = contentDescription,
-        modifier = Modifier.size(dimensionResource(R.dimen.spacing_large))
+        modifier = Modifier.size(dimensionResource(R.dimen.spacing_5x))
     )
 }
 
