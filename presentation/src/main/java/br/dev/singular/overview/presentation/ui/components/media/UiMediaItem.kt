@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.ui.components.media
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,24 +25,25 @@ fun UiMediaItem(
     onClick: (MediaUiModel) -> Unit = {}
 ) {
     val width = dimensionResource(R.dimen.poster_width)
-    val height = dimensionResource(R.dimen.poster_height)
 
     Column(
-        modifier
+        Modifier
             .clickable { onClick.invoke(model) }
             .semantics(mergeDescendants = true) {}
+            .width(width)
     ) {
         UiImage(
             url = model.posterURL,
             previewPainter = model.previewContent,
             withBorder = true,
-            modifier = Modifier.size(width, height)
+            modifier = modifier
+                .size(width, height = dimensionResource(R.dimen.poster_height))
         )
         UiText(
             text = model.title,
             modifier = Modifier
-                .width(width)
-                .padding(vertical = dimensionResource(R.dimen.spacing_extra_small)),
+                .fillMaxWidth()
+                .padding(vertical = dimensionResource(R.dimen.spacing_1x)),
             style = MaterialTheme.typography.bodySmall,
             isBold = true
         )

@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
@@ -123,13 +123,15 @@ fun PersonToolBar(
             .fillMaxWidth()
             .height(300.dp)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
-            .background(PrimaryBackground)
+            .padding(
+                top = dimensionResource(R.dimen.spacing_4x),
+                start = dimensionResource(R.dimen.spacing_4x),
+                end = dimensionResource(R.dimen.spacing_4x))
     ) {
         PersonImageCircle(
             person,
             modifier = Modifier
-                .size(300.dp)
-                .padding(dimensionResource(R.dimen.spacing_small))
+                .size(250.dp)
                 .align(Alignment.Center)
         )
         ButtonWithIcon(
@@ -161,16 +163,17 @@ fun PersonBody(
             .background(PrimaryBackground)
     ) {
         person.apply {
-            UiTitle(
-                text = name,
+            Column(
                 modifier = Modifier
-                    .padding(start = dimensionResource(R.dimen.spacing_small)),
-                color = AccentColor
-            )
-            PersonDates(person)
-            PlaceOfBirth(birthPlace())
-            BasicParagraph(R.string.biography, biography)
-            AdsMediumRectangle(R.string.person_banner, showAds)
+                    .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
+            ) {
+                UiTitle(text = name, color = AccentColor)
+                PersonDates(person)
+                Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_1x)))
+                PlaceOfBirth(birthPlace())
+                BasicParagraph(R.string.biography, biography)
+                AdsMediumRectangle(R.string.person_banner, showAds)
+            }
             ParticipationList(R.string.movies_participation, getFilmography(), onClickItem)
             ParticipationList(R.string.tv_shows_participation, getTvShows(), onClickItem)
         }
@@ -181,12 +184,7 @@ fun PersonBody(
 fun PersonDates(person: Person) {
     person.apply {
         if (getFormattedBirthday().isNotEmpty()) {
-            Row(
-                modifier = Modifier.padding(
-                    vertical = 10.dp,
-                    horizontal = dimensionResource(R.dimen.spacing_small)
-                )
-            ) {
+            Row {
                 SimpleSubtitle1(getFormattedBirthday())
                 PersonDeathDay(getFormattedDeathDay())
                 PersonAge(getAge())
@@ -198,11 +196,7 @@ fun PersonDates(person: Person) {
 @Composable
 fun PlaceOfBirth(placeOfBirth: String) {
     if (placeOfBirth.isNotEmpty()) {
-        Column(
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.spacing_small)
-            )
-        ) {
+        Column {
             SimpleSubtitle1(stringResource(R.string.place_of_birth), isBold = true)
             BasicParagraph(placeOfBirth)
         }
@@ -235,7 +229,7 @@ fun PersonAge(age: String) {
 
 @Composable
 fun PersonSpace() {
-    Spacer(modifier = Modifier.padding(horizontal = 2.dp))
+    Spacer(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_1x)))
 }
 
 @Composable
@@ -246,7 +240,7 @@ fun ParticipationList(
 ) {
     UiMediaList(
         title = stringResource(listTitleRes),
-        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_small)),
+        contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
         items = medias,
         onClick = {
             TagMediaManager.logClick(TagPerson.PATH, it.id)

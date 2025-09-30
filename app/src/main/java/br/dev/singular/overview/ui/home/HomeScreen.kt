@@ -1,8 +1,5 @@
 package br.dev.singular.overview.ui.home
 
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
@@ -13,7 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,10 +22,13 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetLayout
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -86,7 +85,6 @@ import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.defaultBorder
-import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.launch
 
 private fun tagClick(detail: String, id: Long = 0L) {
@@ -148,14 +146,17 @@ fun HomeContent(
                 GenreFilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
             }
         },
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        sheetShape = RoundedCornerShape(
+            topStart = dimensionResource(R.dimen.spacing_4x),
+            topEnd = dimensionResource(R.dimen.spacing_4x))
+        ,
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
             contentColor = PrimaryBackground,
             modifier = Modifier
                 .background(PrimaryBackground)
-                .padding(horizontal = dimensionResource(R.dimen.spacing_small)),
+                .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
             topBar = {
                 HomeToolBar(
                     filters = filters,
@@ -209,10 +210,12 @@ fun HomeToolBar(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(bottom = dimensionResource(R.dimen.spacing_small))
+            .padding(bottom = dimensionResource(R.dimen.spacing_2x))
     ) {
         Row(
-            modifier = Modifier.height(50.dp).padding(top = 10.dp),
+            modifier = Modifier
+                .height(dimensionResource(R.dimen.spacing_12x))
+                .padding(top = dimensionResource(R.dimen.spacing_3x)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             SelectStreaming(
@@ -226,7 +229,7 @@ fun HomeToolBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = dimensionResource(R.dimen.spacing_small)),
+                .padding(top = dimensionResource(R.dimen.spacing_2x)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
@@ -241,8 +244,8 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
         content = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 StreamingIcon(
-                    modifier = Modifier.padding(start = 4.dp),
-                    size = 30.dp,
+                    modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_1x)),
+                    size = dimensionResource(R.dimen.spacing_8x),
                     corner = dimensionResource(R.dimen.circle_conner),
                     streaming = streaming,
                     withBorder = false
@@ -260,7 +263,7 @@ fun SelectButton(
     onClick: () -> Unit,
     content: @Composable () -> Unit,
     width: Dp? = null,
-    height: Dp = 40.dp,
+    height: Dp = dimensionResource(R.dimen.spacing_10x),
     icon: Painter = painterResource(id = R.drawable.ic_arrow_down),
     isActive: Boolean = true
 ) {
@@ -282,7 +285,7 @@ fun SelectButton(
             Box(
                 Modifier
                     .padding(
-                        horizontal = dimensionResource(R.dimen.spacing_extra_small)
+                        horizontal = dimensionResource(R.dimen.spacing_1x)
                     )
                     .clip(CircleShape)
                     .background(SecondaryBackground)
@@ -292,7 +295,7 @@ fun SelectButton(
                     tint = color,
                     painter = icon,
                     contentDescription = "",
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_extra_extra_large))
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_8x))
                 )
             }
         }
@@ -315,8 +318,8 @@ fun HomeScreamTitle(title: String?) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(
-                    horizontal = dimensionResource(R.dimen.spacing_small),
-                    vertical = dimensionResource(R.dimen.spacing_extra_small)
+                    horizontal = dimensionResource(R.dimen.spacing_2x),
+                    vertical = dimensionResource(R.dimen.spacing_1x)
                 ).widthIn(max = 200.dp),
             overflow = TextOverflow.Ellipsis
         )
@@ -335,7 +338,7 @@ fun GenreFilterBottomSheet(
             .fillMaxWidth()
             .wrapContentHeight()
             .background(SecondaryBackground)
-            .padding(dimensionResource(R.dimen.spacing_medium))
+            .padding(dimensionResource(R.dimen.spacing_3x))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -349,7 +352,7 @@ fun GenreFilterBottomSheet(
                 }
             )
         }
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_medium)))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_4x)))
         FilterGenres(genres, filters) {
             if (filters.genreId == it.genreId) {
                 inFiltering.invoke(filters.copy(genreId = null))
@@ -358,7 +361,7 @@ fun GenreFilterBottomSheet(
                 closeAction.invoke()
             }
         }
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_medium)))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_4x)))
     }
 }
 
@@ -367,13 +370,13 @@ fun CloseIcon(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .size(25.dp)
+            .size(dimensionResource(R.dimen.spacing_6x))
             .clickable { onClick.invoke() }
     ) {
         Icon(
             tint = Color.White,
             modifier = Modifier
-                .size(20.dp)
+                .size(dimensionResource(R.dimen.spacing_5x))
                 .align(Alignment.Center),
             imageVector = Icons.Rounded.Close,
             contentDescription = stringResource(R.string.close)
@@ -393,7 +396,10 @@ fun FilterMediaType(
     }
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth().background(PrimaryBackground)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = dimensionResource(R.dimen.spacing_2x))
+                .background(PrimaryBackground)
         ) {
             when (filters.mediaType.key) {
                 MediaType.ALL.key -> {
@@ -470,7 +476,7 @@ fun FilterGenres(
     Column {
         FlowRow(
             verticalArrangement = Arrangement
-                .spacedBy(dimensionResource(R.dimen.spacing_small)),
+                .spacedBy(dimensionResource(R.dimen.spacing_2x)),
             horizontalArrangement = Arrangement.Start
         ) {
             genres.forEach { genre ->
@@ -496,7 +502,7 @@ fun ClosableChip(
     UiChip(
         buttonText,
         activated = activated,
-        modifier = Modifier.padding(end = dimensionResource(R.dimen.spacing_small)),
+        modifier = Modifier.padding(end = dimensionResource(R.dimen.spacing_2x)),
         icon = {
             if (activated) {
                 UiIcon(
@@ -514,7 +520,7 @@ fun FilterTitle(title: String) {
     Text(
         text = title,
         color = Color.White,
-        fontSize = 14.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.Bold
     )
 }

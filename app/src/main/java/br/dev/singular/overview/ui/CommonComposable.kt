@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -98,7 +99,9 @@ fun LoadingScreen(tagPath: String) {
 
     TagScreenView(tagPath, TagStatus.LOADING)
     Column(
-        modifier = Modifier.background(PrimaryBackground).fillMaxSize(),
+        modifier = Modifier
+            .background(PrimaryBackground)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -118,7 +121,9 @@ fun ErrorScreen(
 ) {
     TagScreenView(tagPath, TagStatus.ERROR)
     Column(
-        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -144,7 +149,9 @@ fun NothingFoundScreen(
     TagScreenView(tagPath, TagStatus.NOTHING_FOUND)
 
     Column(
-        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -216,16 +223,14 @@ fun ButtonWithIcon(
     iconTint: Color = Color.White,
     withBorder: Boolean = true,
     background: Color = PrimaryBackground.copy(alpha = 0.5f),
-    padding: PaddingValues = PaddingValues(dimensionResource(R.dimen.spacing_small)),
     onLongClick: () -> Unit = {},
     onClick: () -> Unit
 ) {
     Box(
         modifier
-            .padding(padding)
             .clip(CircleShape)
             .background(background)
-            .size(35.dp)
+            .size(dimensionResource(id = R.dimen.spacing_8x))
             .combinedClickable(
                 onClick = onClick::invoke,
                 onLongClick = onLongClick::invoke
@@ -236,7 +241,7 @@ fun ButtonWithIcon(
             painter,
             contentDescription = stringResource(descriptionResource),
             modifier = Modifier
-                .size(dimensionResource(R.dimen.spacing_extra_large))
+                .size(dimensionResource(R.dimen.spacing_6x))
                 .align(Alignment.Center),
             tint = iconTint
         )
@@ -296,7 +301,7 @@ fun Backdrop(
         modifier = modifier
             .background(SecondaryBackground)
             .fillMaxWidth()
-            .height(dimensionResource(R.dimen.poster_height))
+            .aspectRatio(16f / 9f)
             .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width))),
         contentScale = ContentScale.Crop,
         contentDescription = contentDescription
@@ -323,9 +328,7 @@ fun <T> UiStateResult(
 @Composable
 fun BasicParagraph(@StringRes title: Int, paragraph: String) {
     if (paragraph.isNotBlank()) {
-        Column(
-            modifier = Modifier.padding(dimensionResource(R.dimen.spacing_small))
-        ) {
+        Column {
             UiTitle(stringResource(title))
             BasicParagraph(paragraph)
         }
@@ -338,7 +341,7 @@ fun BasicParagraph(paragraph: String) {
         text = paragraph,
         color = Color.White,
         style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
+        modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_1x)),
         textAlign = TextAlign.Justify
     )
 }
@@ -371,7 +374,7 @@ fun ToolbarTitle(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .height(dimensionResource(R.dimen.spacing_15x))
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(Color.Transparent, PrimaryBackground)
@@ -382,6 +385,27 @@ fun ToolbarTitle(
             text = title,
             modifier = Modifier
                 .align(Alignment.BottomStart)
+                .padding(textPadding),
+            color = AccentColor
+        )
+    }
+}
+
+@Composable
+fun MainToolbarTitle(
+    title: String,
+    modifier: Modifier = Modifier,
+    textPadding: PaddingValues = PaddingValues()
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(dimensionResource(R.dimen.spacing_14x))
+    ) {
+        UiTitle(
+            text = title,
+            modifier = Modifier
+                .align(Alignment.CenterStart)
                 .padding(textPadding),
             color = AccentColor
         )
@@ -415,14 +439,16 @@ fun DefaultVerticalSpace() {
     Spacer(
         modifier = Modifier
             .background(PrimaryBackground)
-            .padding(vertical = dimensionResource(R.dimen.spacing_extra_small))
+            .padding(vertical = dimensionResource(R.dimen.spacing_1x))
     )
 }
 
 @Composable
 fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-    if (currentRoute != ScreenNav.Splash.route && currentRoute != ScreenNav.YouTubePlayer.route) {
+    val hiddenRoutes = setOf(ScreenNav.Splash.route, ScreenNav.YouTubePlayer.route)
+    val height = dimensionResource(R.dimen.spacing_14x)
+    if (currentRoute !in hiddenRoutes) {
         Column {
             AdsBanner(R.string.bottom_navigation, isVisible = adBannerIsVisible)
             BottomNavigation {
@@ -431,7 +457,7 @@ fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean
                     val isSelected = currentRoute == item.nav.route
                     val color = if (isSelected) AccentColor else Gray
                     BottomNavigationItem(
-                        modifier = Modifier.background(PrimaryBackground).padding(bottom = 5.dp),
+                        modifier = Modifier.height(height).background(PrimaryBackground),
                         icon = {
                             Icon(
                                 item.icon,
@@ -454,5 +480,7 @@ fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean
                 }
             }
         }
+    } else if (currentRoute == ScreenNav.Splash.route) {
+        Spacer(Modifier.height(height))
     }
 }

@@ -1,6 +1,7 @@
 package br.dev.singular.overview.presentation.ui.components.media
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -25,7 +26,7 @@ fun UiMediaTypeSelector(
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement
-            .spacedBy( dimensionResource(R.dimen.spacing_small))
+            .spacedBy( dimensionResource(R.dimen.spacing_2x))
     ) {
         items(items = MediaUiType.entries) {
             UiChip(
@@ -65,7 +66,10 @@ internal fun UiMediaTypeSelectorSpanishPreview() {
 @Composable
 private fun UiMediaTypeSelectorPreviewHelper() {
     var type  by remember { mutableStateOf(MediaUiType.ALL) }
-    UiMediaTypeSelector(type) { newType ->
+    UiMediaTypeSelector(
+        type,
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x)),
+    ) { newType ->
         type = newType
     }
 }
