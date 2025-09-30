@@ -12,7 +12,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,16 +60,19 @@ import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.UiChip
+import br.dev.singular.overview.presentation.ui.components.UiIcon
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.ui.ErrorScreen
-import br.dev.singular.overview.ui.FilterButton
 import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.MediaTypeFilterButton
 import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.TagScreenView
@@ -223,8 +225,7 @@ fun HomeToolBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
-                .padding(horizontal = dimensionResource(R.dimen.spacing_extra_small)),
+                .padding(top = dimensionResource(R.dimen.spacing_small)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
@@ -395,42 +396,36 @@ fun FilterMediaType(
         ) {
             when (filters.mediaType.key) {
                 MediaType.ALL.key -> {
-                    val options = MediaType.getAllOrdered()
-                    options.forEach { type ->
-                        MediaTypeFilterButton(type, filters.mediaType.key) {
-                            with(filters) {
-                                if (mediaType != type) {
-                                    tagClick("${TagMediaManager.Detail.SELECT_MEDIA_TYPE}${type.key}")
-                                    onSelectMedia(filters.copy(mediaType = type, genreId = null))
-                                }
-                            }
-                        }
+                    UiMediaTypeSelector(type = MediaUiType.ALL) {
+                        val newType = MediaType.getByKey(it.name.lowercase())
+                        tagClick("${SELECT_MEDIA_TYPE}${newType.key}")
+                        onSelectMedia(filters.copy(mediaType = newType, genreId = null))
                     }
                 }
                 MediaType.TV_SHOW.key -> {
-                    ClosableFilterButton(
+                    ClosableChip(
                         buttonText = stringResource(R.string.tv_show),
-                        isActivated = true,
+                        activated = true,
                         onClick = {
                             tagClick(TagHome.Detail.UNSELECT_MEDIA_TYPE_TV)
                             onClearFilter.invoke()
                         }
                     )
-                    SelectGenreButton(filters, genres) {
+                    SelectGenreChip(filters, genres) {
                         tagClick(TagHome.Detail.OPEN_GENRE_FILTER)
                         onOpenGenreFilter.invoke()
                     }
                 }
                 MediaType.MOVIE.key -> {
-                    ClosableFilterButton(
+                    ClosableChip(
                         buttonText = stringResource(R.string.movies),
-                        isActivated = true,
+                        activated = true,
                         onClick = {
                             tagClick(TagHome.Detail.UNSELECT_MEDIA_TYPE_MOVIE)
                             onClearFilter.invoke()
                         }
                     )
-                    SelectGenreButton(filters, genres) {
+                    SelectGenreChip(filters, genres) {
                         tagClick(TagHome.Detail.OPEN_GENRE_FILTER)
                         onOpenGenreFilter.invoke()
                     }
@@ -441,23 +436,21 @@ fun FilterMediaType(
 }
 
 @Composable
-fun SelectGenreButton(filters: SearchFilters, genres: List<GenreEntity>, onClick: () -> Unit) {
-    val isActivated = filters.genreId != null
-    FilterButton(
-        onClick = onClick,
-        isActivated = isActivated,
-        backgroundColor = SecondaryBackground,
-        buttonText = if (isActivated) {
+fun SelectGenreChip(filters: SearchFilters, genres: List<GenreEntity>, onClick: () -> Unit) {
+    val activated = filters.genreId != null
+    UiChip(
+        text = if (activated) {
             genreDescription(filters.genreId, genres)
         } else {
             stringResource(R.string.genre)
         },
-        complement = {
-            Icon(
-                tint = if (isActivated) AccentColor else Gray,
-                modifier = Modifier.size(20.dp),
-                painter = painterResource(id = R.drawable.ic_arrow_down),
-                contentDescription = stringResource(R.string.filters)
+        activated = activated,
+        onClick = onClick,
+        icon = {
+            UiIcon(
+                icon = painterResource(id = R.drawable.ic_arrow_down),
+                color = if (activated) AccentColor else Gray,
+                contentDescription = stringResource(R.string.filters),
             )
         }
     )
@@ -480,12 +473,12 @@ fun FilterGenres(
             mainAxisAlignment = MainAxisAlignment.Start
         ) {
             genres.forEach { genre ->
-                val isActive = filters.genreId == genre.apiId
-                ClosableFilterButton(
+                val activated = filters.genreId == genre.apiId
+                ClosableChip(
                     buttonText = genre.nameTranslation(),
-                    isActivated = isActive
+                    activated = activated
                 ) {
-                    tagGenreClick.invoke(isActive, genre.apiId)
+                    tagGenreClick.invoke(activated, genre.apiId)
                     onClick.invoke(filters.copy(genreId = genre.apiId))
                 }
             }
@@ -494,30 +487,25 @@ fun FilterGenres(
 }
 
 @Composable
-fun ClosableFilterButton(
+fun ClosableChip(
     buttonText: String,
-    isActivated: Boolean,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
+    activated: Boolean,
     onClick: () -> Unit
 ) {
-    FilterButton(
-        buttonText = buttonText,
-        backgroundColor = SecondaryBackground,
-        isActivated = isActivated,
-        contentPadding = contentPadding,
-        complement = {
-            if (isActivated) {
-                Icon(
-                    tint = AccentColor,
-                    modifier = Modifier.size(15.dp),
-                    imageVector = Icons.Rounded.Close,
+    UiChip(
+        buttonText,
+        activated = activated,
+        modifier = Modifier.padding(end = dimensionResource(R.dimen.spacing_small)),
+        icon = {
+            if (activated) {
+                UiIcon(
+                    icon = Icons.Rounded.Close,
                     contentDescription = stringResource(R.string.close)
                 )
             }
-        }
-    ) {
-        onClick.invoke()
-    }
+        },
+        onClick = onClick
+    )
 }
 
 @Composable
