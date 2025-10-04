@@ -48,7 +48,7 @@ internal fun UiTextPreview() {
             text = "Text Four",
             modifier = Modifier
                 .background(Color.White)
-                .padding(dimensionResource(R.dimen.spacing_extra_small)),
+                .padding(dimensionResource(R.dimen.spacing_1x)),
             color = Color.Black
         )
     }

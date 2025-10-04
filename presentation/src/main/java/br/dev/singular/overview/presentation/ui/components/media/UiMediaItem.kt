@@ -41,7 +41,7 @@ fun UiMediaItem(
             text = model.title,
             modifier = Modifier
                 .width(width)
-                .padding(vertical = dimensionResource(R.dimen.spacing_extra_small)),
+                .padding(vertical = dimensionResource(R.dimen.spacing_1x)),
             style = MaterialTheme.typography.bodySmall,
             isBold = true
         )
