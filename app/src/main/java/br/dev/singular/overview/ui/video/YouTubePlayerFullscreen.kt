@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.viewinterop.AndroidView
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
@@ -71,7 +73,10 @@ fun YouTubePlayerFullscreen(
             painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
             descriptionResource = R.string.backstack_icon,
             background = Color.Gray.copy(alpha = 0.1f),
-            modifier = Modifier.align(Alignment.CenterStart),
+            modifier = Modifier.align(Alignment.TopStart).padding(
+                start = dimensionResource(R.dimen.spacing_4x),
+                top = dimensionResource(R.dimen.spacing_15x),
+            ),
             onClick = {
                 TagManager.logClick(TagPlayer.PATH, TagCommon.Detail.CLOSE)
                 exitFullscreen()

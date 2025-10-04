@@ -25,7 +25,6 @@ fun UiMediaItem(
     onClick: (MediaUiModel) -> Unit = {}
 ) {
     val width = dimensionResource(R.dimen.poster_width)
-    val height = dimensionResource(R.dimen.poster_height)
 
     Column(
         Modifier
@@ -37,7 +36,8 @@ fun UiMediaItem(
             url = model.posterURL,
             previewPainter = model.previewContent,
             withBorder = true,
-            modifier = modifier.size(width, height)
+            modifier = modifier
+                .size(width, height = dimensionResource(R.dimen.poster_height))
         )
         UiText(
             text = model.title,
