@@ -101,7 +101,7 @@ fun StreamingGrid(
     val padding = dimensionResource(R.dimen.spacing_1x)
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize().background(PrimaryBackground),
-        columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.spacing_15x)),
+        columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.spacing_16x)),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding)
     ) {

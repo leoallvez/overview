@@ -15,4 +15,5 @@
     <dimen name="spacing_13x">52dp</dimen>
     <dimen name="spacing_14x">56dp</dimen>
     <dimen name="spacing_15x">60dp</dimen>
+    <dimen name="spacing_16x">64dp</dimen>
 </resources>
