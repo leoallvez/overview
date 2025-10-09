@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
@@ -42,13 +41,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -84,7 +81,7 @@ import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
-import br.dev.singular.overview.util.defaultBorder
+import br.dev.singular.overview.util.animatedBorder
 import kotlinx.coroutines.launch
 
 private fun tagClick(detail: String, id: Long = 0L) {
@@ -98,6 +95,7 @@ fun HomeScreen(
 ) {
     HomeContent(
         navigate = navigate,
+        showHighlightIcon = viewModel.showHighlightIcon.collectAsState().value,
         filters = viewModel.searchFilters.collectAsState().value,
         onRefresh = { viewModel.loadMediaPaging() },
         items = viewModel.medias.collectAsLazyPagingItems(),
@@ -112,6 +110,7 @@ fun HomeContent(
     onRefresh: () -> Unit,
     genres: List<GenreEntity>,
     navigate: HomeNavigate,
+    showHighlightIcon: Boolean,
     items: LazyPagingItems<MediaUiModel>,
     inFiltering: (SearchFilters) -> Unit
 ) {
@@ -162,6 +161,7 @@ fun HomeContent(
                     filters = filters,
                     genres = genres,
                     navigate = navigate,
+                    showHighlightIcon = showHighlightIcon,
                     openGenreFilter = closeFilterBottomSheet,
                     onSelectMediaType = inFiltering
                 )
@@ -202,6 +202,7 @@ fun HomeContent(
 fun HomeToolBar(
     filters: SearchFilters,
     genres: List<GenreEntity>,
+    showHighlightIcon: Boolean,
     openGenreFilter: () -> Unit,
     onSelectMediaType: (SearchFilters) -> Unit,
     navigate: HomeNavigate
@@ -218,13 +219,10 @@ fun HomeToolBar(
                 .padding(top = dimensionResource(R.dimen.spacing_3x)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            SelectStreaming(
-                streaming = filters.streaming,
-                onClick = {
-                    tagClick(TagCommon.Detail.SELECT_STREAMING)
-                    navigate.toSelectStreaming()
-                }
-            )
+            SelectStreaming(filters.streaming, showHighlightIcon) {
+                tagClick(TagCommon.Detail.SELECT_STREAMING)
+                navigate.toSelectStreaming()
+            }
         }
         Row(
             modifier = Modifier
@@ -238,10 +236,23 @@ fun HomeToolBar(
 }
 
 @Composable
-fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
-    SelectButton(
-        onClick = { onClick.invoke() },
-        content = {
+fun SelectStreaming(
+    streaming: StreamingEntity?,
+    showHighlightIcon: Boolean,
+    onClick: () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .height(dimensionResource(R.dimen.spacing_10x))
+            .clickable { onClick.invoke() }
+            .fillMaxWidth()
+            .background(SecondaryBackground)
+    ) {
+        Row(
+            Modifier.background(PrimaryBackground),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 StreamingIcon(
                     modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_1x)),
@@ -252,50 +263,31 @@ fun SelectStreaming(streaming: StreamingEntity?, onClick: () -> Unit) {
                 )
                 HomeScreamTitle(title = streaming?.name ?: String())
             }
-        },
-        icon = painterResource(id = R.drawable.ic_arrow_down)
-    )
-}
-
-// TODO: this component must be merged with the SelectStreaming component and simplified
-@Composable
-fun SelectButton(
-    onClick: () -> Unit,
-    content: @Composable () -> Unit,
-    width: Dp? = null,
-    height: Dp = dimensionResource(R.dimen.spacing_10x),
-    icon: Painter = painterResource(id = R.drawable.ic_arrow_down),
-    isActive: Boolean = true
-) {
-    val color = if (isActive) AccentColor else Gray
-    Surface(
-        modifier = Modifier
-            .height(height)
-            .clickable { onClick.invoke() }
-            .then(if (width == null) Modifier.fillMaxWidth() else Modifier.width(width))
-            .defaultBorder(color = Color.Black, corner = R.dimen.circle_conner)
-            .background(SecondaryBackground)
-    ) {
-        Row(
-            Modifier.background(PrimaryBackground),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            content.invoke()
             Box(
                 Modifier
-                    .padding(
-                        horizontal = dimensionResource(R.dimen.spacing_1x)
-                    )
+                    .padding(horizontal = dimensionResource(R.dimen.spacing_1x))
                     .clip(CircleShape)
                     .background(SecondaryBackground)
-                    .border(2.dp, DarkGray, CircleShape)
+                    .then(
+                        if (showHighlightIcon) {
+                            Modifier.animatedBorder(
+                                borderColors = listOf(DarkGray, AccentColor),
+                                backgroundColor = SecondaryBackground,
+                                shape = CircleShape,
+                                borderWidth = 3.dp,
+                                animationDurationInMillis = 1500
+                            )
+                        } else {
+                            Modifier.border(2.dp, DarkGray, CircleShape)
+                        }
+                    )
             ) {
+                val iconSize = if (showHighlightIcon) R.dimen.spacing_7x else R.dimen.spacing_8x
                 Icon(
-                    tint = color,
-                    painter = icon,
+                    tint = AccentColor,
+                    painter = painterResource(id = R.drawable.ic_arrow_down),
                     contentDescription = "",
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_8x))
+                    modifier = Modifier.size(size = dimensionResource(id = iconSize))
                 )
             }
         }

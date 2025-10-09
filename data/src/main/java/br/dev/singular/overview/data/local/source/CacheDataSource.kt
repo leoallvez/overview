@@ -2,6 +2,7 @@ package br.dev.singular.overview.data.local.source
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,8 @@ class CacheDataSource @Inject constructor(
 
     companion object {
         val KEY_FILTER_CACHE = stringPreferencesKey(name = "filter_cache")
+        val KEY_SHOW_HIGHLIGHT_STREAMING_ICON =
+            booleanPreferencesKey(name = "show_highlight_icons")
         val KEY_LAST_CACHE_TIME = stringPreferencesKey(name = "last_cache_time")
         val KEY_SELECTED_STREAMING_CACHE = stringPreferencesKey(name = "selected_streaming_cache")
     }

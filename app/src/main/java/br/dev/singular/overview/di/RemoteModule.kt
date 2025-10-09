@@ -6,6 +6,7 @@ import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.util.IJsonFileReaderProvider
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
+import br.dev.singular.overview.remote.DisplayHighlightIconsRemoteConfig
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.remote.StreamingRemoteConfig
 import dagger.Module
@@ -18,6 +19,7 @@ import dagger.hilt.components.SingletonComponent
 class RemoteModule {
 
     @Provides
+    @AdsQualifier
     fun providerDisplayAdsRemote(
         remoteSource: RemoteConfigProvider
     ): RemoteConfig<Boolean> {
@@ -27,8 +29,18 @@ class RemoteModule {
         )
     }
 
-    @StreamingRemote
     @Provides
+    @HighlightIconsQualifier
+    fun providerDisplayHighlightIconsRemote(
+        remoteSource: RemoteConfigProvider
+    ): RemoteConfig<Boolean> {
+        return DisplayHighlightIconsRemoteConfig(
+            _remoteSource = remoteSource
+        )
+    }
+
+    @Provides
+    @StreamingListQualifier
     fun providerStreamingRemote(
         apiLocale: ApiLocale,
         remoteSource: RemoteConfigProvider,

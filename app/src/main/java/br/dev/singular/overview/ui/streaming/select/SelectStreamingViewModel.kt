@@ -2,6 +2,8 @@ package br.dev.singular.overview.ui.streaming.select
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.dev.singular.overview.data.local.source.CacheDataSource
+import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_SHOW_HIGHLIGHT_STREAMING_ICON
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.streaming.StreamingRepository
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SelectStreamingViewModel @Inject constructor(
+    private val _cache: CacheDataSource,
     private val _repository: StreamingRepository,
     @MainDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -30,6 +33,7 @@ class SelectStreamingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(_dispatcher) {
+            _cache.setValue(KEY_SHOW_HIGHLIGHT_STREAMING_ICON, false)
             _streamingData = _repository.getAllLocal().first()
             loadUiState()
         }

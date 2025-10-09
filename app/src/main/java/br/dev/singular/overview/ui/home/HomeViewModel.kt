@@ -6,13 +6,16 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import br.dev.singular.overview.data.local.source.CacheDataSource
 import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_FILTER_CACHE
+import br.dev.singular.overview.data.local.source.CacheDataSource.Companion.KEY_SHOW_HIGHLIGHT_STREAMING_ICON
 import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
+import br.dev.singular.overview.di.HighlightIconsQualifier
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.model.toUiModel
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
@@ -32,12 +35,15 @@ class HomeViewModel @Inject constructor(
     private val _cache: CacheDataSource,
     private val _genreRepository: IGenreRepository,
     private val _mediaRepository: IMediaPagingRepository,
+    @HighlightIconsQualifier
+    private val highlightIconsManager: RemoteConfig<Boolean>,
     private val _streamingRepository: ISelectedStreamingRepository,
     @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     init {
         viewModelScope.launch(_dispatcher) {
+            loadHighlightIcons()
             delay(timeMillis = 500)
             prepareData()
         }
@@ -51,6 +57,9 @@ class HomeViewModel @Inject constructor(
 
     var medias: Flow<PagingData<MediaUiModel>> = emptyFlow()
         private set
+
+    private val _showHighlightIcon = MutableStateFlow(true)
+    val showHighlightIcon: StateFlow<Boolean> = _showHighlightIcon
 
     fun updateData(filters: SearchFilters) = viewModelScope.launch(_dispatcher) {
         _searchFilters.value = filters
@@ -92,5 +101,10 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun setFilter() {
         _cache.setValue(KEY_FILTER_CACHE, searchFilters.value.toJson())
+    }
+
+    private suspend fun loadHighlightIcons() {
+        val showHighlightIcons = _cache.getValue(KEY_SHOW_HIGHLIGHT_STREAMING_ICON).first()
+        _showHighlightIcon.value = highlightIconsManager.execute() && showHighlightIcons ?: true
     }
 }

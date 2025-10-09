@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import br.dev.singular.overview.di.AdsQualifier
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.navigation.NavController
 import br.dev.singular.overview.ui.theme.AppTheme
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
+    @AdsQualifier
     lateinit var adsManager: RemoteConfig<Boolean>
     private val showAds: Boolean by lazy { adsManager.execute() }
 
