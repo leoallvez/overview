@@ -99,9 +99,6 @@ import br.dev.singular.overview.util.defaultPadding
 import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import timber.log.Timber
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
@@ -167,20 +164,19 @@ fun MediaDetailsContent(
     if (media == null) {
         ErrorScreen(TagMedia.PATH) { onRefresh.invoke() }
     } else {
-        CollapsingToolbarScaffold(
-            modifier = Modifier,
-            scrollStrategy = ScrollStrategy.EnterAlways,
-            state = rememberCollapsingToolbarScaffoldState(),
-            toolbar = {
-                MediaToolBar(
-                    media = media,
-                    isLiked = isLiked,
-                    onLikeClick = onLikeClick::invoke,
-                    onBackstackClick = navigate::popBackStack,
-                    onBackstackLongClick = navigate::toHome
-                )
-            }
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .background(PrimaryBackground)
         ) {
+            MediaToolBar(
+                media = media,
+                isLiked = isLiked,
+                onLikeClick = onLikeClick::invoke,
+                onBackstackClick = navigate::popBackStack,
+                onBackstackLongClick = navigate::toHome
+            )
             MediaBody(media, showAds, navigate, onClickStreaming)
         }
     }
@@ -241,7 +237,7 @@ fun MediaBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+//            .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
     ) {
         Column(

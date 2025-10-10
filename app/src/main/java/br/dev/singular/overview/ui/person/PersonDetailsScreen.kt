@@ -49,9 +49,6 @@ import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.presentation.model.MediaUiModel
 
@@ -94,18 +91,17 @@ fun PersonDetailsContent(
     if (person == null) {
         ErrorScreen(TagPerson.PATH) { onRefresh.invoke() }
     } else {
-        CollapsingToolbarScaffold(
-            modifier = Modifier.background(PrimaryBackground),
-            scrollStrategy = ScrollStrategy.EnterAlways,
-            state = rememberCollapsingToolbarScaffoldState(),
-            toolbar = {
-                PersonToolBar(
-                    person = person,
-                    onBackstackClick = onBackstackClick::invoke,
-                    onBackstackLongClick = onBackstackLongClick::invoke
-                )
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(PrimaryBackground)
+                .verticalScroll(rememberScrollState())
         ) {
+            PersonToolBar(
+                person = person,
+                onBackstackClick = onBackstackClick::invoke,
+                onBackstackLongClick = onBackstackLongClick::invoke
+            )
             PersonBody(person, showAds, onNavigateToMediaDetails::invoke)
         }
     }
@@ -159,7 +155,6 @@ fun PersonBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
     ) {
         person.apply {
