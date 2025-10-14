@@ -93,9 +93,13 @@ fun HomeScreen(
     navigate: HomeNavigate,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+
+    val items = viewModel.medias.collectAsLazyPagingItems()
+    val isNotLoading = items.loadState.refresh != LoadState.Loading
+
     HomeContent(
         navigate = navigate,
-        showHighlightIcon = viewModel.showHighlightIcon.collectAsState().value,
+        showHighlightIcon = viewModel.showHighlightIcon.collectAsState().value && isNotLoading,
         filters = viewModel.searchFilters.collectAsState().value,
         onRefresh = { viewModel.loadMediaPaging() },
         items = viewModel.medias.collectAsLazyPagingItems(),

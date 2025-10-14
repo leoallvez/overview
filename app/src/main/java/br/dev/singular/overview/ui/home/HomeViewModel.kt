@@ -43,7 +43,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(_dispatcher) {
-            loadHighlightIcons()
             delay(timeMillis = 500)
             prepareData()
         }
@@ -74,6 +73,7 @@ class HomeViewModel @Inject constructor(
         loadMediaPaging()
         loadGenres()
         setFilter()
+        loadHighlightIcons()
     }
 
     fun loadMediaPaging() {
@@ -104,7 +104,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun loadHighlightIcons() {
-        val showHighlightIcons = _cache.getValue(KEY_SHOW_HIGHLIGHT_STREAMING_ICON).first()
-        _showHighlightIcon.value = highlightIconsManager.execute() && showHighlightIcons ?: true
+        val hasPermissionToHighlightIcon = highlightIconsManager.execute()
+        _showHighlightIcon.value = hasPermissionToHighlightIcon && shouldShowHighlightIcon()
+    }
+
+    private suspend fun shouldShowHighlightIcon(): Boolean {
+        val result = _cache.getValue(KEY_SHOW_HIGHLIGHT_STREAMING_ICON).first()
+        return (result ?: true)
     }
 }
