@@ -15,7 +15,8 @@ interface ISuggestionLocalDataSource {
 class SuggestionLocalDataSource @Inject constructor(
     private val dao: SuggestionDao
 ) : ISuggestionLocalDataSource {
-    override suspend fun insert(model: List<SuggestionDataModel>) = dao.insert(model)
+    override suspend fun insert(model: List<SuggestionDataModel>) =
+        dao.insert(*model.toTypedArray())
 
     override suspend fun getAll(): List<SuggestionDataModel> = dao.getAll()
 

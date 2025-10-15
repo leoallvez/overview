@@ -10,7 +10,7 @@ import br.dev.singular.overview.data.model.SuggestionDataModel
 interface SuggestionDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insert(models: List<SuggestionDataModel>)
+    suspend fun insert(vararg models: SuggestionDataModel)
 
     @Query("SELECT * FROM suggestion")
     suspend fun getAll(): List<SuggestionDataModel>
