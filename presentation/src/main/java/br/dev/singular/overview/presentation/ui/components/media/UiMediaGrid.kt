@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -12,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.itemKey
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
@@ -31,7 +31,7 @@ fun UiMediaGrid(
     ) {
         items(
             items.itemCount,
-            key = items.itemKey { it.id }
+            key = { index -> items.peek(index)?.id ?: index }
         ) { index ->
             items[index]?.let {
                 UiMediaItem(it,
