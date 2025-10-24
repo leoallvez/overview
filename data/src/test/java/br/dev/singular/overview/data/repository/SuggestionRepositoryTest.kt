@@ -2,7 +2,7 @@ package br.dev.singular.overview.data.repository
 
 import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
 import br.dev.singular.overview.data.network.source.ISuggestionRemoteDataSource
-import br.dev.singular.overview.data.util.mappers.toDomainModel
+import br.dev.singular.overview.data.util.mappers.toDomain
 import br.dev.singular.overview.data.util.suggestionModels
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -25,7 +25,7 @@ class SuggestionRepositoryTest {
 
     private lateinit var sut: SuggestionRepository
 
-    private val domainSuggestions = suggestionModels.map { it.toDomainModel() }
+    private val domainSuggestions = suggestionModels.map { it.toDomain() }
 
     @Before
     fun setup() {

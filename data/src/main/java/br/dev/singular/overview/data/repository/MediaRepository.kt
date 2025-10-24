@@ -3,7 +3,7 @@ package br.dev.singular.overview.data.repository
 import br.dev.singular.overview.data.local.source.IMediaRouteLocalDataSource
 import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
-import br.dev.singular.overview.data.util.mappers.toDomainModel
+import br.dev.singular.overview.data.util.mappers.toDomain
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaParam
 import br.dev.singular.overview.domain.repository.GetAll
@@ -19,7 +19,7 @@ class MediaRepository @Inject constructor(
         val route = routeLocalSource.getByKey(param.key) ?: return emptyList()
         // TODO: improve this to another type of request.
         return when (val response = mediaRemoteSource.getByPath(route.path)) {
-            is DataResult.Success -> response.data.results.map { it.toDomainModel() }
+            is DataResult.Success -> response.data.results.map { it.toDomain() }
             is DataResult.Error -> emptyList()
         }
     }

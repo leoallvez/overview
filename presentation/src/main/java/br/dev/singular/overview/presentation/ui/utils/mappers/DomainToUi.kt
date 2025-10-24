@@ -7,17 +7,17 @@ import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 
-fun List<Suggestion>.toUiMap() = associate { it.key to it.medias.map(Media::toUiModel) }
+fun List<Suggestion>.toUi() = associate { it.key to it.medias.map(Media::toUi) }
 
-fun Media.toUiModel() = MediaUiModel(
+fun Media.toUi() = MediaUiModel(
     id = id,
-    type = type.toMediaUiType(),
+    type = type.toUi(),
     title = title,
     isLiked = isLiked,
     posterURL = buildImageFullURL(posterPath)
 )
 
-internal fun MediaType.toMediaUiType() = when(this) {
+internal fun MediaType.toUi() = when(this) {
     MediaType.MOVIE -> MediaUiType.MOVIE
     MediaType.TV -> MediaUiType.TV
     else -> MediaUiType.ALL

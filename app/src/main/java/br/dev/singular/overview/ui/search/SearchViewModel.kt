@@ -5,12 +5,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import br.dev.singular.overview.data.model.filters.SearchFilters
-import br.dev.singular.overview.data.model.media.MediaEntity
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.ui.utils.mappers.toUiMap
+import br.dev.singular.overview.presentation.ui.utils.mappers.toUi
 import br.dev.singular.overview.presentation.ui.utils.mappers.toUiState
 import br.dev.singular.overview.ui.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,7 +50,7 @@ class SearchViewModel @Inject constructor(
             .flow.cachedIn(viewModelScope)
 
     private fun onLoadSuggestions() = viewModelScope.launch {
-        suggestionsUseCase.invoke().toUiState { it.toUiMap() }.let {
+        suggestionsUseCase.invoke().toUiState { it.toUi() }.let {
             _suggestionsUIState.value = it
         }
     }

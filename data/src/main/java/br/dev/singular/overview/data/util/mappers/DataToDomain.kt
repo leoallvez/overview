@@ -7,22 +7,22 @@ import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Suggestion
 
-fun MediaDataModel.toDomainModel() = Media(
+fun MediaDataModel.toDomain() = Media(
     id = id,
-    type = type.toMediaDomainType(),
+    type = type.toDomain(),
     title = betterTitle,
     isLiked = isLiked,
     posterPath = posterPath
 )
 
-fun SuggestionDataModel.toDomainModel() = Suggestion(
+fun SuggestionDataModel.toDomain() = Suggestion(
     key = sourceKey,
     order = order,
-    type = type.toMediaDomainType(),
+    type = type.toDomain(),
     isActive = isActive
 )
 
-internal fun MediaDataType.toMediaDomainType() = when(this) {
+internal fun MediaDataType.toDomain() = when(this) {
     MediaDataType.MOVIE -> MediaType.MOVIE
     MediaDataType.TV -> MediaType.TV
     MediaDataType.ALL -> MediaType.ALL
