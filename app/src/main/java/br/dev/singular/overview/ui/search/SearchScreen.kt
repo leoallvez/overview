@@ -65,6 +65,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
+import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.ui.MainToolbarTitle
@@ -82,9 +83,8 @@ fun SearchScreen(
     val items = viewModel.mediasSearch.collectAsLazyPagingItems()
     val suggestionsUIState = viewModel.suggestionsUIState.collectAsState().value
 
-    Scaffold(
-        contentColor = PrimaryBackground,
-        modifier = Modifier.background(PrimaryBackground),
+    UiScaffold(
+        padding = PaddingValues(),
         topBar = {
             SearchToolBar { query ->
                 viewModel.onSearching(filters.copy(query = query))

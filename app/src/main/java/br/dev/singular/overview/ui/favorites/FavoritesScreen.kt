@@ -1,10 +1,8 @@
 package br.dev.singular.overview.ui.favorites
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -21,6 +19,7 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 import br.dev.singular.overview.presentation.tagging.params.TagFavorites
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.ui.DefaultVerticalSpace
@@ -30,7 +29,6 @@ import br.dev.singular.overview.ui.NothingFoundScreen
 import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.search.CenteredTextString
-import br.dev.singular.overview.ui.theme.PrimaryBackground
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagFavorites.PATH, detail, id)
@@ -44,11 +42,7 @@ fun FavoritesScreen(
     val type = viewModel.mediaType.collectAsState().value
     val items = viewModel.medias.collectAsLazyPagingItems()
 
-    Scaffold(
-        containerColor = PrimaryBackground,
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+    UiScaffold(
         topBar = {
             MainToolbarTitle(title = stringResource(id = R.string.favorites))
         }

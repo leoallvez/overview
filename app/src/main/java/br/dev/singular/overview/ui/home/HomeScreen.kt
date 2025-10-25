@@ -67,6 +67,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiChip
 import br.dev.singular.overview.presentation.ui.components.UiIcon
+import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.ui.ErrorScreen
@@ -155,11 +156,7 @@ fun HomeContent(
         ,
         modifier = Modifier.fillMaxSize()
     ) {
-        Scaffold(
-            contentColor = PrimaryBackground,
-            modifier = Modifier
-                .background(PrimaryBackground)
-                .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+        UiScaffold(
             topBar = {
                 HomeToolBar(
                     filters = filters,

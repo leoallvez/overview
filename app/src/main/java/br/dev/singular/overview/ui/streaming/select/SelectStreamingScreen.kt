@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,24 +38,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.data.model.provider.StreamingData
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagStreaming
+import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
+import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
-import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.util.animatedBorder
 import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 private fun tagClick(detail: String, id: Long = 0L) =
     TagManager.logClick(TagStreaming.PATH, detail, id)
@@ -66,9 +66,7 @@ fun SelectStreamingScreen(
     navigate: BasicNavigate,
     viewModel: SelectStreamingViewModel = hiltViewModel()
 ) {
-    Scaffold(
-        contentColor = PrimaryBackground,
-        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
+    UiScaffold(
         topBar = {
             ToolBar {
                 tagClick(TagCommon.Detail.CLOSE)
