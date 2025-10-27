@@ -2,7 +2,7 @@
 # Global Settings
 app-id = "br.dev.singular.overview"
 kotlinx-serialization-json = "1.9.0"
-sdk-compile = "35"
+sdk-compile = "36"
 sdk-min = "24"
 sdk-target = "35"
 version-code = "5"
@@ -12,7 +12,7 @@ jvm-target = "11"
 # Kotlin
 kotlin = "2.2.21"
 kotlin-gradle-plugin = "2.1.21"
-compose-compiler = "2.1.21"
+compose-compiler = "2.2.21"
 
 # Android Core
 agp = "8.13.0"
