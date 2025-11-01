@@ -22,8 +22,8 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPlayer
+import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.ui.ButtonWithIcon
-import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.util.YouTubePlayerListener
 import br.dev.singular.overview.util.setFullscreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -34,7 +34,7 @@ fun YouTubePlayerFullscreen(
     videoKey: String,
     onBackstackClick: () -> Unit
 ) {
-    TagScreenView(TagPlayer.PATH)
+    TrackScreenView(TagPlayer.PATH)
     val context = LocalContext.current
     val activity = remember { context as? Activity }
     val systemUiController = rememberSystemUiController()

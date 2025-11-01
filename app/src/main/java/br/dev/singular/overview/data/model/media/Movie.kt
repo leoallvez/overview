@@ -1,6 +1,6 @@
 package br.dev.singular.overview.data.model.media
 
-import br.dev.singular.overview.ui.model.toUiModel
+import br.dev.singular.overview.ui.model.toUi
 import br.dev.singular.overview.util.DateHelper
 import com.squareup.moshi.Json
 import kotlin.collections.map
@@ -20,7 +20,7 @@ data class Movie(
     private val similar: Similar<Movie> = Similar()
 ) : Media() {
 
-    override fun getSimilarMedia() = similar.results.map { it.toUiModel() }
+    override fun getSimilarMedia() = similar.results.map { it.toUi() }
 
     override fun getRuntime() = runtimeTemplate(runtime = movieRuntime)
 

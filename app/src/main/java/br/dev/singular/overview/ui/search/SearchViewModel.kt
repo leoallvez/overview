@@ -10,8 +10,7 @@ import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseC
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.utils.mappers.toUi
-import br.dev.singular.overview.presentation.ui.utils.mappers.toUiState
-import br.dev.singular.overview.ui.model.toUiModel
+import br.dev.singular.overview.ui.model.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,12 +36,12 @@ class SearchViewModel @Inject constructor(
     private val _suggestionsUIState = MutableStateFlow<SuggestionUIState>(UiState.Loading())
     val suggestionsUIState: StateFlow<SuggestionUIState> = _suggestionsUIState
 
-    var mediasSearch: Flow<PagingData<MediaUiModel>> = onLoadMediaSearching().toUiModel()
+    var mediasSearch: Flow<PagingData<MediaUiModel>> = onLoadMediaSearching().toUi()
         private set
 
     fun onSearching(filters: SearchFilters) {
         _searchFilters.value = filters
-        mediasSearch = onLoadMediaSearching().toUiModel()
+        mediasSearch = onLoadMediaSearching().toUi()
     }
 
     private fun onLoadMediaSearching() =
@@ -50,7 +49,7 @@ class SearchViewModel @Inject constructor(
             .flow.cachedIn(viewModelScope)
 
     private fun onLoadSuggestions() = viewModelScope.launch {
-        suggestionsUseCase.invoke().toUiState { it.toUi() }.let {
+        suggestionsUseCase.invoke().toUi { it.toUi() }.let {
             _suggestionsUIState.value = it
         }
     }

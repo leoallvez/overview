@@ -5,33 +5,25 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import br.dev.singular.overview.data.model.media.GenreEntity
@@ -59,9 +50,11 @@ import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
+import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
+import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.theme.AccentColor
-import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -70,7 +63,6 @@ import br.dev.singular.overview.util.getStringByName
 import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
 
 @Composable
 fun GenreEntity.nameTranslation(): String {
@@ -81,137 +73,6 @@ fun GenreEntity.nameTranslation(): String {
 private val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
     current.getStringByName(resource = "genre_$apiId")
-}
-
-@Composable
-fun TagScreenView(
-    tagPath: String,
-    status: String = ""
-) {
-    DisposableEffect(Unit) {
-        TagManager.logScreenView(tagPath, status)
-        onDispose { /* no-op */ }
-    }
-}
-
-@Composable
-fun LoadingScreen(tagPath: String) {
-
-    TagScreenView(tagPath, TagStatus.LOADING)
-    Column(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        IntermediateScreensText(text = stringResource(R.string.loading))
-        BallScaleRippleMultipleProgressIndicator(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = AccentColor,
-            animationDuration = 900
-        )
-    }
-}
-
-@Composable
-fun ErrorScreen(
-    tagPath: String,
-    refresh: () -> Unit
-) {
-    TagScreenView(tagPath, TagStatus.ERROR)
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        IntermediateScreensText(
-            text = stringResource(R.string.error_on_loading),
-            color = AlertColor
-        )
-        StylizedButton(
-            buttonText = stringResource(R.string.btn_try_again),
-            iconDescription = stringResource(R.string.refresh_icon),
-            iconImageVector = Icons.Filled.Refresh
-        ) {
-            refresh.invoke()
-        }
-    }
-}
-
-@Composable
-fun NothingFoundScreen(
-    tagPath: String,
-    hasFilters: Boolean = false
-) {
-    TagScreenView(tagPath, TagStatus.NOTHING_FOUND)
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        IntermediateScreensText(
-            text = stringResource(R.string.not_found),
-            color = AlertColor
-        )
-        if (hasFilters) {
-            Text(
-                text = stringResource(id = R.string.check_filters),
-                color = AccentColor,
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
-
-@Composable
-fun IntermediateScreensText(text: String, color: Color = AccentColor) {
-    Text(
-        text = text,
-        color = color,
-        style = MaterialTheme.typography.titleLarge,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .padding(bottom = 20.dp)
-            .width(200.dp)
-    )
-}
-
-@Composable
-fun StylizedButton(
-    buttonText: String,
-    iconDescription: String,
-    iconImageVector: ImageVector,
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = { onClick.invoke() },
-        contentPadding = PaddingValues(10.dp),
-        shape = RoundedCornerShape(percent = 50),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = AccentColor
-        )
-    ) {
-        Icon(
-            iconImageVector,
-            contentDescription = iconDescription,
-            modifier = Modifier.size(35.dp),
-            tint = PrimaryBackground
-        )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(
-            text = buttonText,
-            color = PrimaryBackground,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
-        )
-    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -315,13 +176,21 @@ fun <T> UiStateResult(
     onRefresh: () -> Unit,
     successContent: @Composable (T) -> Unit
 ) {
+    val paddingTop = dimensionResource(R.dimen.spacing_17x)
     when (uiState) {
-        is UiState.Loading -> LoadingScreen(tagPath)
+        is UiState.Loading -> LoadingScreen(
+            tagPath,
+            modifier = Modifier.padding(top = paddingTop)
+        )
         is UiState.Success -> {
-            TagScreenView(tagPath, TagStatus.SUCCESS)
+            TrackScreenView(tagPath, TagStatus.SUCCESS)
             successContent(uiState.data)
         }
-        else -> ErrorScreen(tagPath) { onRefresh() }
+        else -> ErrorScreen(
+            tagPath,
+            modifier = Modifier.padding(top = paddingTop),
+            onRefresh = onRefresh
+        )
     }
 }
 
@@ -391,26 +260,6 @@ fun ToolbarTitle(
     }
 }
 
-@Composable
-fun MainToolbarTitle(
-    title: String,
-    modifier: Modifier = Modifier,
-    textPadding: PaddingValues = PaddingValues()
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(dimensionResource(R.dimen.spacing_14x))
-    ) {
-        UiTitle(
-            text = title,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(textPadding),
-            color = AccentColor
-        )
-    }
-}
 
 @Composable
 fun StreamingIcon(
@@ -432,15 +281,6 @@ fun StreamingIcon(
                 .onClick(action = onClick)
         )
     }
-}
-
-@Composable
-fun DefaultVerticalSpace() {
-    Spacer(
-        modifier = Modifier
-            .background(PrimaryBackground)
-            .padding(vertical = dimensionResource(R.dimen.spacing_1x))
-    )
 }
 
 @Composable

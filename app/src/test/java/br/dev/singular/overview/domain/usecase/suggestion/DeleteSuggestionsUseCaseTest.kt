@@ -1,11 +1,9 @@
-package br.dev.singular.overview.domain.usecase.suggestions
+package br.dev.singular.overview.domain.usecase.suggestion
 
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.DeleteAll
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
-import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
-import br.dev.singular.overview.domain.usecase.suggestion.IDeleteSuggestionsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

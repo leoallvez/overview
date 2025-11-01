@@ -16,6 +16,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
         stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
+        buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
     }
     buildFeatures {
         buildConfig = true

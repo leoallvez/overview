@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,7 +12,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
-import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
@@ -45,12 +43,7 @@ fun UiScaffold(
 @Composable
 fun UiScaffoldPreview() {
     UiScaffold(
-        topBar = {
-            UiTitle(
-                text = "Screen Title",
-                modifier = Modifier.fillMaxWidth().background(Background)
-            )
-        }
+        topBar = { UiToolbar("Screen Title") }
     ) {
         Box (Modifier.padding(top = it.calculateTopPadding())) {
             UiMediaGrid(

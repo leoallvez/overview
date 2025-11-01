@@ -11,7 +11,7 @@ class WorkManagerFacade(
     fun init() {
         scheduleStreamingSaveTask()
         scheduleGenreDefaultTask()
-        scheduleMediaCacheTask()
+        scheduleDeleteMediasCacheTask()
         scheduleDeleteSuggestionsCacheTask()
     }
 
@@ -19,7 +19,7 @@ class WorkManagerFacade(
 
     private fun scheduleGenreDefaultTask() = makeOneTime<GenreDefaultSetupWorker>()
 
-    private fun scheduleMediaCacheTask() = makeOneTime<MediaCacheWorker>()
+    private fun scheduleDeleteMediasCacheTask() = makeOneTime<DeleteMediasCacheWorker>()
 
     private fun scheduleDeleteSuggestionsCacheTask() = makeOneTime<DeleteSuggestionsCacheWorker>()
 

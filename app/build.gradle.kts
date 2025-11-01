@@ -126,7 +126,6 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.hilt.navigation.compose)
 
     // Room
     ksp(libs.room.compiler)
@@ -149,7 +148,6 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.logging.interceptor)
     implementation(libs.toolbar.compose)
-    implementation(libs.progress.indicator)
     implementation(libs.youtube.player)
     implementation(libs.converter.moshi)
     implementation(libs.converter.serialization)

@@ -31,7 +31,6 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +60,6 @@ import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
-import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
@@ -70,11 +68,11 @@ import br.dev.singular.overview.presentation.ui.components.UiIcon
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
-import br.dev.singular.overview.ui.ErrorScreen
-import br.dev.singular.overview.ui.LoadingScreen
-import br.dev.singular.overview.ui.NothingFoundScreen
+import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
+import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
+import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
+import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.ui.StreamingIcon
-import br.dev.singular.overview.ui.TagScreenView
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -168,21 +166,29 @@ fun HomeContent(
                 )
             }
         ) { padding ->
+            val topPadding = padding.calculateTopPadding()
             when (items.loadState.refresh) {
-                is LoadState.Loading -> LoadingScreen(tagPath = TagHome.PATH)
+                is LoadState.Loading -> LoadingScreen(
+                    tagPath = TagHome.PATH,
+                    modifier = Modifier.padding(top = topPadding)
+                )
                 is LoadState.NotLoading -> {
                     if (items.itemCount == 0) {
-                        ErrorScreen(tagPath = TagHome.PATH, refresh = onRefresh)
+                        ErrorScreen(
+                            tagPath = TagHome.PATH,
+                            modifier = Modifier.padding(top = topPadding),
+                            onRefresh = onRefresh
+                        )
                     } else {
-                        TagScreenView(TagHome.PATH, TagStatus.SUCCESS)
+                        TrackScreenView(TagHome.PATH, TagStatus.SUCCESS)
                         UiMediaGrid(
                             items = items,
                             modifier = Modifier
                                 .background(PrimaryBackground)
-                                .padding(top = padding.calculateTopPadding())
+                                .padding(top = topPadding)
                                 .fillMaxSize(),
                             onClick = {
-                                TagMediaManager.logClick(TagHome.PATH, it.id)
+                                TagMediaManager.logMediaClick(TagHome.PATH, it.id)
                                 navigate.toMediaDetails(it)
                             }
                         )
@@ -191,6 +197,7 @@ fun HomeContent(
                 else -> {
                     NothingFoundScreen(
                         tagPath = TagHome.PATH,
+                        modifier = Modifier.padding(top = topPadding),
                         hasFilters = filters.areDefaultValues().not()
                     )
                 }
@@ -398,7 +405,7 @@ fun FilterMediaType(
                 MediaType.ALL.key -> {
                     UiMediaTypeSelector(type = MediaUiType.ALL) {
                         val newType = MediaType.getByKey(it.name.lowercase())
-                        tagClick("${SELECT_MEDIA_TYPE}${newType.key}")
+                        TagMediaManager.logTypeClick(TagHome.PATH, it)
                         onSelectMedia(filters.copy(mediaType = newType, genreId = null))
                     }
                 }

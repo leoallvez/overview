@@ -9,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import br.dev.singular.overview.presentation.ui.screens.favorites.FavoritesScreen
 import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.favorites.FavoritesScreen
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
@@ -33,6 +33,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         startDestination = ScreenNav.Splash.route,
         modifier = Modifier.background(PrimaryBackground)
     ) {
+        val basicNav = BasicNavigate(navController)
         composable(route = ScreenNav.Splash.route) {
             SplashScreen(navigate = SplashNavigate(navController))
         }
@@ -41,10 +42,10 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             exitTransition = { upExitTransition(duration = AnimationDurations.LONG) },
             enterTransition = { downEnterTransition(duration = AnimationDurations.LONG) }
         ) {
-            SelectStreamingScreen(navigate = BasicNavigate(navController))
+            SelectStreamingScreen(navigate = basicNav)
         }
         composable(route = ScreenNav.Search.route) {
-            SearchScreen(navigate = BasicNavigate(navController))
+            SearchScreen(navigate = basicNav)
         }
         composable(
             route = ScreenNav.MediaDetails.route,
@@ -74,7 +75,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         ) { navBackStackEntry ->
             PersonDetailsScreen(
                 apiId = navBackStackEntry.getApiId(),
-                navigate = BasicNavigate(nav = navController)
+                navigate = basicNav
             )
         }
         composable(route = ScreenNav.Home.route) {
@@ -83,7 +84,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             )
         }
         composable(route = ScreenNav.Favorites.route) {
-            FavoritesScreen(navigate = BasicNavigate(nav = navController))
+            FavoritesScreen(onMediaClick = { basicNav.toMediaDetails(it) })
         }
     }
 }

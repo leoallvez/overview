@@ -79,7 +79,6 @@ import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
 import br.dev.singular.overview.ui.ButtonWithIcon
-import br.dev.singular.overview.ui.ErrorScreen
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.SimpleSubtitle2
@@ -101,6 +100,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import timber.log.Timber
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagMedia.PATH, detail, id)
@@ -237,7 +237,6 @@ fun MediaBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-//            .verticalScroll(rememberScrollState())
             .background(PrimaryBackground)
     ) {
         Column(
@@ -283,7 +282,7 @@ fun MediaBody(
             contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
             items = media.getSimilarMedia(),
             onClick = {
-                TagMediaManager.logClick(TagPerson.PATH, it.id)
+                TagMediaManager.logMediaClick(TagPerson.PATH, it.id)
                 navigate.toMediaDetails(it)
             }
         )

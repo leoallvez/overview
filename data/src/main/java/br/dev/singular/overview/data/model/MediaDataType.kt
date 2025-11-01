@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class MediaDataType(val value: String) {
+enum class MediaDataType(val key: String) {
     @SerialName("movie")
     MOVIE("movie"),
     @SerialName("tv")
@@ -15,8 +15,6 @@ enum class MediaDataType(val value: String) {
     UNKNOWN("unknown");
 
     companion object {
-        fun fromValue(value: String): MediaDataType {
-            return entries.find { it.value == value } ?: UNKNOWN
-        }
+        fun fromKey(key: String) = entries.find { it.key == key } ?: UNKNOWN
     }
 }

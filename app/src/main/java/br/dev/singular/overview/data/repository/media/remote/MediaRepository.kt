@@ -31,8 +31,10 @@ class MediaRepository @Inject constructor(
         flow { emit(result) }
     }
 
-    override suspend fun update(media: Media) = withContext(_dispatcher) {
-        _mediaLocalSource.update(media.toMediaEntity())
+    override suspend fun update(media: Media) {
+        return withContext(_dispatcher) {
+            _mediaLocalSource.update(media.toData())
+        }
     }
 
     private suspend fun getMedia(apiId: Long, type: MediaType) = when (type) {

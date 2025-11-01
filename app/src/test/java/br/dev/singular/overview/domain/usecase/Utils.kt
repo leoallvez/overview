@@ -3,6 +3,7 @@ package br.dev.singular.overview.domain.usecase
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Suggestion
+import java.util.Date
 
 fun createSuggestionMock(): Suggestion {
     return Suggestion(
@@ -14,11 +15,13 @@ fun createSuggestionMock(): Suggestion {
     )
 }
 
-fun createMediaMock(): Media {
+fun createMediaMock(isLiked: Boolean = false): Media {
     return Media(
         id = 1L,
         type = MediaType.MOVIE,
         title = "A",
-        posterPath = "path/to/poster"
+        posterPath = "path/to/poster",
+        isLiked = isLiked,
+        lastUpdate = Date()
     )
 }
