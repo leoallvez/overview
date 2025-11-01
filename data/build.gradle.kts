@@ -1,9 +1,9 @@
 import com.android.build.api.dsl.VariantDimension
 
 plugins {
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    kotlin("plugin.serialization") version "1.8.0"
 }
 
 android {

@@ -1,7 +1,9 @@
+
 pluginManagement {
+    val kotlinVersion = "2.2.21"
     plugins {
-        kotlin("jvm") version "2.2.20"
-        kotlin("plugin.serialization") version "2.1.20"
+        kotlin("jvm") version kotlinVersion
+        kotlin("plugin.serialization") version kotlinVersion
     }
     repositories {
         google {
