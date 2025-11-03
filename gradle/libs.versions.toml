@@ -12,7 +12,7 @@ jvm-target = "11"
 # Kotlin
 kotlin = "2.2.21"
 kotlin-gradle-plugin = "2.2.21"
-compose-compiler = "2.1.21"
+compose-compiler = "2.2.21"
 
 # Android Core
 agp = "8.13.0"
