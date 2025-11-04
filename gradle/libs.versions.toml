@@ -12,7 +12,7 @@ jvm-target = "11"
 # Kotlin
 kotlin = "2.2.21"
 kotlin-gradle-plugin = "2.2.21"
-compose-compiler = "2.1.21"
+compose-compiler = "2.2.21"
 
 # Android Core
 agp = "8.13.0"
@@ -39,11 +39,11 @@ room = "2.8.3"
 paging-runtime-ktx = "3.3.6"
 
 # Firebase
-firebase-bom = "34.4.0"
+firebase-bom = "34.5.0"
 
 # Network
 retrofit = "2.9.0"
-logging-interceptor = "5.2.1"
+logging-interceptor = "5.3.0"
 converter-serialization = "1.0.0"
 network-response-adapter = "4.2.2"
 
