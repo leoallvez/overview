@@ -15,10 +15,9 @@ import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
-import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
 import br.dev.singular.overview.ui.person.PersonDetailsScreen
 import br.dev.singular.overview.ui.search.SearchScreen
-import br.dev.singular.overview.ui.splash.SplashScreen
+import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
 import br.dev.singular.overview.ui.home.HomeScreen
 import br.dev.singular.overview.ui.streaming.select.SelectStreamingScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -35,7 +34,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
     ) {
         val basicNav = BasicNavigate(navController)
         composable(route = ScreenNav.Splash.route) {
-            SplashScreen(navigate = SplashNavigate(navController))
+            SplashScreen(onToHome = { basicNav.toHome() })
         }
         composable(
             route = ScreenNav.SelectStreaming.route,
@@ -84,7 +83,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             )
         }
         composable(route = ScreenNav.Favorites.route) {
-            FavoritesScreen(onMediaClick = { basicNav.toMediaDetails(it) })
+            FavoritesScreen(onToMediaDetails = { basicNav.toMediaDetails(it) })
         }
     }
 }

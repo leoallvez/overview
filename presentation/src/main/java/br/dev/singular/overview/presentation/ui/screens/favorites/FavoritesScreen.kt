@@ -26,7 +26,7 @@ import br.dev.singular.overview.presentation.ui.screens.common.UiMediaContentSta
 @Composable
 fun FavoritesScreen(
     tagPath: String = TagFavorites.PATH,
-    onMediaClick: (MediaUiModel) -> Unit,
+    onToMediaDetails: (MediaUiModel) -> Unit,
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {
     val uiParam = viewModel.uiParam.collectAsState().value
@@ -62,7 +62,7 @@ fun FavoritesScreen(
                     errorScreen = { EmptyFavoritesScreen(tagPath, uiParam.type) },
                     onClickItem = { media ->
                         TagMediaManager.logMediaClick(tagPath, media.id)
-                        onMediaClick(media)
+                        onToMediaDetails(media)
                     }
                 )
             }
