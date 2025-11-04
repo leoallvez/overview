@@ -1,8 +1,7 @@
-package br.dev.singular.overview.ui.splash
+package br.dev.singular.overview.presentation.ui.screens.splash
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,17 +20,11 @@ import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagSplash
-import br.dev.singular.overview.ui.DefaultViewModel
-import br.dev.singular.overview.ui.navigation.wrappers.SplashNavigate
-import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.presentation.ui.theme.Background
 import kotlinx.coroutines.delay
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
-fun SplashScreen(
-    navigate: SplashNavigate,
-    viewModel: DefaultViewModel = hiltViewModel()
-) {
+fun SplashScreen(onToHome: () -> Unit) {
     val scale = remember { Animatable(0f) }
     LaunchedEffect(key1 = Unit) {
         TagManager.logScreenView(TagSplash.PATH)
@@ -44,39 +37,23 @@ fun SplashScreen(
                 }
             )
         )
-        viewModel.remoteConfig.start()
         delay(2000L)
-        navigate.toHome()
+        onToHome()
     }
-    SplashScreenContent(scale)
-}
-
-@Composable
-fun SplashScreenContent(scale: Animatable<Float, AnimationVector1D>) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
+        modifier = Modifier.fillMaxSize().background(Background),
         contentAlignment = Alignment.Center
     ) {
-        AppIcon(scale)
-    }
-}
-
-@Composable
-fun AppIcon(scale: Animatable<Float, AnimationVector1D>) {
-    Box(
-        modifier = Modifier
-            .scale(scale.value)
-            .size(400.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.launcher_playstore),
-            contentDescription = null,
-            modifier = Modifier
-                .size(300.dp),
-            contentScale = ContentScale.Crop
-        )
+        Box(
+            modifier = Modifier.scale(scale.value).size(400.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.launcher_playstore),
+                contentDescription = null,
+                modifier = Modifier.size(300.dp),
+                contentScale = ContentScale.Crop
+            )
+        }
     }
 }
