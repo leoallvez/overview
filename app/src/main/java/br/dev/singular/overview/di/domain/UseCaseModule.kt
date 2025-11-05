@@ -3,13 +3,12 @@ package br.dev.singular.overview.di.domain
 import br.dev.singular.overview.data.repository.MediaLocalRepository
 import br.dev.singular.overview.data.repository.MediaRemoteRepository
 import br.dev.singular.overview.data.repository.SuggestionRepository
+import br.dev.singular.overview.domain.usecase.IDeleteUseCase
+import br.dev.singular.overview.domain.usecase.media.DeleteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.GetAllLocalMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetAllLocalMediasUseCase
-import br.dev.singular.overview.domain.usecase.media.DeleteMediasCacheUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
-import br.dev.singular.overview.domain.usecase.media.IDeleteMediasCacheUseCase
-import br.dev.singular.overview.domain.usecase.suggestion.IDeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import dagger.Module
 import dagger.Provides
@@ -23,10 +22,11 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideDeleteSuggestionUseCase(
+    @DeleteSuggestions
+    fun provideDeleteSuggestionsUseCase(
         repo: SuggestionRepository
-    ): IDeleteSuggestionsUseCase {
-        return DeleteSuggestionsUseCase(repo)
+    ): IDeleteUseCase {
+        return DeleteSuggestionsUseCase(repo, repo)
     }
 
     @Singleton
@@ -51,9 +51,10 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideDeleteMediasCacheUseCase(
+    @DeleteMedias
+    fun provideDeleteMediasUseCase(
         repo: MediaLocalRepository
-    ): IDeleteMediasCacheUseCase {
-        return DeleteMediasCacheUseCase(repo, repo)
+    ): IDeleteUseCase {
+        return DeleteMediasUseCase(repo, repo)
     }
 }

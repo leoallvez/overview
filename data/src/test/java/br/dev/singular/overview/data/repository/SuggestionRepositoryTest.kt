@@ -78,12 +78,12 @@ class SuggestionRepositoryTest {
     @Test
     fun `should call deleteAll on local data source`() = runTest {
         // Arrange
-        coJustRun { localDataSource.deleteAll() }
+        coJustRun { localDataSource.delete(any()) }
 
         // Act
-        sut.deleteAll()
+        sut.delete()
 
         // Assert
-        coVerify(exactly = 1) { localDataSource.deleteAll() }
+        coVerify(exactly = 1) { localDataSource.delete(any()) }
     }
 }

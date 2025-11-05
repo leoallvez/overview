@@ -3,25 +3,27 @@ package br.dev.singular.overview.domain.usecase
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Suggestion
+import java.security.acl.LastOwnerException
 import java.util.Date
 
-fun createSuggestionMock(): Suggestion {
+fun createSuggestionMock(lastUpdate: Date = Date()): Suggestion {
     return Suggestion(
         order = 1,
         type = MediaType.MOVIE,
         key = "key1",
         isActive = true,
-        medias = emptyList()
+        medias = emptyList(),
+        lastUpdate = lastUpdate
     )
 }
 
-fun createMediaMock(isLiked: Boolean = false): Media {
+fun createMediaMock(isLiked: Boolean = false, lastUpdate: Date = Date()): Media {
     return Media(
         id = 1L,
         type = MediaType.MOVIE,
         title = "A",
         posterPath = "path/to/poster",
         isLiked = isLiked,
-        lastUpdate = Date()
+        lastUpdate = lastUpdate
     )
 }

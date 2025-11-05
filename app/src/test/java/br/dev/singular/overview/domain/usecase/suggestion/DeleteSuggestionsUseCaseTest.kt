@@ -1,49 +1,32 @@
 package br.dev.singular.overview.domain.usecase.suggestion
 
 import br.dev.singular.overview.domain.model.Suggestion
-import br.dev.singular.overview.domain.repository.DeleteAll
-import br.dev.singular.overview.domain.usecase.FailType
-import br.dev.singular.overview.domain.usecase.UseCaseState
-import io.mockk.coEvery
-import io.mockk.coVerify
+import br.dev.singular.overview.domain.repository.Delete
+import br.dev.singular.overview.domain.repository.GetAll
+import br.dev.singular.overview.domain.usecase.DeleteUseCaseTest
+import br.dev.singular.overview.domain.usecase.adjustDate
+import br.dev.singular.overview.domain.usecase.createSuggestionMock
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Test
+import java.util.Date
 
-class DeleteSuggestionsUseCaseTest {
+class DeleteSuggestionsUseCaseTest : DeleteUseCaseTest<Suggestion>()  {
 
-    private lateinit var sut: IDeleteSuggestionsUseCase
-    private lateinit var deleteAllMock: DeleteAll<Suggestion>
+    override lateinit var getter: GetAll<Suggestion>
+    override lateinit var deleter: Delete<Suggestion>
+
+    private val today: Date = Date()
 
     @Before
-    fun setup() {
-        deleteAllMock = mockk()
-        sut = DeleteSuggestionsUseCase(deleteAllMock)
+    fun onSetup() {
+        getter = mockk()
+        deleter = mockk()
+        sut = DeleteSuggestionsUseCase(getter, deleter, maxCacheDate = today)
     }
 
-    @Test
-    fun `invoke should return success when delete all successfully`() = runTest {
-        // arrange
-        coEvery { deleteAllMock.deleteAll() } returns Unit
-        // act
-        val result = sut.invoke()
-        // assert
-        coVerify { deleteAllMock.deleteAll() }
-        assertEquals(UseCaseState.Success(Unit), result)
-    }
+    override fun createMockToKeep() =
+        createSuggestionMock(lastUpdate = today)
 
-    @Test
-    fun `invoke should return failure when delete all throws exception`() = runTest {
-        // arrange
-        coEvery { deleteAllMock.deleteAll() } throws Exception()
-        // act
-        val result = sut.invoke()
-        // assert
-        coVerify { deleteAllMock.deleteAll() }
-        assertTrue(result is UseCaseState.Failure)
-        assertTrue((result as UseCaseState.Failure).type is FailType.Exception)
-    }
+    override fun createMockToDelete() =
+        createSuggestionMock(lastUpdate = today.adjustDate(-1))
 }

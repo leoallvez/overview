@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import br.dev.singular.overview.data.db.AppDatabase
 import br.dev.singular.overview.data.db.MIGRATION_1_2
+import br.dev.singular.overview.data.db.MIGRATION_2_3
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +27,10 @@ class StorageModule {
         context,
         AppDatabase::class.java,
         DATABASE_NAME
-    ).addMigrations(MIGRATION_1_2).build()
+    ).addMigrations(
+        MIGRATION_1_2,
+        MIGRATION_2_3,
+    ).build()
 
     @Provides
     fun provideStreamingDao(db: AppDatabase) = db.streamingDao()

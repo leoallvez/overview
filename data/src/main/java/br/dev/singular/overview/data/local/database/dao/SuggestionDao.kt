@@ -1,6 +1,7 @@
 package br.dev.singular.overview.data.local.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
@@ -15,6 +16,6 @@ interface SuggestionDao {
     @Query("SELECT * FROM suggestion")
     suspend fun getAll(): List<SuggestionDataModel>
 
-    @Query("DELETE FROM suggestion")
-    suspend fun deleteAll()
+    @Delete
+    suspend fun delete(vararg models: SuggestionDataModel)
 }

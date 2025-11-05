@@ -20,10 +20,12 @@ fun MediaDataModel.toDomain() = Media(
 )
 
 fun SuggestionDataModel.toDomain() = Suggestion(
+    id = id,
     key = sourceKey,
     order = order,
     type = type.toDomain(),
-    isActive = isActive
+    isActive = isActive,
+    lastUpdate = lastUpdate
 )
 
 fun MediaDataPage.toDomain(): Page<Media> = Page(

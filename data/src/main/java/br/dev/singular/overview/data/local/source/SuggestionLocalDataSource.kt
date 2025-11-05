@@ -5,20 +5,21 @@ import br.dev.singular.overview.data.model.SuggestionDataModel
 import javax.inject.Inject
 
 interface ISuggestionLocalDataSource {
-    suspend fun insert(model: List<SuggestionDataModel>)
+    suspend fun insert(models: List<SuggestionDataModel>)
 
     suspend fun getAll(): List<SuggestionDataModel>
 
-    suspend fun deleteAll()
+    suspend fun delete(models: List<SuggestionDataModel>)
 }
 
 class SuggestionLocalDataSource @Inject constructor(
     private val dao: SuggestionDao
 ) : ISuggestionLocalDataSource {
-    override suspend fun insert(model: List<SuggestionDataModel>) =
-        dao.insert(*model.toTypedArray())
+    override suspend fun insert(models: List<SuggestionDataModel>) =
+        dao.insert(*models.toTypedArray())
 
     override suspend fun getAll(): List<SuggestionDataModel> = dao.getAll()
 
-    override suspend fun deleteAll() = dao.deleteAll()
+    override suspend fun delete(models: List<SuggestionDataModel>) =
+        dao.delete(*models.toTypedArray())
 }

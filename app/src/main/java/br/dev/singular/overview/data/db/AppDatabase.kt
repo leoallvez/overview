@@ -27,7 +27,7 @@ import br.dev.singular.overview.data.model.provider.StreamingEntity
         MediaDataModel::class,
         SuggestionDataModel::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
