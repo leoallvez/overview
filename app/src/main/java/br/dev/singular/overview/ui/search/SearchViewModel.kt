@@ -26,10 +26,6 @@ class SearchViewModel @Inject constructor(
     private val suggestionsUseCase: IGetAllSuggestionsUseCase
 ) : ViewModel() {
 
-    init {
-        onLoadSuggestions()
-    }
-
     private val _searchFilters = MutableStateFlow(SearchFilters())
     val searchFilters: StateFlow<SearchFilters> = _searchFilters
 
@@ -48,7 +44,7 @@ class SearchViewModel @Inject constructor(
         _repository.searchPaging(_searchFilters.value)
             .flow.cachedIn(viewModelScope)
 
-    private fun onLoadSuggestions() = viewModelScope.launch {
+    fun onLoadSuggestions() = viewModelScope.launch {
         suggestionsUseCase.invoke().toUi { it.toUi() }.let {
             _suggestionsUIState.value = it
         }

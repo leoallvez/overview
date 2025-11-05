@@ -25,6 +25,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,6 +81,10 @@ fun SearchScreen(
     val filters = viewModel.searchFilters.collectAsState().value
     val items = viewModel.mediasSearch.collectAsLazyPagingItems()
     val suggestionsUIState = viewModel.suggestionsUIState.collectAsState().value
+
+    LaunchedEffect(Unit) {
+        viewModel.onLoadSuggestions()
+    }
 
     UiScaffold(
         padding = PaddingValues(),
