@@ -229,8 +229,8 @@ fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
                 DarkGray,
                 CircleShape
             ),
-        placeholder = painterResource(R.drawable.avatar),
-        errorDefaultImage = painterResource(R.drawable.avatar)
+        placeholder = R.drawable.avatar,
+        errorDefaultImage = R.drawable.avatar
     )
 }
 

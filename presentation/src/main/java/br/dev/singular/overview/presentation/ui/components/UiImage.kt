@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -25,8 +26,8 @@ fun UiImage(
     previewPainter: Painter? = null,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.FillHeight,
-    placeholder: Painter = painterResource(R.drawable.placeholder),
-    errorDefaultImage: Painter = painterResource(R.drawable.placeholder),
+    @DrawableRes placeholder: Int = R.drawable.placeholder,
+    @DrawableRes errorDefaultImage: Int = R.drawable.placeholder,
     corner: Dp = dimensionResource(R.dimen.corner_width),
     withBorder: Boolean = false
 ) {
@@ -44,14 +45,14 @@ fun UiImage(
     } else {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(data = url)
+                .data(url)
                 .crossfade(true)
+                .placeholder(placeholder)
+                .error(errorDefaultImage)
                 .build(),
-            modifier = imageModifier,
-            contentScale = contentScale,
-            placeholder = placeholder,
             contentDescription = contentDescription,
-            error = errorDefaultImage
+            modifier = imageModifier,
+            contentScale = contentScale
         )
     }
 }
