@@ -76,7 +76,7 @@
     <string name="liked_movie_not_found">お気に入りの映画はこちらに表示されます :)</string>
     <string name="liked_tv_show_not_found">お気に入りのテレビ番組はこちらに表示されます :)</string>
     <string name="my_favorite">내 즐겨찾기</string>
-    <string name="home">ホーム</string>
+    <string name="explore">探索する</string>
     <string name="favorites">お気に入り</string>
     <string name="search">検索</string>
     <string name="select_streaming">ストリーミングを選択</string>

@@ -3,11 +3,12 @@ package br.dev.singular.overview.ui.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.ui.graphics.vector.ImageVector
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.ui.ScreenNav
 
 sealed class BottomNavigation(
@@ -19,8 +20,8 @@ sealed class BottomNavigation(
 
     object Home : BottomNavigation(
         nav = ScreenNav.Home,
-        title = R.string.home,
-        icon = Icons.Default.Home,
+        title = R.string.explore,
+        icon = Icons.Rounded.Explore,
         tagDetail = TagBottomNavigation.Detail.HOME
     )
 
