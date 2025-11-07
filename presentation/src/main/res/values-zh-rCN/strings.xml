@@ -76,7 +76,7 @@
     <string name="liked_movie_not_found">您喜欢的电影将显示在这里 :)</string>
     <string name="liked_tv_show_not_found">您喜欢的电视节目将显示在这里 :)</string>
     <string name="my_favorite">我的收藏</string>
-    <string name="home">主页</string>
+    <string name="explore">探索</string>
     <string name="favorites">收藏夹</string>
     <string name="search">搜索</string>
     <string name="select_streaming">选择流媒体</string>

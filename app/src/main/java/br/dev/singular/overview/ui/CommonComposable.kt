@@ -44,6 +44,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.UiIcon
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
@@ -261,10 +262,12 @@ fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean
                     BottomNavigationItem(
                         modifier = Modifier.height(height).background(PrimaryBackground),
                         icon = {
-                            Icon(
-                                item.icon,
-                                contentDescription = stringResource(id = item.title),
-                                tint = color
+                            UiIcon(
+                                icon = item.icon,
+                                color =  color,
+                                modifier = Modifier
+                                    .size(dimensionResource( R.dimen.spacing_7x))
+                                    .padding(bottom = dimensionResource( R.dimen.spacing_1x)),
                             )
                         },
                         label = { Text(stringResource(item.title), color = color) },
