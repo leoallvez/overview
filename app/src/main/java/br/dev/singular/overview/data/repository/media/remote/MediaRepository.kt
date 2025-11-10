@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MediaRepository @Inject constructor(
-    @IoDispatcher private val _dispatcher: CoroutineDispatcher,
+    @param:IoDispatcher private val _dispatcher: CoroutineDispatcher,
     private val _mediaLocalSource: MediaLocalDataSource,
     private val _movieRemoteSource: IMediaRemoteDataSource<Movie>,
     private val _tvShowRemoteSource: IMediaRemoteDataSource<TvShow>,

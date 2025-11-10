@@ -11,7 +11,8 @@ interface IJsonFileReaderProvider {
 }
 
 class JsonFileReaderProvider @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext
+    private val context: Context
 ) : IJsonFileReaderProvider {
 
     override fun read(filePath: String): String {

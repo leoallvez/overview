@@ -19,7 +19,7 @@ class StreamingRepository @Inject constructor(
     private val _cacheDataSource: CacheDataSource,
     private val _localDataSource: StreamingLocalDataSource,
     private val _remoteDataSource: IStreamingRemoteDataSource,
-    @IoDispatcher private val _dispatcher: CoroutineDispatcher
+    @param:IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IStreamingRepository, ISelectedStreamingRepository {
 
     override suspend fun getItems() = withContext(_dispatcher) {

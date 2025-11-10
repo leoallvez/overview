@@ -12,7 +12,7 @@ import br.dev.singular.overview.ui.ScreenNav
 
 sealed class BottomNavigation(
     val nav: ScreenNav,
-    @StringRes val title: Int,
+    @param:StringRes val title: Int,
     val icon: ImageVector,
     val tagDetail: String
 ) {

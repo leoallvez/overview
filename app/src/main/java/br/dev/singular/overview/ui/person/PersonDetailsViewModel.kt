@@ -2,7 +2,7 @@ package br.dev.singular.overview.ui.person
 
 import androidx.lifecycle.viewModelScope
 import br.dev.singular.overview.data.repository.person.IPersonRepository
-import br.dev.singular.overview.di.AdsQualifier
+import br.dev.singular.overview.di.DisplayAds
 import br.dev.singular.overview.di.MainDispatcher
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.AdViewModel
@@ -18,9 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonDetailsViewModel @Inject constructor(
-    @AdsQualifier adsManager: RemoteConfig<Boolean>,
+    @DisplayAds adsManager: RemoteConfig<Boolean>,
     private val _repository: IPersonRepository,
-    @MainDispatcher private val _dispatcher: CoroutineDispatcher
+    @param:MainDispatcher private val _dispatcher: CoroutineDispatcher
 ) : AdViewModel(adsManager) {
 
     private val _uiState = MutableStateFlow<PersonUiState>(UiState.Loading())

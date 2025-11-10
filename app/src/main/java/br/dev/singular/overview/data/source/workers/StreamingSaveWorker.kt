@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import br.dev.singular.overview.data.api.ApiLocale
 import br.dev.singular.overview.data.repository.streaming.StreamingRepository
-import br.dev.singular.overview.di.StreamingListQualifier
+import br.dev.singular.overview.di.StreamingList
 import br.dev.singular.overview.remote.RemoteConfig
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -18,7 +18,8 @@ class StreamingSaveWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val _repository: StreamingRepository,
-    @StreamingListQualifier private val _remote: RemoteConfig<List<Streaming>>
+    @param:StreamingList
+    private val _remote: RemoteConfig<List<Streaming>>
 ) : CoroutineWorker(context, params) {
 
     private val _region: String = locale.region

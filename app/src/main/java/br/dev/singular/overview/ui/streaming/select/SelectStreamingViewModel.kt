@@ -23,7 +23,7 @@ import javax.inject.Inject
 class SelectStreamingViewModel @Inject constructor(
     private val _cache: CacheDataSource,
     private val _repository: StreamingRepository,
-    @MainDispatcher private val _dispatcher: CoroutineDispatcher
+    @param:MainDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<StreamingUiState>(UiState.Loading())

@@ -3,10 +3,10 @@ package br.dev.singular.overview.di
 import javax.inject.Qualifier
 
 @Qualifier
-annotation class StreamingListQualifier
+annotation class StreamingList
 
 @Qualifier
-annotation class AdsQualifier
+annotation class DisplayAds
 
 @Qualifier
-annotation class HighlightIconsQualifier
+annotation class DisplayHighlightIcons

@@ -19,7 +19,7 @@ import dagger.hilt.components.SingletonComponent
 class RemoteModule {
 
     @Provides
-    @AdsQualifier
+    @DisplayAds
     fun providerDisplayAdsRemote(
         remoteSource: RemoteConfigProvider
     ): RemoteConfig<Boolean> {
@@ -30,7 +30,7 @@ class RemoteModule {
     }
 
     @Provides
-    @HighlightIconsQualifier
+    @DisplayHighlightIcons
     fun providerDisplayHighlightIconsRemote(
         remoteSource: RemoteConfigProvider
     ): RemoteConfig<Boolean> {
@@ -40,13 +40,17 @@ class RemoteModule {
     }
 
     @Provides
-    @StreamingListQualifier
-    fun providerStreamingRemote(
+    @StreamingList
+    fun providerStreamingListRemote(
         apiLocale: ApiLocale,
         remoteSource: RemoteConfigProvider,
         jsonFileReader: IJsonFileReaderProvider
     ): RemoteConfig<List<StreamingEntity>> {
         val region = apiLocale.region
-        return StreamingRemoteConfig(region, remoteSource, jsonFileReader)
+        return StreamingRemoteConfig(
+            region,
+            remoteSource,
+            jsonFileReader
+        )
     }
 }

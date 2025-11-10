@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class PersonRepository @Inject constructor(
     private val _dataSource: IPersonRemoteDataSource,
-    @IoDispatcher private val _dispatcher: CoroutineDispatcher
+    @param:IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : IPersonRepository {
 
     override suspend fun getItem(apiId: Long) = withContext(_dispatcher) {
