@@ -23,6 +23,7 @@ fun UiText(
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
     color: Color = DefaultTextColor,
+    textAlign: TextAlign = TextAlign.Center,
     isBold: Boolean = false
 ) {
     Text(
@@ -31,7 +32,7 @@ fun UiText(
         modifier = modifier,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
         style = style
     )
