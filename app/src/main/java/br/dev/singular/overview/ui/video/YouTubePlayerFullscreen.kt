@@ -22,8 +22,8 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPlayer
+import br.dev.singular.overview.presentation.ui.components.UiIconButton
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
-import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.util.YouTubePlayerListener
 import br.dev.singular.overview.util.setFullscreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -68,10 +68,9 @@ fun YouTubePlayerFullscreen(
             },
             modifier = Modifier.fillMaxSize()
         )
-
-        ButtonWithIcon(
-            painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-            descriptionResource = R.string.backstack_icon,
+        UiIconButton(
+            icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+            iconDescription = context.getString(R.string.backstack_icon),
             background = Color.Gray.copy(alpha = 0.1f),
             modifier = Modifier.align(Alignment.TopStart).padding(
                 start = dimensionResource(R.dimen.spacing_4x),

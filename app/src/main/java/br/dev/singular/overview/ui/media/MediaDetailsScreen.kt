@@ -1,13 +1,12 @@
 package br.dev.singular.overview.ui.media
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.Animatable
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,6 +56,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
@@ -71,14 +71,15 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagMedia
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
+import br.dev.singular.overview.presentation.ui.components.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.presentation.ui.utils.border
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
-import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.SimpleSubtitle2
@@ -99,8 +100,6 @@ import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import timber.log.Timber
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagMedia.PATH, detail, id)
@@ -174,8 +173,7 @@ fun MediaDetailsContent(
                 media = media,
                 isLiked = isLiked,
                 onLikeClick = onLikeClick::invoke,
-                onBackstackClick = navigate::popBackStack,
-                onBackstackLongClick = navigate::toHome
+                onBackstackClick = navigate::popBackStack
             )
             MediaBody(media, showAds, navigate, onClickStreaming)
         }
@@ -187,8 +185,7 @@ fun MediaToolBar(
     media: Media,
     isLiked: Boolean,
     onLikeClick: () -> Unit,
-    onBackstackClick: () -> Unit,
-    onBackstackLongClick: () -> Unit
+    onBackstackClick: () -> Unit
 ) {
     Box(Modifier.fillMaxWidth()) {
         media.apply {
@@ -206,20 +203,16 @@ fun MediaToolBar(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ButtonWithIcon(
-                    painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    descriptionResource = R.string.backstack_icon,
+                UiIconButton(
+                    icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    iconDescription = stringResource(R.string.backstack_icon),
                     modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
-                    withBorder = false,
+                    background = PrimaryBackground.copy(alpha = 0.5f),
+                    showBorder = false,
                     onClick = {
                         tagClick(TagCommon.Detail.BACK)
                         onBackstackClick.invoke()
                     },
-                    onLongClick = {
-                        tagClick(TagCommon.Detail.BACK)
-                        onBackstackLongClick.invoke()
-                    }
-
                 )
                 LikeButton(isLiked = isLiked, onLikeClick)
             }
@@ -550,45 +543,38 @@ fun LikeButton(
     isLiked: Boolean,
     onClick: () -> Unit
 ) {
-    val buttonSize = 35.dp
-    val duration = 200
-    val unlikedColor = Gray
-    val likedColor = AlertColor
-    val pulsationScale = if (isLiked) 0.9f else 0.7f
+    val targetColor = if (isLiked) AlertColor else Gray
 
-    val background = remember { Animatable(unlikedColor) }
-    LaunchedEffect(isLiked) {
-        val color = if (isLiked) likedColor else unlikedColor
-        background.animateTo(color, tween(duration))
-    }
-
-    val scale by animateFloatAsState(
-        targetValue = pulsationScale,
-        tween(durationMillis = duration, easing = LinearEasing),
-        label = "PulsatingScale"
+    val iconColor by animateColorAsState(
+        targetValue = targetColor,
+        animationSpec = tween(200),
+        label = "IconColor"
     )
 
-    Box(
-        modifier = Modifier
-            .padding(PaddingValues(dimensionResource(R.dimen.spacing_4x)))
-            .clip(CircleShape)
-            .background(PrimaryBackground.copy(alpha = if (isLiked) 0.8f else 0.6f))
-            .size(buttonSize)
-            .border(dimensionResource(R.dimen.border_width),
-                if (isLiked) likedColor else unlikedColor,
-                CircleShape
-            )
-            .clickable { onClick.invoke() }
-    ) {
-        Box(modifier = Modifier.size(buttonSize)) {
-            Icon(
-                imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = stringResource(id = R.string.like_button),
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .scale(scale),
-                tint = background.value
-            )
-        }
-    }
+    val scale by animateFloatAsState(
+        targetValue = if (isLiked) 0.9f else 0.7f,
+        animationSpec = tween(200, easing = LinearEasing),
+        label = "Scale"
+    )
+
+    val backgroundAlpha by animateFloatAsState(
+        targetValue = if (isLiked) 0.8f else 0.6f,
+        animationSpec = tween(200),
+        label = "BackgroundAlpha"
+    )
+
+    val iconSize = dimensionResource(if (isLiked) R.dimen.spacing_6x else R.dimen.spacing_5x)
+
+    UiIconButton(
+        icon = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
+        background = PrimaryBackground.copy(alpha = backgroundAlpha),
+        iconSize = iconSize,
+        borderColor = targetColor,
+        iconDescription = stringResource(R.string.like_button),
+        iconModifier = Modifier.scale(scale),
+        iconColor = iconColor,
+        onClick = onClick
+    )
 }
+

@@ -65,6 +65,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiChip
 import br.dev.singular.overview.presentation.ui.components.UiIcon
+import br.dev.singular.overview.presentation.ui.components.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
@@ -271,33 +272,28 @@ fun SelectStreaming(
                 )
                 HomeScreamTitle(title = streaming?.name ?: String())
             }
-            Box(
-                Modifier
+            UiIconButton(
+                icon = painterResource(id = R.drawable.ic_arrow_down),
+                modifier = Modifier
                     .padding(horizontal = dimensionResource(R.dimen.spacing_1x))
-                    .clip(CircleShape)
-                    .background(SecondaryBackground)
                     .then(
-                        if (showHighlightIcon) {
-                            Modifier.animatedBorder(
-                                borderColors = listOf(DarkGray, AccentColor),
-                                backgroundColor = SecondaryBackground,
-                                shape = CircleShape,
-                                borderWidth = 3.dp,
-                                animationDurationInMillis = 1500
-                            )
-                        } else {
-                            Modifier.border(2.dp, DarkGray, CircleShape)
-                        }
-                    )
-            ) {
-                val iconSize = if (showHighlightIcon) R.dimen.spacing_7x else R.dimen.spacing_8x
-                Icon(
-                    tint = AccentColor,
-                    painter = painterResource(id = R.drawable.ic_arrow_down),
-                    contentDescription = "",
-                    modifier = Modifier.size(size = dimensionResource(id = iconSize))
-                )
-            }
+                    if (showHighlightIcon) {
+                        Modifier.animatedBorder(
+                            borderColors = listOf(DarkGray, AccentColor),
+                            backgroundColor = SecondaryBackground,
+                            shape = CircleShape,
+                            borderWidth = 2.dp,
+                            animationDurationInMillis = 1500
+                        )
+                    } else {
+                        Modifier.border(2.dp, DarkGray, CircleShape)
+                    }
+                ),
+                iconColor = AccentColor,
+                iconSize = dimensionResource(if (showHighlightIcon) R.dimen.spacing_7x else R.dimen.spacing_8x),
+                background = SecondaryBackground,
+                onClick = onClick
+            )
         }
     }
 }

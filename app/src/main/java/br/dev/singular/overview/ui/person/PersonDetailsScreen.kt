@@ -29,17 +29,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
+import br.dev.singular.overview.presentation.ui.components.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
-import br.dev.singular.overview.ui.ButtonWithIcon
 import br.dev.singular.overview.ui.PartingEmDash
 import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
@@ -48,9 +51,6 @@ import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 
 @Composable
 fun PersonDetailsScreen(
@@ -73,7 +73,6 @@ fun PersonDetailsScreen(
             showAds = viewModel.showAds,
             onRefresh = onRefresh::invoke,
             onBackstackClick = navigate::popBackStack,
-            onBackstackLongClick = navigate::toHome,
             onNavigateToMediaDetails = navigate::toMediaDetails
         )
     }
@@ -85,7 +84,6 @@ fun PersonDetailsContent(
     showAds: Boolean,
     onRefresh: () -> Unit,
     onBackstackClick: () -> Unit,
-    onBackstackLongClick: () -> Unit,
     onNavigateToMediaDetails: (MediaUiModel) -> Unit
 ) {
     if (person == null) {
@@ -99,8 +97,7 @@ fun PersonDetailsContent(
         ) {
             PersonToolBar(
                 person = person,
-                onBackstackClick = onBackstackClick::invoke,
-                onBackstackLongClick = onBackstackLongClick::invoke
+                onBackstackClick = onBackstackClick::invoke
             )
             PersonBody(person, showAds, onNavigateToMediaDetails::invoke)
         }
@@ -110,8 +107,7 @@ fun PersonDetailsContent(
 @Composable
 fun PersonToolBar(
     person: Person,
-    onBackstackClick: () -> Unit,
-    onBackstackLongClick: () -> Unit
+    onBackstackClick: () -> Unit
 ) {
     val tagBack = { TagManager.logClick(TagPerson.PATH, TagCommon.Detail.BACK) }
     Box(
@@ -130,17 +126,13 @@ fun PersonToolBar(
                 .size(250.dp)
                 .align(Alignment.Center)
         )
-        ButtonWithIcon(
-            painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-            descriptionResource = R.string.backstack_icon,
+        UiIconButton(
+            icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+            iconDescription = stringResource(R.string.backstack_icon),
             background = Color.White.copy(alpha = 0.1f),
             onClick = {
                 tagBack.invoke()
                 onBackstackClick.invoke()
-            },
-            onLongClick = {
-                tagBack.invoke()
-                onBackstackLongClick.invoke()
             }
         )
     }
