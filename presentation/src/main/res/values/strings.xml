@@ -76,7 +76,7 @@
     <string name="liked_movie_not_found">Your favorite movies will appear here :)</string>
     <string name="liked_tv_show_not_found">Your favorite TV shows will appear here :)</string>
     <string name="my_favorite">My Favorites</string>
-    <string name="home">Home</string>
+    <string name="explore">Explore</string>
     <string name="favorites">Favorites</string>
     <string name="search">Search</string>
     <string name="select_streaming">Select Streaming</string>
