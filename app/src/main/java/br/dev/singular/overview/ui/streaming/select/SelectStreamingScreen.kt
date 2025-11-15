@@ -17,9 +17,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +25,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -45,6 +42,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagStreaming
+import br.dev.singular.overview.presentation.ui.components.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.ui.UiStateResult
@@ -54,7 +52,6 @@ import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.animatedBorder
-import br.dev.singular.overview.util.onClick
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -166,25 +163,12 @@ fun ToolBar(onBackstack: () -> Unit) {
             overflow = TextOverflow.Ellipsis
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier
-                    .clip(CircleShape)
-                    .background(SecondaryBackground)
-                    .onClick(onBackstack)
-            ) {
-                Icon(
-                    tint = Color.White,
-                    painter = painterResource(id = R.drawable.ic_arrow_up),
-                    contentDescription = stringResource(id = R.string.backstack_icon),
-                    modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.spacing_8x))
-                        .border(
-                            dimensionResource(R.dimen.border_width),
-                            DarkGray,
-                            CircleShape
-                        )
-                )
-            }
+            UiIconButton(
+                icon = painterResource(id = R.drawable.ic_arrow_up),
+                iconSize = dimensionResource(R.dimen.spacing_8x),
+                background = SecondaryBackground,
+                onClick = onBackstack
+            )
         }
     }
 }

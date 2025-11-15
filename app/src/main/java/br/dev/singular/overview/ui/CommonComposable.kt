@@ -1,10 +1,8 @@
 package br.dev.singular.overview.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,11 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -73,40 +69,6 @@ fun GenreEntity.nameTranslation(): String {
 private val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
     current.getStringByName(resource = "genre_$apiId")
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun ButtonWithIcon(
-    painter: ImageVector,
-    @StringRes descriptionResource: Int,
-    modifier: Modifier = Modifier,
-    iconTint: Color = Color.White,
-    withBorder: Boolean = true,
-    background: Color = PrimaryBackground.copy(alpha = 0.5f),
-    onLongClick: () -> Unit = {},
-    onClick: () -> Unit
-) {
-    Box(
-        modifier
-            .clip(CircleShape)
-            .background(background)
-            .size(dimensionResource(id = R.dimen.spacing_8x))
-            .combinedClickable(
-                onClick = onClick::invoke,
-                onLongClick = onLongClick::invoke
-            )
-            .then(if (withBorder) Modifier.border(1.dp, DarkGray, CircleShape) else Modifier)
-    ) {
-        Icon(
-            painter,
-            contentDescription = stringResource(descriptionResource),
-            modifier = Modifier
-                .size(dimensionResource(R.dimen.spacing_6x))
-                .align(Alignment.Center),
-            tint = iconTint
-        )
-    }
 }
 
 @Composable

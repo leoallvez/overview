@@ -21,30 +21,26 @@ import br.dev.singular.overview.presentation.ui.theme.WarningColor
 
 @Composable
 fun UiIcon(
-    icon: ImageVector,
+    icon: Any,
+    modifier: Modifier = Modifier,
     contentDescription: String? = null,
     color: Color = HighlightColor
 ) {
-    Icon(
-        tint = color,
-        imageVector = icon,
-        contentDescription = contentDescription,
-        modifier = Modifier.size(dimensionResource(R.dimen.spacing_5x))
-    )
-}
-
-@Composable
-fun UiIcon(
-    icon: Painter,
-    contentDescription: String? = null,
-    color: Color = HighlightColor
-) {
-    Icon(
-        tint = color,
-        painter = icon,
-        contentDescription = contentDescription,
-        modifier = Modifier.size(dimensionResource(R.dimen.spacing_5x))
-    )
+    val size = dimensionResource(R.dimen.spacing_5x)
+    when (icon) {
+        is ImageVector -> Icon(
+            tint = color,
+            imageVector = icon,
+            contentDescription = contentDescription,
+            modifier = modifier.size(size)
+        )
+        is Painter -> Icon(
+            tint = color,
+            painter = icon,
+            contentDescription = contentDescription,
+            modifier = modifier.size(size)
+        )
+    }
 }
 
 @Preview

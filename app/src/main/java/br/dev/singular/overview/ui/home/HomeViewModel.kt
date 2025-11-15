@@ -12,7 +12,7 @@ import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
-import br.dev.singular.overview.di.HighlightIconsQualifier
+import br.dev.singular.overview.di.DisplayHighlightIcons
 import br.dev.singular.overview.di.IoDispatcher
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.remote.RemoteConfig
@@ -35,10 +35,10 @@ class HomeViewModel @Inject constructor(
     private val _cache: CacheDataSource,
     private val _genreRepository: IGenreRepository,
     private val _mediaRepository: IMediaPagingRepository,
-    @HighlightIconsQualifier
+    @param:DisplayHighlightIcons
     private val highlightIconsManager: RemoteConfig<Boolean>,
     private val _streamingRepository: ISelectedStreamingRepository,
-    @IoDispatcher private val _dispatcher: CoroutineDispatcher
+    @param:IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     init {
