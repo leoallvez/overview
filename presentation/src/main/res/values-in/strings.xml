@@ -81,4 +81,5 @@
     <string name="search">Cari</string>
     <string name="select_streaming">Pilih Streaming</string>
     <string name="videos">Video</string>
+    <string name="catalogs">Katalog</string>
 </resources>

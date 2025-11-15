@@ -43,7 +43,7 @@ fun UiScaffold(
 @Composable
 fun UiScaffoldPreview() {
     UiScaffold(
-        topBar = { UiToolbar("Screen Title") }
+        topBar = { UiTopAppBar("Screen Title") }
     ) {
         Box (Modifier.padding(top = it.calculateTopPadding())) {
             UiMediaGrid(
