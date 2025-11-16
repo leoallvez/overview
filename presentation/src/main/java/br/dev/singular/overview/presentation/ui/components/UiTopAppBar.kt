@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,6 +27,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
@@ -57,7 +59,7 @@ fun SimpleCollapsingAppBarScreen() {
         rememberTopAppBarState()
     )
 
-    val scrollDirection = remember { mutableStateOf("Nothing") }
+    val scrollDirection = remember { mutableStateOf("up") }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -75,7 +77,7 @@ fun SimpleCollapsingAppBarScreen() {
     Scaffold(
         modifier = Modifier.nestedScroll(nestedScrollConnection).padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
         topBar = {
-            AnimatedVisibility(scrollDirection.value == "up") {
+            AnimatedVisibility(scrollDirection.value == "down") {
                 Row(Modifier.padding(vertical = 8.dp)) {
                     UiIconButton(
                         iconStyle = UiIconStyle(
@@ -83,10 +85,10 @@ fun SimpleCollapsingAppBarScreen() {
                         ),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {}
-                    UiTitle("Subindo")
+                    UiTitle("Title")
                 }
             }
-            AnimatedVisibility(scrollDirection.value == "down") {
+            AnimatedVisibility(scrollDirection.value == "up") {
                 Column(Modifier.padding(vertical = 8.dp)) {
                     UiIconButton(
                         iconStyle = UiIconStyle(
@@ -94,20 +96,33 @@ fun SimpleCollapsingAppBarScreen() {
                         ),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {}
-                    UiTitle("Subindo", modifier = Modifier.height(50.dp).padding(top = 16.dp))
+                    Row(
+                        Modifier.padding(top = 16.dp, bottom = 8.dp),
+                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                        UiImage(
+                            url = "",
+                            previewPainter = painterResource(R.drawable.scifi_stream),
+                            errorDefaultImage = R.drawable.launcher_playstore,
+                            placeholder = R.drawable.launcher_playstore,
+                            modifier = Modifier.size(dimensionResource(R.dimen.spacing_18x))
+                        )
+                        UiTitle("Title", modifier = Modifier.padding(start = 12.dp))
+                    }
                 }
             }
         },
         containerColor = Background,
     ) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
-
-            var type by remember { mutableStateOf(MediaUiType.ALL) }
-            UiMediaTypeSelector(
-                type,
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x)),
-            ) { newType ->
-                type = newType
+            AnimatedVisibility(scrollDirection.value == "up") {
+                var type by remember { mutableStateOf(MediaUiType.ALL) }
+                UiMediaTypeSelector(
+                    type,
+                    modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x)),
+                ) { newType ->
+                    type = newType
+                }
             }
 
 
