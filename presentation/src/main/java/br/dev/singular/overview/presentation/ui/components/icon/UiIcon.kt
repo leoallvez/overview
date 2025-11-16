@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components
+package br.dev.singular.overview.presentation.ui.components.icon
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -10,33 +10,32 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
 
 @Composable
 fun UiIcon(
-    icon: Any,
+    source: UiIconSource,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     color: Color = HighlightColor
 ) {
     val size = dimensionResource(R.dimen.spacing_5x)
-    when (icon) {
-        is ImageVector -> Icon(
+    when (source) {
+        is UiIconSource.UiVector -> Icon(
             tint = color,
-            imageVector = icon,
+            imageVector = source.icon,
             contentDescription = contentDescription,
             modifier = modifier.size(size)
         )
-        is Painter -> Icon(
+        is UiIconSource.UiPainter -> Icon(
             tint = color,
-            painter = icon,
+            painter = source.painter,
             contentDescription = contentDescription,
             modifier = modifier.size(size)
         )
@@ -47,9 +46,9 @@ fun UiIcon(
 @Composable
 internal fun UiIconPreview() {
     Column {
-        UiIcon(icon = Icons.Filled.Close)
-        UiIcon(icon = painterResource(id = R.drawable.ic_outline_alert))
-        UiIcon(icon = Icons.Filled.KeyboardArrowDown)
-        UiIcon(icon = Icons.Sharp.FavoriteBorder, color = WarningColor)
+        UiIcon(source = UiIconSource.UiVector(Icons.Filled.Close))
+        UiIcon(source = UiIconSource.UiPainter(painterResource(id = R.drawable.ic_outline_alert)))
+        UiIcon(source = UiIconSource.UiVector(Icons.Filled.KeyboardArrowDown))
+        UiIcon(source = UiIconSource.UiVector(Icons.Sharp.FavoriteBorder), color = WarningColor)
     }
 }

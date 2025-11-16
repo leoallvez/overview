@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.utils.border
 
 @Composable
@@ -31,9 +32,11 @@ fun UiImage(
     corner: Dp = dimensionResource(R.dimen.corner_width),
     withBorder: Boolean = false
 ) {
+    val shape = RoundedCornerShape(corner)
     val imageModifier = modifier
-        .clip(RoundedCornerShape(corner))
-        .then(Modifier.border(withBorder))
+        .clip(shape)
+        .then(Modifier
+            .border(style = UiBorderStyle(visible = withBorder, shape =  shape)))
 
     if (LocalInspectionMode.current && previewPainter != null) {
         Image(

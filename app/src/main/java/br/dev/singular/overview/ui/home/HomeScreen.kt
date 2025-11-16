@@ -64,9 +64,11 @@ import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiChip
-import br.dev.singular.overview.presentation.ui.components.UiIcon
-import br.dev.singular.overview.presentation.ui.components.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
@@ -273,7 +275,12 @@ fun SelectStreaming(
                 HomeScreamTitle(title = streaming?.name ?: String())
             }
             UiIconButton(
-                icon = painterResource(id = R.drawable.ic_arrow_down),
+                iconStyle = UiIconStyle(
+                    source = UiIconSource
+                        .painter(painterResource(id = R.drawable.ic_arrow_down)),
+                    color = AccentColor,
+                    sizeRes = if (showHighlightIcon) R.dimen.spacing_7x else R.dimen.spacing_8x,
+                ),
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(R.dimen.spacing_1x))
                     .then(
@@ -289,8 +296,6 @@ fun SelectStreaming(
                         Modifier.border(2.dp, DarkGray, CircleShape)
                     }
                 ),
-                iconColor = AccentColor,
-                iconSize = dimensionResource(if (showHighlightIcon) R.dimen.spacing_7x else R.dimen.spacing_8x),
                 background = SecondaryBackground,
                 onClick = onClick
             )
@@ -451,7 +456,7 @@ fun SelectGenreChip(filters: SearchFilters, genres: List<GenreEntity>, onClick: 
         onClick = onClick,
         icon = {
             UiIcon(
-                icon = painterResource(id = R.drawable.ic_arrow_down),
+                source = UiIconSource.painter(painterResource(id = R.drawable.ic_arrow_down)),
                 color = if (activated) AccentColor else Gray,
                 contentDescription = stringResource(R.string.filters),
             )
@@ -502,7 +507,7 @@ fun ClosableChip(
         icon = {
             if (activated) {
                 UiIcon(
-                    icon = Icons.Rounded.Close,
+                    source = UiIconSource.vector(Icons.Rounded.Close),
                     contentDescription = stringResource(R.string.close)
                 )
             }
