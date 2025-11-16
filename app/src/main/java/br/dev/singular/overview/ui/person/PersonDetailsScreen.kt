@@ -37,7 +37,9 @@ import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
-import br.dev.singular.overview.presentation.ui.components.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
@@ -127,8 +129,10 @@ fun PersonToolBar(
                 .align(Alignment.Center)
         )
         UiIconButton(
-            icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-            iconDescription = stringResource(R.string.backstack_icon),
+            iconStyle = UiIconStyle(
+                source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft),
+                descriptionRes = R.string.backstack_icon,
+            ),
             background = Color.White.copy(alpha = 0.1f),
             onClick = {
                 tagBack.invoke()

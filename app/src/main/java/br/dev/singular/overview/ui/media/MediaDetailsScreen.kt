@@ -71,8 +71,11 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagMedia
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
-import br.dev.singular.overview.presentation.ui.components.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
+import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
@@ -204,11 +207,13 @@ fun MediaToolBar(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 UiIconButton(
-                    icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    iconDescription = stringResource(R.string.backstack_icon),
+                    iconStyle = UiIconStyle(
+                        source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft),
+                        descriptionRes = R.string.backstack_icon,
+                    ),
+                    borderStyle = UiBorderStyle(visible = false),
                     modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
                     background = PrimaryBackground.copy(alpha = 0.5f),
-                    showBorder = false,
                     onClick = {
                         tagClick(TagCommon.Detail.BACK)
                         onBackstackClick.invoke()
@@ -563,18 +568,30 @@ fun LikeButton(
         label = "BackgroundAlpha"
     )
 
-    val iconSize = dimensionResource(if (isLiked) R.dimen.spacing_6x else R.dimen.spacing_5x)
-
     UiIconButton(
-        icon = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+        iconStyle = getLikeIconStyle(isLiked, scale, iconColor),
+        borderStyle = UiBorderStyle(color = targetColor, visible = true),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
         background = PrimaryBackground.copy(alpha = backgroundAlpha),
-        iconSize = iconSize,
-        borderColor = targetColor,
-        iconDescription = stringResource(R.string.like_button),
-        iconModifier = Modifier.scale(scale),
-        iconColor = iconColor,
         onClick = onClick
     )
 }
 
+@Composable
+private fun getLikeIconStyle(isLiked: Boolean, scale: Float, color: Color): UiIconStyle {
+
+    val (source, sizeRes) = if (isLiked) {
+        Pair(Icons.Default.Favorite, R.dimen.spacing_6x)
+    } else {
+        Pair(Icons.Default.FavoriteBorder, R.dimen.spacing_5x)
+    }
+
+    return UiIconStyle(
+        sizeRes = sizeRes,
+        source = UiIconSource.vector(source),
+    ).copy(
+        color = color,
+        modifier = Modifier.scale(scale),
+        descriptionRes = R.string.like_button
+    )
+}

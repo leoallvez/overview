@@ -22,7 +22,9 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPlayer
-import br.dev.singular.overview.presentation.ui.components.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.util.YouTubePlayerListener
 import br.dev.singular.overview.util.setFullscreen
@@ -69,8 +71,10 @@ fun YouTubePlayerFullscreen(
             modifier = Modifier.fillMaxSize()
         )
         UiIconButton(
-            icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-            iconDescription = context.getString(R.string.backstack_icon),
+            iconStyle = UiIconStyle(
+                source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft),
+                descriptionRes = R.string.backstack_icon,
+            ),
             background = Color.Gray.copy(alpha = 0.1f),
             modifier = Modifier.align(Alignment.TopStart).padding(
                 start = dimensionResource(R.dimen.spacing_4x),

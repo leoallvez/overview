@@ -16,7 +16,8 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
 import br.dev.singular.overview.presentation.ui.components.UiChip
-import br.dev.singular.overview.presentation.ui.components.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
@@ -86,7 +87,7 @@ fun ErrorScreen(tagPath: String, modifier: Modifier = Modifier, onRefresh: () ->
                 onClick = onRefresh,
                 icon = {
                     UiIcon(
-                        icon = Icons.Filled.Refresh,
+                        source = UiIconSource.vector(Icons.Filled.Refresh),
                         color = HighlightColor
                     )
                 }
