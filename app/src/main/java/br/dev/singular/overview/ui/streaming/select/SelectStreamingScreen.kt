@@ -42,8 +42,10 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagStreaming
-import br.dev.singular.overview.presentation.ui.components.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
@@ -164,8 +166,10 @@ fun ToolBar(onBackstack: () -> Unit) {
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             UiIconButton(
-                icon = painterResource(id = R.drawable.ic_arrow_up),
-                iconSize = dimensionResource(R.dimen.spacing_8x),
+                iconStyle = UiIconStyle(
+                    source = UiIconSource.painter(R.drawable.ic_arrow_up),
+                    sizeRes = R.dimen.spacing_8x,
+                ),
                 background = SecondaryBackground,
                 onClick = onBackstack
             )

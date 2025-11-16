@@ -16,8 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
@@ -70,7 +71,7 @@ private fun UiChipPreviewHelper(initialState: Boolean) {
         icon = {
             if (activated) {
                 UiIcon(
-                    icon = Icons.Filled.Clear,
+                    source = UiIconSource.vector(Icons.Filled.Clear),
                     color = HighlightColor
                 )
             }
