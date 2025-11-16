@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -32,11 +35,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiType
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
+import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
@@ -78,26 +83,45 @@ fun SimpleCollapsingAppBarScreen() {
         modifier = Modifier.nestedScroll(nestedScrollConnection).padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
         topBar = {
             AnimatedVisibility(scrollDirection.value == "down") {
-                Row(Modifier.padding(vertical = 8.dp)) {
-                    UiIconButton(
-                        iconStyle = UiIconStyle(
-                            source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft)
-                        ),
-                        modifier = Modifier.padding(end = 8.dp)
-                    ) {}
-                    UiTitle("Title")
+                Row(
+                    Modifier.padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+//                    UiIconButton(
+//                        iconStyle = UiIconStyle(
+//                            source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft)
+//                        ),
+//                        modifier = Modifier.padding(end = 8.dp)
+//                    ) {}
+                    UiImage(
+                        url = "",
+                        previewPainter = painterResource(R.drawable.scifi_stream),
+                        errorDefaultImage = R.drawable.launcher_playstore,
+                        placeholder = R.drawable.launcher_playstore,
+                        modifier = Modifier.size(dimensionResource(R.dimen.spacing_10x))
+                    )
+                    UiTitle("Title", modifier = Modifier.padding(start = 12.dp).weight(1f))
+                    UiChip("Catálogos", activated = true,
+                        shape = RoundedCornerShape(20),
+                        icon = {
+//                            UiIcon(
+//                                source = UiIconSource.vector(Icons.Default.ArrowDropDown),
+//                                color = HighlightColor
+//                            )
+                        }
+                    ) { }
                 }
             }
             AnimatedVisibility(scrollDirection.value == "up") {
                 Column(Modifier.padding(vertical = 8.dp)) {
-                    UiIconButton(
-                        iconStyle = UiIconStyle(
-                            source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft)
-                        ),
-                        modifier = Modifier.padding(end = 8.dp)
-                    ) {}
+//                    UiIconButton(
+//                        iconStyle = UiIconStyle(
+//                            source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft)
+//                        ),
+//                        modifier = Modifier.padding(end = 8.dp)
+//                    ) {}
                     Row(
-                        Modifier.padding(top = 16.dp, bottom = 8.dp),
+                        Modifier.padding(vertical = 8.dp),
                         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                         ) {
                         UiImage(
@@ -107,7 +131,18 @@ fun SimpleCollapsingAppBarScreen() {
                             placeholder = R.drawable.launcher_playstore,
                             modifier = Modifier.size(dimensionResource(R.dimen.spacing_18x))
                         )
-                        UiTitle("Title", modifier = Modifier.padding(start = 12.dp))
+                        UiTitle("Title", modifier = Modifier.padding(start = 12.dp).weight(1f), color = HighlightColor)
+                        //UiChip("Trocar", activated = true) { }
+                        //UiText("Trocar")
+                        UiChip("Catálogos", activated = true,
+                            shape = RoundedCornerShape(20),
+                            icon = {
+//                                UiIcon(
+//                                    source = UiIconSource.vector(Icons.Default.ArrowDropDown),
+//                                    color = HighlightColor
+//                                )
+                            }
+                        ) { }
                     }
                 }
             }
@@ -115,7 +150,7 @@ fun SimpleCollapsingAppBarScreen() {
         containerColor = Background,
     ) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
-            AnimatedVisibility(scrollDirection.value == "up") {
+            //AnimatedVisibility(scrollDirection.value == "up") {
                 var type by remember { mutableStateOf(MediaUiType.ALL) }
                 UiMediaTypeSelector(
                     type,
@@ -123,7 +158,7 @@ fun SimpleCollapsingAppBarScreen() {
                 ) { newType ->
                     type = newType
                 }
-            }
+            //}
 
 
 

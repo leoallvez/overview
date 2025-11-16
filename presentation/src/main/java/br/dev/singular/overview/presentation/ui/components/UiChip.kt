@@ -29,6 +29,7 @@ fun UiChip(
     text: String,
     modifier: Modifier = Modifier,
     activated: Boolean = false,
+    shape: RoundedCornerShape = RoundedCornerShape(percent = 50),
     icon: @Composable (() -> Unit) = {},
     onClick: () -> Unit
 ) {
@@ -43,7 +44,7 @@ fun UiChip(
             selectedContainerColor = Surface,
         ),
         selected = activated,
-        shape = RoundedCornerShape(percent = 50),
+        shape = shape,
         trailingIcon = icon,
         border = BorderStroke(dimensionResource(R.dimen.border_width), color),
     )
