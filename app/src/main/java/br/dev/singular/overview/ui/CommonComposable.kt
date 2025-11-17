@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +44,8 @@ import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiImage
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
@@ -261,10 +262,12 @@ fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean
                     BottomNavigationItem(
                         modifier = Modifier.height(height).background(PrimaryBackground),
                         icon = {
-                            Icon(
-                                item.icon,
-                                contentDescription = stringResource(id = item.title),
-                                tint = color
+                            UiIcon(
+                                source = UiIconSource.vector(item.icon),
+                                color =  color,
+                                modifier = Modifier
+                                    .size(dimensionResource( R.dimen.spacing_7x))
+                                    .padding(bottom = dimensionResource( R.dimen.spacing_1x)),
                             )
                         },
                         label = { Text(stringResource(item.title), color = color) },
