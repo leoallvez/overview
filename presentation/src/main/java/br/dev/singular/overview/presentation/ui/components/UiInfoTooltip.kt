@@ -1,0 +1,87 @@
+package br.dev.singular.overview.presentation.ui.components
+
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
+import br.dev.singular.overview.presentation.ui.components.text.UiText
+import br.dev.singular.overview.presentation.ui.theme.Surface
+import br.dev.singular.overview.presentation.ui.utils.border
+
+@Composable
+fun UiInfoTooltip(
+    message: String,
+    modifier: Modifier = Modifier,
+    onClose: () -> Unit = {}
+) {
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(
+                style = UiBorderStyle(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.corner_width))
+                ),
+            ),
+        shape = RoundedCornerShape(dimensionResource(R.dimen.corner_width)),
+        color = Surface,
+        tonalElevation = 2.dp
+    ) {
+        Row(
+            modifier = Modifier.padding(dimensionResource(R.dimen.spacing_3x)),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            UiIcon(
+                source = UiIconSource.painter(R.drawable.ic_outline_alert),
+                contentDescription = null,
+                color = Color.White
+            )
+
+            UiText(
+                text = message,
+                modifier = Modifier.weight(1f)
+                    .padding(horizontal = dimensionResource(R.dimen.spacing_3x)),
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Start,
+            )
+
+            IconButton(
+                onClick = onClose,
+                modifier = Modifier.size(dimensionResource(R.dimen.spacing_5x))
+            ) {
+                UiIcon(
+                    source = UiIconSource.vector(Icons.Default.Close),
+                    contentDescription = stringResource(R.string.close),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun UiInfoTooltipPreview() {
+    UiInfoTooltip(message = stringResource(R.string.lorem_ipsum))
+}
