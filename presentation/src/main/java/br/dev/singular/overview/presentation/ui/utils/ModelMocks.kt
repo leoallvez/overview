@@ -2,10 +2,13 @@ package br.dev.singular.overview.presentation.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
-
+import br.dev.singular.overview.presentation.model.StreamingUiModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 private const val BASE_TITLE = "The Equinox"
 private const val LONG_TITLE = "The Equinox: Warriors Against the Infinite Swarm from the Dark Expanse"
@@ -34,4 +37,19 @@ internal fun getMediaMocks(count: Int = 10): List<MediaUiModel> {
     }
 }
 
-
+@Composable
+internal fun getStreamingMocks(count: Int = 10): ImmutableList<StreamingUiModel> {
+    return buildList {
+        repeat(count) { index ->
+            add(
+                StreamingUiModel(
+                    id = index.toLong(),
+                    priority = index,
+                    name = stringResource(R.string.lorem_ipsum),
+                    logoURL = "https://imagens.com/streaming.jpg",
+                    previewContent = painterResource(R.drawable.scifi_stream)
+                )
+            )
+        }
+    }.toImmutableList()
+}

@@ -47,7 +47,10 @@ fun NavController(
             exitTransition = { upExitTransition(duration = AnimationDurations.LONG) },
             enterTransition = { downEnterTransition(duration = AnimationDurations.LONG) }
         ) {
-            SelectStreamingScreen(navigate = basicNav)
+            SelectStreamingScreen(
+                onBack = { basicNav.popBackStack() },
+                onToHome = { basicNav.toHome() }
+            )
         }
         composable(route = ScreenNav.Search.route) {
             SearchScreen(navigate = basicNav)

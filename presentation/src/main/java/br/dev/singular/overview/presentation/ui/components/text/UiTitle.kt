@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
@@ -28,6 +29,8 @@ fun UiTitle(
         textAlign = textAlign,
         modifier = modifier.padding(vertical = dimensionResource(R.dimen.spacing_1x)),
         style = MaterialTheme.typography.titleLarge,
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 2,
         fontWeight = FontWeight.Bold
     )
 }

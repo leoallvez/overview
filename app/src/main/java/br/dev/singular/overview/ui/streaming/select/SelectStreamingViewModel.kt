@@ -54,6 +54,6 @@ class SelectStreamingViewModel @Inject constructor(
 
     private fun updateUiState(selectedId: Long) {
         _streamingData = _streamingData.copy(selectedId = selectedId)
-        _uiState.value = _streamingData.toUiState { _streamingData.hasContent() }
+        _uiState.value = _streamingData.toUiState { _streamingData.list.isNotEmpty() }
     }
 }

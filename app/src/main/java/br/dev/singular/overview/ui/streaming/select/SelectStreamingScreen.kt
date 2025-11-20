@@ -1,89 +1,76 @@
 package br.dev.singular.overview.ui.streaming.select
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.dev.singular.overview.data.model.provider.StreamingData
-import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagStreaming
-import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
+import br.dev.singular.overview.presentation.tagging.params.TagStreaming.Detail.STREAMING_CHANGE
+import br.dev.singular.overview.presentation.ui.components.UiList
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
+import br.dev.singular.overview.presentation.ui.components.streaming.UiStreamingItem
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
-import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
-import br.dev.singular.overview.ui.theme.AccentColor
-import br.dev.singular.overview.ui.theme.DarkGray
+import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import br.dev.singular.overview.ui.model.toEntity
+import br.dev.singular.overview.ui.model.toUi
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
-import br.dev.singular.overview.util.animatedBorder
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-
-private fun tagClick(detail: String, id: Long = 0L) =
-    TagManager.logClick(TagStreaming.PATH, detail, id)
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SelectStreamingScreen(
-    navigate: BasicNavigate,
+    tagPath: String = TagStreaming.PATH,
+    onBack: () -> Unit,
+    onToHome: () -> Unit,
     viewModel: SelectStreamingViewModel = hiltViewModel()
 ) {
     UiScaffold(
         topBar = {
-            ToolBar {
-                tagClick(TagCommon.Detail.CLOSE)
-                navigate.popBackStack()
+            Toolbar {
+                TagManager.logClick(customPath = tagPath, detail = TagCommon.Detail.CLOSE)
+                onBack()
             }
         },
         bottomBar = { Spacer(Modifier.size(0.dp)) },
     ) { padding ->
         UiStateResult(
             uiState = viewModel.uiState.collectAsState().value,
-            tagPath = TagStreaming.PATH,
+            tagPath =  tagPath,
             onRefresh = { viewModel.refresh() }
-        ) { streamingData ->
-            Column(modifier = Modifier.padding(padding)) {
-                StreamingGrid(data = streamingData) { streaming ->
-                    tagClick(TagStreaming.Detail.STREAMING_CHANGE, streaming.apiId)
-                    viewModel.saveSelectedStreaming(streaming)
-                    navigate.toHome()
+        ) { data ->
+            UiList(
+                items = data.list.toImmutableList().toUi(),
+                modifier = Modifier.padding(padding),
+            ) { model ->
+                UiStreamingItem(
+                    model = model,
+                    selected = model.id == data.selectedId
+                ) {
+                    TagManager.logClick(
+                        customPath = tagPath,
+                        detail = STREAMING_CHANGE,
+                        id = model.id
+                    )
+                    viewModel.saveSelectedStreaming(model.toEntity())
+                    onToHome()
                 }
             }
         }
@@ -91,161 +78,26 @@ fun SelectStreamingScreen(
 }
 
 @Composable
-fun StreamingGrid(
-    data: StreamingData,
-    onClick: (StreamingEntity) -> Unit
-) {
-    val padding = dimensionResource(R.dimen.spacing_1x)
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize().background(PrimaryBackground),
-        columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.spacing_16x)),
-        verticalArrangement = Arrangement.spacedBy(padding),
-        horizontalArrangement = Arrangement.spacedBy(padding)
-    ) {
-        streamingSession(
-            top = { UiTitle(stringResource(R.string.main_steams)) },
-            streamingEntities = data.mains,
-            selectedId = data.selectedId,
-            onClick = onClick
-        )
-        streamingSession(
-            top = { UiTitle(stringResource(R.string.other_streams)) },
-            streamingEntities = data.others,
-            selectedId = data.selectedId,
-            onClick = onClick
-        )
-    }
-}
-
-@Composable
-fun StreamingItem(
-    imageUri: String = "",
-    painter: Painter? = null,
-    isSelected: Boolean = false,
-    contentDescription: String,
-    onClick: () -> Unit
-) {
-    val modifier = Modifier.setStreamingIcon(isSelected, onClick)
-    val contentScale = ContentScale.Fit
-
-    Box {
-        if (painter != null) {
-            Image(
-                painter = painter,
-                modifier = modifier,
-                contentScale = contentScale,
-                contentDescription = contentDescription
-            )
-        } else {
-            AsyncImage(
-                model = createImageRequest(uri = imageUri),
-                modifier = modifier,
-                contentScale = contentScale,
-                contentDescription = contentDescription,
-                error = painterResource(R.drawable.placeholder)
-            )
-        }
-    }
-}
-
-@Composable
-fun ToolBar(onBackstack: () -> Unit) {
+private fun Toolbar(onBack: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .height(dimensionResource(R.dimen.spacing_14x))
             .background(PrimaryBackground),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
+        UiTitle(
             text = stringResource(R.string.select_streaming),
-            color = AccentColor,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            overflow = TextOverflow.Ellipsis
+            modifier = Modifier.weight(1f),
+            color = HighlightColor
         )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            UiIconButton(
-                iconStyle = UiIconStyle(
-                    source = UiIconSource.painter(R.drawable.ic_arrow_up),
-                    sizeRes = R.dimen.spacing_8x,
-                ),
-                background = SecondaryBackground,
-                onClick = onBackstack
-            )
-        }
-    }
-}
-
-@Composable
-private fun Modifier.setStreamingIcon(isSelected: Boolean, onClick: () -> Unit): Modifier {
-    val shape = RoundedCornerShape(dimensionResource(R.dimen.corner_width))
-    return background(SecondaryBackground)
-        .then(if (isSelected) Modifier.animatedBorder(
-            borderColors = listOf(
-                PrimaryBackground,
-                AccentColor
+        UiIconButton(
+            iconStyle = UiIconStyle(
+                source = UiIconSource.painter(R.drawable.ic_arrow_up),
+                sizeRes = R.dimen.spacing_8x,
             ),
-            backgroundColor = PrimaryBackground,
-            shape = shape,
-            borderWidth = 5.dp
-        ) else Modifier.border(2.dp, DarkGray, shape))
-        .clip(shape)
-        .clickable { onClick() }
-}
-
-private fun LazyGridScope.streamingSession(
-    top: @Composable () -> Unit,
-    streamingEntities: List<StreamingEntity>,
-    selectedId: Long,
-    onClick: (StreamingEntity) -> Unit
-) {
-    if (streamingEntities.isNotEmpty()) {
-        item(span = { GridItemSpan(currentLineSpan = maxLineSpan) }) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = dimensionResource(R.dimen.spacing_2x))
-            ) {
-                top()
-            }
-        }
-        items(streamingEntities.size) { index ->
-            with(streamingEntities[index]) {
-                StreamingItem(
-                    imageUri = getLogoImage(),
-                    contentDescription = name,
-                    isSelected = apiId == selectedId,
-                    onClick = { onClick(this) }
-                )
-            }
-        }
+            background = SecondaryBackground,
+            onClick = onBack
+        )
     }
-}
-
-@Composable
-private fun createImageRequest(uri: String) =
-    ImageRequest.Builder(LocalContext.current)
-        .data(data = uri)
-        .crossfade(true)
-        .build()
-
-@Preview
-@Composable
-fun StreamingItemNotActivatedPreview() {
-    StreamingItem(
-        painter = painterResource(id = R.drawable.netflix_icon),
-        contentDescription = "Netflix",
-        isSelected = false
-    ) {}
-}
-
-@Preview
-@Composable
-fun StreamingItemActivatedPreview() {
-    StreamingItem(
-        painter = painterResource(id = R.drawable.netflix_icon),
-        contentDescription = "Netflix",
-        isSelected = true
-    ) {}
 }

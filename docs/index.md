@@ -1,6 +1,6 @@
 # Overview Tagging 
 
-**version** 1.0.0
+**version** 1.1.0
 
 This document provides an overview of the application screens and their corresponding tagging events. Each section below outlines which events are tracked on specific screens, helping to ensure consistent analytics implementation across the app.
 

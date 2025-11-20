@@ -47,8 +47,7 @@ class StreamingRepository @Inject constructor(
         _localDataSource.upgrade(streaming)
     }
 
-    private fun List<StreamingEntity>.streamingData() =
-        StreamingData(mains = filter { it.selected }, others = filter { !it.selected })
+    private fun List<StreamingEntity>.streamingData() = StreamingData(list = this)
 
     override suspend fun getSelectedItem() = flow {
         _cacheDataSource.getValue(KEY_SELECTED_STREAMING_CACHE).collect { json ->
