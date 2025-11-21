@@ -34,14 +34,10 @@
     <string name="cast">Cast</string>
     <string name="related">Related</string>
     <string name="where_to_watch">Providers</string>
-    <string name="separator">•</string>
-    <string name="em_dash">-</string>
     <string name="tv_shows_participation">TV participation</string>
     <string name="movies_participation">Film participation</string>
     <string name="age">%s years</string>
     <string name="place_of_birth">Place of birth</string>
-    <string name="one_season">1 season</string>
-    <string name="n_seasons">%s season</string>
     <string name="one_episode">1 episode</string>
     <string name="n_episodes">%s episodes</string>
     <string name="runtime_per_episode">Runtime: %s per episode</string>

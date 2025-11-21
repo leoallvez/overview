@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,8 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,22 +42,20 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.BasicParagraph
-import br.dev.singular.overview.ui.PartingEmDash
-import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
-import br.dev.singular.overview.ui.SimpleSubtitle1
 import br.dev.singular.overview.ui.UiStateResult
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.presentation.ui.components.text.UiSubtitle
 
 @Composable
 fun PersonDetailsScreen(
-    apiId: Long,
+    id: Long,
     navigate: BasicNavigate,
     viewModel: PersonDetailsViewModel = hiltViewModel()
 ) {
-    val onRefresh = { viewModel.load(apiId) }
+    val onRefresh = { viewModel.load(id) }
     LaunchedEffect(true) {
         onRefresh.invoke()
     }
@@ -143,7 +138,7 @@ fun PersonToolBar(
 }
 
 @Composable
-fun PersonBody(
+private fun PersonBody(
     person: Person,
     showAds: Boolean,
     onClickItem: (MediaUiModel) -> Unit
@@ -155,11 +150,14 @@ fun PersonBody(
     ) {
         person.apply {
             Column(
-                modifier = Modifier
-                    .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_4x))
             ) {
                 UiTitle(text = name, color = AccentColor)
-                PersonDates(person)
+                Dates(
+                    age = getAge(),
+                    birthday = getFormattedBirthday(),
+                    deathday = getFormattedDeathDay(),
+                )
                 Spacer(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_1x)))
                 PlaceOfBirth(birthPlace())
                 BasicParagraph(R.string.biography, biography)
@@ -172,59 +170,41 @@ fun PersonBody(
 }
 
 @Composable
-fun PersonDates(person: Person) {
-    person.apply {
-        if (getFormattedBirthday().isNotEmpty()) {
-            Row {
-                SimpleSubtitle1(getFormattedBirthday())
-                PersonDeathDay(getFormattedDeathDay())
-                PersonAge(getAge())
-            }
+private fun Dates(
+    age: String,
+    birthday: String,
+    deathday: String
+) {
+    val lifespan = when {
+        deathday.isNotEmpty() -> {
+            stringResource(R.string.em_dash, birthday, deathday)
         }
+        else -> birthday
     }
+
+    val fullCaption = when {
+        age.isNotEmpty() -> {
+            val formatedAge = stringResource(R.string.age, age)
+            stringResource(R.string.separator, lifespan, formatedAge)
+        }
+        else -> lifespan
+    }
+
+    UiSubtitle(text = fullCaption, isBold = true)
 }
 
 @Composable
-fun PlaceOfBirth(placeOfBirth: String) {
+private fun PlaceOfBirth(placeOfBirth: String) {
     if (placeOfBirth.isNotEmpty()) {
         Column {
-            SimpleSubtitle1(stringResource(R.string.place_of_birth), isBold = true)
+            UiSubtitle(stringResource(R.string.place_of_birth), isBold = true)
             BasicParagraph(placeOfBirth)
         }
     }
 }
 
 @Composable
-fun PersonDeathDay(deathDay: String) {
-    if (deathDay.isNotEmpty()) {
-        PersonSpace()
-        PartingEmDash()
-        PersonSpace()
-        SimpleSubtitle1(deathDay)
-    }
-}
-
-@Composable
-fun PersonAge(age: String) {
-    if (age.isNotEmpty()) {
-        PersonSpace()
-        PartingPoint()
-        PersonSpace()
-        Text(
-            text = stringResource(R.string.age, age),
-            color = Color.White,
-            style = MaterialTheme.typography.titleMedium
-        )
-    }
-}
-
-@Composable
-fun PersonSpace() {
-    Spacer(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_1x)))
-}
-
-@Composable
-fun ParticipationList(
+private fun ParticipationList(
     @StringRes listTitleRes: Int,
     medias: List<MediaUiModel>,
     onClickItem: (MediaUiModel) -> Unit
