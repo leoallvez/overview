@@ -3,7 +3,7 @@ package br.dev.singular.overview.presentation.ui.theme
 import androidx.compose.ui.graphics.Color
 
 internal val Background = Color.Black
-internal val Surface = Color(0xFF191919)
+internal val Surface = Color(0xFF121212)
 val DefaultTextColor = Color.White
 val HighlightColor = Color(color = 0xFF00DBF9)
 val LowlightColor = Color(0xFF708090)

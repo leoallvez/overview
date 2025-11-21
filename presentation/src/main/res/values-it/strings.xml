@@ -81,4 +81,5 @@
     <string name="search">Cerca</string>
     <string name="select_streaming">Seleziona Streaming</string>
     <string name="videos">Video</string>
+    <string name="catalogs">Cataloghi</string>
 </resources>
