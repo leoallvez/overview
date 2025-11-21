@@ -73,28 +73,6 @@ private val getGenreTranslation = @Composable { apiId: Long ->
 }
 
 @Composable
-fun PartingPoint(display: Boolean = true) {
-    SimpleSubtitle1(text = stringResource(R.string.separator), display = display)
-}
-
-@Composable
-fun PartingEmDash(display: Boolean = true) {
-    SimpleSubtitle1(text = stringResource(R.string.em_dash), display = display)
-}
-
-@Composable
-fun SimpleSubtitle1(text: String, display: Boolean = true, isBold: Boolean = true) {
-    if (text.isNotEmpty() && display) {
-        Text(
-            text = text,
-            color = Color.White,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
-        )
-    }
-}
-
-@Composable
 fun SimpleSubtitle2(
     text: String,
     display: Boolean = true,
@@ -222,7 +200,6 @@ fun ToolbarTitle(
         )
     }
 }
-
 
 @Composable
 fun StreamingIcon(

@@ -34,14 +34,10 @@
     <string name="cast">キャスト</string>
     <string name="related">関連している</string>
     <string name="where_to_watch">プロバイダー</string>
-    <string name="separator">•</string>
-    <string name="em_dash">-</string>
     <string name="tv_shows_participation">テレビ出演</string>
     <string name="movies_participation">映画への参加</string>
     <string name="age">%s 年</string>
     <string name="place_of_birth">出生地</string>
-    <string name="one_season">1 シーズン</string>
-    <string name="n_seasons">%s シーズン</string>
     <string name="one_episode">1 話</string>
     <string name="n_episodes">%s エピソード</string>
     <string name="runtime_per_episode">ランタイム: エピソードあたり %s</string>

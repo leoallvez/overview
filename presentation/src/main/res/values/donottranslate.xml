@@ -23,4 +23,6 @@
     <string name="app_name_prd">
         Overview
     </string>
+    <string name="separator">%1$s • %2$s</string>
+    <string name="em_dash">%1$s - %2$s</string>
 </resources>

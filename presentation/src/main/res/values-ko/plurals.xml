@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="seasons">
+        <item quantity="other">시즌 %d</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="other">에피소드 %d개</item>
+    </plurals>
+</resources>

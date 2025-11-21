@@ -73,7 +73,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
         ) { navBackStackEntry ->
             PersonDetailsScreen(
-                apiId = navBackStackEntry.getApiId(),
+                id = navBackStackEntry.getApiId(),
                 navigate = basicNav
             )
         }

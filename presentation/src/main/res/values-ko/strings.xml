@@ -34,14 +34,10 @@
     <string name="cast">깁스</string>
     <string name="related">관련된</string>
     <string name="where_to_watch">공급자</string>
-    <string name="separator">•</string>
-    <string name="em_dash">-</string>
     <string name="tv_shows_participation">TV 참여</string>
     <string name="movies_participation">영화 참여</string>
     <string name="age">%s년</string>
     <string name="place_of_birth">출생지</string>
-    <string name="one_season">1시즌</string>
-    <string name="n_seasons">%s 시즌</string>
     <string name="one_episode">1회</string>
     <string name="n_episodes">에피소드 %s개</string>
     <string name="runtime_per_episode">런타임: 에피소드당 %s</string>

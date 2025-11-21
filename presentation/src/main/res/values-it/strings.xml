@@ -34,14 +34,10 @@
     <string name="cast">Lancio</string>
     <string name="related">Imparentato</string>
     <string name="where_to_watch">Fornitori</string>
-    <string name="separator">•</string>
-    <string name="em_dash">-</string>
     <string name="tv_shows_participation">Partecipazione televisiva</string>
     <string name="movies_participation">Partecipazione cinematografica</string>
     <string name="age">%s anni</string>
     <string name="place_of_birth">Luogo di nascita</string>
-    <string name="one_season">1 stagione</string>
-    <string name="n_seasons">%s stagione</string>
     <string name="one_episode">1 episodio</string>
     <string name="n_episodes">%s episodi</string>
     <string name="runtime_per_episode">Durata: %s per episodio</string>

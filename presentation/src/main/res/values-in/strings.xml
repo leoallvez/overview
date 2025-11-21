@@ -34,14 +34,10 @@
     <string name="cast">Pemeran</string>
     <string name="related">Terkait</string>
     <string name="where_to_watch">Penyedia</string>
-    <string name="separator">•</string>
-    <string name="em_dash">-</string>
     <string name="tv_shows_participation">partisipasi televisi</string>
     <string name="movies_participation">Partisipasi film</string>
     <string name="age">%s tahun</string>
     <string name="place_of_birth">Tempat Lahir</string>
-    <string name="one_season">1 musim</string>
-    <string name="n_seasons">%s musim</string>
     <string name="one_episode">1 episode</string>
     <string name="n_episodes">%s episode</string>
     <string name="runtime_per_episode">Durasi: %s per episode</string>

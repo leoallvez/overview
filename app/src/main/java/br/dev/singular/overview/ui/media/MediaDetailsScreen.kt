@@ -52,6 +52,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -83,7 +84,6 @@ import br.dev.singular.overview.presentation.ui.utils.border
 import br.dev.singular.overview.ui.AdsMediumRectangle
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.BasicParagraph
-import br.dev.singular.overview.ui.PartingPoint
 import br.dev.singular.overview.ui.PersonImageCircle
 import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
@@ -103,6 +103,7 @@ import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import timber.log.Timber
+import br.dev.singular.overview.presentation.ui.components.text.UiSubtitle
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagMedia.PATH, detail, id)
@@ -288,17 +289,27 @@ fun MediaBody(
 }
 
 @Composable
-fun NumberSeasonsAndEpisodes(numberOfSeasons: Int, numberOfEpisodes: Int) {
-    if (numberOfSeasons > 0) {
-        Row {
-            val spacerModifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_1x))
-            NumberOfSeasons(numberOfSeasons)
-            Spacer(modifier = spacerModifier)
-            PartingPoint()
-            Spacer(modifier = spacerModifier)
-            NumberOfEpisodes(numberOfEpisodes)
-        }
-    }
+fun NumberSeasonsAndEpisodes(
+    numberOfSeasons: Int,
+    numberOfEpisodes: Int
+) {
+    if (numberOfSeasons <= 0) return
+
+    val seasons = pluralStringResource(
+        R.plurals.seasons,
+        numberOfSeasons,
+        numberOfSeasons
+    )
+
+    val episodes = pluralStringResource(
+        R.plurals.episodes,
+        numberOfEpisodes,
+        numberOfEpisodes
+    )
+
+    UiSubtitle(
+        text = stringResource(R.string.separator, seasons, episodes)
+    )
 }
 
 @Composable
@@ -306,18 +317,6 @@ fun EpisodesRunTime(runtime: String) {
     if (runtime.isNotEmpty()) {
         SimpleSubtitle2(text = stringResource(R.string.runtime_per_episode, runtime))
     }
-}
-
-@Composable
-fun NumberOfSeasons(numberOfSeasons: Int) {
-    val seasonsLabel = if (numberOfSeasons > 1) R.string.n_seasons else R.string.one_season
-    SimpleSubtitle2(stringResource(id = seasonsLabel, numberOfSeasons))
-}
-
-@Composable
-fun NumberOfEpisodes(numberOfEpisodes: Int) {
-    val episodesLabel = if (numberOfEpisodes > 1) R.string.n_episodes else R.string.one_episode
-    SimpleSubtitle2(stringResource(id = episodesLabel, numberOfEpisodes))
 }
 
 @Composable

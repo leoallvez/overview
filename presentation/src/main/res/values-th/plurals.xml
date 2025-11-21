@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="seasons">
+        <item quantity="other">%d ฤดูกาล</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="other">%d ตอน</item>
+    </plurals>
+</resources>
