@@ -16,7 +16,7 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagFavorites
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
-import br.dev.singular.overview.presentation.ui.components.UiToolbar
+import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiLifecycle
@@ -33,7 +33,7 @@ fun FavoritesScreen(
     val pagedMedias = viewModel.medias.collectAsLazyPagingItems()
 
     UiScaffold(
-        topBar = { UiToolbar(title = stringResource(id = R.string.favorites)) }
+        topBar = { UiTopAppBar(title = stringResource(id = R.string.favorites)) }
     ) { padding ->
         UiLifecycle(
             onPause = {
