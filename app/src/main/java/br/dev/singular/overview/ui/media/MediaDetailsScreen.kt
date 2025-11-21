@@ -483,7 +483,11 @@ fun VideoItem(video: Video, onClick: (String) -> Unit) {
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width)))
                 .clickable { onClick(video.key) }
                 .background(PrimaryBackground)
-                .then(Modifier.border())
+                .border(
+                    style = UiBorderStyle(
+                        shape = RoundedCornerShape(dimensionResource(R.dimen.corner_width))
+                    ),
+                )
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
