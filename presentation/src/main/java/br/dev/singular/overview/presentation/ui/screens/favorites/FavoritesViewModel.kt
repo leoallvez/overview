@@ -10,7 +10,7 @@ import br.dev.singular.overview.domain.usecase.media.IGetAllLocalMediasUseCase
 import br.dev.singular.overview.presentation.model.MediaUiParam
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.ui.screens.pagination.BaseMediaPagingViewMode
-import br.dev.singular.overview.presentation.ui.utils.mappers.toDomain
+import br.dev.singular.overview.presentation.ui.utils.mappers.uiToDomain.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

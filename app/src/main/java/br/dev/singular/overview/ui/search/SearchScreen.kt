@@ -68,6 +68,7 @@ import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
 import br.dev.singular.overview.presentation.ui.components.UiToolbar
 import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import kotlinx.collections.immutable.toImmutableList
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagSearch.PATH, detail, id)
@@ -219,7 +220,7 @@ fun SuggestionsVerticalList(
             UiMediaList(
                 title = context.getStringByName(titleKey).orEmpty(),
                 contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
-                items = mediaItems,
+                items = mediaItems.toImmutableList(),
                 onClick = onClick
             )
         }

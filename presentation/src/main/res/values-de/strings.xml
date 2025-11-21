@@ -34,14 +34,10 @@
     <string name="cast">Gießen</string>
     <string name="related">Verwandt</string>
     <string name="where_to_watch">Anbieter</string>
-    <string name="separator">•</string>
-    <string name="em_dash">-</string>
     <string name="tv_shows_participation">TV-Teilnahme</string>
     <string name="movies_participation">Filmbeteiligung</string>
     <string name="age">%s Jahre</string>
     <string name="place_of_birth">Geburtsort</string>
-    <string name="one_season">1 Saison</string>
-    <string name="n_seasons">%s-Saison</string>
     <string name="one_episode">1 Folge</string>
     <string name="n_episodes">%s Folgen</string>
     <string name="runtime_per_episode">Laufzeit: %s pro Episode</string>

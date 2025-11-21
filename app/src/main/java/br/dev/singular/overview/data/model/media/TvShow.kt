@@ -1,8 +1,9 @@
 package br.dev.singular.overview.data.model.media
 
+import br.dev.singular.overview.presentation.ui.utils.DateHelper
 import br.dev.singular.overview.ui.model.toUi
-import br.dev.singular.overview.util.DateHelper
 import com.squareup.moshi.Json
+import kotlinx.collections.immutable.toImmutableList
 
 data class TvShow(
     private val name: String? = null,
@@ -25,7 +26,7 @@ data class TvShow(
     private val similar: Similar<TvShow> = Similar()
 ) : Media() {
 
-    override fun getSimilarMedia() = similar.results.map { it.toUi() }
+    override fun getSimilarMedia() = similar.results.map { it.toUi() }.toImmutableList()
 
     override fun getRuntime() = runtimeTemplate(runtime = episodeRuntime.average().toInt())
 

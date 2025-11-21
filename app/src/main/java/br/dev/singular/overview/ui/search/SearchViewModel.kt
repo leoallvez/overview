@@ -9,7 +9,7 @@ import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSe
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.ui.utils.mappers.toUi
+import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUi
 import br.dev.singular.overview.ui.model.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

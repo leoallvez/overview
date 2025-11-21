@@ -1,4 +1,4 @@
-package br.dev.singular.overview.util
+package br.dev.singular.overview.presentation.ui.utils
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -10,7 +10,7 @@ class DateHelper(dateIn: String?) {
     private val date: String = dateIn ?: DEFAULT_RETURN
 
     fun formattedDate(): String = if (date.isNotEmpty()) {
-        val format = SimpleDateFormat(API_DATE_PATTERN, Locale.getDefault())
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         format.parse(date)?.let { dateFormat(it) } ?: DEFAULT_RETURN
     } else {
         DEFAULT_RETURN

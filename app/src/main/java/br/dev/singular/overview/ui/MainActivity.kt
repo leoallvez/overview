@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                         .padding(WindowInsets.systemBars.asPaddingValues()),
                 ) { innerPadding ->
                     Box(Modifier.padding(innerPadding)) {
-                        NavController(navController)
+                        NavController(navController = navController, showAds =  showAds)
                     }
                 }
             }

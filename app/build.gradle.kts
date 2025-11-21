@@ -55,15 +55,11 @@ android {
     }
     // Build types configurations
     buildTypes {
-        named("release") {
+        release {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            stringField(name = "DEBUG_BANNER_ID", value = "")
-        }
-        named("debug") {
-            stringField(name = "DEBUG_BANNER_ID", value = "ca-app-pub-3940256099942544/6300978111")
         }
     }
     flavorDimensions.add("version")
@@ -134,9 +130,6 @@ dependencies {
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
     ksp(libs.hilt.compiler)
-
-    // Google Ads
-    implementation(libs.play.services.ads)
 
     // Accompanist
     implementation(libs.accompanist.pager)

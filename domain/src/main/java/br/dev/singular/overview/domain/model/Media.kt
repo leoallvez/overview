@@ -6,7 +6,7 @@ data class Media(
     val id: Long,
     val type: MediaType,
     val title: String,
-    var isLiked: Boolean = false,
+    var isLiked: Boolean,
     val posterPath: String,
     val lastUpdate: Date
 )

@@ -1,9 +1,10 @@
 package br.dev.singular.overview.data.model.media
 
+import br.dev.singular.overview.presentation.ui.utils.DateHelper
 import br.dev.singular.overview.ui.model.toUi
-import br.dev.singular.overview.util.DateHelper
 import com.squareup.moshi.Json
 import kotlin.collections.map
+import kotlinx.collections.immutable.toImmutableList
 
 data class Movie(
     private val title: String? = null,
@@ -20,7 +21,7 @@ data class Movie(
     private val similar: Similar<Movie> = Similar()
 ) : Media() {
 
-    override fun getSimilarMedia() = similar.results.map { it.toUi() }
+    override fun getSimilarMedia() = similar.results.map { it.toUi() }.toImmutableList()
 
     override fun getRuntime() = runtimeTemplate(runtime = movieRuntime)
 

@@ -8,8 +8,6 @@ import br.dev.singular.overview.data.source.media.remote.IMediaDiscoverRemoteDat
 import br.dev.singular.overview.data.source.media.remote.IMediaRemoteDataSource
 import br.dev.singular.overview.data.source.media.remote.MovieRemoteDataSource
 import br.dev.singular.overview.data.source.media.remote.TvShowRemoteDataSource
-import br.dev.singular.overview.data.source.person.IPersonRemoteDataSource
-import br.dev.singular.overview.data.source.person.PersonRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.IStreamingRemoteDataSource
 import br.dev.singular.overview.data.source.streaming.StreamingRemoteDataSource
 import br.dev.singular.overview.data.source.video.IVideoRemoteDataSource
@@ -22,11 +20,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class SourceModule {
-
-    @Binds
-    abstract fun bindPersonRemoteDataSource(
-        source: PersonRemoteDataSource
-    ): IPersonRemoteDataSource
 
     @Binds
     abstract fun bindMovieRemoteDataSource(

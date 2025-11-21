@@ -9,7 +9,6 @@ import br.dev.singular.overview.data.api.response.ProviderResponse
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.media.TvShow
-import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
@@ -112,21 +111,6 @@ interface ApiService {
         @Query(value = "region")
         region: String = ""
     ): NetworkResponse<ProviderResponse, ErrorResponse>
-
-    // Person
-    @GET(value = "person/{api_id}")
-    suspend fun getPersonItem(
-        @Path(value = "api_id", encoded = true)
-        id: Long,
-        @Query(value = "api_key")
-        apiKey: String = API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "append_to_response")
-        appendToResponse: String = "tv_credits,movie_credits"
-    ): NetworkResponse<Person, ErrorResponse>
 
     // Streaming
     @GET(value = "watch/providers/tv")

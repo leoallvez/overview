@@ -2,7 +2,9 @@ package br.dev.singular.overview.ui.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,7 +17,8 @@ import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
-import br.dev.singular.overview.ui.person.PersonDetailsScreen
+import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsScreen
+import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsViewModel
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
 import br.dev.singular.overview.ui.home.HomeScreen
@@ -26,7 +29,10 @@ import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
 @Composable
-fun NavController(navController: NavHostController = rememberNavController()) {
+fun NavController(
+    showAds: Boolean,
+    navController: NavHostController = rememberNavController()
+) {
     NavHost(
         navController = navController,
         startDestination = ScreenNav.Splash.route,
@@ -64,7 +70,7 @@ fun NavController(navController: NavHostController = rememberNavController()) {
         ) { backStackEntry ->
             YouTubePlayerFullscreen(
                 videoKey = backStackEntry.arguments?.getString(ScreenNav.VIDEO_KEY_PARAM) ?: "",
-                onBackstackClick = { navController.popBackStack() }
+                onBack = { navController.popBackStack() }
             )
         }
         composable(
@@ -72,9 +78,15 @@ fun NavController(navController: NavHostController = rememberNavController()) {
             arguments = listOf(NavArg.ID),
             exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
         ) { navBackStackEntry ->
+
+            val viewModel = hiltViewModel<PersonDetailsViewModel>()
+
             PersonDetailsScreen(
-                apiId = navBackStackEntry.getApiId(),
-                navigate = basicNav
+                uiState = viewModel.uiState.collectAsState().value,
+                showAds = showAds,
+                onLoad = { viewModel.onLoad(id = navBackStackEntry.getApiId()) },
+                onBack = { navController.popBackStack() },
+                onToMediaDetails = { basicNav.toMediaDetails(it) }
             )
         }
         composable(route = ScreenNav.Home.route) {

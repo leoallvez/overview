@@ -2,8 +2,11 @@ package br.dev.singular.overview.di.domain
 
 import br.dev.singular.overview.data.repository.MediaLocalRepository
 import br.dev.singular.overview.data.repository.MediaRemoteRepository
+import br.dev.singular.overview.data.repository.PersonRepository
 import br.dev.singular.overview.data.repository.SuggestionRepository
+import br.dev.singular.overview.domain.usecase.GetPersonByIdUseCase
 import br.dev.singular.overview.domain.usecase.IDeleteUseCase
+import br.dev.singular.overview.domain.usecase.IGetPersonByIdUseCase
 import br.dev.singular.overview.domain.usecase.media.DeleteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.GetAllLocalMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetAllLocalMediasUseCase
@@ -56,5 +59,13 @@ class UseCaseModule {
         repo: MediaLocalRepository
     ): IDeleteUseCase {
         return DeleteMediasUseCase(repo, repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetPersonByIdUseCase(
+        repo: PersonRepository
+    ): IGetPersonByIdUseCase {
+        return GetPersonByIdUseCase(repo)
     }
 }

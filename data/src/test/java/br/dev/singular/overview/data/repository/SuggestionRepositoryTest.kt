@@ -2,8 +2,8 @@ package br.dev.singular.overview.data.repository
 
 import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
 import br.dev.singular.overview.data.network.source.ISuggestionRemoteDataSource
-import br.dev.singular.overview.data.util.mappers.toDomain
-import br.dev.singular.overview.data.util.suggestionModels
+import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
+import br.dev.singular.overview.data.util.fakeSuggestionModels
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coJustRun
@@ -25,7 +25,7 @@ class SuggestionRepositoryTest {
 
     private lateinit var sut: SuggestionRepository
 
-    private val domainSuggestions = suggestionModels.map { it.toDomain() }
+    private val domainSuggestions = fakeSuggestionModels.map { it.toDomain() }
 
     @Before
     fun setup() {
@@ -36,7 +36,7 @@ class SuggestionRepositoryTest {
     @Test
     fun `should return local suggestions when local is not empty`() = runTest {
         // Arrange
-        coEvery { localDataSource.getAll() } returns suggestionModels
+        coEvery { localDataSource.getAll() } returns fakeSuggestionModels
 
         // Act
         val result = sut.getAll()
@@ -50,7 +50,7 @@ class SuggestionRepositoryTest {
     fun `should fetch from remote and save cache when local is empty`() = runTest {
         // Arrange
         coEvery{ localDataSource.getAll() } returns emptyList()
-        coEvery { remoteDataSource.getAll() } returns suggestionModels
+        coEvery { remoteDataSource.getAll() } returns fakeSuggestionModels
 
         // Act
         val result = sut.getAll()
@@ -58,7 +58,7 @@ class SuggestionRepositoryTest {
         // Assert
         assertEquals(domainSuggestions, result)
         coVerify(exactly = 1) { remoteDataSource.getAll() }
-        coVerify(exactly = 1) { localDataSource.insert(suggestionModels) }
+        coVerify(exactly = 1) { localDataSource.insert(fakeSuggestionModels) }
     }
 
     @Test

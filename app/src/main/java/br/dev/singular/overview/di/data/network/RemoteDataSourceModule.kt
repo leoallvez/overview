@@ -1,8 +1,10 @@
 package br.dev.singular.overview.di.data.network
 
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
+import br.dev.singular.overview.data.network.source.IPersonRemoteDataSource
 import br.dev.singular.overview.data.network.source.ISuggestionRemoteDataSource
 import br.dev.singular.overview.data.network.source.MediaRemoteDataSource
+import br.dev.singular.overview.data.network.source.PersonRemoteDataSource
 import br.dev.singular.overview.data.network.source.SuggestionRemoteDataSource
 import dagger.Binds
 import dagger.Module
@@ -22,4 +24,9 @@ abstract class RemoteDataSourceModule {
     abstract fun bindSuggestionRemoteDataSource(
         source: SuggestionRemoteDataSource
     ): ISuggestionRemoteDataSource
+
+    @Binds
+    abstract fun bindPersonRemoteDataSource(
+        source: PersonRemoteDataSource
+    ): IPersonRemoteDataSource
 }

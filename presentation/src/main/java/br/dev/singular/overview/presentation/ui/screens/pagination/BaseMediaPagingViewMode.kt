@@ -13,7 +13,7 @@ import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiParam
-import br.dev.singular.overview.presentation.ui.utils.mappers.toUi
+import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

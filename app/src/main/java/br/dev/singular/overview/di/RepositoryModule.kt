@@ -10,8 +10,6 @@ import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRe
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
 import br.dev.singular.overview.data.repository.mediatype.IMediaTypeRepository
 import br.dev.singular.overview.data.repository.mediatype.MediaTypeRepository
-import br.dev.singular.overview.data.repository.person.IPersonRepository
-import br.dev.singular.overview.data.repository.person.PersonRepository
 import br.dev.singular.overview.data.repository.streaming.IStreamingRepository
 import br.dev.singular.overview.data.repository.streaming.StreamingRepository
 import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
@@ -38,11 +36,6 @@ abstract class RepositoryModule {
     abstract fun bindMediaSearchPagingRepository(
         repository: MediaSearchPagingRepository
     ): IMediaSearchPagingRepository
-
-    @Binds
-    abstract fun bindPersonRepository(
-        repository: PersonRepository
-    ): IPersonRepository
 
     @Binds
     abstract fun bindStreamingRepository(

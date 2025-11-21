@@ -15,12 +15,14 @@ import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun UiMediaList(
     title: String,
     modifier: Modifier = Modifier,
-    items: List<MediaUiModel>,
+    items: ImmutableList<MediaUiModel>,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     onClick: (MediaUiModel) -> Unit = {}
 ) {
@@ -45,7 +47,7 @@ fun UiMediaList(
 internal fun UiMediaPreview() {
     UiMediaList(
         title = "Imagined Movies",
-        items = getMediaMocks()
+        items = getMediaMocks().toImmutableList()
     )
 }
 
@@ -55,7 +57,7 @@ internal fun UiMediaListWitchContentPaddingPreview() {
     UiMediaList(
         title = "Imagined Movies",
         contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
-        items = getMediaMocks()
+        items = getMediaMocks().toImmutableList()
     )
 }
 
@@ -65,7 +67,7 @@ internal fun UiMediaListWithBackgroundPreview() {
     UiMediaList(
         title = "Imagined Movies",
         modifier = Modifier.defaultBackground(),
-        items = getMediaMocks()
+        items = getMediaMocks().toImmutableList()
     )
 }
 
@@ -75,6 +77,6 @@ internal fun UiMediaListEmptyPreview() {
     UiMediaList(
         title = "Empty List",
         modifier = Modifier.defaultBackground(),
-        items = listOf()
+        items = emptyList<MediaUiModel>().toImmutableList()
     )
 }
