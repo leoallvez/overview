@@ -13,7 +13,7 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 
 @Composable
-fun UiToolbar(
+fun UiTopAppBar(
     title: String,
     modifier: Modifier = Modifier
 ) {
@@ -24,8 +24,7 @@ fun UiToolbar(
     ) {
         UiTitle(
             text = title,
-            modifier = Modifier
-                .align(Alignment.CenterStart),
+            modifier = Modifier.align(Alignment.CenterStart),
             color = HighlightColor
         )
     }
@@ -34,5 +33,5 @@ fun UiToolbar(
 @Preview
 @Composable
 fun UiToolbarPreview() {
-    UiToolbar(title = "Title")
+    UiTopAppBar(title = "Title")
 }
