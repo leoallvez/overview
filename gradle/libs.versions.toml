@@ -43,7 +43,7 @@ firebase-bom = "34.6.0"
 
 # Network
 retrofit = "2.9.0"
-logging-interceptor = "5.3.1"
+logging-interceptor = "5.3.2"
 converter-serialization = "1.0.0"
 network-response-adapter = "4.2.2"
 
