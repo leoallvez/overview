@@ -63,7 +63,7 @@ kotlinx-coroutines-test = "1.10.2"
 
 # Others
 play-services-ads = "24.8.0"
-datastore-preferences = "1.1.7"
+datastore-preferences = "1.2.0"
 timber = "5.0.1"
 youtube-player = "13.0.0"
 
