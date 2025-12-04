@@ -34,14 +34,10 @@
     <string name="cast">หล่อ</string>
     <string name="related">ที่เกี่ยวข้อง</string>
     <string name="where_to_watch">ผู้ให้บริการ</string>
-    <string name="separator">•</string>
-    <string name="em_dash">-</string>
     <string name="tv_shows_participation">การมีส่วนร่วมทางทีวี</string>
     <string name="movies_participation">การเข้าร่วมภาพยนตร์</string>
     <string name="age">%s ปี</string>
     <string name="place_of_birth">สถานที่เกิด</string>
-    <string name="one_season">1 ฤดูกาล</string>
-    <string name="n_seasons">%s ซีซัน</string>
     <string name="one_episode">1 ตอน</string>
     <string name="n_episodes">%s ตอน</string>
     <string name="runtime_per_episode">รันไทม์: %s ต่อตอน</string>

@@ -27,6 +27,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            stringField(name = "DEBUG_BANNER_ID", value = "")
+        }
+        debug {
+            stringField(name = "DEBUG_BANNER_ID", value = "ca-app-pub-3940256099942544/6300978111")
         }
     }
     compileOptions {
@@ -62,7 +66,11 @@ dependencies {
     api(libs.coil.compose)
     api(libs.hilt.navigation.compose)
     implementation(libs.material)
+    api(libs.kotlinx.collections.immutable)
     implementation(libs.progress.indicator)
+
+    // Google Ads
+    api(libs.play.services.ads)
 
     api(platform(libs.firebase.bom))
     api(libs.firebase.analytics)

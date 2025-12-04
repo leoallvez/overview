@@ -3,11 +3,11 @@ package br.dev.singular.overview.data.repository
 import br.dev.singular.overview.data.local.source.IMediaRouteLocalDataSource
 import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
-import br.dev.singular.overview.data.util.mappers.toDomain
+import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaParam
-import br.dev.singular.overview.domain.repository.Page
 import br.dev.singular.overview.domain.repository.GetPage
+import br.dev.singular.overview.domain.repository.Page
 import javax.inject.Inject
 
 class MediaRemoteRepository @Inject constructor(

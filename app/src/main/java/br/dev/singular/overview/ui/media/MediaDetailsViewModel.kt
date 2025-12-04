@@ -7,10 +7,10 @@ import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStre
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.di.DisplayAds
 import br.dev.singular.overview.di.MainDispatcher
+import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.AdViewModel
 import br.dev.singular.overview.ui.MediaUiState
-import br.dev.singular.overview.ui.UiState
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -12,12 +12,12 @@ import java.util.Date
 data class SuggestionDataModel(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
-    val order: Int,
+    val order: Int = 0,
     val type: MediaDataType = MediaDataType.UNKNOWN,
     @ColumnInfo(name = "source_key")
-    val sourceKey: String,
+    val sourceKey: String = "",
     @ColumnInfo(name = "is_active")
-    val isActive: Boolean,
+    val isActive: Boolean = false,
     @Transient
     @ColumnInfo(name = "last_update")
     var lastUpdate: Date = Date()

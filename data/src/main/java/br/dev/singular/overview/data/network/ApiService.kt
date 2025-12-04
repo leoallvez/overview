@@ -2,6 +2,7 @@ package br.dev.singular.overview.data.network
 
 import br.dev.singular.overview.data.BuildConfig
 import br.dev.singular.overview.data.model.MediaDataPage
+import br.dev.singular.overview.data.model.PersonDataModel
 import br.dev.singular.overview.data.network.response.ErrorResponse
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
@@ -21,6 +22,20 @@ interface ApiService {
         @Query(value = "region")
         region: String = ""
     ): NetworkResponse<MediaDataPage, ErrorResponse>
+
+    @GET(value = "person/{api_id}")
+    suspend fun getPersonById(
+        @Path(value = "api_id", encoded = true)
+        id: Long,
+        @Query(value = "api_key")
+        apiKey: String = API_KEY,
+        @Query(value = "language")
+        language: String = "",
+        @Query(value = "region")
+        region: String = "",
+        @Query(value = "append_to_response")
+        appendToResponse: String = "tv_credits,movie_credits"
+    ): NetworkResponse<PersonDataModel, ErrorResponse>
 
     private companion object {
         const val API_KEY = BuildConfig.API_KEY

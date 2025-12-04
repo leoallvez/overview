@@ -1,8 +1,6 @@
 package br.dev.singular.overview.ui
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
@@ -31,28 +28,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import br.dev.singular.overview.data.model.media.GenreEntity
-import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
-import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
-import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
-import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
-import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.theme.AccentColor
-import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
@@ -70,28 +61,6 @@ fun GenreEntity.nameTranslation(): String {
 private val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
     current.getStringByName(resource = "genre_$apiId")
-}
-
-@Composable
-fun PartingPoint(display: Boolean = true) {
-    SimpleSubtitle1(text = stringResource(R.string.separator), display = display)
-}
-
-@Composable
-fun PartingEmDash(display: Boolean = true) {
-    SimpleSubtitle1(text = stringResource(R.string.em_dash), display = display)
-}
-
-@Composable
-fun SimpleSubtitle1(text: String, display: Boolean = true, isBold: Boolean = true) {
-    if (text.isNotEmpty() && display) {
-        Text(
-            text = text,
-            color = Color.White,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
-        )
-    }
 }
 
 @Composable
@@ -133,71 +102,6 @@ fun Backdrop(
 }
 
 @Composable
-fun <T> UiStateResult(
-    uiState: UiState<T>,
-    tagPath: String,
-    onRefresh: () -> Unit,
-    successContent: @Composable (T) -> Unit
-) {
-    val paddingTop = dimensionResource(R.dimen.spacing_17x)
-    when (uiState) {
-        is UiState.Loading -> LoadingScreen(
-            tagPath,
-            modifier = Modifier.padding(top = paddingTop)
-        )
-        is UiState.Success -> {
-            TrackScreenView(tagPath, TagStatus.SUCCESS)
-            successContent(uiState.data)
-        }
-        else -> ErrorScreen(
-            tagPath,
-            modifier = Modifier.padding(top = paddingTop),
-            onRefresh = onRefresh
-        )
-    }
-}
-
-@Composable
-fun BasicParagraph(@StringRes title: Int, paragraph: String) {
-    if (paragraph.isNotBlank()) {
-        Column {
-            UiTitle(stringResource(title))
-            BasicParagraph(paragraph)
-        }
-    }
-}
-
-@Composable
-fun BasicParagraph(paragraph: String) {
-    Text(
-        text = paragraph,
-        color = Color.White,
-        style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_1x)),
-        textAlign = TextAlign.Justify
-    )
-}
-
-@Composable
-fun PersonImageCircle(person: Person, modifier: Modifier = Modifier) {
-    UiImage(
-        url = person.getProfileImage(),
-        contentDescription = person.name,
-        contentScale = ContentScale.Crop,
-        modifier = modifier
-            .size(120.dp)
-            .clip(CircleShape)
-            .border(
-                dimensionResource(R.dimen.border_width),
-                DarkGray,
-                CircleShape
-            ),
-        placeholder = R.drawable.avatar,
-        errorDefaultImage = R.drawable.avatar
-    )
-}
-
-@Composable
 fun ToolbarTitle(
     title: String,
     modifier: Modifier = Modifier,
@@ -222,7 +126,6 @@ fun ToolbarTitle(
         )
     }
 }
-
 
 @Composable
 fun StreamingIcon(
@@ -253,7 +156,7 @@ fun BottomNavigationBar(navController: NavController, adBannerIsVisible: Boolean
     val height = dimensionResource(R.dimen.spacing_14x)
     if (currentRoute !in hiddenRoutes) {
         Column {
-            AdsBanner(R.string.bottom_navigation, isVisible = adBannerIsVisible)
+            UiAdsBanner(R.string.bottom_navigation, isVisible = adBannerIsVisible)
             BottomNavigation {
                 val items = BottomNavigation.items
                 items.forEach { item ->

@@ -7,8 +7,8 @@ import android.content.pm.ActivityInfo
 import android.content.res.Resources.NotFoundException
 import androidx.navigation.NavBackStackEntry
 import br.dev.singular.overview.data.source.DataResult
+import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.UiState
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

@@ -7,6 +7,7 @@ import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType.*
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import com.squareup.moshi.Json
+import kotlinx.collections.immutable.ImmutableList
 
 abstract class Media {
     @field:Json(name = "id")
@@ -34,7 +35,7 @@ abstract class Media {
     var videos: List<Video> = listOf()
     var isLiked: Boolean = false
 
-    abstract fun getSimilarMedia(): List<MediaUiModel>
+    abstract fun getSimilarMedia(): ImmutableList<MediaUiModel>
     abstract fun getRuntime(): String
     abstract fun getLetter(): String
     abstract fun isReleased(): Boolean

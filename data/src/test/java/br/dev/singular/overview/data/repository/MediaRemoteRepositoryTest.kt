@@ -4,7 +4,7 @@ import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
 import br.dev.singular.overview.data.util.MockMediaRouteLocalDataSource
-import br.dev.singular.overview.data.util.mediaDataModel
+import br.dev.singular.overview.data.util.fakeMediaDataModel
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaParam
 import br.dev.singular.overview.domain.repository.GetPage
@@ -44,7 +44,7 @@ class MediaRemoteRepositoryTest {
     fun `should return list of media when response is success`() = runTest(dispatcher) {
         // Arrange
         coEvery { remoteSource.getByPath(validPath) } returns DataResult.Success(
-            MediaDataPage(items = listOf(mediaDataModel))
+            MediaDataPage(items = listOf(fakeMediaDataModel))
         )
 
         // Act
@@ -71,7 +71,7 @@ class MediaRemoteRepositoryTest {
     fun `should return a empty list when it fails to get the route` () = runTest(dispatcher) {
         // Arrange
         coEvery { remoteSource.getByPath(validPath) } returns DataResult.Success(
-            MediaDataPage(items = listOf(mediaDataModel))
+            MediaDataPage(items = listOf(fakeMediaDataModel))
         )
 
         // Act

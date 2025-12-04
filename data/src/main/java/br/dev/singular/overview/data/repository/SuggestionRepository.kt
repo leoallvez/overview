@@ -2,8 +2,8 @@ package br.dev.singular.overview.data.repository
 
 import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
 import br.dev.singular.overview.data.network.source.ISuggestionRemoteDataSource
-import br.dev.singular.overview.data.util.mappers.toData
-import br.dev.singular.overview.data.util.mappers.toDomain
+import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
+import br.dev.singular.overview.data.util.mappers.domainToData.toData
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.repository.Delete
 import br.dev.singular.overview.domain.repository.GetAll

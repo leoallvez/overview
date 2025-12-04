@@ -1,4 +1,4 @@
-package br.dev.singular.overview.ui
+package br.dev.singular.overview.presentation.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -11,25 +11,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.presentation.ui.theme.Background
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 @Composable
-fun AdsBanner(
+fun UiAdsBanner(
     @StringRes prodBannerId: Int,
-    isVisible: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isVisible: Boolean
 ) {
     if (isVisible) {
         Column {
             AndroidView(
                 modifier = modifier
                     .fillMaxWidth()
-                    .background(color = PrimaryBackground)
+                    .background(color = Background)
                     .padding(vertical = dimensionResource(R.dimen.spacing_1x))
                     .height(dimensionResource(R.dimen.spacing_15x)),
                 factory = { context ->
@@ -46,10 +46,10 @@ fun AdsBanner(
 }
 
 @Composable
-fun AdsMediumRectangle(
+fun UiAdsMediumRectangle(
     @StringRes prodBannerId: Int,
-    isVisible: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isVisible: Boolean
 ) {
     if (isVisible) {
         AndroidView(

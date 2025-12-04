@@ -34,7 +34,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 @Composable
 fun YouTubePlayerFullscreen(
     videoKey: String,
-    onBackstackClick: () -> Unit
+    onBack: () -> Unit
 ) {
     TrackScreenView(TagPlayer.PATH)
     val context = LocalContext.current
@@ -43,7 +43,7 @@ fun YouTubePlayerFullscreen(
 
     val exitFullscreen: () -> Unit = {
         activity.setFullscreen(isFullscreen = false)
-        onBackstackClick.invoke()
+        onBack.invoke()
     }
 
     BackHandler {

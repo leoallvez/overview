@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="seasons">
+        <item quantity="one">1 season</item>
+        <item quantity="other">%d seasons</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">1 episode</item>
+        <item quantity="other">%d episodes</item>
+    </plurals>
+</resources>

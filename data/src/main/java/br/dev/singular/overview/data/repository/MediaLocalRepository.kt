@@ -1,8 +1,8 @@
 package br.dev.singular.overview.data.repository
 
 import br.dev.singular.overview.data.local.source.IMediaLocalDataSource
-import br.dev.singular.overview.data.util.mappers.toData
-import br.dev.singular.overview.data.util.mappers.toDomain
+import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
+import br.dev.singular.overview.data.util.mappers.domainToData.toData
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaParam
 import br.dev.singular.overview.domain.repository.Delete

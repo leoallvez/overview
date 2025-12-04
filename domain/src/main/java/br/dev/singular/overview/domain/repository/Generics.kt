@@ -25,7 +25,7 @@ interface GetPage<T, P> {
 }
 
 interface GetById<T> {
-    suspend fun getById(id: Int): T?
+    suspend fun getById(id: Long): T?
 }
 
 data class Page<T>(
