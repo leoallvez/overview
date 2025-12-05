@@ -77,4 +77,5 @@
     <string name="search">搜索</string>
     <string name="select_streaming">选择流媒体</string>
     <string name="videos">视频</string>
+    <string name="catalogs">目录</string>
 </resources>
