@@ -10,20 +10,21 @@ interface IMediaRouteLocalDataSource {
 }
 
 class MediaRouteLocalDataSource @Inject constructor(
+    private val json: Json,
     private val readerProvider: IJsonFileReaderProvider
 ) : IMediaRouteLocalDataSource {
 
     override suspend fun getByKey(key: String) = loadRoutes().firstOrNull { it.key == key }
 
     private fun loadRoutes(): List<MediaRouteDataModel> {
-        return routes.ifEmpty  {
-            val json = readerProvider.read(MEDIA_ROUTES_FILE_NAME)
-            Json.decodeFromString<List<MediaRouteDataModel>>(json).also { routes = it }
+        return routes.ifEmpty {
+            val jsonString = readerProvider.read(filePath = MEDIA_ROUTES_FILE_NAME)
+            json.decodeFromString<List<MediaRouteDataModel>>(jsonString).also { routes = it }
         }
     }
 
-    companion object {
-        private const val MEDIA_ROUTES_FILE_NAME = "media_routes.json"
-        private var routes = emptyList<MediaRouteDataModel>()
+    private companion object {
+        const val MEDIA_ROUTES_FILE_NAME = "media_routes.json"
+        var routes = emptyList<MediaRouteDataModel>()
     }
 }

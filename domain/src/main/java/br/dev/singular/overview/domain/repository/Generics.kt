@@ -4,8 +4,12 @@ interface Create<T> {
     suspend fun create(vararg items: T)
 }
 
-interface Update<T> {
+interface UpdateAll<T> {
     suspend fun update(vararg items: T)
+}
+
+interface Update<T> {
+    suspend fun update(item: T)
 }
 
 interface Delete<T> {
@@ -14,6 +18,10 @@ interface Delete<T> {
 
 interface DeleteAll<T> {
     suspend fun deleteAll()
+}
+
+interface Get<T> {
+    suspend fun get(): T
 }
 
 interface GetAll<T> {

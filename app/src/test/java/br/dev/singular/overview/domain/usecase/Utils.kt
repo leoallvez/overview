@@ -3,8 +3,20 @@ package br.dev.singular.overview.domain.usecase
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.Person
+import br.dev.singular.overview.domain.model.Streaming
 import br.dev.singular.overview.domain.model.Suggestion
 import java.util.Date
+
+fun createStreamingMock(lastUpdate: Date = Date()): Streaming {
+    return Streaming(
+        id = 1L,
+        name = "Netflix",
+        priority = 1,
+        logoPath = "path/to/logo",
+        display = true,
+        lastUpdate = lastUpdate
+    )
+}
 
 fun createSuggestionMock(lastUpdate: Date = Date()): Suggestion {
     return Suggestion(

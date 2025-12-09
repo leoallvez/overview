@@ -7,14 +7,14 @@ import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.model.MediaDataType.*
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.domain.model.Streaming
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.StreamingUiModel
 import br.dev.singular.overview.presentation.ui.utils.mappers.buildImageFullURL
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.Date
 
 //TODO: this file going to be delete in the future
 
@@ -39,14 +39,21 @@ fun StreamingEntity.toUi() = StreamingUiModel(
     logoURL = getLogoImage() ,
 )
 
-fun StreamingUiModel.toEntity() = StreamingEntity(
+fun Streaming.toEntity() = StreamingEntity(
     apiId = id,
     name = name,
-    logoPath = logoURL,
+    logoPath = logoPath,
     priority = priority,
 )
 
-fun ImmutableList<StreamingEntity>.toUi() = map { it.toUi() }.toImmutableList()
+fun StreamingEntity.toDomain() = Streaming(
+    id = apiId,
+    name = name,
+    logoPath = logoPath,
+    priority = priority,
+    display = true,
+    lastUpdate = Date()
+)
 
 private fun MediaDataType.toUi() = when(this) {
     MOVIE -> MediaUiType.MOVIE

@@ -112,17 +112,6 @@ interface ApiService {
         region: String = ""
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
-    // Streaming
-    @GET(value = "watch/providers/tv")
-    suspend fun getStreamingItems(
-        @Query(value = "api_key")
-        apiKey: String = API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<ListResponse<StreamingEntity>, ErrorResponse>
-
     // New requests & labs
     @GET(value = "discover/tv?sort_by=primary_release_date.desc")
     suspend fun getTvShowsPaging(
