@@ -22,10 +22,10 @@ appcompat = "1.7.1"
 material = "1.13.0"
 
 # Compose
-compose-bom = "2025.11.01"
+compose-bom = "2025.12.00"
 navigation-compose = "2.9.6"
 paging-compose = "3.3.6"
-activity-compose = "1.12.0"
+activity-compose = "1.12.1"
 
 # Lifecycle and Work
 lifecycle = "2.10.0"
@@ -58,7 +58,7 @@ accompanist = "0.36.0"
 junit = "4.13.2"
 junit-version = "1.3.0"
 espresso-core = "3.7.0"
-mockk = "1.14.6"
+mockk = "1.14.7"
 kluent = "1.73"
 kotlinx-coroutines-test = "1.10.2"
 
