@@ -8,6 +8,7 @@ import androidx.room.Room
 import br.dev.singular.overview.data.db.AppDatabase
 import br.dev.singular.overview.data.db.MIGRATION_1_2
 import br.dev.singular.overview.data.db.MIGRATION_2_3
+import br.dev.singular.overview.data.db.MIGRATION_3_4
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +31,7 @@ class StorageModule {
     ).addMigrations(
         MIGRATION_1_2,
         MIGRATION_2_3,
+        MIGRATION_3_4,
     ).build()
 
     @Provides
