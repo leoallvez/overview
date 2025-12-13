@@ -135,13 +135,11 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.accompanist.flowlayout)
-    implementation(libs.accompanist.systemuicontroller)
 
     // Third-party libraries
     implementation(libs.timber)
     implementation(libs.logging.interceptor)
     implementation(libs.toolbar.compose)
-    implementation(libs.youtube.player)
     implementation(libs.converter.moshi)
     implementation(libs.converter.serialization)
 

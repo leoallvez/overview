@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.material)
     api(libs.kotlinx.collections.immutable)
     implementation(libs.progress.indicator)
+    implementation(libs.youtube.player)
 
     // Google Ads
     api(libs.play.services.ads)

@@ -78,12 +78,4 @@ fun Long?.isNull() = this == null
 
 fun Long?.toStringOrEmpty() = if (isNull()) String() else toString()
 
-fun Activity?.setFullscreen(isFullscreen: Boolean) {
-    this?.requestedOrientation = if (isFullscreen) {
-        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-    } else {
-        ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-}
-
 const val DESERIALIZATION_ERROR_MSG = "deserialization exception"

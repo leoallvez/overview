@@ -1,16 +1,15 @@
-package br.dev.singular.overview.ui.video
+package br.dev.singular.overview.presentation.ui.screens.video
 
 import android.app.Activity
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,33 +25,30 @@ import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
-import br.dev.singular.overview.util.YouTubePlayerListener
-import br.dev.singular.overview.util.setFullscreen
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import br.dev.singular.overview.presentation.ui.utils.setFullscreen
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 @Composable
 fun YouTubePlayerFullscreen(
+    tagPath: String= TagPlayer.PATH,
     videoKey: String,
+    setEdgeToEdge: (Boolean) -> Unit,
     onBack: () -> Unit
 ) {
-    TrackScreenView(TagPlayer.PATH)
+    TrackScreenView(tagPath)
     val context = LocalContext.current
     val activity = remember { context as? Activity }
-    val systemUiController = rememberSystemUiController()
 
-    val exitFullscreen: () -> Unit = {
-        activity.setFullscreen(isFullscreen = false)
-        onBack.invoke()
+    val setFullscreen = { enabled: Boolean ->
+        setEdgeToEdge(enabled)
+        activity?.setFullscreen(isFullscreen = enabled)
     }
 
-    BackHandler {
-        exitFullscreen()
-    }
-
-    LaunchedEffect(Unit) {
-        systemUiController.isStatusBarVisible = false
-        activity.setFullscreen(isFullscreen = true)
+    DisposableEffect(Unit) {
+        setFullscreen(true)
+        onDispose {
+            setFullscreen(false)
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -81,8 +77,8 @@ fun YouTubePlayerFullscreen(
                 top = dimensionResource(R.dimen.spacing_15x),
             ),
             onClick = {
-                TagManager.logClick(TagPlayer.PATH, TagCommon.Detail.CLOSE)
-                exitFullscreen()
+                TagManager.logClick(tagPath, TagCommon.Detail.CLOSE)
+                onBack()
             }
         )
     }

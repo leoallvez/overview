@@ -24,19 +24,21 @@ import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
 import br.dev.singular.overview.ui.home.HomeScreen
 import br.dev.singular.overview.ui.streaming.select.SelectStreamingScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
-import br.dev.singular.overview.ui.video.YouTubePlayerFullscreen
+import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
 @Composable
 fun NavController(
     showAds: Boolean,
+    modifier: Modifier,
+    setEdgeToEdge: (Boolean) -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
         startDestination = ScreenNav.Splash.route,
-        modifier = Modifier.background(PrimaryBackground)
+        modifier = modifier.background(PrimaryBackground)
     ) {
         val basicNav = BasicNavigate(navController)
         composable(route = ScreenNav.Splash.route) {
@@ -72,6 +74,7 @@ fun NavController(
             )
         ) { backStackEntry ->
             YouTubePlayerFullscreen(
+                setEdgeToEdge = setEdgeToEdge,
                 videoKey = backStackEntry.arguments?.getString(ScreenNav.VIDEO_KEY_PARAM) ?: "",
                 onBack = { navController.popBackStack() }
             )
