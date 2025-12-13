@@ -65,7 +65,7 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
-import br.dev.singular.overview.presentation.ui.components.UiToolbar
+import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import kotlinx.collections.immutable.toImmutableList
@@ -154,7 +154,7 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
     ) {
-        UiToolbar(title = stringResource(id = R.string.search))
+        UiTopAppBar(title = stringResource(id = R.string.search))
         SearchField(onSearch = onSearch)
     }
 }
