@@ -63,7 +63,7 @@ kluent = "1.73"
 kotlinx-coroutines-test = "1.10.2"
 
 # Others
-play-services-ads = "24.8.0"
+play-services-ads = "24.9.0"
 datastore-preferences = "1.2.0"
 timber = "5.0.1"
 youtube-player = "13.0.0"
