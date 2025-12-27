@@ -6,8 +6,8 @@ serialization = "1.9.0"
 sdk-compile = "36"
 sdk-min = "24"
 sdk-target = "35"
-version-code = "8"
-version-name = "3.2.1"
+version-code = "9"
+version-name = "3.2.2"
 jvm-target = "11"
 
 # Kotlin
