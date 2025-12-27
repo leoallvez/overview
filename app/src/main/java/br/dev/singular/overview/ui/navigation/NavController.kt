@@ -22,9 +22,10 @@ import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsView
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
 import br.dev.singular.overview.ui.home.HomeScreen
-import br.dev.singular.overview.ui.streaming.select.SelectStreamingScreen
+import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
+import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingViewModel
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
@@ -49,9 +50,17 @@ fun NavController(
             exitTransition = { upExitTransition(duration = AnimationDurations.LONG) },
             enterTransition = { downEnterTransition(duration = AnimationDurations.LONG) }
         ) {
+
+            val viewModel = hiltViewModel<SelectStreamingViewModel>()
+
             SelectStreamingScreen(
+                uiState = viewModel.uiState.collectAsState().value,
+                onLoad = { viewModel.onLoad() },
                 onBack = { basicNav.popBackStack() },
-                onToHome = { basicNav.toHome() }
+                onSelected = { streaming ->
+                    viewModel.onSelect(streaming)
+                    basicNav.toHome()
+                }
             )
         }
         composable(route = ScreenNav.Search.route) {
@@ -83,16 +92,16 @@ fun NavController(
             route = ScreenNav.PersonDetails.route,
             arguments = listOf(NavArg.ID),
             exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
-        ) { navBackStackEntry ->
+        ) {
 
             val viewModel = hiltViewModel<PersonDetailsViewModel>()
 
             PersonDetailsScreen(
                 uiState = viewModel.uiState.collectAsState().value,
                 showAds = showAds,
-                onLoad = { viewModel.onLoad(id = navBackStackEntry.getApiId()) },
+                onLoad = { viewModel.onLoad(id = it.getApiId()) },
                 onBack = { navController.popBackStack() },
-                onToMediaDetails = { basicNav.toMediaDetails(it) }
+                onToMediaDetails = { media -> basicNav.toMediaDetails(media) }
             )
         }
         composable(route = ScreenNav.Home.route) {

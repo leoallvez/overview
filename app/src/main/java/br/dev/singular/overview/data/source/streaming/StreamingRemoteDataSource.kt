@@ -7,20 +7,14 @@ import br.dev.singular.overview.data.model.provider.StreamingEntity
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
+interface IStreamingRemoteDataSource {
+    suspend fun getItems(apiId: Long, type: String): List<StreamingEntity>
+}
+
 class StreamingRemoteDataSource @Inject constructor(
     private val _api: ApiService,
     private val _locale: IApiLocale
 ) : IStreamingRemoteDataSource {
-
-    override suspend fun getItems(): List<StreamingEntity> =
-        when (val response = getStreaming()) {
-            is NetworkResponse.Success -> response.body.results
-            else -> emptyList()
-        }
-
-    private suspend fun getStreaming() = _locale.run {
-        _api.getStreamingItems(language = language, region = region)
-    }
 
     override suspend fun getItems(apiId: Long, type: String) =
         when (val response = getProviders(apiId, type)) {

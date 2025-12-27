@@ -10,9 +10,6 @@ import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRe
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSearchPagingRepository
 import br.dev.singular.overview.data.repository.mediatype.IMediaTypeRepository
 import br.dev.singular.overview.data.repository.mediatype.MediaTypeRepository
-import br.dev.singular.overview.data.repository.streaming.IStreamingRepository
-import br.dev.singular.overview.data.repository.streaming.StreamingRepository
-import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,16 +33,6 @@ abstract class RepositoryModule {
     abstract fun bindMediaSearchPagingRepository(
         repository: MediaSearchPagingRepository
     ): IMediaSearchPagingRepository
-
-    @Binds
-    abstract fun bindStreamingRepository(
-        repository: StreamingRepository
-    ): IStreamingRepository
-
-    @Binds
-    abstract fun bindSelectedStreamingRepository(
-        repository: StreamingRepository
-    ): ISelectedStreamingRepository
 
     @Binds
     abstract fun bindGenreRepository(

@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
@@ -58,7 +59,7 @@ internal fun UiStreamingCard(
                     .border(style = UiBorderStyle(shape = shape)),
                 previewPainter = model.previewContent,
                 errorDefaultImage = R.drawable.launcher_playstore,
-                placeholder = R.drawable.launcher_playstore
+                contentScale = ContentScale.FillWidth
             )
 
             Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_3x)))

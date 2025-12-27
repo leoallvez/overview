@@ -20,11 +20,21 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+@OptIn(ExperimentalSerializationApi::class)
 class ApiModule {
 
     @Singleton
     @Provides
     fun provideApiService(): ApiService = buildService().create(ApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideJson(): Json = Json {
+        isLenient = true
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+        namingStrategy = JsonNamingStrategy.SnakeCase
+    }
 
     private fun buildService(): Retrofit {
         return Retrofit.Builder()
@@ -36,15 +46,7 @@ class ApiModule {
     }
 
     private fun buildConverterFactory(): Factory {
-        return buildNetworkJson().asConverterFactory("application/json".toMediaType())
-    }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    private fun buildNetworkJson() = Json {
-        isLenient = true
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-        namingStrategy = JsonNamingStrategy.SnakeCase
+        return provideJson().asConverterFactory("application/json".toMediaType())
     }
 
     private fun buildOkHttpClient(): OkHttpClient {

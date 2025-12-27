@@ -7,3 +7,6 @@ annotation class DeleteSuggestions
 
 @Qualifier
 annotation class DeleteMedias
+
+@Qualifier
+annotation class DeleteStreaming

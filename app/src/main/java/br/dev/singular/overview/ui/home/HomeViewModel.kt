@@ -11,11 +11,13 @@ import br.dev.singular.overview.data.model.filters.SearchFilters
 import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
-import br.dev.singular.overview.data.repository.streaming.selected.ISelectedStreamingRepository
 import br.dev.singular.overview.di.DisplayHighlightIcons
 import br.dev.singular.overview.di.IoDispatcher
+import br.dev.singular.overview.domain.usecase.UseCaseState
+import br.dev.singular.overview.domain.usecase.streaming.IGetSelectedStreamingUseCase
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.remote.RemoteConfig
+import br.dev.singular.overview.ui.model.toEntity
 import br.dev.singular.overview.ui.model.toUi
 import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
@@ -37,7 +39,7 @@ class HomeViewModel @Inject constructor(
     private val _mediaRepository: IMediaPagingRepository,
     @param:DisplayHighlightIcons
     private val highlightIconsManager: RemoteConfig<Boolean>,
-    private val _streamingRepository: ISelectedStreamingRepository,
+    private val useCase: IGetSelectedStreamingUseCase,
     @param:IoDispatcher private val _dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -93,10 +95,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun loadStreaming() {
-        val streaming = _streamingRepository.getSelectedItem().first()
-        streaming?.let {
-            _searchFilters.value = _searchFilters.value.copy(streaming = streaming)
-        }
+        _searchFilters.value = _searchFilters.value.copy(
+            streaming = useCase.invoke()?.toEntity()
+        )
     }
 
     private suspend fun setFilter() {

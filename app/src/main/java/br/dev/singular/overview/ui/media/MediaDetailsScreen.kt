@@ -98,7 +98,6 @@ import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.defaultBorder
 import br.dev.singular.overview.util.defaultPadding
-import br.dev.singular.overview.util.toJson
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import timber.log.Timber
@@ -149,7 +148,7 @@ fun MediaDetailsScreen(
         ) { streaming ->
             Timber.tag("stream_view").i(message = "streaming: $streaming")
             tagClick(TagCommon.Detail.SELECT_STREAMING, streaming.apiId)
-            viewModel.saveSelectedStream(streaming.toJson())
+            viewModel.saveSelectedStream(streaming)
         }
     }
 }
