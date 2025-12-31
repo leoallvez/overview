@@ -11,21 +11,24 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.paging.compose.collectAsLazyPagingItems
+import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.screens.favorites.FavoritesScreen
+import br.dev.singular.overview.presentation.ui.screens.favorites.FavoritesViewModel
+import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsScreen
+import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsViewModel
+import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
+import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingScreen
+import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingViewModel
+import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
 import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.ui.home.HomeScreen
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
-import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsScreen
-import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsViewModel
 import br.dev.singular.overview.ui.search.SearchScreen
-import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
-import br.dev.singular.overview.ui.home.HomeScreen
-import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
-import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
-import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingViewModel
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
@@ -110,7 +113,18 @@ fun NavController(
             )
         }
         composable(route = ScreenNav.Favorites.route) {
-            FavoritesScreen(onToMediaDetails = { basicNav.toMediaDetails(it) })
+
+            val viewModel = hiltViewModel<FavoritesViewModel>()
+
+            FavoritesScreen(
+                isLoading = viewModel.isLoading,
+                uiParam = viewModel.uiParam.collectAsState().value,
+                uiPages = viewModel.medias.collectAsLazyPagingItems(),
+                onReload = { viewModel.onReload() },
+                onSetLoading = { viewModel.onSetIsLoading(it) },
+                onSetType = { viewModel.onSelectType(it) },
+                onToMediaDetails = { media: MediaUiModel -> basicNav.toMediaDetails(media) },
+            )
         }
     }
 }

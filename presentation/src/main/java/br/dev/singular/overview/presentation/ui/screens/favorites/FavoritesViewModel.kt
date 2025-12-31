@@ -30,7 +30,7 @@ class FavoritesViewModel @Inject constructor(
         onParamChanged(uiParam.value.copy(type = type))
     }
 
-    fun onLoadingChanged(value: Boolean) {
+    fun onSetIsLoading(value: Boolean) {
         isLoading = value
     }
 }

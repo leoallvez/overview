@@ -3,14 +3,13 @@ package br.dev.singular.overview.presentation.ui.screens.favorites
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.model.MediaUiParam
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagFavorites
@@ -26,22 +25,24 @@ import br.dev.singular.overview.presentation.ui.screens.common.UiMediaContentSta
 @Composable
 fun FavoritesScreen(
     tagPath: String = TagFavorites.PATH,
+    isLoading: Boolean,
+    uiParam: MediaUiParam,
+    uiPages: LazyPagingItems<MediaUiModel>,
+    onReload: () -> Unit,
+    onSetLoading: (Boolean) -> Unit,
+    onSetType: (MediaUiType) -> Unit,
     onToMediaDetails: (MediaUiModel) -> Unit,
-    viewModel: FavoritesViewModel = hiltViewModel()
 ) {
-    val uiParam = viewModel.uiParam.collectAsState().value
-    val pagedMedias = viewModel.medias.collectAsLazyPagingItems()
-
     UiScaffold(
         topBar = { UiToolbar(title = stringResource(id = R.string.favorites)) }
     ) { padding ->
         UiLifecycle(
             onPause = {
-                viewModel.onLoadingChanged(true)
+                onSetLoading(true)
             },
             onResume = {
-                viewModel.onReload()
-                viewModel.onLoadingChanged(false)
+                onReload()
+                onSetLoading(false)
             }
         )
         Column(Modifier.padding(top = padding.calculateTopPadding())) {
@@ -50,14 +51,14 @@ fun FavoritesScreen(
                 modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x))
             ) { type ->
                 TagMediaManager.logTypeClick(tagPath, type)
-                viewModel.onSelectType(type)
+                onSetType(type)
             }
-            if (viewModel.isLoading) {
+            if (isLoading) {
                 LoadingScreen(tagPath, animationDelay = 0)
             } else {
                 UiMediaContentStateView(
                     tagPath = tagPath,
-                    pagedMedias = pagedMedias,
+                    pagedMedias = uiPages,
                     loadingScreen = {},
                     errorScreen = { EmptyFavoritesScreen(tagPath, uiParam.type) },
                     onClickItem = { media ->
