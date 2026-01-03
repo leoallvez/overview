@@ -12,6 +12,12 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 
+/**
+ * A custom toolbar composable that displays a title.
+ *
+ * @param title The title to be displayed in the center of the toolbar.
+ * @param modifier The [Modifier] to be applied to the toolbar.
+ */
 @Composable
 fun UiToolbar(
     title: String,
@@ -33,6 +39,6 @@ fun UiToolbar(
 
 @Preview
 @Composable
-fun UiToolbarPreview() {
+internal fun UiToolbarPreview() {
     UiToolbar(title = "Title")
 }

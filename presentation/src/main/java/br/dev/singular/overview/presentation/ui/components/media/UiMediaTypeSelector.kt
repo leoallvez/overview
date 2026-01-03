@@ -17,6 +17,13 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.ui.components.UiChip
 
+/**
+ * A composable that displays a horizontal list of media type chips, allowing the user to select one.
+ *
+ * @param type The currently selected [MediaUiType].
+ * @param modifier The modifier to be applied to this component.
+ * @param onClick The callback to be executed when a media type is selected.
+ */
 @Composable
 fun UiMediaTypeSelector(
     type: MediaUiType,

@@ -18,6 +18,14 @@ import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSour
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
 
+/**
+ * A composable that displays an icon from a [UiIconSource].
+ *
+ * @param source The source of the icon, either a [UiIconSource.UiVector] or [UiIconSource.UiPainter].
+ * @param modifier The modifier to be applied to this icon.
+ * @param contentDescription The content description for accessibility.
+ * @param color The tint color to be applied to the icon.
+ */
 @Composable
 fun UiIcon(
     source: UiIconSource,

@@ -15,6 +15,15 @@ import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
+/**
+ * A custom Scaffold composable that provides a consistent layout structure for screens in the app.
+ *
+ * @param modifier The modifier to be applied to the Scaffold.
+ * @param topBar The composable to be displayed at the top of the screen.
+ * @param padding The padding to be applied to the content of the Scaffold.
+ * @param bottomBar The composable to be displayed at the bottom of the screen.
+ * @param content The main content of the screen.
+ */
 @Composable
 fun UiScaffold(
     modifier: Modifier = Modifier,
@@ -41,7 +50,7 @@ fun UiScaffold(
     heightDp = 600
 )
 @Composable
-fun UiScaffoldPreview() {
+internal fun UiScaffoldPreview() {
     UiScaffold(
         topBar = { UiToolbar("Screen Title") }
     ) {

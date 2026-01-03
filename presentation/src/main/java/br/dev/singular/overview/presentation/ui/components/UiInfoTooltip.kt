@@ -29,6 +29,13 @@ import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.utils.border
 
+/**
+ * A composable that displays an information tooltip with a message and a close button.
+ *
+ * @param message The message to be displayed in the tooltip.
+ * @param modifier The modifier to be applied to the tooltip.
+ * @param onClose A callback to be invoked when the close button is clicked.
+ */
 @Composable
 fun UiInfoTooltip(
     message: String,
@@ -82,6 +89,6 @@ fun UiInfoTooltip(
 
 @Preview
 @Composable
-fun UiInfoTooltipPreview() {
+internal fun UiInfoTooltipPreview() {
     UiInfoTooltip(message = stringResource(R.string.lorem_ipsum))
 }

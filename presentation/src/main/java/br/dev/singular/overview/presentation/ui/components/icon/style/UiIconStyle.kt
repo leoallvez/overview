@@ -7,6 +7,15 @@ import androidx.compose.ui.graphics.Color
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
+/**
+ * Represents the style of an icon to be applied to a composable.
+ *
+ * @property source The source of the icon, which can be a vector or a painter resource.
+ * @property modifier The modifier to be applied to the icon.
+ * @property color The tint color of the icon.
+ * @property sizeRes The size of the icon as a dimension resource.
+ * @property descriptionRes The content description of the icon as a string resource.
+ */
 data class UiIconStyle(
     val source: UiIconSource,
     val modifier: Modifier = Modifier,

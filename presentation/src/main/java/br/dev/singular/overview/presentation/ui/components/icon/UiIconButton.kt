@@ -24,7 +24,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
@@ -35,6 +34,15 @@ import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
 import br.dev.singular.overview.presentation.ui.utils.border
 
+/**
+ * A circular icon button composable.
+ *
+ * @param iconStyle The style of the icon to be displayed.
+ * @param modifier The modifier to be applied to this icon button.
+ * @param borderStyle The style of the border.
+ * @param background The background color of the button.
+ * @param onClick The lambda to be executed when the button is clicked.
+ */
 @Composable
 fun UiIconButton(
     iconStyle: UiIconStyle,
@@ -66,7 +74,7 @@ fun UiIconButton(
 
 @Preview
 @Composable
-fun UiIconButtonVectorPreview() {
+internal fun UiIconButtonVectorPreview() {
     UiIconButton(
         iconStyle = UiIconStyle(
             source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft)
@@ -76,7 +84,7 @@ fun UiIconButtonVectorPreview() {
 
 @Preview
 @Composable
-fun UiIconButtonPainterPreview() {
+internal fun UiIconButtonPainterPreview() {
     UiIconButton(
         iconStyle = UiIconStyle(
             source = UiIconSource.painter(R.drawable.ic_arrow_up)
@@ -86,7 +94,7 @@ fun UiIconButtonPainterPreview() {
 
 @Preview
 @Composable
-fun UiIconButtonAnimatedPreview() {
+internal fun UiIconButtonAnimatedPreview() {
 
     var isLiked by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(

@@ -23,6 +23,11 @@ import br.dev.singular.overview.presentation.tagging.params.TagSplash
 import br.dev.singular.overview.presentation.ui.theme.Background
 import kotlinx.coroutines.delay
 
+/**
+ * A composable that displays a splash screen with a scaling animation.
+ *
+ * @param onToHome A callback to be invoked when the splash screen animation is finished.
+ */
 @Composable
 fun SplashScreen(onToHome: () -> Unit) {
     val scale = remember { Animatable(0f) }
