@@ -1,7 +1,6 @@
 package br.dev.singular.overview.ui.home
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,13 +34,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -63,6 +66,7 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagHome
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.ui.components.UiAnimatedVisibility
 import br.dev.singular.overview.presentation.ui.components.UiChip
 import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
@@ -75,6 +79,7 @@ import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
 import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
+import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
 import br.dev.singular.overview.ui.StreamingIcon
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
@@ -147,7 +152,7 @@ fun HomeContent(
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            AnimatedVisibility(visible = sheetState.isVisible) {
+            UiAnimatedVisibility(visible = sheetState.isVisible) {
                 GenreFilterBottomSheet(filters, genres, closeFilterBottomSheet, inFiltering)
             }
         },
@@ -157,9 +162,18 @@ fun HomeContent(
         ,
         modifier = Modifier.fillMaxSize()
     ) {
+
+        var isCollapsed by rememberSaveable { mutableStateOf(false) }
+
+        val nestedScrollConnection = rememberCollapseScrollConnection {
+            isCollapsed = it
+        }
+
         UiScaffold(
+            modifier = Modifier.nestedScroll(nestedScrollConnection),
             topBar = {
                 HomeToolBar(
+                    isCollapsed = isCollapsed,
                     filters = filters,
                     genres = genres,
                     navigate = navigate,
@@ -211,6 +225,7 @@ fun HomeContent(
 
 @Composable
 fun HomeToolBar(
+    isCollapsed: Boolean,
     filters: SearchFilters,
     genres: List<GenreEntity>,
     showHighlightIcon: Boolean,
@@ -222,12 +237,11 @@ fun HomeToolBar(
         modifier = Modifier
             .background(PrimaryBackground)
             .fillMaxWidth()
-            .padding(bottom = dimensionResource(R.dimen.spacing_2x))
     ) {
         Row(
             modifier = Modifier
                 .height(dimensionResource(R.dimen.spacing_12x))
-                .padding(top = dimensionResource(R.dimen.spacing_3x)),
+                .padding(bottom = dimensionResource(R.dimen.spacing_2x)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             SelectStreaming(filters.streaming, showHighlightIcon) {
@@ -235,13 +249,15 @@ fun HomeToolBar(
                 navigate.toSelectStreaming()
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = dimensionResource(R.dimen.spacing_2x)),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
+        UiAnimatedVisibility(!isCollapsed) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(R.dimen.spacing_2x)),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                FilterMediaType(filters, genres, onSelectMediaType, openGenreFilter)
+            }
         }
     }
 }

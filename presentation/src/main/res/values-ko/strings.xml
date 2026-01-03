@@ -77,4 +77,5 @@
     <string name="search">검색</string>
     <string name="select_streaming">스트리밍 선택</string>
     <string name="videos">비디오</string>
+    <string name="catalogs">카탈로그</string>
 </resources>

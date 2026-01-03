@@ -3,7 +3,12 @@ package br.dev.singular.overview.presentation.ui.screens.favorites
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.LazyPagingItems
@@ -15,12 +20,13 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagFavorites
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
-import br.dev.singular.overview.presentation.ui.components.UiToolbar
+import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiLifecycle
 import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiMediaContentStateView
+import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
 
 /**
  * A composable that displays the user's favorite media.
@@ -45,8 +51,15 @@ fun FavoritesScreen(
     onSetType: (MediaUiType) -> Unit,
     onToMediaDetails: (MediaUiModel) -> Unit,
 ) {
+
+    var isCollapsed by rememberSaveable { mutableStateOf(false) }
+
+    val nestedScrollConnection = rememberCollapseScrollConnection {
+        isCollapsed = it
+    }
     UiScaffold(
-        topBar = { UiToolbar(title = stringResource(id = R.string.favorites)) }
+        modifier = Modifier.nestedScroll(nestedScrollConnection),
+        topBar = { UiTopAppBar(title = stringResource(id = R.string.favorites)) }
     ) { padding ->
         UiLifecycle(
             onPause = {
@@ -59,6 +72,7 @@ fun FavoritesScreen(
         )
         Column(Modifier.padding(top = padding.calculateTopPadding())) {
             UiMediaTypeSelector(
+                visible = !isCollapsed,
                 type = uiParam.type,
                 modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x))
             ) { type ->
