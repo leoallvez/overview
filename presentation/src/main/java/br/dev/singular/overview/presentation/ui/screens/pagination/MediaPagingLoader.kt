@@ -7,6 +7,14 @@ import br.dev.singular.overview.domain.repository.Page
 import br.dev.singular.overview.domain.usecase.UseCaseState
 import java.io.IOException
 
+/**
+ * A [PagingSource] implementation for loading paginated [Media] data.
+ *
+ * This class is responsible for loading pages of media data from a given data source
+ * and providing it to the Paging library.
+ *
+ * @param onFetching A suspend function that fetches a [Page] of [Media] for a given page number.
+ */
 class MediaPagingLoader(
     private val onFetching: suspend (page: Int) -> UseCaseState<Page<Media>>
 ) : PagingSource<Int, Media>() {

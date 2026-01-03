@@ -18,6 +18,13 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
+/**
+ * A composable that displays a banner ad.
+ *
+ * @param prodBannerId The string resource for the production banner ID.
+ * @param modifier The modifier to be applied to the ad.
+ * @param isVisible Whether the ad should be visible.
+ */
 @Composable
 fun UiAdsBanner(
     @StringRes prodBannerId: Int,
@@ -45,6 +52,13 @@ fun UiAdsBanner(
     }
 }
 
+/**
+ * A composable that displays a medium rectangle ad.
+ *
+ * @param prodBannerId The string resource for the production banner ID.
+ * @param modifier The modifier to be applied to the ad.
+ * @param isVisible Whether the ad should be visible.
+ */
 @Composable
 fun UiAdsMediumRectangle(
     @StringRes prodBannerId: Int,

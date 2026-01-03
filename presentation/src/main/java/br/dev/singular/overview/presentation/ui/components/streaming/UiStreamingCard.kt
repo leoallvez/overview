@@ -27,6 +27,14 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.utils.border
 
+/**
+ * A composable that displays a card for a streaming service.
+ *
+ * @param model The [StreamingUiModel] containing the data to be displayed.
+ * @param modifier The modifier to be applied to this component.
+ * @param onClick The callback to be executed when the card is clicked.
+ * @param rightContent A composable to be displayed on the right side of the card.
+ */
 @Composable
 internal fun UiStreamingCard(
     model: StreamingUiModel,

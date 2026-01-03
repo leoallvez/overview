@@ -16,6 +16,13 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
+/**
+ * A composable that displays a grid of media items with pagination support.
+ *
+ * @param items The [LazyPagingItems] containing the media items to display.
+ * @param modifier The modifier to be applied to this grid.
+ * @param onClick The callback to be executed when a media item is clicked.
+ */
 @Composable
 fun UiMediaGrid(
     items: LazyPagingItems<MediaUiModel>,
@@ -44,6 +51,13 @@ fun UiMediaGrid(
     }
 }
 
+/**
+ * A composable that displays a grid of media items.
+ *
+ * @param items The list of [MediaUiModel] to display.
+ * @param modifier The modifier to be applied to this grid.
+ * @param onClick The callback to be executed when a media item is clicked.
+ */
 @Composable
 fun UiMediaGrid(
     items: List<MediaUiModel>,

@@ -8,6 +8,17 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 
+/**
+ * A composable that handles the common UI states (Loading, Success, Error) and displays the
+ * appropriate content for each.
+ *
+ * @param T The type of data expected in the success state.
+ * @param uiState The current state of the UI.
+ * @param tagPath The path for analytics tagging.
+ * @param onRefresh A callback to be invoked when the user requests a refresh.
+ * @param successContent A composable lambda to be invoked when the state is [UiState.Success],
+ * providing the data of type [T].
+ */
 @Composable
 fun <T> UiStateResult(
     uiState: UiState<T>,

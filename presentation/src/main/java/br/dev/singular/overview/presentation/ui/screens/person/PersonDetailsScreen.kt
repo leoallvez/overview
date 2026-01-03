@@ -55,6 +55,16 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlin.String
 
+/**
+ * A screen that displays the details of a person.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param uiState The state of the UI, which can be loading, success, or error.
+ * @param showAds Whether to show ads on the screen.
+ * @param onLoad A callback to be invoked when the screen needs to load data.
+ * @param onBack A callback to be invoked when the user navigates back.
+ * @param onToMediaDetails A callback to be invoked when the user clicks on a media item.
+ */
 @Composable
 fun PersonDetailsScreen(
     tagPath: String= TagPerson.PATH,
@@ -88,7 +98,7 @@ fun PersonDetailsScreen(
 }
 
 @Composable
-fun PersonToolBar(
+private fun PersonToolBar(
     tagPath: String,
     person: PersonUiModel,
     onBack: () -> Unit

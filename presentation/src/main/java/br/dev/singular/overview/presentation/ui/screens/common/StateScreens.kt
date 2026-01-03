@@ -24,7 +24,16 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
 import android.R as X
 
-
+/**
+ * A composable that displays a generic state screen with a title and optional secondary content.
+ * It also handles analytics screen view tracking.
+ *
+ * @param title The main title to be displayed on the screen.
+ * @param tagPath The path for analytics tagging.
+ * @param tagStatus The status for analytics tagging.
+ * @param modifier The modifier to be applied to the root element.
+ * @param secondaryContent A composable lambda for displaying content below the title.
+ */
 @Composable
 fun StateScreen(
     title: String,
@@ -45,6 +54,13 @@ fun StateScreen(
     }
 }
 
+/**
+ * A composable that displays a loading indicator screen.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param modifier The modifier to be applied to the root element.
+ * @param animationDelay The delay in milliseconds before the animation starts.
+ */
 @Composable
 fun LoadingScreen(
     tagPath: String,
@@ -69,10 +85,17 @@ fun LoadingScreen(
 
 @Preview
 @Composable
-fun LoadingScreenPreview() {
+internal fun LoadingScreenPreview() {
     LoadingScreen("tag")
 }
 
+/**
+ * A composable that displays an error message with a "try again" button.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param modifier The modifier to be applied to the root element.
+ * @param onRefresh A callback to be invoked when the "try again" button is clicked.
+ */
 @Composable
 fun ErrorScreen(tagPath: String, modifier: Modifier = Modifier, onRefresh: () -> Unit) {
     StateScreen(
@@ -98,10 +121,17 @@ fun ErrorScreen(tagPath: String, modifier: Modifier = Modifier, onRefresh: () ->
 
 @Preview
 @Composable
-fun ErrorScreenPreview() {
+internal fun ErrorScreenPreview() {
     ErrorScreen("tag") {}
 }
 
+/**
+ * A composable that displays a "nothing found" message.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param modifier The modifier to be applied to the root element.
+ * @param hasFilters A boolean indicating whether to show a message about checking filters.
+ */
 @Composable
 fun NothingFoundScreen(tagPath: String, modifier: Modifier = Modifier, hasFilters: Boolean = false) {
     StateScreen(
@@ -119,12 +149,12 @@ fun NothingFoundScreen(tagPath: String, modifier: Modifier = Modifier, hasFilter
 
 @Preview
 @Composable
-fun NothingFoundScreenPreview() {
+internal fun NothingFoundScreenPreview() {
     NothingFoundScreen("tag")
 }
 
 @Preview
 @Composable
-fun NothingFoundScreenWithFilterPreview() {
+internal fun NothingFoundScreenWithFilterPreview() {
     NothingFoundScreen("tag", hasFilters = true)
 }

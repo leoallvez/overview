@@ -18,6 +18,13 @@ import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 
+/**
+ * A composable that displays a media item, including its poster and title.
+ *
+ * @param model The [MediaUiModel] to be displayed.
+ * @param modifier The modifier to be applied to this component.
+ * @param onClick The callback to be executed when the item is clicked.
+ */
 @Composable
 fun UiMediaItem(
     model: MediaUiModel,
@@ -53,11 +60,11 @@ fun UiMediaItem(
 @Preview(name = "Short Title")
 @Composable
 internal fun UiMediaItemPreview() {
-    UiMediaItem(getMediaMocks().first())
+    UiMediaItem(model = getMediaMocks().first())
 }
 
 @Preview(name = "Long Title")
 @Composable
 internal fun UiMediaWithLongTitlePreview() {
-    UiMediaItem(getMediaMocks().first { it.title.length > 20 })
+    UiMediaItem(model = getMediaMocks().first { it.title.length > 20 })
 }

@@ -22,6 +22,18 @@ import br.dev.singular.overview.presentation.ui.screens.common.UiLifecycle
 import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiMediaContentStateView
 
+/**
+ * A composable that displays the user's favorite media.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param isLoading Whether the screen is currently loading data.
+ * @param uiParam The UI parameters for the screen, such as the selected media type.
+ * @param uiPages The paginated list of favorite media items.
+ * @param onReload Callback to reload the data.
+ * @param onSetLoading Callback to set the loading state.
+ * @param onSetType Callback to set the media type filter.
+ * @param onToMediaDetails Callback to navigate to the details of a media item.
+ */
 @Composable
 fun FavoritesScreen(
     tagPath: String = TagFavorites.PATH,

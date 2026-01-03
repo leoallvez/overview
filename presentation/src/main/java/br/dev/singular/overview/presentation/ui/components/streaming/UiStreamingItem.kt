@@ -25,6 +25,13 @@ import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.utils.border
 import br.dev.singular.overview.presentation.ui.utils.getStreamingMocks
 
+/**
+ * A composable that displays a streaming service item, intended for navigation.
+ *
+ * @param model The [StreamingUiModel] to display.
+ * @param modifier The modifier to be applied to this component.
+ * @param onClick The callback to be executed when the item is clicked.
+ */
 @Composable
 fun UiStreamingItem(
     model: StreamingUiModel,
@@ -45,6 +52,14 @@ fun UiStreamingItem(
     )
 }
 
+/**
+ * A composable that displays a selectable streaming service item.
+ *
+ * @param selected Whether the item is currently selected.
+ * @param model The [StreamingUiModel] to display.
+ * @param modifier The modifier to be applied to this component.
+ * @param onClick The callback to be executed when the item is clicked.
+ */
 @Composable
 fun UiStreamingItem(
     selected: Boolean,
@@ -79,7 +94,7 @@ fun UiStreamingItem(
 
 @Preview(showBackground = true)
 @Composable
-fun UiStreamingItemPreview() {
+internal fun UiStreamingItemPreview() {
     UiStreamingItem(model = getStreamingMocks().first())
 }
 
@@ -94,4 +109,3 @@ internal fun UiStreamingItemRadioButtonPreview() {
         selected = !selected
     }
 }
-

@@ -18,6 +18,15 @@ import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
+/**
+ * A composable that displays a horizontal list of media items with a title.
+ *
+ * @param title The title to be displayed above the list.
+ * @param modifier The modifier to be applied to this component.
+ * @param items The immutable list of [MediaUiModel] to be displayed.
+ * @param contentPadding The padding to be applied to the content.
+ * @param onClick The callback to be executed when a media item is clicked.
+ */
 @Composable
 fun UiMediaList(
     title: String,

@@ -14,6 +14,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
+/**
+ * A composable that displays a subtitle text.
+ *
+ * @param text The text to be displayed.
+ * @param modifier The modifier to be applied to this component.
+ * @param display Whether to display the subtitle.
+ * @param isBold Whether the text should be bold.
+ * @param color The color of the text.
+ */
 @Composable
 fun UiSubtitle(
     text: String,

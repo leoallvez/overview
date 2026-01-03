@@ -24,6 +24,15 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.theme.Surface
 
+/**
+ * A custom styled chip that can be activated and deactivated.
+ *
+ * @param text The text to display on the chip.
+ * @param modifier The modifier to be applied to the chip.
+ * @param activated Whether the chip is currently activated.
+ * @param icon The icon to display on the chip.
+ * @param onClick The callback to be invoked when the chip is clicked.
+ */
 @Composable
 fun UiChip(
     text: String,
@@ -52,13 +61,13 @@ fun UiChip(
 @Preview(name = "Activated")
 @Composable
 internal fun UiChipActivatedPreview() {
-    UiChipPreviewHelper(true)
+    UiChipPreviewHelper(initialState = true)
 }
 
 @Preview(name = "Not activated")
 @Composable
 internal fun UiChipNotActivatedPreview() {
-    UiChipPreviewHelper(false)
+    UiChipPreviewHelper(initialState = false)
 }
 
 @Composable

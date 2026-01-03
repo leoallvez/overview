@@ -38,6 +38,15 @@ import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.utils.getStreamingMocks
 import kotlinx.collections.immutable.toImmutableList
 
+/**
+ * A screen that allows the user to select a streaming service.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param uiState The state of the UI, which can be loading, success, or error.
+ * @param onLoad A callback to be invoked when the screen needs to load data.
+ * @param onBack A callback to be invoked when the user navigates back.
+ * @param onSelected A callback to be invoked when the user selects a streaming service.
+ */
 @Composable
 fun SelectStreamingScreen(
     tagPath: String = TagStreaming.PATH,
@@ -63,7 +72,7 @@ fun SelectStreamingScreen(
             UiList(
                 items = data.streaming.toImmutableList(),
                 modifier = Modifier.padding(padding),
-            ) {
+            ) { 
                 UiStreamingItem(
                     model = it,
                     selected = it.id == data.selectedId

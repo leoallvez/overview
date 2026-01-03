@@ -10,6 +10,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
+/**
+ * A composable that displays a justified paragraph of text.
+ *
+ * @param text The text to be displayed.
+ * @param modifier The modifier to be applied to the text.
+ */
 @Composable
 fun UiParagraph(text: String, modifier: Modifier = Modifier) {
     Text(

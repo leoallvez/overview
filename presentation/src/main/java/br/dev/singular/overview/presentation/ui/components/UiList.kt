@@ -16,6 +16,14 @@ import br.dev.singular.overview.presentation.ui.components.streaming.UiStreaming
 import br.dev.singular.overview.presentation.ui.utils.getStreamingMocks
 import kotlinx.collections.immutable.ImmutableList
 
+/**
+ * A generic composable that displays a list of items vertically.
+ *
+ * @param T The type of the items in the list.
+ * @param items The immutable list of items to display.
+ * @param modifier The modifier to be applied to the list.
+ * @param content The composable content to be displayed for each item.
+ */
 @Composable
 fun <T> UiList(
     items: ImmutableList<T>,

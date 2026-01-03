@@ -28,6 +28,14 @@ import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.presentation.ui.utils.setFullscreen
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
+/**
+ * A composable that displays a YouTube video in fullscreen.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param videoKey The key of the YouTube video to be played.
+ * @param setEdgeToEdge A callback to enable or disable edge-to-edge display.
+ * @param onBack A callback to be invoked when the user navigates back.
+ */
 @Composable
 fun YouTubePlayerFullscreen(
     tagPath: String= TagPlayer.PATH,

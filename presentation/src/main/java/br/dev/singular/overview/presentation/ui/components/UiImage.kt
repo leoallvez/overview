@@ -20,6 +20,19 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.utils.border
 
+/**
+ * A composable that displays an image from a URL.
+ *
+ * @param url The URL of the image to display.
+ * @param modifier The modifier to be applied to the image.
+ * @param previewPainter The painter to use in preview mode.
+ * @param contentDescription The content description for the image.
+ * @param contentScale The scaling algorithm to apply to the image.
+ * @param placeholder The drawable resource to use as a placeholder.
+ * @param errorDefaultImage The drawable resource to use if the image fails to load.
+ * @param corner The corner radius of the image.
+ * @param withBorder Whether to draw a border around the image.
+ */
 @Composable
 fun UiImage(
     url: String,

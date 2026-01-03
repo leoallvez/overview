@@ -34,5 +34,3 @@ class FavoritesViewModel @Inject constructor(
         isLoading = value
     }
 }
-
-

@@ -17,6 +17,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
+/**
+ * A composable that displays a text with default styling, including ellipsis for overflow.
+ *
+ * @param text The text to be displayed.
+ * @param modifier The modifier to be applied to this component.
+ * @param style The style of the text.
+ * @param color The color of the text.
+ * @param textAlign The alignment of the text.
+ * @param isBold Whether the text should be bold.
+ */
 @Composable
 fun UiText(
     text: String,
