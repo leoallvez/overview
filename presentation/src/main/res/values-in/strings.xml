@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name_prd">Overview</string>
     <!-- Dynamic -->
     <string name="all_trending" tools:ignore="UnusedResources">Tren</string>
     <string name="movie_top_rated" tools:ignore="UnusedResources">Film dengan peringkat teratas</string>
