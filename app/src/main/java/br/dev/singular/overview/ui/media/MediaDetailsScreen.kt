@@ -1,10 +1,6 @@
 package br.dev.singular.overview.ui.media
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,8 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -40,13 +34,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -72,18 +64,21 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagMedia
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
+import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
+import br.dev.singular.overview.presentation.ui.components.UiImage
+import br.dev.singular.overview.presentation.ui.components.UiLikeButton
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
+import br.dev.singular.overview.presentation.ui.components.text.UiParagraph
+import br.dev.singular.overview.presentation.ui.components.text.UiSubtitle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
+import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 import br.dev.singular.overview.presentation.ui.utils.border
-import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
-import br.dev.singular.overview.presentation.ui.components.UiImage
-import br.dev.singular.overview.presentation.ui.components.text.UiParagraph
 import br.dev.singular.overview.ui.Backdrop
 import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
@@ -91,7 +86,6 @@ import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
-import br.dev.singular.overview.ui.theme.AlertColor
 import br.dev.singular.overview.ui.theme.DarkGray
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -101,8 +95,6 @@ import br.dev.singular.overview.util.defaultPadding
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import timber.log.Timber
-import br.dev.singular.overview.presentation.ui.components.text.UiSubtitle
-import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 
 private fun tagClick(detail: String, id: Long = 0L) {
     TagManager.logClick(TagMedia.PATH, detail, id)
@@ -219,7 +211,11 @@ fun MediaToolBar(
                         onBackstackClick.invoke()
                     },
                 )
-                LikeButton(isLiked = isLiked, onLikeClick)
+                UiLikeButton(
+                    modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
+                    isLiked = isLiked,
+                    onClick = onLikeClick
+                )
             }
         }
     }
@@ -562,58 +558,5 @@ private fun PersonImage(
             .border(),
         placeholder = R.drawable.avatar,
         errorDefaultImage = R.drawable.avatar
-    )
-}
-
-@Composable
-fun LikeButton(
-    isLiked: Boolean,
-    onClick: () -> Unit
-) {
-    val targetColor = if (isLiked) AlertColor else Gray
-
-    val iconColor by animateColorAsState(
-        targetValue = targetColor,
-        animationSpec = tween(200),
-        label = "IconColor"
-    )
-
-    val scale by animateFloatAsState(
-        targetValue = if (isLiked) 0.9f else 0.7f,
-        animationSpec = tween(200, easing = LinearEasing),
-        label = "Scale"
-    )
-
-    val backgroundAlpha by animateFloatAsState(
-        targetValue = if (isLiked) 0.8f else 0.6f,
-        animationSpec = tween(200),
-        label = "BackgroundAlpha"
-    )
-
-    UiIconButton(
-        iconStyle = getLikeIconStyle(isLiked, scale, iconColor),
-        borderStyle = UiBorderStyle(color = targetColor, visible = true),
-        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
-        background = PrimaryBackground.copy(alpha = backgroundAlpha),
-        onClick = onClick
-    )
-}
-
-@Composable
-private fun getLikeIconStyle(isLiked: Boolean, scale: Float, color: Color): UiIconStyle {
-
-    val (source, sizeRes) = if (isLiked) {
-        Pair(Icons.Default.Favorite, R.dimen.spacing_6x)
-    } else {
-        Pair(Icons.Default.FavoriteBorder, R.dimen.spacing_5x)
-    }
-
-    return UiIconStyle(
-        sizeRes = sizeRes,
-        source = UiIconSource.vector(source),
-    ).copy(
-        color = color,
-        modifier = Modifier.scale(scale),
-        descriptionRes = R.string.like_button
     )
 }
