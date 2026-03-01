@@ -12,8 +12,6 @@ jvm-target = "11"
 
 # Kotlin
 kotlin = "2.2.21"
-kotlin-gradle-plugin = "2.2.21"
-compose-compiler = "2.2.21"
 
 # Android Core
 agp = "8.13.2"
@@ -22,7 +20,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 
 # Compose
-compose-bom = "2026.02.00"
+compose-bom = "2026.02.01"
 navigation-compose = "2.9.7"
 paging-compose = "3.4.1"
 activity-compose = "1.12.3"
@@ -40,7 +38,7 @@ room = "2.8.4"
 paging-runtime-ktx = "3.4.1"
 
 # Firebase
-firebase-bom = "34.9.0"
+firebase-bom = "34.10.0"
 
 # Network
 retrofit = "2.9.0"
@@ -116,8 +114,8 @@ hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-na
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 
 # Kotlin
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
-compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "compose-compiler" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
