@@ -1,24 +1,26 @@
 import com.android.build.api.dsl.VariantDimension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "${libs.versions.app.id.get()}.presentation"
     compileSdk = libs.versions.sdk.compile.get().toInt()
+
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
-        stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
-        stringField(name = "POSTER_URL", value = "https://image.tmdb.org/t/p/w154")
-        stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
-        stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
+        buildConfigField("int", "PAGE_SIZE", "20")
+        stringField("IMG_URL", "https://image.tmdb.org/t/p/w780")
+        stringField("POSTER_URL","https://image.tmdb.org/t/p/w154")
+        stringField("THUMBNAIL_BASE_URL", "https://img.youtube.com/vi")
+        stringField("THUMBNAIL_QUALITY", "hqdefault.jpg")
     }
 
     buildTypes {
@@ -28,19 +30,24 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            stringField(name = "DEBUG_BANNER_ID", value = "")
+            stringField("DEBUG_BANNER_ID", "")
         }
         debug {
-            stringField(name = "DEBUG_BANNER_ID", value = "ca-app-pub-3940256099942544/6300978111")
+            stringField("DEBUG_BANNER_ID", "ca-app-pub-3940256099942544/6300978111")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvm.target.get()
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
@@ -48,9 +55,9 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -88,5 +95,5 @@ dependencies {
 }
 
 private fun VariantDimension.stringField(name: String, value: String) {
-    buildConfigField(type = "String", name = name, value = "\"$value\"")
+    buildConfigField("String", name, "\"$value\"")
 }

@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.LibraryBuildType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
@@ -28,20 +29,24 @@ android {
             setRemoteInterval("0")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvm.target.get()
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
+
     buildFeatures {
         buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
@@ -56,9 +61,5 @@ dependencies {
 }
 
 private fun LibraryBuildType.setRemoteInterval(value: String) {
-    buildConfigField(
-        type = "long",
-        name = "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS",
-        value = value
-    )
+    buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", value)
 }
