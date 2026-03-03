@@ -10,8 +10,7 @@ import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.domain.model.Streaming
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
-import br.dev.singular.overview.presentation.model.StreamingUiModel
-import br.dev.singular.overview.presentation.ui.utils.mappers.buildImageFullURL
+import br.dev.singular.overview.presentation.ui.utils.mappers.buildPosterURL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Date
@@ -28,15 +27,8 @@ fun Media.toUi() = MediaUiModel(
 fun MediaDataModel.toUi() = MediaUiModel(
     id = id,
     title = betterTitle,
-    posterURL = buildImageFullURL(posterPath),
+    posterURL = buildPosterURL(posterPath),
     type = type.toUi()
-)
-
-fun StreamingEntity.toUi() = StreamingUiModel(
-    id = apiId,
-    name = name,
-    priority = priority,
-    logoURL = getLogoImage() ,
 )
 
 fun Streaming.toEntity() = StreamingEntity(

@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import br.dev.singular.overview.di.DisplayAds
+import br.dev.singular.overview.presentation.ui.components.UiShimmerProvider
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.navigation.NavController
 import br.dev.singular.overview.ui.theme.AppTheme
@@ -64,12 +65,14 @@ class MainActivity : ComponentActivity() {
                         .background(PrimaryBackground)
                         .padding(WindowInsets.systemBars.asPaddingValues()),
                 ) { innerPadding ->
-                    NavController(
-                        navController = navController,
-                        modifier = Modifier.padding(innerPadding),
-                        setEdgeToEdge = setEdgeToEdge,
-                        showAds =  showAds
-                    )
+                    UiShimmerProvider {
+                        NavController(
+                            navController = navController,
+                            modifier = Modifier.padding(innerPadding),
+                            setEdgeToEdge = setEdgeToEdge,
+                            showAds = showAds
+                        )
+                    }
                 }
             }
         }

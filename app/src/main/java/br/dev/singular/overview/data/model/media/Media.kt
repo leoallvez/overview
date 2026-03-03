@@ -42,7 +42,7 @@ abstract class Media {
     abstract fun getFormattedReleaseDate(): String
 
     fun getBackdropImage() = "${BuildConfig.IMG_URL}/$backdropPath"
-    fun getPosterImage() = "${BuildConfig.IMG_URL}/$posterPath"
+    fun getPosterImage() = "${BuildConfig.POSTER_URL}/$posterPath"
     fun getOrderedCast() = credits.cast.sortedBy { it.order }
     fun getType() = if (this is Movie) MOVIE.key else TV_SHOW.key
 
