@@ -556,7 +556,6 @@ private fun PersonImage(
             .size(120.dp)
             .clip(CircleShape)
             .border(),
-        placeholder = R.drawable.avatar,
         errorDefaultImage = R.drawable.avatar
     )
 }

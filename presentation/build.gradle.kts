@@ -16,6 +16,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
         stringField(name = "IMG_URL", value = "https://image.tmdb.org/t/p/w780")
+        stringField(name = "POSTER_URL", value = "https://image.tmdb.org/t/p/w154")
         stringField(name = "THUMBNAIL_BASE_URL", value = "https://img.youtube.com/vi")
         stringField(name = "THUMBNAIL_QUALITY", value = "hqdefault.jpg")
     }
