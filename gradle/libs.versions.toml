@@ -14,7 +14,7 @@ jvm-target = "11"
 kotlin = "2.2.21"
 
 # Android Core
-agp = "8.13.2"
+agp = "9.1.0"
 core-ktx = "1.16.0"
 appcompat = "1.7.1"
 material = "1.13.0"
