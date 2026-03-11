@@ -10,7 +10,7 @@
 <br/>
 
 <a href="https://play.google.com/store/apps/details?id=br.dev.singular.overview" target="_blank">
-  <img src="docs/img/google_play_badge.png" width="250" />
+  <img src="docs/img/google_play_badge.png" width="200" />
 </a>
 
 ## Index
@@ -187,7 +187,7 @@ Please make sure to provide a clear description of your changes when submitting 
 appreciate your contributions!
 
 <a href="https://play.google.com/store/apps/details?id=br.dev.singular.overview" target="_blank">
-  <img src="docs/img/google_play_badge.png" width="250" />
+  <img src="docs/img/google_play_badge.png" width="200" />
 </a>
 
 ## Author
