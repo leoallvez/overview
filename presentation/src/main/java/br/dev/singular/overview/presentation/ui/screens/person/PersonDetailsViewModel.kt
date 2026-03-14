@@ -6,6 +6,7 @@ import br.dev.singular.overview.domain.usecase.IGetPersonByIdUseCase
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.PersonUiModel
 import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUi
+import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUiStateNullable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +26,7 @@ class PersonDetailsViewModel @Inject constructor(
     fun onLoad(id: Long) {
         _uiState.value = UiState.Loading()
         viewModelScope.launch(dispatcher) {
-            _uiState.value = useCase.invoke(id).toUi { it?.toUi() }
+            _uiState.value = useCase.invoke(id).toUiStateNullable { it.toUi() }
         }
     }
 }

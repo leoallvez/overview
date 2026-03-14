@@ -10,6 +10,7 @@ import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseC
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUi
+import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUiState
 import br.dev.singular.overview.ui.model.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -45,7 +46,7 @@ class SearchViewModel @Inject constructor(
             .flow.cachedIn(viewModelScope)
 
     fun onLoadSuggestions() = viewModelScope.launch {
-        suggestionsUseCase.invoke().toUi { it.toUi() }.let {
+        suggestionsUseCase.invoke().toUiState { it.toUi() }.let {
             _suggestionsUIState.value = it
         }
     }
