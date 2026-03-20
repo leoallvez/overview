@@ -1,9 +1,10 @@
 import com.android.build.api.dsl.VariantDimension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -14,13 +15,15 @@ android {
         minSdk = libs.versions.sdk.min.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
-        stringField(name = "API_KEY", value = System.getenv("OVER_API_KEY"))
-        buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
+        stringField("API_URL", "https://api.themoviedb.org/3/")
+        stringField("API_KEY", System.getenv("OVER_API_KEY") ?: "")
+        buildConfigField("int", "PAGE_SIZE", "20")
     }
+
     buildFeatures {
         buildConfig = true
     }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -30,12 +33,16 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvm.target.get()
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
 }
 
@@ -69,5 +76,5 @@ dependencies {
 }
 
 fun VariantDimension.stringField(name: String, value: String) {
-    buildConfigField(type = "String", name = name, value = "\"$value\"")
+    buildConfigField("String", name, "\"$value\"")
 }

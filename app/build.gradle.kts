@@ -1,29 +1,34 @@
 import com.android.build.api.dsl.ApplicationProductFlavor
-import com.android.build.api.dsl.VariantDimension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android.plugin)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
     namespace = libs.versions.app.id.get()
     compileSdk = libs.versions.sdk.compile.get().toInt()
+
     defaultConfig {
         applicationId = libs.versions.app.id.get()
         minSdk = libs.versions.sdk.min.get().toInt()
         targetSdk = libs.versions.sdk.target.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField(type = "int", name = "PAGE_SIZE", value = "20")
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+        buildConfigField("int", "PAGE_SIZE", "20")
     }
 
     buildTypes {
@@ -35,8 +40,8 @@ android {
             )
         }
     }
+
     if (isActiveSigning()) {
-        // Signing configurations for different environments
         signingConfigs {
             val home = System.getProperty("user.home")
             create("prd") {
@@ -53,50 +58,55 @@ android {
             }
         }
     }
-    // Build types configurations
-    buildTypes {
-        release {
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+
     flavorDimensions.add("version")
     productFlavors {
         create("dev") {
-            setAppName(appName = "app_name_dev")
+            setAppName("app_name_dev")
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
         }
         create("hmg") {
-            setAppName(appName = "app_name_hmg")
+            setAppName("app_name_hmg")
             dimension = "version"
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-hmg"
             if (isActiveSigning()) {
-                signingConfig = signingConfigs.getByName(name = "hmg")
+                signingConfig = signingConfigs.getByName("hmg")
             }
         }
         create("prd") {
-            setAppName(appName = "app_name_prd")
+            setAppName("app_name_prd")
+            dimension = "version"
             if (isActiveSigning()) {
-                signingConfig = signingConfigs.getByName(name = "prd")
+                signingConfig = signingConfigs.getByName("prd")
             }
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvm.target.get()
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
     hilt {
         enableAggregatingTask = true
     }
@@ -107,7 +117,6 @@ ksp {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
 
     // Lifecycle
@@ -144,10 +153,10 @@ dependencies {
     implementation(libs.converter.serialization)
 
     // Modules
-    implementation(project(path = ":core"))
-    implementation(project(path = ":data"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":presentation"))
+    implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
 
     // Test dependencies
     testImplementation(libs.junit)
@@ -163,12 +172,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
-private fun VariantDimension.stringField(name: String, value: String) {
-    buildConfigField(type = "String", name = name, value = "\"$value\"")
-}
-
 private fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue(type = "string", name = "app_name", value = "@string/$appName")
+    resValue("string", "app_name", "@string/$appName")
 }
 
 private fun isActiveSigning() = System.getenv("OVER_ACTIVE_SIGNING") == "true"
