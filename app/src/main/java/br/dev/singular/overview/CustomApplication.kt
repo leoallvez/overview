@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Configuration.Provider
 import br.dev.singular.overview.core.crashlytics.CrashlyticsSource
-import br.dev.singular.overview.core.remote.RemoteConfigProvider
+import br.dev.singular.overview.core.remote.IRemoteConfigProvider
 import br.dev.singular.overview.data.source.workers.WorkManagerFacade
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.util.CrashlyticsReportingTree
@@ -22,7 +22,7 @@ class CustomApplication : Application(), Provider {
     lateinit var crashlytics: CrashlyticsSource
 
     @Inject
-    lateinit var remoteConfig: RemoteConfigProvider
+    lateinit var remoteConfig: IRemoteConfigProvider
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory

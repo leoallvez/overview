@@ -6,7 +6,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import timber.log.Timber
 
-interface RemoteConfigProvider {
+interface IRemoteConfigProvider {
     fun getString(key: RemoteConfigKey): String
     fun getBoolean(key: RemoteConfigKey): Boolean
     fun start()
@@ -14,7 +14,7 @@ interface RemoteConfigProvider {
 
 class RemoteConfigWrapper(
     private val remote: FirebaseRemoteConfig
-) : RemoteConfigProvider {
+) : IRemoteConfigProvider {
 
     override fun getString(key: RemoteConfigKey) = remote.getString(key.value)
 

@@ -1,7 +1,7 @@
 package br.dev.singular.overview.di
 
 import br.dev.singular.overview.BuildConfig
-import br.dev.singular.overview.core.remote.RemoteConfigProvider
+import br.dev.singular.overview.core.remote.IRemoteConfigProvider
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
 import br.dev.singular.overview.remote.DisplayHighlightIconsRemoteConfig
 import br.dev.singular.overview.remote.RemoteConfig
@@ -17,7 +17,7 @@ class RemoteModule {
     @Provides
     @DisplayAds
     fun providerDisplayAdsRemote(
-        remoteSource: RemoteConfigProvider
+        remoteSource: IRemoteConfigProvider
     ): RemoteConfig<Boolean> {
         return DisplayAdsRemoteConfig(
             _localPermission = BuildConfig.DEBUG,
@@ -28,7 +28,7 @@ class RemoteModule {
     @Provides
     @DisplayHighlightIcons
     fun providerDisplayHighlightIconsRemote(
-        remoteSource: RemoteConfigProvider
+        remoteSource: IRemoteConfigProvider
     ): RemoteConfig<Boolean> {
         return DisplayHighlightIconsRemoteConfig(
             _remoteSource = remoteSource

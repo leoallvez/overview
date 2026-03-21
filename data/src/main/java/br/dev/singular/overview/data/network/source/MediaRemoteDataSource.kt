@@ -2,7 +2,7 @@ package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.network.ApiService
-import br.dev.singular.overview.data.network.LocaleProvider
+import br.dev.singular.overview.data.network.ILocaleProvider
 import javax.inject.Inject
 
 interface IMediaRemoteDataSource {
@@ -11,7 +11,7 @@ interface IMediaRemoteDataSource {
 
 class MediaRemoteDataSource @Inject constructor(
     private val api: ApiService,
-    private val locale: LocaleProvider
+    private val locale: ILocaleProvider
 ) : IMediaRemoteDataSource {
 
     override suspend fun getByPath(path: String) = locale.run {

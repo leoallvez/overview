@@ -2,7 +2,7 @@ package br.dev.singular.overview.di.core
 
 import br.dev.singular.overview.core.crashlytics.CrashlyticsSource
 import br.dev.singular.overview.core.crashlytics.CrashlyticsWrapper
-import br.dev.singular.overview.core.remote.RemoteConfigProvider
+import br.dev.singular.overview.core.remote.IRemoteConfigProvider
 import br.dev.singular.overview.core.remote.RemoteConfigWrapper
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -19,7 +19,7 @@ class CoreModule {
 
     @Singleton
     @Provides
-    fun provideRemoteConfigProvider(): RemoteConfigProvider {
+    fun provideRemoteConfigProvider(): IRemoteConfigProvider {
         return RemoteConfigWrapper(Firebase.remoteConfig)
     }
 

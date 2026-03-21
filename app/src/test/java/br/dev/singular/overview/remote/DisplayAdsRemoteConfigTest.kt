@@ -1,6 +1,6 @@
 package br.dev.singular.overview.remote
 
-import br.dev.singular.overview.core.remote.RemoteConfigProvider
+import br.dev.singular.overview.core.remote.IRemoteConfigProvider
 import br.dev.singular.overview.core.remote.RemoteConfigWrapper
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.mockk.MockKAnnotations
@@ -76,7 +76,7 @@ class DisplayAdsRemoteConfigTest {
     @Test
     fun `should be call getBoolean() when call on execute()`() {
         // Arrange
-        val remoteSource: RemoteConfigProvider = mockk()
+        val remoteSource: IRemoteConfigProvider = mockk()
         val experiment = DisplayAdsRemoteConfig(
             _localPermission = false,
             _remoteSource = remoteSource

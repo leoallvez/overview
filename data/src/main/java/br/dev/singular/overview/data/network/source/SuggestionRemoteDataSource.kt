@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.core.remote.RemoteConfigKey
-import br.dev.singular.overview.core.remote.RemoteConfigProvider
+import br.dev.singular.overview.core.remote.IRemoteConfigProvider
 import br.dev.singular.overview.data.model.SuggestionDataModel
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
@@ -11,7 +11,7 @@ interface ISuggestionRemoteDataSource {
 }
 
 class SuggestionRemoteDataSource @Inject constructor(
-    private val provider: RemoteConfigProvider
+    private val provider: IRemoteConfigProvider
 ) : ISuggestionRemoteDataSource {
 
     override suspend fun getAll(): List<SuggestionDataModel> {

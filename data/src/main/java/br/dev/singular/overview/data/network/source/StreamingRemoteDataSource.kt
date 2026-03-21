@@ -1,10 +1,10 @@
 package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.core.remote.RemoteConfigKey
-import br.dev.singular.overview.core.remote.RemoteConfigProvider
+import br.dev.singular.overview.core.remote.IRemoteConfigProvider
 import br.dev.singular.overview.data.model.StreamingDataModel
 import br.dev.singular.overview.data.network.ApiService
-import br.dev.singular.overview.data.network.LocaleProvider
+import br.dev.singular.overview.data.network.ILocaleProvider
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.serialization.json.Json
 import timber.log.Timber
@@ -17,8 +17,8 @@ interface IStreamingRemoteDataSource {
 class StreamingRemoteDataSource @Inject constructor(
     private val json: Json,
     private val api: ApiService,
-    private val locale: LocaleProvider,
-    private val provider: RemoteConfigProvider
+    private val locale: ILocaleProvider,
+    private val provider: IRemoteConfigProvider
 ) : IStreamingRemoteDataSource {
 
     override suspend fun getAll() = locale.run {
