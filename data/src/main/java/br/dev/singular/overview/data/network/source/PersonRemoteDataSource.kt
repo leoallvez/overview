@@ -10,12 +10,11 @@ interface IPersonRemoteDataSource {
 }
 
 class PersonRemoteDataSource @Inject constructor(
-    private val api: ApiService,
-    private val locale: ILocaleProvider
+    private val api: ApiService
 ) : IPersonRemoteDataSource {
 
-    override suspend fun getById(id: Long) = locale.run {
-        val response = api.getPersonById(id = id, language = language, region = region)
-        responseToResult(response)
+    override suspend fun getById(id: Long): DataResult<PersonDataModel> {
+        val response = api.getPersonById(id = id)
+        return responseToResult(response)
     }
 }

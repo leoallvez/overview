@@ -21,6 +21,7 @@ data class StreamingDataModel(
     @SerialName(value = "logo_path")
     @ColumnInfo(name = "logo_path")
     val logoPath: String = "",
+    @Transient
     var display: Boolean = true,
     @Transient
     @ColumnInfo(name = "last_update")

@@ -10,12 +10,11 @@ interface IMediaRemoteDataSource {
 }
 
 class MediaRemoteDataSource @Inject constructor(
-    private val api: ApiService,
-    private val locale: ILocaleProvider
+    private val api: ApiService
 ) : IMediaRemoteDataSource {
 
-    override suspend fun getByPath(path: String) = locale.run {
-        val response = api.getMediasByPath(path = path, language = language, region = region)
-        responseToResult(response)
+    override suspend fun getByPath(path: String): DataResult<MediaDataPage> {
+        val response = api.getMediasByPath(path = path)
+        return responseToResult(response)
     }
 }

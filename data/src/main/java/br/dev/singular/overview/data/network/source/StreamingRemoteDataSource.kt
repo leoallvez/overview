@@ -22,7 +22,7 @@ class StreamingRemoteDataSource @Inject constructor(
 ) : IStreamingRemoteDataSource {
 
     override suspend fun getAll() = locale.run {
-        fetchFromConfig(region).ifEmpty { fetchFromApi(language, region) }
+        fetchFromConfig(region).ifEmpty { fetchFromApi() }
     }
 
     fun fetchFromConfig(region: String): List<StreamingDataModel> {
@@ -35,10 +35,9 @@ class StreamingRemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun fetchFromApi(language: String, region: String): List<StreamingDataModel> {
+    suspend fun fetchFromApi(): List<StreamingDataModel> {
         return try {
-            val response = api.getStreaming(language, region)
-            when (response) {
+            when (val response = api.getStreaming()) {
                 is NetworkResponse.Success -> response.body.results
                 else -> listOf()
             }

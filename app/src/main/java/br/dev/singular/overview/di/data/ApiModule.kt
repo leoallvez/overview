@@ -2,6 +2,8 @@ package br.dev.singular.overview.di.data
 
 import br.dev.singular.overview.data.BuildConfig
 import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.interceptor.ApiKeyInterceptor
+import br.dev.singular.overview.data.network.interceptor.LocaleInterceptor
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -25,7 +27,10 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideApiService(): ApiService = buildService().create(ApiService::class.java)
+    fun provideApiService(
+        apiKeyInterceptor: ApiKeyInterceptor,
+        localeInterceptor: LocaleInterceptor
+    ): ApiService = buildService(apiKeyInterceptor, localeInterceptor).create(ApiService::class.java)
 
     @Singleton
     @Provides
@@ -36,12 +41,15 @@ class ApiModule {
         namingStrategy = JsonNamingStrategy.SnakeCase
     }
 
-    private fun buildService(): Retrofit {
+    private fun buildService(
+        apiKeyInterceptor: ApiKeyInterceptor,
+        localeInterceptor: LocaleInterceptor
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_URL)
             .addConverterFactory(buildConverterFactory())
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
-            .client(buildOkHttpClient())
+            .client(buildOkHttpClient(apiKeyInterceptor, localeInterceptor))
             .build()
     }
 
@@ -49,9 +57,14 @@ class ApiModule {
         return provideJson().asConverterFactory("application/json".toMediaType())
     }
 
-    private fun buildOkHttpClient(): OkHttpClient {
+    private fun buildOkHttpClient(
+        apiKeyInterceptor: ApiKeyInterceptor,
+        localeInterceptor: LocaleInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(buildHttpLoggingInterceptor())
+            addInterceptor(apiKeyInterceptor)
+            addInterceptor(localeInterceptor)
         }.build()
     }
 
@@ -60,5 +73,4 @@ class ApiModule {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return interceptor
     }
-
 }
