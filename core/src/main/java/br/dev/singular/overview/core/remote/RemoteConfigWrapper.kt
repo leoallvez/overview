@@ -2,14 +2,17 @@ package br.dev.singular.overview.core.remote
 
 import br.dev.singular.overview.core.BuildConfig.REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
 import br.dev.singular.overview.core.remote.RemoteConfigKey.FIREBASE_ENVIRONMENT_KEY
+import com.google.android.gms.tasks.Task
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
 interface IRemoteConfigProvider {
     fun getString(key: RemoteConfigKey): String
     fun getBoolean(key: RemoteConfigKey): Boolean
     fun start()
+    suspend fun waitAndActivate(): Boolean
 }
 
 class RemoteConfigWrapper(
@@ -26,6 +29,15 @@ class RemoteConfigWrapper(
         }
         remote.setConfigSettingsAsync(configSettings)
         onCompleteListener()
+    }
+
+    override suspend fun waitAndActivate(): Boolean {
+        return try {
+            remote.fetchAndActivate().await().also { log(it) }
+        } catch (e: Exception) {
+            Timber.e(e)
+            false
+        }
     }
 
     private fun onCompleteListener() = with(remote) {
