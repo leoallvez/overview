@@ -138,11 +138,11 @@ private fun PersonImage(
         url = person.profileURL,
         contentScale = ContentScale.Crop,
         previewPainter = person.previewContent,
+        errorDefaultImage = R.drawable.error_profile_placeholder,
         modifier = modifier
             .size(268.dp)
             .clip(CircleShape)
-            .border(),
-        errorDefaultImage = R.drawable.avatar
+            .border()
     )
 }
 

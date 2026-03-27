@@ -66,7 +66,7 @@ internal fun UiStreamingCard(
                     .size(dimensionResource(R.dimen.spacing_12x))
                     .border(style = UiBorderStyle(shape = shape)),
                 previewPainter = model.previewContent,
-                errorDefaultImage = R.drawable.launcher_playstore,
+                errorDefaultImage = R.drawable.error_streaming_logo_placeholder,
                 contentScale = ContentScale.FillWidth
             )
 

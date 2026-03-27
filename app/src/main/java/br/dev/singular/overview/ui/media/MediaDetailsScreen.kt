@@ -39,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -79,10 +80,7 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 import br.dev.singular.overview.presentation.ui.utils.border
-import br.dev.singular.overview.ui.Backdrop
-import br.dev.singular.overview.ui.SimpleSubtitle2
 import br.dev.singular.overview.ui.StreamingIcon
-import br.dev.singular.overview.ui.ToolbarTitle
 import br.dev.singular.overview.ui.nameTranslation
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
@@ -184,10 +182,16 @@ fun MediaToolBar(
 ) {
     Box(Modifier.fillMaxWidth()) {
         media.apply {
-            Backdrop(
+            UiImage(
                 url = getBackdropImage(),
-                contentDescription = getLetter(),
-                modifier = Modifier.align(Alignment.CenterEnd)
+                modifier = Modifier
+                    .background(SecondaryBackground)
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f)
+                    .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width))),
+                contentScale = ContentScale.Crop,
+                errorDefaultImage = R.drawable.error_backdrop_placeholder,
+                contentDescription = getLetter()
             )
             ToolbarTitle(
                 title = getLetter(),
@@ -312,19 +316,15 @@ fun NumberSeasonsAndEpisodes(
 
 @Composable
 fun EpisodesRunTime(runtime: String) {
-    if (runtime.isNotEmpty()) {
-        SimpleSubtitle2(text = stringResource(R.string.runtime_per_episode, runtime))
-    }
+    UiSubtitle(text = stringResource(R.string.runtime_per_episode, runtime))
 }
 
 @Composable
 fun Info(label: String = "", info: String, color: Color = Color.White) {
-    if (info.isNotEmpty()) {
-        SimpleSubtitle2(
-            text = if (label.isNotEmpty()) "$label: $info" else info,
-            color = color
-        )
-    }
+    UiSubtitle(
+        text = if (label.isNotEmpty()) "$label: $info" else info,
+        color = color
+    )
 }
 
 @Composable
@@ -556,6 +556,32 @@ private fun PersonImage(
             .size(120.dp)
             .clip(CircleShape)
             .border(),
-        errorDefaultImage = R.drawable.avatar
+        errorDefaultImage = R.drawable.error_profile_placeholder
     )
+}
+
+@Composable
+fun ToolbarTitle(
+    title: String,
+    modifier: Modifier = Modifier,
+    textPadding: PaddingValues = PaddingValues()
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(dimensionResource(R.dimen.spacing_15x))
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, PrimaryBackground)
+                )
+            )
+    ) {
+        UiTitle(
+            text = title,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(textPadding),
+            color = AccentColor
+        )
+    }
 }

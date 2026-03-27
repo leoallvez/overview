@@ -42,6 +42,7 @@ fun UiMediaItem(
         UiImage(
             url = model.posterURL,
             previewPainter = model.previewContent,
+            errorDefaultImage = R.drawable.error_poster_placeholder,
             withBorder = true,
             modifier = modifier
                 .size(width, height = dimensionResource(R.dimen.poster_height))
