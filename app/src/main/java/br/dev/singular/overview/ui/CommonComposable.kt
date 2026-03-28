@@ -1,33 +1,21 @@
 package br.dev.singular.overview.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -41,16 +29,12 @@ import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
-import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
-import br.dev.singular.overview.ui.theme.SecondaryBackground
 import br.dev.singular.overview.util.getStringByName
 import br.dev.singular.overview.util.onClick
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 
 @Composable
 fun GenreEntity.nameTranslation(): String {
@@ -61,70 +45,6 @@ fun GenreEntity.nameTranslation(): String {
 private val getGenreTranslation = @Composable { apiId: Long ->
     val current = LocalContext.current
     current.getStringByName(resource = "genre_$apiId")
-}
-
-@Composable
-fun SimpleSubtitle2(
-    text: String,
-    display: Boolean = true,
-    isBold: Boolean = true,
-    color: Color = Color.White
-) {
-    if (text.isNotEmpty() && display) {
-        Text(
-            text = text,
-            color = color,
-            style = MaterialTheme.typography.titleSmall,
-            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
-        )
-    }
-}
-
-@Composable
-fun Backdrop(
-    url: String?,
-    contentDescription: String?,
-    modifier: Modifier = Modifier
-) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(data = url)
-            .crossfade(true)
-            .build(),
-        modifier = modifier
-            .background(SecondaryBackground)
-            .fillMaxWidth()
-            .aspectRatio(16f / 9f)
-            .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width))),
-        contentScale = ContentScale.Crop,
-        contentDescription = contentDescription
-    )
-}
-
-@Composable
-fun ToolbarTitle(
-    title: String,
-    modifier: Modifier = Modifier,
-    textPadding: PaddingValues = PaddingValues()
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(dimensionResource(R.dimen.spacing_15x))
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, PrimaryBackground)
-                )
-            )
-    ) {
-        UiTitle(
-            text = title,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(textPadding),
-            color = AccentColor
-        )
-    }
 }
 
 @Composable
@@ -141,6 +61,7 @@ fun StreamingIcon(
             corner = corner,
             url = streaming.getLogoImage(),
             contentDescription = streaming.name,
+            errorDefaultImage = R.drawable.error_streaming_logo_placeholder,
             withBorder = withBorder,
             modifier = modifier
                 .size(size)

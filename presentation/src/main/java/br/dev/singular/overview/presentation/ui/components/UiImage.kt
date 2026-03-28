@@ -41,12 +41,12 @@ import coil.request.ImageRequest
  */
 @Composable
 fun UiImage(
-    url: String,
+    url: String?,
     modifier: Modifier = Modifier,
     previewPainter: Painter? = null,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.FillHeight,
-    @DrawableRes errorDefaultImage: Int = R.drawable.placeholder,
+    @DrawableRes errorDefaultImage: Int,
     corner: Dp = dimensionResource(R.dimen.corner_width),
     withBorder: Boolean = false
 ) {
@@ -99,6 +99,7 @@ internal fun UiImagePreview() {
     UiImage(
         url = "https://imagens.com/movie.jpg",
         contentDescription = "Image description",
-        previewPainter = painterResource(R.drawable.sample_poster)
+        previewPainter = painterResource(R.drawable.sample_poster),
+        errorDefaultImage = R.drawable.error_poster_placeholder
     )
 }
