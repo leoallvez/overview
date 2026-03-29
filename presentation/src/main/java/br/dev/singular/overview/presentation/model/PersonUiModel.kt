@@ -1,9 +1,7 @@
 package br.dev.singular.overview.presentation.model
 
+import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.graphics.painter.Painter
 import kotlinx.collections.immutable.ImmutableList
 
 @Immutable
@@ -18,7 +16,8 @@ data class PersonUiModel(
     val character: String,
     val profileURL: String,
     val placeOfBirth: String,
-    val previewContent: Painter = ColorPainter(Color.Gray),
+    @get:DrawableRes
+    val previewDrawableRes: Int?,
     val tvShows: ImmutableList<MediaUiModel>,
     val movies: ImmutableList<MediaUiModel>
 )

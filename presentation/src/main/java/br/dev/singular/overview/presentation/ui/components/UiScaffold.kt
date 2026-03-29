@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.theme.Background
-import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 
 /**
  * A custom Scaffold composable that provides a consistent layout structure for screens in the app.
@@ -56,7 +56,7 @@ internal fun UiScaffoldPreview() {
     ) {
         Box (Modifier.padding(top = it.calculateTopPadding())) {
             UiMediaGrid(
-                items = getMediaMocks(10),
+                items = fakeMedias(),
                 modifier = Modifier.fillMaxSize().background(Background)
             )
         }

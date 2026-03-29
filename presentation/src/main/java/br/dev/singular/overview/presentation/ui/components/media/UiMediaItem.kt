@@ -15,8 +15,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.components.UiImage
+import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
+import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
-import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 
 /**
  * A composable that displays a media item, including its poster and title.
@@ -41,9 +43,11 @@ fun UiMediaItem(
     ) {
         UiImage(
             url = model.posterURL,
-            previewPainter = model.previewContent,
-            errorDefaultImage = R.drawable.error_poster_placeholder,
-            withBorder = true,
+            style = UiImageStyle(
+                borderStyle = UiBorderStyle(visible = true),
+                errorDrawableRes = R.drawable.error_poster_placeholder,
+                previewDrawableRes = model.previewDrawableRes
+            ),
             modifier = modifier
                 .size(width, height = dimensionResource(R.dimen.poster_height))
         )
@@ -61,11 +65,13 @@ fun UiMediaItem(
 @Preview(name = "Short Title")
 @Composable
 internal fun UiMediaItemPreview() {
-    UiMediaItem(model = getMediaMocks().first())
+    UiMediaItem(
+        model = fakeMedias().first()
+    )
 }
 
 @Preview(name = "Long Title")
 @Composable
 internal fun UiMediaWithLongTitlePreview() {
-    UiMediaItem(model = getMediaMocks().first { it.title.length > 20 })
+    UiMediaItem(model = fakeMedias(withLongText = true).first())
 }

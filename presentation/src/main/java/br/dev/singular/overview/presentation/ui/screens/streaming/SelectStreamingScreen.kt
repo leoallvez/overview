@@ -35,7 +35,7 @@ import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.Surface
-import br.dev.singular.overview.presentation.ui.utils.getStreamingMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeStreaming
 import kotlinx.collections.immutable.toImmutableList
 
 /**
@@ -118,7 +118,7 @@ private fun SelectStreamingScreenPreview() {
         uiState = UiState.Success(
             SelectStreamingUiModel(
                 selectedId = selectedId,
-                streaming = getStreamingMocks(30).toImmutableList()
+                streaming = fakeStreaming(30)
             )
         ),
         onLoad = {},

@@ -20,6 +20,7 @@ import java.util.Date
 fun Media.toUi() = MediaUiModel(
     id = apiId,
     title = getLetter(),
+    previewDrawableRes = null,
     posterURL = getPosterImage(),
     type = MediaUiType.getByName(getType())
 )
@@ -27,6 +28,7 @@ fun Media.toUi() = MediaUiModel(
 fun MediaDataModel.toUi() = MediaUiModel(
     id = id,
     title = betterTitle,
+    previewDrawableRes = null,
     posterURL = buildPosterURL(posterPath),
     type = type.toUi()
 )

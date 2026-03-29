@@ -11,5 +11,6 @@ internal fun Streaming.toUi() = StreamingUiModel(
     id = id,
     name = name,
     priority = priority,
+    previewDrawableRes = null,
     logoURL = buildImageFullURL(logoPath)
 )

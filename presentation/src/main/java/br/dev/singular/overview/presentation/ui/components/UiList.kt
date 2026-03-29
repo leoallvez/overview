@@ -13,7 +13,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.streaming.UiStreamingItem
-import br.dev.singular.overview.presentation.ui.utils.getStreamingMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeStreaming
 import kotlinx.collections.immutable.ImmutableList
 
 /**
@@ -48,7 +48,7 @@ fun <T> UiList(
 @Composable
 internal fun UiListPreview() {
     var selectedId by remember { mutableLongStateOf(0) }
-    UiList(items = getStreamingMocks(20)) { model ->
+    UiList(items = fakeStreaming(20)) { model ->
         UiStreamingItem(
             model = model,
             selected = model.id == selectedId

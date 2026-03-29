@@ -57,7 +57,7 @@ fun UiIconButton(
             .background(background)
             .size(dimensionResource(id = R.dimen.spacing_8x))
             .clickable(onClick = onClick)
-            .border(borderStyle)
+            .border(borderStyle.copy(shape = CircleShape))
     ) {
         Box(Modifier.align(Alignment.Center)) {
             iconStyle.apply {

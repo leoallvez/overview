@@ -17,6 +17,7 @@ internal fun Person.toUi() = PersonUiModel(
     character = character.substringBefore('/'),
     profileURL = buildImageFullURL(profilePath),
     placeOfBirth = placeOfBirth,
+    previewDrawableRes = null,
     tvShows = tvShows.map { it.toUi() }.toImmutableList(),
     movies = movies.map { it.toUi() }.toImmutableList()
 )

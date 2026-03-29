@@ -68,11 +68,13 @@ import br.dev.singular.overview.presentation.tagging.params.TagPerson
 import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.UiLikeButton
+import br.dev.singular.overview.presentation.ui.components.UiPersonAvatar
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
+import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiParagraph
 import br.dev.singular.overview.presentation.ui.components.text.UiSubtitle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
@@ -189,8 +191,10 @@ fun MediaToolBar(
                     .fillMaxWidth()
                     .aspectRatio(16f / 9f)
                     .clip(RoundedCornerShape(dimensionResource(R.dimen.corner_width))),
-                contentScale = ContentScale.Crop,
-                errorDefaultImage = R.drawable.error_backdrop_placeholder,
+                style = UiImageStyle(
+                    errorDrawableRes = R.drawable.error_backdrop_placeholder,
+                    contentScale = ContentScale.Crop
+                ),
                 contentDescription = getLetter()
             )
             ToolbarTitle(
@@ -340,7 +344,7 @@ fun StreamingOverview(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1x))
         ) {
             items(streaming) { streaming ->
-                StreamingIcon(streaming = streaming) {
+                StreamingIcon(streaming = streaming, hasBorder = true) {
                     tagClick(TagCommon.Detail.SELECT_STREAMING, streaming.apiId)
                     onClickItem.invoke(streaming)
                 }
@@ -528,7 +532,10 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
-        PersonImage(profileURL = castPerson.getProfileURL())
+        UiPersonAvatar(
+            url = castPerson.getProfileURL(),
+            size = dimensionResource(R.dimen.avatar_medium),
+        )
         UiText(
             text = castPerson.name,
             modifier = Modifier.width(120.dp)
@@ -542,22 +549,6 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
             color = AccentColor
         )
     }
-}
-
-@Composable
-private fun PersonImage(
-    profileURL: String,
-    modifier: Modifier = Modifier
-) {
-    UiImage(
-        url = profileURL,
-        contentScale = ContentScale.Crop,
-        modifier = modifier
-            .size(120.dp)
-            .clip(CircleShape)
-            .border(),
-        errorDefaultImage = R.drawable.error_profile_placeholder
-    )
 }
 
 @Composable

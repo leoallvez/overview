@@ -23,7 +23,7 @@ import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.utils.border
-import br.dev.singular.overview.presentation.ui.utils.getStreamingMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeStreaming
 
 /**
  * A composable that displays a streaming service item, intended for navigation.
@@ -95,7 +95,7 @@ fun UiStreamingItem(
 @Preview(showBackground = true)
 @Composable
 internal fun UiStreamingItemPreview() {
-    UiStreamingItem(model = getStreamingMocks().first())
+    UiStreamingItem(model = fakeStreaming().first())
 }
 
 @Preview(showBackground = true)
@@ -104,7 +104,7 @@ internal fun UiStreamingItemRadioButtonPreview() {
     var selected by remember { mutableStateOf(false) }
     UiStreamingItem(
         selected = selected,
-        model = getStreamingMocks().first()
+        model = fakeStreaming().first()
     ) {
         selected = !selected
     }
