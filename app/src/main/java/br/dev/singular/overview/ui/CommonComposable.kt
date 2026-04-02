@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -29,6 +30,8 @@ import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
+import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.ui.navigation.BottomNavigation
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.Gray
@@ -52,17 +55,19 @@ fun StreamingIcon(
     modifier: Modifier = Modifier,
     streaming: StreamingEntity?,
     size: Dp = 48.dp,
-    withBorder: Boolean = true,
+    hasBorder: Boolean ,
     corner: Dp = dimensionResource(id = R.dimen.corner_width),
     onClick: (() -> Unit)? = null
 ) {
     streaming?.let {
         UiImage(
-            corner = corner,
             url = streaming.getLogoImage(),
             contentDescription = streaming.name,
-            errorDefaultImage = R.drawable.error_streaming_logo_placeholder,
-            withBorder = withBorder,
+            style = UiImageStyle(
+                errorDrawableRes = R.drawable.error_streaming_logo_placeholder,
+                shape  = RoundedCornerShape(size = corner),
+                borderStyle = UiBorderStyle(visible = hasBorder)
+            ),
             modifier = modifier
                 .size(size)
                 .onClick(action = onClick)

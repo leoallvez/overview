@@ -23,6 +23,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.StreamingUiModel
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
+import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.utils.border
@@ -65,9 +66,11 @@ internal fun UiStreamingCard(
                 modifier = Modifier
                     .size(dimensionResource(R.dimen.spacing_12x))
                     .border(style = UiBorderStyle(shape = shape)),
-                previewPainter = model.previewContent,
-                errorDefaultImage = R.drawable.error_streaming_logo_placeholder,
-                contentScale = ContentScale.FillWidth
+                style = UiImageStyle(
+                    errorDrawableRes = R.drawable.error_streaming_logo_placeholder,
+                    contentScale = ContentScale.FillWidth,
+                    previewDrawableRes = model.previewDrawableRes
+                )
             )
 
             Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_3x)))

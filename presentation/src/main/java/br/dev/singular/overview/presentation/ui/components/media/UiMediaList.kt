@@ -14,7 +14,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground
-import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -56,7 +56,7 @@ fun UiMediaList(
 internal fun UiMediaPreview() {
     UiMediaList(
         title = "Imagined Movies",
-        items = getMediaMocks().toImmutableList()
+        items = fakeMedias()
     )
 }
 
@@ -66,7 +66,7 @@ internal fun UiMediaListWitchContentPaddingPreview() {
     UiMediaList(
         title = "Imagined Movies",
         contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
-        items = getMediaMocks().toImmutableList()
+        items = fakeMedias()
     )
 }
 
@@ -76,7 +76,7 @@ internal fun UiMediaListWithBackgroundPreview() {
     UiMediaList(
         title = "Imagined Movies",
         modifier = Modifier.defaultBackground(),
-        items = getMediaMocks().toImmutableList()
+        items = fakeMedias()
     )
 }
 

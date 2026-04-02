@@ -2,7 +2,6 @@ package br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi
 
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.ui.utils.mappers.buildImageFullURL
 import br.dev.singular.overview.presentation.ui.utils.mappers.buildPosterURL
 
 internal fun Media.toUi() = MediaUiModel(
@@ -10,5 +9,6 @@ internal fun Media.toUi() = MediaUiModel(
     type = type.toUi(),
     title = title,
     isLiked = isLiked,
+    previewDrawableRes = null,
     posterURL = buildPosterURL(posterPath)
 )

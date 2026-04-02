@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -21,9 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +32,7 @@ import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagPerson
 import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
-import br.dev.singular.overview.presentation.ui.components.UiImage
+import br.dev.singular.overview.presentation.ui.components.UiPersonAvatar
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
@@ -48,12 +44,9 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
-import br.dev.singular.overview.presentation.ui.utils.border
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground
-import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
-import kotlin.String
 
 /**
  * A screen that displays the details of a person.
@@ -111,9 +104,11 @@ private fun PersonToolBar(
             .padding(top = dimensionResource(R.dimen.spacing_4x))
             .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
     ) {
-        PersonImage(
-            person = person,
-            modifier = Modifier.align(Alignment.Center)
+        UiPersonAvatar(
+            url = person.profileURL,
+            modifier = Modifier.align(Alignment.Center),
+            previewDrawableRes = person.previewDrawableRes,
+            size = dimensionResource(R.dimen.avatar_large)
         )
         UiIconButton(
             iconStyle = UiIconStyle(
@@ -127,23 +122,6 @@ private fun PersonToolBar(
             }
         )
     }
-}
-
-@Composable
-private fun PersonImage(
-    person: PersonUiModel,
-    modifier: Modifier
-) {
-    UiImage(
-        url = person.profileURL,
-        contentScale = ContentScale.Crop,
-        previewPainter = person.previewContent,
-        errorDefaultImage = R.drawable.error_profile_placeholder,
-        modifier = modifier
-            .size(268.dp)
-            .clip(CircleShape)
-            .border()
-    )
 }
 
 @Composable
@@ -246,6 +224,7 @@ private fun Participation(
 @Preview
 @Composable
 private fun PersonDetailsScreenPreview() {
+    val fakeMedias = fakeMedias()
     val person = PersonUiModel(
         id = 0,
         job = "Actor",
@@ -256,10 +235,10 @@ private fun PersonDetailsScreenPreview() {
         biography = stringResource(R.string.lorem_ipsum),
         character = "Himself",
         profileURL = "",
-        previewContent = painterResource(R.drawable.sample_profile),
+        previewDrawableRes = R.drawable.sample_profile,
         placeOfBirth = "Modesto, California, USA",
-        tvShows = getMediaMocks().toImmutableList(),
-        movies = getMediaMocks().toImmutableList()
+        tvShows = fakeMedias,
+        movies = fakeMedias
     )
     PersonDetailsScreen(
         uiState = UiState.Success(data = person),

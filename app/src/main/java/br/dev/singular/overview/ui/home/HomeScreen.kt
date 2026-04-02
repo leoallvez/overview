@@ -41,7 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -270,7 +269,7 @@ fun SelectStreaming(
                     size = dimensionResource(R.dimen.spacing_8x),
                     corner = dimensionResource(R.dimen.circle_conner),
                     streaming = streaming,
-                    withBorder = false
+                    hasBorder = false
                 )
                 HomeScreamTitle(title = streaming?.name ?: String())
             }

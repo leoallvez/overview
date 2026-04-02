@@ -14,7 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.ui.utils.getMediaMocks
+import br.dev.singular.overview.presentation.ui.utils.fakeMedias
+import kotlinx.collections.immutable.ImmutableList
 
 /**
  * A composable that displays a grid of media items with pagination support.
@@ -60,7 +61,7 @@ fun UiMediaGrid(
  */
 @Composable
 fun UiMediaGrid(
-    items: List<MediaUiModel>,
+    items: ImmutableList<MediaUiModel>,
     modifier: Modifier = Modifier,
     onClick: (MediaUiModel) -> Unit = {}
 ) {
@@ -84,7 +85,7 @@ fun UiMediaGrid(
 @Composable
 internal fun UiMediaGridVerticalPreview() {
     UiMediaGrid(
-        items = getMediaMocks(90),
+        items = fakeMedias(90),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
     )
 }
@@ -97,7 +98,7 @@ internal fun UiMediaGridVerticalPreview() {
 @Composable
 internal fun UiMediaGridHorizontalPreview() {
     UiMediaGrid(
-        items = getMediaMocks(90),
+        items = fakeMedias(90),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
     )
 }

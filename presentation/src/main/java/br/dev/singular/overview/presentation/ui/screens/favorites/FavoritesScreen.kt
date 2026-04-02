@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
@@ -18,9 +19,11 @@ import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.UiToolbar
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
-import br.dev.singular.overview.presentation.ui.screens.common.UiLifecycle
 import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
+import br.dev.singular.overview.presentation.ui.screens.common.UiLifecycle
 import br.dev.singular.overview.presentation.ui.screens.common.UiMediaContentStateView
+import br.dev.singular.overview.presentation.ui.utils.collectAsFakeLazyPagingItems
+import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 
 /**
  * A composable that displays the user's favorite media.
@@ -95,5 +98,19 @@ private fun EmptyFavoritesScreen(tagPath: String, type: MediaUiType) {
         ),
         tagPath = tagPath,
         tagStatus = TagStatus.NOTHING_FOUND
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FavoritesScreenPreview() {
+    FavoritesScreen(
+        isLoading = false,
+        uiParam = MediaUiParam(type = MediaUiType.ALL),
+        uiPages = fakeMedias(90).collectAsFakeLazyPagingItems(),
+        onReload = {},
+        onSetLoading = {},
+        onSetType = {},
+        onToMediaDetails = {}
     )
 }
