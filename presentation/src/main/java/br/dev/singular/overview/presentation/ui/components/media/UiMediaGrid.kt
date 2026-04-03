@@ -10,10 +10,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_3A_XL
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import kotlinx.collections.immutable.ImmutableList
 
@@ -77,10 +79,36 @@ fun UiMediaGrid(
     }
 }
 
+/**
+ * A skeleton placeholder for [UiMediaGrid] to be used during loading states.
+ *
+ * @param modifier The modifier to be applied to this grid.
+ * @param itemCount The number of skeleton items to display.
+ */
+@Composable
+fun UiMediaGridSkeleton(
+    modifier: Modifier = Modifier,
+    itemCount: Int = 100
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(
+            minSize = dimensionResource(R.dimen.poster_width)
+        ),
+        modifier = modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement
+            .spacedBy(dimensionResource(R.dimen.spacing_1x)),
+        verticalArrangement = Arrangement
+            .spacedBy(dimensionResource(R.dimen.spacing_1x))
+    ) {
+        items(itemCount) {
+            UiMediaItemSkeleton()
+        }
+    }
+}
+
 @Preview(
     name = "Vertical",
-    widthDp = 411,
-    heightDp = 960
+    device = PIXEL_3A_XL
 )
 @Composable
 internal fun UiMediaGridVerticalPreview() {
@@ -92,8 +120,7 @@ internal fun UiMediaGridVerticalPreview() {
 
 @Preview(
     name = "Horizontal",
-    widthDp = 960,
-    heightDp = 411
+    device = "spec:parent=pixel_3a_xl,orientation=landscape",
 )
 @Composable
 internal fun UiMediaGridHorizontalPreview() {
@@ -101,4 +128,26 @@ internal fun UiMediaGridHorizontalPreview() {
         items = fakeMedias(90),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
     )
+}
+
+@Preview(
+    name = "Skeleton",
+    device = PIXEL_3A_XL
+)
+@Composable
+internal fun UiMediaGridSkeletonPreview() {
+    UiShimmerProvider {
+        UiMediaGridSkeleton()
+    }
+}
+
+@Preview(
+    name = "Horizontal Skeleton",
+    device = "spec:parent=pixel_3a_xl,orientation=landscape",
+)
+@Composable
+internal fun UiMediaGridSkeletonHorizontalPreview() {
+    UiShimmerProvider {
+        UiMediaGridSkeleton()
+    }
 }

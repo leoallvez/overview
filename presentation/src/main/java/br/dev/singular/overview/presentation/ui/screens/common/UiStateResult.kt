@@ -28,7 +28,7 @@ fun <T> UiStateResult(
 ) {
     val paddingTop = dimensionResource(R.dimen.spacing_17x)
     when (uiState) {
-        is UiState.Loading -> LoadingScreen(
+        is UiState.Loading -> LoadingProgressScreen(
             tagPath,
             modifier = Modifier.padding(top = paddingTop)
         )

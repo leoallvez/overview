@@ -2,7 +2,10 @@ package br.dev.singular.overview.presentation.ui.components.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,7 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 
 /**
@@ -48,6 +54,22 @@ fun UiText(
     )
 }
 
+/**
+ * A skeleton placeholder for [UiText].
+ *
+ * @param modifier The modifier to be applied to this component.
+ */
+@Composable
+fun UiTextSkeleton(
+    modifier: Modifier = Modifier
+) {
+    UiShimmerBox(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(16.dp)
+    )
+}
+
 @Preview
 @Composable
 internal fun UiTextPreview() {
@@ -62,5 +84,20 @@ internal fun UiTextPreview() {
                 .padding(dimensionResource(R.dimen.spacing_1x)),
             color = Color.Black
         )
+    }
+}
+
+@Preview
+@Composable
+internal fun UiTextSkeletonPreview() {
+    UiShimmerProvider {
+        Column(
+            modifier = Modifier
+                .width(100.dp)
+                .background(Color.Black)
+        ) {
+            UiTextSkeleton(modifier = Modifier.padding(bottom = 8.dp))
+            UiTextSkeleton(modifier = Modifier.fillMaxWidth(0.6f))
+        }
     }
 }

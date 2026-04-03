@@ -18,7 +18,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.UiToolbar
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
-import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
+import br.dev.singular.overview.presentation.ui.screens.common.MediaGridSkeletonScreen
 import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiLifecycle
 import br.dev.singular.overview.presentation.ui.screens.common.UiMediaContentStateView
@@ -69,7 +69,7 @@ fun FavoritesScreen(
                 onSetType(type)
             }
             if (isLoading) {
-                LoadingScreen(tagPath, animationDelay = 0)
+                MediaGridSkeletonScreen(tagPath)
             } else {
                 UiMediaContentStateView(
                     tagPath = tagPath,

@@ -17,9 +17,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.dev.singular.overview.di.DisplayAds
-import br.dev.singular.overview.presentation.ui.components.UiShimmerProvider
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.navigation.NavController
 import br.dev.singular.overview.ui.theme.AppTheme
@@ -40,6 +41,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+
             AppTheme {
 
                 var edgeToEdge by rememberSaveable { mutableStateOf(false) }
@@ -65,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         .background(PrimaryBackground)
                         .padding(WindowInsets.systemBars.asPaddingValues()),
                 ) { innerPadding ->
-                    UiShimmerProvider {
+                    UiShimmerProvider(key = currentRoute) {
                         NavController(
                             navController = navController,
                             modifier = Modifier.padding(innerPadding),

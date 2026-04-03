@@ -13,7 +13,6 @@ import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.di.DisplayHighlightIcons
 import br.dev.singular.overview.di.IoDispatcher
-import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.streaming.IGetSelectedStreamingUseCase
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.remote.RemoteConfig
@@ -23,7 +22,6 @@ import br.dev.singular.overview.util.fromJson
 import br.dev.singular.overview.util.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,7 +43,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(_dispatcher) {
-            delay(timeMillis = 500)
             prepareData()
         }
     }
