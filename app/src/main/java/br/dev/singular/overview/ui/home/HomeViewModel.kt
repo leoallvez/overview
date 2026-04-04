@@ -13,7 +13,6 @@ import br.dev.singular.overview.data.repository.genre.IGenreRepository
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaPagingRepository
 import br.dev.singular.overview.di.DisplayHighlightIcons
 import br.dev.singular.overview.di.IoDispatcher
-import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.streaming.IGetSelectedStreamingUseCase
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.remote.RemoteConfig

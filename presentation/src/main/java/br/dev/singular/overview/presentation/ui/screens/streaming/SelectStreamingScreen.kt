@@ -31,6 +31,7 @@ import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSour
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.streaming.UiStreamingItem
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.screens.common.StreamingListSkeletonScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
@@ -67,11 +68,14 @@ fun SelectStreamingScreen(
         UiStateResult(
             uiState = uiState,
             tagPath = tagPath,
-            onRefresh = onLoad
+            onRefresh = onLoad,
+            modifier = Modifier.padding(padding),
+            loadingContent = {
+                StreamingListSkeletonScreen(tagPath)
+            }
         ) { data ->
             UiList(
-                items = data.streaming.toImmutableList(),
-                modifier = Modifier.padding(padding),
+                items = data.streaming.toImmutableList()
             ) { 
                 UiStreamingItem(
                     model = it,

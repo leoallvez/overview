@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.screens.common
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,24 +23,21 @@ import br.dev.singular.overview.presentation.tagging.params.TagStatus
 @Composable
 fun <T> UiStateResult(
     uiState: UiState<T>,
+    modifier: Modifier = Modifier,
     tagPath: String,
     onRefresh: () -> Unit,
+    loadingContent: @Composable () -> Unit =
+        { LoadingProgressScreen(tagPath) },
     successContent: @Composable (T) -> Unit
 ) {
-    val paddingTop = dimensionResource(R.dimen.spacing_17x)
-    when (uiState) {
-        is UiState.Loading -> LoadingScreen(
-            tagPath,
-            modifier = Modifier.padding(top = paddingTop)
-        )
-        is UiState.Success -> {
-            TrackScreenView(tagPath, TagStatus.SUCCESS)
-            successContent(uiState.data)
+    Box(modifier) {
+        when (uiState) {
+            is UiState.Loading -> loadingContent()
+            is UiState.Success -> {
+                TrackScreenView(tagPath, TagStatus.SUCCESS)
+                successContent(uiState.data)
+            }
+            else -> ErrorScreen(tagPath, onRefresh = onRefresh)
         }
-        else -> ErrorScreen(
-            tagPath,
-            modifier = Modifier.padding(top = paddingTop),
-            onRefresh = onRefresh
-        )
     }
 }

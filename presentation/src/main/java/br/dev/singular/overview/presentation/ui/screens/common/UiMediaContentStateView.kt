@@ -33,7 +33,7 @@ fun UiMediaContentStateView(
     errorScreen: @Composable () -> Unit = {
         ErrorScreen(tagPath, onRefresh = onRefresh)
     },
-    loadingScreen: @Composable () -> Unit = { LoadingScreen(tagPath) },
+    loadingScreen: @Composable () -> Unit = { LoadingProgressScreen(tagPath) },
     onClickItem: (MediaUiModel) -> Unit
 ) {
     when (pagedMedias.loadState.refresh) {

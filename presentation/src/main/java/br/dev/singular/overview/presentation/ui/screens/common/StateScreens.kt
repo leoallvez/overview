@@ -1,7 +1,11 @@
 package br.dev.singular.overview.presentation.ui.screens.common
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
@@ -12,12 +16,16 @@ import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
 import br.dev.singular.overview.presentation.ui.components.UiChip
 import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaGridSkeleton
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaListSkeleton
+import br.dev.singular.overview.presentation.ui.components.streaming.UiStreamingItemSkeleton
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
@@ -62,7 +70,7 @@ fun StateScreen(
  * @param animationDelay The delay in milliseconds before the animation starts.
  */
 @Composable
-fun LoadingScreen(
+fun LoadingProgressScreen(
     tagPath: String,
     modifier: Modifier = Modifier,
     animationDelay: Int = 400
@@ -86,7 +94,7 @@ fun LoadingScreen(
 @Preview
 @Composable
 internal fun LoadingScreenPreview() {
-    LoadingScreen("tag")
+    LoadingProgressScreen("tag")
 }
 
 /**
@@ -158,3 +166,73 @@ internal fun NothingFoundScreenPreview() {
 internal fun NothingFoundScreenWithFilterPreview() {
     NothingFoundScreen("tag", hasFilters = true)
 }
+
+/**
+ * A composable that displays a skeleton screen for a media grid while content is loading.
+ * It also handles analytics screen view tracking.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param modifier The modifier to be applied to the root element.
+ */
+@Composable
+fun MediaGridSkeletonScreen(
+    tagPath: String,
+    modifier: Modifier = Modifier
+) {
+    TrackScreenView(tagPath)
+    UiMediaGridSkeleton(modifier = modifier)
+}
+
+@Preview
+@Composable
+internal fun MediaGridSkeletonScreenPreview() {
+    MediaGridSkeletonScreen("tag")
+}
+
+
+@Composable
+fun MediaListSkeletonScreen(
+    tagPath: String,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+) {
+    TrackScreenView(tagPath)
+    LazyColumn(modifier = modifier) {
+        items(10) {
+            UiMediaListSkeleton(
+                contentPadding = contentPadding,
+                modifier = modifier
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+internal fun MediaListSkeletonScreenPreview() {
+    MediaListSkeletonScreen("tag")
+}
+
+@Composable
+internal fun StreamingListSkeletonScreen(
+    tagPath: String,
+    modifier: Modifier = Modifier
+) {
+    TrackScreenView(tagPath)
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement
+            .spacedBy(dimensionResource(R.dimen.spacing_2x))
+    ) {
+        items(30) {
+            UiStreamingItemSkeleton()
+        }
+    }
+}
+
+@Preview
+@Composable
+internal fun StreamingListSkeletonScreenPreview() {
+    StreamingListSkeletonScreen("tag")
+}
+

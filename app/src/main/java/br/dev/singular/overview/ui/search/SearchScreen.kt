@@ -62,12 +62,15 @@ import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
-import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
+import br.dev.singular.overview.presentation.ui.screens.common.LoadingProgressScreen
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
 import br.dev.singular.overview.presentation.ui.components.UiToolbar
+import br.dev.singular.overview.presentation.ui.screens.common.MediaGridSkeletonScreen
+import br.dev.singular.overview.presentation.ui.screens.common.MediaListSkeletonScreen
 import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import br.dev.singular.overview.util.animatedBorder
 import kotlinx.collections.immutable.toImmutableList
 
 private fun tagClick(detail: String, id: Long = 0L) {
@@ -114,7 +117,11 @@ fun SearchScreen(
             }
             Box {
                 when (items.loadState.refresh) {
-                    is LoadState.Loading -> LoadingScreen(TagSearch.PATH)
+                    is LoadState.Loading -> MediaGridSkeletonScreen(
+                        tagPath = TagSearch.PATH,
+                        modifier = Modifier
+                            .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
+                    )
                     is LoadState.NotLoading -> {
                         TrackScreenView(TagSearch.PATH, TagStatus.SUCCESS)
                         UiMediaGrid(
@@ -166,7 +173,10 @@ fun SearchInitialScreen(
     onClick: (MediaUiModel) -> Unit
 ) {
     when (suggestions) {
-        is UiState.Loading -> LoadingScreen(tagPath)
+        is UiState.Loading -> MediaListSkeletonScreen(
+            tagPath = tagPath,
+            contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
+        )
         is UiState.Success -> {
             TrackScreenView(tagPath, TagStatus.SUCCESS)
             SuggestionsVerticalList(suggestions = suggestions.data, onClick = onClick)

@@ -71,7 +71,7 @@ import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyl
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
-import br.dev.singular.overview.presentation.ui.screens.common.LoadingScreen
+import br.dev.singular.overview.presentation.ui.screens.common.MediaGridSkeletonScreen
 import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.ui.StreamingIcon
@@ -170,7 +170,7 @@ fun HomeContent(
         ) { padding ->
             val topPadding = padding.calculateTopPadding()
             when (items.loadState.refresh) {
-                is LoadState.Loading -> LoadingScreen(
+                is LoadState.Loading -> MediaGridSkeletonScreen(
                     tagPath = TagHome.PATH,
                     modifier = Modifier.padding(top = topPadding)
                 )
