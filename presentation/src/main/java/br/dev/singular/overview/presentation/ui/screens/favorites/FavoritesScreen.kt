@@ -29,37 +29,25 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMedias
  * A composable that displays the user's favorite media.
  *
  * @param tagPath The path for analytics tagging.
- * @param isLoading Whether the screen is currently loading data.
  * @param uiParam The UI parameters for the screen, such as the selected media type.
  * @param uiPages The paginated list of favorite media items.
  * @param onReload Callback to reload the data.
- * @param onSetLoading Callback to set the loading state.
  * @param onSetType Callback to set the media type filter.
  * @param onToMediaDetails Callback to navigate to the details of a media item.
  */
 @Composable
 fun FavoritesScreen(
     tagPath: String = TagFavorites.PATH,
-    isLoading: Boolean,
     uiParam: MediaUiParam,
     uiPages: LazyPagingItems<MediaUiModel>,
-    onReload: () -> Unit,
-    onSetLoading: (Boolean) -> Unit,
-    onSetType: (MediaUiType) -> Unit,
-    onToMediaDetails: (MediaUiModel) -> Unit,
+    onReload: () -> Unit = {},
+    onSetType: (MediaUiType) -> Unit = {},
+    onToMediaDetails: (MediaUiModel) -> Unit = {},
 ) {
     UiScaffold(
         topBar = { UiToolbar(title = stringResource(id = R.string.favorites)) }
     ) { padding ->
-        UiLifecycle(
-            onPause = {
-                onSetLoading(true)
-            },
-            onResume = {
-                onReload()
-                onSetLoading(false)
-            }
-        )
+        UiLifecycle(onResume = { onReload() })
         Column(Modifier.padding(top = padding.calculateTopPadding())) {
             UiMediaTypeSelector(
                 type = uiParam.type,
@@ -68,20 +56,16 @@ fun FavoritesScreen(
                 TagMediaManager.logTypeClick(tagPath, type)
                 onSetType(type)
             }
-            if (isLoading) {
-                MediaGridSkeletonScreen(tagPath)
-            } else {
-                UiMediaContentStateView(
-                    tagPath = tagPath,
-                    pagedMedias = uiPages,
-                    loadingScreen = {},
-                    errorScreen = { EmptyFavoritesScreen(tagPath, uiParam.type) },
-                    onClickItem = { media ->
-                        TagMediaManager.logMediaClick(tagPath, media.id)
-                        onToMediaDetails(media)
-                    }
-                )
-            }
+            UiMediaContentStateView(
+                tagPath = tagPath,
+                pagedMedias = uiPages,
+                loadingScreen = { MediaGridSkeletonScreen(tagPath) },
+                errorScreen = { EmptyFavoritesScreen(tagPath, uiParam.type) },
+                onClickItem = { media ->
+                    TagMediaManager.logMediaClick(tagPath, media.id)
+                    onToMediaDetails(media)
+                }
+            )
         }
     }
 }
@@ -105,12 +89,7 @@ private fun EmptyFavoritesScreen(tagPath: String, type: MediaUiType) {
 @Composable
 fun FavoritesScreenPreview() {
     FavoritesScreen(
-        isLoading = false,
         uiParam = MediaUiParam(type = MediaUiType.ALL),
         uiPages = fakeMedias(90).collectAsFakeLazyPagingItems(),
-        onReload = {},
-        onSetLoading = {},
-        onSetType = {},
-        onToMediaDetails = {}
     )
 }

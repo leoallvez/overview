@@ -117,11 +117,9 @@ fun NavController(
             val viewModel = hiltViewModel<FavoritesViewModel>()
 
             FavoritesScreen(
-                isLoading = viewModel.isLoading,
                 uiParam = viewModel.uiParam.collectAsState().value,
                 uiPages = viewModel.medias.collectAsLazyPagingItems(),
                 onReload = { viewModel.onReload() },
-                onSetLoading = { viewModel.onSetIsLoading(it) },
                 onSetType = { viewModel.onSelectType(it) },
                 onToMediaDetails = { media: MediaUiModel -> basicNav.toMediaDetails(media) },
             )

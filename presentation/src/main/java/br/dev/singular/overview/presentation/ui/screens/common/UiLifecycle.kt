@@ -14,7 +14,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
  * @param onResume A callback to be invoked when the `ON_RESUME` lifecycle event occurs.
  */
 @Composable
-fun UiLifecycle(onPause: () -> Unit, onResume: () -> Unit) {
+fun UiLifecycle(onPause: () -> Unit = {}, onResume: () -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
