@@ -2,7 +2,7 @@
 # Global Settings
 app-id = "br.dev.singular.overview"
 immutable = "0.4.0"
-serialization = "1.10.0"
+serialization = "1.11.0"
 sdk-compile = "36"
 sdk-min = "24"
 sdk-target = "35"
