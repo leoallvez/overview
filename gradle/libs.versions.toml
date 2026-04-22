@@ -2,7 +2,7 @@
 # Global Settings
 app-id = "br.dev.singular.overview"
 immutable = "0.4.0"
-serialization = "1.10.0"
+serialization = "1.11.0"
 sdk-compile = "36"
 sdk-min = "24"
 sdk-target = "35"
@@ -10,7 +10,7 @@ version-code = "12"
 version-name = "3.2.5"
 
 # Kotlin
-kotlin = "2.3.10"
+kotlin = "2.3.20"
 
 # Android Core
 agp = "8.13.2"
@@ -19,7 +19,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 
 # Compose
-compose-bom = "2026.03.00"
+compose-bom = "2026.03.01"
 navigation-compose = "2.9.7"
 paging-compose = "3.4.2"
 activity-compose = "1.13.0"
@@ -37,7 +37,7 @@ room = "2.8.4"
 paging-runtime-ktx = "3.4.2"
 
 # Firebase
-firebase-bom = "34.10.0"
+firebase-bom = "34.12.0"
 
 # Network
 retrofit = "2.9.0"
@@ -60,7 +60,7 @@ kluent = "1.73"
 kotlinx-coroutines-test = "1.10.2"
 
 # Others
-play-services-ads = "25.1.0"
+play-services-ads = "25.2.0"
 datastore-preferences = "1.2.1"
 timber = "5.0.1"
 youtube-player = "13.0.0"
