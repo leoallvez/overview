@@ -12,22 +12,38 @@
     <string name="tv_popular" tools:ignore="UnusedResources">Populaire en streaming</string>
     <!-- Dynamic -->
     <!-- Genre -->
-    <string name="genre_10759" tools:ignore="UnusedResources" />
-    <string name="genre_10762" tools:ignore="UnusedResources" />
-    <string name="genre_10763" tools:ignore="UnusedResources" />
-    <string name="genre_10764" tools:ignore="UnusedResources" />
-    <string name="genre_10765" tools:ignore="UnusedResources" />
-    <string name="genre_10766" tools:ignore="UnusedResources" />
-    <string name="genre_10767" tools:ignore="UnusedResources" />
-    <string name="genre_10768" tools:ignore="UnusedResources" />
+    <string name="genre_adventure" tools:ignore="UnusedResources">Aventure</string>
+    <string name="genre_fantasy" tools:ignore="UnusedResources">Fantastique</string>
+    <string name="genre_animation" tools:ignore="UnusedResources">Animation</string>
+    <string name="genre_drama" tools:ignore="UnusedResources">Drame</string>
+    <string name="genre_horror" tools:ignore="UnusedResources">Horreur</string>
+    <string name="genre_action" tools:ignore="UnusedResources">Action</string>
+    <string name="genre_comedy" tools:ignore="UnusedResources">Comédie</string>
+    <string name="genre_history" tools:ignore="UnusedResources">Histoire</string>
+    <string name="genre_western" tools:ignore="UnusedResources">Western</string>
+    <string name="genre_thriller" tools:ignore="UnusedResources">Thriller</string>
+    <string name="genre_crime" tools:ignore="UnusedResources">Crime</string>
+    <string name="genre_documentary" tools:ignore="UnusedResources">Documentaire</string>
+    <string name="genre_science_fiction" tools:ignore="UnusedResources">Science-Fiction</string>
+    <string name="genre_mystery" tools:ignore="UnusedResources">Mystère</string>
+    <string name="genre_music" tools:ignore="UnusedResources">Musique</string>
+    <string name="genre_romance" tools:ignore="UnusedResources">Romance</string>
+    <string name="genre_family" tools:ignore="UnusedResources">Familial</string>
+    <string name="genre_war" tools:ignore="UnusedResources">Guerre</string>
+    <string name="genre_action_adventure" tools:ignore="UnusedResources">Action &amp; Aventure</string>
+    <string name="genre_kids" tools:ignore="UnusedResources">Enfants</string>
+    <string name="genre_news" tools:ignore="UnusedResources">Information</string>
+    <string name="genre_reality" tools:ignore="UnusedResources">Réalité</string>
+    <string name="genre_sci_fi_fantasy" tools:ignore="UnusedResources">Science-Fiction &amp; Fantastique</string>
+    <string name="genre_soap" tools:ignore="UnusedResources">Soap</string>
+    <string name="genre_talk" tools:ignore="UnusedResources">Talk</string>
+    <string name="genre_war_politics" tools:ignore="UnusedResources">Guerre &amp; Politique</string>
+    <string name="genre_tv_movie" tools:ignore="UnusedResources">Téléfilm</string>
     <!-- Genre -->
     <string name="error_on_loading">Erreur de chargement :(</string>
     <string name="btn_try_again">Essayer à nouveau</string>
-    <string name="refresh_icon">Icône de rechargement</string>
     <string name="backstack_icon">Icône de retour à la maison</string>
     <string name="search_icon">Icône de recherche</string>
-    <string name="search_clean_icon">Effacer l\'icône de recherche</string>
-    <string name="app_offline_msg">Aucune connexion Internet disponible</string>
     <string name="loading">Chargement…</string>
     <string name="synopsis">Synopsis</string>
     <string name="biography">Biographie</string>
@@ -38,43 +54,33 @@
     <string name="movies_participation">Participation au cinéma</string>
     <string name="age">%s ans</string>
     <string name="place_of_birth">Lieu de naissance</string>
-    <string name="one_episode">1 épisode</string>
-    <string name="n_episodes">%s épisodes</string>
     <string name="runtime_per_episode">Durée: %s par épisode</string>
     <string name="director">Directeur</string>
     <string name="release_date">Date de sortie</string>
     <string name="runtime">Durée</string>
-    <string name="search_field_text">Recherche</string>
     <string name="movies">Films</string>
     <string name="tv_show">Émissions de télévision</string>
     <string name="all">Tout</string>
     <string name="search_not_started">Les résultats de la recherche apparaîtront ici :)</string>
-    <string name="search_result_empty">aucun résultat trouvé :(</string>
     <string name="empty_list_providers">Non disponible en streaming</string>
     <string name="not_yet_released">Pas encore publié</string>
-    <string name="edit">Modifier</string>
-    <string name="yours_streaming">Le vôtre en streaming</string>
     <string name="search_in_all_places">Rechercher partout</string>
     <string name="genre">Genre</string>
     <string name="filter_by_genre">Filtrer par un genre</string>
-    <string name="type">Taper</string>
     <string name="filters">Filtres</string>
     <string name="close">icône pour fermer</string>
     <string name="not_found">Aucun résultat trouvé :(</string>
     <string name="check_filters">Vérifiez les filtres et réessayez</string>
-    <string name="clear_filters">Effacer les filtres</string>
-    <string name="main_steams">Principaux</string>
-    <string name="favorite_streams">Favoris</string>
-    <string name="other_streams">Autres</string>
-    <string name="streaming">Streaming</string>
     <string name="like_button">Icône J\'aime</string>
     <string name="liked_not_found">Vos favoris apparaîtront ici :)</string>
     <string name="liked_movie_not_found">Vos films préférés apparaîtront ici :)</string>
     <string name="liked_tv_show_not_found">Vos séries préférées apparaîtront ici :)</string>
-    <string name="my_favorite">Mes Favoris</string>
     <string name="home">Accueil</string>
     <string name="favorites">Favoris</string>
     <string name="search">Rechercher</string>
-    <string name="select_streaming">Sélectionner Streaming</string>
+    <string name="select_catalog">Sélectionner le catalogue</string>
+    <string name="change_catalog">Changer de catalogue</string>
     <string name="videos">Vidéos</string>
+    <string name="catalogs">Catalogues</string>
+    <string name="catalog_only_message">Cette application est destinée exclusivement à la consultation de catalogues. La lecture des contenus doit être effectuée sur les plateformes officielles.</string>
 </resources>

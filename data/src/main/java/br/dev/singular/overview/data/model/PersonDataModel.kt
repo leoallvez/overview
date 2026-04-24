@@ -19,7 +19,7 @@ data class PersonDataModel(
     @SerialName(value = "tv_credits")
     internal val tvShowsCredits: MediaCredits = MediaCredits(),
     @SerialName(value = "movie_credits")
-    internal val moviesCredits:  MediaCredits = MediaCredits()
+    internal val moviesCredits: MediaCredits = MediaCredits()
 )
 
 @Serializable

@@ -1,23 +1,31 @@
 package br.dev.singular.overview.data.network
 
+import br.dev.singular.overview.data.model.CatalogDataModel
 import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.PersonDataModel
-import br.dev.singular.overview.data.model.StreamingDataModel
 import br.dev.singular.overview.data.network.response.ErrorResponse
+import br.dev.singular.overview.data.network.response.GenreListResponse
 import br.dev.singular.overview.data.network.response.ListResponse
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 private typealias ApiResp <T> = NetworkResponse<T, ErrorResponse>
 
 interface ApiService {
 
     @GET(value = "{path}")
-    suspend fun getMediasByPath(
+    suspend fun fetchMediaPage(
         @Path(value = "path", encoded = true)
         path: String,
+        @Query(value = "page")
+        page: Int?,
+        @Query("query")
+        query: String?,
+        @QueryMap
+        options: Map<String, String>
     ): ApiResp<MediaDataPage>
 
     @GET(value = "person/{api_id}")
@@ -29,6 +37,14 @@ interface ApiService {
     ): ApiResp<PersonDataModel>
 
     @GET(value = "watch/providers/tv")
-    suspend fun getStreaming(): ApiResp<ListResponse<StreamingDataModel>>
+    suspend fun getCatalog(
+        @Query("watch_region")
+        region: String
+    ): ApiResp<ListResponse<CatalogDataModel>>
 
+    @GET(value = "genre/{media_type}/list")
+    suspend fun getGenres(
+        @Path(value = "media_type", encoded = true)
+        mediaType: String
+    ): ApiResp<GenreListResponse>
 }

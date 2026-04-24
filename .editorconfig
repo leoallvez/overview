@@ -2,5 +2,5 @@
 ktlint_disabled_rules = import-ordering, no-wildcard-imports
 
 [*.kt]
-disabled_rules=comment-spacing
+disabled_rules = comment-spacing
 

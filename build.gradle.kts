@@ -1,4 +1,4 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Top-level build file where you can add configuration options common to all subprojects/modules.
 plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize) apply false
@@ -12,6 +12,47 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.kover)
+}
+
+dependencies {
+    kover(project(":app"))
+    kover(project(":core"))
+    kover(project(":data"))
+    kover(project(":domain"))
+    kover(project(":presentation"))
+}
+
+// Global coverage configuration
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("androidx.compose.runtime.Composable")
+                classes(
+                    "*.BuildConfig",
+                    "*.*_Factory*",
+                    "*.*_HiltModules*",
+                    "*.*_Impl*",
+                    "*.CustomApplication",
+                    "*.Hilt_*",
+                    "**.ui.theme.**",
+                    "**.ui.components.**",
+                    "**.ui.navigation.**",
+                    "**.ui.**.*Kt*",
+                    "**.*ScreenKt*",
+                    "**.*ComposableKt*",
+                    "**.*PreviewKt*",
+                    "**.*Activity*",
+                    "**.*Fragment*",
+                )
+            }
+        }
+        total {
+            xml { onCheck = true }
+            html { title = "Overview Project Coverage" }
+        }
+    }
 }
 
 buildscript {

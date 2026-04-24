@@ -43,7 +43,7 @@ class PersonRepositoryTest {
     @Test
     fun `should return null when data source returns an error`() = runTest {
         // Arrange
-        val errorResult = DataResult.Error<PersonDataModel>("Not Found")
+        val errorResult = DataResult.Error<PersonDataModel>()
         coEvery { remoteDataSource.getById(any()) } returns errorResult
 
         // Act
@@ -55,7 +55,7 @@ class PersonRepositoryTest {
 
     @Test
     fun `should return null when data source throws a general exception`() = runTest {
-        val errorResult = DataResult.Error<PersonDataModel>("Network Failure")
+        val errorResult = DataResult.Error<PersonDataModel>()
         coEvery { remoteDataSource.getById(any()) } returns errorResult
 
         // Act

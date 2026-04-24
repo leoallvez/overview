@@ -18,10 +18,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.theme.Surface
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.border
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -48,8 +49,10 @@ fun UiImage(
     Box(
         modifier = modifier
             .clip(shape = style.borderStyle.shape)
-            .border(style = style.borderStyle
-                .copy(visible = style.borderStyle.visible && !isLoading)),
+            .border(
+                style = style.borderStyle
+                    .copy(visible = style.borderStyle.visible && !isLoading)
+            ),
         contentAlignment = Alignment.Center
     ) {
         val previewRes = style.previewDrawableRes
@@ -82,19 +85,18 @@ fun UiImage(
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            Box(
+            UiShimmerBox(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Surface)
-                    //.syncedShimmer()
             )
         }
     }
 }
 
-@Preview(widthDp = 128, heightDp = 192)
+@UiComponentPreview
 @Composable
-internal fun UiImagePreview() {
+private fun UiImagePreview() {
     UiImage(
         url = "https://imagens.com/movie.jpg",
         contentDescription = "Image description",

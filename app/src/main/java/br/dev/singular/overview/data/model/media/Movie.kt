@@ -3,7 +3,6 @@ package br.dev.singular.overview.data.model.media
 import br.dev.singular.overview.presentation.ui.utils.DateHelper
 import br.dev.singular.overview.ui.model.toUi
 import com.squareup.moshi.Json
-import kotlin.collections.map
 import kotlinx.collections.immutable.toImmutableList
 
 data class Movie(
