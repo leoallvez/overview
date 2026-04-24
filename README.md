@@ -14,7 +14,9 @@
 </a>
 
 ## Index
+
 <!--index-->
+
 - [About](#about)
 - [Goals](#goals)
 - [Setup](#setup)
@@ -23,20 +25,21 @@
 
 ## About
 
-Overview allows easy navigation across different streaming services. You can favorite your content, filter by genre, and search across all platforms.
+Overview allows easy navigation across different streaming services. You can favorite your content,
+filter by genre, and search across all platforms.
 
 ### Main features
 
-- **Search efficiently and conveniently for content across multiple streaming platforms.**  
-- **Filter content by type and genre across various streaming services.**  
-- **Search for content everywhere, not restricting yourself to streaming services**  
-- **Save your favorite content and visualize it in a collection.**  
+- **Search efficiently and conveniently for content across multiple streaming platforms.**
+- **Filter content by type and genre across various streaming services.**
+- **Search for content everywhere, not restricting yourself to streaming services**
+- **Save your favorite content and visualize it in a collection.**
 - **View detailed information, including which streaming service offers each piece of content.**
-
 
 ## Goals
 
-The main goal of this project is to build an app using the most important libraries of the Android platform.
+The main goal of this project is to build an app using the most important libraries of the Android
+platform.
 
 ### Main libraries
 
@@ -109,7 +112,7 @@ The main goal of this project is to build an app using the most important librar
 
 ## Setup
 
-This project contains environment variables that streamline the compilation process in the 
+This project contains environment variables that streamline the compilation process in the
 **homologation** and **production** environments (HMG and PRD) for the Overview Android project.
 These variables encompass the API key, signature flags, and key storage information for different
 environments.
@@ -129,8 +132,10 @@ environments.
 
 ### Script
 
-You can create a script to configure all environment variables in your operating system. Using scripts offers significant advantages in terms of automation and reproducibility.
-In the following sections, we will demonstrate how to create such scripts for both Windows and Linux operating systems.
+You can create a script to configure all environment variables in your operating system. Using
+scripts offers significant advantages in terms of automation and reproducibility.
+In the following sections, we will demonstrate how to create such scripts for both Windows and Linux
+operating systems.
 
 #### Script Windows
 
@@ -148,6 +153,7 @@ setx OVER_HMG_PASSWORD "set_here_your_password_value"
 setx OVER_HMG_KEY_ALIAS "alias"
 
 ```
+
 > Windows `.bat` script to set environment variables.
 
 #### Script Linux

@@ -9,4 +9,4 @@ annotation class DeleteSuggestions
 annotation class DeleteMedias
 
 @Qualifier
-annotation class DeleteStreaming
+annotation class DeleteCatalog

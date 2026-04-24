@@ -25,13 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.border
 
 /**
@@ -72,9 +72,9 @@ fun UiIconButton(
     }
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiIconButtonVectorPreview() {
+private fun UiIconButtonVectorPreview() {
     UiIconButton(
         iconStyle = UiIconStyle(
             source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft)
@@ -82,9 +82,9 @@ internal fun UiIconButtonVectorPreview() {
     ) {}
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiIconButtonPainterPreview() {
+private fun UiIconButtonPainterPreview() {
     UiIconButton(
         iconStyle = UiIconStyle(
             source = UiIconSource.painter(R.drawable.ic_arrow_up)
@@ -92,9 +92,9 @@ internal fun UiIconButtonPainterPreview() {
     ) {}
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiIconButtonAnimatedPreview() {
+private fun UiIconButtonAnimatedPreview() {
 
     var isLiked by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(
@@ -103,7 +103,7 @@ internal fun UiIconButtonAnimatedPreview() {
         label = "PulsatingScale"
     )
 
-    val iconStyle = (if(isLiked) {
+    val iconStyle = (if (isLiked) {
         UiIconStyle(
             source = UiIconSource.vector(Icons.Default.Favorite),
             color = WarningColor,
@@ -121,7 +121,7 @@ internal fun UiIconButtonAnimatedPreview() {
         iconStyle = iconStyle,
         borderStyle = UiBorderStyle(
             visible = true,
-            color =  if (isLiked) WarningColor else DarkGray,
+            color = if (isLiked) WarningColor else DarkGray,
         ),
         background = Background.copy(alpha = if (isLiked) 0.8f else 0.6f),
     ) {

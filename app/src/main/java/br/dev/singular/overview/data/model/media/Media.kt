@@ -2,9 +2,10 @@ package br.dev.singular.overview.data.model.media
 
 import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.MediaDataType
-import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.data.source.media.MediaType.*
+import br.dev.singular.overview.data.source.media.MediaType.MOVIE
+import br.dev.singular.overview.data.source.media.MediaType.TV_SHOW
+import br.dev.singular.overview.presentation.BuildConfig
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import com.squareup.moshi.Json
 import kotlinx.collections.immutable.ImmutableList
@@ -20,13 +21,10 @@ abstract class Media {
     @field:Json(name = "poster_path")
     private val posterPath: String? = null
 
-    @field:Json(name = "original_language")
-    val language: String? = null
-
     @field:Json(name = "vote_average")
     val voteAverage: Double = 0.0
 
-    val genres: List<GenreEntity> = listOf()
+    val genres: List<GenreLegacy> = listOf()
     protected val credits: Credits = Credits()
 
     @field:Json(name = "providers")

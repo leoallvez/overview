@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 /**
  * A composable that displays a justified paragraph of text.
@@ -27,8 +27,8 @@ fun UiParagraph(text: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiParagraphPreview() {
+private fun UiParagraphPreview() {
     UiParagraph(text = stringResource(R.string.lorem_ipsum))
 }

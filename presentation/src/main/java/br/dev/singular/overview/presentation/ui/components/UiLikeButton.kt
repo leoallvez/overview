@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
@@ -23,6 +22,7 @@ import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 private const val ANIMATION_DURATION_MILLIS = 200
 private const val LIKED_ICON_SCALE = 1f
@@ -94,9 +94,9 @@ private fun getLikeButtonStyles(isLiked: Boolean): Pair<UiIconStyle, UiBorderSty
     return iconStyle to borderStyle
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiLikeButtonPreview() {
+private fun UiLikeButtonPreview() {
     var isLiked by remember { mutableStateOf(false) }
     UiLikeButton(isLiked = isLiked) {
         isLiked = !isLiked
