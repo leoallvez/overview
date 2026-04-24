@@ -2,22 +2,16 @@ package br.dev.singular.overview.presentation.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.model.CatalogUiModel
+import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
-import br.dev.singular.overview.presentation.model.StreamingUiModel
+import br.dev.singular.overview.presentation.model.PersonUiModel
+import br.dev.singular.overview.presentation.model.QueryUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.flowOf
 import java.util.UUID
-
-private const val BASE_TITLE = "The Equinox"
-private const val LONG_TITLE = "The Equinox: Warriors Against the Infinite Swarm from the Dark Expanse"
 
 @Composable
 fun fakeMedias(
@@ -27,7 +21,7 @@ fun fakeMedias(
 
     val baseModel = MediaUiModel(
         id = 0,
-        title = BASE_TITLE,
+        title = stringResource(R.string.fake_short_title),
         posterURL = "https://imagens.com/movie.jpg",
         type = MediaUiType.MOVIE,
         previewDrawableRes = R.drawable.sample_poster
@@ -36,9 +30,9 @@ fun fakeMedias(
     return buildList {
         repeat(count) { index ->
             val title = if (index % 2 == 1 || withLongText) {
-                LONG_TITLE
+                stringResource(R.string.fake_short_title)
             } else {
-                "$BASE_TITLE ${index + 1}"
+                "${stringResource(R.string.fake_long_title)} ${index + 1}"
             }
             add(
                 baseModel.copy(
@@ -52,33 +46,95 @@ fun fakeMedias(
 }
 
 @Composable
-fun ImmutableList<MediaUiModel>.collectAsFakeLazyPagingItems(): LazyPagingItems<MediaUiModel> {
-    val pagingData = PagingData.from(
-        data = this,
-        sourceLoadStates = LoadStates(
-            refresh = LoadState.NotLoading(endOfPaginationReached = false),
-            prepend = LoadState.NotLoading(endOfPaginationReached = true),
-            append = LoadState.NotLoading(endOfPaginationReached = true)
-        )
+fun fakeCatalog(count: Int = 10): ImmutableList<CatalogUiModel> {
+
+    val baseModel = CatalogUiModel(
+        id = 0,
+        priority = 1,
+        name = stringResource(R.string.lorem_ipsum),
+        logoURL = "https://imagens.com/catalog.jpg",
+        previewDrawableRes = R.drawable.scifi_stream
     )
 
-    val pagingDataFlow = flowOf(pagingData)
-    return pagingDataFlow.collectAsLazyPagingItems()
-}
-
-@Composable
-fun fakeStreaming(count: Int = 10): ImmutableList<StreamingUiModel> {
     return buildList {
         repeat(count) { index ->
             add(
-                StreamingUiModel(
+                baseModel.copy(
                     id = index.toLong(),
-                    priority = index,
-                    name = stringResource(R.string.lorem_ipsum),
-                    logoURL = "https://imagens.com/streaming.jpg",
-                    previewDrawableRes = R.drawable.scifi_stream
+                    uiId = UUID.randomUUID().toString()
                 )
             )
         }
     }.toImmutableList()
+}
+
+@Composable
+internal fun fakeGenres(count: Int = 27): ImmutableList<GenreUiModel> {
+    val genres = listOf(
+        12L to "Adventure",
+        14L to "Fantasy",
+        16L to "Animation",
+        18L to "Drama",
+        27L to "Horror",
+        28L to "Action",
+        35L to "Comedy",
+        36L to "History",
+        37L to "Western",
+        53L to "Thriller",
+        80L to "Crime",
+        99L to "Documentary",
+        878L to "Science Fiction",
+        9648L to "Mystery",
+        10402L to "Music",
+        10749L to "Romance",
+        10751L to "Family",
+        10752L to "War",
+        10759L to "Action & Adventure",
+        10762L to "Kids",
+        10763L to "News",
+        10764L to "Reality Show",
+        10765L to "Sci-Fi & Fantasy",
+        10766L to "Soap",
+        10767L to "Talk",
+        10768L to "War & Politics",
+        10770L to "TV Movie"
+    )
+
+    return buildList {
+        repeat(count) { index ->
+            val (id, name) = genres.getOrElse(index % genres.size) { 0L to "Unknown" }
+            add(GenreUiModel(id = id, name = name))
+        }
+    }.toImmutableList()
+}
+
+
+internal fun fakeQueryState() = QueryUiState(
+    catalog = CatalogUiModel(
+        id = 0,
+        priority = 1,
+        name = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        logoURL = "https://imagens.com/catalog.jpg",
+        previewDrawableRes = R.drawable.scifi_stream
+    )
+)
+
+@Composable
+fun fakePerson(): PersonUiModel {
+    val fakeMedias = fakeMedias()
+    return PersonUiModel(
+        id = 0,
+        job = "Actor",
+        age = "24",
+        name = "Celeste Beaumont",
+        birthday = "01/01/1982",
+        deathDay = "01/01/2006",
+        biography = stringResource(R.string.lorem_ipsum),
+        character = "Himself",
+        profileURL = "",
+        previewDrawableRes = R.drawable.sample_profile,
+        placeOfBirth = "Modesto, California, USA",
+        tvShows = fakeMedias,
+        movies = fakeMedias
+    )
 }

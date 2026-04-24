@@ -6,16 +6,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Devices.PIXEL_3A_XL
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import kotlinx.collections.immutable.ImmutableList
 
@@ -30,11 +30,13 @@ import kotlinx.collections.immutable.ImmutableList
 fun UiMediaGrid(
     items: LazyPagingItems<MediaUiModel>,
     modifier: Modifier = Modifier,
+    gridState: LazyGridState = LazyGridState(),
     onClick: (MediaUiModel) -> Unit = {}
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.poster_width)),
         modifier = modifier.fillMaxSize(),
+        state = gridState,
         horizontalArrangement = Arrangement
             .spacedBy(dimensionResource(R.dimen.spacing_1x))
     ) {
@@ -43,7 +45,8 @@ fun UiMediaGrid(
             key = { index -> items.peek(index)?.uiId ?: index }
         ) { index ->
             items[index]?.let {
-                UiMediaItem(it,
+                UiMediaItem(
+                    model = it,
                     onClick = onClick,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -74,7 +77,13 @@ fun UiMediaGrid(
             .spacedBy(dimensionResource(R.dimen.spacing_1x))
     ) {
         items(items.size) { index ->
-            UiMediaItem(items[index], onClick = onClick)
+            UiMediaItem(
+                model = items[index],
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(2f / 3f),
+                onClick = onClick
+            )
         }
     }
 }
@@ -106,47 +115,35 @@ fun UiMediaGridSkeleton(
     }
 }
 
-@Preview(
-    name = "Vertical",
-    device = PIXEL_3A_XL
-)
+@UiScreenPreview
 @Composable
-internal fun UiMediaGridVerticalPreview() {
+private fun UiMediaGridVerticalPreview() {
     UiMediaGrid(
         items = fakeMedias(90),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
     )
 }
 
-@Preview(
-    name = "Horizontal",
-    device = "spec:parent=pixel_3a_xl,orientation=landscape",
-)
+@UiScreenPreview
 @Composable
-internal fun UiMediaGridHorizontalPreview() {
+private fun UiMediaGridHorizontalPreview() {
     UiMediaGrid(
         items = fakeMedias(90),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
     )
 }
 
-@Preview(
-    name = "Skeleton",
-    device = PIXEL_3A_XL
-)
+@UiScreenPreview
 @Composable
-internal fun UiMediaGridSkeletonPreview() {
+private fun UiMediaGridSkeletonPreview() {
     UiShimmerProvider {
         UiMediaGridSkeleton()
     }
 }
 
-@Preview(
-    name = "Horizontal Skeleton",
-    device = "spec:parent=pixel_3a_xl,orientation=landscape",
-)
+@UiScreenPreview
 @Composable
-internal fun UiMediaGridSkeletonHorizontalPreview() {
+private fun UiMediaGridSkeletonHorizontalPreview() {
     UiShimmerProvider {
         UiMediaGridSkeleton()
     }

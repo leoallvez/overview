@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kover)
 }
 
 android {
@@ -18,7 +19,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("int", "PAGE_SIZE", "20")
         stringField("IMG_URL", "https://image.tmdb.org/t/p/w780")
-        stringField("POSTER_URL","https://image.tmdb.org/t/p/w154")
+        stringField("POSTER_URL", "https://image.tmdb.org/t/p/w154")
         stringField("THUMBNAIL_BASE_URL", "https://img.youtube.com/vi")
         stringField("THUMBNAIL_QUALITY", "hqdefault.jpg")
     }
@@ -57,9 +58,10 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    
+
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.compose.foundation)
     ksp(libs.hilt.android.compiler)
 
     implementation(project(":domain"))
@@ -76,7 +78,9 @@ dependencies {
     implementation(libs.material)
     api(libs.kotlinx.collections.immutable)
     implementation(libs.progress.indicator)
+    api(libs.lucide.icons)
     implementation(libs.youtube.player)
+    implementation(libs.timber)
 
     // Google Ads
     api(libs.play.services.ads)
@@ -89,6 +93,8 @@ dependencies {
     api(libs.paging.compose)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)

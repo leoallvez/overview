@@ -8,31 +8,31 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.params.TagBottomNavigation
-import br.dev.singular.overview.ui.ScreenNav
+import br.dev.singular.overview.presentation.ui.navigation.Destination
 
 sealed class BottomNavigation(
-    val nav: ScreenNav,
+    val nav: Destination,
     @param:StringRes val title: Int,
     val icon: ImageVector,
     val tagDetail: String
 ) {
 
     object Home : BottomNavigation(
-        nav = ScreenNav.Home,
+        nav = Destination.SelectCatalog,
         title = R.string.home,
         icon = Icons.Default.Home,
         tagDetail = TagBottomNavigation.Detail.HOME
     )
 
     object Search : BottomNavigation(
-        nav = ScreenNav.Search,
+        nav = Destination.Search,
         title = R.string.search,
         icon = Icons.Default.Search,
         tagDetail = TagBottomNavigation.Detail.SEARCH
     )
 
     object Favorites : BottomNavigation(
-        nav = ScreenNav.Favorites,
+        nav = Destination.Favorites,
         title = R.string.favorites,
         icon = Icons.Default.Favorite,
         tagDetail = TagBottomNavigation.Detail.FAVORITES

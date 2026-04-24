@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 /**
  * A composable that displays an icon from a [UiIconSource].
@@ -41,6 +41,7 @@ fun UiIcon(
             contentDescription = contentDescription,
             modifier = modifier.size(size)
         )
+
         is UiIconSource.UiPainter -> Icon(
             tint = color,
             painter = painterResource(source.drawableRes),
@@ -50,9 +51,9 @@ fun UiIcon(
     }
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiIconPreview() {
+private fun UiIconPreview() {
     Column {
         UiIcon(source = UiIconSource.UiVector(Icons.Filled.Close))
         UiIcon(source = UiIconSource.UiPainter(R.drawable.ic_outline_alert))

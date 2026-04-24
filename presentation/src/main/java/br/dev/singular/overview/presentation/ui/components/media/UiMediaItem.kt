@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.components.UiImage
@@ -20,6 +19,7 @@ import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 
 /**
@@ -89,22 +89,22 @@ fun UiMediaItemSkeleton() {
     }
 }
 
-@Preview(name = "Short Title")
+@UiComponentPreview
 @Composable
-internal fun UiMediaItemPreview() {
+private fun UiMediaItemPreview() {
     UiMediaItem(
         model = fakeMedias().first()
     )
 }
 
-@Preview(name = "Long Title")
+@UiComponentPreview
 @Composable
-internal fun UiMediaWithLongTitlePreview() {
+private fun UiMediaWithLongTitlePreview() {
     UiMediaItem(model = fakeMedias(withLongText = true).first())
 }
 
-@Preview(name = "Skeleton")
+@UiComponentPreview
 @Composable
-internal fun UiMediaItemSkeletonPreview() {
+private fun UiMediaItemSkeletonPreview() {
     UiMediaItemSkeleton()
 }

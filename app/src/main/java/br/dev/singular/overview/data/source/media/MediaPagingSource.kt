@@ -6,7 +6,6 @@ import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.util.PagingMediaResult
 import retrofit2.HttpException
 import java.io.IOException
-import kotlin.collections.isNotEmpty
 
 class MediaPagingSource(
     private val _onRequest: suspend (page: Int) -> PagingMediaResult

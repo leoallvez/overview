@@ -8,7 +8,6 @@ import br.dev.singular.overview.data.source.responseToResult
 import br.dev.singular.overview.util.joinToStringWithPipe
 import br.dev.singular.overview.util.toFormatted
 import br.dev.singular.overview.util.toLastMonthFormatted
-import br.dev.singular.overview.util.toStringOrEmpty
 import com.haroldadmin.cnradapter.NetworkResponse
 import java.util.Date
 import javax.inject.Inject
@@ -21,19 +20,6 @@ class TvShowRemoteDataSource @Inject constructor(
     override suspend fun find(apiId: Long) = _locale.run {
         val response = _api.getTvShow(id = apiId, language = language, region = region)
         responseToResult(response)
-    }
-
-    override suspend fun getPaging(page: Int, searchFilters: SearchFilters): List<TvShow> {
-        return when (val response = makePaging(page, searchFilters)) {
-            is NetworkResponse.Success -> response.body.results
-            else -> emptyList()
-        }
-    }
-
-    private suspend fun makePaging(page: Int, searchFilters: SearchFilters) = _locale.run {
-        val streamingId = searchFilters.streaming?.apiId.toString()
-        val genreId = searchFilters.genreId.toStringOrEmpty()
-        _api.getTvShowsPaging(streamingId, genreId, page, language, region, region)
     }
 
     override suspend fun searchPaging(page: Int, searchFilters: SearchFilters): List<TvShow> {

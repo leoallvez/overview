@@ -4,10 +4,13 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.MediaDataType
-import br.dev.singular.overview.data.model.MediaDataType.*
+import br.dev.singular.overview.data.model.MediaDataType.MOVIE
+import br.dev.singular.overview.data.model.MediaDataType.TV
+import br.dev.singular.overview.data.model.media.GenreLegacy
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.provider.StreamingEntity
-import br.dev.singular.overview.domain.model.Streaming
+import br.dev.singular.overview.domain.model.Catalog
+import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.ui.utils.mappers.buildPosterURL
@@ -33,14 +36,7 @@ fun MediaDataModel.toUi() = MediaUiModel(
     type = type.toUi()
 )
 
-fun Streaming.toEntity() = StreamingEntity(
-    apiId = id,
-    name = name,
-    logoPath = logoPath,
-    priority = priority,
-)
-
-fun StreamingEntity.toDomain() = Streaming(
+fun StreamingEntity.toDomain() = Catalog(
     id = apiId,
     name = name,
     logoPath = logoPath,
@@ -49,7 +45,12 @@ fun StreamingEntity.toDomain() = Streaming(
     lastUpdate = Date()
 )
 
-private fun MediaDataType.toUi() = when(this) {
+fun GenreLegacy.toUi() = GenreUiModel(
+    id = id,
+    name = name
+)
+
+private fun MediaDataType.toUi() = when (this) {
     MOVIE -> MediaUiType.MOVIE
     TV -> MediaUiType.TV
     else -> MediaUiType.ALL

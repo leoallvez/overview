@@ -1,0 +1,11 @@
+<?xm l version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="seasons">
+        <item quantity="one">%d sezon</item>
+        <item quantity="other">%d sezon</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%d bölüm</item>
+        <item quantity="other">%d bölüm</item>
+    </plurals>
+</resources>

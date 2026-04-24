@@ -1,6 +1,5 @@
 package br.dev.singular.overview.ui.search
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -9,6 +8,7 @@ import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaSe
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.ui.screens.common.BaseScrollViewModel
 import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUi
 import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUiState
 import br.dev.singular.overview.ui.model.toUi
@@ -25,7 +25,7 @@ typealias SuggestionUIState = UiState<Map<String, List<MediaUiModel>>>
 class SearchViewModel @Inject constructor(
     private val _repository: IMediaSearchPagingRepository,
     private val suggestionsUseCase: IGetAllSuggestionsUseCase
-) : ViewModel() {
+) : BaseScrollViewModel() {
 
     private val _searchFilters = MutableStateFlow(SearchFilters())
     val searchFilters: StateFlow<SearchFilters> = _searchFilters

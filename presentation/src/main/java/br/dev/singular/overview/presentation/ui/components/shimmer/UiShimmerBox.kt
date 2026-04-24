@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 @Composable
 fun UiShimmerBox(
@@ -30,9 +30,9 @@ fun UiShimmerBox(
     )
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiShimmerBoxPreview() {
+private fun UiShimmerBoxPreview() {
     // Active interactive mode to see the shimmer
     UiShimmerProvider {
         Column(

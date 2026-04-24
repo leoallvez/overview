@@ -16,7 +16,8 @@ interface MediaDao {
     @Query("SELECT * FROM media ORDER BY last_update DESC")
     suspend fun getAll(): List<MediaDataModel>
 
-    @Query("""
+    @Query(
+        """
         SELECT *
         FROM media
         WHERE (:id = 0 OR id = :id)
@@ -25,7 +26,8 @@ interface MediaDao {
         ORDER BY last_update DESC
         LIMIT :limit
         OFFSET :offset
-    """)
+    """
+    )
     suspend fun getPage(
         id: Long = 0,
         type: MediaDataType = MediaDataType.ALL,

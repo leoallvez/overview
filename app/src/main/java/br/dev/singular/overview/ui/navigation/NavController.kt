@@ -1,5 +1,7 @@
 package br.dev.singular.overview.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -9,23 +11,29 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
-import br.dev.singular.overview.presentation.model.MediaUiModel
+import br.dev.singular.overview.presentation.ui.navigation.Destination
+import br.dev.singular.overview.presentation.ui.screens.catalog.details.CatalogDetailsScreen
+import br.dev.singular.overview.presentation.ui.screens.catalog.details.CatalogDetailsViewModel
+import br.dev.singular.overview.presentation.ui.screens.catalog.details.interaction.CatalogDetailActions
+import br.dev.singular.overview.presentation.ui.screens.catalog.selection.CatalogSelectionViewModel
+import br.dev.singular.overview.presentation.ui.screens.catalog.selection.ChangeCatalogScreen
+import br.dev.singular.overview.presentation.ui.screens.catalog.selection.SelectCatalogScreen
+import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionActions
 import br.dev.singular.overview.presentation.ui.screens.favorites.FavoritesScreen
 import br.dev.singular.overview.presentation.ui.screens.favorites.FavoritesViewModel
+import br.dev.singular.overview.presentation.ui.screens.favorites.interaction.FavoritesActions
+import br.dev.singular.overview.presentation.ui.screens.genre.GenreSelectionViewModel
+import br.dev.singular.overview.presentation.ui.screens.genre.SelectGenreScreen
+import br.dev.singular.overview.presentation.ui.screens.genre.interaction.GenreSelectionActions
 import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsScreen
 import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsViewModel
+import br.dev.singular.overview.presentation.ui.screens.person.interaction.PersonDetailsActions
 import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
-import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingScreen
-import br.dev.singular.overview.presentation.ui.screens.streaming.SelectStreamingViewModel
 import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
-import br.dev.singular.overview.ui.ScreenNav
-import br.dev.singular.overview.ui.home.HomeScreen
+import br.dev.singular.overview.presentation.ui.screens.video.interaction.YouTubePlayerActions
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
-import br.dev.singular.overview.ui.navigation.wrappers.BasicNavigate
-import br.dev.singular.overview.ui.navigation.wrappers.HomeNavigate
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
@@ -37,40 +45,97 @@ fun NavController(
     showAds: Boolean,
     modifier: Modifier,
     setEdgeToEdge: (Boolean) -> Unit,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
-        startDestination = ScreenNav.Splash.route,
+        startDestination = Destination.Splash.route,
         modifier = modifier.background(PrimaryBackground)
     ) {
-        val basicNav = BasicNavigate(navController)
-        composable(route = ScreenNav.Splash.route) {
-            SplashScreen(onToHome = { basicNav.toHome() })
-        }
-        composable(
-            route = ScreenNav.SelectStreaming.route,
-            exitTransition = { upExitTransition(duration = AnimationDurations.LONG) },
-            enterTransition = { downEnterTransition(duration = AnimationDurations.LONG) }
-        ) {
-
-            val viewModel = hiltViewModel<SelectStreamingViewModel>()
-
-            SelectStreamingScreen(
-                uiState = viewModel.uiState.collectAsState().value,
-                onLoad = { viewModel.onLoad() },
-                onBack = { basicNav.popBackStack() },
-                onSelected = { streaming ->
-                    viewModel.onSelect(streaming)
-                    basicNav.toHome()
+        val nav = NavigationWrapper(navController)
+        composable(route = Destination.Splash.route) {
+            SplashScreen(
+                onToHome = {
+                    navController.navigate(route = Destination.SelectCatalog.route) {
+                        popUpTo(Destination.Splash.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
-        composable(route = ScreenNav.Search.route) {
-            SearchScreen(navigate = basicNav)
+        composable(
+            route = Destination.SelectCatalog.route,
+        ) {
+
+            val viewModel = hiltViewModel<CatalogSelectionViewModel>()
+
+            SelectCatalogScreen(
+                uiState = viewModel.uiState.collectAsState().value,
+                showTooltip = !viewModel.tooltipDismissed.collectAsState().value,
+                actions = CatalogSelectionActions(
+                    tagPath = "/select-catalog",
+                    navigation = nav,
+                    handleIntent = viewModel::handleIntent
+                )
+            )
         }
         composable(
-            route = ScreenNav.MediaDetails.route,
+            route = Destination.ChangeCatalog.route,
+            enterTransition = { slideInFromBottom(duration = AnimationDurations.LONG) },
+            exitTransition = { slideOutToBottom(duration = AnimationDurations.LONG) },
+            popEnterTransition = { fadeIn(animationSpec = tween(AnimationDurations.LONG)) },
+            popExitTransition = { slideOutToBottom(duration = AnimationDurations.LONG) }
+        ) {
+
+            val viewModel = hiltViewModel<CatalogSelectionViewModel>()
+
+            ChangeCatalogScreen(
+                uiState = viewModel.uiState.collectAsState().value,
+                actions = CatalogSelectionActions(
+                    tagPath = "/change-catalog",
+                    navigation = nav,
+                    handleIntent = viewModel::handleIntent
+                )
+            )
+        }
+        composable(
+            route = Destination.SelectGenre.route,
+            enterTransition = { slideInFromBottom(duration = AnimationDurations.LONG) },
+            exitTransition = { slideOutToBottom(duration = AnimationDurations.LONG) },
+            popEnterTransition = { fadeIn(animationSpec = tween(AnimationDurations.LONG)) },
+            popExitTransition = { slideOutToBottom(duration = AnimationDurations.LONG) }
+        ) {
+
+            val viewModel = hiltViewModel<GenreSelectionViewModel>()
+
+            SelectGenreScreen(
+                uiState = viewModel.uiState.collectAsState().value,
+                actions = GenreSelectionActions(
+                    navigation = nav,
+                    handleIntent = viewModel::handleIntent
+                )
+            )
+        }
+        composable(route = Destination.CatalogDetails.route) {
+
+            val viewModel = hiltViewModel<CatalogDetailsViewModel>()
+
+            CatalogDetailsScreen(
+                queryState = viewModel.queryState.collectAsState().value,
+                uiPages = viewModel.medias.collectAsLazyPagingItems(),
+                scrollState = viewModel.scrollState.collectAsState().value,
+                actions = CatalogDetailActions(
+                    navigation = nav,
+                    handleIntent = viewModel::handleIntent
+                )
+            )
+        }
+        composable(route = Destination.Search.route) {
+            SearchScreen(navigate = nav)
+        }
+        composable(
+            route = Destination.MediaDetails.route,
             arguments = listOf(NavArg.ID, NavArg.TYPE, NavArg.BACKSTACK),
             exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
         ) { navBackStackEntry ->
@@ -80,48 +145,48 @@ fun NavController(
             )
         }
         composable(
-            route = ScreenNav.YouTubePlayer.route,
+            route = Destination.YouTubePlayer.route,
             arguments = listOf(
-                navArgument(name = ScreenNav.VIDEO_KEY_PARAM) { type = NavType.StringType }
+                navArgument(name = Destination.VIDEO_KEY_PARAM) { type = NavType.StringType }
             )
         ) { backStackEntry ->
             YouTubePlayerFullscreen(
                 setEdgeToEdge = setEdgeToEdge,
-                videoKey = backStackEntry.arguments?.getString(ScreenNav.VIDEO_KEY_PARAM) ?: "",
-                onBack = { navController.popBackStack() }
+                videoKey = backStackEntry.arguments?.getString(Destination.VIDEO_KEY_PARAM) ?: "",
+                actions = YouTubePlayerActions(navigation = nav)
             )
         }
         composable(
-            route = ScreenNav.PersonDetails.route,
+            route = Destination.PersonDetails.route,
             arguments = listOf(NavArg.ID),
             exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
-        ) {
+        ) { navBackStackEntry ->
 
             val viewModel = hiltViewModel<PersonDetailsViewModel>()
 
             PersonDetailsScreen(
+                personId = navBackStackEntry.getApiId(),
                 uiState = viewModel.uiState.collectAsState().value,
                 showAds = showAds,
-                onLoad = { viewModel.onLoad(id = it.getApiId()) },
-                onBack = { navController.popBackStack() },
-                onToMediaDetails = { media -> basicNav.toMediaDetails(media) }
+                actions = PersonDetailsActions(
+                    navigation = nav,
+                    onLoad = viewModel::onLoad
+                )
             )
         }
-        composable(route = ScreenNav.Home.route) {
-            HomeScreen(
-                navigate = HomeNavigate(nav = navController)
-            )
-        }
-        composable(route = ScreenNav.Favorites.route) {
+        composable(route = Destination.Favorites.route) {
 
             val viewModel = hiltViewModel<FavoritesViewModel>()
 
             FavoritesScreen(
-                uiParam = viewModel.uiParam.collectAsState().value,
+                queryState = viewModel.queryState.collectAsState().value,
                 uiPages = viewModel.medias.collectAsLazyPagingItems(),
-                onReload = { viewModel.onReload() },
-                onSetType = { viewModel.onSelectType(it) },
-                onToMediaDetails = { media: MediaUiModel -> basicNav.toMediaDetails(media) },
+                scrollState = viewModel.scrollState.collectAsState().value,
+                onSetScrollState = { viewModel.onSetScrollState(it) },
+                actions = FavoritesActions(
+                    navigation = nav,
+                    onSetType = viewModel::onSetType
+                )
             )
         }
     }

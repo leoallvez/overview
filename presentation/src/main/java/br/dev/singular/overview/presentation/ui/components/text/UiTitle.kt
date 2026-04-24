@@ -12,9 +12,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 /**
  * A composable that displays a title text with bold styling and ellipsis for overflow.
@@ -43,9 +43,9 @@ fun UiTitle(
     )
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiTitlePreview() {
+private fun UiTitlePreview() {
     Column {
         UiTitle(text = "Title One")
         UiTitle(text = "Title Two", color = Color.Gray)

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kover)
 }
 
 android {
@@ -51,7 +52,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     api(libs.retrofit)
-    
+
     // Room
     api(libs.room.runtime)
     api(libs.room.ktx)

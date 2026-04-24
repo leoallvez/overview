@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.tagging.params
 
 object TagMedia {
     const val PATH = "/media-details"
+
     object Detail {
         const val CAST = "cast"
         const val VIDEO = "video"

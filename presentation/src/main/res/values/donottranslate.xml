@@ -29,4 +29,10 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </string>
+    <string name="fake_short_title">
+        The Equinox
+    </string>
+    <string name="fake_long_title">
+        The Equinox: Warriors Against the Infinite Swarm from the Dark Expanse
+    </string>
 </resources>

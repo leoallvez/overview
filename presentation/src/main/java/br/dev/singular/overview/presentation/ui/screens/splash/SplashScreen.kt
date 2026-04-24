@@ -21,6 +21,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.params.TagSplash
 import br.dev.singular.overview.presentation.ui.theme.Background
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import kotlinx.coroutines.delay
 
 /**
@@ -29,7 +30,7 @@ import kotlinx.coroutines.delay
  * @param onToHome A callback to be invoked when the splash screen animation is finished.
  */
 @Composable
-fun SplashScreen(onToHome: () -> Unit) {
+fun SplashScreen(onToHome: () -> Unit = {}) {
     val scale = remember { Animatable(0f) }
     LaunchedEffect(key1 = Unit) {
         TagManager.logScreenView(TagSplash.PATH)
@@ -46,11 +47,15 @@ fun SplashScreen(onToHome: () -> Unit) {
         onToHome()
     }
     Box(
-        modifier = Modifier.fillMaxSize().background(Background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Background),
         contentAlignment = Alignment.Center
     ) {
         Box(
-            modifier = Modifier.scale(scale.value).size(400.dp),
+            modifier = Modifier
+                .scale(scale.value)
+                .size(400.dp),
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -61,4 +66,10 @@ fun SplashScreen(onToHome: () -> Unit) {
             )
         }
     }
+}
+
+@UiScreenPreview
+@Composable
+private fun SplashScreenPreview() {
+    SplashScreen()
 }

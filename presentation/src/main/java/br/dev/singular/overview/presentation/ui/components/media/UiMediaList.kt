@@ -10,13 +10,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import kotlinx.collections.immutable.ImmutableList
@@ -86,18 +86,18 @@ fun UiMediaListSkeleton(
     }
 }
 
-@Preview(name = "Filled")
-@Composable()
-internal fun UiMediaPreview() {
+@UiScreenPreview
+@Composable
+private fun UiMediaPreview() {
     UiMediaList(
         title = "Imagined Movies",
         items = fakeMedias()
     )
 }
 
-@Preview(name = "With Content Padding")
+@UiScreenPreview
 @Composable
-internal fun UiMediaListWitchContentPaddingPreview() {
+private fun UiMediaListWitchContentPaddingPreview() {
     UiMediaList(
         title = "Imagined Movies",
         contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
@@ -105,9 +105,9 @@ internal fun UiMediaListWitchContentPaddingPreview() {
     )
 }
 
-@Preview(name = "Filled with background")
+@UiScreenPreview
 @Composable
-internal fun UiMediaListWithBackgroundPreview() {
+private fun UiMediaListWithBackgroundPreview() {
     UiMediaList(
         title = "Imagined Movies",
         modifier = Modifier.defaultBackground(),
@@ -115,9 +115,9 @@ internal fun UiMediaListWithBackgroundPreview() {
     )
 }
 
-@Preview("Empty List (can't show anything)")
+@UiScreenPreview
 @Composable
-internal fun UiMediaListEmptyPreview() {
+private fun UiMediaListEmptyPreview() {
     UiMediaList(
         title = "Empty List",
         modifier = Modifier.defaultBackground(),
@@ -125,9 +125,9 @@ internal fun UiMediaListEmptyPreview() {
     )
 }
 
-@Preview(name = "Skeleton")
+@UiScreenPreview
 @Composable
-internal fun UiMediaListSkeletonPreview() {
+private fun UiMediaListSkeletonPreview() {
     UiShimmerProvider {
         UiMediaListSkeleton(
             contentPadding = PaddingValues(dimensionResource(R.dimen.spacing_4x))

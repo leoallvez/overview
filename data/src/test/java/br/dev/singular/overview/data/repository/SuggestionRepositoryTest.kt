@@ -2,8 +2,8 @@ package br.dev.singular.overview.data.repository
 
 import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
 import br.dev.singular.overview.data.network.source.ISuggestionRemoteDataSource
-import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
 import br.dev.singular.overview.data.util.fakeSuggestionModels
+import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coJustRun
@@ -49,7 +49,7 @@ class SuggestionRepositoryTest {
     @Test
     fun `should fetch from remote and save cache when local is empty`() = runTest {
         // Arrange
-        coEvery{ localDataSource.getAll() } returns emptyList()
+        coEvery { localDataSource.getAll() } returns emptyList()
         coEvery { remoteDataSource.getAll() } returns fakeSuggestionModels
 
         // Act

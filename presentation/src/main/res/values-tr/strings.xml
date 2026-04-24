@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dynamic -->
+    <string name="all_trending">Trend Olanlar</string>
+    <string name="movie_top_rated">En çok oy alan filmler</string>
+    <string name="discover_movie">Keyif alabileceğiniz filmler</string>
+    <string name="movie_trending">Trend filmler</string>
+    <string name="movie_popular">Popüler filmler</string>
+    <string name="tv_top_rated">Platformda en çok oy alanlar</string>
+    <string name="discover_tv">Platformda keyif alabilirsiniz</string>
+    <string name="tv_trending">Platform trendleri</string>
+    <string name="tv_popular">Platformda popüler</string>
+    <!-- Dynamic -->
+    <!-- Genre -->
+    <string name="genre_adventure">Macera</string>
+    <string name="genre_fantasy">Fantastik</string>
+    <string name="genre_animation">Animasyon</string>
+    <string name="genre_drama">Dram</string>
+    <string name="genre_horror">Korku</string>
+    <string name="genre_action">Aksiyon</string>
+    <string name="genre_comedy">Komedi</string>
+    <string name="genre_history">Tarih</string>
+    <string name="genre_western">Vahşi Batı</string>
+    <string name="genre_thriller">Gerilim</string>
+    <string name="genre_crime">Suç</string>
+    <string name="genre_documentary">Belgesel</string>
+    <string name="genre_science_fiction">Bilim Kurgu</string>
+    <string name="genre_mystery">Gizem</string>
+    <string name="genre_music">Müzik</string>
+    <string name="genre_romance">Romantik</string>
+    <string name="genre_family">Aile</string>
+    <string name="genre_war">Savaş</string>
+    <string name="genre_action_adventure">Aksiyon ve Macera</string>
+    <string name="genre_kids">Çocuk</string>
+    <string name="genre_news">Haberler</string>
+    <string name="genre_reality">Reality</string>
+    <string name="genre_sci_fi_fantasy">Bilim Kurgu ve Fantastik</string>
+    <string name="genre_soap">Pembe Dizi</string>
+    <string name="genre_talk">Talk Show</string>
+    <string name="genre_war_politics">Savaş ve Politika</string>
+    <string name="genre_tv_movie">TV Filmi</string>
+    <!-- Genre -->
+    <string name="error_on_loading">Yüklenirken hata oluştu :(</string>
+    <string name="btn_try_again">Tekrar dene</string>
+    <string name="backstack_icon">Eve geri dön simgesi</string>
+    <string name="search_icon">Arama simgesi</string>
+    <string name="loading">Yükleniyor…</string>
+    <string name="synopsis">Özet</string>
+    <string name="biography">Biyografi</string>
+    <string name="cast">Oyuncular</string>
+    <string name="related">İlgili</string>
+    <string name="where_to_watch">Sağlayıcılar</string>
+    <string name="tv_shows_participation">TV katılımı</string>
+    <string name="movies_participation">Film katılımı</string>
+    <string name="age">%s yaşında</string>
+    <string name="place_of_birth">Doğum yeri</string>
+    <string name="runtime_per_episode">Süre: Bölüm başına %s</string>
+    <string name="director">Yönetmen</string>
+    <string name="release_date">Yayın Tarihi</string>
+    <string name="runtime">Süre</string>
+    <string name="movies">Filmler</string>
+    <string name="tv_show">Diziler</string>
+    <string name="all">Hepsi</string>
+    <string name="search_not_started">Arama sonuçları burada görünecek :)</string>
+    <string name="empty_list_providers">Platformda mevcut değil</string>
+    <string name="not_yet_released">Henüz yayınlanmadı</string>
+    <string name="search_in_all_places">Her yerde ara</string>
+    <string name="genre">Tür</string>
+    <string name="filter_by_genre">Türe göre filtrele</string>
+    <string name="filters">Filtreler</string>
+    <string name="close">Kapat simgesi</string>
+    <string name="not_found">Sonuç bulunamadı :(</string>
+    <string name="check_filters">Filtreleri kontrol edin ve tekrar deneyin</string>
+    <string name="like_button">Beğen butonu simgesi</string>
+    <string name="liked_not_found">Favorileriniz burada görünecek :)</string>
+    <string name="liked_movie_not_found">Favori filmleriniz burada görünecek :)</string>
+    <string name="liked_tv_show_not_found">Favori dizileriniz burada görünecek :)</string>
+    <string name="home">Anasayfa</string>
+    <string name="favorites">Favoriler</string>
+    <string name="search">Ara</string>
+    <string name="select_catalog">Katalog Seç</string>
+    <string name="change_catalog">Katalog Değiştir</string>
+    <string name="videos">Videolar</string>
+    <string name="catalogs">Kataloglar</string>
+    <string name="catalog_only_message">Bu uygulama yalnızca kataloglara danışmak içindir. İçerik oynatma resmi platformlarda gerçekleştirilmelidir.</string>
+</resources>

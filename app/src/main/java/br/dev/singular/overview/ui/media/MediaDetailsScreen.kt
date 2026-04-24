@@ -51,7 +51,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.dev.singular.overview.data.model.media.GenreEntity
 import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
@@ -60,11 +59,11 @@ import br.dev.singular.overview.data.model.person.Person
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.source.media.MediaType
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.tagging.params.TagCommon
 import br.dev.singular.overview.presentation.tagging.params.TagMedia
-import br.dev.singular.overview.presentation.tagging.params.TagPerson
 import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.UiLikeButton
@@ -82,8 +81,9 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 import br.dev.singular.overview.presentation.ui.utils.border
+import br.dev.singular.overview.presentation.ui.utils.localizedName
 import br.dev.singular.overview.ui.StreamingIcon
-import br.dev.singular.overview.ui.nameTranslation
+import br.dev.singular.overview.ui.model.toUi
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
 import br.dev.singular.overview.ui.theme.AccentColor
 import br.dev.singular.overview.ui.theme.DarkGray
@@ -94,6 +94,8 @@ import br.dev.singular.overview.util.defaultBorder
 import br.dev.singular.overview.util.defaultPadding
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import timber.log.Timber
 
 private fun tagClick(detail: String, id: Long = 0L) {
@@ -122,11 +124,13 @@ fun MediaDetailsScreen(
 
         val onLike = {
             isLiked.value = !isLiked.value
-            tagClick(if (isLiked.value) {
-                TagMedia.Detail.LIKE_ACTIVATING
-            } else {
-                TagMedia.Detail.LIKE_DEACTIVATING
-            })
+            tagClick(
+                if (isLiked.value) {
+                    TagMedia.Detail.LIKE_ACTIVATING
+                } else {
+                    TagMedia.Detail.LIKE_DEACTIVATING
+                }
+            )
             viewModel.updateLike(media, isLiked.value)
         }
 
@@ -158,7 +162,7 @@ fun MediaDetailsContent(
     if (media == null) {
         ErrorScreen(TagMedia.PATH) { onRefresh.invoke() }
     } else {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
@@ -264,7 +268,7 @@ fun MediaBody(
                 }
             }
             Spacer(Modifier.padding(vertical = dimensionResource(R.dimen.spacing_1x)))
-            GenreList(media.genres)
+            GenreList(media.genres.map { it.toUi() }.toImmutableList())
             if (media.overview.isNotEmpty()) {
                 Column {
                     UiTitle(stringResource(R.string.synopsis))
@@ -289,7 +293,7 @@ fun MediaBody(
             contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
             items = media.getSimilarMedia(),
             onClick = {
-                TagMediaManager.logMediaClick(TagPerson.PATH, it.id)
+                TagMediaManager.logMediaClick(TagMedia.PATH, it.id)
                 navigate.toMediaDetails(it)
             }
         )
@@ -385,7 +389,7 @@ fun StreamingNotFound(@StringRes stringResource: Int) {
 }
 
 @Composable
-fun GenreList(genres: List<GenreEntity>) {
+fun GenreList(genres: ImmutableList<GenreUiModel>) {
     if (genres.isNotEmpty()) {
         LazyRow(
             Modifier.padding(
@@ -394,8 +398,8 @@ fun GenreList(genres: List<GenreEntity>) {
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1x))
         ) {
             items(genres) { genre ->
-                GenreItem(name = genre.nameTranslation()) {
-                    tagClick(TagMedia.Detail.SELECT_GENRE, genre.apiId)
+                GenreItem(name = genre.localizedName()) {
+                    tagClick(TagMedia.Detail.SELECT_GENRE, genre.id)
                 }
             }
         }
@@ -458,7 +462,7 @@ fun VideoList(videos: List<Video>, onClick: (videoKey: String) -> Unit) {
             stringResource(R.string.videos),
             modifier = Modifier.padding(contentPadding)
         )
-        LazyRow (
+        LazyRow(
             contentPadding = contentPadding,
             horizontalArrangement = Arrangement
                 .spacedBy(dimensionResource(R.dimen.spacing_2x))
@@ -538,7 +542,8 @@ fun CastItem(castPerson: Person, onClick: () -> Unit) {
         )
         UiText(
             text = castPerson.name,
-            modifier = Modifier.width(120.dp)
+            modifier = Modifier
+                .width(120.dp)
                 .padding(top = dimensionResource(R.dimen.spacing_1x)),
             isBold = true
         )
