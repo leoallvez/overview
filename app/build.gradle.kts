@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
@@ -90,15 +89,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
+        resValues = true
     }
 
     packaging {
@@ -106,9 +100,15 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
 
-    hilt {
-        enableAggregatingTask = true
+hilt {
+    enableAggregatingTask = true
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
     }
 }
 
