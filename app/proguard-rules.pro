@@ -1,40 +1,54 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# R8 Optimizations - Corrected version for Moshi, Retrofit, and Generics
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# 1. Essential attributes for Reflection and Generic Types
+-keepattributes Signature, RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations, InnerClasses, EnclosingMethod, AnnotationDefault
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-# Keep all @Serializable classes
--keep @kotlinx.serialization.Serializable class ** { *; }
-
-# Keep the generated serializers
--keep class kotlinx.serialization.internal.** { *; }
--keep class kotlinx.serialization.json.** { *; }
--keepnames class kotlinx.serialization.** { *; }
-
-# Prevent obfuscation of enum values
--keepclassmembers enum * { *; }
-
-# Retain classes with reflective annotations
+# 2. Moshi
+# The error "Platform class java.util.ArrayList ... requires explicit JsonAdapter"
+# occurs when R8 removes generic signatures from data classes,
+# causing Moshi to think it should serialize a raw ArrayList (no type).
 -keepclassmembers class ** {
-    @kotlinx.serialization.* <fields>;
-    @kotlinx.serialization.* <methods>;
+    @com.squareup.moshi.Json *;
+}
+# Keep all classes that Moshi uses for serialization
+-keep class com.squareup.moshi.** { *; }
+-dontwarn com.squareup.moshi.**
+
+# 3. Kotlinx Serialization (used in other modules)
+-keep @kotlinx.serialization.Serializable class ** { *; }
+-keepclassmembers class **$Companion {
+    kotlinx.serialization.KSerializer serializer(...);
 }
 
-# Keep all kotlinx serialization-related classes and methods
--keep class kotlinx.serialization.** { *; }
+# 4. Retrofit and API Interfaces
+# Important: DO NOT obfuscate the names of model classes used in Retrofit interfaces
+-keep interface * {
+    @retrofit2.http.* <methods>;
+}
+
+# 5. Keep model classes (Data Models)
+# Since the project uses Moshi by reflection (no CodeGen seen in build.gradle),
+# we need to keep the fields and constructors of model classes.
+-keep class br.dev.singular.overview.data.model.** { *; }
+-keep class br.dev.singular.overview.data.api.response.** { *; }
+
+# 6. NetworkResponseAdapter
+-keep class com.haroldadmin.cnradapter.** { *; }
+
+# 7. Enums
+-keepclassmembers enum * {
+    <fields>;
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# 8. Log removal in Release
+-assumenosideeffects class timber.log.Timber {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+}
+
+# 9. Debugging
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
