@@ -65,13 +65,13 @@ android {
     flavorDimensions.add("version")
     productFlavors {
         create("dev") {
-            setAppName("app_name_dev")
+            setAppName("OVER.DEV")
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
         }
         create("hmg") {
-            setAppName("app_name_hmg")
+            setAppName("OVER.HMG")
             dimension = "version"
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-hmg"
@@ -80,7 +80,7 @@ android {
             }
         }
         create("prd") {
-            setAppName("app_name_prd")
+            setAppName("Overview")
             dimension = "version"
             if (isActiveSigning()) {
                 signingConfig = signingConfigs.getByName("prd")
@@ -176,7 +176,7 @@ dependencies {
 }
 
 private fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue("string", "app_name", "@string/$appName")
+    resValue("string", "app_name", appName)
 }
 
 private fun isActiveSigning() = System.getenv("OVER_ACTIVE_SIGNING") == "true"
