@@ -11,7 +11,7 @@ version-name = "3.3.0"
 # Kotlin
 kotlin = "2.2.21"
 immutable = "0.4.0"
-coroutines = "1.10.2"
+coroutines = "1.11.0"
 
 # Android Core
 agp = "9.2.1"
