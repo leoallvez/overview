@@ -66,7 +66,7 @@ play-services-ads = "25.3.0"
 datastore-preferences = "1.2.1"
 timber = "5.0.1"
 youtube-player = "13.0.0"
-kover = "0.9.1"
+kover = "0.9.8"
 ktlint = "14.2.0"
 foundation = "1.10.6"
 
