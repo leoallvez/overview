@@ -1,28 +1,14 @@
 package br.dev.singular.overview.ui.search
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,16 +16,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction.Companion
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -55,6 +36,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
 import br.dev.singular.overview.presentation.ui.components.UiDivider
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.UiSearchField
 import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
@@ -68,8 +50,6 @@ import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
 import br.dev.singular.overview.presentation.ui.utils.rememberLazyGridScrollState
-import br.dev.singular.overview.ui.theme.AccentColor
-import br.dev.singular.overview.ui.theme.Gray
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.getStringByName
 import kotlinx.collections.immutable.toImmutableList
@@ -108,7 +88,7 @@ fun SearchScreen(
         padding = PaddingValues(),
         modifier = Modifier.nestedScroll(nestedScrollConnection),
         topBar = {
-            SearchToolBar { query ->
+            SearchToolBar(filters.query) { query ->
                 viewModel.onSearching(filters.copy(query = query))
             }
         }
@@ -177,7 +157,7 @@ fun SearchScreen(
 }
 
 @Composable
-fun SearchToolBar(onSearch: (String) -> Unit) {
+fun SearchToolBar(query: String, onSearch: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -185,7 +165,17 @@ fun SearchToolBar(onSearch: (String) -> Unit) {
             .padding(bottom = dimensionResource(R.dimen.spacing_4x))
     ) {
         UiTopAppBar(title = stringResource(id = R.string.search))
-        SearchField(onSearch = onSearch)
+        UiSearchField(
+            query = query,
+            placeholder = stringResource(R.string.search_in_all_places),
+            onQueryChange = {
+                TagManager.logInteraction(TagSearch.PATH, TagSearch.Detail.SEARCH_FIELD)
+                onSearch(it)
+            },
+            onClear = {
+                tagClick(TagSearch.Detail.CLEAN_SEARCH_FIELD)
+            }
+        )
     }
 }
 
@@ -219,29 +209,6 @@ fun SearchInitialScreen(
 }
 
 @Composable
-fun ClearSearchIcon(query: String, onClick: () -> Unit) {
-    if (query.isNotEmpty()) {
-        IconButton(onClick = onClick) {
-            Icon(
-                tint = AccentColor,
-                imageVector = Icons.Rounded.Clear,
-                contentDescription = stringResource(R.string.search_icon)
-            )
-        }
-    }
-}
-
-@Composable
-fun SearchIcon(modifier: Modifier = Modifier) {
-    Icon(
-        tint = AccentColor,
-        modifier = modifier,
-        imageVector = Icons.Rounded.Search,
-        contentDescription = stringResource(R.string.search_icon)
-    )
-}
-
-@Composable
 fun SuggestionsVerticalList(
     suggestions: Map<String, List<MediaUiModel>>,
     onClick: (MediaUiModel) -> Unit
@@ -259,63 +226,5 @@ fun SuggestionsVerticalList(
                 onClick = onClick
             )
         }
-    }
-}
-
-@Composable
-fun SearchField(onSearch: (String) -> Unit) {
-
-    var query by rememberSaveable { mutableStateOf("") }
-    Box(modifier = Modifier.background(PrimaryBackground)) {
-        BasicTextField(
-            value = query,
-            enabled = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.spacing_9x)),
-            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
-            onValueChange = { newValue ->
-                TagManager.logInteraction(TagSearch.PATH, TagSearch.Detail.SEARCH_FIELD)
-                onSearch.invoke(newValue.also { query = it })
-            },
-            keyboardOptions = KeyboardOptions(imeAction = Companion.Search),
-            singleLine = true,
-            cursorBrush = SolidColor(Color.White),
-            decorationBox = { innerTextField ->
-                Row(
-                    Modifier
-                        .border(
-                            width = dimensionResource(R.dimen.border_width),
-                            color = if (query.isEmpty()) Gray.copy(alpha = 0.5f) else AccentColor,
-                            shape = RoundedCornerShape(size = 50.dp)
-                        )
-                        .padding(start = dimensionResource(R.dimen.spacing_1x)),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    SearchIcon(
-                        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
-                    )
-                    Box(Modifier.weight(1f)) {
-                        if (query.isEmpty()) {
-                            Text(
-                                stringResource(R.string.search_in_all_places),
-                                style = LocalTextStyle.current.copy(
-                                    color = Gray,
-                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
-                                ),
-                                modifier = Modifier.padding(top = 2.dp)
-                            )
-                        }
-                        innerTextField()
-                    }
-                    if (query.isNotEmpty()) {
-                        ClearSearchIcon(query) {
-                            tagClick(TagSearch.Detail.CLEAN_SEARCH_FIELD)
-                            query = ""
-                        }
-                    }
-                }
-            }
-        )
     }
 }
