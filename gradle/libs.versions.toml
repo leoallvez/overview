@@ -60,6 +60,7 @@ espresso-core = "3.7.0"
 mockk = "1.14.9"
 kluent = "1.73"
 kotlinx-coroutines-test = "1.11.0"
+robolectric = "4.16.1"
 
 # Others
 play-services-ads = "25.2.0"
@@ -145,6 +146,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 kluent = { module = "org.amshove.kluent:kluent-android", version.ref = "kluent" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 

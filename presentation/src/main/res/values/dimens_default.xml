@@ -2,5 +2,5 @@
 <resources>
     <dimen name="border_width">1dp</dimen>
     <dimen name="corner_width">5dp</dimen>
-    <dimen name="circle_conner">50dp</dimen>
+    <dimen name="circle_conner">20dp</dimen>
 </resources>
