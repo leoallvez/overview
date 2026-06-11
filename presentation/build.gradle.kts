@@ -53,6 +53,26 @@ android {
         compose = true
         buildConfig = true
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all {
+                it.systemProperty("robolectric.graphicsMode", "NATIVE")
+                it.jvmArgs("-Dnet.bytebuddy.experimental=true", "-Xverify:none")
+            }
+        }
+    }
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("*Preview*")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -95,6 +115,10 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)

@@ -28,7 +28,11 @@ kover {
     reports {
         filters {
             excludes {
-                annotatedBy("androidx.compose.runtime.Composable")
+                annotatedBy(
+                    "*Preview",
+                    "*UiComponentPreview",
+                    "*UiScreenPreview",
+                )
                 classes(
                     "*.BuildConfig",
                     "*.*_Factory*",
@@ -37,14 +41,11 @@ kover {
                     "*.CustomApplication",
                     "*.Hilt_*",
                     "**.ui.theme.**",
-                    "**.ui.components.**",
-                    "**.ui.navigation.**",
-                    "**.ui.**.*Kt*",
-                    "**.*ScreenKt*",
-                    "**.*ComposableKt*",
                     "**.*PreviewKt*",
                     "**.*Activity*",
                     "**.*Fragment*",
+                    "**.*_HiltModules*",
+                    "**.*_Provide*Factory*",
                 )
             }
         }

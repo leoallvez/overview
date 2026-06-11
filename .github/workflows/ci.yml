@@ -73,6 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OVER_API_KEY: ${{ secrets.OVER_API_KEY }}
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx3072m -XX:MaxMetaspaceSize=768m"
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
@@ -84,8 +85,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Run unit tests
-        run: bash ./gradlew test --continue --stacktrace
+      - name: Run unit tests with Kover
+        run: ./gradlew test koverXmlReport koverHtmlReport --continue --stacktrace
 
       - name: Upload test report
         uses: actions/upload-artifact@v4
@@ -96,3 +97,9 @@ jobs:
             core/build/reports/tests/testDebugUnitTest
             data/build/reports/tests/testDebugUnitTest
             presentation/build/reports/tests/testDebugUnitTest
+
+      - name: Upload Kover report
+        uses: actions/upload-artifact@v4
+        with:
+          name: kover_report
+          path: build/reports/kover/
