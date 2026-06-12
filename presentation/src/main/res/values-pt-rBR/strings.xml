@@ -12,22 +12,38 @@
     <string name="tv_popular" tools:ignore="UnusedResources">Popular no streaming</string>
     <!-- Dynamic -->
     <!-- Genre -->
-    <string name="genre_10759" tools:ignore="UnusedResources">Ação e Aventura</string>
-    <string name="genre_10762" tools:ignore="UnusedResources">Infantil</string>
-    <string name="genre_10763" tools:ignore="UnusedResources">Notícias</string>
-    <string name="genre_10764" tools:ignore="UnusedResources">Reality Show</string>
-    <string name="genre_10765" tools:ignore="UnusedResources">Ficção Científica e Fantasia</string>
-    <string name="genre_10766" tools:ignore="UnusedResources">Novela</string>
-    <string name="genre_10767" tools:ignore="UnusedResources">Entrevista</string>
-    <string name="genre_10768" tools:ignore="UnusedResources">Guerra e Política</string>
+    <string name="genre_adventure" tools:ignore="UnusedResources">Aventura</string>
+    <string name="genre_fantasy" tools:ignore="UnusedResources">Fantasia</string>
+    <string name="genre_animation" tools:ignore="UnusedResources">Animação</string>
+    <string name="genre_drama" tools:ignore="UnusedResources">Drama</string>
+    <string name="genre_horror" tools:ignore="UnusedResources">Terror</string>
+    <string name="genre_action" tools:ignore="UnusedResources">Ação</string>
+    <string name="genre_comedy" tools:ignore="UnusedResources">Comédia</string>
+    <string name="genre_history" tools:ignore="UnusedResources">História</string>
+    <string name="genre_western" tools:ignore="UnusedResources">Faroeste</string>
+    <string name="genre_thriller" tools:ignore="UnusedResources">Suspense</string>
+    <string name="genre_crime" tools:ignore="UnusedResources">Crime</string>
+    <string name="genre_documentary" tools:ignore="UnusedResources">Documentário</string>
+    <string name="genre_science_fiction" tools:ignore="UnusedResources">Ficção Científica</string>
+    <string name="genre_mystery" tools:ignore="UnusedResources">Mistério</string>
+    <string name="genre_music" tools:ignore="UnusedResources">Música</string>
+    <string name="genre_romance" tools:ignore="UnusedResources">Romance</string>
+    <string name="genre_family" tools:ignore="UnusedResources">Família</string>
+    <string name="genre_war" tools:ignore="UnusedResources">Guerra</string>
+    <string name="genre_action_adventure" tools:ignore="UnusedResources">Ação e Aventura</string>
+    <string name="genre_kids" tools:ignore="UnusedResources">Infantil</string>
+    <string name="genre_news" tools:ignore="UnusedResources">Notícias</string>
+    <string name="genre_reality" tools:ignore="UnusedResources">Reality Show</string>
+    <string name="genre_sci_fi_fantasy" tools:ignore="UnusedResources">Ficção e Fantasia</string>
+    <string name="genre_soap" tools:ignore="UnusedResources">Novela</string>
+    <string name="genre_talk" tools:ignore="UnusedResources">Entrevista</string>
+    <string name="genre_war_politics" tools:ignore="UnusedResources">Guerra e Política</string>
+    <string name="genre_tv_movie" tools:ignore="UnusedResources">Telefilme</string>
     <!-- Genre -->
     <string name="error_on_loading">Erro ao carregar :(</string>
     <string name="btn_try_again">Tentar novamente</string>
-    <string name="refresh_icon">Ícone de recarregar</string>
     <string name="backstack_icon">Ícone de voltar para home</string>
     <string name="search_icon">Ícone de pesquisar</string>
-    <string name="search_clean_icon">Ícone de limpar pesquisa</string>
-    <string name="app_offline_msg">Nenhuma conexão com a Internet disponível</string>
     <string name="loading">Carregando…</string>
     <string name="synopsis">Sinopse</string>
     <string name="biography">Biografia</string>
@@ -38,43 +54,35 @@
     <string name="movies_participation">Participações no cinema</string>
     <string name="age">%s anos</string>
     <string name="place_of_birth">Local de nascimento (em inglês)</string>
-    <string name="one_episode">1 episódio</string>
-    <string name="n_episodes">%s episódios</string>
     <string name="runtime_per_episode">Duração: %s por episódio</string>
     <string name="director">Diretor</string>
     <string name="release_date">Lançamento</string>
     <string name="runtime">Duração</string>
-    <string name="search_field_text">Pesquisar</string>
     <string name="movies">Filmes</string>
     <string name="tv_show">Séries e TV</string>
     <string name="all">Tudo</string>
     <string name="search_not_started">Os resultados da pesquisa irão aparecer aqui :)</string>
-    <string name="search_result_empty">Nenhum resultado encontrado :(</string>
     <string name="empty_list_providers">Não disponível nos streamings</string>
     <string name="not_yet_released">Ainda não lançado</string>
-    <string name="edit">Editar</string>
-    <string name="yours_streaming">Seus streamings</string>
     <string name="search_in_all_places">Pesquisar conteúdo em todos lugares</string>
     <string name="genre">Gênero</string>
     <string name="filter_by_genre">Filtrar por um gênero</string>
-    <string name="type">Tipo</string>
     <string name="filters">Filtros</string>
     <string name="close">Ícone para fechar</string>
     <string name="not_found">Nenhum resultado encontrado :(</string>
     <string name="check_filters">Verifique os filtros e tente novamente</string>
-    <string name="clear_filters">Limpar filtros</string>
-    <string name="main_steams">Principais</string>
-    <string name="favorite_streams">Favoritos</string>
-    <string name="other_streams">Outros</string>
-    <string name="streaming">Streaming</string>
     <string name="like_button">Ícone de curtir</string>
     <string name="liked_not_found">Os seus favoritos irão aparecer aqui :)</string>
-    <string name="liked_movie_not_found"> Os seus filmes favoritos irão aparecer aqui :)</string>
-    <string name="liked_tv_show_not_found"> As suas séries favoritas irão aparecer aqui :)</string>
-    <string name="my_favorite">Meus favoritos</string>
+    <string name="liked_movie_not_found">Os seus filmes favoritos irão aparecer aqui :)</string>
+    <string name="liked_tv_show_not_found">As suas séries favoritas irão aparecer aqui :)</string>
     <string name="home">Início</string>
     <string name="favorites">Favoritos</string>
     <string name="search">Buscar</string>
-    <string name="select_streaming">Selecionar Streaming</string>
+    <string name="select_catalog">Selecionar catálogo</string>
+    <string name="change_catalog">Mudar catálogo</string>
     <string name="videos">Vídeos</string>
+    <string name="catalogs">Catálogos</string>
+    <string name="catalog_only_message">
+        Este aplicativo destina-se exclusivamente à consulta de catálogos. A reprodução dos conteúdos deve ser realizada nas plataformas.
+    </string>
 </resources>

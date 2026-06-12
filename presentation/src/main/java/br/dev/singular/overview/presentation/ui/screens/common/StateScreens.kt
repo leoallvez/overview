@@ -1,7 +1,6 @@
 package br.dev.singular.overview.presentation.ui.screens.common
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
@@ -25,10 +23,11 @@ import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGridSkeleton
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaListSkeleton
-import br.dev.singular.overview.presentation.ui.components.streaming.UiStreamingItemSkeleton
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiItemSkeleton
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
 import android.R as X
 
@@ -91,9 +90,9 @@ fun LoadingProgressScreen(
     )
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-internal fun LoadingScreenPreview() {
+private fun LoadingScreenPreview() {
     LoadingProgressScreen("tag")
 }
 
@@ -127,9 +126,9 @@ fun ErrorScreen(tagPath: String, modifier: Modifier = Modifier, onRefresh: () ->
     )
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-internal fun ErrorScreenPreview() {
+private fun ErrorScreenPreview() {
     ErrorScreen("tag") {}
 }
 
@@ -141,7 +140,11 @@ internal fun ErrorScreenPreview() {
  * @param hasFilters A boolean indicating whether to show a message about checking filters.
  */
 @Composable
-fun NothingFoundScreen(tagPath: String, modifier: Modifier = Modifier, hasFilters: Boolean = false) {
+fun NothingFoundScreen(
+    tagPath: String,
+    modifier: Modifier = Modifier,
+    hasFilters: Boolean = false
+) {
     StateScreen(
         title = stringResource(R.string.not_found),
         modifier = modifier,
@@ -155,15 +158,15 @@ fun NothingFoundScreen(tagPath: String, modifier: Modifier = Modifier, hasFilter
     )
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-internal fun NothingFoundScreenPreview() {
+private fun NothingFoundScreenPreview() {
     NothingFoundScreen("tag")
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-internal fun NothingFoundScreenWithFilterPreview() {
+private fun NothingFoundScreenWithFilterPreview() {
     NothingFoundScreen("tag", hasFilters = true)
 }
 
@@ -183,9 +186,9 @@ fun MediaGridSkeletonScreen(
     UiMediaGridSkeleton(modifier = modifier)
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-internal fun MediaGridSkeletonScreenPreview() {
+private fun MediaGridSkeletonScreenPreview() {
     MediaGridSkeletonScreen("tag")
 }
 
@@ -207,32 +210,31 @@ fun MediaListSkeletonScreen(
     }
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-internal fun MediaListSkeletonScreenPreview() {
+private fun MediaListSkeletonScreenPreview() {
     MediaListSkeletonScreen("tag")
 }
 
 @Composable
-internal fun StreamingListSkeletonScreen(
+internal fun ItemListSkeletonScreen(
     tagPath: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     TrackScreenView(tagPath)
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement
-            .spacedBy(dimensionResource(R.dimen.spacing_2x))
+            .spacedBy(dimensionResource(R.dimen.spacing_2x)),
     ) {
         items(30) {
-            UiStreamingItemSkeleton()
+            UiItemSkeleton()
         }
     }
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-internal fun StreamingListSkeletonScreenPreview() {
-    StreamingListSkeletonScreen("tag")
+private fun ItemListSkeletonScreenPreview() {
+    ItemListSkeletonScreen("tag")
 }
-

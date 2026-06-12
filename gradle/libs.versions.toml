@@ -1,7 +1,6 @@
 [versions]
 # Global Settings
 app-id = "br.dev.singular.overview"
-immutable = "0.4.0"
 serialization = "1.11.0"
 sdk-compile = "36"
 sdk-min = "24"
@@ -10,7 +9,9 @@ version-code = "14"
 version-name = "3.3.0"
 
 # Kotlin
-kotlin = "2.3.20"
+kotlin = "2.2.21"
+immutable = "0.4.0"
+coroutines = "1.10.2"
 
 # Android Core
 agp = "8.13.2"
@@ -50,6 +51,7 @@ coil-compose = "2.7.0"
 toolbar-compose = "2.3.5"
 progress-indicator = "0.8.0"
 accompanist = "0.36.0"
+lucide = "2.2.1"
 
 # Testing
 junit = "4.13.2"
@@ -58,13 +60,16 @@ espresso-core = "3.7.0"
 mockk = "1.14.9"
 kluent = "1.73"
 kotlinx-coroutines-test = "1.11.0"
+robolectric = "4.16.1"
 
 # Others
 play-services-ads = "25.2.0"
 datastore-preferences = "1.2.1"
 timber = "5.0.1"
 youtube-player = "13.0.0"
+kover = "0.9.1"
 ktlint = "14.2.0"
+foundation = "1.10.6"
 
 [libraries]
 # AndroidX Core
@@ -81,8 +86,6 @@ androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "immutable" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
 toolbar-compose = { module = "me.onebone:toolbar-compose", version.ref = "toolbar-compose" }
 
@@ -116,6 +119,9 @@ hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", ve
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "immutable" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -131,6 +137,7 @@ progress-indicator = { module = "com.ehsanmsz:msz-progress-indicator", version.r
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
+lucide-icons = { module = "com.composables:icons-lucide-cmp", version.ref = "lucide" }
 
 # Testing Libraries
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -139,6 +146,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 kluent = { module = "org.amshove.kluent:kluent-android", version.ref = "kluent" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 
@@ -147,6 +155,7 @@ play-services-ads = { module = "com.google.android.gms:play-services-ads", versi
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtube-player" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -158,6 +167,7 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.4" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
-hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt"  }
+hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.8" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }

@@ -2,8 +2,8 @@ package br.dev.singular.overview.data.local.source
 
 import br.dev.singular.overview.data.BuildConfig
 import br.dev.singular.overview.data.local.database.dao.MediaDao
-import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MediaDataModel
+import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.model.MediaDataType.ALL
 import javax.inject.Inject
@@ -23,7 +23,7 @@ interface IMediaLocalDataSource {
 
 }
 
-class MediaLocalDataSource @Inject constructor (
+class MediaLocalDataSource @Inject constructor(
     private val dao: MediaDao
 ) : IMediaLocalDataSource {
 

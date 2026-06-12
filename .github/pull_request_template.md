@@ -1,4 +1,5 @@
 ## PR Type
+
 What kind of change does this PR introduce?
 
 - [ ] Bugfix
@@ -12,12 +13,15 @@ What kind of change does this PR introduce?
 - [ ] Other
 
 ## What's new?
+
 <!-- write what's this pull request change on project -->
 
 ## Screenshots
+
 N/A
 
 ## Checklist
+
 - **Localization:**
     - [ ] All on-screen text is included in localization files.
 - **Code Consistency:**

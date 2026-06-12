@@ -5,10 +5,12 @@ import br.dev.singular.overview.data.model.media.Media
 import br.dev.singular.overview.data.model.provider.StreamingEntity
 import br.dev.singular.overview.data.repository.media.remote.interfaces.IMediaRepository
 import br.dev.singular.overview.data.source.media.MediaType
-import br.dev.singular.overview.di.DisplayAds
 import br.dev.singular.overview.di.MainDispatcher
-import br.dev.singular.overview.domain.usecase.streaming.ISaveSelectedStreamingUseCase
+import br.dev.singular.overview.domain.model.QueryState
+import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
 import br.dev.singular.overview.presentation.UiState
+import br.dev.singular.overview.presentation.ui.screens.common.UiEvent
+import br.dev.singular.overview.presentation.ui.screens.common.UiEvents
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.AdViewModel
 import br.dev.singular.overview.ui.MediaUiState
@@ -23,9 +25,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MediaDetailsViewModel @Inject constructor(
-    @DisplayAds adsManager: RemoteConfig<Boolean>,
+    adsManager: RemoteConfig<Boolean>,
+    private val _uiEvents: UiEvents,
     private val _mediaRepository: IMediaRepository,
-    private val saveSelectedStreamingUseCase: ISaveSelectedStreamingUseCase,
+    private val queryStateUseCase: ICatalogQueryStateUseCase,
     @param:MainDispatcher private val _dispatcher: CoroutineDispatcher
 ) : AdViewModel(adsManager) {
 
@@ -43,7 +46,8 @@ class MediaDetailsViewModel @Inject constructor(
 
     fun saveSelectedStream(streaming: StreamingEntity) {
         viewModelScope.launch(_dispatcher) {
-            saveSelectedStreamingUseCase.invoke(streaming.toDomain())
+            val query = queryStateUseCase.get() ?: QueryState()
+            queryStateUseCase.save(query.copy(catalog = streaming.toDomain()))
         }
     }
 
@@ -52,6 +56,7 @@ class MediaDetailsViewModel @Inject constructor(
             media?.let {
                 it.isLiked = isLiked
                 _mediaRepository.update(media)
+                _uiEvents.trigger(UiEvent.ReloadFavorites)
             }
         }
     }

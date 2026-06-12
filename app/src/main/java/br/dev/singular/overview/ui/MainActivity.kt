@@ -17,9 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import br.dev.singular.overview.di.DisplayAds
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.navigation.NavController
@@ -32,7 +30,6 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    @DisplayAds
     lateinit var adsManager: RemoteConfig<Boolean>
     private val showAds: Boolean by lazy { adsManager.execute() }
 
@@ -41,8 +38,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
 
             AppTheme {
 
@@ -69,7 +64,7 @@ class MainActivity : ComponentActivity() {
                         .background(PrimaryBackground)
                         .padding(WindowInsets.systemBars.asPaddingValues()),
                 ) { innerPadding ->
-                    UiShimmerProvider(key = currentRoute) {
+                    UiShimmerProvider {
                         NavController(
                             navController = navController,
                             modifier = Modifier.padding(innerPadding),

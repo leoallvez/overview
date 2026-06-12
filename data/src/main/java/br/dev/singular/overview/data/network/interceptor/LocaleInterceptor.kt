@@ -14,6 +14,7 @@ class LocaleInterceptor @Inject constructor(
         val url = originalRequest.url.newBuilder()
             .setQueryParameter(name = "language", value = locale.language)
             .setQueryParameter(name = "region", value = locale.region)
+            .setQueryParameter(name = "watch_region", value = locale.region)
             .build()
 
         val newRequest = originalRequest.newBuilder()

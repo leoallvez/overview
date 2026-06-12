@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.hilt.android.plugin)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kover)
 }
 
 android {

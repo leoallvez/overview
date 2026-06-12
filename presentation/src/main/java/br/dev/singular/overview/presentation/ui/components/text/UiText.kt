@@ -16,12 +16,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 /**
  * A composable that displays a text with default styling, including ellipsis for overflow.
@@ -70,9 +70,9 @@ fun UiTextSkeleton(
     )
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiTextPreview() {
+private fun UiTextPreview() {
     Column {
         UiText(text = "Text One")
         UiText(text = "Text Two", isBold = true)
@@ -87,9 +87,9 @@ internal fun UiTextPreview() {
     }
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiTextSkeletonPreview() {
+private fun UiTextSkeletonPreview() {
     UiShimmerProvider {
         Column(
             modifier = Modifier
