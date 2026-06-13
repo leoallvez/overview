@@ -29,8 +29,9 @@ import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
-import br.dev.singular.overview.presentation.ui.utils.fakeCatalog
+import br.dev.singular.overview.presentation.ui.utils.fakeCatalogs
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
 
@@ -130,7 +131,7 @@ private fun CatalogTitle(
 @OptIn(ExperimentalMaterial3Api::class)
 @UiScreenPreview
 @Composable
-private fun UiCatalogTopAppBarPreview() {
+internal fun UiCatalogTopAppBarPreview() {
     var isCollapsed by rememberSaveable { mutableStateOf(false) }
     val nestedScrollConnection = rememberCollapseScrollConnection { isCollapsed = it }
 
@@ -138,7 +139,7 @@ private fun UiCatalogTopAppBarPreview() {
         modifier = Modifier.nestedScroll(nestedScrollConnection),
         topBar = {
             UiCatalogTopAppBar(
-                catalog = fakeCatalog().first(),
+                catalog = fakeCatalogs(),
                 isCollapsed = isCollapsed
             )
         },
@@ -147,4 +148,26 @@ private fun UiCatalogTopAppBarPreview() {
             UiMediaGrid(items = fakeMedias(90))
         }
     }
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiCatalogTopAppBarCollapsedPreview() {
+    UiCatalogTopAppBar(
+        catalog = fakeCatalogs(),
+        modifier = Modifier
+            .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+        isCollapsed = true
+    )
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiCatalogTopAppBarLoadingPreview() {
+    UiCatalogTopAppBar(
+        catalog = null,
+        modifier = Modifier
+            .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+        isCollapsed = false
+    )
 }

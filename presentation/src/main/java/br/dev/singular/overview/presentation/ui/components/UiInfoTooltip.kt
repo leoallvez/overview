@@ -95,9 +95,13 @@ fun UiInfoTooltip(
 
 @UiComponentPreview
 @Composable
-private fun UiInfoTooltipPreview() {
-    var visible by remember { mutableStateOf(true) }
-    UiInfoTooltip(visible = visible, message = stringResource(R.string.lorem_ipsum)) {
-        visible = false
+internal fun UiInfoTooltipPreview() {
+    val visible = remember { mutableStateOf(true) }
+    UiInfoTooltip(
+        visible = visible.value,
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
+        message = stringResource(R.string.lorem_ipsum)
+    ) {
+        visible.value = false
     }
 }

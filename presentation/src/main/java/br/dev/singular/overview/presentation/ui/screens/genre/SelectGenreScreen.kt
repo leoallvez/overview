@@ -3,10 +3,8 @@ package br.dev.singular.overview.presentation.ui.screens.genre
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
@@ -85,13 +83,13 @@ private fun AllGenreOption(
 
 @UiScreenPreview
 @Composable
-private fun SelectGenreScreenSuccessPreview() {
-    var selectedId by remember { mutableStateOf<Long?>(null) }
+internal fun SelectGenreScreenSuccessPreview() {
+    val selectedId = remember { mutableStateOf<Long?>(null) }
     val genres = fakeGenres()
-    val uiState = remember(selectedId) {
+    val uiState = remember(selectedId.value) {
         UiState.Success(
             data = GenreUiState(
-                selectedId = selectedId,
+                selectedId = selectedId.value,
                 options = genres
             )
         )
@@ -101,7 +99,7 @@ private fun SelectGenreScreenSuccessPreview() {
         actions = GenreSelectionActions(
             handleIntent = { intent ->
                 if (intent is GenreSelectionIntent.Select) {
-                    selectedId = intent.genre?.id
+                    selectedId.value = intent.genre?.id
                 }
             }
         )
@@ -110,7 +108,7 @@ private fun SelectGenreScreenSuccessPreview() {
 
 @UiScreenPreview
 @Composable
-private fun SelectGenreScreenLoadingPreview() {
+internal fun SelectGenreScreenLoadingPreview() {
     SelectGenreScreen(
         uiState = UiState.Loading(),
         actions = GenreSelectionActions()
@@ -119,7 +117,7 @@ private fun SelectGenreScreenLoadingPreview() {
 
 @UiScreenPreview
 @Composable
-private fun SelectGenreScreenErrorPreview() {
+internal fun SelectGenreScreenErrorPreview() {
     SelectGenreScreen(
         uiState = UiState.Error(),
         actions = GenreSelectionActions()

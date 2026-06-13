@@ -12,7 +12,9 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.pitest) apply false
     alias(libs.plugins.kover)
+    alias(libs.plugins.paparazzi) apply false
 }
 
 dependencies {

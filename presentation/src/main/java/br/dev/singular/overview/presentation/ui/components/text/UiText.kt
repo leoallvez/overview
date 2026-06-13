@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,8 +71,10 @@ fun UiTextSkeleton(
 
 @UiComponentPreview
 @Composable
-private fun UiTextPreview() {
-    Column {
+internal fun UiTextPreview() {
+    Column(
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+    ) {
         UiText(text = "Text One")
         UiText(text = "Text Two", isBold = true)
         UiText(text = "Text Three", color = Color.Gray)
@@ -89,12 +90,12 @@ private fun UiTextPreview() {
 
 @UiComponentPreview
 @Composable
-private fun UiTextSkeletonPreview() {
+internal fun UiTextSkeletonPreview() {
     UiShimmerProvider {
         Column(
             modifier = Modifier
-                .width(100.dp)
                 .background(Color.Black)
+                .padding(dimensionResource(R.dimen.spacing_4x))
         ) {
             UiTextSkeleton(modifier = Modifier.padding(bottom = 8.dp))
             UiTextSkeleton(modifier = Modifier.fillMaxWidth(0.6f))

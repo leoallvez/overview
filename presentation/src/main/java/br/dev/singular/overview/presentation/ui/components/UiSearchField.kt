@@ -161,7 +161,7 @@ private fun ClearIcon(
 
 @UiComponentPreview
 @Composable
-private fun UiSearchFieldEmptyPreview() {
+internal fun UiSearchFieldEmptyPreview() {
     val query = remember { mutableStateOf("") }
     UiSearchField(
         modifier = Modifier.padding(16.dp),
@@ -172,7 +172,7 @@ private fun UiSearchFieldEmptyPreview() {
 
 @UiComponentPreview
 @Composable
-private fun UiSearchFieldWithQueryPreview() {
+internal fun UiSearchFieldWithQueryPreview() {
     val query = remember { mutableStateOf("Batman") }
     UiSearchField(
         modifier = Modifier.padding(16.dp),

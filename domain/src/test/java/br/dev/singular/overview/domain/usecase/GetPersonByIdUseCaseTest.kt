@@ -5,10 +5,8 @@ import br.dev.singular.overview.domain.repository.GetById
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +15,7 @@ class GetPersonByIdUseCaseTest {
 
     private lateinit var sut: IGetPersonByIdUseCase
 
-    lateinit var getter: GetById<Person>
+    private lateinit var getter: GetById<Person>
 
     @Before
     fun setup() {
@@ -26,50 +24,44 @@ class GetPersonByIdUseCaseTest {
     }
 
     @Test
-    fun `invoke should return success with person`() = runBlocking {
+    fun `invoke should return success with person`() = runTest {
         // arrange
-        coEvery { getter.getById(any()) } returns createPersonMock()
+        val person = createPersonMock()
+        coEvery { getter.getById(1L) } returns person
 
         // act
-        val result = sut.invoke(0)
+        val result = sut.invoke(1L)
 
         // assert
-        coVerify(exactly = 1) { getter.getById(any()) }
-        assertTrue(result is UseCaseState.Success)
-        assertNotNull((result as UseCaseState.Success).data)
+        coVerify(exactly = 1) { getter.getById(1L) }
+        assertEquals(UseCaseState.Success(person), result)
     }
 
     @Test
-    fun `invoke should return success with null`() = runBlocking {
+    fun `invoke should return success with null`() = runTest {
         // arrange
-        coEvery { getter.getById(any()) } returns null
+        coEvery { getter.getById(1L) } returns null
 
         // act
-        val result = sut.invoke(0)
+        val result = sut.invoke(1L)
 
         // assert
-        coVerify(exactly = 1) { getter.getById(any()) }
-        assertTrue(result is UseCaseState.Success)
-        assertNull((result as UseCaseState.Success).data)
+        coVerify(exactly = 1) { getter.getById(1L) }
+        assertEquals(UseCaseState.Success(null), result)
     }
 
     @Test
-    fun `invoke should return Failure when getter throws exception`() = runBlocking {
+    fun `invoke should return Failure when getter throws exception`() = runTest {
         // Arrange
-        val expectedException = Exception("Getter failed")
+        val expectedException = RuntimeException("Getter failed")
         coEvery { getter.getById(any()) } throws expectedException
 
         // Act
         val result = sut.invoke(0)
 
         // Assert
-        coVerify(exactly = 1) { getter.getById(any()) }
-
         assertTrue(result is UseCaseState.Failure)
         val failure = result as UseCaseState.Failure
-        assertEquals(
-            expectedException,
-            (failure.type as FailType.Exception).throwable
-        )
+        assertEquals(expectedException, (failure.type as FailType.Exception).throwable)
     }
 }

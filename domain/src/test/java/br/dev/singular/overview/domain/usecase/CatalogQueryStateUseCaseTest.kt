@@ -12,10 +12,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 
@@ -37,7 +36,7 @@ class CatalogQueryStateUseCaseTest {
     }
 
     @Test
-    fun `observe should return flow from repository`() = runBlocking {
+    fun `observe should return flow from repository`() = runTest {
         // arrange
         val expected = QueryState(query = "observed")
         every { observer.observe() } returns flowOf(expected)
@@ -51,7 +50,7 @@ class CatalogQueryStateUseCaseTest {
     }
 
     @Test
-    fun `get should return state from repository`() = runBlocking {
+    fun `get should return state from repository`() = runTest {
         // arrange
         val expected = QueryState(query = "test")
         coEvery { getter.get() } returns expected
@@ -65,7 +64,7 @@ class CatalogQueryStateUseCaseTest {
     }
 
     @Test
-    fun `save should call repository with state`() = runBlocking {
+    fun `save should call repository with state`() = runTest {
         // arrange
         val state = QueryState(query = "new search")
         coEvery { updater.update(state) } returns Unit
@@ -78,37 +77,35 @@ class CatalogQueryStateUseCaseTest {
     }
 
     @Test
-    fun `get should propagate exception when repository fails`() = runBlocking {
+    fun `get should propagate exception when repository fails`() = runTest {
         // arrange
         val message = "DataStore error"
-        coEvery { getter.get() } throws Exception(message)
+        val expectedException = RuntimeException(message)
+        coEvery { getter.get() } throws expectedException
 
-        // act
+        // act & assert
         try {
             sut.get()
-            fail("Should have thrown")
-        } catch (e: Exception) {
-            // assert
-            assertEquals(message, e.message)
-            coVerify(exactly = 1) { getter.get() }
+        } catch (actualException: RuntimeException) {
+            assertEquals(message, actualException.message)
         }
+        coVerify(exactly = 1) { getter.get() }
     }
 
     @Test
-    fun `save should propagate exception when repository fails`() = runBlocking {
+    fun `save should propagate exception when repository fails`() = runTest {
         // arrange
         val state = QueryState()
         val message = "DataStore error"
-        coEvery { updater.update(state) } throws Exception(message)
+        val expectedException = RuntimeException(message)
+        coEvery { updater.update(state) } throws expectedException
 
-        // act
+        // act & assert
         try {
             sut.save(state)
-            fail("Should have thrown")
-        } catch (e: Exception) {
-            // assert
-            assertEquals(message, e.message)
-            coVerify(exactly = 1) { updater.update(state) }
+        } catch (actualException: RuntimeException) {
+            assertEquals(message, actualException.message)
         }
+        coVerify(exactly = 1) { updater.update(state) }
     }
 }

@@ -9,10 +9,8 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -43,7 +41,7 @@ fun UiChip(
     lowlightColor: Color = LowlightColor,
     shape: RoundedCornerShape = RoundedCornerShape(percent = 20),
     icon: @Composable (() -> Unit) = {},
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     val color = if (activated) highlightColor else lowlightColor
     FilterChip(
@@ -64,25 +62,25 @@ fun UiChip(
 
 @UiComponentPreview
 @Composable
-private fun UiChipActivatedPreview() {
+internal fun UiChipActivatedPreview() {
     UiChipPreviewHelper(initialState = true)
 }
 
 @UiComponentPreview
 @Composable
-private fun UiChipNotActivatedPreview() {
+internal fun UiChipNotActivatedPreview() {
     UiChipPreviewHelper(initialState = false)
 }
 
 @Composable
 private fun UiChipPreviewHelper(initialState: Boolean) {
-    var activated by rememberSaveable { mutableStateOf(initialState) }
+    val activated = rememberSaveable { mutableStateOf(initialState) }
     UiChip(
         text = "Label",
-        activated = activated,
-        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x)),
+        activated = activated.value,
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
         icon = {
-            if (activated) {
+            if (activated.value) {
                 UiIcon(
                     source = UiIconSource.vector(Icons.Filled.Clear),
                     color = HighlightColor
@@ -90,6 +88,6 @@ private fun UiChipPreviewHelper(initialState: Boolean) {
             }
         }
     ) {
-        activated = !activated
+        activated.value = !activated.value
     }
 }

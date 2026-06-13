@@ -1,6 +1,7 @@
 package br.dev.singular.overview.presentation.ui.screens.catalog.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -153,20 +154,21 @@ private fun CatalogChip(
 
 @UiComponentPreview
 @Composable
-private fun UiMainFilterPreview() {
-    var query by remember { mutableStateOf(QueryUiState()) }
+internal fun UiMainFilterPreview() {
+    val queryState = remember { mutableStateOf(QueryUiState()) }
     val genre = fakeGenres().first()
 
     UiMainFilter(
-        query = query,
+        query = queryState.value,
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
         onClickFilter = { type ->
-            query = when (type) {
-                is UiFilterType.Type -> query.copy(type = type.value)
+            queryState.value = when (type) {
+                is UiFilterType.Type -> queryState.value.copy(type = type.value)
                 is UiFilterType.Genre -> {
-                    query.copy(genre = if (query.genre == null) genre else null)
+                    queryState.value.copy(genre = if (queryState.value.genre == null) genre else null)
                 }
 
-                else -> query
+                else -> queryState.value
             }
         }
     )

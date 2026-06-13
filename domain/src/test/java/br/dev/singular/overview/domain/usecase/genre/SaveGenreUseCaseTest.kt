@@ -11,7 +11,6 @@ import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.confirmVerified
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -26,7 +25,7 @@ class SaveGenreUseCaseTest {
 
     @Before
     fun setup() {
-        setter = mockk(relaxed = true)
+        setter = mockk()
         getter = mockk()
         sut = SaveGenreUseCase(setter, getter)
     }
@@ -46,6 +45,8 @@ class SaveGenreUseCaseTest {
         val result = sut.invoke()
 
         // Assert
+        assertEquals(UseCaseState.Success(Unit), result)
+        
         coVerifyOrder {
             getter.getByParam(MediaType.TV)
             setter.update(MediaTypeGenres(MediaType.TV, tvGenres))
@@ -54,16 +55,14 @@ class SaveGenreUseCaseTest {
             setter.update(MediaTypeGenres(MediaType.MOVIE, movieGenres))
         }
 
-        assertTrue(result is UseCaseState.Success)
-
         confirmVerified(getter, setter)
     }
 
     @Test
-    fun `invoke should return failure when getter throws exception`() = runBlocking {
+    fun `invoke should return failure when getter throws exception`() = runTest {
         // arrange
-        val expectedException = Exception("Getter failed")
-        coEvery { getter.getByParam(any()) } throws expectedException
+        val expectedException = RuntimeException("Getter failed")
+        coEvery { getter.getByParam(MediaType.TV) } throws expectedException
 
         // act
         val result = sut.invoke()
@@ -78,9 +77,9 @@ class SaveGenreUseCaseTest {
     }
 
     @Test
-    fun `invoke should return failure when setter throws exception`() = runBlocking {
+    fun `invoke should return failure when setter throws exception`() = runTest {
         // arrange
-        val expectedException = Exception("Setter failed")
+        val expectedException = RuntimeException("Setter failed")
         coEvery { getter.getByParam(any()) } returns emptyList()
         coEvery { setter.update(any()) } throws expectedException
 

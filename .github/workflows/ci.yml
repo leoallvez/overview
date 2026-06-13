@@ -3,14 +3,15 @@ name: CI
 on: [ "push" ]
 
 jobs:
+  # 1. Fast Compilation (Fail Fast)
   build:
     runs-on: ubuntu-latest
     env:
       OVER_API_KEY: ${{ secrets.OVER_API_KEY }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -19,67 +20,47 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Compile Project
+        run: ./gradlew assembleDebug
 
-  ktlint:
+  # 2. Static Analysis (Runs in parallel)
+  static-analysis:
     needs: [ build ]
     runs-on: ubuntu-latest
     env:
       OVER_API_KEY: ${{ secrets.OVER_API_KEY }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: gradle
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Run Lint & Ktlint
+        run: ./gradlew ktlintCheck lint --continue --stacktrace
 
-      - name: Run ktlint
-        run: ./gradlew ktlintCheck --continue --stacktrace
-
-  lint:
-    needs: [ build ]
-    runs-on: ubuntu-latest
-    env:
-      OVER_API_KEY: ${{ secrets.OVER_API_KEY }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 21
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Run lint
-        run: ./gradlew lint --continue --stacktrace
-
-      - name: Upload lint report
+      - name: Upload static analysis reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lint_report
-          path: app/build/reports/lint-results-devDebug.html
+          name: static_analysis_reports
+          path: "**/build/reports/lint-results-*"
 
-  unit-test:
-    needs: [ lint, ktlint ]
+  # 3. Unit Tests and Coverage
+  unit-tests:
+    needs: [ build ]
     runs-on: ubuntu-latest
     env:
       OVER_API_KEY: ${{ secrets.OVER_API_KEY }}
       GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx3072m -XX:MaxMetaspaceSize=768m"
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -88,18 +69,72 @@ jobs:
       - name: Run unit tests with Kover
         run: ./gradlew test koverXmlReport koverHtmlReport --continue --stacktrace
 
-      - name: Upload test report
+      - name: Upload Test Reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: unit_test_report
-          path: |
-            app/build/reports/tests/testDevDebugUnitTest
-            core/build/reports/tests/testDebugUnitTest
-            data/build/reports/tests/testDebugUnitTest
-            presentation/build/reports/tests/testDebugUnitTest
+          name: all_unit_test_reports
+          path: "**/build/reports/tests/**"
 
       - name: Upload Kover report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: kover_report
           path: build/reports/kover/
+
+  # 4. Snapshot Tests
+  snapshot-tests:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    env:
+      OVER_API_KEY: ${{ secrets.OVER_API_KEY }}
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Run Snapshot tests
+        run: ./gradlew :presentation:testDebugUnitTest -Dpaparazzi.test.verify=true --continue --stacktrace
+
+      - name: Upload Snapshot Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot_report
+          path: |
+            presentation/build/reports/tests/testDebugUnitTest/
+            presentation/build/snapshot/failures/
+
+  # 5. Mutation Tests (:domain)
+  mutation-testing:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    env:
+      OVER_API_KEY: ${{ secrets.OVER_API_KEY }}
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Mutation Tests (:domain)
+        run: ./gradlew :domain:pitest --stacktrace
+
+      - name: Upload Pitest Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation_tests
+          path: domain/build/reports/pitest/
