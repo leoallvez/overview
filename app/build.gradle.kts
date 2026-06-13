@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kover)
+    alias(libs.plugins.paparazzi)
 }
 
 android {

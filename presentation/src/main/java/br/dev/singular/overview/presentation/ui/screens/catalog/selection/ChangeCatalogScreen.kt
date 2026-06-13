@@ -1,10 +1,8 @@
 package br.dev.singular.overview.presentation.ui.screens.catalog.selection
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
@@ -13,7 +11,7 @@ import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionActions
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionIntent
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
-import br.dev.singular.overview.presentation.ui.utils.fakeCatalog
+import br.dev.singular.overview.presentation.ui.utils.fakeCatalogs
 
 /**
  * A screen that allows the user to select a catalog.
@@ -42,19 +40,21 @@ fun ChangeCatalogScreen(
 
 @UiScreenPreview
 @Composable
-private fun ChangeCatalogScreenSuccessPreview() {
-    var selectedId by remember { mutableLongStateOf(value = 0L) }
+internal fun ChangeCatalogsScreenSuccessPreview() {
+    val selectedId = remember { mutableLongStateOf(value = 0L) }
     val uiState = UiState.Success(
         CatalogUiState(
-            selectedId = selectedId,
-            options = fakeCatalog(30)
+            selectedId = selectedId.longValue,
+            options = fakeCatalogs(30)
         )
     )
     ChangeCatalogScreen(
         uiState = uiState,
         actions = CatalogSelectionActions(
             handleIntent = { intent ->
-                if (intent is CatalogSelectionIntent.Select) selectedId = intent.catalog.id
+                if (intent is CatalogSelectionIntent.Select) {
+                    selectedId.longValue = intent.catalog.id
+                }
             }
         )
     )
@@ -62,7 +62,7 @@ private fun ChangeCatalogScreenSuccessPreview() {
 
 @UiScreenPreview
 @Composable
-private fun ChangeCatalogScreenLoadingPreview() {
+internal fun ChangeCatalogScreenLoadingPreview() {
     ChangeCatalogScreen(
         uiState = UiState.Loading(),
         actions = CatalogSelectionActions()
@@ -71,7 +71,7 @@ private fun ChangeCatalogScreenLoadingPreview() {
 
 @UiScreenPreview
 @Composable
-private fun ChangeCatalogScreenErrorPreview() {
+internal fun ChangeCatalogScreenErrorPreview() {
     ChangeCatalogScreen(
         uiState = UiState.Error(),
         actions = CatalogSelectionActions()

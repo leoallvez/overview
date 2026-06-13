@@ -45,8 +45,10 @@ fun UiTitle(
 
 @UiComponentPreview
 @Composable
-private fun UiTitlePreview() {
-    Column {
+internal fun UiTitlePreview() {
+    Column(
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+    ) {
         UiTitle(text = "Title One")
         UiTitle(text = "Title Two", color = Color.Gray)
         UiTitle(

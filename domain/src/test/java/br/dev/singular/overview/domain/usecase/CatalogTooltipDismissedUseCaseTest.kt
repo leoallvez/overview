@@ -6,10 +6,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 
@@ -30,7 +29,7 @@ class CatalogTooltipDismissedUseCaseTest {
     }
 
     @Test
-    fun `isDismissed should return true when data source returns true`() = runBlocking {
+    fun `isDismissed should return true when data source returns true`() = runTest {
         // arrange
         coEvery { getter.get() } returns true
 
@@ -43,7 +42,7 @@ class CatalogTooltipDismissedUseCaseTest {
     }
 
     @Test
-    fun `isDismissed should return false when data source returns false`() = runBlocking {
+    fun `isDismissed should return false when data source returns false`() = runTest {
         // arrange
         coEvery { getter.get() } returns false
 
@@ -56,24 +55,22 @@ class CatalogTooltipDismissedUseCaseTest {
     }
 
     @Test
-    fun `isDismissed should propagate exception when getter fails`() = runBlocking {
+    fun `isDismissed should propagate exception when getter fails`() = runTest {
         // arrange
-        val exceptionMessage = "DataStore error"
-        coEvery { getter.get() } throws Exception(exceptionMessage)
+        val expectedException = RuntimeException("DataStore error")
+        coEvery { getter.get() } throws expectedException
 
-        // act
+        // act & assert
         try {
             sut.isDismissed()
-            fail("Should have thrown an exception")
-        } catch (e: Exception) {
-            // assert
-            assertEquals(exceptionMessage, e.message)
-            coVerify(exactly = 1) { getter.get() }
+        } catch (actual: RuntimeException) {
+            assertEquals(expectedException.message, actual.message)
         }
+        coVerify(exactly = 1) { getter.get() }
     }
 
     @Test
-    fun `dismiss should update state to true`() = runBlocking {
+    fun `dismiss should update state to true`() = runTest {
         // arrange
         coEvery { updater.update(true) } returns Unit
 
@@ -85,19 +82,17 @@ class CatalogTooltipDismissedUseCaseTest {
     }
 
     @Test
-    fun `dismiss should propagate exception when updater fails`() = runBlocking {
+    fun `dismiss should propagate exception when updater fails`() = runTest {
         // arrange
-        val exceptionMessage = "Update error"
-        coEvery { updater.update(true) } throws Exception(exceptionMessage)
+        val expectedException = RuntimeException("Update error")
+        coEvery { updater.update(true) } throws expectedException
 
-        // act
+        // act & assert
         try {
             sut.dismiss()
-            fail("Should have thrown an exception")
-        } catch (e: Exception) {
-            // assert
-            assertEquals(exceptionMessage, e.message)
-            coVerify(exactly = 1) { updater.update(true) }
+        } catch (actual: RuntimeException) {
+            assertEquals(expectedException.message, actual.message)
         }
+        coVerify(exactly = 1) { updater.update(true) }
     }
 }

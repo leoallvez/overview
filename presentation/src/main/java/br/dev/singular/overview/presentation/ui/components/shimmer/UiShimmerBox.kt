@@ -32,7 +32,7 @@ fun UiShimmerBox(
 
 @UiComponentPreview
 @Composable
-private fun UiShimmerBoxPreview() {
+internal fun UiShimmerBoxPreview() {
     // Active interactive mode to see the shimmer
     UiShimmerProvider {
         Column(

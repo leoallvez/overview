@@ -22,13 +22,19 @@ import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.ui.components.UiImage
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.Surface
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.border
+import br.dev.singular.overview.presentation.ui.utils.fakeCatalogs
+import com.composables.icons.lucide.Heart
+import com.composables.icons.lucide.Lucide
 
 /**
  * A composable that displays a card for a catalog.
@@ -86,5 +92,16 @@ internal fun UiCatalogCard(
             )
             rightContent()
         }
+    }
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiCatalogCardPreview() {
+    UiCatalogCard(
+        model = fakeCatalogs(),
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))
+    ) {
+        UiIcon(source = UiIconSource.UiVector(imageVector = Lucide.Heart))
     }
 }

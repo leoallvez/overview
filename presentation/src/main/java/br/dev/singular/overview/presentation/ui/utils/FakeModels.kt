@@ -14,7 +14,7 @@ import kotlinx.collections.immutable.toImmutableList
 import java.util.UUID
 
 @Composable
-fun fakeMedias(
+internal fun fakeMedias(
     count: Int = 10,
     withLongText: Boolean = false
 ): ImmutableList<MediaUiModel> {
@@ -45,8 +45,16 @@ fun fakeMedias(
     }.toImmutableList()
 }
 
+internal fun fakeMedia() = MediaUiModel(
+    id = 1,
+    title = "Batman",
+    type = MediaUiType.MOVIE,
+    posterURL = "",
+    previewDrawableRes = null
+)
+
 @Composable
-fun fakeCatalog(count: Int = 10): ImmutableList<CatalogUiModel> {
+internal fun fakeCatalogs(count: Int = 10): ImmutableList<CatalogUiModel> {
 
     val baseModel = CatalogUiModel(
         id = 0,
@@ -67,6 +75,14 @@ fun fakeCatalog(count: Int = 10): ImmutableList<CatalogUiModel> {
         }
     }.toImmutableList()
 }
+
+internal fun fakeCatalogs() = CatalogUiModel(
+    id = 1,
+    priority = 1,
+    logoURL = "",
+    name = "Test Catalog",
+    previewDrawableRes = R.drawable.scifi_stream
+)
 
 @Composable
 internal fun fakeGenres(count: Int = 27): ImmutableList<GenreUiModel> {

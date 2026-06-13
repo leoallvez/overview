@@ -17,7 +17,7 @@ import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionActions
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionIntent
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
-import br.dev.singular.overview.presentation.ui.utils.fakeCatalog
+import br.dev.singular.overview.presentation.ui.utils.fakeCatalogs
 
 /**
  * Composable that displays a screen to choose a catalog.
@@ -52,19 +52,21 @@ fun SelectCatalogScreen(
 
 @UiScreenPreview
 @Composable
-private fun SelectCatalogScreenSuccessPreview() {
-    var showTooltip by remember { mutableStateOf(true) }
+internal fun SelectCatalogsScreenSuccessPreview() {
+    val showTooltip = remember { mutableStateOf(true) }
     SelectCatalogScreen(
-        showTooltip = showTooltip,
+        showTooltip = showTooltip.value,
         uiState = UiState.Success(
             data = CatalogUiState(
                 selectedId = 0,
-                options = fakeCatalog(30)
+                options = fakeCatalogs(30)
             )
         ),
         actions = CatalogSelectionActions(
             handleIntent = { intent ->
-                if (intent is CatalogSelectionIntent.DismissTooltip) showTooltip = false
+                if (intent is CatalogSelectionIntent.DismissTooltip) {
+                    showTooltip.value = false
+                }
             }
         )
     )
@@ -72,7 +74,7 @@ private fun SelectCatalogScreenSuccessPreview() {
 
 @UiScreenPreview
 @Composable
-private fun SelectCatalogScreenLoadingPreview() {
+internal fun SelectCatalogScreenLoadingPreview() {
     SelectCatalogScreen(
         uiState = UiState.Loading()
     )
@@ -80,7 +82,7 @@ private fun SelectCatalogScreenLoadingPreview() {
 
 @UiScreenPreview
 @Composable
-private fun SelectCatalogScreenErrorPreview() {
+internal fun SelectCatalogScreenErrorPreview() {
     SelectCatalogScreen(
         uiState = UiState.Error()
     )

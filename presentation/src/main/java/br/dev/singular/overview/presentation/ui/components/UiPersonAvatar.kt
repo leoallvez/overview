@@ -1,12 +1,14 @@
 package br.dev.singular.overview.presentation.ui.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
@@ -41,9 +43,10 @@ fun UiPersonAvatar(
 
 @UiComponentPreview
 @Composable
-private fun UiPersonAvatarPreview() {
+internal fun UiPersonAvatarPreview() {
     UiPersonAvatar(
         url = "https://imagens.com/person.jpg",
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
         previewDrawableRes = R.drawable.sample_profile,
         size = 300.dp
     )

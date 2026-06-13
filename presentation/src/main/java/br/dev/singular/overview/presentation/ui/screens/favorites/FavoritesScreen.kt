@@ -126,15 +126,15 @@ private fun EmptyFavoritesScreen(tagPath: String, type: MediaUiType) {
 
 @UiScreenPreview
 @Composable
-private fun FavoritesScreenPreview() {
+internal fun FavoritesScreenPreview() {
 
-    var queryState by remember { mutableStateOf(fakeQueryState()) }
+    val queryState = remember { mutableStateOf(fakeQueryState()) }
 
     FavoritesContent(
-        queryState = queryState,
+        queryState = queryState.value,
         actions = FavoritesActions(
             onSetType = {
-                queryState = queryState.copy(type = it)
+                queryState.value = queryState.value.copy(type = it)
             }
         )
     ) {

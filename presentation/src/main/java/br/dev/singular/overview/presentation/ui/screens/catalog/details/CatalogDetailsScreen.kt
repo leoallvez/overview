@@ -112,16 +112,16 @@ private fun CatalogDetailsContent(
 
 @UiScreenPreview
 @Composable
-private fun CatalogDetailsContentPreview() {
+internal fun CatalogDetailsContentPreview() {
 
-    var queryState by remember { mutableStateOf(fakeQueryState()) }
+    val queryState = remember { mutableStateOf(fakeQueryState()) }
 
     CatalogDetailsContent(
-        queryState = queryState,
+        queryState = queryState.value,
         actions = CatalogDetailActions(
             handleIntent = { intent ->
                 if (intent is CatalogDetailIntent.SelectType) {
-                    queryState = queryState.copy(type = intent.type)
+                    queryState.value = queryState.value.copy(type = intent.type)
                 }
             }
         ),

@@ -6,7 +6,7 @@ import br.dev.singular.overview.domain.repository.GetByParam
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -23,28 +23,45 @@ class FetchGenresByTypeUseCaseTest {
     }
 
     @Test
-    fun `invoke should return sorted genre list`() = runBlocking {
+    fun `invoke should return sorted genre list by name`() = runTest {
         // arrange
         val genres = listOf(
-            Genre(2, "B"),
-            Genre(1, "A"),
-            Genre(3, "C")
+            Genre(2, "Comedy"),
+            Genre(1, "Action"),
+            Genre(3, "Drama")
         )
-        val sortedGenres = genres.sortedBy { it.name }
-        coEvery { getter.getByParam(any()) } returns genres
+        // Expected order: Action (1), Comedy (2), Drama (3)
+        val expected = listOf(genres[1], genres[0], genres[2])
+        
+        coEvery { getter.getByParam(MediaType.MOVIE) } returns genres
 
         // act
         val result = sut.invoke(MediaType.MOVIE)
 
         // assert
         coVerify(exactly = 1) { getter.getByParam(MediaType.MOVIE) }
-        assertEquals(sortedGenres, result)
+        assertEquals(expected, result)
+        assertEquals("Action", result[0].name)
+        assertEquals("Comedy", result[1].name)
+        assertEquals("Drama", result[2].name)
     }
 
     @Test
-    fun `invoke should return empty list when getter throws exception`() = runBlocking {
+    fun `invoke should return empty list when getter returns null`() = runTest {
         // arrange
-        val expectedException = Exception("Getter failed")
+        coEvery { getter.getByParam(any()) } throws NullPointerException()
+
+        // act
+        val result = sut.invoke(MediaType.TV)
+
+        // assert
+        assertEquals(emptyList<Genre>(), result)
+    }
+
+    @Test
+    fun `invoke should return empty list when getter throws exception`() = runTest {
+        // arrange
+        val expectedException = RuntimeException("Network Error")
         coEvery { getter.getByParam(any()) } throws expectedException
 
         // act
