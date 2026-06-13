@@ -77,8 +77,10 @@ fun UiItemSkeleton(
 
 @UiComponentPreview
 @Composable
-private fun UiItemSkeletonPreview() {
+internal fun UiItemSkeletonPreview() {
     UiShimmerProvider {
-        UiItemSkeleton()
+        UiItemSkeleton(
+            modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+        )
     }
 }

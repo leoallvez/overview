@@ -53,9 +53,9 @@ fun UiAnimatedVisibility(
 
 @UiComponentPreview
 @Composable
-private fun PreviewUiAnimatedVisibility() {
+internal fun PreviewUiAnimatedVisibility() {
 
-    var isVisible by remember { mutableStateOf(true) }
+    val isVisible = remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
@@ -65,15 +65,15 @@ private fun PreviewUiAnimatedVisibility() {
     ) {
 
         UiChip(
-            activated = !isVisible,
+            activated = !isVisible.value,
             lowlightColor = DefaultTextColor,
-            text = if (isVisible) "Hide" else "Show",
+            text = if (isVisible.value) "Hide" else "Show",
             shape = RoundedCornerShape(20)
         ) {
-            isVisible = !isVisible
+            isVisible.value = !isVisible.value
         }
 
-        UiAnimatedVisibility(visible = isVisible) {
+        UiAnimatedVisibility(visible = isVisible.value) {
             Card(
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer

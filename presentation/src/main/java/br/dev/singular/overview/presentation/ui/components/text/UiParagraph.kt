@@ -1,9 +1,11 @@
 package br.dev.singular.overview.presentation.ui.components.text
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import br.dev.singular.overview.presentation.R
@@ -29,6 +31,9 @@ fun UiParagraph(text: String, modifier: Modifier = Modifier) {
 
 @UiComponentPreview
 @Composable
-private fun UiParagraphPreview() {
-    UiParagraph(text = stringResource(R.string.lorem_ipsum))
+internal fun UiParagraphPreview() {
+    UiParagraph(
+        text = stringResource(R.string.lorem_ipsum),
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+    )
 }

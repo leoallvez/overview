@@ -88,7 +88,7 @@ fun UiMediaListSkeleton(
 
 @UiScreenPreview
 @Composable
-private fun UiMediaPreview() {
+internal fun UiMediaPreview() {
     UiMediaList(
         title = "Imagined Movies",
         items = fakeMedias()
@@ -97,7 +97,7 @@ private fun UiMediaPreview() {
 
 @UiScreenPreview
 @Composable
-private fun UiMediaListWitchContentPaddingPreview() {
+internal fun UiMediaListWitchContentPaddingPreview() {
     UiMediaList(
         title = "Imagined Movies",
         contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
@@ -107,7 +107,7 @@ private fun UiMediaListWitchContentPaddingPreview() {
 
 @UiScreenPreview
 @Composable
-private fun UiMediaListWithBackgroundPreview() {
+internal fun UiMediaListWithBackgroundPreview() {
     UiMediaList(
         title = "Imagined Movies",
         modifier = Modifier.defaultBackground(),
@@ -117,7 +117,7 @@ private fun UiMediaListWithBackgroundPreview() {
 
 @UiScreenPreview
 @Composable
-private fun UiMediaListEmptyPreview() {
+internal fun UiMediaListEmptyPreview() {
     UiMediaList(
         title = "Empty List",
         modifier = Modifier.defaultBackground(),
@@ -127,7 +127,7 @@ private fun UiMediaListEmptyPreview() {
 
 @UiScreenPreview
 @Composable
-private fun UiMediaListSkeletonPreview() {
+internal fun UiMediaListSkeletonPreview() {
     UiShimmerProvider {
         UiMediaListSkeleton(
             contentPadding = PaddingValues(dimensionResource(R.dimen.spacing_4x))

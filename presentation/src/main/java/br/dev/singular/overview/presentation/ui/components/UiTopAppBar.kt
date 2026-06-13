@@ -65,12 +65,12 @@ fun UiTopAppBar(title: String, onBack: () -> Unit) {
 
 @UiComponentPreview
 @Composable
-private fun UiToolbarDefaultPreview() {
+internal fun UiToolbarDefaultPreview() {
     UiTopAppBar(title = "Title")
 }
 
 @UiComponentPreview
 @Composable
-private fun UiToolbarWithCloseButtonPreview() {
+internal fun UiToolbarWithCloseButtonPreview() {
     UiTopAppBar(title = "Title") { }
 }

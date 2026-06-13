@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.components.catalog
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -8,10 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import br.dev.singular.overview.presentation.R
@@ -23,7 +22,7 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.border
-import br.dev.singular.overview.presentation.ui.utils.fakeCatalog
+import br.dev.singular.overview.presentation.ui.utils.fakeCatalogs
 
 /**
  * A composable that displays a catalog item.
@@ -80,18 +79,22 @@ fun UiCatalogItem(
 
 @UiComponentPreview
 @Composable
-private fun UiCatalogItemPreview() {
-    UiCatalogItem(model = fakeCatalog().first())
+internal fun UiCatalogItemPreview() {
+    UiCatalogItem(
+        model = fakeCatalogs(),
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))
+    )
 }
 
 @UiComponentPreview
 @Composable
-private fun UiCatalogItemRadioButtonPreview() {
-    var selected by remember { mutableStateOf(false) }
+internal fun UiCatalogItemRadioButtonPreview() {
+    val selected = remember { mutableStateOf(false) }
     UiCatalogItem(
-        selected = selected,
-        model = fakeCatalog().first()
+        selected = selected.value,
+        model = fakeCatalogs(),
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))
     ) {
-        selected = !selected
+        selected.value = !selected.value
     }
 }

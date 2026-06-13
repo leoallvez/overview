@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
+    alias(libs.plugins.paparazzi)
 }
 
 android {
@@ -58,11 +59,14 @@ android {
         unitTests {
             isIncludeAndroidResources = true
             all {
-                it.systemProperty("robolectric.graphicsMode", "NATIVE")
-                it.jvmArgs("-Dnet.bytebuddy.experimental=true", "-Xverify:none")
+                it.jvmArgs("-Dnet.bytebuddy.experimental=true", "-XX:+EnableDynamicAgentLoading")
             }
         }
     }
+}
+
+tasks.withType<Test>().configureEach {
+    reports.html.required.set(false)
 }
 
 kover {

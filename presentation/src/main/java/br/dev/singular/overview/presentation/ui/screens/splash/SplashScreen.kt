@@ -70,6 +70,6 @@ fun SplashScreen(onToHome: () -> Unit = {}) {
 
 @UiScreenPreview
 @Composable
-private fun SplashScreenPreview() {
+internal fun SplashScreenPreview() {
     SplashScreen()
 }

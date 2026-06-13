@@ -44,8 +44,10 @@ fun UiSubtitle(
 
 @UiComponentPreview
 @Composable
-private fun UiSubtitlePreview() {
-    Column {
+internal fun UiSubtitlePreview() {
+    Column(
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+    ) {
         UiSubtitle(text = "Text One")
         UiSubtitle(text = "Text Two", isBold = true)
         UiSubtitle(text = "Text Three", color = Color.Gray)

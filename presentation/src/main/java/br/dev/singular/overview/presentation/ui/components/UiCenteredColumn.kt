@@ -39,9 +39,9 @@ fun UiCenteredColumn(modifier: Modifier = Modifier, content: @Composable ColumnS
 
 @UiComponentPreview
 @Composable
-private fun UiCenteredColumnPreview() {
+internal fun UiCenteredColumnPreview() {
     UiCenteredColumn {
-        UiTitle(text = "Wanning!", color = HighlightColor)
+        UiTitle(text = "Warning!", color = HighlightColor)
         UiText("This is a centralized content.")
     }
 }

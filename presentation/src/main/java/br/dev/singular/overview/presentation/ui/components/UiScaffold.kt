@@ -46,13 +46,13 @@ fun UiScaffold(
 
 @UiScreenPreview
 @Composable
-private fun UiScaffoldPreview() {
+internal fun UiScaffoldPreview() {
     UiScaffold(
         topBar = { UiTopAppBar("Screen Title") }
     ) {
         Box(Modifier.padding(top = it.calculateTopPadding())) {
             UiMediaGrid(
-                items = fakeMedias(),
+                items = fakeMedias(50),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Background)

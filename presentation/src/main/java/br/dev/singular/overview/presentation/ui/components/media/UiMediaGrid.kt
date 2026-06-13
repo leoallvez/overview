@@ -117,7 +117,7 @@ fun UiMediaGridSkeleton(
 
 @UiScreenPreview
 @Composable
-private fun UiMediaGridVerticalPreview() {
+internal fun UiMediaGridVerticalPreview() {
     UiMediaGrid(
         items = fakeMedias(90),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
@@ -126,7 +126,7 @@ private fun UiMediaGridVerticalPreview() {
 
 @UiScreenPreview
 @Composable
-private fun UiMediaGridHorizontalPreview() {
+internal fun UiMediaGridHorizontalPreview() {
     UiMediaGrid(
         items = fakeMedias(90),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1x))
@@ -135,7 +135,7 @@ private fun UiMediaGridHorizontalPreview() {
 
 @UiScreenPreview
 @Composable
-private fun UiMediaGridSkeletonPreview() {
+internal fun UiMediaGridSkeletonPreview() {
     UiShimmerProvider {
         UiMediaGridSkeleton()
     }
@@ -143,7 +143,7 @@ private fun UiMediaGridSkeletonPreview() {
 
 @UiScreenPreview
 @Composable
-private fun UiMediaGridSkeletonHorizontalPreview() {
+internal fun UiMediaGridSkeletonHorizontalPreview() {
     UiShimmerProvider {
         UiMediaGridSkeleton()
     }

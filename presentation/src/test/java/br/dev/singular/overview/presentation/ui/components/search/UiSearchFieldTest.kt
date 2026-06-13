@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components
+package br.dev.singular.overview.presentation.ui.components.search
 
 import android.content.Context
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -12,6 +12,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.UiSearchField
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Rule
@@ -78,7 +79,7 @@ class UiSearchFieldTest {
             val placeholder = context.getString(R.string.search)
             val onQueryChange: (String) -> Unit = mockk(relaxed = true)
             val inputText = "Spider-man"
-           // act
+            // act
             setContent {
                 UiSearchField(
                     query = "",

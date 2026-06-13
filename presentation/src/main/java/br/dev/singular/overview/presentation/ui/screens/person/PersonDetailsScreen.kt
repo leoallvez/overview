@@ -211,7 +211,7 @@ private fun Participation(
 
 @UiScreenPreview
 @Composable
-private fun PersonDetailsScreenPreview() {
+internal fun PersonDetailsScreenPreview() {
     PersonDetailsScreen(
         personId = 1L,
         uiState = UiState.Success(data = fakePerson()),

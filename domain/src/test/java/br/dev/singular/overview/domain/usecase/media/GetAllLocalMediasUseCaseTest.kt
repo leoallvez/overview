@@ -10,7 +10,7 @@ import br.dev.singular.overview.domain.usecase.createMediaMock
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -28,37 +28,32 @@ class GetAllLocalMediasUseCaseTest {
     }
 
     @Test
-    fun `invoke should return success with media page`() = runBlocking {
+    fun `invoke should return success with media page`() = runTest {
         // arrange
-        coEvery { getterPageMock.getPage(any()) } returns
-                Page(items = listOf(createMediaMock(), createMediaMock()))
+        val query = QueryState(query = "local")
+        val expectedPage = Page(items = listOf(createMediaMock(), createMediaMock()))
+        coEvery { getterPageMock.getPage(query) } returns expectedPage
 
         // act
-        val result = sut.invoke(QueryState())
+        val result = sut.invoke(query)
 
         // assert
-        coVerify(exactly = 1) { getterPageMock.getPage(any()) }
-        assertTrue(result is UseCaseState.Success)
-        assertEquals(2, (result as UseCaseState.Success).data.items.size)
+        coVerify(exactly = 1) { getterPageMock.getPage(query) }
+        assertEquals(UseCaseState.Success(expectedPage), result)
     }
 
     @Test
-    fun `invoke should return Failure when getter throws exception`() = runBlocking {
+    fun `invoke should return Failure when getter throws exception`() = runTest {
         // Arrange
-        val expectedException = Exception("Getter failed")
+        val expectedException = RuntimeException("Local DB Error")
         coEvery { getterPageMock.getPage(any()) } throws expectedException
 
         // Act
         val result = sut.invoke(QueryState())
 
         // Assert
-        coVerify(exactly = 1) { getterPageMock.getPage(any()) }
-
         assertTrue(result is UseCaseState.Failure)
         val failure = result as UseCaseState.Failure
-        assertEquals(
-            expectedException,
-            (failure.type as FailType.Exception).throwable
-        )
+        assertEquals(expectedException, (failure.type as FailType.Exception).throwable)
     }
 }
