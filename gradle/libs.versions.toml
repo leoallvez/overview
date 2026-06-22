@@ -70,7 +70,7 @@ youtube-player = "13.0.0"
 paparazzi = "2.0.0-alpha05"
 kover = "0.9.8"
 ktlint = "14.2.0"
-foundation = "1.10.6"
+foundation = "1.11.3"
 pitest = "1.19.0"
 
 [libraries]
