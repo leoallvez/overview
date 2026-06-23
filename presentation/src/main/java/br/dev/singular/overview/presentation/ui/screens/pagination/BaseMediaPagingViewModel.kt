@@ -83,6 +83,6 @@ abstract class BaseMediaPagingViewModel : BaseScrollViewModel() {
      * @param query The parameters for the media request, including the page number.
      * @return A [UseCaseState] containing the fetched [Page] of [Media] or an error.
      */
-    protected abstract suspend fun onFetching(query: QueryUiState): UseCaseState<Page<Media>>
+    internal abstract suspend fun onFetching(query: QueryUiState): UseCaseState<Page<Media>>
 
 }

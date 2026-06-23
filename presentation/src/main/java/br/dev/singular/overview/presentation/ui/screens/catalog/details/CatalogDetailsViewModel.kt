@@ -3,6 +3,7 @@ package br.dev.singular.overview.presentation.ui.screens.catalog.details
 import androidx.lifecycle.viewModelScope
 import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetRemoteMediasUseCase
+import br.dev.singular.overview.presentation.di.domain.DiscoverMediaUseCase
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CatalogDetailsViewModel @Inject constructor(
     private val dispatcher: CoroutineDispatcher,
+    @param:DiscoverMediaUseCase
     private val getMediasUseCase: IGetRemoteMediasUseCase,
     private val queryStateUseCase: ICatalogQueryStateUseCase
 ) : BaseMediaPagingViewModel() {

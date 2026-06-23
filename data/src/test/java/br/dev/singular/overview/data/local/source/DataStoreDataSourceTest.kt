@@ -3,7 +3,6 @@ package br.dev.singular.overview.data.local.source
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

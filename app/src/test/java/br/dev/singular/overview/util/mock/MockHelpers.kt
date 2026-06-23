@@ -1,19 +1,8 @@
 package br.dev.singular.overview.util.mock
 
 import br.dev.singular.overview.data.api.response.ErrorResponse
-import br.dev.singular.overview.data.source.DataResult
 import com.haroldadmin.cnradapter.NetworkResponse
 import java.io.IOException
-
-fun <T> mockResult(
-    returnType: ReturnType,
-    successResult: DataResult.Success<T>
-) = when (returnType) {
-    ReturnType.SUCCESS -> successResult
-    ReturnType.SERVER_ERROR -> DataResult.ServerError()
-    ReturnType.NETWORK_ERROR -> DataResult.NetworkError()
-    ReturnType.UNKNOWN_ERROR -> DataResult.UnknownError()
-}
 
 const val ERROR_MSG = "Error"
 

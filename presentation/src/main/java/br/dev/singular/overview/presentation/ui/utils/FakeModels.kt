@@ -15,7 +15,7 @@ import java.util.UUID
 
 @Composable
 internal fun fakeMedias(
-    count: Int = 10,
+    count: Int = 20,
     withLongText: Boolean = false
 ): ImmutableList<MediaUiModel> {
 
