@@ -2,8 +2,10 @@ package br.dev.singular.overview.presentation.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
@@ -18,10 +20,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -37,11 +37,15 @@ fun UiAnimatedVisibility(
         visible = visible,
         enter = slideInVertically(
             initialOffsetY = { -it }
+        ) + expandVertically(
+            expandFrom = Alignment.Top
         ) + fadeIn(
             animationSpec = tween(200)
         ),
         exit = slideOutVertically(
             targetOffsetY = { -it }
+        ) + shrinkVertically(
+            shrinkTowards = Alignment.Top
         ) + fadeOut(
             targetAlpha = 0.1f,
             animationSpec = tween(200)

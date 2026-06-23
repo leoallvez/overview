@@ -1,6 +1,6 @@
 package br.dev.singular.overview.data.api
 
-import br.dev.singular.overview.data.BuildConfig
+import br.dev.singular.overview.data.BuildConfig.API_KEY
 import br.dev.singular.overview.data.api.response.ErrorResponse
 import br.dev.singular.overview.data.api.response.ListResponse
 import br.dev.singular.overview.data.api.response.ProviderResponse
@@ -30,38 +30,6 @@ interface ApiService {
 
     ): NetworkResponse<TvShow, ErrorResponse>
 
-    @GET(value = "search/tv")
-    suspend fun searchTvShow(
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "api_key")
-        apiKey: String = API_KEY
-    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
-
-    @GET(value = "discover/tv?sort_by=popularity.desc")
-    suspend fun discoverOnTvByStreaming(
-        @Query(value = "api_key")
-        apiKey: String = API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "first_air_date.gte")
-        dateIni: String = "",
-        @Query(value = "first_air_date.lte")
-        dateEnd: String = "",
-        @Query(value = "with_watch_providers")
-        streamingIds: String = ""
-    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
-
     // Movie
     @GET(value = "movie/{api_id}")
     suspend fun getMovie(
@@ -77,22 +45,6 @@ interface ApiService {
         appendToResponse: String = "credits,similar"
 
     ): NetworkResponse<Movie, ErrorResponse>
-
-    @GET(value = "search/movie")
-    suspend fun searchMovie(
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "api_key")
-        apiKey: String = API_KEY
-    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
 
     // Providers
     @GET(value = "{media_type}/{api_id}/watch/providers")
@@ -121,8 +73,4 @@ interface ApiService {
         @Query(value = "language")
         language: String = ""
     ): NetworkResponse<ListResponse<Video>, ErrorResponse>
-
-    companion object {
-        private const val API_KEY = BuildConfig.API_KEY
-    }
 }

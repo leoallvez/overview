@@ -24,5 +24,19 @@
     "params": {
       "sort_by": "primary_release_date.desc"
     }
+  },
+  {
+    "key": "search_movie",
+    "path": "search/movie",
+    "params": {
+      "sort_by": "primary_release_date.desc"
+    }
+  },
+  {
+    "key": "search_tv",
+    "path": "search/tv",
+    "params": {
+      "sort_by": "primary_release_date.desc"
+    }
   }
 ]

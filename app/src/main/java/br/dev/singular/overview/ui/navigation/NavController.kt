@@ -30,12 +30,14 @@ import br.dev.singular.overview.presentation.ui.screens.genre.interaction.GenreS
 import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsScreen
 import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsViewModel
 import br.dev.singular.overview.presentation.ui.screens.person.interaction.PersonDetailsActions
+import br.dev.singular.overview.presentation.ui.screens.search.SearchScreen
+import br.dev.singular.overview.presentation.ui.screens.search.SearchViewModel
+import br.dev.singular.overview.presentation.ui.screens.search.interaction.SearchActions
 import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
 import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
 import br.dev.singular.overview.presentation.ui.screens.video.interaction.YouTubePlayerActions
 import br.dev.singular.overview.ui.media.MediaDetailsScreen
 import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
-import br.dev.singular.overview.ui.search.SearchScreen
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
@@ -52,7 +54,7 @@ fun NavController(
         startDestination = Destination.Splash.route,
         modifier = modifier.background(PrimaryBackground)
     ) {
-        val nav = NavigationWrapper(navController)
+        val navi = NavigationWrapper(navController)
         composable(route = Destination.Splash.route) {
             SplashScreen(
                 onToHome = {
@@ -75,7 +77,7 @@ fun NavController(
                 showTooltip = !viewModel.tooltipDismissed.collectAsState().value,
                 actions = CatalogSelectionActions(
                     tagPath = "/select-catalog",
-                    navigation = nav,
+                    navigation = navi,
                     handleIntent = viewModel::handleIntent
                 )
             )
@@ -94,7 +96,7 @@ fun NavController(
                 uiState = viewModel.uiState.collectAsState().value,
                 actions = CatalogSelectionActions(
                     tagPath = "/change-catalog",
-                    navigation = nav,
+                    navigation = navi,
                     handleIntent = viewModel::handleIntent
                 )
             )
@@ -112,7 +114,7 @@ fun NavController(
             SelectGenreScreen(
                 uiState = viewModel.uiState.collectAsState().value,
                 actions = GenreSelectionActions(
-                    navigation = nav,
+                    navigation = navi,
                     handleIntent = viewModel::handleIntent
                 )
             )
@@ -126,13 +128,24 @@ fun NavController(
                 uiPages = viewModel.medias.collectAsLazyPagingItems(),
                 scrollState = viewModel.scrollState.collectAsState().value,
                 actions = CatalogDetailActions(
-                    navigation = nav,
+                    navigation = navi,
                     handleIntent = viewModel::handleIntent
                 )
             )
         }
         composable(route = Destination.Search.route) {
-            SearchScreen(navigate = nav)
+            val viewModel = hiltViewModel<SearchViewModel>()
+            SearchScreen(
+                queryState = viewModel.queryState.collectAsState().value,
+                scrollState = viewModel.scrollState.collectAsState().value,
+                uiPages = viewModel.medias.collectAsLazyPagingItems(),
+                suggestionsUIState = viewModel.suggestionsState.collectAsState().value,
+                onSetScrollState = viewModel::onSetScrollState,
+                actions = SearchActions(
+                    navigation = navi,
+                    handleIntent = viewModel::handleIntent
+                )
+            )
         }
         composable(
             route = Destination.MediaDetails.route,
@@ -153,7 +166,7 @@ fun NavController(
             YouTubePlayerFullscreen(
                 setEdgeToEdge = setEdgeToEdge,
                 videoKey = backStackEntry.arguments?.getString(Destination.VIDEO_KEY_PARAM) ?: "",
-                actions = YouTubePlayerActions(navigation = nav)
+                actions = YouTubePlayerActions(navigation = navi)
             )
         }
         composable(
@@ -169,7 +182,7 @@ fun NavController(
                 uiState = viewModel.uiState.collectAsState().value,
                 showAds = showAds,
                 actions = PersonDetailsActions(
-                    navigation = nav,
+                    navigation = navi,
                     onLoad = viewModel::onLoad
                 )
             )
@@ -184,7 +197,7 @@ fun NavController(
                 scrollState = viewModel.scrollState.collectAsState().value,
                 onSetScrollState = { viewModel.onSetScrollState(it) },
                 actions = FavoritesActions(
-                    navigation = nav,
+                    navigation = navi,
                     onSetType = viewModel::onSetType
                 )
             )

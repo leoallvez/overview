@@ -29,9 +29,12 @@ import br.dev.singular.overview.domain.usecase.media.DiscoverRemoteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.GetAllLocalMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetAllLocalMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetRemoteMediasUseCase
+import br.dev.singular.overview.domain.usecase.media.SearchRemoteMediasUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
+import br.dev.singular.overview.presentation.di.domain.DiscoverMediaUseCase
+import br.dev.singular.overview.presentation.di.domain.SearchMediaUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,13 +74,22 @@ class UseCaseModule {
         return GetAllLocalMediasUseCase(getter = repo)
     }
 
-    // TODO: use same use case to search movies and tv shows
     @Singleton
     @Provides
+    @DiscoverMediaUseCase
     fun provideDiscoverRemoteMediasUseCase(
         repo: MediaRemoteRepository
     ): IGetRemoteMediasUseCase {
         return DiscoverRemoteMediasUseCase(getter = repo)
+    }
+
+    @Singleton
+    @Provides
+    @SearchMediaUseCase
+    fun provideSearchRemoteMediasUseCase(
+        repo: MediaRemoteRepository
+    ): IGetRemoteMediasUseCase {
+        return SearchRemoteMediasUseCase(getter = repo)
     }
 
     @Singleton
@@ -107,7 +119,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideSalveGenreUseCase(
+    fun provideSaveGenreUseCase(
         repoLocal: GenreLocalRepository,
         repoRemote: GenreRemoteRepository
     ): ISaveGenreUseCase {
@@ -141,7 +153,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideICatalogQueryUseCase(
+    fun provideCatalogQueryUseCase(
         repo: CatalogQueryLocalRepository
     ): ICatalogQueryStateUseCase {
         return CatalogQueryStateUseCase(getter = repo, updater = repo, observer = repo)

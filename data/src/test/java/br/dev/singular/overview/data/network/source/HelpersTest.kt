@@ -5,7 +5,6 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import io.mockk.mockk
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
-import java.io.IOException
 
 class HelpersTest {
 

@@ -2,7 +2,6 @@ package br.dev.singular.overview.data.local.source
 
 import br.dev.singular.overview.data.model.MediaRouteDataModel
 import br.dev.singular.overview.data.util.IJsonFileReaderProvider
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
