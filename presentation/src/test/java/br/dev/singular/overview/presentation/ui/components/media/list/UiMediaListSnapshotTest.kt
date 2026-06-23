@@ -3,8 +3,8 @@ package br.dev.singular.overview.presentation.ui.components.media.list
 import br.dev.singular.overview.presentation.ui.components.UiScreenSnapshotTest
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaListEmptyPreview
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaListSkeletonPreview
-import br.dev.singular.overview.presentation.ui.components.media.UiMediaListWithBackgroundPreview
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaListWitchContentPaddingPreview
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaListWithBackgroundPreview
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaPreview
 import org.junit.Test
 

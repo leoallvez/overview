@@ -1,6 +1,5 @@
 package br.dev.singular.overview.data.local.source
 
-import br.dev.singular.overview.data.BuildConfig
 import br.dev.singular.overview.data.local.database.dao.MediaDao
 import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.MediaDataType

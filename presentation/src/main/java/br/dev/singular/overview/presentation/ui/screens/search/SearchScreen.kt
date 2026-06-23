@@ -1,8 +1,6 @@
-package br.dev.singular.overview.ui.search
+package br.dev.singular.overview.presentation.ui.screens.search
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -21,17 +18,12 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
-import br.dev.singular.overview.data.source.media.MediaType
+import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.model.MediaUiType
-import br.dev.singular.overview.presentation.tagging.TagManager
-import br.dev.singular.overview.presentation.tagging.TagMediaManager
-import br.dev.singular.overview.presentation.tagging.params.TagSearch
+import br.dev.singular.overview.presentation.model.QueryUiState
+import br.dev.singular.overview.presentation.model.ScrollUiState
 import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.UiCenteredColumn
 import br.dev.singular.overview.presentation.ui.components.UiDivider
@@ -42,122 +34,116 @@ import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
-import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
-import br.dev.singular.overview.presentation.ui.screens.common.MediaGridSkeletonScreen
 import br.dev.singular.overview.presentation.ui.screens.common.MediaListSkeletonScreen
-import br.dev.singular.overview.presentation.ui.screens.common.NothingFoundScreen
 import br.dev.singular.overview.presentation.ui.screens.common.TrackScreenView
+import br.dev.singular.overview.presentation.ui.screens.common.UiPagedMediaGrid
+import br.dev.singular.overview.presentation.ui.screens.search.interaction.SearchActions
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
+import br.dev.singular.overview.presentation.ui.utils.fakeMedias
+import br.dev.singular.overview.presentation.ui.utils.fakeQueryState
 import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
 import br.dev.singular.overview.presentation.ui.utils.rememberLazyGridScrollState
-import br.dev.singular.overview.ui.theme.PrimaryBackground
-import br.dev.singular.overview.util.getStringByName
+import br.dev.singular.overview.presentation.util.getStringByName
 import kotlinx.collections.immutable.toImmutableList
-
-private fun tagClick(detail: String, id: Long = 0L) {
-    TagManager.logClick(TagSearch.PATH, detail, id)
-}
 
 @Composable
 fun SearchScreen(
-    navigate: INavigationWrapper,
-    viewModel: SearchViewModel = hiltViewModel()
+    queryState: QueryUiState,
+    scrollState: ScrollUiState,
+    uiPages: LazyPagingItems<MediaUiModel>,
+    suggestionsUIState: SuggestionUIState,
+    onSetScrollState: (ScrollUiState) -> Unit = {},
+    actions: SearchActions
 ) {
-    val filters = viewModel.searchFilters.collectAsState().value
-    val items = viewModel.mediasSearch.collectAsLazyPagingItems()
-    val suggestionsUIState = viewModel.suggestionsUIState.collectAsState().value
 
+    val gridState = rememberLazyGridScrollState(
+        state = scrollState,
+        onSet = onSetScrollState
+    )
+
+    LaunchedEffect(Unit) {
+        actions.onLoadSuggestions()
+    }
+
+    SearchContent(
+        actions = actions,
+        queryState = queryState,
+    ) {
+        UiPagedMediaGrid(
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+            tagPath = actions.tagPath.search,
+            items = uiPages,
+            gridState = gridState,
+            onClickItem = {
+                actions.onToMediaDetails(media = it)
+            },
+            showInitial = queryState.query.isEmpty(),
+            initialScreen = {
+                SuggestionScreen(
+                    suggestions = suggestionsUIState,
+                    tagPath = actions.tagPath.suggestion,
+                    onClick = {
+                        actions.onToMediaDetails(media = it, isSuggestion = true)
+                    }
+                )
+            }
+        )
+    }
+}
+
+@Composable
+private fun SearchContent(
+    actions: SearchActions,
+    queryState: QueryUiState,
+    content: @Composable () -> Unit
+) {
     var isCollapsed by rememberSaveable { mutableStateOf(false) }
 
     val nestedScrollConnection = rememberCollapseScrollConnection {
         isCollapsed = it
     }
 
-    val scrollState by viewModel.scrollState.collectAsState()
-
-    val gridState = rememberLazyGridScrollState(
-        state = scrollState,
-        onSet = viewModel::onSetScrollState
-    )
-
-    LaunchedEffect(Unit) {
-        viewModel.onLoadSuggestions()
-    }
-
     UiScaffold(
         padding = PaddingValues(),
         modifier = Modifier.nestedScroll(nestedScrollConnection),
         topBar = {
-            SearchToolBar(filters.query) { query ->
-                viewModel.onSearching(filters.copy(query = query))
-            }
+            SearchTopBar(
+                query = queryState.query,
+                onSearch = actions::onSearch,
+                onClear = actions::onClear
+            )
         }
     ) { padding ->
         Column(
             modifier = Modifier
-                .background(PrimaryBackground)
                 .padding(top = padding.calculateTopPadding())
         ) {
             UiMediaTypeSelector(
-                visible = filters.query.isNotEmpty() && !isCollapsed,
-                type = MediaUiType.getByName(name = filters.mediaType.key),
+                visible = queryState.query.isNotEmpty() && !isCollapsed,
+                type = queryState.type,
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
                     .padding(bottom = dimensionResource(R.dimen.spacing_4x))
             ) {
-                val newType = MediaType.getByKey(it.name.lowercase())
-                TagMediaManager.logTypeClick(TagSearch.PATH, it)
-                viewModel.onSearching(filters.copy(mediaType = newType))
+                actions.onSelectType(it)
             }
             UiDivider(
-                visible = isCollapsed,
-                modifier = Modifier
-                    .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+                visible = isCollapsed
             )
-            Box {
-                when (items.loadState.refresh) {
-                    is LoadState.Loading -> MediaGridSkeletonScreen(
-                        tagPath = TagSearch.PATH,
-                        modifier = Modifier
-                            .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
-                    )
-
-                    is LoadState.NotLoading -> {
-                        TrackScreenView(TagSearch.PATH, TagStatus.SUCCESS)
-                        UiMediaGrid(
-                            items = items,
-                            gridState = gridState,
-                            modifier = Modifier
-                                .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
-                            onClick = {
-                                TagMediaManager.logMediaClick(TagSearch.PATH, it.id)
-                                navigate.toMediaDetails(it)
-                            }
-                        )
-                    }
-
-                    else -> {
-                        if (items.itemCount == 0 && filters.query.isNotEmpty()) {
-                            NothingFoundScreen(TagSearch.PATH)
-                        } else {
-                            SearchInitialScreen(
-                                suggestions = suggestionsUIState,
-                                tagPath = TagSearch.PATH_SUGGESTIONS,
-                                onClick = {
-                                    TagMediaManager.logMediaClick(TagSearch.PATH_SUGGESTIONS, it.id)
-                                    navigate.toMediaDetails(it)
-                                }
-                            )
-                        }
-                    }
-                }
-            }
+            content()
         }
     }
 }
 
 @Composable
-fun SearchToolBar(query: String, onSearch: (String) -> Unit) {
+private fun SearchTopBar(
+    query: String,
+    onSearch: (String) -> Unit,
+    onClear: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -168,22 +154,17 @@ fun SearchToolBar(query: String, onSearch: (String) -> Unit) {
         UiSearchField(
             query = query,
             placeholder = stringResource(R.string.search_in_all_places),
-            onQueryChange = {
-                TagManager.logInteraction(TagSearch.PATH, TagSearch.Detail.SEARCH_FIELD)
-                onSearch(it)
-            },
-            onClear = {
-                tagClick(TagSearch.Detail.CLEAN_SEARCH_FIELD)
-            }
+            onQueryChange = onSearch,
+            onClear = onClear
         )
     }
 }
 
 @Composable
-fun SearchInitialScreen(
+private fun SuggestionScreen(
     suggestions: SuggestionUIState,
-    tagPath: String,
-    onClick: (MediaUiModel) -> Unit
+    tagPath: String = "",
+    onClick: (MediaUiModel) -> Unit = {}
 ) {
     when (suggestions) {
         is UiState.Loading -> MediaListSkeletonScreen(
@@ -209,7 +190,7 @@ fun SearchInitialScreen(
 }
 
 @Composable
-fun SuggestionsVerticalList(
+private fun SuggestionsVerticalList(
     suggestions: Map<String, List<MediaUiModel>>,
     onClick: (MediaUiModel) -> Unit
 ) {
@@ -226,5 +207,69 @@ fun SuggestionsVerticalList(
                 onClick = onClick
             )
         }
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun SearchScreenPreview() {
+    SearchContent(
+        queryState = fakeQueryState(),
+        actions = SearchActions()
+    ) {
+        UiMediaGrid(
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+            items = fakeMedias(90)
+        )
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun SuggestionScreenPreview() {
+    val medias = fakeMedias()
+    SearchContent(
+        queryState = fakeQueryState(),
+        actions = SearchActions()
+    ) {
+        SuggestionScreen(
+            suggestions = UiState.Success(
+                data = mapOf(
+                    "tv_top_rated" to medias,
+                    "tv_trending" to medias,
+                    "movie_top_rated" to medias,
+                    "discover_movie" to medias,
+                    "movie_trending" to medias,
+                    "movie_popular" to medias
+                )
+            )
+        )
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun SuggestionScreenLoadingPreview() {
+    SearchContent(
+        queryState = fakeQueryState(),
+        actions = SearchActions()
+    ) {
+        SuggestionScreen(
+            suggestions = UiState.Loading()
+        )
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun SuggestionScreenErrorPreview() {
+    SearchContent(
+        queryState = fakeQueryState(),
+        actions = SearchActions()
+    ) {
+        SuggestionScreen(
+            suggestions = UiState.Error()
+        )
     }
 }
