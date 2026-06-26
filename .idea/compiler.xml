@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
       <module name="Overview.app" target="21" />
+      <module name="overview.core" target="21" />
       <module name="Overview.data" target="21" />
       <module name="Overview.firebase" target="21" />
       <module name="overview.main" target="21" />

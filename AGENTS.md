@@ -20,6 +20,7 @@ overview/
 ├── app/                         → Entry point, DI configuration & Navigation.
 │   ├── di/                      → Dependency Injection (Hilt) Modules.
 │   ├── ui/                      → Main Activity and Navigation setup.
+│   ├── monitoring/              → Error reporting (Crashlytics).
 │   └── CustomApplication.kt     → Application class.   
 ├── domain/                      → Core Business Logic (Pure Kotlin/Java).
 │   ├── model/                   → Domain Entities.
@@ -27,17 +28,14 @@ overview/
 │   └── repository/              → Repository Interfaces (Contracts).
 ├── data/                        → Data Layer Implementation.
 │   ├── repository/              → Domain Repository Implementations.
-│   ├── remote/                  → Retrofit Services & API Data Models.
+│   ├── remote/                  → Retrofit Services & Remote Config.
 │   └── local/                   → Room Database & DataStore Implementation.
-├── presentation/                → UI Layer (Jetpack Compose).
-│   ├── ui/
-│   │   ├── screens/             → Screen Composable (e.g., Home, Details).
-│   │   └── components/          → Reusable UI Components (e.g., UiMediaGrid).
-│   ├── viewmodel/               → ViewModels (exposing StateFlow).
-│   └── tagging/                 → Analytics and User Tracking.
-└── core/                        → Shared utilities and cross-cutting concerns.
-    ├── remote/                  → Remote config utilities.
-    └── crashlytics/             → Error reporting configuration.
+└── presentation/                → UI Layer (Jetpack Compose).
+    ├── ui/
+    │   ├── screens/             → Screen Composable (e.g., Home, Details).
+    │   └── components/          → Reusable UI Components (e.g., UiMediaGrid).
+    ├── viewmodel/               → ViewModels (exposing StateFlow).
+    └── tagging/                 → Analytics and User Tracking.
 ```
 
 ## App module
@@ -117,6 +115,7 @@ between local and remote sources.
 
 - **Remote:** Uses Retrofit for API calls. Response models usually have a `Response` or `DataModel`
   suffix.
+- **Remote Config:** Found in `remote/config`, handles dynamic feature flags (Firebase).
 - **Local:** Handles persistence (Room/DataStore).
 - **Mappers:** Found in `util/mappers`, they convert data models into domain entities.
 
@@ -258,10 +257,3 @@ private fun UiAppleCardPreview() {
     UiAppleCard(model)
 }
 ```
-
-## Core module
-
-This module contains shared utilities.
-
-- **Remote Config:** Wrappers for dynamic feature flags (Firebase).
-- **Crashlytics:** Infrastructure for error reporting.
