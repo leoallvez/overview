@@ -19,7 +19,6 @@ plugins {
 
 dependencies {
     kover(project(":app"))
-    kover(project(":core"))
     kover(project(":data"))
     kover(project(":domain"))
     kover(project(":presentation"))

@@ -1,7 +1,7 @@
 package br.dev.singular.overview.remote
 
-import br.dev.singular.overview.core.remote.IRemoteConfigProvider
-import br.dev.singular.overview.core.remote.RemoteConfigWrapper
+import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
+import br.dev.singular.overview.data.remote.config.RemoteConfigWrapper
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.mockk.MockKAnnotations
 import io.mockk.every

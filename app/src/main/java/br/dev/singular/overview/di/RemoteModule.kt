@@ -1,7 +1,7 @@
 package br.dev.singular.overview.di
 
 import br.dev.singular.overview.BuildConfig
-import br.dev.singular.overview.core.remote.IRemoteConfigProvider
+import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
 import br.dev.singular.overview.remote.DisplayAdsRemoteConfig
 import br.dev.singular.overview.remote.RemoteConfig
 import dagger.Module
