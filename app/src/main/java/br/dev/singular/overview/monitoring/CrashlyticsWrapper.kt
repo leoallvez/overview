@@ -1,4 +1,4 @@
-package br.dev.singular.overview.core.crashlytics
+package br.dev.singular.overview.monitoring
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 

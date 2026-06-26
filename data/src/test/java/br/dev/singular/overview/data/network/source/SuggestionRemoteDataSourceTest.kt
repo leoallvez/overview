@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.network.source
 
-import br.dev.singular.overview.core.remote.IRemoteConfigProvider
 import br.dev.singular.overview.data.model.SuggestionDataModel
+import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest

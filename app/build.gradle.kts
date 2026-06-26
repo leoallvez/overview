@@ -150,13 +150,15 @@ dependencies {
 
     // Third-party libraries
     implementation(libs.timber)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
     implementation(libs.logging.interceptor)
     implementation(libs.toolbar.compose)
     implementation(libs.converter.moshi)
     implementation(libs.converter.serialization)
 
     // Modules
-    implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))

@@ -1,10 +1,10 @@
 package br.dev.singular.overview.data.network.source
 
-import br.dev.singular.overview.core.remote.IRemoteConfigProvider
-import br.dev.singular.overview.core.remote.RemoteConfigKey
 import br.dev.singular.overview.data.model.CatalogDataModel
 import br.dev.singular.overview.data.network.ApiService
 import br.dev.singular.overview.data.network.ILocaleProvider
+import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
+import br.dev.singular.overview.data.remote.config.RemoteConfigKey
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,7 +30,7 @@ class CatalogRemoteDataSource @Inject constructor(
 
     private suspend fun fetchFromConfig(region: String): List<CatalogDataModel> {
         return try {
-            val jsonString = provider.getString(RemoteConfigKey.getCatalogKeyByRegion(region))
+            val jsonString = provider.getString(RemoteConfigKey.getKeyByRegion(region))
             if (jsonString.isBlank()) return emptyList()
 
             withContext(Dispatchers.Default) {
