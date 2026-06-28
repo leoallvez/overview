@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Rule
