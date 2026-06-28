@@ -22,7 +22,7 @@ import br.dev.singular.overview.presentation.model.QueryUiState
 import br.dev.singular.overview.presentation.model.ScrollUiState
 import br.dev.singular.overview.presentation.ui.components.UiDivider
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
-import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.screens.common.StateScreen

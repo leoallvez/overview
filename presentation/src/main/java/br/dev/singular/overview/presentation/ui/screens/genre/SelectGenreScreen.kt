@@ -13,7 +13,7 @@ import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.GenreUiState
 import br.dev.singular.overview.presentation.ui.components.UiList
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
-import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.components.genre.UiGenreItem
 import br.dev.singular.overview.presentation.ui.screens.common.ItemListSkeletonScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
