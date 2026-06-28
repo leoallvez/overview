@@ -18,9 +18,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
+import br.dev.singular.overview.presentation.ui.components.navigation.bottom.UiBottomNavigation
+import br.dev.singular.overview.presentation.ui.components.navigation.bottom.rememberUiBottomNavigationState
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.navigation.NavController
+import br.dev.singular.overview.ui.navigation.NavigationWrapper
 import br.dev.singular.overview.ui.theme.AppTheme
 import br.dev.singular.overview.ui.theme.PrimaryBackground
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +62,17 @@ class MainActivity : ComponentActivity() {
                     containerColor = PrimaryBackground,
                     contentWindowInsets = WindowInsets(0),
                     bottomBar = {
-                        BottomNavigationBar(navController, showAds)
+                        UiBottomNavigation(
+                            state = rememberUiBottomNavigationState(
+                                navigation = NavigationWrapper(navController)
+                            ),
+                            topSlot = {
+                                UiAdsBanner(
+                                    prodBannerId = R.string.bottom_navigation,
+                                    isVisible = showAds
+                                )
+                            }
+                        )
                     },
                     modifier = Modifier
                         .fillMaxSize()

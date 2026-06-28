@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
@@ -34,6 +36,7 @@ fun UiScaffold(
 ) {
     Scaffold(
         containerColor = Background,
+        contentWindowInsets = WindowInsets(0),
         modifier = modifier
             .background(Background)
             .padding(padding),

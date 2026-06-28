@@ -11,7 +11,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.CatalogUiState
 import br.dev.singular.overview.presentation.ui.components.UiInfoTooltip
-import br.dev.singular.overview.presentation.ui.components.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionActions
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionIntent
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview

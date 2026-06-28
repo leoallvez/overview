@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components
+package br.dev.singular.overview.presentation.ui.components.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
