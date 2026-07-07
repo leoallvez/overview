@@ -48,6 +48,7 @@
     <string name="synopsis">あらすじ</string>
     <string name="biography">バイオグラフィー</string>
     <string name="cast">キャスト</string>
+    <string name="crew">スタッフ</string>
     <string name="related">関連している</string>
     <string name="where_to_watch">プロバイダー</string>
     <string name="tv_shows_participation">テレビ出演</string>
@@ -56,6 +57,7 @@
     <string name="place_of_birth">出生地</string>
     <string name="runtime_per_episode">ランタイム: エピソードあたり %s</string>
     <string name="director">監督</string>
+    <string name="creator">制作</string>
     <string name="release_date">発売日</string>
     <string name="runtime">ランタイム</string>
     <string name="movies">映画</string>

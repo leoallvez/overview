@@ -75,4 +75,20 @@ class MediaTest {
         assertEquals(items[0].id, domainPage.items[0].id)
         assertEquals(items[1].id, domainPage.items[1].id)
     }
+
+    @Test
+    fun `MediaDataModel toDomain should use typeOverride if provided`() {
+        // arrange
+        val dataModel = MediaDataModel(
+            id = 1L,
+            name = "Media Name",
+            type = MediaDataType.MOVIE
+        )
+
+        // act
+        val domainModel = dataModel.toDomain(typeOverride = MediaType.TV)
+
+        // assert
+        assertEquals(MediaType.TV, domainModel.type)
+    }
 }

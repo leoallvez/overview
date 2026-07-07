@@ -33,7 +33,7 @@ fun UiParagraph(text: String, modifier: Modifier = Modifier) {
 @Composable
 internal fun UiParagraphPreview() {
     UiParagraph(
-        text = stringResource(R.string.lorem_ipsum),
+        text = stringResource(R.string.lorem_ipsum_long),
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
     )
 }

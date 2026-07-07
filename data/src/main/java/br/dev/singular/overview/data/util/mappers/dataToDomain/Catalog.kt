@@ -11,3 +11,5 @@ internal fun CatalogDataModel.toDomain() = Catalog(
     display = display,
     lastUpdate = lastUpdate
 )
+
+internal fun List<CatalogDataModel>.toDomain() = map { it.toDomain() }

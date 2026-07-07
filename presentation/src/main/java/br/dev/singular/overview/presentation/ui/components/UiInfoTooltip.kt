@@ -98,7 +98,7 @@ internal fun UiInfoTooltipPreview() {
     UiInfoTooltip(
         visible = visible.value,
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
-        message = stringResource(R.string.lorem_ipsum)
+        message = stringResource(R.string.lorem_ipsum_long)
     ) {
         visible.value = false
     }

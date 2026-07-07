@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.model.PersonUiModel
+import br.dev.singular.overview.presentation.model.PersonDetailsUiModel
 import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
-import br.dev.singular.overview.presentation.ui.components.UiPersonAvatar
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
+import br.dev.singular.overview.presentation.ui.components.person.UiPersonAvatar
 import br.dev.singular.overview.presentation.ui.components.text.UiParagraph
 import br.dev.singular.overview.presentation.ui.components.text.UiSubtitle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
@@ -42,7 +42,7 @@ import br.dev.singular.overview.presentation.ui.screens.person.interaction.Perso
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground
-import br.dev.singular.overview.presentation.ui.utils.fakePerson
+import br.dev.singular.overview.presentation.ui.utils.fakePersonDetails
 import kotlinx.collections.immutable.ImmutableList
 
 /**
@@ -56,7 +56,7 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun PersonDetailsScreen(
     personId: Long,
-    uiState: UiState<PersonUiModel?>,
+    uiState: UiState<PersonDetailsUiModel?>,
     showAds: Boolean = false,
     actions: PersonDetailsActions,
 ) {
@@ -85,7 +85,7 @@ fun PersonDetailsScreen(
 
 @Composable
 private fun PersonToolBar(
-    person: PersonUiModel,
+    person: PersonDetailsUiModel,
     actions: PersonDetailsActions
 ) {
     Box(
@@ -115,7 +115,7 @@ private fun PersonToolBar(
 
 @Composable
 private fun PersonBody(
-    person: PersonUiModel,
+    person: PersonDetailsUiModel,
     showAds: Boolean,
     actions: PersonDetailsActions
 ) {
@@ -136,7 +136,11 @@ private fun PersonBody(
                 Dates(person)
                 PlaceOfBirth(placeOfBirth)
                 Biography(biography)
-                UiAdsMediumRectangle(R.string.person_banner, isVisible = showAds)
+                UiAdsMediumRectangle(
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_3x)),
+                    prodBannerId = R.string.person_banner,
+                    isVisible = showAds
+                )
             }
             Participation(
                 listTitleRes = R.string.movies_participation,
@@ -153,7 +157,7 @@ private fun PersonBody(
 }
 
 @Composable
-private fun Dates(person: PersonUiModel) = with(person) {
+private fun Dates(person: PersonDetailsUiModel) = with(person) {
 
     val lifespan = when {
         deathDay.isNotEmpty() -> {
@@ -214,7 +218,8 @@ private fun Participation(
 internal fun PersonDetailsScreenPreview() {
     PersonDetailsScreen(
         personId = 1L,
-        uiState = UiState.Success(data = fakePerson()),
+        showAds = true,
+        uiState = UiState.Success(data = fakePersonDetails()),
         actions = PersonDetailsActions()
     )
 }

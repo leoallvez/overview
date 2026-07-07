@@ -94,6 +94,7 @@ fun UiPagedMediaGrid(
             modifier = modifier,
             tagPath = tagPath,
         )
+
         is LoadState.Error -> errorScreen()
         is LoadState.NotLoading -> {
             if (showInitial) {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,11 +22,11 @@ import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
 import br.dev.singular.overview.presentation.ui.components.navigation.bottom.UiBottomNavigation
 import br.dev.singular.overview.presentation.ui.components.navigation.bottom.rememberUiBottomNavigationState
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
+import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.remote.RemoteConfig
 import br.dev.singular.overview.ui.navigation.NavController
 import br.dev.singular.overview.ui.navigation.NavigationWrapper
 import br.dev.singular.overview.ui.theme.AppTheme
-import br.dev.singular.overview.ui.theme.PrimaryBackground
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -59,7 +58,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Scaffold(
-                    containerColor = PrimaryBackground,
+                    containerColor = Background,
                     contentWindowInsets = WindowInsets(0),
                     bottomBar = {
                         UiBottomNavigation(
@@ -76,7 +75,6 @@ class MainActivity : ComponentActivity() {
                     },
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(PrimaryBackground)
                         .padding(WindowInsets.systemBars.asPaddingValues()),
                 ) { innerPadding ->
                     UiShimmerProvider {

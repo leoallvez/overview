@@ -1,22 +1,24 @@
 package br.dev.singular.overview.di.domain
 
 import br.dev.singular.overview.data.repository.DataStoreRepository
-import br.dev.singular.overview.data.repository.GenreLocalRepository
-import br.dev.singular.overview.data.repository.GenreRemoteRepository
-import br.dev.singular.overview.data.repository.MediaLocalRepository
-import br.dev.singular.overview.data.repository.MediaRemoteRepository
-import br.dev.singular.overview.data.repository.PersonRepository
+import br.dev.singular.overview.data.repository.genre.GenreLocalRepository
+import br.dev.singular.overview.data.repository.genre.GenreRemoteRepository
+import br.dev.singular.overview.data.repository.media.MediaLocalRepository
+import br.dev.singular.overview.data.repository.media.MediaRemoteRepository
+import br.dev.singular.overview.data.repository.media.MovieDetailsRemoteRepository
+import br.dev.singular.overview.data.repository.media.TvShowDetailsRemoteRepository
+import br.dev.singular.overview.data.repository.PersonDetailsRepository
 import br.dev.singular.overview.data.repository.SuggestionRepository
 import br.dev.singular.overview.data.repository.catalog.CatalogQueryLocalRepository
 import br.dev.singular.overview.data.repository.catalog.CatalogRepository
 import br.dev.singular.overview.di.data.CatalogTooltip
 import br.dev.singular.overview.domain.usecase.CatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.CatalogTooltipDismissedUseCase
-import br.dev.singular.overview.domain.usecase.GetPersonByIdUseCase
+import br.dev.singular.overview.domain.usecase.GetPersonDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.ICatalogTooltipDismissedUseCase
 import br.dev.singular.overview.domain.usecase.IDeleteUseCase
-import br.dev.singular.overview.domain.usecase.IGetPersonByIdUseCase
+import br.dev.singular.overview.domain.usecase.IGetPersonDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.catalog.DeleteCatalogUseCase
 import br.dev.singular.overview.domain.usecase.catalog.GetAllCatalogUseCase
 import br.dev.singular.overview.domain.usecase.catalog.IGetAllCatalogUseCase
@@ -27,8 +29,14 @@ import br.dev.singular.overview.domain.usecase.genre.SaveGenreUseCase
 import br.dev.singular.overview.domain.usecase.media.DeleteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.DiscoverRemoteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.GetAllLocalMediasUseCase
+import br.dev.singular.overview.domain.usecase.media.GetMovieDetailsByIdUseCase
+import br.dev.singular.overview.domain.usecase.media.GetTvShowDetailsByIdUseCase
+import br.dev.singular.overview.domain.usecase.media.IMediaPersistenceUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetAllLocalMediasUseCase
+import br.dev.singular.overview.domain.usecase.media.IGetMovieDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetRemoteMediasUseCase
+import br.dev.singular.overview.domain.usecase.media.IGetTvShowDetailsByIdUseCase
+import br.dev.singular.overview.domain.usecase.media.MediaPersistenceUseCase
 import br.dev.singular.overview.domain.usecase.media.SearchRemoteMediasUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
@@ -103,10 +111,26 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideGetPersonByIdUseCase(
-        repo: PersonRepository
-    ): IGetPersonByIdUseCase {
-        return GetPersonByIdUseCase(getter = repo)
+    fun provideGetPersonDetailsByIdUseCase(
+        repo: PersonDetailsRepository
+    ): IGetPersonDetailsByIdUseCase {
+        return GetPersonDetailsByIdUseCase(getter = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetMovieDetailsByIdUseCase(
+        repo: MovieDetailsRemoteRepository
+    ): IGetMovieDetailsByIdUseCase {
+        return GetMovieDetailsByIdUseCase(getter = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetTvShowDetailsByIdUseCase(
+        repo: TvShowDetailsRemoteRepository
+    ): IGetTvShowDetailsByIdUseCase {
+        return GetTvShowDetailsByIdUseCase(getter = repo)
     }
 
     @Singleton
@@ -149,6 +173,14 @@ class UseCaseModule {
         @CatalogTooltip repo: DataStoreRepository<Boolean>
     ): ICatalogTooltipDismissedUseCase {
         return CatalogTooltipDismissedUseCase(getter = repo, updater = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMediaPersistenceUseCase(
+        repo: MediaLocalRepository
+    ): IMediaPersistenceUseCase {
+        return MediaPersistenceUseCase(getter = repo, updater = repo)
     }
 
     @Singleton
