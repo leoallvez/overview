@@ -3,6 +3,7 @@ package br.dev.singular.overview.data.repository
 import br.dev.singular.overview.data.local.source.IMediaLocalDataSource
 import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MediaDataType
+import br.dev.singular.overview.data.repository.media.MediaLocalRepository
 import br.dev.singular.overview.data.util.fakeMediaDataModel
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType

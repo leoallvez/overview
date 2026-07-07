@@ -3,6 +3,7 @@ package br.dev.singular.overview.data.repository
 import br.dev.singular.overview.data.model.GenreDataModel
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.network.source.IGenreRemoteDataSource
+import br.dev.singular.overview.data.repository.genre.GenreRemoteRepository
 import br.dev.singular.overview.domain.model.MediaType
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

@@ -1,10 +1,13 @@
 package br.dev.singular.overview.domain.usecase
 
 import br.dev.singular.overview.domain.model.Catalog
+import br.dev.singular.overview.domain.model.Credits
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
-import br.dev.singular.overview.domain.model.Person
+import br.dev.singular.overview.domain.model.MovieDetails
+import br.dev.singular.overview.domain.model.PersonDetails
 import br.dev.singular.overview.domain.model.Suggestion
+import br.dev.singular.overview.domain.model.TvShowDetails
 import java.util.Date
 
 fun createCatalogMock(lastUpdate: Date = Date()): Catalog {
@@ -44,8 +47,8 @@ fun createMediaMock(
     )
 }
 
-fun createPersonMock(): Person {
-    return Person(
+fun createPersonDetailsMock(): PersonDetails {
+    return PersonDetails(
         id = 1,
         job = "Actor",
         name = "Celeste Beaumont",
@@ -57,5 +60,43 @@ fun createPersonMock(): Person {
         placeOfBirth = "Modesto, California, USA",
         tvShows = listOf(),
         movies = listOf()
+    )
+}
+
+fun createTvShowDetailsMock(): TvShowDetails {
+    return TvShowDetails(
+        id = 1L,
+        name = "TV Show Name",
+        numberOfSeasons = 5,
+        numberOfEpisodes = 50,
+        episodeRuntime = listOf(45),
+        firstAirDate = "2020-01-01",
+        posterPath = "/poster.jpg",
+        backdropPath = "/backdrop.jpg",
+        overview = "Overview description",
+        creators = listOf("Creator 1", "Creator 2"),
+        genres = listOf(),
+        credits = Credits(),
+        videos = listOf(),
+        catalogs = listOf(),
+        similar = listOf()
+    )
+}
+
+fun createMovieDetailsMock(): MovieDetails {
+    return MovieDetails(
+        id = 1L,
+        title = "Movie Title",
+        releaseDate = "2020-01-01",
+        runtime = 120,
+        posterPath = "/poster.jpg",
+        backdropPath = "/backdrop.jpg",
+        overview = "Overview description",
+        directors = listOf("Director 1", "Director 2"),
+        genres = listOf(),
+        credits = Credits(),
+        videos = listOf(),
+        catalogs = listOf(),
+        similar = listOf()
     )
 }

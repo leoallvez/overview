@@ -30,6 +30,8 @@ interface GetById<T> {
     suspend fun getById(id: Long): T?
 }
 
+interface CrudRepository<T> : GetById<T>, GetAll<T>, Update<T>, Delete<T>
+
 interface Observe<T> {
     fun observe(): Flow<T>
 }

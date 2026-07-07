@@ -26,9 +26,9 @@ abstract class UiSnapshotTest(snapshotPackage: String) {
     ) {
         val baseConfig = deviceConfig ?: DeviceConfig.PIXEL_5
         val finalConfig = if (locale != null) baseConfig.copy(locale = locale) else baseConfig
-        
+
         paparazzi.unsafeUpdateConfig(deviceConfig = finalConfig)
-        
+
         paparazzi.snapshot(name = name) {
             AppTheme {
                 sut()
@@ -42,7 +42,7 @@ abstract class UiSnapshotTest(snapshotPackage: String) {
     ): SnapshotHandler {
         val isVerify = System.getProperty("paparazzi.test.verify")?.toBoolean() == true
         val root = File("src/test/snapshots/$snapshotPackage")
-        
+
         return if (isVerify) {
             SnapshotVerifier(
                 maxPercentDifference = maxPercentDifference,

@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
+import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.ui.navigation.Destination
 import br.dev.singular.overview.presentation.ui.screens.catalog.details.CatalogDetailsScreen
 import br.dev.singular.overview.presentation.ui.screens.catalog.details.CatalogDetailsViewModel
@@ -27,6 +28,12 @@ import br.dev.singular.overview.presentation.ui.screens.favorites.interaction.Fa
 import br.dev.singular.overview.presentation.ui.screens.genre.GenreSelectionViewModel
 import br.dev.singular.overview.presentation.ui.screens.genre.SelectGenreScreen
 import br.dev.singular.overview.presentation.ui.screens.genre.interaction.GenreSelectionActions
+import br.dev.singular.overview.presentation.ui.screens.media.movie.MovieDetailsScreen
+import br.dev.singular.overview.presentation.ui.screens.media.movie.MovieDetailsViewModel
+import br.dev.singular.overview.presentation.ui.screens.media.movie.interaction.rememberMovieDetailsActions
+import br.dev.singular.overview.presentation.ui.screens.media.tvshow.TvShowDetailsScreen
+import br.dev.singular.overview.presentation.ui.screens.media.tvshow.TvShowDetailsViewModel
+import br.dev.singular.overview.presentation.ui.screens.media.tvshow.interaction.rememberTvShowDetailsActions
 import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsScreen
 import br.dev.singular.overview.presentation.ui.screens.person.PersonDetailsViewModel
 import br.dev.singular.overview.presentation.ui.screens.person.interaction.PersonDetailsActions
@@ -36,9 +43,7 @@ import br.dev.singular.overview.presentation.ui.screens.search.interaction.Searc
 import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
 import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
 import br.dev.singular.overview.presentation.ui.screens.video.interaction.YouTubePlayerActions
-import br.dev.singular.overview.ui.media.MediaDetailsScreen
-import br.dev.singular.overview.ui.navigation.wrappers.MediaDetailsNavigate
-import br.dev.singular.overview.ui.theme.PrimaryBackground
+import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
@@ -52,7 +57,7 @@ fun NavController(
     NavHost(
         navController = navController,
         startDestination = Destination.Splash.route,
-        modifier = modifier.background(PrimaryBackground)
+        modifier = modifier.background(Background)
     ) {
         val navi = NavigationWrapper(navController)
         composable(route = Destination.Splash.route) {
@@ -152,10 +157,33 @@ fun NavController(
             arguments = listOf(NavArg.ID, NavArg.TYPE, NavArg.BACKSTACK),
             exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
         ) { navBackStackEntry ->
-            MediaDetailsScreen(
-                params = navBackStackEntry.getParams(),
-                navigate = MediaDetailsNavigate(nav = navController)
-            )
+            val (id: Long, typeKey: String) = navBackStackEntry.getParams()
+
+            when (MediaUiType.getByName(typeKey)) {
+                MediaUiType.MOVIE -> {
+                    val viewModel = hiltViewModel<MovieDetailsViewModel>()
+                    MovieDetailsScreen(
+                        movieId = id,
+                        showAds = showAds,
+                        uiState = viewModel.uiState.collectAsState().value,
+                        actions = rememberMovieDetailsActions(
+                            navigation = navi,
+                            handleIntent = viewModel::handleIntent
+                        )
+                    )
+                } else -> {
+                    val viewModel = hiltViewModel<TvShowDetailsViewModel>()
+                    TvShowDetailsScreen(
+                        tvShowId = id,
+                        showAds = showAds,
+                        uiState = viewModel.uiState.collectAsState().value,
+                        actions = rememberTvShowDetailsActions(
+                            navigation = navi,
+                            handleIntent = viewModel::handleIntent
+                        )
+                    )
+                }
+            }
         }
         composable(
             route = Destination.YouTubePlayer.route,

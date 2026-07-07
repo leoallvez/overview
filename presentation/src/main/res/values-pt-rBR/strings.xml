@@ -48,6 +48,7 @@
     <string name="synopsis">Sinopse</string>
     <string name="biography">Biografia</string>
     <string name="cast">Elenco</string>
+    <string name="crew">Equipe Técnica</string>
     <string name="related">Relacionados</string>
     <string name="where_to_watch">Onde assistir</string>
     <string name="tv_shows_participation">Participações na TV </string>
@@ -55,7 +56,8 @@
     <string name="age">%s anos</string>
     <string name="place_of_birth">Local de nascimento (em inglês)</string>
     <string name="runtime_per_episode">Duração: %s por episódio</string>
-    <string name="director">Diretor</string>
+    <string name="director">Direção</string>
+    <string name="creator">Criação</string>
     <string name="release_date">Lançamento</string>
     <string name="runtime">Duração</string>
     <string name="movies">Filmes</string>

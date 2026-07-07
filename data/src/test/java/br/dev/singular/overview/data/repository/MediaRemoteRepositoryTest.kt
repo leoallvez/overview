@@ -5,6 +5,7 @@ import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MediaRouteDataModel
 import br.dev.singular.overview.data.network.source.DataResult
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
+import br.dev.singular.overview.data.repository.media.MediaRemoteRepository
 import br.dev.singular.overview.data.util.fakeMediaDataModel
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.QueryState

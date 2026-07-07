@@ -48,6 +48,7 @@
     <string name="synopsis">เรื่องย่อ</string>
     <string name="biography">ชีวประวัติ</string>
     <string name="cast">หล่อ</string>
+    <string name="crew">ทีมงาน</string>
     <string name="related">ที่เกี่ยวข้อง</string>
     <string name="where_to_watch">ผู้ให้บริการ</string>
     <string name="tv_shows_participation">การมีส่วนร่วมทางทีวี</string>
@@ -55,7 +56,8 @@
     <string name="age">%s ปี</string>
     <string name="place_of_birth">สถานที่เกิด</string>
     <string name="runtime_per_episode">รันไทม์: %s ต่อตอน</string>
-    <string name="director">ผู้อำวยการ</string>
+    <string name="director">การกำกับ</string>
+    <string name="creator">การสร้าง</string>
     <string name="release_date">วันที่วางจำหน่าย</string>
     <string name="runtime">รันไทม์</string>
     <string name="movies">ภาพยนตร์</string>
