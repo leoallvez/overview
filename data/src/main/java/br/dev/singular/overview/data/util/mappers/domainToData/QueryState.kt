@@ -15,7 +15,7 @@ internal fun QueryState.toData(
     page = page
 )
 
-fun QueryState.toData() = QueryDataState(
+internal fun QueryState.toData() = QueryDataState(
     path = key,
     type = type.toData(),
     isLiked = isLiked,

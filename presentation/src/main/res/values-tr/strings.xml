@@ -48,6 +48,7 @@
     <string name="synopsis">Özet</string>
     <string name="biography">Biyografi</string>
     <string name="cast">Oyuncular</string>
+    <string name="crew">Ekip</string>
     <string name="related">İlgili</string>
     <string name="where_to_watch">Sağlayıcılar</string>
     <string name="tv_shows_participation">TV katılımı</string>
@@ -55,7 +56,8 @@
     <string name="age">%s yaşında</string>
     <string name="place_of_birth">Doğum yeri</string>
     <string name="runtime_per_episode">Süre: Bölüm başına %s</string>
-    <string name="director">Yönetmen</string>
+    <string name="director">Yönetim</string>
+    <string name="creator">Yaratım</string>
     <string name="release_date">Yayın Tarihi</string>
     <string name="runtime">Süre</string>
     <string name="movies">Filmler</string>

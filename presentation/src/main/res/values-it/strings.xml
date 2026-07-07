@@ -48,6 +48,7 @@
     <string name="synopsis">Sinossi</string>
     <string name="biography">Biografia</string>
     <string name="cast">Lancio</string>
+    <string name="crew">Troupe</string>
     <string name="related">Imparentato</string>
     <string name="where_to_watch">Fornitori</string>
     <string name="tv_shows_participation">Partecipazione televisiva</string>
@@ -55,7 +56,8 @@
     <string name="age">%s anni</string>
     <string name="place_of_birth">Luogo di nascita</string>
     <string name="runtime_per_episode">Durata: %s per episodio</string>
-    <string name="director">Direttore</string>
+    <string name="director">Regia</string>
+    <string name="creator">Creazione</string>
     <string name="release_date">Data di rilascio</string>
     <string name="runtime">Durata</string>
     <string name="movies">Film</string>

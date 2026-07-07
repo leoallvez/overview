@@ -11,9 +11,13 @@ import javax.inject.Inject
 interface IMediaLocalDataSource {
     suspend fun insert(models: List<MediaDataModel>)
 
+    suspend fun update(model: MediaDataModel)
+
     suspend fun delete(models: List<MediaDataModel>)
 
     suspend fun getAll(): List<MediaDataModel>
+
+    suspend fun getById(id: Long): MediaDataModel?
 
     suspend fun getPage(
         page: Int = 1,
@@ -30,10 +34,16 @@ class MediaLocalDataSource @Inject constructor(
     override suspend fun insert(models: List<MediaDataModel>) =
         dao.insert(*models.toTypedArray())
 
+    override suspend fun update(model: MediaDataModel) =
+        dao.update(model)
+
     override suspend fun delete(models: List<MediaDataModel>) =
         dao.delete(*models.toTypedArray())
 
     override suspend fun getAll() = dao.getAll()
+
+    override suspend fun getById(id: Long) =
+        dao.getPage(id = id).firstOrNull()
 
     override suspend fun getPage(
         page: Int,

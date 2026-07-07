@@ -48,6 +48,7 @@
     <string name="synopsis">Ringkasan</string>
     <string name="biography">Biografi</string>
     <string name="cast">Pemeran</string>
+    <string name="crew">Kru</string>
     <string name="related">Terkait</string>
     <string name="where_to_watch">Penyedia</string>
     <string name="tv_shows_participation">partisipasi televisi</string>
@@ -55,7 +56,8 @@
     <string name="age">%s tahun</string>
     <string name="place_of_birth">Tempat Lahir</string>
     <string name="runtime_per_episode">Durasi: %s per episode</string>
-    <string name="director">Direktur</string>
+    <string name="director">Direksi</string>
+    <string name="creator">Kreasi</string>
     <string name="release_date">Tanggal rilis</string>
     <string name="runtime">Waktu proses</string>
     <string name="movies">Film</string>

@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.runtime.Composable
@@ -27,6 +26,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.GenreUiModel
+import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
@@ -90,11 +91,10 @@ fun UiGenreItem(
                     .border(style = UiBorderStyle(shape = shape)),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = model.getImageVector(),
-                    contentDescription = null,
+                UiIcon(
+                    source = UiIconSource.UiVector(imageVector = model.getImageVector()),
                     modifier = Modifier.size(dimensionResource(R.dimen.spacing_6x)),
-                    tint = iconColor
+                    color = iconColor
                 )
             }
 

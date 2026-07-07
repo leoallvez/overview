@@ -2,22 +2,15 @@ package br.dev.singular.overview.presentation.model
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
-import kotlinx.collections.immutable.ImmutableList
+import java.util.UUID
 
 @Immutable
 data class PersonUiModel(
     val id: Long,
-    val job: String,
-    val age: String,
     val name: String,
-    val birthday: String,
-    val deathDay: String,
-    val biography: String,
-    val character: String,
+    val description: String,
     val profileURL: String,
-    val placeOfBirth: String,
     @get:DrawableRes
     val previewDrawableRes: Int?,
-    val tvShows: ImmutableList<MediaUiModel>,
-    val movies: ImmutableList<MediaUiModel>
+    val uiId: String = UUID.randomUUID().toString(),
 )

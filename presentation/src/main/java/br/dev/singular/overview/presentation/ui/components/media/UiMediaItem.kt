@@ -34,12 +34,13 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 fun UiMediaItem(
     model: MediaUiModel,
     modifier: Modifier = Modifier,
+    imageModifier: Modifier = Modifier,
     onClick: (MediaUiModel) -> Unit = {}
 ) {
     val width = dimensionResource(R.dimen.poster_width)
 
     Column(
-        Modifier
+        modifier
             .clickable { onClick.invoke(model) }
             .semantics(mergeDescendants = true) {}
             .width(width)
@@ -51,7 +52,7 @@ fun UiMediaItem(
                 errorDrawableRes = R.drawable.error_poster_placeholder,
                 previewDrawableRes = model.previewDrawableRes
             ),
-            modifier = modifier
+            modifier = imageModifier
                 .size(width, height = dimensionResource(R.dimen.poster_height))
         )
         UiText(

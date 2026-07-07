@@ -3,11 +3,15 @@ package br.dev.singular.overview.presentation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavOptionsBuilder
 import br.dev.singular.overview.domain.model.Catalog
+import br.dev.singular.overview.domain.model.Credits
 import br.dev.singular.overview.domain.model.Genre
 import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
-import br.dev.singular.overview.domain.model.Person
+import br.dev.singular.overview.domain.model.MovieDetails
+import br.dev.singular.overview.domain.model.PersonDetails
 import br.dev.singular.overview.domain.model.QueryState
+import br.dev.singular.overview.domain.model.TvShowDetails
+import br.dev.singular.overview.domain.model.Video
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaUiModel
@@ -30,7 +34,7 @@ fun createGenreMock() = Genre(
     name = "Action"
 )
 
-fun createPersonMock() = Person(
+fun createPersonDetailsMock() = PersonDetails(
     id = 1,
     job = "Actor",
     name = "Celeste Beaumont",
@@ -73,6 +77,46 @@ fun createMediaMock() = Media(
     isLiked = true,
     posterPath = "/poster",
     lastUpdate = Date()
+)
+
+fun createVideoMock() = Video(
+    id = "1",
+    key = "key",
+    name = "Video Name"
+)
+
+fun createMovieDetailsMock() = MovieDetails(
+    id = 1L,
+    title = "Movie Title",
+    releaseDate = "2020-01-01",
+    runtime = 120,
+    posterPath = "/poster.jpg",
+    backdropPath = "/backdrop.jpg",
+    overview = "Overview description",
+    directors = listOf("Director 1", "Director 2"),
+    genres = listOf(),
+    credits = Credits(),
+    videos = listOf(),
+    catalogs = listOf(),
+    similar = listOf()
+)
+
+fun createTvShowDetailsMock() = TvShowDetails(
+    id = 1L,
+    name = "TV Show Name",
+    numberOfSeasons = 5,
+    numberOfEpisodes = 50,
+    episodeRuntime = listOf(45),
+    firstAirDate = "2020-01-01",
+    posterPath = "/poster.jpg",
+    backdropPath = "/backdrop.jpg",
+    overview = "Overview description",
+    credits = Credits(),
+    creators = listOf(),
+    genres = listOf(),
+    videos = listOf(),
+    catalogs = listOf(),
+    similar = listOf()
 )
 
 fun createQueryStateMock() = QueryState(

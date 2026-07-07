@@ -48,6 +48,7 @@
     <string name="synopsis">Synopsis</string>
     <string name="biography">Biography</string>
     <string name="cast">Cast</string>
+    <string name="crew">Crew</string>
     <string name="related">Related</string>
     <string name="where_to_watch">Providers</string>
     <string name="tv_shows_participation">TV participation</string>
@@ -55,7 +56,8 @@
     <string name="age">%s years</string>
     <string name="place_of_birth">Place of birth</string>
     <string name="runtime_per_episode">Runtime: %s per episode</string>
-    <string name="director">Director</string>
+    <string name="director">Direction</string>
+    <string name="creator">Creation</string>
     <string name="release_date">Release Date</string>
     <string name="runtime">Runtime</string>
     <string name="movies">Movies</string>

@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.components.media
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -19,6 +21,8 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
+import br.dev.singular.overview.presentation.ui.utils.rememberMaxHeightState
+import br.dev.singular.overview.presentation.ui.utils.syncMaxHeight
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -40,15 +44,27 @@ fun UiMediaList(
     onClick: (MediaUiModel) -> Unit = {}
 ) {
     if (items.isNotEmpty()) {
-        Column(modifier = modifier) {
+        val maxHeightState = rememberMaxHeightState()
+
+        Column(
+            modifier = modifier.animateContentSize()
+        ) {
             UiTitle(title, modifier = Modifier.padding(contentPadding))
             LazyRow(
                 horizontalArrangement = Arrangement
                     .spacedBy(dimensionResource(R.dimen.spacing_1x)),
                 contentPadding = contentPadding
             ) {
-                items(items.size) { index ->
-                    UiMediaItem(items[index], onClick = onClick)
+                items(
+                    items = items,
+                    key = { it.uiId },
+                    contentType = { "media" }
+                ) { model ->
+                    UiMediaItem(
+                        model = model,
+                        onClick = onClick,
+                        modifier = Modifier.syncMaxHeight(maxHeightState)
+                    )
                 }
             }
         }
