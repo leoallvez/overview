@@ -36,6 +36,7 @@ import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.border
 import br.dev.singular.overview.presentation.ui.utils.fakeGenres
+import br.dev.singular.overview.presentation.ui.utils.getColor
 import br.dev.singular.overview.presentation.ui.utils.getImageVector
 import br.dev.singular.overview.presentation.ui.utils.localizedName
 
@@ -56,6 +57,7 @@ fun UiGenreItem(
 ) {
     val shape = RoundedCornerShape(dimensionResource(R.dimen.corner_width))
     val color = if (selected) HighlightColor else DefaultTextColor
+    val iconColor = if (selected) color else model.getColor()
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -92,7 +94,7 @@ fun UiGenreItem(
                     imageVector = model.getImageVector(),
                     contentDescription = null,
                     modifier = Modifier.size(dimensionResource(R.dimen.spacing_6x)),
-                    tint = color
+                    tint = iconColor
                 )
             }
 
