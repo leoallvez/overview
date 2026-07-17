@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -58,36 +59,37 @@ fun rememberCollapseScrollConnection(
 private enum class GenreType(
     val id: Long,
     @get:StringRes val labelRes: Int,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val color: Color
 ) {
-    ADVENTURE(12L, R.string.genre_adventure, Lucide.HandFist),
-    FANTASY(14L, R.string.genre_fantasy, Lucide.Sparkles),
-    ANIMATION(16L, R.string.genre_animation, Lucide.Rabbit),
-    DRAMA(18L, R.string.genre_drama, Lucide.Theater),
-    HORROR(27L, R.string.genre_horror, Lucide.Ghost),
-    ACTION(28L, R.string.genre_action, Lucide.Zap),
-    COMEDY(35L, R.string.genre_comedy, Lucide.Smile),
-    HISTORY(36L, R.string.genre_history, Lucide.History),
-    WESTERN(37L, R.string.genre_western, Lucide.Sun),
-    THRILLER(53L, R.string.genre_thriller, Lucide.CircleAlert),
-    CRIME(80L, R.string.genre_crime, Lucide.ShieldAlert),
-    DOCUMENTARY(99L, R.string.genre_documentary, Lucide.Video),
-    SCIENCE_FICTION(878L, R.string.genre_science_fiction, Lucide.Rocket),
-    MYSTERY(9648L, R.string.genre_mystery, Lucide.Search),
-    MUSIC(10402L, R.string.genre_music, Lucide.Music),
-    ROMANCE(10749L, R.string.genre_romance, Lucide.Heart),
-    FAMILY(10751L, R.string.genre_family, Lucide.Users),
-    WAR(10752L, R.string.genre_war, Lucide.Sword),
-    ACTION_ADVENTURE(10759L, R.string.genre_action_adventure, Lucide.HandFist),
-    KIDS(10762L, R.string.genre_kids, Lucide.Baby),
-    NEWS(10763L, R.string.genre_news, Lucide.Newspaper),
-    REALITY(10764L, R.string.genre_reality, Lucide.Tv),
-    SCI_FI_FANTASY(10765L, R.string.genre_sci_fi_fantasy, Lucide.Rocket),
-    SOAP(10766L, R.string.genre_soap, Lucide.Tv),
-    TALK(10767L, R.string.genre_talk, Lucide.Mic),
-    WAR_POLITICS(10768L, R.string.genre_war_politics, Lucide.Landmark),
-    TV_MOVIE(10770L, R.string.genre_tv_movie, Lucide.Tv),
-    UNKNOWN(0L, 0, Lucide.Clapperboard);
+    ADVENTURE(12L, R.string.genre_adventure, Lucide.HandFist, Color(0xFFFF8A65)),
+    FANTASY(14L, R.string.genre_fantasy, Lucide.Sparkles, Color(0xFFCE93D8)),
+    ANIMATION(16L, R.string.genre_animation, Lucide.Rabbit, Color(0xFFFFEB3B)),
+    DRAMA(18L, R.string.genre_drama, Lucide.Theater, Color(0xFF90CAF9)),
+    HORROR(27L, R.string.genre_horror, Lucide.Ghost, Color(0xFF7EB2C2)),
+    ACTION(28L, R.string.genre_action, Lucide.Zap, Color(0xFFFF7043)),
+    COMEDY(35L, R.string.genre_comedy, Lucide.Smile, Color(0xFFF06292)),
+    HISTORY(36L, R.string.genre_history, Lucide.History, Color(0xFFFFCC80)),
+    WESTERN(37L, R.string.genre_western, Lucide.Sun, Color(0xFFFFC107)),
+    THRILLER(53L, R.string.genre_thriller, Lucide.CircleAlert, Color(0xFF9FA8DA)),
+    CRIME(80L, R.string.genre_crime, Lucide.ShieldAlert, Color(0xFFF54927)),
+    DOCUMENTARY(99L, R.string.genre_documentary, Lucide.Video, Color(0xFFC963F8)),
+    SCIENCE_FICTION(878L, R.string.genre_science_fiction, Lucide.Rocket, Color(0xFF80CBC4)),
+    MYSTERY(9648L, R.string.genre_mystery, Lucide.Search, Color(0xFFB39DDB)),
+    MUSIC(10402L, R.string.genre_music, Lucide.Music, Color(0xFFE6EE9C)),
+    ROMANCE(10749L, R.string.genre_romance, Lucide.Heart, Color(0xFFF48FB1)),
+    FAMILY(10751L, R.string.genre_family, Lucide.Users, Color(0xFFA5D6A7)),
+    WAR(10752L, R.string.genre_war, Lucide.Sword, Color(0xFFC5E1A5)),
+    ACTION_ADVENTURE(10759L, R.string.genre_action_adventure, Lucide.HandFist, Color(0xFFFF7043)),
+    KIDS(10762L, R.string.genre_kids, Lucide.Baby, Color(0xFF81D4FA)),
+    NEWS(10763L, R.string.genre_news, Lucide.Newspaper, Color(0xFF4A90E2)),
+    REALITY(10764L, R.string.genre_reality, Lucide.Tv, Color(0xFFDCE775)),
+    SCI_FI_FANTASY(10765L, R.string.genre_sci_fi_fantasy, Lucide.Rocket, Color(0xFFB39DDB)),
+    SOAP(10766L, R.string.genre_soap, Lucide.Tv, Color(0xFFE1BEE7)),
+    TALK(10767L, R.string.genre_talk, Lucide.Mic, Color(0xFFFFAB91)),
+    WAR_POLITICS(10768L, R.string.genre_war_politics, Lucide.Landmark, Color(0xFF9FA8DA)),
+    TV_MOVIE(10770L, R.string.genre_tv_movie, Lucide.Tv, Color(0xFFCFCF0A)),
+    UNKNOWN(0L, 0, Lucide.Clapperboard, Color.White);
 
     companion object {
         private val map = entries.associateBy { it.id }
@@ -105,4 +107,9 @@ fun GenreUiModel.localizedName(): String {
 @Composable
 fun GenreUiModel.getImageVector(): ImageVector {
     return remember(id) { GenreType.fromId(id).icon }
+}
+
+@Composable
+fun GenreUiModel.getColor(): Color {
+    return remember(id) { GenreType.fromId(id).color }
 }

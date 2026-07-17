@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.ui.screens.catalog.details
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,7 +22,6 @@ import br.dev.singular.overview.presentation.ui.components.UiDivider
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogTopAppBar
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
-import br.dev.singular.overview.presentation.ui.screens.catalog.components.UiFilterType
 import br.dev.singular.overview.presentation.ui.screens.catalog.components.UiMainFilter
 import br.dev.singular.overview.presentation.ui.screens.catalog.details.interaction.CatalogDetailActions
 import br.dev.singular.overview.presentation.ui.screens.catalog.details.interaction.CatalogDetailIntent
@@ -81,10 +81,18 @@ private fun CatalogDetailsContent(
         isCollapsed = it
     }
 
+    val spacing = dimensionResource(R.dimen.spacing_4x)
+    val isFilterVisible = !isCollapsed && queryState.catalog != null
+
     UiScaffold(
+        padding = PaddingValues(),
         modifier = Modifier.nestedScroll(nestedScrollConnection),
         topBar = {
-            UiCatalogTopAppBar(catalog = queryState.catalog, isCollapsed = isCollapsed)
+            UiCatalogTopAppBar(
+                modifier = Modifier.padding(horizontal = spacing),
+                catalog = queryState.catalog,
+                isCollapsed = isCollapsed
+            )
         },
     ) { innerPadding ->
         Column(
@@ -94,18 +102,17 @@ private fun CatalogDetailsContent(
         ) {
             UiMainFilter(
                 query = queryState,
-                visible = !isCollapsed && queryState.catalog != null,
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x)),
-                onClickFilter = {
-                    when (it) {
-                        is UiFilterType.Type -> actions.onSetType(it.value)
-                        is UiFilterType.Genre -> actions.navigateToGenre()
-                        is UiFilterType.Catalog -> actions.navigateToCatalog()
-                    }
-                }
+                visible = isFilterVisible,
+                modifier = Modifier.padding(bottom = spacing),
+                contentPadding = PaddingValues(start = spacing),
+                onClickFilter = actions::onFilterClick
             )
-            UiDivider(visible = isCollapsed)
-            content()
+            Column(
+                modifier = Modifier.padding(horizontal = spacing)
+            ) {
+                UiDivider(visible = isCollapsed)
+                content()
+            }
         }
     }
 }
