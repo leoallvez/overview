@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.components.genre
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.v2.createComposeRule
@@ -8,6 +9,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.GenreUiModel
+import br.dev.singular.overview.presentation.ui.utils.getColor
 import br.dev.singular.overview.presentation.ui.utils.getImageVector
 import br.dev.singular.overview.presentation.ui.utils.localizedName
 import com.composables.icons.lucide.Lucide
@@ -77,5 +79,30 @@ class UiGenreItemTest {
         }
 
         assertEquals("Custom Genre", resultName)
+    }
+
+    @Test
+    fun `getColor should return expected color for Action genre ID`() {
+        val genre = GenreUiModel(id = 28L, name = "Action")
+        var color: Color = Color.Unspecified
+
+        rule.setContent {
+            color = genre.getColor()
+        }
+
+        val expected = Color(0xFFFF7043)
+        assertEquals(expected, color)
+    }
+
+    @Test
+    fun `getColor should return White for unknown genre ID`() {
+        val genre = GenreUiModel(id = 9999L, name = "Unknown")
+        var color: Color = Color.Unspecified
+
+        rule.setContent {
+            color = genre.getColor()
+        }
+
+        assertEquals(Color.White, color)
     }
 }

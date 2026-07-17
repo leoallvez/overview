@@ -1,6 +1,7 @@
 package br.dev.singular.overview.presentation.ui.screens.catalog.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -12,7 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.QueryUiState
 import br.dev.singular.overview.presentation.ui.components.UiAnimatedVisibility
@@ -24,7 +27,11 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeGenres
+import br.dev.singular.overview.presentation.ui.utils.getColor
+import br.dev.singular.overview.presentation.ui.utils.getImageVector
 import br.dev.singular.overview.presentation.ui.utils.localizedName
+import com.composables.icons.lucide.ChevronDown
+import com.composables.icons.lucide.Lucide
 
 sealed interface UiFilterType {
     data class Type(val value: MediaUiType) : UiFilterType
@@ -37,6 +44,7 @@ fun UiMainFilter(
     query: QueryUiState,
     modifier: Modifier = Modifier,
     visible: Boolean = true,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     onClickFilter: (UiFilterType) -> Unit = {}
 ) {
     val isAll = query.type == MediaUiType.ALL
@@ -44,6 +52,7 @@ fun UiMainFilter(
     UiAnimatedVisibility(visible = visible) {
         LazyRow(
             modifier = modifier,
+            contentPadding = contentPadding,
             horizontalArrangement = Arrangement
                 .spacedBy(dimensionResource(R.dimen.spacing_2x)),
         ) {
@@ -74,7 +83,7 @@ fun UiMainFilter(
 
                 item(key = "genre") {
                     GenreChip(
-                        genre = query.genre?.localizedName(),
+                        genre = query.genre,
                         onClick = { onClickFilter(UiFilterType.Genre) }
                     )
                 }
@@ -109,21 +118,31 @@ private fun TypeChip(
 
 @Composable
 private fun GenreChip(
-    genre: String?,
+    genre: GenreUiModel?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val activated = genre.isNullOrEmpty().not()
+    val isActivated = genre != null
+    val label = genre?.localizedName() ?: stringResource(R.string.genre)
+    val highlightColor = genre?.getColor() ?: HighlightColor
+
     UiChip(
         modifier = modifier,
-        text = genre ?: stringResource(R.string.genre),
+        text = label,
         onClick = onClick,
-        activated = activated,
+        activated = isActivated,
+        highlightColor = highlightColor,
         icon = {
+            val iconSource = if (genre != null) {
+                UiIconSource.vector(genre.getImageVector())
+            } else {
+                UiIconSource.vector(Lucide.ChevronDown)
+            }
+
             UiIcon(
-                source = UiIconSource.painter(R.drawable.ic_arrow_down),
-                color = if (activated) HighlightColor else LowlightColor,
-                contentDescription = stringResource(R.string.filters),
+                source = iconSource,
+                color = if (isActivated) highlightColor else LowlightColor,
+                contentDescription = if (isActivated) null else stringResource(R.string.filter_by_genre),
             )
         }
     )
@@ -142,7 +161,7 @@ private fun CatalogChip(
         onClick = onClick,
         icon = {
             UiIcon(
-                source = UiIconSource.painter(R.drawable.ic_arrow_down),
+                source = UiIconSource.vector(icon = Lucide.ChevronDown),
                 color = DefaultTextColor,
                 contentDescription = stringResource(R.string.filters)
             )
