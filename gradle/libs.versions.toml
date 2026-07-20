@@ -9,7 +9,7 @@ version-code = "14"
 version-name = "3.3.0"
 
 # Kotlin
-kotlin = "2.2.21"
+kotlin = "2.4.10"
 immutable = "0.5.1"
 coroutines = "1.11.0"
 
