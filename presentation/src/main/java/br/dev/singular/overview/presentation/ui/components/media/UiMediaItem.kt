@@ -1,6 +1,7 @@
 package br.dev.singular.overview.presentation.ui.components.media
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.ui.components.UiImage
@@ -20,6 +20,7 @@ import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 
 /**
@@ -71,9 +72,11 @@ fun UiMediaItem(
  * to provide a better user experience while data is being fetched.
  */
 @Composable
-fun UiMediaItemSkeleton() {
+fun UiMediaItemSkeleton(
+    modifier: Modifier = Modifier
+) {
     Column(
-        Modifier.width(dimensionResource(R.dimen.poster_width))
+        modifier.width(dimensionResource(R.dimen.poster_width))
     ) {
         UiShimmerBox(
             modifier = Modifier
@@ -89,22 +92,30 @@ fun UiMediaItemSkeleton() {
     }
 }
 
-@Preview(name = "Short Title")
+@UiComponentPreview
 @Composable
 internal fun UiMediaItemPreview() {
-    UiMediaItem(
-        model = fakeMedias().first()
-    )
+    Box( modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
+        UiMediaItem(
+            model = fakeMedias().first()
+        )
+    }
 }
 
-@Preview(name = "Long Title")
+@UiComponentPreview
 @Composable
 internal fun UiMediaWithLongTitlePreview() {
-    UiMediaItem(model = fakeMedias(withLongText = true).first())
+    Box( modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
+        UiMediaItem(
+            model = fakeMedias(withLongText = true).first()
+        )
+    }
 }
 
-@Preview(name = "Skeleton")
+@UiComponentPreview
 @Composable
 internal fun UiMediaItemSkeletonPreview() {
-    UiMediaItemSkeleton()
+    Box( modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
+        UiMediaItemSkeleton()
+    }
 }

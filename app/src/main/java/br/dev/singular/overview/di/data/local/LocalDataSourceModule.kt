@@ -1,12 +1,14 @@
 package br.dev.singular.overview.di.data.local
 
+import br.dev.singular.overview.data.local.source.CatalogLocalDataSource
+import br.dev.singular.overview.data.local.source.GenreLocalDataSource
+import br.dev.singular.overview.data.local.source.ICatalogLocalDataSource
+import br.dev.singular.overview.data.local.source.IGenreLocalDataSource
 import br.dev.singular.overview.data.local.source.IMediaLocalDataSource
 import br.dev.singular.overview.data.local.source.IMediaRouteLocalDataSource
-import br.dev.singular.overview.data.local.source.IStreamingLocalDataSource
 import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
 import br.dev.singular.overview.data.local.source.MediaLocalDataSource
 import br.dev.singular.overview.data.local.source.MediaRouteLocalDataSource
-import br.dev.singular.overview.data.local.source.StreamingLocalDataSource
 import br.dev.singular.overview.data.local.source.SuggestionLocalDataSource
 import dagger.Binds
 import dagger.Module
@@ -33,7 +35,12 @@ abstract class LocalDataSourceModule {
     ): IMediaRouteLocalDataSource
 
     @Binds
-    abstract fun bindStreamingLocalDataSource(
-        source: StreamingLocalDataSource
-    ): IStreamingLocalDataSource
+    abstract fun bindCatalogLocalDataSource(
+        source: CatalogLocalDataSource
+    ): ICatalogLocalDataSource
+
+    @Binds
+    abstract fun bindGenreLocalDataSource(
+        source: GenreLocalDataSource
+    ): IGenreLocalDataSource
 }

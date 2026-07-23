@@ -8,11 +8,6 @@
 -keep class br.dev.singular.overview.data.model.** { *; }
 -keep class br.dev.singular.overview.data.network.response.** { *; }
 
-# Moshi: keep annotations
--keepclassmembers class ** {
-    @com.squareup.moshi.Json *;
-}
-
 # Retrofit
 -keep interface * {
     @retrofit2.http.* <methods>;

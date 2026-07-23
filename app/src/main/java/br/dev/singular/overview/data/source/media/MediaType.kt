@@ -5,8 +5,6 @@ enum class MediaType(val key: String) {
     MOVIE(key = "movie"),
     TV_SHOW(key = "tv");
 
-    fun isDefault() = key == ALL.key
-
     companion object {
         fun getByKey(key: String): MediaType = entries.first { it.key == key }
     }

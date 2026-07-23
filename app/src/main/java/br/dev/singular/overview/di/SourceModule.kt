@@ -2,9 +2,6 @@ package br.dev.singular.overview.di
 
 import br.dev.singular.overview.data.model.media.Movie
 import br.dev.singular.overview.data.model.media.TvShow
-import br.dev.singular.overview.data.source.genre.GenreRemoteDataSource
-import br.dev.singular.overview.data.source.genre.IGenreRemoteDataSource
-import br.dev.singular.overview.data.source.media.remote.IMediaDiscoverRemoteDataSource
 import br.dev.singular.overview.data.source.media.remote.IMediaRemoteDataSource
 import br.dev.singular.overview.data.source.media.remote.MovieRemoteDataSource
 import br.dev.singular.overview.data.source.media.remote.TvShowRemoteDataSource
@@ -31,20 +28,11 @@ abstract class SourceModule {
         source: TvShowRemoteDataSource
     ): IMediaRemoteDataSource<TvShow>
 
-    @Binds
-    abstract fun bindMediaDiscoverRemoteDataSource(
-        source: TvShowRemoteDataSource
-    ): IMediaDiscoverRemoteDataSource<TvShow>
 
     @Binds
     abstract fun bindStreamingRemoteDataSource(
         source: StreamingRemoteDataSource
     ): IStreamingRemoteDataSource
-
-    @Binds
-    abstract fun bindGenreDataSource(
-        source: GenreRemoteDataSource
-    ): IGenreRemoteDataSource
 
     @Binds
     abstract fun bindTrailerRemoteDataSource(

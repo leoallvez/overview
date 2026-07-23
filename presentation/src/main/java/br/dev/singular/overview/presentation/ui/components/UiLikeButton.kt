@@ -5,16 +5,16 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.dimensionResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
@@ -23,6 +23,7 @@ import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.theme.WarningColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 private const val ANIMATION_DURATION_MILLIS = 200
 private const val LIKED_ICON_SCALE = 1f
@@ -94,11 +95,23 @@ private fun getLikeButtonStyles(isLiked: Boolean): Pair<UiIconStyle, UiBorderSty
     return iconStyle to borderStyle
 }
 
-@Preview
+@UiComponentPreview
 @Composable
-internal fun UiLikeButtonPreview() {
-    var isLiked by remember { mutableStateOf(false) }
-    UiLikeButton(isLiked = isLiked) {
-        isLiked = !isLiked
+internal fun UiLikeButtonActivePreview() =
+    UiLikeButtonBasePreview(initialValue = true)
+
+@UiComponentPreview
+@Composable
+internal fun UiLikeButtonInactivePreview() =
+    UiLikeButtonBasePreview(initialValue = false)
+
+@Composable
+fun UiLikeButtonBasePreview(initialValue: Boolean) {
+    val isLiked = remember { mutableStateOf(initialValue) }
+    UiLikeButton(
+        isLiked = isLiked.value,
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
+    ) {
+        isLiked.value = !isLiked.value
     }
 }

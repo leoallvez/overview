@@ -1,15 +1,12 @@
 package br.dev.singular.overview.data.api
 
-import br.dev.singular.overview.data.BuildConfig
+import br.dev.singular.overview.data.BuildConfig.API_KEY
 import br.dev.singular.overview.data.api.response.ErrorResponse
-import br.dev.singular.overview.data.api.response.GenreListResponse
 import br.dev.singular.overview.data.api.response.ListResponse
-import br.dev.singular.overview.data.api.response.PagingResponse
 import br.dev.singular.overview.data.api.response.ProviderResponse
 import br.dev.singular.overview.data.model.media.Movie
-import br.dev.singular.overview.data.model.media.Video
 import br.dev.singular.overview.data.model.media.TvShow
-import br.dev.singular.overview.data.model.provider.StreamingEntity
+import br.dev.singular.overview.data.model.media.Video
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -33,38 +30,6 @@ interface ApiService {
 
     ): NetworkResponse<TvShow, ErrorResponse>
 
-    @GET(value = "search/tv")
-    suspend fun searchTvShow(
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "api_key")
-        apiKey: String = API_KEY
-    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
-
-    @GET(value = "discover/tv?sort_by=popularity.desc")
-    suspend fun discoverOnTvByStreaming(
-        @Query(value = "api_key")
-        apiKey: String = API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "first_air_date.gte")
-        dateIni: String = "",
-        @Query(value = "first_air_date.lte")
-        dateEnd: String = "",
-        @Query(value = "with_watch_providers")
-        streamingIds: String = ""
-    ): NetworkResponse<ListResponse<TvShow>, ErrorResponse>
-
     // Movie
     @GET(value = "movie/{api_id}")
     suspend fun getMovie(
@@ -81,22 +46,6 @@ interface ApiService {
 
     ): NetworkResponse<Movie, ErrorResponse>
 
-    @GET(value = "search/movie")
-    suspend fun searchMovie(
-        @Query("query")
-        query: String,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "api_key")
-        apiKey: String = API_KEY
-    ): NetworkResponse<ListResponse<Movie>, ErrorResponse>
-
     // Providers
     @GET(value = "{media_type}/{api_id}/watch/providers")
     suspend fun getProviders(
@@ -112,56 +61,6 @@ interface ApiService {
         region: String = ""
     ): NetworkResponse<ProviderResponse, ErrorResponse>
 
-    // New requests & labs
-    @GET(value = "discover/tv?sort_by=primary_release_date.desc")
-    suspend fun getTvShowsPaging(
-        @Query(value = "with_watch_providers")
-        streamingIds: String = "",
-        @Query(value = "with_genres")
-        withGenres: String = "",
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = API_KEY
-    ): NetworkResponse<PagingResponse<TvShow>, ErrorResponse>
-
-    @GET(value = "discover/movie?sort_by=primary_release_date.desc")
-    suspend fun getMoviesPaging(
-        @Query(value = "with_watch_providers")
-        streamingIds: String = "",
-        @Query(value = "with_genres")
-        withGenres: String = "",
-        @Query(value = "page")
-        page: Int = 0,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = "",
-        @Query(value = "watch_region")
-        watchRegion: String = "",
-        @Query(value = "api_key")
-        apiKey: String = API_KEY
-    ): NetworkResponse<PagingResponse<Movie>, ErrorResponse>
-
-    // Genre
-    @GET(value = "genre/{media_type}/list")
-    suspend fun getGenreByMediaType(
-        @Path(value = "media_type", encoded = true)
-        mediaType: String,
-        @Query(value = "api_key")
-        apiKey: String = API_KEY,
-        @Query(value = "language")
-        language: String = "",
-        @Query(value = "region")
-        region: String = ""
-    ): NetworkResponse<GenreListResponse, ErrorResponse>
-
     // Trailers
     @GET(value = "{media_type}/{api_id}/videos")
     suspend fun getVideos(
@@ -174,8 +73,4 @@ interface ApiService {
         @Query(value = "language")
         language: String = ""
     ): NetworkResponse<ListResponse<Video>, ErrorResponse>
-
-    companion object {
-        private const val API_KEY = BuildConfig.API_KEY
-    }
 }

@@ -1,0 +1,96 @@
+package br.dev.singular.overview.presentation.ui.components
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
+
+@Composable
+fun UiAnimatedVisibility(
+    visible: Boolean,
+    content: @Composable () -> Unit
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInVertically(
+            initialOffsetY = { -it }
+        ) + expandVertically(
+            expandFrom = Alignment.Top
+        ) + fadeIn(
+            animationSpec = tween(200)
+        ),
+        exit = slideOutVertically(
+            targetOffsetY = { -it }
+        ) + shrinkVertically(
+            shrinkTowards = Alignment.Top
+        ) + fadeOut(
+            targetAlpha = 0.1f,
+            animationSpec = tween(200)
+        )
+    ) {
+        content()
+    }
+}
+
+@UiComponentPreview
+@Composable
+internal fun PreviewUiAnimatedVisibility() {
+
+    val isVisible = remember { mutableStateOf(true) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        UiChip(
+            activated = !isVisible.value,
+            lowlightColor = DefaultTextColor,
+            text = if (isVisible.value) "Hide" else "Show",
+            shape = RoundedCornerShape(20)
+        ) {
+            isVisible.value = !isVisible.value
+        }
+
+        UiAnimatedVisibility(visible = isVisible.value) {
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+                    .height(70.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                    Text(text = "UI Animated Visibility")
+                }
+            }
+        }
+    }
+}

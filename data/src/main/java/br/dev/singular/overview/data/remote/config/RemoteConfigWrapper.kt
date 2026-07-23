@@ -1,0 +1,62 @@
+package br.dev.singular.overview.data.remote.config
+
+import br.dev.singular.overview.data.BuildConfig.REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
+import br.dev.singular.overview.data.remote.config.RemoteConfigKey.FIREBASE_ENVIRONMENT_KEY
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
+import kotlinx.coroutines.tasks.await
+import timber.log.Timber
+
+interface IRemoteConfigProvider {
+    fun getString(key: RemoteConfigKey): String
+    fun getBoolean(key: RemoteConfigKey): Boolean
+    fun start()
+    suspend fun waitAndActivate(): Boolean
+}
+
+class RemoteConfigWrapper(
+    private val remote: FirebaseRemoteConfig
+) : IRemoteConfigProvider {
+
+    override fun getString(key: RemoteConfigKey) = remote.getString(key.value)
+
+    override fun getBoolean(key: RemoteConfigKey) = remote.getBoolean(key.value)
+
+    override fun start() {
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
+        }
+        remote.setConfigSettingsAsync(configSettings)
+        onCompleteListener()
+    }
+
+    override suspend fun waitAndActivate(): Boolean {
+        return try {
+            remote.fetchAndActivate().await().also { log(it) }
+        } catch (e: Exception) {
+            Timber.e(e)
+            false
+        }
+    }
+
+    private fun onCompleteListener() = with(remote) {
+        fetch().addOnCompleteListener { task ->
+            with(task) {
+                if (isSuccessful) {
+                    activate()
+                }
+                log(isSuccessful)
+            }
+        }
+    }
+
+    private fun log(success: Boolean) {
+        val message = if (success) {
+            val environment = getString(key = FIREBASE_ENVIRONMENT_KEY)
+            "started in environment: $environment"
+        } else {
+            "not started"
+        }
+        Timber.i(message = "Remote Config $message")
+    }
+}

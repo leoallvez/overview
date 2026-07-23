@@ -3,17 +3,18 @@ package br.dev.singular.overview.presentation.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.theme.Background
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 
 /**
@@ -35,6 +36,7 @@ fun UiScaffold(
 ) {
     Scaffold(
         containerColor = Background,
+        contentWindowInsets = WindowInsets(0),
         modifier = modifier
             .background(Background)
             .padding(padding),
@@ -45,20 +47,18 @@ fun UiScaffold(
     }
 }
 
-@Preview(
-    name = "Vertical",
-    widthDp = 300,
-    heightDp = 600
-)
+@UiScreenPreview
 @Composable
 internal fun UiScaffoldPreview() {
     UiScaffold(
-        topBar = { UiToolbar("Screen Title") }
+        topBar = { UiTopAppBar("Screen Title") }
     ) {
-        Box (Modifier.padding(top = it.calculateTopPadding())) {
+        Box(Modifier.padding(top = it.calculateTopPadding())) {
             UiMediaGrid(
-                items = fakeMedias(),
-                modifier = Modifier.fillMaxSize().background(Background)
+                items = fakeMedias(50),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Background)
             )
         }
     }

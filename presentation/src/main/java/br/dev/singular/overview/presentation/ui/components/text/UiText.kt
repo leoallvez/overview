@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,12 +15,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 /**
  * A composable that displays a text with default styling, including ellipsis for overflow.
@@ -70,10 +69,12 @@ fun UiTextSkeleton(
     )
 }
 
-@Preview
+@UiComponentPreview
 @Composable
 internal fun UiTextPreview() {
-    Column {
+    Column(
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+    ) {
         UiText(text = "Text One")
         UiText(text = "Text Two", isBold = true)
         UiText(text = "Text Three", color = Color.Gray)
@@ -87,14 +88,14 @@ internal fun UiTextPreview() {
     }
 }
 
-@Preview
+@UiComponentPreview
 @Composable
 internal fun UiTextSkeletonPreview() {
     UiShimmerProvider {
         Column(
             modifier = Modifier
-                .width(100.dp)
                 .background(Color.Black)
+                .padding(dimensionResource(R.dimen.spacing_4x))
         ) {
             UiTextSkeleton(modifier = Modifier.padding(bottom = 8.dp))
             UiTextSkeleton(modifier = Modifier.fillMaxWidth(0.6f))

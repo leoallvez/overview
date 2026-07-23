@@ -11,6 +11,8 @@ plugins {
     alias(libs.plugins.hilt.android.plugin)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.paparazzi)
 }
 
 android {
@@ -63,13 +65,13 @@ android {
     flavorDimensions.add("version")
     productFlavors {
         create("dev") {
-            setAppName("app_name_dev")
+            setAppName("OVER.DEV")
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
         }
         create("hmg") {
-            setAppName("app_name_hmg")
+            setAppName("OVER.HMG")
             dimension = "version"
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-hmg"
@@ -78,7 +80,7 @@ android {
             }
         }
         create("prd") {
-            setAppName("app_name_prd")
+            setAppName("Overview")
             dimension = "version"
             if (isActiveSigning()) {
                 signingConfig = signingConfigs.getByName("prd")
@@ -148,13 +150,15 @@ dependencies {
 
     // Third-party libraries
     implementation(libs.timber)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
     implementation(libs.logging.interceptor)
     implementation(libs.toolbar.compose)
     implementation(libs.converter.moshi)
     implementation(libs.converter.serialization)
 
     // Modules
-    implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
@@ -174,7 +178,7 @@ dependencies {
 }
 
 private fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue("string", "app_name", "@string/$appName")
+    resValue("string", "app_name", appName)
 }
 
 private fun isActiveSigning() = System.getenv("OVER_ACTIVE_SIGNING") == "true"

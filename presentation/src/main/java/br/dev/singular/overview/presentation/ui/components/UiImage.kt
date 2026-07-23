@@ -7,6 +7,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,16 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.theme.Surface
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.border
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-
 
 /**
  * A composable that displays an image from a URL.
@@ -48,15 +50,16 @@ fun UiImage(
     Box(
         modifier = modifier
             .clip(shape = style.borderStyle.shape)
-            .border(style = style.borderStyle
-                .copy(visible = style.borderStyle.visible && !isLoading)),
+            .border(
+                style = style.borderStyle
+                    .copy(visible = style.borderStyle.visible && !isLoading)
+            ),
         contentAlignment = Alignment.Center
     ) {
-        val previewRes = style.previewDrawableRes
-        if (LocalInspectionMode.current && previewRes != null) {
+        if (style.previewDrawableRes != null) {
             isLoading = false
             Image(
-                painter = painterResource(previewRes),
+                painter = painterResource(style.previewDrawableRes),
                 contentDescription = contentDescription,
                 contentScale = style.contentScale,
                 modifier = Modifier.fillMaxSize()
@@ -82,24 +85,28 @@ fun UiImage(
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            Box(
+            UiShimmerBox(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Surface)
-                    //.syncedShimmer()
             )
         }
     }
 }
 
-@Preview(widthDp = 128, heightDp = 192)
+@UiComponentPreview
 @Composable
 internal fun UiImagePreview() {
     UiImage(
         url = "https://imagens.com/movie.jpg",
+        modifier = Modifier
+            .size(
+                width = dimensionResource(R.dimen.poster_width),
+                height = dimensionResource(R.dimen.poster_height)
+            )
+            .padding(dimensionResource(R.dimen.spacing_2x)),
         contentDescription = "Image description",
         style = UiImageStyle(
-            errorDrawableRes = R.drawable.error_poster_placeholder,
             previewDrawableRes = R.drawable.sample_poster
         )
     )

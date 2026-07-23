@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kover)
 }
 
 android {
@@ -31,6 +32,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "3600")
+        }
+        debug {
+            buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "0")
         }
     }
 
@@ -51,7 +56,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     api(libs.retrofit)
-    
+
     // Room
     api(libs.room.runtime)
     api(libs.room.ktx)
@@ -63,7 +68,10 @@ dependencies {
     api(libs.kotlinx.serialization.json)
     api(libs.network.response.adapter)
 
-    implementation(project(":core"))
+    api(platform(libs.firebase.bom))
+    api(libs.firebase.config)
+    api(libs.timber)
+
     implementation(project(":domain"))
 
     // Test dependencies
