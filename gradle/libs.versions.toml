@@ -10,7 +10,7 @@ version-code = "15"
 version-name = "3.3.1"
 
 # Kotlin
-kotlin = "2.3.20"
+kotlin = "2.4.10"
 
 # Android Core
 agp = "8.13.2"
