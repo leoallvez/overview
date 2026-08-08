@@ -37,7 +37,7 @@ fun UiIconButton(
     modifier: Modifier = Modifier,
     borderStyle: UiBorderStyle = UiBorderStyle(),
     background: Color = Color.White.copy(alpha = 0.1f),
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     Box(
         modifier
@@ -68,7 +68,7 @@ internal fun UiIconButtonVectorPreview() {
         iconStyle = UiIconStyle(
             source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft)
         )
-    ) {}
+    )
 }
 
 @UiComponentPreview
@@ -79,5 +79,5 @@ internal fun UiIconButtonPainterPreview() {
         iconStyle = UiIconStyle(
             source = UiIconSource.painter(R.drawable.ic_arrow_up)
         )
-    ) {}
+    )
 }

@@ -2,7 +2,7 @@ package br.dev.singular.overview.data.util
 
 import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.MediaDataType
-import br.dev.singular.overview.data.model.PersonDataModel
+import br.dev.singular.overview.data.model.PersonDetailsDataModel
 import br.dev.singular.overview.data.model.SuggestionDataModel
 
 val fakeSuggestionModels = listOf(
@@ -31,7 +31,7 @@ val fakeMediaDataModel = MediaDataModel(
     isLiked = false
 )
 
-val fakePersonDataModel = PersonDataModel(
+val fakePersonDetailsDataModel = PersonDetailsDataModel(
     id = 1,
     name = "Maria Oliveira"
 )

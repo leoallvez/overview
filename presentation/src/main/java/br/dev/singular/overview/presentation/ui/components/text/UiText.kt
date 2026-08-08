@@ -39,13 +39,14 @@ fun UiText(
     style: TextStyle = LocalTextStyle.current,
     color: Color = DefaultTextColor,
     textAlign: TextAlign = TextAlign.Center,
-    isBold: Boolean = false
+    isBold: Boolean = false,
+    maxLines: Int = 3
 ) {
     Text(
         color = color,
         text = text,
         modifier = modifier,
-        maxLines = 3,
+        maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,
         textAlign = textAlign,
         fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,

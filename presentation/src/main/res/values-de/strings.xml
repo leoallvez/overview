@@ -48,6 +48,7 @@
     <string name="synopsis">Zusammenfassung</string>
     <string name="biography">Biografie</string>
     <string name="cast">Gießen</string>
+    <string name="crew">Stab</string>
     <string name="related">Verwandt</string>
     <string name="where_to_watch">Anbieter</string>
     <string name="tv_shows_participation">TV-Teilnahme</string>
@@ -55,7 +56,8 @@
     <string name="age">%s Jahre</string>
     <string name="place_of_birth">Geburtsort</string>
     <string name="runtime_per_episode">Laufzeit: %s pro Episode</string>
-    <string name="director">Direktor</string>
+    <string name="director">Regie</string>
+    <string name="creator">Kreation</string>
     <string name="release_date">Veröffentlichungsdatum</string>
     <string name="runtime">Laufzeit</string>
     <string name="movies">Filme</string>

@@ -3,6 +3,7 @@ package br.dev.singular.overview.data.repository
 import br.dev.singular.overview.data.local.source.IGenreLocalDataSource
 import br.dev.singular.overview.data.model.GenreDataModel
 import br.dev.singular.overview.data.model.MediaDataType
+import br.dev.singular.overview.data.repository.genre.GenreLocalRepository
 import br.dev.singular.overview.domain.model.Genre
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.MediaTypeGenres

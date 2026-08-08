@@ -48,6 +48,7 @@
     <string name="synopsis">概要</string>
     <string name="biography">传</string>
     <string name="cast">投掷</string>
+    <string name="crew">工作人员</string>
     <string name="related">有关的</string>
     <string name="where_to_watch">供应商</string>
     <string name="tv_shows_participation">电视参与</string>
@@ -56,6 +57,7 @@
     <string name="place_of_birth">出生地</string>
     <string name="runtime_per_episode">时长：每集 %s</string>
     <string name="director">导演</string>
+    <string name="creator">创作</string>
     <string name="release_date">发布日期</string>
     <string name="runtime">运行</string>
     <string name="movies">电影</string>

@@ -3,7 +3,7 @@ package br.dev.singular.overview.data.util.mappers.dataToDomain
 import br.dev.singular.overview.data.model.MediaCredits
 import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.MediaDataType
-import br.dev.singular.overview.data.model.PersonDataModel
+import br.dev.singular.overview.data.model.PersonDetailsDataModel
 import br.dev.singular.overview.domain.model.MediaType
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -11,12 +11,12 @@ import org.junit.Test
 class PersonTest {
 
     @Test
-    fun `PersonDataModel toDomain should map all fields correctly including credits`() {
+    fun `PersonDetailsDataModel toDomain should map all fields correctly including credits`() {
         // arrange
         val movieCredit = MediaDataModel(id = 101L, name = "Movie 1", type = MediaDataType.MOVIE)
         val tvShowCredit = MediaDataModel(id = 201L, name = "Show 1", type = MediaDataType.TV)
 
-        val dataModel = PersonDataModel(
+        val dataModel = PersonDetailsDataModel(
             id = 1L,
             name = "John Doe",
             job = "Actor",

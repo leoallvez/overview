@@ -1,9 +1,9 @@
 package br.dev.singular.overview.presentation.ui.components.navigation.bottom
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.components.UiDivider
 import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.text.UiText
@@ -20,7 +21,7 @@ import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
-import br.dev.singular.overview.presentation.ui.utils.UiSlotHelper
+import br.dev.singular.overview.presentation.ui.utils.UiPlaceholder
 
 @Composable
 fun UiBottomNavigation(
@@ -29,13 +30,13 @@ fun UiBottomNavigation(
     topSlot: @Composable () -> Unit = {},
 ) {
     if (!state.visible) return
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1x))
-    ) {
+    Column(modifier = modifier) {
+        UiDivider(
+            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_1x))
+        )
         topSlot()
         NavigationBar(
-            modifier = Modifier.height(dimensionResource(R.dimen.spacing_16x)),
+            modifier = Modifier.height(dimensionResource(R.dimen.spacing_17x)),
             containerColor = Background,
             windowInsets = WindowInsets(0)
         ) {
@@ -67,6 +68,6 @@ fun UiBottomNavigation(
 internal fun UiBottomNavigationPreview() {
     UiBottomNavigation(
         state = rememberUiBottomNavigationState(),
-        topSlot = { UiSlotHelper("Top Slot Area") }
+        topSlot = { UiPlaceholder("Top Slot Area") }
     )
 }

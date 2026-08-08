@@ -1,4 +1,4 @@
-<?xm l version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="seasons">
         <item quantity="one">%d sezon</item>

@@ -4,18 +4,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.res.dimensionResource
 import br.dev.singular.overview.presentation.R
+import br.dev.singular.overview.presentation.ui.theme.BorderColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 @Composable
 fun UiDivider(
-    visible: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    visible: Boolean = true
 ) {
     if (visible) {
-        HorizontalDivider(color = DarkGray, modifier = modifier)
+        HorizontalDivider(color = BorderColor, modifier = modifier)
     }
 }
 

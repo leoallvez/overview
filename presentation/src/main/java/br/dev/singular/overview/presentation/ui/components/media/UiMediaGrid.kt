@@ -48,7 +48,7 @@ fun UiMediaGrid(
                 UiMediaItem(
                     model = it,
                     onClick = onClick,
-                    modifier = Modifier
+                    imageModifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(2f / 3f)
                 )
@@ -79,7 +79,7 @@ fun UiMediaGrid(
         items(items.size) { index ->
             UiMediaItem(
                 model = items[index],
-                modifier = Modifier
+                imageModifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(2f / 3f),
                 onClick = onClick

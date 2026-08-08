@@ -1,10 +1,10 @@
 package br.dev.singular.overview.presentation.ui.screens.person
 
 import br.dev.singular.overview.domain.usecase.FailType
-import br.dev.singular.overview.domain.usecase.IGetPersonByIdUseCase
+import br.dev.singular.overview.domain.usecase.IGetPersonDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.presentation.UiState
-import br.dev.singular.overview.presentation.createPersonMock
+import br.dev.singular.overview.presentation.createPersonDetailsMock
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,12 +17,12 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class PersonDetailsViewModelTest {
 
-    private val useCase: IGetPersonByIdUseCase = mockk()
+    private val useCase: IGetPersonDetailsByIdUseCase = mockk()
 
     @Test
     fun `onLoad should update uiState to Success when useCase returns data`() = runTest {
         // arrange
-        val person = createPersonMock()
+        val person = createPersonDetailsMock()
         coEvery { useCase(any()) } returns UseCaseState.Success(person)
         val sut = PersonDetailsViewModel(useCase, UnconfinedTestDispatcher(testScheduler))
 
