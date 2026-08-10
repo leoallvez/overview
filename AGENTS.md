@@ -19,31 +19,41 @@ structure.
 overview/
 ├── app/                         → Entry point, DI configuration & Navigation.
 │   ├── di/                      → Dependency Injection (Hilt) Modules.
-│   ├── ui/                      → Main Activity and Navigation setup.
+│   │   ├── app/                 → Monitoring, Analytics, Utils.
+│   │   ├── core/                → Coroutines Qualifiers & Dispatchers.
+│   │   ├── data/                → Network, Local Storage, Repositories.
+│   │   ├── domain/              → UseCase injections.
+│   │   └── presentation/        → ViewModel & UI Delegate injections.
 │   ├── monitoring/              → Error reporting (Crashlytics).
+│   ├── navigation/              → AppNavHost and Navigation orchestration.
+│   ├── MainActivity.kt          → Main Activity entry point.
 │   └── CustomApplication.kt     → Application class.   
 ├── domain/                      → Core Business Logic (Pure Kotlin/Java).
 │   ├── model/                   → Domain Entities.
 │   ├── usecase/                 → Business Logic Rules.
 │   └── repository/              → Repository Interfaces (Contracts).
 ├── data/                        → Data Layer Implementation.
+│   ├── di/                      → Specific Data qualifiers (e.g. Delete qualifiers).
 │   ├── repository/              → Domain Repository Implementations.
 │   ├── remote/                  → Retrofit Services & Remote Config.
-│   └── local/                   → Room Database & DataStore Implementation.
+│   └── local/                   → Room, DataStore & WorkManager Workers.
 └── presentation/                → UI Layer (Jetpack Compose).
     ├── ui/
     │   ├── screens/             → Screen Composable (e.g., Home, Details).
-    │   └── components/          → Reusable UI Components (e.g., UiMediaGrid).
+    │   ├── components/          → Reusable UI Components.
+    │   ├── theme/               → App Theme (M3), Colors, Typography.
+    │   └── navigation/          → Animation Utils & Navigation contracts.
     ├── viewmodel/               → ViewModels (exposing StateFlow).
     └── tagging/                 → Analytics and User Tracking.
 ```
 
 ## App module
 
-This module has the **dirty main** of this project, it is a place that "glue" (with DI) everything
-together.
-Today we are working to migrate this project to clean architecture, so this module has a lot of
-legacy code that we will refactor.
+This module is the **pure entry point** of the project. It acts as the "glue" using Hilt to satisfy 
+dependencies across modules. 
+
+> **Important:** This module contains **no UI logic or business implementations**. 
+> All UI must reside in `presentation` and all data persistence/workers in `data`.
 
 ## Domain module
 
@@ -109,14 +119,14 @@ class GetAppleByIdUseCase(
 ## Data module
 
 This module implements the repository interfaces defined in the `domain` module, coordinating data
-between local and remote sources.
+between local and remote sources. It also contains **WorkManager Workers**.
 
 ### Data Handling
 
 - **Remote:** Uses Retrofit for API calls. Response models usually have a `Response` or `DataModel`
   suffix.
 - **Remote Config:** Found in `remote/config`, handles dynamic feature flags (Firebase).
-- **Local:** Handles persistence (Room/DataStore).
+- **Local:** Handles persistence (Room/DataStore) and Background Tasks (Workers).
 - **Mappers:** Found in `util/mappers`, they convert data models into domain entities.
 
 ### Repository Implementation
@@ -138,7 +148,7 @@ class AppleRepository @Inject constructor(
 
 ## Presentation module
 
-This module contains the UI layer built entirely with **Jetpack Compose**.
+This module contains the UI layer built entirely with **Jetpack Compose**. It also owns the **App Theme**.
 
 ### State Management
 

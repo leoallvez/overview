@@ -11,3 +11,5 @@ val WarningColor = Color(0xFFE91E63)
 val DisabledHighlightColor = Color(0xFF4DD0E1)
 
 val BorderColor = Color(0xFF222222)
+
+val Black200 = Color(color = 0x00000000)

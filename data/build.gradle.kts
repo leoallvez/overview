@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android.plugin)
 }
 
 android {
@@ -55,15 +57,22 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
     api(libs.retrofit)
 
     // Room
     api(libs.room.runtime)
     api(libs.room.ktx)
     api(libs.room.paging)
+    ksp(libs.room.compiler)
 
     // DataStore
     api(libs.datastore.preferences)
+
+    // WorkManager
+    implementation(libs.work.runtime.ktx)
+    implementation(libs.hilt.work)
+    ksp(libs.hilt.compiler)
 
     api(libs.kotlinx.serialization.json)
     api(libs.network.response.adapter)

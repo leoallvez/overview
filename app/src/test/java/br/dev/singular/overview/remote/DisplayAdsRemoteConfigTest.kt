@@ -1,5 +1,6 @@
 package br.dev.singular.overview.remote
 
+import br.dev.singular.overview.data.remote.config.DisplayAdsRemoteConfig
 import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
 import br.dev.singular.overview.data.remote.config.RemoteConfigWrapper
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig

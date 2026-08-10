@@ -1,5 +1,8 @@
 package br.dev.singular.overview.di.domain
 
+import br.dev.singular.overview.data.di.DeleteCatalog
+import br.dev.singular.overview.data.di.DeleteMedias
+import br.dev.singular.overview.data.di.DeleteSuggestions
 import br.dev.singular.overview.data.repository.DataStoreRepository
 import br.dev.singular.overview.data.repository.genre.GenreLocalRepository
 import br.dev.singular.overview.data.repository.genre.GenreRemoteRepository
