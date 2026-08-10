@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -15,6 +16,7 @@ import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.ui.navigation.Destination
+import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
 import br.dev.singular.overview.presentation.ui.screens.catalog.details.CatalogDetailsScreen
 import br.dev.singular.overview.presentation.ui.screens.catalog.details.CatalogDetailsViewModel
 import br.dev.singular.overview.presentation.ui.screens.catalog.details.interaction.CatalogDetailActions
@@ -48,22 +50,25 @@ import br.dev.singular.overview.util.getApiId
 import br.dev.singular.overview.util.getParams
 
 @Composable
-fun NavController(
+fun AppNavHost(
+    navController: NavHostController,
     showAds: Boolean,
     modifier: Modifier,
     setEdgeToEdge: (Boolean) -> Unit,
-    navController: NavHostController
 ) {
+    val navi: INavigationWrapper = remember(navController) {
+        NavigationWrapper(navController)
+    }
+
     NavHost(
         navController = navController,
         startDestination = Destination.Splash.route,
         modifier = modifier.background(Background)
     ) {
-        val navi = NavigationWrapper(navController)
         composable(route = Destination.Splash.route) {
             SplashScreen(
                 onToHome = {
-                    navController.navigate(route = Destination.SelectCatalog.route) {
+                    navi.navigate(route = Destination.SelectCatalog.route) {
                         popUpTo(Destination.Splash.route) {
                             inclusive = true
                         }

@@ -24,7 +24,7 @@ import br.dev.singular.overview.presentation.ui.components.navigation.bottom.rem
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.remote.RemoteConfig
-import br.dev.singular.overview.ui.navigation.NavController
+import br.dev.singular.overview.ui.navigation.AppNavHost
 import br.dev.singular.overview.ui.navigation.NavigationWrapper
 import br.dev.singular.overview.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
                         .padding(WindowInsets.systemBars.asPaddingValues()),
                 ) { innerPadding ->
                     UiShimmerProvider {
-                        NavController(
+                        AppNavHost(
                             navController = navController,
                             modifier = Modifier.padding(innerPadding),
                             setEdgeToEdge = setEdgeToEdge,
