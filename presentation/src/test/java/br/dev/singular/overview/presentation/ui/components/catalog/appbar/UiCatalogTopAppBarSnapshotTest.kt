@@ -6,7 +6,8 @@ import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogTopA
 import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogTopAppBarPreview
 import org.junit.Test
 
-class UiCatalogTopAppBarSnapshotTest : UiScreenSnapshotTest(snapshotPackage = "components/catalog/appbar") {
+class UiCatalogTopAppBarSnapshotTest :
+    UiScreenSnapshotTest(snapshotPackage = "components/catalog/appbar") {
 
     @Test
     fun default() = snapshot {

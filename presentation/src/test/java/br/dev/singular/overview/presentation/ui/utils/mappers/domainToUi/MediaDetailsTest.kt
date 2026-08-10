@@ -30,8 +30,14 @@ class MediaDetailsTest {
 
     @Test
     fun `MovieDetails toUi with different runtimes should format correctly`() {
-        assertEquals("1h 30min", createMovieDetailsMock().copy(runtime = 90).toUi(true).durationFormatted)
-        assertEquals("45min", createMovieDetailsMock().copy(runtime = 45).toUi(true).durationFormatted)
+        assertEquals(
+            "1h 30min",
+            createMovieDetailsMock().copy(runtime = 90).toUi(true).durationFormatted
+        )
+        assertEquals(
+            "45min",
+            createMovieDetailsMock().copy(runtime = 45).toUi(true).durationFormatted
+        )
         assertEquals("", createMovieDetailsMock().copy(runtime = 0).toUi(true).durationFormatted)
     }
 

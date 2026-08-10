@@ -40,7 +40,8 @@ class BaseGetRemoteMediasUseCaseTest {
     fun `invoke with MOVIE type should fetch only movies with correct key`() = runTest {
         // arrange
         val query = QueryState(type = MediaType.MOVIE, page = 1)
-        val expectedPage = Page(items = listOf(createMediaMock(type = MediaType.MOVIE)), currentPage = 1)
+        val expectedPage =
+            Page(items = listOf(createMediaMock(type = MediaType.MOVIE)), currentPage = 1)
 
         coEvery {
             getter.getPage(match { it.type == MediaType.MOVIE && it.key == "test_movie" && it.page == 1 })
@@ -61,7 +62,8 @@ class BaseGetRemoteMediasUseCaseTest {
     fun `invoke with TV type should fetch only tv shows with correct key`() = runTest {
         // arrange
         val query = QueryState(type = MediaType.TV, page = 2)
-        val expectedPage = Page(items = listOf(createMediaMock(type = MediaType.TV)), currentPage = 2)
+        val expectedPage =
+            Page(items = listOf(createMediaMock(type = MediaType.TV)), currentPage = 2)
 
         coEvery {
             getter.getPage(match { it.type == MediaType.TV && it.key == "test_tv" && it.page == 2 })
@@ -80,8 +82,16 @@ class BaseGetRemoteMediasUseCaseTest {
     fun `invoke with ALL type should fetch and combine types correctly`() = runTest {
         // arrange
         val query = QueryState(type = MediaType.ALL, page = 1)
-        val moviePage = Page(items = listOf(createMediaMock(type = MediaType.MOVIE)), currentPage = 1, isLastPage = false)
-        val tvPage = Page(items = listOf(createMediaMock(type = MediaType.TV)), currentPage = 1, isLastPage = true)
+        val moviePage = Page(
+            items = listOf(createMediaMock(type = MediaType.MOVIE)),
+            currentPage = 1,
+            isLastPage = false
+        )
+        val tvPage = Page(
+            items = listOf(createMediaMock(type = MediaType.TV)),
+            currentPage = 1,
+            isLastPage = true
+        )
 
         coEvery { getter.getPage(match { it.key == "test_movie" }) } returns moviePage
         coEvery { getter.getPage(match { it.key == "test_tv" }) } returns tvPage
@@ -95,7 +105,7 @@ class BaseGetRemoteMediasUseCaseTest {
         assertEquals(2, combinedPage.items.size)
         assertEquals(1, combinedPage.currentPage)
         assertTrue(combinedPage.isLastPage) // false || true = true
-        
+
         coVerify(exactly = 1) { getter.getPage(match { it.key == "test_movie" }) }
         coVerify(exactly = 1) { getter.getPage(match { it.key == "test_tv" }) }
     }

@@ -12,7 +12,7 @@ class UseCaseStateMapperTest {
     fun `toUiState should map Success correctly`() {
         val success = UseCaseState.Success("Data")
         val result = success.toUiState { it.uppercase() }
-        
+
         assertTrue(result is UiState.Success)
         assertTrue((result as UiState.Success).data == "DATA")
     }
@@ -21,7 +21,7 @@ class UseCaseStateMapperTest {
     fun `toUiState should map Failure correctly`() {
         val failure: UseCaseState<String> = UseCaseState.Failure(FailType.Invalid)
         val result = failure.toUiState { it.uppercase() }
-        
+
         assertTrue(result is UiState.Error)
     }
 
@@ -29,7 +29,7 @@ class UseCaseStateMapperTest {
     fun `toUiStateNullable should map Success with null correctly`() {
         val success = UseCaseState.Success<String?>(null)
         val result = success.toUiStateNullable { it.uppercase() }
-        
+
         assertTrue(result is UiState.Success)
         assertTrue((result as UiState.Success).data == null)
     }

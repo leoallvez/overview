@@ -44,7 +44,7 @@ class DataStoreDataSourceTest {
 
         // act
         val resultFlow = sut.getValue(key)
-        
+
         // assert
         resultFlow.collect {
             assertEquals(value, it)

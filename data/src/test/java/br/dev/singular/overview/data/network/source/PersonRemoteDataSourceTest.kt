@@ -18,7 +18,11 @@ class PersonRemoteDataSourceTest {
     fun `getById should return Success when API returns success`() = runTest {
         // arrange
         val person = PersonDetailsDataModel(id = 1, name = "John Doe")
-        coEvery { api.getPersonDetailsById(any()) } returns NetworkResponse.Success(person, mockk(), 200)
+        coEvery { api.getPersonDetailsById(any()) } returns NetworkResponse.Success(
+            person,
+            mockk(),
+            200
+        )
 
         // act
         val result = sut.getById(1L)
@@ -31,7 +35,10 @@ class PersonRemoteDataSourceTest {
     @Test
     fun `getById should return Error when API returns error`() = runTest {
         // arrange
-        coEvery { api.getPersonDetailsById(any()) } returns NetworkResponse.UnknownError(Exception(), mockk())
+        coEvery { api.getPersonDetailsById(any()) } returns NetworkResponse.UnknownError(
+            Exception(),
+            mockk()
+        )
 
         // act
         val result = sut.getById(1L)

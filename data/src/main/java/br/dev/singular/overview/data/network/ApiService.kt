@@ -7,10 +7,10 @@ import br.dev.singular.overview.data.model.PersonDetailsDataModel
 import br.dev.singular.overview.data.model.TvShowDetailsDataModel
 import br.dev.singular.overview.data.model.VideoDataModel
 import br.dev.singular.overview.data.model.WatchProvidersDataModel
-import br.dev.singular.overview.data.network.response.MapResponse
 import br.dev.singular.overview.data.network.response.ErrorResponse
 import br.dev.singular.overview.data.network.response.GenreListResponse
 import br.dev.singular.overview.data.network.response.ListResponse
+import br.dev.singular.overview.data.network.response.MapResponse
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

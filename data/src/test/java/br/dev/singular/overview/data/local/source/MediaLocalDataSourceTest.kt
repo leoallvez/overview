@@ -42,13 +42,13 @@ class MediaLocalDataSourceTest {
         // arrange
         val page = 1
         val items = listOf(MediaDataModel(id = 1))
-        coEvery { 
+        coEvery {
             dao.getPage(
                 type = any(),
                 limit = any(),
                 isLiked = any(),
                 offset = any()
-            ) 
+            )
         } returns items
 
         // act

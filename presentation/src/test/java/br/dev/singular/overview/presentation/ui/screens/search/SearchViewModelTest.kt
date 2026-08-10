@@ -104,17 +104,18 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `handleIntent LoadSuggestions should update suggestionsState to Error on failure`() = runTest {
-        // arrange
-        coEvery { suggestionsUseCase.invoke() } returns UseCaseState.Failure(FailType.NothingFound)
+    fun `handleIntent LoadSuggestions should update suggestionsState to Error on failure`() =
+        runTest {
+            // arrange
+            coEvery { suggestionsUseCase.invoke() } returns UseCaseState.Failure(FailType.NothingFound)
 
-        // act
-        sut.handleIntent(SearchIntent.LoadSuggestions)
-        advanceUntilIdle()
+            // act
+            sut.handleIntent(SearchIntent.LoadSuggestions)
+            advanceUntilIdle()
 
-        // assert
-        assertTrue(sut.suggestionsState.value is UiState.Error)
-    }
+            // assert
+            assertTrue(sut.suggestionsState.value is UiState.Error)
+        }
 
     @Test
     fun `onFetching should call mediasUseCase with mapped query`() = runTest {

@@ -17,6 +17,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import br.dev.singular.overview.data.remote.config.RemoteConfig
+import br.dev.singular.overview.navigation.AppNavHost
+import br.dev.singular.overview.navigation.NavigationWrapper
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
 import br.dev.singular.overview.presentation.ui.components.navigation.bottom.UiBottomNavigation
@@ -24,9 +27,6 @@ import br.dev.singular.overview.presentation.ui.components.navigation.bottom.rem
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.theme.AppTheme
 import br.dev.singular.overview.presentation.ui.theme.Background
-import br.dev.singular.overview.data.remote.config.RemoteConfig
-import br.dev.singular.overview.navigation.AppNavHost
-import br.dev.singular.overview.navigation.NavigationWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

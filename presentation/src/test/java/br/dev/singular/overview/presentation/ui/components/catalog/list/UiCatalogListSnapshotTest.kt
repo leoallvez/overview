@@ -7,7 +7,8 @@ import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogList
 import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogListWithContentPaddingPreview
 import org.junit.Test
 
-class UiCatalogListSnapshotTest : UiScreenSnapshotTest(snapshotPackage = "components/catalog/list") {
+class UiCatalogListSnapshotTest :
+    UiScreenSnapshotTest(snapshotPackage = "components/catalog/list") {
 
     @Test
     fun default() = snapshot {

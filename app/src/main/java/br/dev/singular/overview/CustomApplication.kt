@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Configuration.Provider
-import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
 import br.dev.singular.overview.data.local.workers.WorkManagerFacade
+import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
 import br.dev.singular.overview.monitoring.CrashlyticsSource
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.util.CrashlyticsReportingTree

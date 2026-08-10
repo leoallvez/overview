@@ -35,12 +35,12 @@ class UiBottomNavigationStateTest {
         sut.onSelectItem(UiBottomNavItem.Search)
 
         assertEquals(Destination.Search.route, navigation.activeRoute)
-        
+
         val builder = NavOptionsBuilder()
         val lambda = navigation.lastNavOptionsBuilder
         assertNotNull(lambda)
         lambda?.invoke(builder)
-        
+
         assertTrue(builder.launchSingleTop)
         assertTrue(builder.restoreState)
     }

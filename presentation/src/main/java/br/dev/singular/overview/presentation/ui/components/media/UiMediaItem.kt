@@ -96,7 +96,7 @@ fun UiMediaItemSkeleton(
 @UiComponentPreview
 @Composable
 internal fun UiMediaItemPreview() {
-    Box( modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
+    Box(modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
         UiMediaItem(
             model = fakeMedias().first()
         )
@@ -106,7 +106,7 @@ internal fun UiMediaItemPreview() {
 @UiComponentPreview
 @Composable
 internal fun UiMediaWithLongTitlePreview() {
-    Box( modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
+    Box(modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
         UiMediaItem(
             model = fakeMedias(withLongText = true).first()
         )
@@ -116,7 +116,7 @@ internal fun UiMediaWithLongTitlePreview() {
 @UiComponentPreview
 @Composable
 internal fun UiMediaItemSkeletonPreview() {
-    Box( modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
+    Box(modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x))) {
         UiMediaItemSkeleton()
     }
 }

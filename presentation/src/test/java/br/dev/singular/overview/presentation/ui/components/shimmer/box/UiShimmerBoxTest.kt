@@ -27,9 +27,11 @@ class UiShimmerBoxTest {
         val tag = "shimmer_box"
         rule.setContent {
             UiShimmerProvider {
-                UiShimmerBox(modifier = Modifier
-                    .size(100.dp)
-                    .testTag(tag))
+                UiShimmerBox(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .testTag(tag)
+                )
             }
         }
         rule.onNodeWithTag(tag).assertIsDisplayed()

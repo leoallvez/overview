@@ -34,7 +34,18 @@ pitest {
     threads.set(Runtime.getRuntime().availableProcessors())
     outputFormats.set(listOf("HTML", "XML"))
     timestampedReports.set(false)
-    excludedMethods.set(listOf("equals", "hashCode", "toString", "copy", "component1", "component2", "component3", "component4"))
+    excludedMethods.set(
+        listOf(
+            "equals",
+            "hashCode",
+            "toString",
+            "copy",
+            "component1",
+            "component2",
+            "component3",
+            "component4"
+        )
+    )
 
     mutationThreshold.set(50)
     testStrengthThreshold.set(70)

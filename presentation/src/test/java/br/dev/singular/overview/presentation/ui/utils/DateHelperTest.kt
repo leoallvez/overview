@@ -35,7 +35,7 @@ class DateHelperTest {
     fun `periodBetween should calculate period correctly`() {
         val birthDate = "1990-01-01"
         val helper = DateHelper(birthDate)
-        
+
         val result = helper.periodBetween("2023-01-01")
         assertEquals("33", result)
     }
@@ -51,8 +51,10 @@ class DateHelperTest {
         val tomorrow = Calendar.getInstance().apply {
             add(Calendar.DAY_OF_YEAR, 1)
         }
-        val tomorrowStr = "${tomorrow.get(Calendar.YEAR)}-${tomorrow.get(Calendar.MONTH) + 1}-${tomorrow.get(Calendar.DAY_OF_MONTH)}"
-        
+        val tomorrowStr = "${tomorrow.get(Calendar.YEAR)}-${tomorrow.get(Calendar.MONTH) + 1}-${
+            tomorrow.get(Calendar.DAY_OF_MONTH)
+        }"
+
         val helper = DateHelper(tomorrowStr)
         assertTrue(helper.isFutureDate())
     }

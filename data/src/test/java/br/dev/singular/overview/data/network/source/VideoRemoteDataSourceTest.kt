@@ -14,8 +14,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertTrue
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -41,7 +41,7 @@ class VideoRemoteDataSourceTest {
         val response = ListResponse(results = videos)
         val successResponse = mockk<NetworkResponse.Success<ListResponse<VideoDataModel>>>()
         every { successResponse.body } returns response
-        
+
         coEvery { api.getVideos(any(), any()) } returns successResponse
 
         // act
@@ -58,7 +58,12 @@ class VideoRemoteDataSourceTest {
         // arrange
         val id = 1L
         val type = MediaDataType.TV
-        coEvery { api.getVideos(any(), any()) } returns mockk<NetworkResponse.ServerError<ErrorResponse>>()
+        coEvery {
+            api.getVideos(
+                any(),
+                any()
+            )
+        } returns mockk<NetworkResponse.ServerError<ErrorResponse>>()
 
         // act
         val result = sut.getVideos(id, type)

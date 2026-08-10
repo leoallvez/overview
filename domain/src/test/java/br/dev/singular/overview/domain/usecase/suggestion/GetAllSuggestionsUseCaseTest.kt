@@ -45,10 +45,18 @@ class GetAllSuggestionsUseCaseTest {
         // arrange
         val s1 = suggestionMock.copy(order = 2, isActive = true, key = "key1")
         val s2 = suggestionMock.copy(order = 1, isActive = true, key = "key2")
-        
+
         coEvery { getterSuggestionMock.getAll() } returns listOf(s1, s2)
-        coEvery { getterMediaMock.getPage(match { it.key == "key1" }) } returns Page(items = listOf(mediaMock))
-        coEvery { getterMediaMock.getPage(match { it.key == "key2" }) } returns Page(items = listOf(mediaMock))
+        coEvery { getterMediaMock.getPage(match { it.key == "key1" }) } returns Page(
+            items = listOf(
+                mediaMock
+            )
+        )
+        coEvery { getterMediaMock.getPage(match { it.key == "key2" }) } returns Page(
+            items = listOf(
+                mediaMock
+            )
+        )
 
         // act
         val result = sut.invoke()
@@ -60,7 +68,7 @@ class GetAllSuggestionsUseCaseTest {
         // Verify order (by order property)
         assertEquals("key2", data[0].key) // order 1
         assertEquals("key1", data[1].key) // order 2
-        
+
         coVerify(exactly = 1) { getterSuggestionMock.getAll() }
         coVerify(exactly = 1) { getterMediaMock.getPage(match { it.key == "key1" }) }
         coVerify(exactly = 1) { getterMediaMock.getPage(match { it.key == "key2" }) }
@@ -71,9 +79,13 @@ class GetAllSuggestionsUseCaseTest {
         // arrange
         val suggestion = suggestionMock.copy(type = MediaType.ALL, isActive = true)
         val mediaWithDifferentType = mediaMock.copy(type = MediaType.TV)
-        
+
         coEvery { getterSuggestionMock.getAll() } returns listOf(suggestion)
-        coEvery { getterMediaMock.getPage(any()) } returns Page(items = listOf(mediaWithDifferentType))
+        coEvery { getterMediaMock.getPage(any()) } returns Page(
+            items = listOf(
+                mediaWithDifferentType
+            )
+        )
 
         // act
         val result = sut.invoke()
@@ -89,9 +101,13 @@ class GetAllSuggestionsUseCaseTest {
         // arrange
         val suggestion = suggestionMock.copy(type = MediaType.MOVIE, isActive = true)
         val mediaWithDifferentType = mediaMock.copy(type = MediaType.TV)
-        
+
         coEvery { getterSuggestionMock.getAll() } returns listOf(suggestion)
-        coEvery { getterMediaMock.getPage(any()) } returns Page(items = listOf(mediaWithDifferentType))
+        coEvery { getterMediaMock.getPage(any()) } returns Page(
+            items = listOf(
+                mediaWithDifferentType
+            )
+        )
 
         // act
         val result = sut.invoke()
@@ -126,7 +142,11 @@ class GetAllSuggestionsUseCaseTest {
             suggestionMock.copy(isActive = true, key = "active"),
             suggestionMock.copy(isActive = false, key = "inactive")
         )
-        coEvery { getterMediaMock.getPage(match { it.key == "active" }) } returns Page(items = listOf(mediaMock))
+        coEvery { getterMediaMock.getPage(match { it.key == "active" }) } returns Page(
+            items = listOf(
+                mediaMock
+            )
+        )
 
         // act
         val result = sut.invoke()
@@ -175,6 +195,9 @@ class GetAllSuggestionsUseCaseTest {
 
         // assert
         assertTrue(result is UseCaseState.Failure)
-        assertEquals(expectedException, ((result as UseCaseState.Failure).type as FailType.Exception).throwable)
+        assertEquals(
+            expectedException,
+            ((result as UseCaseState.Failure).type as FailType.Exception).throwable
+        )
     }
 }

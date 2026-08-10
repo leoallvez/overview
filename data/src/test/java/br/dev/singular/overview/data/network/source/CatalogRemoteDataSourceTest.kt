@@ -33,8 +33,8 @@ class CatalogRemoteDataSourceTest {
     fun `getAll should return from config when config is available`() = runTest {
         // arrange
         every { locale.region } returns "BR"
-        coEvery { 
-            provider.getString(RemoteConfigKey.STREAM_BR) 
+        coEvery {
+            provider.getString(RemoteConfigKey.STREAM_BR)
         } returns "[{\"provider_id\": 1, \"provider_name\": \"Netflix\"}]"
 
         // act
@@ -60,7 +60,11 @@ class CatalogRemoteDataSourceTest {
 
         every { locale.region } returns "BR"
         coEvery { provider.getString(any()) } returns ""
-        coEvery { api.getCatalog(region = "BR") } returns NetworkResponse.Success(response, mockk(), 200)
+        coEvery { api.getCatalog(region = "BR") } returns NetworkResponse.Success(
+            response,
+            mockk(),
+            200
+        )
 
         // act
         val result = sut.getAll()
@@ -128,67 +132,83 @@ class CatalogRemoteDataSourceTest {
     }
 
     @Test
-    fun `getAll should return empty list when fetchFromApi throws exception and config is empty`() = runTest {
-        // arrange
-        every { locale.region } returns "BR"
-        coEvery { provider.getString(any()) } returns ""
-        coEvery { api.getCatalog(any()) } throws RuntimeException("API error")
+    fun `getAll should return empty list when fetchFromApi throws exception and config is empty`() =
+        runTest {
+            // arrange
+            every { locale.region } returns "BR"
+            coEvery { provider.getString(any()) } returns ""
+            coEvery { api.getCatalog(any()) } throws RuntimeException("API error")
 
-        // act
-        val result = sut.getAll()
+            // act
+            val result = sut.getAll()
 
-        // assert
-        result.shouldBeEmpty()
-    }
-
-    @Test
-    fun `getCatalogsByMedia should return flatrate catalogs for the correct region when API returns success`() = runTest {
-        // arrange
-        val id = 123L
-        val type = MediaDataType.MOVIE
-        val region = "BR"
-        val catalogs = listOf(
-            CatalogDataModel(id = 1, name = "Netflix", priority = 2),
-            CatalogDataModel(id = 2, name = "Prime Video", priority = 1),
-        )
-        val watchProviders = WatchProvidersDataModel(flatRate = catalogs)
-        val response = MapResponse(results = mapOf(region to watchProviders))
-
-        every { locale.region } returns region
-        coEvery { api.getWatchProviders(type.key, id) } returns NetworkResponse.Success(response, mockk(), 200)
-
-        // act
-        val result = sut.getCatalogsByMedia(id, type)
-
-        // assert
-        result shouldHaveSize 2
-        result[0].id shouldBeEqualTo 2L // Sorted by priority in WatchProvidersDataModel
-        result[1].id shouldBeEqualTo 1L
-        coVerify(exactly = 1) { api.getWatchProviders(type.key, id) }
-    }
+            // assert
+            result.shouldBeEmpty()
+        }
 
     @Test
-    fun `getCatalogsByMedia should return empty list when region is not present in results`() = runTest {
-        // arrange
-        val id = 123L
-        val region = "BR"
-        val response = MapResponse<WatchProvidersDataModel>(results = mapOf("US" to mockk()))
+    fun `getCatalogsByMedia should return flatrate catalogs for the correct region when API returns success`() =
+        runTest {
+            // arrange
+            val id = 123L
+            val type = MediaDataType.MOVIE
+            val region = "BR"
+            val catalogs = listOf(
+                CatalogDataModel(id = 1, name = "Netflix", priority = 2),
+                CatalogDataModel(id = 2, name = "Prime Video", priority = 1),
+            )
+            val watchProviders = WatchProvidersDataModel(flatRate = catalogs)
+            val response = MapResponse(results = mapOf(region to watchProviders))
 
-        every { locale.region } returns region
-        coEvery { api.getWatchProviders(any(), any()) } returns NetworkResponse.Success(response, mockk(), 200)
+            every { locale.region } returns region
+            coEvery {
+                api.getWatchProviders(
+                    type.key,
+                    id
+                )
+            } returns NetworkResponse.Success(response, mockk(), 200)
 
-        // act
-        val result = sut.getCatalogsByMedia(id, MediaDataType.MOVIE)
+            // act
+            val result = sut.getCatalogsByMedia(id, type)
 
-        // assert
-        result.shouldBeEmpty()
-    }
+            // assert
+            result shouldHaveSize 2
+            result[0].id shouldBeEqualTo 2L // Sorted by priority in WatchProvidersDataModel
+            result[1].id shouldBeEqualTo 1L
+            coVerify(exactly = 1) { api.getWatchProviders(type.key, id) }
+        }
+
+    @Test
+    fun `getCatalogsByMedia should return empty list when region is not present in results`() =
+        runTest {
+            // arrange
+            val id = 123L
+            val region = "BR"
+            val response = MapResponse<WatchProvidersDataModel>(results = mapOf("US" to mockk()))
+
+            every { locale.region } returns region
+            coEvery {
+                api.getWatchProviders(
+                    any(),
+                    any()
+                )
+            } returns NetworkResponse.Success(response, mockk(), 200)
+
+            // act
+            val result = sut.getCatalogsByMedia(id, MediaDataType.MOVIE)
+
+            // assert
+            result.shouldBeEmpty()
+        }
 
     @Test
     fun `getCatalogsByMedia should return empty list when API returns failure`() = runTest {
         // arrange
         every { locale.region } returns "BR"
-        coEvery { api.getWatchProviders(any(), any()) } returns NetworkResponse.UnknownError(Throwable(), mockk())
+        coEvery { api.getWatchProviders(any(), any()) } returns NetworkResponse.UnknownError(
+            Throwable(),
+            mockk()
+        )
 
         // act
         val result = sut.getCatalogsByMedia(1L, MediaDataType.MOVIE)

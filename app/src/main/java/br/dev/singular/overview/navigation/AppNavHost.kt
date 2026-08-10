@@ -179,7 +179,9 @@ fun AppNavHost(
                             handleIntent = viewModel::handleIntent
                         )
                     )
-                } else -> {
+                }
+
+                else -> {
                     val viewModel = hiltViewModel<TvShowDetailsViewModel>()
                     TvShowDetailsScreen(
                         tvShowId = id,

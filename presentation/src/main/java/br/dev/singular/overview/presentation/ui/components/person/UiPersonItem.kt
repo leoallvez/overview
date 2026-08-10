@@ -44,9 +44,9 @@ fun UiPersonItem(
             .heightIn(max = dimensionResource(R.dimen.person_item_height))
             .clickable { onClick(model.id) },
         verticalArrangement = Arrangement
-                .spacedBy(dimensionResource(R.dimen.spacing_1x)),
+            .spacedBy(dimensionResource(R.dimen.spacing_1x)),
 
-    ) {
+        ) {
         UiPersonAvatar(
             url = model.profileURL,
             previewDrawableRes = model.previewDrawableRes,

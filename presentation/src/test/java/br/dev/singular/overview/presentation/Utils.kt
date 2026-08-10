@@ -127,13 +127,13 @@ fun createQueryStateMock() = QueryState(
     page = 2
 )
 
-class NavigationWrapperMock: INavigationWrapper {
+class NavigationWrapperMock : INavigationWrapper {
 
     var wasNavigateCalled = false
 
     override var activeRoute: String? = null
 
-    override val startDestinationId  = 0
+    override val startDestinationId = 0
 
     var lastNavOptionsBuilder: (NavOptionsBuilder.() -> Unit)? = null
 

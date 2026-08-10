@@ -22,7 +22,10 @@ class UseCaseUtilsTest {
         val result = runSafely { throw exception }
 
         assertTrue(result is UseCaseState.Failure)
-        assertEquals(exception, ((result as UseCaseState.Failure).type as FailType.Exception).throwable)
+        assertEquals(
+            exception,
+            ((result as UseCaseState.Failure).type as FailType.Exception).throwable
+        )
     }
 
     @Test

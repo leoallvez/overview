@@ -46,7 +46,7 @@ class SaveGenreUseCaseTest {
 
         // Assert
         assertEquals(UseCaseState.Success(Unit), result)
-        
+
         coVerifyOrder {
             getter.getByParam(MediaType.TV)
             setter.update(MediaTypeGenres(MediaType.TV, tvGenres))

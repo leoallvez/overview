@@ -32,7 +32,7 @@ class FetchGenresByTypeUseCaseTest {
         )
         // Expected order: Action (1), Comedy (2), Drama (3)
         val expected = listOf(genres[1], genres[0], genres[2])
-        
+
         coEvery { getter.getByParam(MediaType.MOVIE) } returns genres
 
         // act

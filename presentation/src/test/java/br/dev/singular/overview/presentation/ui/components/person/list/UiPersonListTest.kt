@@ -28,7 +28,7 @@ class UiPersonListTest {
     val rule = createComposeRule()
 
     private val fakePerson = fakePerson()
-    
+
     @Test
     fun `UiPersonList should display title and items`() {
         val listTitle = "Cast"

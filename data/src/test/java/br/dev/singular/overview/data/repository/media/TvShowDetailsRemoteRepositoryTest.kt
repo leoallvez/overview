@@ -81,48 +81,50 @@ class TvShowDetailsRemoteRepositoryTest {
     }
 
     @Test
-    fun `should include videos in TvShowDetails when video data source returns success`() = runTest {
-        // Arrange
-        val id = 1L
-        coEvery {
-            mediaDataSource.getTvShowById(id)
-        } returns DataResult.Success(fakeTvShowDetailsDataModel)
+    fun `should include videos in TvShowDetails when video data source returns success`() =
+        runTest {
+            // Arrange
+            val id = 1L
+            coEvery {
+                mediaDataSource.getTvShowById(id)
+            } returns DataResult.Success(fakeTvShowDetailsDataModel)
 
-        coEvery {
-            videoDataSource.getVideos(id, MediaDataType.TV)
-        } returns DataResult.Success(
-            data = ListResponse(results = createFakeVideoDataModelList(count = 3))
-        )
+            coEvery {
+                videoDataSource.getVideos(id, MediaDataType.TV)
+            } returns DataResult.Success(
+                data = ListResponse(results = createFakeVideoDataModelList(count = 3))
+            )
 
-        // Act
-        val result = sut.getById(id)
+            // Act
+            val result = sut.getById(id)
 
-        // Assert
-        result.shouldNotBeNull()
-        result.videos shouldHaveSize 3
-        coVerify(exactly = 1) { videoDataSource.getVideos(id, MediaDataType.TV) }
-    }
+            // Assert
+            result.shouldNotBeNull()
+            result.videos shouldHaveSize 3
+            coVerify(exactly = 1) { videoDataSource.getVideos(id, MediaDataType.TV) }
+        }
 
     @Test
-    fun `should include catalogs in TvShowDetails when catalog data source returns a list`() = runTest {
-        // Arrange
-        val id = 1L
-        coEvery {
-            mediaDataSource.getTvShowById(id)
-        } returns DataResult.Success(fakeTvShowDetailsDataModel)
+    fun `should include catalogs in TvShowDetails when catalog data source returns a list`() =
+        runTest {
+            // Arrange
+            val id = 1L
+            coEvery {
+                mediaDataSource.getTvShowById(id)
+            } returns DataResult.Success(fakeTvShowDetailsDataModel)
 
-        coEvery {
-            catalogDataSource.getCatalogsByMedia(id, MediaDataType.TV)
-        } returns createFakeCatalogDataModelList(count = 3)
+            coEvery {
+                catalogDataSource.getCatalogsByMedia(id, MediaDataType.TV)
+            } returns createFakeCatalogDataModelList(count = 3)
 
-        // Act
-        val result = sut.getById(id)
+            // Act
+            val result = sut.getById(id)
 
-        // Assert
-        result.shouldNotBeNull()
-        result.catalogs shouldHaveSize 3
-        coVerify(exactly = 1) { catalogDataSource.getCatalogsByMedia(id, MediaDataType.TV) }
-    }
+            // Assert
+            result.shouldNotBeNull()
+            result.catalogs shouldHaveSize 3
+            coVerify(exactly = 1) { catalogDataSource.getCatalogsByMedia(id, MediaDataType.TV) }
+        }
 
     @Test
     fun `should return TvShowDetails even when video data source returns an error`() = runTest {

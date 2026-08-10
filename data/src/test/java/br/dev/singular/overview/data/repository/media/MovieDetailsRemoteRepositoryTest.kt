@@ -104,25 +104,26 @@ class MovieDetailsRemoteRepositoryTest {
     }
 
     @Test
-    fun `should include catalogs in MovieDetails when catalog data source returns a list`() = runTest {
-        // Arrange
-        val id = 1L
-        coEvery {
-            mediaDataSource.getMovieById(id)
-        } returns DataResult.Success(fakeMovieDetailsDataModel)
+    fun `should include catalogs in MovieDetails when catalog data source returns a list`() =
+        runTest {
+            // Arrange
+            val id = 1L
+            coEvery {
+                mediaDataSource.getMovieById(id)
+            } returns DataResult.Success(fakeMovieDetailsDataModel)
 
-        coEvery {
-            catalogDataSource.getCatalogsByMedia(id, MediaDataType.MOVIE)
-        } returns createFakeCatalogDataModelList(count = 3)
+            coEvery {
+                catalogDataSource.getCatalogsByMedia(id, MediaDataType.MOVIE)
+            } returns createFakeCatalogDataModelList(count = 3)
 
-        // Act
-        val result = sut.getById(id)
+            // Act
+            val result = sut.getById(id)
 
-        // Assert
-        result.shouldNotBeNull()
-        result.catalogs shouldHaveSize 3
-        coVerify(exactly = 1) { catalogDataSource.getCatalogsByMedia(id, MediaDataType.MOVIE) }
-    }
+            // Assert
+            result.shouldNotBeNull()
+            result.catalogs shouldHaveSize 3
+            coVerify(exactly = 1) { catalogDataSource.getCatalogsByMedia(id, MediaDataType.MOVIE) }
+        }
 
     @Test
     fun `should return MovieDetails even when video data source returns an error`() = runTest {

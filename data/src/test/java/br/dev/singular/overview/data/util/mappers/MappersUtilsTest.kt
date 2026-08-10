@@ -14,7 +14,13 @@ class MappersUtilsTest {
         val queryDataState = QueryDataState(
             path = "movie/popular",
             genre = GenreDataModel(id = 10, name = "Action"),
-            catalog = CatalogDataModel(id = 20, name = "Netflix", priority = 1, logoPath = "", display = true)
+            catalog = CatalogDataModel(
+                id = 20,
+                name = "Netflix",
+                priority = 1,
+                logoPath = "",
+                display = true
+            )
         )
         val extraParams = mapOf("api_key" to "123")
 

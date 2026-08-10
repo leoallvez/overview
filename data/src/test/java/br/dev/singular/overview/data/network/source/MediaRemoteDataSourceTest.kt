@@ -41,9 +41,9 @@ class MediaRemoteDataSourceTest {
         val page = MediaDataPage(page = 1, items = emptyList())
         val successResponse = mockk<NetworkResponse.Success<MediaDataPage>>()
         every { successResponse.body } returns page
-        
-        coEvery { 
-            api.fetchMediaPage(any(), any(), any(), any()) 
+
+        coEvery {
+            api.fetchMediaPage(any(), any(), any(), any())
         } returns successResponse
 
         // act
@@ -52,13 +52,13 @@ class MediaRemoteDataSourceTest {
         // assert
         assertTrue(result is DataResult.Success)
         (result as DataResult.Success).data shouldBeEqualTo page
-        coVerify(exactly = 1) { 
+        coVerify(exactly = 1) {
             api.fetchMediaPage(
                 path = "movie/popular",
                 page = 1,
                 query = null,
                 options = any()
-            ) 
+            )
         }
     }
 
@@ -66,8 +66,8 @@ class MediaRemoteDataSourceTest {
     fun `getByQuery should return Error when API returns error`() = runTest {
         // arrange
         val queryState = QueryDataState(path = "movie/popular")
-        coEvery { 
-            api.fetchMediaPage(any(), any(), any(), any()) 
+        coEvery {
+            api.fetchMediaPage(any(), any(), any(), any())
         } returns mockk<NetworkResponse.UnknownError>()
 
         // act
@@ -83,7 +83,7 @@ class MediaRemoteDataSourceTest {
         val id = 123L
         val successResponse = mockk<NetworkResponse.Success<MovieDetailsDataModel>>()
         every { successResponse.body } returns fakeMovieDetailsDataModel
-        
+
         coEvery { api.getMovieDetailsById(id = id) } returns successResponse
 
         // act
@@ -114,7 +114,7 @@ class MediaRemoteDataSourceTest {
         val id = 456L
         val successResponse = mockk<NetworkResponse.Success<TvShowDetailsDataModel>>()
         every { successResponse.body } returns fakeTvShowDetailsDataModel
-        
+
         coEvery { api.getTvShowDetailsById(id = id) } returns successResponse
 
         // act

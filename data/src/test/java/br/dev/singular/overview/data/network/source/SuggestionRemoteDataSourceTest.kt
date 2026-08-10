@@ -17,7 +17,7 @@ class SuggestionRemoteDataSourceTest {
     fun `getAll should return suggestions from config`() = runTest {
         // arrange
         val suggestions = listOf(SuggestionDataModel(id = 1, sourceKey = "trending"))
-        
+
         coEvery { provider.getString(any()) } returns "[{\"id\": 1, \"sourceKey\": \"trending\"}]"
 
         // act

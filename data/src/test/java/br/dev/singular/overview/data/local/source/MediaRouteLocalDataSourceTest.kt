@@ -20,8 +20,11 @@ class MediaRouteLocalDataSourceTest {
     fun `getByKey should return matching route from json file`() = runTest {
         // arrange
         val routes = listOf(MediaRouteDataModel(key = "popular", path = "movie/popular"))
-        val routesJson = json.encodeToString(kotlinx.serialization.builtins.ListSerializer(MediaRouteDataModel.serializer()), routes)
-        
+        val routesJson = json.encodeToString(
+            kotlinx.serialization.builtins.ListSerializer(MediaRouteDataModel.serializer()),
+            routes
+        )
+
         every { readerProvider.read(any()) } returns routesJson
 
         // act
