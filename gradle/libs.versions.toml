@@ -48,9 +48,7 @@ network-response-adapter = "4.2.2"
 
 # UI
 coil-compose = "2.7.0"
-toolbar-compose = "2.3.5"
 progress-indicator = "0.8.0"
-accompanist = "0.36.0"
 lucide = "2.2.1"
 
 # Testing
@@ -89,7 +87,6 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
-toolbar-compose = { module = "me.onebone:toolbar-compose", version.ref = "toolbar-compose" }
 
 # AndroidX Lifecycle and Work
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime" }
@@ -127,7 +124,6 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 converter-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "converter-serialization" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
 network-response-adapter = { module = "com.github.haroldadmin:NetworkResponseAdapter", version.ref = "network-response-adapter" }
@@ -136,9 +132,6 @@ network-response-adapter = { module = "com.github.haroldadmin:NetworkResponseAda
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 progress-indicator = { module = "com.ehsanmsz:msz-progress-indicator", version.ref = "progress-indicator" }
-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
-accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 lucide-icons = { module = "com.composables:icons-lucide-cmp", version.ref = "lucide" }
 
 # Testing Libraries

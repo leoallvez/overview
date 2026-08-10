@@ -115,10 +115,6 @@ android {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
-
 dependencies {
     implementation(libs.androidx.core.ktx)
 
@@ -135,18 +131,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-    // Room
-    ksp(libs.room.compiler)
-
     // WorkManager
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
-    ksp(libs.hilt.compiler)
-
-    // Accompanist
-    implementation(libs.accompanist.pager)
-    implementation(libs.accompanist.pager.indicators)
-    implementation(libs.accompanist.flowlayout)
 
     // Third-party libraries
     implementation(libs.timber)
@@ -154,8 +141,6 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.logging.interceptor)
-    implementation(libs.toolbar.compose)
-    implementation(libs.converter.moshi)
     implementation(libs.converter.serialization)
 
     // Modules

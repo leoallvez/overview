@@ -81,7 +81,6 @@ kover {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
 
     // Hilt
     implementation(libs.hilt.android)

@@ -53,9 +53,12 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     api(libs.retrofit)
