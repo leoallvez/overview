@@ -1,9 +1,7 @@
 [versions]
 # Global Settings
 app-id = "br.dev.singular.overview"
-immutable = "0.5.1"
-serialization = "1.11.0"
-sdk-compile = "36"
+sdk-compile = "37"
 sdk-min = "24"
 sdk-target = "36"
 version-code = "15"
@@ -12,25 +10,27 @@ version-name = "3.3.1"
 # Kotlin
 kotlin = "2.4.10"
 coroutines = "1.11.0"
+immutable = "0.5.1"
+serialization = "1.11.0"
 
 # Android Core
 agp = "9.2.1"
-core-ktx = "1.18.0"
+core-ktx = "1.19.0"
 material = "1.14.0"
 
 # Compose
 compose-bom = "2026.06.01"
-navigation-compose = "2.9.7"
+navigation-compose = "2.9.8"
 paging-compose = "3.5.0"
 activity-compose = "1.13.0"
 
 # Lifecycle and Work
-lifecycle = "2.10.0"
-work-runtime-ktx = "2.11.1"
+lifecycle = "2.11.0"
+work-runtime-ktx = "2.11.2"
 
 # Hilt
 hilt = "2.60.1"
-hilt-navigation-compose = "1.3.0"
+hilt-navigation-compose = "1.4.0"
 
 # Room
 room = "2.8.4"
@@ -40,7 +40,7 @@ paging-runtime-ktx = "3.5.0"
 firebase-bom = "34.17.0"
 
 # Network
-retrofit = "2.9.0"
+retrofit = "3.0.0"
 logging-interceptor = "5.4.0"
 converter-serialization = "1.0.0"
 network-response-adapter = "4.2.2"
@@ -154,7 +154,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version = "4.5.0" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.7" }
 hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt"  }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.11" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
