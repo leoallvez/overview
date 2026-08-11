@@ -1,15 +1,16 @@
 package br.dev.singular.overview.data.network.source
 
-import br.dev.singular.overview.data.model.PersonDetailsDataModel
 import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.util.fakePersonDetailsDataModel
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class PersonRemoteDataSourceTest {
+class PersonDetailsRemoteDataSourceTest {
 
     private val api: ApiService = mockk()
     private val sut = PersonDetailsRemoteDataSource(api)
@@ -17,7 +18,7 @@ class PersonRemoteDataSourceTest {
     @Test
     fun `getById should return Success when API returns success`() = runTest {
         // arrange
-        val person = PersonDetailsDataModel(id = 1, name = "John Doe")
+        val person = fakePersonDetailsDataModel
         coEvery { api.getPersonDetailsById(any()) } returns NetworkResponse.Success(
             person,
             mockk(),
@@ -46,8 +47,4 @@ class PersonRemoteDataSourceTest {
         // assert
         assertTrue(result is DataResult.Error)
     }
-}
-
-private fun assertEquals(expected: Any?, actual: Any?) {
-    org.junit.Assert.assertEquals(expected, actual)
 }

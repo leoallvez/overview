@@ -53,6 +53,31 @@ android {
     }
 }
 
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    "*.BuildConfig",
+                    "*.*_Factory*",
+                    "*.*_HiltModules*",
+                    "*.*_Impl*",
+                    "*.Hilt_*",
+                    "**.*_Provide*Factory*",
+                    "**.database.AppDatabase*",
+                    "**.database.Migration*",
+                    "**.database.Callbacks*",
+                    "**.database.dao.*",
+                    "*.\$serializer",
+                    "**.\$serializer",
+                    "**.*\$serializer",
+                    "**.*_MembersInjector*",
+                )
+            }
+        }
+    }
+}
+
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }

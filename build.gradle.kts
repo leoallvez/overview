@@ -47,6 +47,10 @@ kover {
                     "**.*Fragment*",
                     "**.*_HiltModules*",
                     "**.*_Provide*Factory*",
+                    "**.database.AppDatabase*",
+                    "**.database.Migration*",
+                    "**.database.Callbacks*",
+                    "**.database.dao.*",
                 )
             }
         }

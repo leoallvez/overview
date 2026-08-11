@@ -17,7 +17,7 @@ class GenreLocalDataSourceTest {
     private val sut = GenreLocalDataSource(dao)
 
     @Test
-    fun `insertGenres should call dao insert`() = runTest {
+    fun `insertGenres should call dao insert with correct arguments`() = runTest {
         // arrange
         val genres = listOf(GenreDataModel(id = 1L, name = "Action"))
 
@@ -25,11 +25,11 @@ class GenreLocalDataSourceTest {
         sut.insertGenres(genres)
 
         // assert
-        coVerify { dao.insert(any<GenreDataModel>()) }
+        coVerify { dao.insert(genres.first()) }
     }
 
     @Test
-    fun `insertMediaTypeGenres should call dao insert`() = runTest {
+    fun `insertMediaTypeGenres should call dao insert with correct arguments`() = runTest {
         // arrange
         val mtg = listOf(MediaTypeGenreDataModel(type = MediaDataType.MOVIE, genreId = 1L))
 
@@ -37,7 +37,7 @@ class GenreLocalDataSourceTest {
         sut.insertMediaTypeGenres(mtg)
 
         // assert
-        coVerify { dao.insert(any<MediaTypeGenreDataModel>()) }
+        coVerify { dao.insert(mtg.first()) }
     }
 
     @Test

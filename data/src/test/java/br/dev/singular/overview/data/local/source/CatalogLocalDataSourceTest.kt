@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.local.source
 
 import br.dev.singular.overview.data.local.database.dao.CatalogDao
-import br.dev.singular.overview.data.model.CatalogDataModel
+import br.dev.singular.overview.data.util.fakeCatalogDataModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -15,24 +15,24 @@ class CatalogLocalDataSourceTest {
     private val sut = CatalogLocalDataSource(dao)
 
     @Test
-    fun `insert should call dao insert`() = runTest {
-        val catalogs = listOf(CatalogDataModel(id = 1))
+    fun `insert should call dao insert with correct arguments`() = runTest {
+        val catalogs = listOf(fakeCatalogDataModel)
         sut.insert(catalogs)
-        coVerify { dao.insert(any()) }
+        coVerify { dao.insert(fakeCatalogDataModel) }
     }
 
     @Test
     fun `getAll should return list from dao`() = runTest {
-        val expected = listOf(CatalogDataModel(id = 1))
+        val expected = listOf(fakeCatalogDataModel)
         coEvery { dao.getAll() } returns expected
         val result = sut.getAll()
         assertEquals(expected, result)
     }
 
     @Test
-    fun `delete should call dao delete`() = runTest {
-        val catalogs = listOf(CatalogDataModel(id = 1))
+    fun `delete should call dao delete with correct arguments`() = runTest {
+        val catalogs = listOf(fakeCatalogDataModel)
         sut.delete(catalogs)
-        coVerify { dao.delete(any()) }
+        coVerify { dao.delete(fakeCatalogDataModel) }
     }
 }
