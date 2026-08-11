@@ -65,7 +65,8 @@ fun PersonDetailsScreen(
     UiStateResult(
         uiState = uiState,
         tagPath = actions.tagPath,
-        onRefresh = { actions.onLoad(personId) }
+        onRefresh = { actions.onLoad(personId) },
+        loadingContent = { PersonDetailsSkeletonScreen(actions.tagPath) }
     ) { person ->
         if (person == null) {
             ErrorScreen(actions.tagPath, onRefresh = { actions.onLoad(personId) })

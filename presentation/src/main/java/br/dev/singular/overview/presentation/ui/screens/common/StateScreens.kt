@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,8 +28,6 @@ import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
-import com.ehsanmsz.mszprogressindicator.progressindicator.BallScaleRippleMultipleProgressIndicator
-import android.R as X
 
 /**
  * A composable that displays a generic state screen with a title and optional secondary content.
@@ -66,13 +64,11 @@ fun StateScreen(
  *
  * @param tagPath The path for analytics tagging.
  * @param modifier The modifier to be applied to the root element.
- * @param animationDelay The delay in milliseconds before the animation starts.
  */
 @Composable
 fun LoadingProgressScreen(
     tagPath: String,
-    modifier: Modifier = Modifier,
-    animationDelay: Int = 400
+    modifier: Modifier = Modifier
 ) {
     StateScreen(
         title = stringResource(R.string.loading),
@@ -80,11 +76,9 @@ fun LoadingProgressScreen(
         tagPath = tagPath,
         tagStatus = TagStatus.LOADING,
         secondaryContent = {
-            BallScaleRippleMultipleProgressIndicator(
+            CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                color = HighlightColor,
-                animationDelay = animationDelay,
-                animationDuration = integerResource(X.integer.config_longAnimTime)
+                color = HighlightColor
             )
         }
     )

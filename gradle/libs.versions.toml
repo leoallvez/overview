@@ -48,7 +48,6 @@ network-response-adapter = "4.2.2"
 
 # UI
 coil-compose = "2.7.0"
-progress-indicator = "0.8.0"
 lucide = "2.2.1"
 
 # Testing
@@ -131,7 +130,6 @@ network-response-adapter = { module = "com.github.haroldadmin:NetworkResponseAda
 # UI Libraries
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-progress-indicator = { module = "com.ehsanmsz:msz-progress-indicator", version.ref = "progress-indicator" }
 lucide-icons = { module = "com.composables:icons-lucide-cmp", version.ref = "lucide" }
 
 # Testing Libraries

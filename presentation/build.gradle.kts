@@ -55,6 +55,10 @@ android {
         buildConfig = true
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlin.get()
+    }
+
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -84,7 +88,6 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    implementation(libs.androidx.compose.foundation)
     ksp(libs.hilt.android.compiler)
 
     implementation(project(":domain"))
@@ -100,7 +103,6 @@ dependencies {
     api(libs.hilt.navigation.compose)
     implementation(libs.material)
     api(libs.kotlinx.collections.immutable)
-    implementation(libs.progress.indicator)
     api(libs.lucide.icons)
     implementation(libs.youtube.player)
     implementation(libs.timber)
