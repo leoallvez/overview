@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.ui.utils.mappers.uiToDomain
 
 import br.dev.singular.overview.domain.model.Catalog
 import br.dev.singular.overview.presentation.model.CatalogUiModel
+import br.dev.singular.overview.presentation.ui.utils.mappers.extractPath
 import java.util.Date
 
 internal fun CatalogUiModel.toDomain() = Catalog(
@@ -9,7 +10,6 @@ internal fun CatalogUiModel.toDomain() = Catalog(
     name = name,
     priority = priority,
     display = true,
-    // TODO: create a logic to get the logo path
-    logoPath = logoURL,
+    logoPath = extractPath(logoURL),
     lastUpdate = Date()
 )

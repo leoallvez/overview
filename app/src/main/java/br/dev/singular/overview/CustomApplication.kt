@@ -45,9 +45,11 @@ class CustomApplication : Application(), Provider {
             .setWorkerFactory(workerFactory)
             .build()
 
-    private fun initTimber() = if (BuildConfig.DEBUG) {
-        Timber.plant(Timber.DebugTree())
-    } else {
-        Timber.plant(CrashlyticsReportingTree(crashlytics))
-    }
+    private fun initTimber() = Timber.plant(
+        tree = if (BuildConfig.DEBUG) {
+            Timber.DebugTree()
+        } else {
+            CrashlyticsReportingTree(crashlyticsSource = crashlytics)
+        }
+    )
 }

@@ -8,7 +8,7 @@ sealed class DataResult<T> {
     class Error<T> : DataResult<T>()
 }
 
-fun <T : Any> responseToResult(
+internal fun <T : Any> responseToResult(
     response: NetworkResponse<T, ErrorResponse>
 ) = when (response) {
     is NetworkResponse.Success -> DataResult.Success(data = response.body)

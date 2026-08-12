@@ -6,6 +6,11 @@ internal fun buildImageFullURL(path: String) = "${BuildConfig.IMG_URL}$path"
 
 internal fun buildPosterURL(path: String) = "${BuildConfig.POSTER_URL}$path"
 
+internal fun extractPath(url: String): String {
+    if (url.isBlank()) return ""
+    return url.substringAfter(BuildConfig.POSTER_URL, url)
+}
+
 internal fun buildThumbnailUrl(key: String) =
     "${BuildConfig.THUMBNAIL_BASE_URL}/$key/${BuildConfig.THUMBNAIL_QUALITY}"
 

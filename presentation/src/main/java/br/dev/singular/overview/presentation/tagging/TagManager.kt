@@ -9,13 +9,7 @@ import br.dev.singular.overview.presentation.tagging.TagManager.Params.ITEM_ID
 import br.dev.singular.overview.presentation.tagging.TagManager.Params.STATUS
 import com.google.firebase.analytics.FirebaseAnalytics
 
-internal interface ITagService {
-    fun logScreenView(customPath: String, status: String = "")
-    fun logClick(customPath: String, detail: String, id: Long = 0L)
-    fun logInteraction(customPath: String, detail: String)
-}
-
-object TagManager : ITagService {
+object TagManager {
 
     private lateinit var analytics: FirebaseAnalytics
 
@@ -23,10 +17,10 @@ object TagManager : ITagService {
         analytics = instance
     }
 
-    override fun logScreenView(customPath: String, status: String) =
+    fun logScreenView(customPath: String, status: String = "") =
         logEvent(SCREEN_VIEW, mapOf(CUSTOM_PATH to customPath, STATUS to status))
 
-    override fun logClick(customPath: String, detail: String, id: Long) =
+    fun logClick(customPath: String, detail: String, id: Long= 0L) =
         logEvent(
             CLICK,
             mapOf(
@@ -36,7 +30,7 @@ object TagManager : ITagService {
             )
         )
 
-    override fun logInteraction(customPath: String, detail: String) =
+    fun logInteraction(customPath: String, detail: String) =
         logEvent(INTERACTION, mapOf(CUSTOM_PATH to customPath, DETAIL to detail))
 
     private fun logEvent(name: String, params: Map<String, Any>) {

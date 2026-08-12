@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import timber.log.Timber
 
-fun SupportSQLiteDatabase.runScriptFromAssets(context: Context, fileName: String) {
+internal fun SupportSQLiteDatabase.runScriptFromAssets(context: Context, fileName: String) {
     try {
         val inputStream = context.assets.open(fileName)
         val script = inputStream.bufferedReader().use { it.readText() }
