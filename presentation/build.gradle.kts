@@ -1,21 +1,23 @@
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.VariantDimension
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
     alias(libs.plugins.paparazzi)
 }
 
-android {
+extensions.configure<LibraryExtension> {
+    val sdkCompile = libs.versions.sdk.compile.get().toInt()
+    val sdkMin = libs.versions.sdk.min.get().toInt()
+
     namespace = "${libs.versions.app.id.get()}.presentation"
-    compileSdk = libs.versions.sdk.compile.get().toInt()
+    compileSdk = sdkCompile
 
     defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
+        minSdk = sdkMin
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("int", "PAGE_SIZE", "20")
@@ -40,14 +42,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -55,22 +51,16 @@ android {
         buildConfig = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlin.get()
-    }
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
-            all {
-                it.jvmArgs("-Dnet.bytebuddy.experimental=true", "-XX:+EnableDynamicAgentLoading")
-            }
         }
     }
 }
 
 tasks.withType<Test>().configureEach {
     reports.html.required.set(false)
+    jvmArgs("-Dnet.bytebuddy.experimental=true", "-XX:+EnableDynamicAgentLoading")
 }
 
 kover {
@@ -125,7 +115,6 @@ dependencies {
     testImplementation(libs.androidx.ui.test.junit4)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.androidx.ui.test.manifest)
-    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)
 }

@@ -1,21 +1,23 @@
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.VariantDimension
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android.plugin)
 }
 
-android {
+extensions.configure<LibraryExtension> {
+    val sdkCompile = libs.versions.sdk.compile.get().toInt()
+    val sdkMin = libs.versions.sdk.min.get().toInt()
+
     namespace = "${libs.versions.app.id.get()}.data"
-    compileSdk = libs.versions.sdk.compile.get().toInt()
+    compileSdk = sdkCompile
 
     defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
+        minSdk = sdkMin
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         stringField("API_URL", "https://api.themoviedb.org/3/")
@@ -42,14 +44,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -68,9 +64,9 @@ kover {
                     "**.database.Migration*",
                     "**.database.Callbacks*",
                     "**.database.dao.*",
-                    "*.\$serializer",
-                    "**.\$serializer",
-                    "**.*\$serializer",
+                    $$"*.$serializer",
+                    $$"**.$serializer",
+                    $$"**.*$serializer",
                     "**.*_MembersInjector*",
                 )
             }

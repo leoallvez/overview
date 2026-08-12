@@ -1,9 +1,8 @@
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.ApplicationProductFlavor
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
@@ -15,16 +14,22 @@ plugins {
     alias(libs.plugins.paparazzi)
 }
 
-android {
+extensions.configure<ApplicationExtension> {
+    val sdkCompile = libs.versions.sdk.compile.get().toInt()
+    val sdkMin = libs.versions.sdk.min.get().toInt()
+    val sdkTarget = libs.versions.sdk.target.get().toInt()
+    val vCode = libs.versions.version.code.get().toInt()
+    val vName = libs.versions.version.name.get()
+
     namespace = libs.versions.app.id.get()
-    compileSdk = libs.versions.sdk.compile.get().toInt()
+    compileSdk = sdkCompile
 
     defaultConfig {
         applicationId = libs.versions.app.id.get()
-        minSdk = libs.versions.sdk.min.get().toInt()
-        targetSdk = libs.versions.sdk.target.get().toInt()
-        versionCode = libs.versions.version.code.get().toInt()
-        versionName = libs.versions.version.name.get()
+        minSdk = sdkMin
+        targetSdk = sdkTarget
+        versionCode = vCode
+        versionName = vName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -93,19 +98,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlin.get()
+        resValues = true
     }
 
     packaging {
@@ -113,10 +109,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
 
-    hilt {
-        enableAggregatingTask = true
-    }
+hilt {
+    enableAggregatingTask = true
 }
 
 dependencies {
