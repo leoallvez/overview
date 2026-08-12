@@ -29,7 +29,7 @@ import kotlinx.collections.immutable.ImmutableList
  * @param content The composable content to be displayed for each item.
  */
 @Composable
-fun <T> UiList(
+internal fun <T> UiList(
     items: ImmutableList<T>,
     modifier: Modifier = Modifier,
     firstItem: @Composable () -> Unit = {},

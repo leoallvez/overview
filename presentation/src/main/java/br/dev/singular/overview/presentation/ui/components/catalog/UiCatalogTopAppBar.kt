@@ -44,7 +44,7 @@ import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConn
  * @param isCollapsed Whether the top app bar is in its collapsed state.
  */
 @Composable
-fun UiCatalogTopAppBar(
+internal fun UiCatalogTopAppBar(
     catalog: CatalogUiModel?,
     modifier: Modifier = Modifier,
     isCollapsed: Boolean,

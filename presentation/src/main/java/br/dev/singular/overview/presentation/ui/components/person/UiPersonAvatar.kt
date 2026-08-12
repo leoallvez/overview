@@ -18,7 +18,7 @@ import br.dev.singular.overview.presentation.ui.components.style.UiImageStyle
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 @Composable
-fun UiPersonAvatar(
+internal fun UiPersonAvatar(
     url: String,
     modifier: Modifier = Modifier,
     @DrawableRes

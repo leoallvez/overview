@@ -19,10 +19,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.tagging.TagManager
-import br.dev.singular.overview.presentation.tagging.params.TagSplash
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * A composable that displays a splash screen with a scaling animation.
@@ -30,10 +30,13 @@ import kotlinx.coroutines.delay
  * @param onToHome A callback to be invoked when the splash screen animation is finished.
  */
 @Composable
-fun SplashScreen(onToHome: () -> Unit = {}) {
+fun SplashScreen(
+    tagPath: String = "/splash",
+    onToHome: () -> Unit = {}
+) {
     val scale = remember { Animatable(0f) }
     LaunchedEffect(key1 = Unit) {
-        TagManager.logScreenView(TagSplash.PATH)
+        TagManager.logScreenView(customPath = tagPath)
         scale.animateTo(
             targetValue = 0.6f,
             animationSpec = tween(
@@ -43,7 +46,7 @@ fun SplashScreen(onToHome: () -> Unit = {}) {
                 }
             )
         )
-        delay(2000L)
+        delay(2000L.milliseconds)
         onToHome()
     }
     Box(

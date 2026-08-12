@@ -33,7 +33,7 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param onClick The callback to be invoked when the chip is clicked.
  */
 @Composable
-fun UiChip(
+internal fun UiChip(
     text: String,
     modifier: Modifier = Modifier,
     activated: Boolean = false,

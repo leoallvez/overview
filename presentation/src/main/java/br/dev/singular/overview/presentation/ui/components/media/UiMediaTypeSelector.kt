@@ -24,7 +24,7 @@ import br.dev.singular.overview.presentation.ui.components.UiChip
  * @param onClick The callback to be executed when a media type is selected.
  */
 @Composable
-fun UiMediaTypeSelector(
+internal fun UiMediaTypeSelector(
     modifier: Modifier = Modifier,
     visible: Boolean = true,
     type: MediaUiType,

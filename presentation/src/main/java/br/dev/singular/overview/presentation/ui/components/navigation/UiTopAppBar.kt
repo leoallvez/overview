@@ -23,7 +23,7 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param modifier The [Modifier] to be applied to the toolbar.
  */
 @Composable
-fun UiTopAppBar(
+internal fun UiTopAppBar(
     title: String,
     modifier: Modifier = Modifier
 ) {
@@ -41,7 +41,7 @@ fun UiTopAppBar(
 }
 
 @Composable
-fun UiTopAppBar(title: String, onBack: () -> Unit) {
+internal fun UiTopAppBar(title: String, onBack: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

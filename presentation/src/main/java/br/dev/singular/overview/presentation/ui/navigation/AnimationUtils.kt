@@ -18,18 +18,6 @@ object AnimationDurations {
 fun AnimatedTransition.rightExitTransition(duration: Int = AnimationDurations.SMALL) =
     slideExit(SlideDirection.End, duration)
 
-fun AnimatedTransition.upExitTransition(duration: Int = AnimationDurations.SMALL) =
-    slideExit(SlideDirection.Up, duration)
-
-fun AnimatedTransition.upEnterTransition(duration: Int = AnimationDurations.SMALL) =
-    slideEnter(SlideDirection.Up, duration)
-
-fun AnimatedTransition.downEnterTransition(duration: Int = AnimationDurations.SMALL) =
-    slideEnter(SlideDirection.Down, duration)
-
-fun AnimatedTransition.downExitTransition(duration: Int = AnimationDurations.SMALL) =
-    slideExit(SlideDirection.Down, duration)
-
 fun slideInFromBottom(duration: Int = AnimationDurations.LONG) =
     slideInVertically(
         initialOffsetY = { fullHeight -> fullHeight },

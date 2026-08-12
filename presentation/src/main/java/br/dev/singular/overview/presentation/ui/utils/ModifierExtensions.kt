@@ -24,17 +24,17 @@ import br.dev.singular.overview.presentation.ui.theme.Background
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Stable
-class MaxHeightState {
+internal class MaxHeightState {
     var maxHeightPx by mutableIntStateOf(0)
 }
 
 @Composable
-fun rememberMaxHeightState(): MaxHeightState {
+internal fun rememberMaxHeightState(): MaxHeightState {
     return remember { MaxHeightState() }
 }
 
 @Composable
-fun Modifier.syncMaxHeight(state: MaxHeightState): Modifier {
+internal fun Modifier.syncMaxHeight(state: MaxHeightState): Modifier {
     val density = LocalDensity.current
     return this
         .onGloballyPositioned { coordinates ->
@@ -54,7 +54,7 @@ fun Modifier.syncMaxHeight(state: MaxHeightState): Modifier {
 }
 
 @Composable
-fun Modifier.border(style: UiBorderStyle = UiBorderStyle()): Modifier = with(style) {
+internal fun Modifier.border(style: UiBorderStyle = UiBorderStyle()): Modifier = with(style) {
     return if (visible) {
         border(dimensionResource(width), color, shape)
     } else {
@@ -63,10 +63,10 @@ fun Modifier.border(style: UiBorderStyle = UiBorderStyle()): Modifier = with(sty
 }
 
 @Composable
-fun Modifier.defaultBackground() = background(Background)
+internal fun Modifier.defaultBackground() = background(Background)
 
 @Composable
-fun rememberLazyGridScrollState(
+internal fun rememberLazyGridScrollState(
     state: ScrollUiState,
     onSet: (ScrollUiState) -> Unit
 ): LazyGridState {
@@ -79,7 +79,7 @@ fun rememberLazyGridScrollState(
 }
 
 @Composable
-fun LazyGridState.OnSetScrollState(
+internal fun LazyGridState.OnSetScrollState(
     onSet: (state: ScrollUiState) -> Unit
 ) {
     LaunchedEffect(this) {

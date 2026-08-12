@@ -37,7 +37,7 @@ import br.dev.singular.overview.presentation.ui.utils.border
  * @param onClose A callback to be invoked when the close button is clicked.
  */
 @Composable
-fun UiInfoTooltip(
+internal fun UiInfoTooltip(
     modifier: Modifier = Modifier,
     visible: Boolean = true,
     message: String,

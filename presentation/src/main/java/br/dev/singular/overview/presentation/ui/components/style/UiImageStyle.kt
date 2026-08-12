@@ -8,7 +8,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 
 @Immutable
-data class UiImageStyle(
+internal data class UiImageStyle(
     @get:DrawableRes
     val errorDrawableRes: Int? = null,
     @get:DrawableRes

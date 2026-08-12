@@ -33,7 +33,7 @@ private const val BACKGROUND = 0xFF000000
     showBackground = true,
     backgroundColor = BACKGROUND
 )
-annotation class UiScreenPreview
+internal annotation class UiScreenPreview
 
 /**
  * Custom preview annotation for smaller UI components.
@@ -43,4 +43,4 @@ annotation class UiScreenPreview
     showBackground = true,
     backgroundColor = 0xFF000000
 )
-annotation class UiComponentPreview
+internal annotation class UiComponentPreview

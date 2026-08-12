@@ -17,7 +17,7 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 @Composable
-fun UiShimmerBox(
+internal fun UiShimmerBox(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(
         size = dimensionResource(id = R.dimen.spacing_1x)

@@ -36,7 +36,7 @@ import kotlinx.collections.immutable.toImmutableList
  * @param onClick The callback to be executed when a media item is clicked.
  */
 @Composable
-fun UiMediaList(
+internal fun UiMediaList(
     title: String,
     modifier: Modifier = Modifier,
     items: ImmutableList<MediaUiModel>,

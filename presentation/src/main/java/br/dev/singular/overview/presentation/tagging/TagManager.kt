@@ -9,7 +9,7 @@ import br.dev.singular.overview.presentation.tagging.TagManager.Params.ITEM_ID
 import br.dev.singular.overview.presentation.tagging.TagManager.Params.STATUS
 import com.google.firebase.analytics.FirebaseAnalytics
 
-interface ITagService {
+internal interface ITagService {
     fun logScreenView(customPath: String, status: String = "")
     fun logClick(customPath: String, detail: String, id: Long = 0L)
     fun logInteraction(customPath: String, detail: String)

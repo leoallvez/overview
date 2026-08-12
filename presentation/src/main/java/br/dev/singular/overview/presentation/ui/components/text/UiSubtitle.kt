@@ -24,7 +24,7 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param color The color of the text.
  */
 @Composable
-fun UiSubtitle(
+internal fun UiSubtitle(
     text: String,
     modifier: Modifier = Modifier,
     display: Boolean = true,

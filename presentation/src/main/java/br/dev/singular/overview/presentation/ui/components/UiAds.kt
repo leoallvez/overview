@@ -55,7 +55,7 @@ fun UiAdsBanner(
  * @param isVisible Whether the ad should be visible.
  */
 @Composable
-fun UiAdsMediumRectangle(
+internal fun UiAdsMediumRectangle(
     @StringRes prodBannerId: Int,
     modifier: Modifier = Modifier,
     isVisible: Boolean = true

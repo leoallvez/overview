@@ -38,7 +38,7 @@ import com.composables.icons.lucide.Video
 import com.composables.icons.lucide.Zap
 
 @Composable
-fun rememberCollapseScrollConnection(
+internal fun rememberCollapseScrollConnection(
     onCollapsedStateChange: (Boolean) -> Unit
 ) = remember {
     object : NestedScrollConnection {
@@ -98,18 +98,18 @@ private enum class GenreType(
 }
 
 @Composable
-fun GenreUiModel.localizedName(): String {
+internal fun GenreUiModel.localizedName(): String {
     val genre = remember(id) { GenreType.fromId(id) }
     if (genre.labelRes == 0) return name
     return stringResource(genre.labelRes).ifEmpty { name }
 }
 
 @Composable
-fun GenreUiModel.getImageVector(): ImageVector {
+internal fun GenreUiModel.getImageVector(): ImageVector {
     return remember(id) { GenreType.fromId(id).icon }
 }
 
 @Composable
-fun GenreUiModel.getColor(): Color {
+internal fun GenreUiModel.getColor(): Color {
     return remember(id) { GenreType.fromId(id).color }
 }

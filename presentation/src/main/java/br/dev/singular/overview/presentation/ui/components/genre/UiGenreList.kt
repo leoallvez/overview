@@ -36,7 +36,7 @@ import kotlinx.collections.immutable.toImmutableList
  * @param onClick The callback to be executed when a genre item is clicked.
  */
 @Composable
-fun UiGenreList(
+internal fun UiGenreList(
     genres: ImmutableList<GenreUiModel>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),

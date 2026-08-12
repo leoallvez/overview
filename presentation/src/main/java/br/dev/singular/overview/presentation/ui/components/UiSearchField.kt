@@ -49,7 +49,7 @@ import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.X
 
 @Composable
-fun UiSearchField(
+internal fun UiSearchField(
     query: String,
     modifier: Modifier = Modifier,
     placeholder: String = stringResource(R.string.search),

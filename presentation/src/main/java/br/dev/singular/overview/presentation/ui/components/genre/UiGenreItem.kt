@@ -50,7 +50,7 @@ import br.dev.singular.overview.presentation.ui.utils.localizedName
  * @param onClick The callback to be executed when the item is clicked.
  */
 @Composable
-fun UiGenreItem(
+internal fun UiGenreItem(
     model: GenreUiModel,
     selected: Boolean,
     modifier: Modifier = Modifier,

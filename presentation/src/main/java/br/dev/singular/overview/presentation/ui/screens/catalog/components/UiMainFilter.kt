@@ -40,7 +40,7 @@ sealed interface UiFilterType {
 }
 
 @Composable
-fun UiMainFilter(
+internal fun UiMainFilter(
     query: QueryUiState,
     modifier: Modifier = Modifier,
     visible: Boolean = true,

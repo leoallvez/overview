@@ -38,7 +38,7 @@ import coil.request.ImageRequest
  * @param style The style configuration for the image (placeholder, scale, corner, etc).
  */
 @Composable
-fun UiImage(
+internal fun UiImage(
     url: String?,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,

@@ -4,7 +4,7 @@ import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
 import java.util.Date
 
-fun MediaDetailsUiModel.toMediaDomain(): Media {
+internal fun MediaDetailsUiModel.toMediaDomain(): Media {
     return with(metadata) {
         Media(
             id = id,

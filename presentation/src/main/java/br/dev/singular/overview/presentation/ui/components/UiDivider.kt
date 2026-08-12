@@ -10,7 +10,7 @@ import br.dev.singular.overview.presentation.ui.theme.BorderColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 @Composable
-fun UiDivider(
+internal fun UiDivider(
     modifier: Modifier = Modifier,
     visible: Boolean = true
 ) {

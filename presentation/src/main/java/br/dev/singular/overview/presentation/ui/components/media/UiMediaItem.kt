@@ -31,7 +31,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMedias
  * @param onClick The callback to be executed when the item is clicked.
  */
 @Composable
-fun UiMediaItem(
+internal fun UiMediaItem(
     model: MediaUiModel,
     modifier: Modifier = Modifier,
     imageModifier: Modifier = Modifier,

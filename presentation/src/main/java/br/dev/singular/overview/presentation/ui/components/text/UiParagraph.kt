@@ -19,7 +19,7 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param modifier The modifier to be applied to the text.
  */
 @Composable
-fun UiParagraph(text: String, modifier: Modifier = Modifier) {
+internal fun UiParagraph(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         modifier = modifier,

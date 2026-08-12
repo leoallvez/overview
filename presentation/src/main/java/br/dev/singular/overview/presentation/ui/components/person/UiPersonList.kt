@@ -36,7 +36,7 @@ import kotlinx.collections.immutable.toImmutableList
  * @param onClick The callback to be executed when a person item is clicked.
  */
 @Composable
-fun UiPersonList(
+internal fun UiPersonList(
     title: String,
     modifier: Modifier = Modifier,
     people: ImmutableList<PersonUiModel>,
@@ -81,7 +81,7 @@ fun UiPersonList(
  * @param itemCount The number of skeleton items to display in the list.
  */
 @Composable
-fun UiPersonListSkeleton(
+internal fun UiPersonListSkeleton(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     itemCount: Int = 10,

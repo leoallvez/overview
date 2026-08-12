@@ -49,7 +49,7 @@ import com.composables.icons.lucide.Play
  * @param onClick The callback to be executed when the video item or the play button is clicked.
  */
 @Composable
-fun UiVideoItem(
+internal fun UiVideoItem(
     video: VideoUiModel,
     modifier: Modifier = Modifier,
     onClick: (videoKey: String) -> Unit = {}
@@ -113,7 +113,7 @@ fun UiVideoItem(
  * @param modifier The modifier to be applied to this component.
  */
 @Composable
-fun UiVideoItemSkeleton(
+internal fun UiVideoItemSkeleton(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {

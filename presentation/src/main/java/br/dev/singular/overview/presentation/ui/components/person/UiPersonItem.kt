@@ -32,7 +32,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakePerson
  * @param onClick A callback to be invoked when the item is clicked.
  */
 @Composable
-fun UiPersonItem(
+internal fun UiPersonItem(
     model: PersonUiModel,
     modifier: Modifier = Modifier,
     onClick: (id: Long) -> Unit = {}

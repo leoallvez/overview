@@ -32,7 +32,7 @@ import br.dev.singular.overview.presentation.ui.utils.border
  * @param onClick The lambda to be executed when the button is clicked.
  */
 @Composable
-fun UiIconButton(
+internal fun UiIconButton(
     iconStyle: UiIconStyle,
     modifier: Modifier = Modifier,
     borderStyle: UiBorderStyle = UiBorderStyle(),

@@ -28,7 +28,7 @@ import com.composables.icons.lucide.X
  * @param color The tint color to be applied to the icon.
  */
 @Composable
-fun UiIcon(
+internal fun UiIcon(
     source: UiIconSource,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,

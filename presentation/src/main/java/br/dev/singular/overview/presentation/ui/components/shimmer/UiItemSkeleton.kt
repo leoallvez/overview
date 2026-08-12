@@ -28,7 +28,7 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param showRightShimmer Whether to show a shimmer box on the right side.
  */
 @Composable
-fun UiItemSkeleton(
+internal fun UiItemSkeleton(
     modifier: Modifier = Modifier,
     showRightShimmer: Boolean = true
 ) {

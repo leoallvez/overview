@@ -5,7 +5,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class DateHelper(dateIn: String?) {
+internal class DateHelper(dateIn: String?) {
 
     private val date: String = dateIn ?: DEFAULT_RETURN
 

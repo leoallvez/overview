@@ -27,7 +27,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMedias
  * @param content The main content of the screen.
  */
 @Composable
-fun UiScaffold(
+internal fun UiScaffold(
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
     padding: PaddingValues = PaddingValues(horizontal = dimensionResource(R.dimen.spacing_4x)),

@@ -3,7 +3,7 @@ package br.dev.singular.overview.presentation.tagging
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.tagging.TagMediaManager.Detail.SELECT_MEDIA_TYPE
 
-object TagMediaManager {
+internal object TagMediaManager {
 
     fun logMediaClick(path: String, id: Long) =
         TagManager.logClick(path, "media-item", id)

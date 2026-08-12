@@ -27,7 +27,7 @@ import kotlinx.collections.immutable.ImmutableList
  * @param onClick The callback to be executed when a media item is clicked.
  */
 @Composable
-fun UiMediaGrid(
+internal fun UiMediaGrid(
     items: LazyPagingItems<MediaUiModel>,
     modifier: Modifier = Modifier,
     gridState: LazyGridState = LazyGridState(),

@@ -38,7 +38,7 @@ private const val BUTTON_BACKGROUND_ALPHA = 0.9f
  * @param onClick The callback to be executed when the button is clicked.
  */
 @Composable
-fun UiLikeButton(
+internal fun UiLikeButton(
     modifier: Modifier = Modifier,
     isLiked: Boolean,
     onClick: () -> Unit

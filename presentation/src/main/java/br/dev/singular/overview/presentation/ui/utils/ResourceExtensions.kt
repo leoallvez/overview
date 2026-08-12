@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
  */
 @Composable
 @ReadOnlyComposable
-fun floatResource(@DimenRes id: Int): Float {
+internal fun floatResource(@DimenRes id: Int): Float {
     val context = LocalContext.current
     val outValue = TypedValue()
     context.resources.getValue(id, outValue, true)

@@ -39,7 +39,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun UiCatalogList(
+internal fun UiCatalogList(
     modifier: Modifier = Modifier,
     catalogs: ImmutableList<CatalogUiModel>,
     isReleased: Boolean,

@@ -33,7 +33,7 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param isBold Whether the text should be bold.
  */
 @Composable
-fun UiText(
+internal fun UiText(
     text: String,
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,

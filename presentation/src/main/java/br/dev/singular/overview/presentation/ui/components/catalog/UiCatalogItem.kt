@@ -37,7 +37,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakeCatalogs
  * @param onClick The callback to be executed when the item is clicked.
  */
 @Composable
-fun UiCatalogItem(
+internal fun UiCatalogItem(
     modifier: Modifier = Modifier,
     selected: Boolean? = null,
     model: CatalogUiModel,

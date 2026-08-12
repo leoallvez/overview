@@ -29,7 +29,7 @@ import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 @Composable
-fun UiAnimatedVisibility(
+internal fun UiAnimatedVisibility(
     visible: Boolean,
     content: @Composable () -> Unit
 ) {

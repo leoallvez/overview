@@ -35,7 +35,7 @@ import kotlinx.collections.immutable.toImmutableList
  * @param onClick The callback to be executed when a video item is clicked.
  */
 @Composable
-fun UiVideoList(
+internal fun UiVideoList(
     videos: ImmutableList<VideoUiModel>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
@@ -80,7 +80,7 @@ fun UiVideoList(
  * @param itemCount The number of skeleton items to display in the list.
  */
 @Composable
-fun UiVideoListSkeleton(
+internal fun UiVideoListSkeleton(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     itemCount: Int = 10
