@@ -37,7 +37,7 @@ room = "2.8.4"
 paging-runtime-ktx = "3.5.1"
 
 # Firebase
-firebase-bom = "34.17.0"
+firebase-bom = "34.18.0"
 
 # Network
 retrofit = "3.0.0"
