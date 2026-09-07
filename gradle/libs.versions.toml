@@ -10,7 +10,7 @@ version-name = "3.3.1"
 # Kotlin
 kotlin = "2.4.10"
 coroutines = "1.11.0"
-immutable = "0.5.1"
+immutable = "0.5.2"
 serialization = "1.11.0"
 
 # Android Core
