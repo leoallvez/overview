@@ -1,8 +1,7 @@
 import com.android.build.api.dsl.LibraryExtension
-import com.android.build.api.dsl.VariantDimension
 
 plugins {
-    alias(libs.plugins.android.library)
+    id("overview.android.library")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
@@ -10,17 +9,9 @@ plugins {
 }
 
 extensions.configure<LibraryExtension> {
-    val sdkCompile = libs.versions.sdk.compile.get().toInt()
-    val sdkMin = libs.versions.sdk.min.get().toInt()
-
-    namespace = "${libs.versions.app.id.get()}.presentation"
-    compileSdk = sdkCompile
-
     defaultConfig {
-        minSdk = sdkMin
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("int", "PAGE_SIZE", "20")
+        intField("PAGE_SIZE", 20)
         stringField("IMG_URL", "https://image.tmdb.org/t/p/w780")
         stringField("POSTER_URL", "https://image.tmdb.org/t/p/w154")
         stringField("THUMBNAIL_BASE_URL", "https://img.youtube.com/vi")
@@ -39,11 +30,6 @@ extensions.configure<LibraryExtension> {
         debug {
             stringField("DEBUG_BANNER_ID", "ca-app-pub-3940256099942544/6300978111")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -90,6 +76,7 @@ dependencies {
     api(libs.androidx.material3)
     api(libs.androidx.compose.material.icons.extended)
     api(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     api(libs.hilt.navigation.compose)
     implementation(libs.material)
     api(libs.kotlinx.collections.immutable)
@@ -117,8 +104,4 @@ dependencies {
     testImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)
-}
-
-private fun VariantDimension.stringField(name: String, value: String) {
-    buildConfigField("String", name, "\"$value\"")
 }
