@@ -39,7 +39,7 @@ class VideoRemoteDataSourceTest {
         val type = MediaDataType.MOVIE
         val videos = createFakeVideoDataModelList(count = 2)
         val response = ListResponse(results = videos)
-        val successResponse = mockk<NetworkResponse.Success<ListResponse<VideoDataModel>>>()
+        val successResponse = mockk<NetworkResponse.Success<ListResponse<VideoDataModel>, ErrorResponse>>()
         every { successResponse.body } returns response
 
         coEvery { api.getVideos(any(), any()) } returns successResponse
@@ -63,7 +63,7 @@ class VideoRemoteDataSourceTest {
                 any(),
                 any()
             )
-        } returns mockk<NetworkResponse.ServerError<ErrorResponse>>()
+        } returns mockk<NetworkResponse.ServerError<ListResponse<VideoDataModel>, ErrorResponse>>()
 
         // act
         val result = sut.getVideos(id, type)
@@ -77,7 +77,7 @@ class VideoRemoteDataSourceTest {
         // arrange
         val id = 1L
         val type = MediaDataType.MOVIE
-        coEvery { api.getVideos(any(), any()) } returns mockk<NetworkResponse.NetworkError>()
+        coEvery { api.getVideos(any(), any()) } returns mockk<NetworkResponse.NetworkError<ListResponse<VideoDataModel>, ErrorResponse>>()
 
         // act
         val result = sut.getVideos(id, type)
@@ -91,7 +91,7 @@ class VideoRemoteDataSourceTest {
         // arrange
         val id = 1L
         val type = MediaDataType.TV
-        coEvery { api.getVideos(any(), any()) } returns mockk<NetworkResponse.UnknownError>()
+        coEvery { api.getVideos(any(), any()) } returns mockk<NetworkResponse.UnknownError<ListResponse<VideoDataModel>, ErrorResponse>>()
 
         // act
         val result = sut.getVideos(id, type)
