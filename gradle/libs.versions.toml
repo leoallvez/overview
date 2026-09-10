@@ -8,7 +8,7 @@ version-code = "15"
 version-name = "3.3.1"
 
 # Kotlin
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 coroutines = "1.11.0"
 immutable = "0.5.2"
 serialization = "1.11.0"
@@ -19,8 +19,8 @@ core-ktx = "1.19.0"
 material = "1.14.0"
 
 # Compose
-compose-bom = "2026.08.00"
-navigation-compose = "2.10.0"
+compose-bom = "2026.09.00"
+navigation-compose = "2.10.1"
 paging-compose = "3.5.1"
 activity-compose = "1.13.0"
 
@@ -33,11 +33,11 @@ hilt = "2.60.1"
 hilt-navigation-compose = "1.4.0"
 
 # Room
-room = "2.8.4"
+room = "2.8.5"
 paging-runtime-ktx = "3.5.1"
 
 # Firebase
-firebase-bom = "34.18.0"
+firebase-bom = "34.19.0"
 
 # Network
 retrofit = "3.0.0"
