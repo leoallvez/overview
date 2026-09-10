@@ -25,7 +25,10 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param content The content to be displayed inside the [Column].
  */
 @Composable
-internal fun UiCenteredColumn(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+internal fun UiCenteredColumn(
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Column(
         modifier = modifier
             .background(Background)

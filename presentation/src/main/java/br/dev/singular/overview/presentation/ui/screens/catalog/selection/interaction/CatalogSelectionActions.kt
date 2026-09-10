@@ -20,6 +20,11 @@ data class CatalogSelectionActions(
         navigation?.toHome()
     }
 
+    fun onUpdate(catalog: CatalogUiModel) {
+        TagManager.logClick(customPath = tagPath, detail = "on-update", id = catalog.id)
+        handleIntent(CatalogSelectionIntent.Update(catalog))
+    }
+
     fun onDismissTooltip() {
         TagManager.logClick(customPath = tagPath, detail = "dismiss-tooltip")
         handleIntent(CatalogSelectionIntent.DismissTooltip)

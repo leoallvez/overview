@@ -35,12 +35,14 @@ internal fun CatalogContent(
     onLoad: () -> Unit,
     tooltip: @Composable () -> Unit = {},
     toolbar: @Composable () -> Unit,
+    bottomBar: @Composable () -> Unit = {},
     onSelected: (CatalogUiModel) -> Unit
 ) {
 
     LaunchedEffect(Unit) { onLoad() }
     UiScaffold(
         topBar = toolbar,
+        bottomBar = bottomBar,
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding)
@@ -59,7 +61,7 @@ internal fun CatalogContent(
                 ) {
                     UiCatalogItem(
                         model = it,
-                        selected = if (selectionEnabled) it.id == data.selectedId else null
+                        selected = if (selectionEnabled) it.id == data.selected?.id else null
                     ) {
                         onSelected(it)
                     }

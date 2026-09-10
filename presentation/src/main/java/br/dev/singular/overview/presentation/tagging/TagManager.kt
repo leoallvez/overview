@@ -20,7 +20,7 @@ object TagManager {
     fun logScreenView(customPath: String, status: String = "") =
         logEvent(SCREEN_VIEW, mapOf(CUSTOM_PATH to customPath, STATUS to status))
 
-    fun logClick(customPath: String, detail: String, id: Long= 0L) =
+    fun logClick(customPath: String, detail: String, id: Long = 0L) =
         logEvent(
             CLICK,
             mapOf(

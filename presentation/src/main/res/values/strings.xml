@@ -82,6 +82,7 @@
     <string name="search">Search</string>
     <string name="select_catalog">Select Catalog</string>
     <string name="change_catalog">Change Catalog</string>
+    <string name="confirm">Confirm</string>
     <string name="videos">Videos</string>
     <string name="catalogs">Catalogs</string>
     <string name="catalog_only_message">This app is intended exclusively for consulting catalogs. Content playback must be performed on official platforms.</string>

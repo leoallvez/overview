@@ -9,5 +9,7 @@ sealed class CatalogSelectionIntent {
         val clearGenre: Boolean = false
     ) : CatalogSelectionIntent()
 
+    data class Update(val catalog: CatalogUiModel) : CatalogSelectionIntent()
+
     data object DismissTooltip : CatalogSelectionIntent()
 }

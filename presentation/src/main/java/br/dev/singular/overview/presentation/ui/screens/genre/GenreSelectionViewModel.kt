@@ -14,15 +14,12 @@ import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUi
 import br.dev.singular.overview.presentation.ui.utils.mappers.uiToDomain.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,19 +35,24 @@ class GenreSelectionViewModel @Inject constructor(
 
     private var currentQuery: QueryUiState? = null
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState: StateFlow<UiState<GenreUiState>> = _loadTrigger
-        .flatMapLatest { loadData() }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UiState.Loading()
-        )
+    init {
+        viewModelScope.launch {
+            _loadTrigger.collect {
+                loadData().collect { state ->
+                    _uiState.value = state
+                }
+            }
+        }
+    }
+
+    private val _uiState = MutableStateFlow<UiState<GenreUiState>>(UiState.Loading())
+    val uiState: StateFlow<UiState<GenreUiState>> = _uiState
 
     fun handleIntent(intent: GenreSelectionIntent) {
         when (intent) {
             is GenreSelectionIntent.Load -> _loadTrigger.tryEmit(Unit)
             is GenreSelectionIntent.Select -> onSelect(intent.genre)
+            is GenreSelectionIntent.Update -> onUpdate(intent.genre)
         }
     }
 
@@ -67,7 +69,8 @@ class GenreSelectionViewModel @Inject constructor(
 
                 UiState.Success(
                     data = GenreUiState(
-                        selectedId = query?.genre?.id,
+                        selected = query?.genre,
+                        initial = query?.genre,
                         options = genres
                     )
                 )
@@ -80,5 +83,14 @@ class GenreSelectionViewModel @Inject constructor(
 
     private fun onSelect(genre: GenreUiModel?) = viewModelScope.launch(dispatcher) {
         queryStateUseCase.save(currentQuery?.copy(genre = genre)?.toDomain())
+    }
+
+    private fun onUpdate(genre: GenreUiModel?) {
+        val currentState = _uiState.value
+        if (currentState is UiState.Success) {
+            _uiState.value = currentState.copy(
+                data = currentState.data.copy(selected = genre)
+            )
+        }
     }
 }

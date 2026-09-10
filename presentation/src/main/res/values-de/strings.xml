@@ -82,6 +82,7 @@
     <string name="search">Suche</string>
     <string name="select_catalog">Katalog auswählen</string>
     <string name="change_catalog">Katalog ändern</string>
+    <string name="confirm">Bestätigen</string>
     <string name="videos">Videos</string>
     <string name="catalogs">Kataloge</string>
     <string name="catalog_only_message">Diese App dient ausschließlich der Abfrage von Katalogen. Die Wiedergabe von Inhalten muss auf offiziellen Plattformen erfolgen.</string>
