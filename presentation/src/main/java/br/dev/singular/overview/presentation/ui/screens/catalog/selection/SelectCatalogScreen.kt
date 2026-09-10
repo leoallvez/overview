@@ -52,12 +52,14 @@ fun SelectCatalogScreen(
 @Composable
 internal fun SelectCatalogsScreenSuccessPreview() {
     val showTooltip = remember { mutableStateOf(true) }
+    val catalogs = fakeCatalogs(30)
     SelectCatalogScreen(
         showTooltip = showTooltip.value,
         uiState = UiState.Success(
             data = CatalogUiState(
-                selectedId = 0,
-                options = fakeCatalogs(30)
+                initial = catalogs.first(),
+                selected = catalogs.first(),
+                options = catalogs
             )
         ),
         actions = CatalogSelectionActions(

@@ -75,7 +75,10 @@ class CatalogSelectionViewModelTest {
         // assert
         val currentState = sut.uiState.value
         assertTrue(currentState is UiState.Success)
-        assertEquals(1, (currentState as UiState.Success).data.options.size)
+        val successData = (currentState as UiState.Success).data
+        assertEquals(1, successData.options.size)
+        assertEquals(catalogs.first().id, successData.selected?.id)
+        assertEquals(catalogs.first().id, successData.initial?.id)
         assertEquals(false, sut.tooltipDismissed.value)
 
         job.cancel()
@@ -100,7 +103,7 @@ class CatalogSelectionViewModelTest {
     }
 
     @Test
-    fun `onSelect should call queryStateUseCase save`() = runTest {
+    fun `onSelect should call queryStateUseCase save with catalog`() = runTest {
         // arrange
         val catalogUi = createCatalogUiModelMock()
 
@@ -109,7 +112,55 @@ class CatalogSelectionViewModelTest {
         advanceUntilIdle()
 
         // assert
-        coVerify { queryStateUseCase.save(any()) }
+        coVerify {
+            queryStateUseCase.save(match { it.catalog?.id == catalogUi.id })
+        }
+    }
+
+    @Test
+    fun `onSelect with clearGenre should call queryStateUseCase save with empty genre`() = runTest {
+        // arrange
+        val catalogUi = createCatalogUiModelMock()
+
+        // act
+        sut.handleIntent(CatalogSelectionIntent.Select(catalogUi, clearGenre = true))
+        advanceUntilIdle()
+
+        // assert
+        coVerify {
+            queryStateUseCase.save(match { it.catalog?.id == catalogUi.id && it.genre == null })
+        }
+    }
+
+    @Test
+    fun `onUpdate should update selected catalog in Success state`() = runTest {
+        // arrange
+        val catalogs = listOf(createCatalogMock())
+        val initialCatalog = catalogs.first()
+        val newCatalogUi = createCatalogUiModelMock().copy(id = 2L, name = "New Catalog")
+
+        coEvery { queryStateUseCase.get() } returns QueryState(catalog = initialCatalog)
+        coEvery { getAllUseCase() } returns catalogs
+        coEvery { catalogTooltipDismissedUseCase.isDismissed() } returns true
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.uiState.collect()
+        }
+
+        sut.handleIntent(CatalogSelectionIntent.Load)
+        advanceUntilIdle()
+
+        // act
+        sut.handleIntent(CatalogSelectionIntent.Update(newCatalogUi))
+        advanceUntilIdle()
+
+        // assert
+        val currentState = sut.uiState.value
+        assertTrue(currentState is UiState.Success)
+        val successData = (currentState as UiState.Success).data
+        assertEquals(newCatalogUi.id, successData.selected?.id)
+        assertEquals(initialCatalog.id, successData.initial?.id)
+        assertTrue(successData.hasChanged)
     }
 
     @Test

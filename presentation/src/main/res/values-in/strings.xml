@@ -82,6 +82,7 @@
     <string name="search">Cari</string>
     <string name="select_catalog">Pilih Katalog</string>
     <string name="change_catalog">Ubah Katalog</string>
+    <string name="confirm">Konfirmasi</string>
     <string name="videos">Video</string>
     <string name="catalogs">Katalog</string>
     <string name="catalog_only_message">Aplikasi ini ditujukan secara eksklusif untuk melihat katalog. Pemutaran konten harus dilakukan di platform resmi.</string>

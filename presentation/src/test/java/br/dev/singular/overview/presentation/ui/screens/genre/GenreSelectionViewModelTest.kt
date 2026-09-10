@@ -71,7 +71,8 @@ class GenreSelectionViewModelTest {
         assertTrue(currentState is UiState.Success)
         val successData = (currentState as UiState.Success).data
         assertEquals(1, successData.options.size)
-        assertEquals(genres.first().id, successData.selectedId)
+        assertEquals(genres.first().id, successData.selected?.id)
+        assertEquals(genres.first().id, successData.initial?.id)
 
         job.cancel()
     }
@@ -120,5 +121,35 @@ class GenreSelectionViewModelTest {
         coVerify {
             queryStateUseCase.save(match { it.genre?.id == newGenreUi.id })
         }
+    }
+
+    @Test
+    fun `Update intent should update selected genre in Success state`() = runTest {
+        // arrange
+        val genres = listOf(createGenreMock())
+        val queryState = createQueryStateMock().copy(genre = genres.first())
+        val newGenreUi = createGenreUiModelMock().copy(id = 2L, name = "Comedy")
+
+        coEvery { queryStateUseCase.get() } returns queryState
+        coEvery { fetchGenresUseCase(any()) } returns genres
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.uiState.collect()
+        }
+
+        sut.handleIntent(GenreSelectionIntent.Load)
+        advanceUntilIdle()
+
+        // act
+        sut.handleIntent(GenreSelectionIntent.Update(newGenreUi))
+        advanceUntilIdle()
+
+        // assert
+        val currentState = sut.uiState.value
+        assertTrue(currentState is UiState.Success)
+        val successData = (currentState as UiState.Success).data
+        assertEquals(newGenreUi.id, successData.selected?.id)
+        assertEquals(genres.first().id, successData.initial?.id)
+        assertTrue(successData.hasChanged)
     }
 }

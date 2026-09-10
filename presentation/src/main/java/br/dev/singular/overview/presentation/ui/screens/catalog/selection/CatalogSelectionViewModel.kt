@@ -15,18 +15,11 @@ import br.dev.singular.overview.presentation.ui.utils.mappers.uiToDomain.toDomai
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -46,35 +39,37 @@ class CatalogSelectionViewModel @Inject constructor(
 
     private var currentQuery: QueryUiState? = null
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState: StateFlow<UiState<CatalogUiState>> = _loadTrigger
-        .flatMapLatest { loadData() }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UiState.Loading()
-        )
+    private val _uiState = MutableStateFlow<UiState<CatalogUiState>>(UiState.Loading())
+    val uiState: StateFlow<UiState<CatalogUiState>> = _uiState
+
+    init {
+        viewModelScope.launch {
+            _loadTrigger.collect {
+                loadData()
+            }
+        }
+    }
 
     fun handleIntent(intent: CatalogSelectionIntent) {
         when (intent) {
             is CatalogSelectionIntent.Load -> _loadTrigger.tryEmit(Unit)
             is CatalogSelectionIntent.Select -> onSelect(intent.catalog, intent.clearGenre)
+            is CatalogSelectionIntent.Update -> onUpdate(intent.catalog)
             is CatalogSelectionIntent.DismissTooltip -> onDismissTooltip()
         }
     }
 
-    private fun loadData(): Flow<UiState<CatalogUiState>> = flow {
-        emit(UiState.Loading())
-
-        emit(
+    private fun loadData() {
+        viewModelScope.launch(dispatcher) {
+            _uiState.value = UiState.Loading()
             try {
-                fetchCatalogState()
+                _uiState.value = fetchCatalogState()
             } catch (e: Exception) {
                 Timber.e(e)
-                UiState.Error()
+                _uiState.value = UiState.Error()
             }
-        )
-    }.flowOn(dispatcher)
+        }
+    }
 
     private suspend fun fetchCatalogState(): UiState<CatalogUiState> = coroutineScope {
         val queryDeferred = async { queryStateUseCase.get() }
@@ -88,12 +83,22 @@ class CatalogSelectionViewModel @Inject constructor(
         if (options.isNotEmpty()) {
             UiState.Success(
                 data = CatalogUiState(
-                    selectedId = currentQuery?.catalog?.id,
+                    selected = currentQuery?.catalog,
+                    initial = currentQuery?.catalog,
                     options = options
                 )
             )
         } else {
             UiState.Error()
+        }
+    }
+
+    private fun onUpdate(catalog: CatalogUiModel) {
+        val currentState = _uiState.value
+        if (currentState is UiState.Success) {
+            _uiState.value = currentState.copy(
+                data = currentState.data.copy(selected = catalog)
+            )
         }
     }
 

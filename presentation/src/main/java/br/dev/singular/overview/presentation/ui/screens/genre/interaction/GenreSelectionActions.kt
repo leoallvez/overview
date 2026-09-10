@@ -20,6 +20,11 @@ data class GenreSelectionActions(
         navigation?.toHome()
     }
 
+    fun onUpdate(genre: GenreUiModel?) {
+        TagManager.logClick(customPath = tagPath, detail = "on-update")
+        handleIntent(GenreSelectionIntent.Update(genre))
+    }
+
     fun onBack() {
         TagManager.logClick(customPath = tagPath, detail = "close")
         navigation?.popBackStack()

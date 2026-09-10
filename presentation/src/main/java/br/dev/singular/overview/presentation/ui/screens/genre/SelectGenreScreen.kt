@@ -6,6 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
@@ -13,6 +14,7 @@ import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.GenreUiState
 import br.dev.singular.overview.presentation.ui.components.UiList
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.button.UiConfirmButton
 import br.dev.singular.overview.presentation.ui.components.genre.UiGenreItem
 import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.screens.common.ItemListSkeletonScreen
@@ -42,6 +44,19 @@ fun SelectGenreScreen(
                 onBack = { actions.onBack() }
             )
         },
+        bottomBar = {
+            if (uiState !is UiState.Success) return@UiScaffold
+            UiConfirmButton(
+                enabled = uiState.data.hasChanged,
+                modifier = Modifier.padding(
+                    top = dimensionResource(R.dimen.spacing_2x),
+                    bottom = dimensionResource(R.dimen.spacing_1x)
+                ),
+                onClick = {
+                    actions.onSelect(genre = uiState.data.selected)
+                }
+            )
+        }
     ) { padding ->
         UiStateResult(
             uiState = uiState,
@@ -54,15 +69,15 @@ fun SelectGenreScreen(
                 items = data.options.toImmutableList(),
                 firstItem = {
                     AllGenreOption(
-                        selected = data.selectedId == null,
-                        onClick = { actions.onSelect(genre = null) }
+                        selected = data.selected?.id == null,
+                        onClick = { actions.onUpdate(genre = null) }
                     )
                 }
             ) { genre ->
                 UiGenreItem(
                     model = genre,
-                    selected = genre.id == data.selectedId,
-                    onClick = { actions.onSelect(genre) }
+                    selected = genre.id == data.selected?.id,
+                    onClick = { actions.onUpdate(genre) }
                 )
             }
         }
@@ -89,7 +104,8 @@ internal fun SelectGenreScreenSuccessPreview() {
     val uiState = remember(selectedId.value) {
         UiState.Success(
             data = GenreUiState(
-                selectedId = selectedId.value,
+                selected = genres.first(),
+                initial = genres.first(),
                 options = genres
             )
         )

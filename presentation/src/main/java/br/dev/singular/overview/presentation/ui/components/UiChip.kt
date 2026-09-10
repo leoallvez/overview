@@ -22,6 +22,7 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
+import br.dev.singular.overview.presentation.ui.utils.animateActionColor
 
 /**
  * A custom styled chip that can be activated and deactivated.
@@ -43,7 +44,11 @@ internal fun UiChip(
     icon: @Composable (() -> Unit) = {},
     onClick: () -> Unit = {}
 ) {
-    val color = if (activated) highlightColor else lowlightColor
+    val color = animateActionColor(
+        isActive = activated,
+        activeColor = highlightColor,
+        inactiveColor = lowlightColor
+    )
     FilterChip(
         onClick = onClick,
         modifier = modifier.height(dimensionResource(R.dimen.spacing_7x)),

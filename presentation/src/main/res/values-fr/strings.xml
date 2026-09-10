@@ -82,6 +82,7 @@
     <string name="search">Rechercher</string>
     <string name="select_catalog">Sélectionner le catalogue</string>
     <string name="change_catalog">Changer de catalogue</string>
+    <string name="confirm">Confirmer</string>
     <string name="videos">Vidéos</string>
     <string name="catalogs">Catalogues</string>
     <string name="catalog_only_message">Cette application est destinée exclusivement à la consultation de catalogues. La lecture des contenus doit être effectuée sur les plateformes officielles.</string>

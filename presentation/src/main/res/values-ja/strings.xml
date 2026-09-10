@@ -82,6 +82,7 @@
     <string name="search">検索</string>
     <string name="select_catalog">カタログを選択</string>
     <string name="change_catalog">カタログを変更</string>
+    <string name="confirm">確認</string>
     <string name="videos">ビデオ</string>
     <string name="catalogs">カタログ</string>
     <string name="catalog_only_message">このアプリはカタログの参照専用です。コンテンツの再生は公式プラットフォームで行う必要があります。</string>

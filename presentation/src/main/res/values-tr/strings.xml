@@ -82,6 +82,7 @@
     <string name="search">Ara</string>
     <string name="select_catalog">Katalog Seç</string>
     <string name="change_catalog">Katalog Değiştir</string>
+    <string name="confirm">Onayla</string>
     <string name="videos">Videolar</string>
     <string name="catalogs">Kataloglar</string>
     <string name="catalog_only_message">Bu uygulama yalnızca kataloglara danışmak içindir. İçerik oynatma resmi platformlarda gerçekleştirilmelidir.</string>
