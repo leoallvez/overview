@@ -1,9 +1,8 @@
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.ApplicationProductFlavor
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
@@ -11,18 +10,26 @@ plugins {
     alias(libs.plugins.hilt.android.plugin)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.paparazzi)
 }
 
-android {
+extensions.configure<ApplicationExtension> {
+    val sdkCompile = libs.versions.sdk.compile.get().toInt()
+    val sdkMin = libs.versions.sdk.min.get().toInt()
+    val sdkTarget = libs.versions.sdk.target.get().toInt()
+    val vCode = libs.versions.version.code.get().toInt()
+    val vName = libs.versions.version.name.get()
+
     namespace = libs.versions.app.id.get()
-    compileSdk = libs.versions.sdk.compile.get().toInt()
+    compileSdk = sdkCompile
 
     defaultConfig {
         applicationId = libs.versions.app.id.get()
-        minSdk = libs.versions.sdk.min.get().toInt()
-        targetSdk = libs.versions.sdk.target.get().toInt()
-        versionCode = libs.versions.version.code.get().toInt()
-        versionName = libs.versions.version.name.get()
+        minSdk = sdkMin
+        targetSdk = sdkTarget
+        versionCode = vCode
+        versionName = vName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -63,13 +70,13 @@ android {
     flavorDimensions.add("version")
     productFlavors {
         create("dev") {
-            setAppName("app_name_dev")
+            setAppName("OVER.DEV")
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
         }
         create("hmg") {
-            setAppName("app_name_hmg")
+            setAppName("OVER.HMG")
             dimension = "version"
             applicationIdSuffix = ".homol"
             versionNameSuffix = "-hmg"
@@ -78,7 +85,7 @@ android {
             }
         }
         create("prd") {
-            setAppName("app_name_prd")
+            setAppName("Overview")
             dimension = "version"
             if (isActiveSigning()) {
                 signingConfig = signingConfigs.getByName("prd")
@@ -87,19 +94,14 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
         compose = true
         buildConfig = true
+        resValues = true
     }
 
     packaging {
@@ -107,14 +109,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-
-    hilt {
-        enableAggregatingTask = true
-    }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
+hilt {
+    enableAggregatingTask = true
 }
 
 dependencies {
@@ -133,28 +131,19 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-    // Room
-    ksp(libs.room.compiler)
-
     // WorkManager
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
-    ksp(libs.hilt.compiler)
-
-    // Accompanist
-    implementation(libs.accompanist.pager)
-    implementation(libs.accompanist.pager.indicators)
-    implementation(libs.accompanist.flowlayout)
 
     // Third-party libraries
     implementation(libs.timber)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
     implementation(libs.logging.interceptor)
-    implementation(libs.toolbar.compose)
-    implementation(libs.converter.moshi)
     implementation(libs.converter.serialization)
 
     // Modules
-    implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
@@ -174,7 +163,7 @@ dependencies {
 }
 
 private fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue("string", "app_name", "@string/$appName")
+    resValue("string", "app_name", appName)
 }
 
 private fun isActiveSigning() = System.getenv("OVER_ACTIVE_SIGNING") == "true"

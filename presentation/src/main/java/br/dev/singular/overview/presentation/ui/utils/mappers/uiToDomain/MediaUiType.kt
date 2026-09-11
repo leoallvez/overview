@@ -5,7 +5,7 @@ import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.MediaUiType.MOVIE
 import br.dev.singular.overview.presentation.model.MediaUiType.TV
 
-internal fun MediaUiType.toDomain() = when(this) {
+internal fun MediaUiType.toDomain() = when (this) {
     TV -> MediaType.TV
     MOVIE -> MediaType.MOVIE
     else -> MediaType.ALL

@@ -21,61 +21,55 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.model.PersonUiModel
-import br.dev.singular.overview.presentation.tagging.TagManager
-import br.dev.singular.overview.presentation.tagging.TagMediaManager
-import br.dev.singular.overview.presentation.tagging.params.TagCommon
-import br.dev.singular.overview.presentation.tagging.params.TagPerson
+import br.dev.singular.overview.presentation.model.PersonDetailsUiModel
 import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
-import br.dev.singular.overview.presentation.ui.components.UiPersonAvatar
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
+import br.dev.singular.overview.presentation.ui.components.person.UiPersonAvatar
 import br.dev.singular.overview.presentation.ui.components.text.UiParagraph
 import br.dev.singular.overview.presentation.ui.components.text.UiSubtitle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.screens.common.ErrorScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
+import br.dev.singular.overview.presentation.ui.screens.person.interaction.PersonDetailsActions
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground
-import br.dev.singular.overview.presentation.ui.utils.fakeMedias
+import br.dev.singular.overview.presentation.ui.utils.fakePersonDetails
 import kotlinx.collections.immutable.ImmutableList
 
 /**
  * A screen that displays the details of a person.
  *
- * @param tagPath The path for analytics tagging.
+ * @param personId The ID of the person to display.
  * @param uiState The state of the UI, which can be loading, success, or error.
  * @param showAds Whether to show ads on the screen.
- * @param onLoad A callback to be invoked when the screen needs to load data.
- * @param onBack A callback to be invoked when the user navigates back.
- * @param onToMediaDetails A callback to be invoked when the user clicks on a media item.
+ * @param actions The actions to be performed on the screen.
  */
 @Composable
 fun PersonDetailsScreen(
-    tagPath: String= TagPerson.PATH,
-    uiState: UiState<PersonUiModel?>,
-    showAds: Boolean,
-    onLoad: () -> Unit,
-    onBack: () -> Unit,
-    onToMediaDetails: (MediaUiModel) -> Unit,
+    personId: Long,
+    uiState: UiState<PersonDetailsUiModel?>,
+    showAds: Boolean = false,
+    actions: PersonDetailsActions,
 ) {
-    LaunchedEffect(Unit) { onLoad() }
+    LaunchedEffect(Unit) { actions.onLoad(personId) }
 
     UiStateResult(
         uiState = uiState,
-        tagPath = tagPath,
-        onRefresh = onLoad
+        tagPath = actions.tagPath,
+        onRefresh = { actions.onLoad(personId) },
+        loadingContent = { PersonDetailsSkeletonScreen(actions.tagPath) }
     ) { person ->
         if (person == null) {
-            ErrorScreen(tagPath, onRefresh = onLoad)
+            ErrorScreen(actions.tagPath, onRefresh = { actions.onLoad(personId) })
         } else {
             Column(
                 modifier = Modifier
@@ -83,8 +77,8 @@ fun PersonDetailsScreen(
                     .defaultBackground()
                     .verticalScroll(rememberScrollState())
             ) {
-                PersonToolBar(tagPath, person, onBack)
-                PersonBody(tagPath, person, showAds, onToMediaDetails)
+                PersonToolBar(person, actions)
+                PersonBody(person, showAds, actions)
             }
         }
     }
@@ -92,9 +86,8 @@ fun PersonDetailsScreen(
 
 @Composable
 private fun PersonToolBar(
-    tagPath: String,
-    person: PersonUiModel,
-    onBack: () -> Unit
+    person: PersonDetailsUiModel,
+    actions: PersonDetailsActions
 ) {
     Box(
         Modifier
@@ -116,22 +109,22 @@ private fun PersonToolBar(
                 descriptionRes = R.string.backstack_icon,
             ),
             background = Color.White.copy(alpha = 0.1f),
-            onClick = {
-                TagManager.logClick(tagPath, TagCommon.Detail.BACK)
-                onBack.invoke()
-            }
+            onClick = { actions.onBack() }
         )
     }
 }
 
 @Composable
 private fun PersonBody(
-    tagPath: String,
-    person: PersonUiModel,
+    person: PersonDetailsUiModel,
     showAds: Boolean,
-    onToMediaDetails: (MediaUiModel) -> Unit
+    actions: PersonDetailsActions
 ) {
-    Column(modifier = Modifier.fillMaxSize().defaultBackground()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .defaultBackground()
+    ) {
         with(person) {
             Column(
                 modifier = Modifier
@@ -144,31 +137,34 @@ private fun PersonBody(
                 Dates(person)
                 PlaceOfBirth(placeOfBirth)
                 Biography(biography)
-                UiAdsMediumRectangle(R.string.person_banner, isVisible = showAds)
+                UiAdsMediumRectangle(
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_3x)),
+                    prodBannerId = R.string.person_banner,
+                    isVisible = showAds
+                )
             }
             Participation(
                 listTitleRes = R.string.movies_participation,
-                tagPath = tagPath,
+                actions = actions,
                 medias = movies,
-                onToMediaDetails = onToMediaDetails
             )
             Participation(
                 listTitleRes = R.string.tv_shows_participation,
-                tagPath = tagPath,
+                actions = actions,
                 medias = tvShows,
-                onToMediaDetails = onToMediaDetails
             )
         }
     }
 }
 
 @Composable
-private fun Dates(person: PersonUiModel) = with(person) {
+private fun Dates(person: PersonDetailsUiModel) = with(person) {
 
     val lifespan = when {
         deathDay.isNotEmpty() -> {
             stringResource(R.string.em_dash, birthday, deathDay)
         }
+
         else -> birthday
     }
 
@@ -177,6 +173,7 @@ private fun Dates(person: PersonUiModel) = with(person) {
             val formatedAge = stringResource(R.string.age, age)
             stringResource(R.string.separator, lifespan, formatedAge)
         }
+
         else -> lifespan
     }
 
@@ -205,46 +202,25 @@ private fun PlaceOfBirth(placeOfBirth: String) {
 
 @Composable
 private fun Participation(
-    tagPath: String,
     @StringRes listTitleRes: Int,
     medias: ImmutableList<MediaUiModel>,
-    onToMediaDetails: (MediaUiModel) -> Unit
+    actions: PersonDetailsActions
 ) {
     UiMediaList(
         title = stringResource(listTitleRes),
         contentPadding = PaddingValues(start = dimensionResource(R.dimen.spacing_4x)),
         items = medias,
-        onClick = {
-            TagMediaManager.logMediaClick(tagPath, it.id)
-            onToMediaDetails.invoke(it)
-        }
+        onClick = { actions.onToMediaDetails(it) }
     )
 }
 
-@Preview
+@UiScreenPreview
 @Composable
-private fun PersonDetailsScreenPreview() {
-    val fakeMedias = fakeMedias()
-    val person = PersonUiModel(
-        id = 0,
-        job = "Actor",
-        age = "24",
-        name = "Celeste Beaumont",
-        birthday = "01/01/1982",
-        deathDay = "01/01/2006",
-        biography = stringResource(R.string.lorem_ipsum),
-        character = "Himself",
-        profileURL = "",
-        previewDrawableRes = R.drawable.sample_profile,
-        placeOfBirth = "Modesto, California, USA",
-        tvShows = fakeMedias,
-        movies = fakeMedias
-    )
+internal fun PersonDetailsScreenPreview() {
     PersonDetailsScreen(
-        uiState = UiState.Success(data = person),
-        showAds = false,
-        onLoad = {},
-        onBack = {},
-        onToMediaDetails = {}
+        personId = 1L,
+        showAds = true,
+        uiState = UiState.Success(data = fakePersonDetails()),
+        actions = PersonDetailsActions()
     )
 }

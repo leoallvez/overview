@@ -34,6 +34,7 @@ fun <T> UiStateResult(
                 TrackScreenView(tagPath, TagStatus.SUCCESS)
                 successContent(uiState.data)
             }
+
             else -> ErrorScreen(tagPath, onRefresh = onRefresh)
         }
     }

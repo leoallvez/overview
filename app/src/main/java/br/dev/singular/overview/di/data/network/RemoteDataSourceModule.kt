@@ -1,13 +1,17 @@
 package br.dev.singular.overview.di.data.network
 
+import br.dev.singular.overview.data.network.source.CatalogRemoteDataSource
+import br.dev.singular.overview.data.network.source.GenreRemoteDataSource
+import br.dev.singular.overview.data.network.source.ICatalogRemoteDataSource
+import br.dev.singular.overview.data.network.source.IGenreRemoteDataSource
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
-import br.dev.singular.overview.data.network.source.IPersonRemoteDataSource
-import br.dev.singular.overview.data.network.source.IStreamingRemoteDataSource
+import br.dev.singular.overview.data.network.source.IPersonDetailsRemoteDataSource
 import br.dev.singular.overview.data.network.source.ISuggestionRemoteDataSource
+import br.dev.singular.overview.data.network.source.IVideoRemoteDataSource
 import br.dev.singular.overview.data.network.source.MediaRemoteDataSource
-import br.dev.singular.overview.data.network.source.PersonRemoteDataSource
-import br.dev.singular.overview.data.network.source.StreamingRemoteDataSource
+import br.dev.singular.overview.data.network.source.PersonDetailsRemoteDataSource
 import br.dev.singular.overview.data.network.source.SuggestionRemoteDataSource
+import br.dev.singular.overview.data.network.source.VideoRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,12 +32,22 @@ abstract class RemoteDataSourceModule {
     ): ISuggestionRemoteDataSource
 
     @Binds
-    abstract fun bindPersonRemoteDataSource(
-        source: PersonRemoteDataSource
-    ): IPersonRemoteDataSource
+    abstract fun bindPersonDetailsRemoteDataSource(
+        source: PersonDetailsRemoteDataSource
+    ): IPersonDetailsRemoteDataSource
 
     @Binds
-    abstract fun bindStreamingRemoteDataSource(
-        source: StreamingRemoteDataSource
-    ): IStreamingRemoteDataSource
+    abstract fun bindCatalogRemoteDataSource(
+        source: CatalogRemoteDataSource
+    ): ICatalogRemoteDataSource
+
+    @Binds
+    abstract fun bindGenreRemoteDataSource(
+        source: GenreRemoteDataSource
+    ): IGenreRemoteDataSource
+
+    @Binds
+    abstract fun bindVideoRemoteDataSource(
+        source: VideoRemoteDataSource
+    ): IVideoRemoteDataSource
 }

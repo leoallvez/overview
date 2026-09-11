@@ -1,18 +1,23 @@
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.VariantDimension
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android.plugin)
 }
 
-android {
+extensions.configure<LibraryExtension> {
+    val sdkCompile = libs.versions.sdk.compile.get().toInt()
+    val sdkMin = libs.versions.sdk.min.get().toInt()
+
     namespace = "${libs.versions.app.id.get()}.data"
-    compileSdk = libs.versions.sdk.compile.get().toInt()
+    compileSdk = sdkCompile
 
     defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
+        minSdk = sdkMin
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         stringField("API_URL", "https://api.themoviedb.org/3/")
@@ -31,39 +36,75 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "3600")
+        }
+        debug {
+            buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "0")
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+}
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    "*.BuildConfig",
+                    "*.*_Factory*",
+                    "*.*_HiltModules*",
+                    "*.*_Impl*",
+                    "*.Hilt_*",
+                    "**.*_Provide*Factory*",
+                    "**.database.AppDatabase*",
+                    "**.database.Migration*",
+                    "**.database.Callbacks*",
+                    "**.database.dao.*",
+                    $$"*.$serializer",
+                    $$"**.$serializer",
+                    $$"**.*$serializer",
+                    "**.*_MembersInjector*",
+                )
+            }
         }
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
     api(libs.retrofit)
-    
+
     // Room
     api(libs.room.runtime)
     api(libs.room.ktx)
     api(libs.room.paging)
+    ksp(libs.room.compiler)
 
     // DataStore
     api(libs.datastore.preferences)
 
+    // WorkManager
+    implementation(libs.work.runtime.ktx)
+    implementation(libs.hilt.work)
+    ksp(libs.hilt.compiler)
+
     api(libs.kotlinx.serialization.json)
     api(libs.network.response.adapter)
 
-    implementation(project(":core"))
+    api(platform(libs.firebase.bom))
+    api(libs.firebase.config)
+    api(libs.timber)
+
     implementation(project(":domain"))
 
     // Test dependencies

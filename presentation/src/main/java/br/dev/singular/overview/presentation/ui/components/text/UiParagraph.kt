@@ -1,14 +1,16 @@
 package br.dev.singular.overview.presentation.ui.components.text
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 /**
  * A composable that displays a justified paragraph of text.
@@ -17,7 +19,7 @@ import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
  * @param modifier The modifier to be applied to the text.
  */
 @Composable
-fun UiParagraph(text: String, modifier: Modifier = Modifier) {
+internal fun UiParagraph(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         modifier = modifier,
@@ -27,8 +29,11 @@ fun UiParagraph(text: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview
+@UiComponentPreview
 @Composable
 internal fun UiParagraphPreview() {
-    UiParagraph(text = stringResource(R.string.lorem_ipsum))
+    UiParagraph(
+        text = stringResource(R.string.lorem_ipsum_long),
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x))
+    )
 }

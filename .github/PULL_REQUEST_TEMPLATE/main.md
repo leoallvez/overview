@@ -1,9 +1,11 @@
 ## 1.x.x Production Release
 
 ## What's new?
+
 <!-- write what's this pull request change on project -->
 
 ## Checklist
+
 - **Functional tests**
     - [ ] Functional tests were carried out successfully on different devices.
 - **Continuous Integration:**

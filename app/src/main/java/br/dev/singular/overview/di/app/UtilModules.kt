@@ -1,0 +1,33 @@
+package br.dev.singular.overview.di.app
+
+import androidx.lifecycle.LiveData
+import br.dev.singular.overview.data.util.IJsonFileReaderProvider
+import br.dev.singular.overview.data.util.JsonFileReaderProvider
+import br.dev.singular.overview.util.ConnectivityLiveData
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class UtilModule {
+
+    @Binds
+    abstract fun bindJsonFileReaderProvider(
+        jsonFileReader: JsonFileReaderProvider
+    ): IJsonFileReaderProvider
+
+    @IsOnline
+    @Singleton
+    @Binds
+    abstract fun bindConnectivityLiveData(
+        connectivityLiveData: ConnectivityLiveData
+    ): LiveData<Boolean>
+}
+
+@Retention(AnnotationRetention.RUNTIME)
+@Qualifier
+annotation class IsOnline
