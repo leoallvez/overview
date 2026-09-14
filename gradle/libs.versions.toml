@@ -33,7 +33,7 @@ hilt = "2.60.1"
 hilt-navigation-compose = "1.4.0"
 
 # Room
-room = "2.8.4"
+room = "2.8.5"
 paging-runtime-ktx = "3.5.1"
 
 # Firebase
