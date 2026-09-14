@@ -56,7 +56,7 @@ espresso-core = "3.7.0"
 mockk = "1.14.11"
 kluent = "1.73"
 kotlinx-coroutines-test = "1.11.0"
-robolectric = "4.16.1"
+robolectric = "4.17"
 
 # Others
 play-services-ads = "25.4.0"
