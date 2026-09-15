@@ -17,7 +17,7 @@ import br.dev.singular.overview.presentation.ui.theme.DefaultTextColor
  * @property descriptionRes The content description of the icon as a string resource.
  */
 data class UiIconStyle(
-    val source: UiIconSource,
+    val source: UiIconSource? = null,
     val modifier: Modifier = Modifier,
     val color: Color = DefaultTextColor,
     @param:DimenRes val sizeRes: Int = R.dimen.spacing_8x,

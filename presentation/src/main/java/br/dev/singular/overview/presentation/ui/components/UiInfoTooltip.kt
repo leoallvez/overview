@@ -43,6 +43,45 @@ internal fun UiInfoTooltip(
     message: String,
     onClose: () -> Unit = {}
 ) {
+    InfoTooltipContent(
+        modifier = modifier,
+        visible = visible,
+        message = message,
+    ) {
+        IconButton(
+            onClick = onClose,
+            modifier = Modifier.size(dimensionResource(R.dimen.spacing_5x))
+        ) {
+            UiIcon(
+                source = UiIconSource.vector(Icons.Default.Close),
+                contentDescription = stringResource(R.string.close),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
+internal fun UiInfoTooltip(
+    modifier: Modifier = Modifier,
+    visible: Boolean = true,
+    message: String
+) {
+    InfoTooltipContent(
+        modifier = modifier,
+        visible = visible,
+        message = message,
+    )
+}
+
+@Composable
+private fun InfoTooltipContent(
+    modifier: Modifier = Modifier,
+    visible: Boolean = true,
+    message: String,
+    iconButton: @Composable () -> Unit = {}
+) {
+
     UiAnimatedVisibility(visible) {
         Surface(
             modifier = modifier
@@ -76,16 +115,7 @@ internal fun UiInfoTooltip(
                     textAlign = TextAlign.Start,
                 )
 
-                IconButton(
-                    onClick = onClose,
-                    modifier = Modifier.size(dimensionResource(R.dimen.spacing_5x))
-                ) {
-                    UiIcon(
-                        source = UiIconSource.vector(Icons.Default.Close),
-                        contentDescription = stringResource(R.string.close),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                iconButton()
             }
         }
     }
@@ -102,4 +132,13 @@ internal fun UiInfoTooltipPreview() {
     ) {
         visible.value = false
     }
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiInfoTooltipWithoutIconPreview() {
+    UiInfoTooltip(
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_4x)),
+        message = stringResource(R.string.lorem_ipsum_long)
+    )
 }

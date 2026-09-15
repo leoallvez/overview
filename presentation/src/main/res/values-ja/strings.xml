@@ -86,4 +86,6 @@
     <string name="videos">ビデオ</string>
     <string name="catalogs">カタログ</string>
     <string name="catalog_only_message">このアプリはカタログの参照専用です。コンテンツの再生は公式プラットフォームで行う必要があります。</string>
+    <string name="login">ログイン</string>
+    <string name="sign_in_with_google">Google でログイン</string>
 </resources>

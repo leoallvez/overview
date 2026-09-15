@@ -88,4 +88,6 @@
     <string name="catalog_only_message">
         Este aplicativo destina-se exclusivamente à consulta de catálogos. A reprodução dos conteúdos deve ser realizada nas plataformas.
     </string>
+    <string name="login">Login</string>
+    <string name="sign_in_with_google">Fazer login com o Google</string>
 </resources>

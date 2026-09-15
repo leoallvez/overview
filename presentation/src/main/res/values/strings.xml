@@ -78,6 +78,8 @@
     <string name="liked_movie_not_found">Your favorite movies will appear here :)</string>
     <string name="liked_tv_show_not_found">Your favorite TV shows will appear here :)</string>
     <string name="home">Home</string>
+    <string name="login">Login</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
     <string name="favorites">Favorites</string>
     <string name="search">Search</string>
     <string name="select_catalog">Select Catalog</string>

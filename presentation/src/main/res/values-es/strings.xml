@@ -86,4 +86,6 @@
     <string name="videos">Vídeos</string>
     <string name="catalogs">Catálogos</string>
     <string name="catalog_only_message">Esta aplicación está destinada exclusivamente a la consulta de catálogos. La reproducción de contenidos debe realizarse en las plataformas oficiales.</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="sign_in_with_google">Iniciar sesión con Google</string>
 </resources>

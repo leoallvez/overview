@@ -86,4 +86,6 @@
     <string name="videos">วิดีโอ</string>
     <string name="catalogs">แคตตาล็อก</string>
     <string name="catalog_only_message">แอปนี้มีวัตถุประสงค์เพื่อการปรึกษาแคตตาล็อกเท่านั้น ต้องทำการเล่นเนื้อหาบนแพลตฟอร์มที่เป็นทางการ</string>
+    <string name="login">เข้าสู่ระบบ</string>
+    <string name="sign_in_with_google">ลงชื่อเข้าใช้ด้วย Google</string>
 </resources>

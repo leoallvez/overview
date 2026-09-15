@@ -86,4 +86,6 @@
     <string name="videos">Videolar</string>
     <string name="catalogs">Kataloglar</string>
     <string name="catalog_only_message">Bu uygulama yalnızca kataloglara danışmak içindir. İçerik oynatma resmi platformlarda gerçekleştirilmelidir.</string>
+    <string name="login">Giriş Yap</string>
+    <string name="sign_in_with_google">Google ile oturum açın</string>
 </resources>

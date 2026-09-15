@@ -86,4 +86,6 @@
     <string name="videos">视频</string>
     <string name="catalogs">目录</string>
     <string name="catalog_only_message">本应用仅用于咨询目录。内容播放必须在官方平台上进行。</string>
+    <string name="login">登录</string>
+    <string name="sign_in_with_google">使用 Google 帐号登录</string>
 </resources>

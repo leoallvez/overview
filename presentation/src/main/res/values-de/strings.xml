@@ -86,4 +86,6 @@
     <string name="videos">Videos</string>
     <string name="catalogs">Kataloge</string>
     <string name="catalog_only_message">Diese App dient ausschließlich der Abfrage von Katalogen. Die Wiedergabe von Inhalten muss auf offiziellen Plattformen erfolgen.</string>
+    <string name="login">Login</string>
+    <string name="sign_in_with_google">Über Google anmelden</string>
 </resources>

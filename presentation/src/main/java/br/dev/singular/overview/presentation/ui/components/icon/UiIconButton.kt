@@ -49,12 +49,14 @@ internal fun UiIconButton(
     ) {
         Box(Modifier.align(Alignment.Center)) {
             iconStyle.apply {
-                UiIcon(
-                    source = source,
-                    contentDescription = descriptionRes?.let { stringResource(it) } ?: "",
-                    modifier = iconStyle.modifier.size(dimensionResource(sizeRes)),
-                    color = color
-                )
+                source?.let {
+                    UiIcon(
+                        source = source,
+                        contentDescription = descriptionRes?.let { stringResource(it) } ?: "",
+                        modifier = iconStyle.modifier.size(dimensionResource(sizeRes)),
+                        color = color
+                    )
+                }
             }
         }
     }
