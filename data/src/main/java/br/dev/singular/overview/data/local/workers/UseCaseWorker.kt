@@ -7,12 +7,12 @@ import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
 import timber.log.Timber
 
-abstract class UseCaseWorker(
+abstract class UseCaseWorker<T>(
     context: Context,
     params: WorkerParameters,
 ) : CoroutineWorker(context, params) {
 
-    abstract suspend fun runWork(): UseCaseState<*>
+    abstract suspend fun runWork(): UseCaseState<T>
 
     override suspend fun doWork(): Result {
         return when (val result = runWork()) {

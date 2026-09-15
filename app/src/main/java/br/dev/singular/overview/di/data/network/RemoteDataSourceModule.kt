@@ -1,8 +1,12 @@
 package br.dev.singular.overview.di.data.network
 
+import br.dev.singular.overview.data.network.source.AuthRemoteDataSource
 import br.dev.singular.overview.data.network.source.CatalogRemoteDataSource
+import br.dev.singular.overview.data.network.source.FavoriteRemoteDataSource
 import br.dev.singular.overview.data.network.source.GenreRemoteDataSource
+import br.dev.singular.overview.data.network.source.IAuthRemoteDataSource
 import br.dev.singular.overview.data.network.source.ICatalogRemoteDataSource
+import br.dev.singular.overview.data.network.source.IFavoriteRemoteDataSource
 import br.dev.singular.overview.data.network.source.IGenreRemoteDataSource
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
 import br.dev.singular.overview.data.network.source.IPersonDetailsRemoteDataSource
@@ -50,4 +54,14 @@ abstract class RemoteDataSourceModule {
     abstract fun bindVideoRemoteDataSource(
         source: VideoRemoteDataSource
     ): IVideoRemoteDataSource
+
+    @Binds
+    abstract fun bindAuthRemoteDataSource(
+        source: AuthRemoteDataSource
+    ): IAuthRemoteDataSource
+
+    @Binds
+    abstract fun bindFavoriteRemoteDataSource(
+        source: FavoriteRemoteDataSource
+    ): IFavoriteRemoteDataSource
 }

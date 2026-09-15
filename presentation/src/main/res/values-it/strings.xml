@@ -86,4 +86,17 @@
     <string name="videos">Video</string>
     <string name="catalogs">Cataloghi</string>
     <string name="catalog_only_message">Questa app è destinata esclusivamente alla consultazione di cataloghi. La riproduzione dei contenuti deve essere eseguita sulle piattaforme ufficiali.</string>
+    <string name="login">Accedi</string>
+    <string name="login_info_message">Accedi per salvare i tuoi film e serie TV preferiti, sincronizzare la tua lista su qualsiasi dispositivo e non perderti nulla di ciò che vuoi guardare.</string>
+    <string name="sign_in_with_google">Accedi con Google</string>
+    <string name="login_error_title">Errore di accesso</string>
+    <string name="login_error_message">Si è verificato un errore durante l\'accesso. Riprova.</string>
+    <string name="profile">Profilo</string>
+    <string name="sign_out">Esci</string>
+    <string name="sign_out_confirm_title">Uscire dall\'account?</string>
+    <string name="sign_out_confirm_message">Dovrai accedere di nuovo per vedere i tuoi preferiti.</string>
+    <string name="cancel">Annulla</string>
+    <string name="login_required_title">Accesso richiesto</string>
+    <string name="login_required_message">Accedi per salvare questo titolo tra i tuoi preferiti.</string>
+    <string name="favorite_added_title">Aggiunto ai preferiti</string>
 </resources>

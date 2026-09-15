@@ -7,7 +7,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import br.dev.singular.overview.data.local.database.AppDatabase
 import br.dev.singular.overview.data.local.database.Migration
-import br.dev.singular.overview.data.local.database.SEEDS_CALLBACK
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +27,6 @@ class StorageModule {
         AppDatabase::class.java,
         DATABASE_NAME
     )
-        .addCallback(SEEDS_CALLBACK)
         .addMigrations(
             Migration(from = 1, to = 2, context),
             Migration(from = 2, to = 3, context),
@@ -41,9 +39,6 @@ class StorageModule {
 
     @Provides
     fun provideGenreDao(db: AppDatabase) = db.genreDao()
-
-    @Provides
-    fun provideMediaDao(db: AppDatabase) = db.mediaDao()
 
     @Provides
     fun provideSuggestionDao(db: AppDatabase) = db.suggestionDao()

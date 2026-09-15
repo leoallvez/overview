@@ -173,8 +173,8 @@ private fun NothingFoundScreenWithFilterPreview() {
  */
 @Composable
 fun MediaGridSkeletonScreen(
+    modifier: Modifier = Modifier,
     tagPath: String,
-    modifier: Modifier = Modifier
 ) {
     TrackScreenView(tagPath)
     UiMediaGridSkeleton(modifier = modifier)
@@ -183,7 +183,7 @@ fun MediaGridSkeletonScreen(
 @UiScreenPreview
 @Composable
 private fun MediaGridSkeletonScreenPreview() {
-    MediaGridSkeletonScreen("tag")
+    MediaGridSkeletonScreen(tagPath = "tag")
 }
 
 

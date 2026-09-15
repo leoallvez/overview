@@ -11,6 +11,13 @@ class TvShowDetailsSnapshotTest : UiScreenSnapshotTest(snapshotPackage = "screen
     }
 
     @Test
+    fun favoriteAdded() = gif(
+        duration = 2_000L
+    ) {
+        TvShowDetailsScreenFavoriteAddedPreview()
+    }
+
+    @Test
     fun loading() = snapshot {
         TvShowDetailsScreenLoadingPreview()
     }

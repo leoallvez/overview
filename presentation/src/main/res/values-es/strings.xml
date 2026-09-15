@@ -86,4 +86,17 @@
     <string name="videos">Vídeos</string>
     <string name="catalogs">Catálogos</string>
     <string name="catalog_only_message">Esta aplicación está destinada exclusivamente a la consulta de catálogos. La reproducción de contenidos debe realizarse en las plataformas oficiales.</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="login_info_message">Inicia sesión para guardar tus películas y series favoritas, sincronizar tu lista en cualquier dispositivo y no perderte nada de lo que quieres ver.</string>
+    <string name="sign_in_with_google">Iniciar sesión con Google</string>
+    <string name="login_error_title">Error de inicio de sesión</string>
+    <string name="login_error_message">Se produjo un error al iniciar sesión. Inténtalo de nuevo.</string>
+    <string name="profile">Perfil</string>
+    <string name="sign_out">Cerrar sesión</string>
+    <string name="sign_out_confirm_title">¿Cerrar sesión?</string>
+    <string name="sign_out_confirm_message">Tendrás que iniciar sesión de nuevo para ver tus favoritos.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="login_required_title">Inicio de sesión necesario</string>
+    <string name="login_required_message">Inicia sesión para guardar este título en tus favoritos.</string>
+    <string name="favorite_added_title">Añadido a favoritos</string>
 </resources>

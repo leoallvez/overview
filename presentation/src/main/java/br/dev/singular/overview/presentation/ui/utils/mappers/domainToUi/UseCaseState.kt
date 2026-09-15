@@ -1,6 +1,7 @@
 package br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi
 
 import br.dev.singular.overview.domain.usecase.UseCaseState
+import br.dev.singular.overview.presentation.ActionState
 import br.dev.singular.overview.presentation.UiState
 
 @PublishedApi
@@ -16,3 +17,8 @@ inline fun <T, R> UseCaseState<T>.toUiState(transform: (T) -> R): UiState<R> =
 inline fun <T : Any, R : Any> UseCaseState<T?>.toUiStateNullable(
     crossinline transform: (T) -> R
 ): UiState<R?> = uiStateTransform { it?.let(transform) }
+
+internal fun UseCaseState<*>.toActionState(): ActionState = when (this) {
+    is UseCaseState.Success -> ActionState.Success
+    is UseCaseState.Failure -> ActionState.Error
+}

@@ -17,7 +17,6 @@ class QueryStateTest {
         val dataState = QueryDataState(
             path = "movie/popular",
             type = MediaDataType.MOVIE,
-            isLiked = true,
             query = "action",
             page = 1,
             genre = GenreDataModel(id = 28L, name = "Action"),
@@ -30,7 +29,6 @@ class QueryStateTest {
         // assert
         assertEquals(dataState.path, domainState.key)
         assertEquals(MediaType.MOVIE, domainState.type)
-        assertEquals(dataState.isLiked, domainState.isLiked)
         assertEquals(dataState.query, domainState.query)
         assertEquals(dataState.page, domainState.page)
         assertNotNull(domainState.genre)

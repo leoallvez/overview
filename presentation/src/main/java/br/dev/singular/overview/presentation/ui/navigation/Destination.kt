@@ -8,6 +8,8 @@ sealed class Destination(val route: String) {
 
     object Favorites : Destination(route = "favorites")
 
+    object Profile : Destination(route = "profile")
+
     object MediaDetails : Destination(
         route = "media-details/{$ID_PARAM}/{$TYPE_PARAM}/{$BACKSTACK_PARAM}"
     ) {

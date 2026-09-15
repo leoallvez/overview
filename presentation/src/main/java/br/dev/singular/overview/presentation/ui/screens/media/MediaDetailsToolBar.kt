@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +37,8 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.theme.Surface
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMediaMetadata
+import com.composables.icons.lucide.ChevronLeft
+import com.composables.icons.lucide.Lucide
 
 /**
  * A specialized toolbar for media details screens.
@@ -84,7 +84,7 @@ internal fun MediaDetailsToolBar(
             ) {
                 UiIconButton(
                     iconStyle = UiIconStyle(
-                        source = UiIconSource.vector(Icons.AutoMirrored.Filled.KeyboardArrowLeft),
+                        source = UiIconSource.vector(Lucide.ChevronLeft),
                         descriptionRes = R.string.backstack_icon,
                     ),
                     borderStyle = UiBorderStyle(visible = false),

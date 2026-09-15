@@ -1,8 +1,5 @@
 package br.dev.singular.overview.di.domain
 
-import br.dev.singular.overview.data.di.DeleteCatalog
-import br.dev.singular.overview.data.di.DeleteMedias
-import br.dev.singular.overview.data.di.DeleteSuggestions
 import br.dev.singular.overview.data.repository.DataStoreRepository
 import br.dev.singular.overview.data.repository.PersonDetailsRepository
 import br.dev.singular.overview.data.repository.SuggestionRepository
@@ -10,40 +7,43 @@ import br.dev.singular.overview.data.repository.catalog.CatalogQueryLocalReposit
 import br.dev.singular.overview.data.repository.catalog.CatalogRepository
 import br.dev.singular.overview.data.repository.genre.GenreLocalRepository
 import br.dev.singular.overview.data.repository.genre.GenreRemoteRepository
-import br.dev.singular.overview.data.repository.media.MediaLocalRepository
+import br.dev.singular.overview.data.repository.media.MediaFavoriteRepository
 import br.dev.singular.overview.data.repository.media.MediaRemoteRepository
 import br.dev.singular.overview.data.repository.media.MovieDetailsRemoteRepository
 import br.dev.singular.overview.data.repository.media.TvShowDetailsRemoteRepository
+import br.dev.singular.overview.data.repository.user.UserRepository
 import br.dev.singular.overview.di.data.CatalogTooltip
 import br.dev.singular.overview.domain.usecase.CatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.CatalogTooltipDismissedUseCase
 import br.dev.singular.overview.domain.usecase.GetPersonDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.ICatalogTooltipDismissedUseCase
-import br.dev.singular.overview.domain.usecase.IDeleteUseCase
 import br.dev.singular.overview.domain.usecase.IGetPersonDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.catalog.DeleteCatalogUseCase
 import br.dev.singular.overview.domain.usecase.catalog.GetAllCatalogUseCase
+import br.dev.singular.overview.domain.usecase.catalog.IDeleteCatalogUseCase
 import br.dev.singular.overview.domain.usecase.catalog.IGetAllCatalogUseCase
 import br.dev.singular.overview.domain.usecase.genre.FetchGenresByTypeUseCase
 import br.dev.singular.overview.domain.usecase.genre.IFetchGenresByTypeUseCase
 import br.dev.singular.overview.domain.usecase.genre.ISaveGenreUseCase
 import br.dev.singular.overview.domain.usecase.genre.SaveGenreUseCase
-import br.dev.singular.overview.domain.usecase.media.DeleteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.DiscoverRemoteMediasUseCase
-import br.dev.singular.overview.domain.usecase.media.GetAllLocalMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.GetMovieDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.media.GetTvShowDetailsByIdUseCase
-import br.dev.singular.overview.domain.usecase.media.IGetAllLocalMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetMovieDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetRemoteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetTvShowDetailsByIdUseCase
-import br.dev.singular.overview.domain.usecase.media.IMediaPersistenceUseCase
-import br.dev.singular.overview.domain.usecase.media.MediaPersistenceUseCase
+import br.dev.singular.overview.domain.usecase.media.IObserveFavoritesUseCase
+import br.dev.singular.overview.domain.usecase.media.IToggleFavoriteUseCase
+import br.dev.singular.overview.domain.usecase.media.ObserveFavoritesUseCase
 import br.dev.singular.overview.domain.usecase.media.SearchRemoteMediasUseCase
+import br.dev.singular.overview.domain.usecase.media.ToggleFavoriteUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.suggestion.IDeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.user.IUserSessionUseCase
+import br.dev.singular.overview.domain.usecase.user.UserSessionUseCase
 import br.dev.singular.overview.presentation.di.domain.DiscoverMediaUseCase
 import br.dev.singular.overview.presentation.di.domain.SearchMediaUseCase
 import dagger.Module
@@ -58,10 +58,9 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    @DeleteSuggestions
     fun provideDeleteSuggestionsUseCase(
         repo: SuggestionRepository
-    ): IDeleteUseCase {
+    ): IDeleteSuggestionsUseCase {
         return DeleteSuggestionsUseCase(getter = repo, deleter = repo)
     }
 
@@ -75,14 +74,6 @@ class UseCaseModule {
             getterSuggestion = suggestionRepo,
             getterMedia = mediaRepo
         )
-    }
-
-    @Singleton
-    @Provides
-    fun provideGetAllLocalMediasUseCase(
-        repo: MediaLocalRepository
-    ): IGetAllLocalMediasUseCase {
-        return GetAllLocalMediasUseCase(getter = repo)
     }
 
     @Singleton
@@ -101,15 +92,6 @@ class UseCaseModule {
         repo: MediaRemoteRepository
     ): IGetRemoteMediasUseCase {
         return SearchRemoteMediasUseCase(getter = repo)
-    }
-
-    @Singleton
-    @Provides
-    @DeleteMedias
-    fun provideDeleteMediasUseCase(
-        repo: MediaLocalRepository
-    ): IDeleteUseCase {
-        return DeleteMediasUseCase(getter = repo, deleter = repo)
     }
 
     @Singleton
@@ -163,10 +145,9 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    @DeleteCatalog
     fun provideDeleteCatalogUseCase(
         repo: CatalogRepository
-    ): IDeleteUseCase {
+    ): IDeleteCatalogUseCase {
         return DeleteCatalogUseCase(getter = repo, deleter = repo)
     }
 
@@ -180,17 +161,34 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideMediaPersistenceUseCase(
-        repo: MediaLocalRepository
-    ): IMediaPersistenceUseCase {
-        return MediaPersistenceUseCase(getter = repo, updater = repo)
-    }
-
-    @Singleton
-    @Provides
     fun provideCatalogQueryUseCase(
         repo: CatalogQueryLocalRepository
     ): ICatalogQueryStateUseCase {
         return CatalogQueryStateUseCase(getter = repo, updater = repo, observer = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserSessionUseCase(
+        repo: UserRepository
+    ): IUserSessionUseCase {
+        return UserSessionUseCase(observer = repo, authenticator = repo, executor = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideToggleFavoriteUseCase(
+        userRepo: UserRepository,
+        favoriteRepo: MediaFavoriteRepository
+    ): IToggleFavoriteUseCase {
+        return ToggleFavoriteUseCase(session = userRepo, updater = favoriteRepo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideObserveFavoritesUseCase(
+        repo: MediaFavoriteRepository
+    ): IObserveFavoritesUseCase {
+        return ObserveFavoritesUseCase(observer = repo)
     }
 }

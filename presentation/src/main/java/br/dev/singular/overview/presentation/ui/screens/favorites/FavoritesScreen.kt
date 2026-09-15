@@ -20,23 +20,26 @@ import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.QueryUiState
 import br.dev.singular.overview.presentation.model.ScrollUiState
+import br.dev.singular.overview.presentation.model.UserUiModel
 import br.dev.singular.overview.presentation.ui.components.UiDivider
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.user.UiUserAvatar
 import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiPagedMediaGrid
 import br.dev.singular.overview.presentation.ui.screens.favorites.interaction.FavoritesActions
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import br.dev.singular.overview.presentation.ui.utils.fakeQueryState
+import br.dev.singular.overview.presentation.ui.utils.fakeUser
 import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
 import br.dev.singular.overview.presentation.ui.utils.rememberLazyGridScrollState
 
 /**
  * A composable that displays the user's favorite media.
- *
+ * @param user The signed-in user displayed in the toolbar.
  * @param queryState The state of the query (filters).
  * @param scrollState The state of the scroll position.
  * @param uiPages The paginated list of favorite media items.
@@ -45,6 +48,7 @@ import br.dev.singular.overview.presentation.ui.utils.rememberLazyGridScrollStat
  */
 @Composable
 fun FavoritesScreen(
+    user: UserUiModel,
     queryState: QueryUiState,
     scrollState: ScrollUiState,
     uiPages: LazyPagingItems<MediaUiModel>,
@@ -57,6 +61,7 @@ fun FavoritesScreen(
     FavoritesContent(
         actions = actions,
         queryState = queryState,
+        user = user,
     ) {
         UiPagedMediaGrid(
             tagPath = actions.tagPath,
@@ -74,6 +79,7 @@ fun FavoritesScreen(
 private fun FavoritesContent(
     actions: FavoritesActions,
     queryState: QueryUiState,
+    user: UserUiModel,
     content: @Composable () -> Unit
 ) {
     val isPreview = LocalInspectionMode.current
@@ -85,7 +91,9 @@ private fun FavoritesContent(
 
     UiScaffold(
         modifier = Modifier.nestedScroll(nestedScrollConnection),
-        topBar = { UiTopAppBar(title = stringResource(id = R.string.favorites)) }
+        topBar = {
+            FavoritesTopAppBar(user = user, onToProfile = actions::onToProfile)
+        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -110,6 +118,23 @@ private fun FavoritesContent(
 }
 
 @Composable
+private fun FavoritesTopAppBar(
+    user: UserUiModel,
+    onToProfile: () -> Unit
+) {
+    UiTopAppBar(
+        title = stringResource(id = R.string.favorites),
+        trailingContent = {
+            UiUserAvatar(
+                url = user.photoURL,
+                previewDrawableRes = user.previewDrawableRes,
+                onClick = onToProfile
+            )
+        }
+    )
+}
+
+@Composable
 private fun EmptyFavoritesScreen(tagPath: String, type: MediaUiType) {
     StateScreen(
         title = stringResource(
@@ -131,12 +156,26 @@ internal fun FavoritesScreenPreview() {
     val queryState = remember { mutableStateOf(fakeQueryState()) }
 
     FavoritesContent(
+        user = fakeUser(),
         queryState = queryState.value,
         actions = FavoritesActions(
             onSetType = {
                 queryState.value = queryState.value.copy(type = it)
             }
         )
+    ) {
+        UiMediaGrid(items = fakeMedias(90))
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun FavoritesScreenSignedInPreview() {
+
+    FavoritesContent(
+        queryState = fakeQueryState(),
+        actions = FavoritesActions(),
+        user = fakeUser()
     ) {
         UiMediaGrid(items = fakeMedias(90))
     }

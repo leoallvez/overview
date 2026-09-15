@@ -39,7 +39,7 @@ fun UiPagedMediaGrid(
     onClickItem: (MediaUiModel) -> Unit
 ) {
     when (items.loadState.refresh) {
-        is LoadState.Loading -> MediaGridSkeletonScreen(tagPath)
+        is LoadState.Loading -> MediaGridSkeletonScreen(tagPath = tagPath)
         is LoadState.Error -> errorScreen()
         is LoadState.NotLoading -> {
             if (items.itemCount > 0) {

@@ -10,4 +10,8 @@ sealed class MovieDetailsIntent {
     data class Like(val media: MediaDetailsUiModel.Movie) : MovieDetailsIntent()
 
     data class SelectCatalog(val catalog: CatalogUiModel) : MovieDetailsIntent()
+
+    data object DismissLoginAlert : MovieDetailsIntent()
+
+    data object DismissFavoriteAdded : MovieDetailsIntent()
 }

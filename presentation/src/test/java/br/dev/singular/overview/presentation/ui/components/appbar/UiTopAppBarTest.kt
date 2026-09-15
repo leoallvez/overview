@@ -7,6 +7,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBarBackPosition
+import br.dev.singular.overview.presentation.ui.components.text.UiText
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Rule
@@ -31,11 +33,38 @@ class UiTopAppBarTest {
     }
 
     @Test
-    fun `UiTopAppBar with back button should display title and respond to click`() {
+    fun `UiTopAppBar with leading back button should display title and respond to click`() {
+        assertBackBehavior(position = UiTopAppBarBackPosition.LEADING)
+    }
+
+    @Test
+    fun `UiTopAppBar with trailing back button should display title and respond to click`() {
+        assertBackBehavior(position = UiTopAppBarBackPosition.TRAILING)
+    }
+
+    @Test
+    fun `UiTopAppBar with trailing content should display title and content`() {
+        val title = "Toolbar Title"
+        rule.setContent {
+            UiTopAppBar(
+                title = title,
+                trailingContent = { UiText(text = "Trailing") }
+            )
+        }
+        rule.onNodeWithText(title).assertIsDisplayed()
+        rule.onNodeWithText("Trailing").assertIsDisplayed()
+    }
+
+    private fun assertBackBehavior(
+        position: UiTopAppBarBackPosition
+    ) {
         val title = "Back Title"
         val onBack: () -> Unit = mockk(relaxed = true)
         rule.setContent {
-            UiTopAppBar(title = title, onBack = onBack)
+            UiTopAppBar(
+                title = title, onBack = onBack,
+                backPosition = position
+            )
         }
         rule.onNodeWithText(title).assertIsDisplayed()
         rule.onNode(hasClickAction()).performClick()

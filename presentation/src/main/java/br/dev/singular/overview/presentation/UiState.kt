@@ -10,3 +10,19 @@ sealed class UiState<T> {
     data class Success<T>(val data: T) : UiState<T>()
     class Error<T> : UiState<T>()
 }
+
+/**
+
+ * Represents the current state of the UI, which can be [Loading], [Success],
+ * or [Error].
+ */
+sealed interface ActionState {
+
+    data object Idle : ActionState
+
+    data object Loading : ActionState
+
+    data object Success : ActionState
+
+    data object Error : ActionState
+}

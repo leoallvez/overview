@@ -1,6 +1,7 @@
 package br.dev.singular.overview.presentation.ui.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.HtmlReportWriter
 import app.cash.paparazzi.Paparazzi
@@ -34,6 +35,28 @@ abstract class UiSnapshotTest(snapshotPackage: String) {
                 sut()
             }
         }
+    }
+
+    fun gif(
+        name: String? = null,
+        deviceConfig: DeviceConfig = DeviceConfig.PIXEL_5,
+        duration: Long = 4000L,
+        sut: @Composable () -> Unit
+    ) {
+        paparazzi.unsafeUpdateConfig(
+            deviceConfig = deviceConfig
+        )
+        paparazzi.gif(
+            view = ComposeView(paparazzi.context).apply {
+                setContent {
+                    sut()
+                }
+            },
+            name = name,
+            start = 0L,
+            end = duration,
+            fps = 30
+        )
     }
 
     private fun determineHandler(
@@ -74,6 +97,20 @@ abstract class UiScreenSnapshotTest(
         screenConfigs.forEach { (configName, config) ->
             snapshot(
                 name = configName,
+                deviceConfig = config,
+                sut = sut
+            )
+        }
+    }
+
+    fun gif(
+        duration: Long = 4000L,
+        sut: @Composable () -> Unit
+    ) {
+        screenConfigs.forEach { (configName, config) ->
+            gif(
+                name = configName,
+                duration = duration,
                 deviceConfig = config,
                 sut = sut
             )

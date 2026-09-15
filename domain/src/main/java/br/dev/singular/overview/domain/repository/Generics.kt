@@ -36,6 +36,10 @@ interface Observe<T> {
     fun observe(): Flow<T>
 }
 
+interface Execute {
+    suspend fun execute()
+}
+
 data class Page<T>(
     val items: List<T> = emptyList(),
     val currentPage: Int = 0,

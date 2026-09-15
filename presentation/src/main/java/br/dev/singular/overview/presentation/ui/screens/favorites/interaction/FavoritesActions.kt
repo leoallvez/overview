@@ -3,7 +3,9 @@ package br.dev.singular.overview.presentation.ui.screens.favorites.interaction
 import androidx.compose.runtime.Immutable
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
+import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
+import br.dev.singular.overview.presentation.ui.navigation.Destination
 import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
 
 @Immutable
@@ -21,5 +23,10 @@ data class FavoritesActions(
     fun onToMediaDetails(media: MediaUiModel) {
         TagMediaManager.logMediaClick(tagPath, media.id)
         navigation?.toMediaDetails(media)
+    }
+
+    fun onToProfile() {
+        TagManager.logClick(customPath = tagPath, detail = "profile")
+        navigation?.navigate(Destination.Profile.route)
     }
 }

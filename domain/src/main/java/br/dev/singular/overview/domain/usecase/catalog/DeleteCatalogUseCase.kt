@@ -8,11 +8,13 @@ import br.dev.singular.overview.domain.usecase.adjustDate
 import br.dev.singular.overview.domain.usecase.runSafely
 import java.util.Date
 
+interface IDeleteCatalogUseCase : IDeleteUseCase
+
 class DeleteCatalogUseCase(
     private val getter: GetAll<Catalog>,
     private val deleter: Delete<Catalog>,
     private val maxCacheDate: Date = Date().adjustDate(days = -1)
-) : IDeleteUseCase {
+) : IDeleteCatalogUseCase {
 
     override suspend fun invoke() = runSafely {
         val toDelete = getter.getAll()

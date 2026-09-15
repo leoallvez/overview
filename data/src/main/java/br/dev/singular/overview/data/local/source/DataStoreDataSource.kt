@@ -17,6 +17,12 @@ class DataStoreDataSource @Inject constructor(
         }
     }
 
+    suspend fun <T> removeValue(key: Preferences.Key<T>) {
+        _dataStore.edit { preferences ->
+            preferences.remove(key)
+        }
+    }
+
     fun <T> getValue(key: Preferences.Key<T>): Flow<T?> {
         return _dataStore.data.map { preferences ->
             preferences[key]

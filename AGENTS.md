@@ -59,6 +59,7 @@ To keep the codebase clean and maintainable, follow these standards:
 - **Formatting:** Follow the standard Kotlin style guide.
 - **Immutability:** Favor `val` over `var` and use immutable data classes for UI state.
 - **State:** Always use `StateFlow` to expose state from ViewModels.
+- **Comments:** Do not add comments to the code. The only exceptions are the KDoc blocks required by the skills and the `// arrange`, `// act`, `// assert` markers in tests.
 
 ## App module
 
@@ -97,7 +98,7 @@ This module contains the UI layer built entirely with **Jetpack Compose** (Mater
 - **Components:** Reusable UI atoms and molecules.
 - **Tagging:** Manages analytics tracking.
 
-> For implementation details, refer to the [`screen-builder`](.agents/skills/screen-builder/SKILL.md), [`viewmodel-builder`](.agents/skills/viewmodel-builder/SKILL.md), [`component-builder`](.agents/skills/component-builder/SKILL.md) and [`analytics-tagger`](.agents/skills/analytics-tagger/SKILL.md) skills.
+> For implementation details, refer to the [`screen-builder`](.agents/skills/screen-builder/SKILL.md), [`viewmodel-builder`](.agents/skills/viewmodel-builder/SKILL.md), [`component-builder`](.agents/skills/component-builder/SKILL.md), [`analytics-tagger`](.agents/skills/analytics-tagger/SKILL.md) and [`snackbar-notifier`](.agents/skills/snackbar-notifier/SKILL.md) skills.
 
 ## Skills & Reference Guides
 
@@ -112,6 +113,7 @@ For detailed examples, patterns, and testing strategies, always refer to the cor
 - **Data Mapping:** [`mapper-builder`](.agents/skills/mapper-builder/SKILL.md)
 - **Background Tasks:** [`worker-builder`](.agents/skills/worker-builder/SKILL.md)
 - **Analytics:** [`analytics-tagger`](.agents/skills/analytics-tagger/SKILL.md)
+- **Snackbar Feedback:** [`snackbar-notifier`](.agents/skills/snackbar-notifier/SKILL.md)
 - **Git Standards:** [`git-standardizer`](.agents/skills/git-standardizer/SKILL.md)
 
 ## Examples of Success
