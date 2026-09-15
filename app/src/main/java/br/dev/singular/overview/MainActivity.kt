@@ -25,6 +25,8 @@ import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
 import br.dev.singular.overview.presentation.ui.components.navigation.bottom.UiBottomNavigation
 import br.dev.singular.overview.presentation.ui.components.navigation.bottom.rememberUiBottomNavigationState
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
+import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarHost
+import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarHostState
 import br.dev.singular.overview.presentation.ui.theme.AppTheme
 import br.dev.singular.overview.presentation.ui.theme.Background
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +38,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var adsManager: RemoteConfig<Boolean>
     private val showAds: Boolean by lazy { adsManager.execute() }
+
+    @Inject
+    lateinit var snackbarHostState: UiSnackbarHostState
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -60,6 +65,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     containerColor = Background,
                     contentWindowInsets = WindowInsets(0),
+                    snackbarHost = {
+                        UiSnackbarHost(hostState = snackbarHostState)
+                    },
                     bottomBar = {
                         UiBottomNavigation(
                             state = rememberUiBottomNavigationState(
@@ -80,6 +88,7 @@ class MainActivity : ComponentActivity() {
                     UiShimmerProvider {
                         AppNavHost(
                             navController = navController,
+                            snackbarHostState = snackbarHostState,
                             modifier = Modifier.padding(innerPadding),
                             setEdgeToEdge = setEdgeToEdge,
                             showAds = showAds

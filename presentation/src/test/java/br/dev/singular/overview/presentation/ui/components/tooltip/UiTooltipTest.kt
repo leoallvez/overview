@@ -7,7 +7,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.ui.components.UiInfoTooltip
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Rule
@@ -18,19 +17,19 @@ import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [30])
-class UiInfoTooltipTest {
+class UiTooltipTest {
 
     @get:Rule
     val rule = createComposeRule()
 
     @Test
-    fun `UiInfoTooltip should be visible and call onClose when close button clicked`() {
+    fun `UiTooltip should be visible and call onClose when close button clicked`() {
         val onClose: () -> Unit = mockk(relaxed = true)
         val message = "Info message"
         val closeDescription = RuntimeEnvironment.getApplication().getString(R.string.close)
 
         rule.setContent {
-            UiInfoTooltip(message = message, visible = true, onClose = onClose)
+            UiTooltip(message = message, visible = true, onClose = onClose)
         }
 
         rule.onNodeWithText(message).assertIsDisplayed()
@@ -39,10 +38,10 @@ class UiInfoTooltipTest {
     }
 
     @Test
-    fun `UiInfoTooltip should not be visible when visible is false`() {
+    fun `UiTooltip should not be visible when visible is false`() {
         val message = "Hidden message"
         rule.setContent {
-            UiInfoTooltip(message = message, visible = false)
+            UiTooltip(message = message, visible = false)
         }
         rule.onNodeWithText(message).assertDoesNotExist()
     }

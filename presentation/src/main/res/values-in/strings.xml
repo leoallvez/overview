@@ -86,4 +86,17 @@
     <string name="videos">Video</string>
     <string name="catalogs">Katalog</string>
     <string name="catalog_only_message">Aplikasi ini ditujukan secara eksklusif untuk melihat katalog. Pemutaran konten harus dilakukan di platform resmi.</string>
+    <string name="login">Login</string>
+    <string name="login_info_message">Masuk untuk menyimpan film dan acara TV favorit Anda, menyinkronkan daftar Anda di perangkat apa pun, dan tidak pernah melewatkan apa yang ingin Anda tonton.</string>
+    <string name="sign_in_with_google">Login dengan Google</string>
+    <string name="login_error_title">Kesalahan login</string>
+    <string name="login_error_message">Terjadi kesalahan saat login. Silakan coba lagi.</string>
+    <string name="profile">Profil</string>
+    <string name="sign_out">Keluar</string>
+    <string name="sign_out_confirm_title">Keluar dari akun?</string>
+    <string name="sign_out_confirm_message">Anda perlu masuk lagi untuk melihat favorit Anda.</string>
+    <string name="cancel">Batal</string>
+    <string name="login_required_title">Perlu masuk</string>
+    <string name="login_required_message">Masuk untuk menyimpan judul ini ke favorit Anda.</string>
+    <string name="favorite_added_title">Ditambahkan ke favorit</string>
 </resources>

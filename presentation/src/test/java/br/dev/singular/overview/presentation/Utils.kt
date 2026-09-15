@@ -11,11 +11,13 @@ import br.dev.singular.overview.domain.model.MovieDetails
 import br.dev.singular.overview.domain.model.PersonDetails
 import br.dev.singular.overview.domain.model.QueryState
 import br.dev.singular.overview.domain.model.TvShowDetails
+import br.dev.singular.overview.domain.model.User
 import br.dev.singular.overview.domain.model.Video
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.QueryUiState
+import br.dev.singular.overview.presentation.model.UserUiModel
 import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
 import java.util.Date
 import java.util.UUID
@@ -127,9 +129,24 @@ fun createQueryStateMock() = QueryState(
     page = 2
 )
 
+fun createUserMock() = User(
+    id = "uid",
+    name = "Celeste Beaumont",
+    email = "celeste@example.com",
+    photoUrl = "https://example.com/photo.jpg"
+)
+
+fun createUserUiModelMock() = UserUiModel(
+    id = "uid",
+    name = "Celeste Beaumont",
+    email = "celeste@example.com",
+    photoURL = "https://example.com/photo.jpg"
+)
+
 class NavigationWrapperMock : INavigationWrapper {
 
     var wasNavigateCalled = false
+    var wasPopBackStackCalled = false
 
     override var activeRoute: String? = null
 
@@ -147,7 +164,9 @@ class NavigationWrapperMock : INavigationWrapper {
     }
 
     override fun toHome() {}
-    override fun popBackStack() {}
+    override fun popBackStack() {
+        wasPopBackStackCalled = true
+    }
     override fun toMediaDetails(media: MediaUiModel) {}
 
     @Composable

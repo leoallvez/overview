@@ -14,6 +14,7 @@ import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.PersonDetailsUiModel
 import br.dev.singular.overview.presentation.model.PersonUiModel
 import br.dev.singular.overview.presentation.model.QueryUiState
+import br.dev.singular.overview.presentation.model.UserUiModel
 import br.dev.singular.overview.presentation.model.VideoUiModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -266,4 +267,12 @@ internal fun fakeVideo(name: String = "Sample Video") = VideoUiModel(
     key = "key",
     thumbnailURL = "",
     previewDrawableRes = R.drawable.sample_thumbnail
+)
+
+internal fun fakeUser() = UserUiModel(
+    id = "uid",
+    name = "Celeste Beaumont",
+    email = "celeste@example.com",
+    photoURL = "https://imagens.com/user.jpg",
+    previewDrawableRes = R.drawable.sample_profile
 )

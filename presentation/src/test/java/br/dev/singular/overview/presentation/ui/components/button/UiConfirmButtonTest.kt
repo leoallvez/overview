@@ -21,27 +21,27 @@ class UiConfirmButtonTest {
     @Test
     fun `UiConfirmButton should call onClick when clicked and enabled`() {
         val onClick: () -> Unit = mockk(relaxed = true)
-        
+
         rule.setContent {
             UiConfirmButton(enabled = true, onClick = onClick)
         }
-        
+
         // "Confirm" is the value of R.string.confirm in values/strings.xml
         rule.onNodeWithText("Confirm").performClick()
-        
+
         verify { onClick() }
     }
 
     @Test
     fun `UiConfirmButton should NOT call onClick when clicked and disabled`() {
         val onClick: () -> Unit = mockk(relaxed = true)
-        
+
         rule.setContent {
             UiConfirmButton(enabled = false, onClick = onClick)
         }
-        
+
         rule.onNodeWithText("Confirm").performClick()
-        
+
         verify(exactly = 0) { onClick() }
     }
 }

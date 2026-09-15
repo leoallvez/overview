@@ -11,6 +11,7 @@ sealed class UseCaseState<out T> {
 sealed class FailType {
     object Invalid : FailType()
     object NothingFound : FailType()
+    object Unauthorized : FailType()
     data class Exception(val throwable: Throwable) : FailType()
 }
 

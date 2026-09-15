@@ -45,6 +45,9 @@ interface MediaDao {
         insert(model)
     }
 
+    @Query("UPDATE media SET is_liked = 0 WHERE is_liked = 1")
+    suspend fun clearLiked()
+
     @Delete
     suspend fun delete(vararg models: MediaDataModel)
 }

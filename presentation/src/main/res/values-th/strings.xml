@@ -86,4 +86,17 @@
     <string name="videos">วิดีโอ</string>
     <string name="catalogs">แคตตาล็อก</string>
     <string name="catalog_only_message">แอปนี้มีวัตถุประสงค์เพื่อการปรึกษาแคตตาล็อกเท่านั้น ต้องทำการเล่นเนื้อหาบนแพลตฟอร์มที่เป็นทางการ</string>
+    <string name="login">เข้าสู่ระบบ</string>
+    <string name="login_info_message">ลงชื่อเข้าใช้เพื่อบันทึกภาพยนตร์และรายการทีวีที่คุณชื่นชอบ ซิงค์รายการของคุณในทุกอุปกรณ์ และไม่พลาดสิ่งที่คุณต้องการรับชม</string>
+    <string name="sign_in_with_google">ลงชื่อเข้าใช้ด้วย Google</string>
+    <string name="login_error_title">ข้อผิดพลาดในการเข้าสู่ระบบ</string>
+    <string name="login_error_message">เกิดข้อผิดพลาดระหว่างการเข้าสู่ระบบ โปรดลองอีกครั้ง</string>
+    <string name="profile">โปรไฟล์</string>
+    <string name="sign_out">ออกจากระบบ</string>
+    <string name="sign_out_confirm_title">ออกจากระบบใช่ไหม</string>
+    <string name="sign_out_confirm_message">คุณจะต้องเข้าสู่ระบบอีกครั้งเพื่อดูรายการโปรด</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="login_required_title">ต้องเข้าสู่ระบบ</string>
+    <string name="login_required_message">เข้าสู่ระบบเพื่อบันทึกเรื่องนี้ไว้ในรายการโปรดของคุณ</string>
+    <string name="favorite_added_title">เพิ่มในรายการโปรดแล้ว</string>
 </resources>

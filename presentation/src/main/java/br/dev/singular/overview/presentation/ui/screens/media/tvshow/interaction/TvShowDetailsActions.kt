@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
+import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarVisuals
 import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
 import br.dev.singular.overview.presentation.ui.screens.media.interaction.MediaDetailsActions
 
@@ -12,7 +13,8 @@ import br.dev.singular.overview.presentation.ui.screens.media.interaction.MediaD
 class TvShowDetailsActions(
     navigation: INavigationWrapper?,
     val handleIntent: (TvShowDetailsIntent) -> Unit,
-) : MediaDetailsActions(tagPath = "/tv-show-details", navigation) {
+    onShowSnackbar: (UiSnackbarVisuals) -> Unit = {},
+) : MediaDetailsActions(tagPath = "/tv-show-details", navigation, onShowSnackbar) {
 
     fun onLoad(id: Long) =
         handleIntent(TvShowDetailsIntent.Load(id))
@@ -20,7 +22,22 @@ class TvShowDetailsActions(
     fun onLike(tvShow: MediaDetailsUiModel.TvShow) =
         handleIntent(TvShowDetailsIntent.Like(tvShow))
 
-    fun onSelectCatalog(catalog: CatalogUiModel) {
+    override fun onFavoriteAdded(visuals: UiSnackbarVisuals) {
+        onShowFavoriteAdded(visuals)
+        handleIntent(TvShowDetailsIntent.DismissFavoriteAdded)
+    }
+
+    fun onLoginConfirm() {
+        handleIntent(TvShowDetailsIntent.DismissLoginAlert)
+        onToLogin()
+    }
+
+    fun onLoginDismiss() {
+        onLoginCancel()
+        handleIntent(TvShowDetailsIntent.DismissLoginAlert)
+    }
+
+    override fun onSelectCatalog(catalog: CatalogUiModel) {
         handleIntent(TvShowDetailsIntent.SelectCatalog(catalog))
         onToCatalogDetails(catalog.id)
     }
@@ -30,6 +47,7 @@ class TvShowDetailsActions(
 fun rememberTvShowDetailsActions(
     navigation: INavigationWrapper? = null,
     handleIntent: (TvShowDetailsIntent) -> Unit = {},
-) = remember(handleIntent, navigation) {
-    TvShowDetailsActions(navigation, handleIntent)
+    onShowSnackbar: (UiSnackbarVisuals) -> Unit = {},
+) = remember(handleIntent, navigation, onShowSnackbar) {
+    TvShowDetailsActions(navigation, handleIntent, onShowSnackbar)
 }

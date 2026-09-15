@@ -9,6 +9,7 @@ import br.dev.singular.overview.data.model.MovieDetailsDataModel
 import br.dev.singular.overview.data.model.PersonDetailsDataModel
 import br.dev.singular.overview.data.model.SuggestionDataModel
 import br.dev.singular.overview.data.model.TvShowDetailsDataModel
+import br.dev.singular.overview.data.model.UserDataModel
 import br.dev.singular.overview.data.model.VideoDataModel
 
 val fakeSuggestionModels = listOf(
@@ -104,3 +105,10 @@ fun createFakeVideoDataModelList(count: Int): List<VideoDataModel> {
     }
     return list
 }
+
+val fakeUserDataModel = UserDataModel(
+    id = "uid",
+    name = "Celeste Beaumont",
+    email = "celeste@example.com",
+    photoUrl = "https://example.com/photo.jpg"
+)

@@ -5,6 +5,7 @@ import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.util.fakeMediaDataModel
 import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
+import br.dev.singular.overview.domain.model.MediaKey
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.QueryState
 import io.mockk.MockKAnnotations
@@ -73,15 +74,15 @@ class MediaLocalRepositoryTest {
     }
 
     @Test
-    fun `getById should return media from data source`() = runTest {
+    fun `getByParam should return media from data source by id and type`() = runTest {
         // Arrange
-        coEvery { dataSource.getById(any()) } returns fakeMediaDataModel
+        coEvery { dataSource.getById(any(), any()) } returns fakeMediaDataModel
 
         // Act
-        val result = sut.getById(1)
+        val result = sut.getByParam(MediaKey(1, MediaType.TV))
 
         // Assert
-        coVerify(exactly = 1) { dataSource.getById(1L) }
+        coVerify(exactly = 1) { dataSource.getById(1L, MediaDataType.TV) }
         assertEquals(fakeMediaDataModel.toDomain(), result)
     }
 

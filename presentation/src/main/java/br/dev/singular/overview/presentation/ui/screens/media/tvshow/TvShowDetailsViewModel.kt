@@ -2,6 +2,9 @@ package br.dev.singular.overview.presentation.ui.screens.media.tvshow
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.dev.singular.overview.domain.model.MediaType
+import br.dev.singular.overview.domain.usecase.FailType
+import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.media.IGetTvShowDetailsByIdUseCase
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
@@ -29,11 +32,19 @@ class TvShowDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState<MediaDetailsUiModel.TvShow?>>(UiState.Loading())
     val uiState: StateFlow<UiState<MediaDetailsUiModel.TvShow?>> = _uiState.asStateFlow()
 
+    private val _loginRequired = MutableStateFlow(false)
+    val loginRequired: StateFlow<Boolean> = _loginRequired.asStateFlow()
+
+    private val _favoriteAdded = MutableStateFlow(false)
+    val favoriteAdded: StateFlow<Boolean> = _favoriteAdded.asStateFlow()
+
     fun handleIntent(intent: TvShowDetailsIntent) {
         viewModelScope.launch(dispatcher) {
             when (intent) {
                 is TvShowDetailsIntent.Load -> onLoad(intent.id)
                 is TvShowDetailsIntent.Like -> onLike(intent.media)
+                is TvShowDetailsIntent.DismissLoginAlert -> _loginRequired.update { false }
+                is TvShowDetailsIntent.DismissFavoriteAdded -> _favoriteAdded.update { false }
                 is TvShowDetailsIntent.SelectCatalog -> {
                     delegate.selectCatalog(intent.catalog)
                 }
@@ -43,23 +54,23 @@ class TvShowDetailsViewModel @Inject constructor(
 
     private suspend fun onLoad(id: Long) {
         _uiState.update { UiState.Loading() }
-        val isLiked = delegate.getIsLiked(id)
+        val isLiked = delegate.getIsLiked(id, MediaType.TV)
         val result = useCase(id).toUiStateNullable { it.toUi(isLiked) }
         _uiState.update { result }
     }
 
     private suspend fun onLike(media: MediaDetailsUiModel.TvShow) {
-
-        val previousState = _uiState.value
-
-        try {
-            val isLiked = delegate.toggleLike(media.toMediaDomain())
-            _uiState.update {
-                val updatedMetadata = media.metadata.copy(isLiked = isLiked)
-                UiState.Success(media.copy(metadata = updatedMetadata))
+        when (val result = delegate.toggleLike(media.toMediaDomain())) {
+            is UseCaseState.Success -> {
+                _uiState.update {
+                    val updatedMetadata = media.metadata.copy(isLiked = result.data)
+                    UiState.Success(media.copy(metadata = updatedMetadata))
+                }
+                _favoriteAdded.update { result.data }
             }
-        } catch (_: Exception) {
-            _uiState.update { previousState }
+            is UseCaseState.Failure -> _loginRequired.update {
+                result.type is FailType.Unauthorized
+            }
         }
     }
 }

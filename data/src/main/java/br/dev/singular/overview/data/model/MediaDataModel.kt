@@ -3,16 +3,14 @@ package br.dev.singular.overview.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.util.Date
 
 @Serializable
-@Entity(tableName = "media")
+@Entity(tableName = "media", primaryKeys = ["id", "type"])
 data class MediaDataModel(
-    @PrimaryKey
     var id: Long = 0,
     val name: String = "",
     val title: String = "",

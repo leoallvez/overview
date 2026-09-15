@@ -16,6 +16,11 @@ class SuggestionRemoteDataSource @Inject constructor(
 
     override suspend fun getAll(): List<SuggestionDataModel> {
         val json = provider.getString(RemoteConfigKey.SUGGESTIONS_KEY)
-        return Json.decodeFromString<List<SuggestionDataModel>>(json)
+        if (json.isBlank()) return emptyList()
+        return try {
+            Json.decodeFromString<List<SuggestionDataModel>>(json)
+        } catch (_: Exception) {
+            emptyList()
+        }
     }
 }

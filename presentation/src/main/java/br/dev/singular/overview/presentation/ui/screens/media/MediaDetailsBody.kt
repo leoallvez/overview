@@ -15,7 +15,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
-import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
 import br.dev.singular.overview.presentation.ui.components.UiAdsMediumRectangle
 import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogList
@@ -39,6 +38,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMovieDetails
  * @param showAds Whether to show ads in the body.
  * @param model The data model containing media details.
  * @param actions The actions and intents for interaction.
+ * @param favoriteAdded Whether to notify the user that the media was added to the favorites.
  * @param modifier The modifier to be applied to the layout.
  * @param header A composable slot for the screen header (usually including the backdrop).
  * @param infoSlot A composable slot for media-specific information (e.g., duration, seasons).
@@ -48,12 +48,18 @@ internal fun MediaDetailsBody(
     showAds: Boolean,
     model: MediaDetailsUiModel,
     actions: MediaDetailsActions,
-    onSelectCatalog: (CatalogUiModel) -> Unit,
+    favoriteAdded: Boolean,
     modifier: Modifier = Modifier,
     header: @Composable () -> Unit,
     infoSlot: @Composable ColumnScope.() -> Unit,
 ) {
     val horizontalPadding = dimensionResource(R.dimen.spacing_4x)
+
+    MediaFavoriteAddedEffect(
+        favoriteAdded = favoriteAdded,
+        mediaTitle = model.metadata.title,
+        onShow = actions::onFavoriteAdded
+    )
 
     LazyColumn(
         modifier = modifier
@@ -69,7 +75,7 @@ internal fun MediaDetailsBody(
             UiCatalogList(
                 catalogs = model.extras.catalogs,
                 isReleased = model.metadata.isReleased,
-                onClick = onSelectCatalog,
+                onClick = actions::onSelectCatalog,
                 contentPadding = PaddingValues(horizontal = horizontalPadding)
             )
         }
@@ -174,7 +180,7 @@ private fun MediaDetailsBodyPreview() {
         showAds = true,
         model = fakeMovieDetails(),
         actions = rememberMovieDetailsActions(),
-        onSelectCatalog = {},
+        favoriteAdded = false,
         header = {
             UiPlaceholder(
                 modifier = Modifier.height(250.dp),

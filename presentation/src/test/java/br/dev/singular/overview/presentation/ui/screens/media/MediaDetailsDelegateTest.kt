@@ -1,10 +1,12 @@
 package br.dev.singular.overview.presentation.ui.screens.media
 
-import br.dev.singular.overview.domain.model.Media
 import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.QueryState
+import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
+import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.media.IMediaPersistenceUseCase
+import br.dev.singular.overview.domain.usecase.media.IToggleFavoriteUseCase
 import br.dev.singular.overview.presentation.createCatalogUiModelMock
 import br.dev.singular.overview.presentation.createMediaMock
 import io.mockk.MockKAnnotations
@@ -25,12 +27,15 @@ class MediaDetailsDelegateTest {
     @MockK
     private lateinit var queryUseCase: ICatalogQueryStateUseCase
 
+    @MockK
+    private lateinit var favoriteUseCase: IToggleFavoriteUseCase
+
     private lateinit var sut: IMediaDetailsDelegate
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        sut = MediaDetailsDelegate(mediaUseCase, queryUseCase)
+        sut = MediaDetailsDelegate(mediaUseCase, queryUseCase, favoriteUseCase)
     }
 
     @Test
@@ -38,60 +43,54 @@ class MediaDetailsDelegateTest {
         // arrange
         val id = 1L
         val media = createMediaMock().copy(id = id, isLiked = true)
-        coEvery { mediaUseCase.getById(id) } returns media
+        coEvery { mediaUseCase.getById(id, MediaType.MOVIE) } returns media
 
         // act
-        val result = sut.getIsLiked(id)
+        val result = sut.getIsLiked(id, MediaType.MOVIE)
 
         // assert
         result shouldBeEqualTo true
-        coVerify(exactly = 1) { mediaUseCase.getById(id) }
+        coVerify(exactly = 1) { mediaUseCase.getById(id, MediaType.MOVIE) }
     }
 
     @Test
     fun `getIsLiked should return false when media is not found`() = runTest {
         // arrange
-        coEvery { mediaUseCase.getById(any()) } returns null
+        coEvery { mediaUseCase.getById(any(), any()) } returns null
 
         // act
-        val result = sut.getIsLiked(1L)
+        val result = sut.getIsLiked(1L, MediaType.MOVIE)
 
         // assert
         result shouldBeEqualTo false
     }
 
     @Test
-    fun `toggleLike should return false and save as false when current is true`() = runTest {
-        // arrange
-        val media = createMediaMock().copy(id = 1L, isLiked = true)
-        val mediaSlot = slot<Media>()
-        coEvery { mediaUseCase.save(capture(mediaSlot)) } returns Unit
-
-        // act
-        val result = sut.toggleLike(media)
-
-        // assert
-        result shouldBeEqualTo false
-        mediaSlot.captured.id shouldBeEqualTo 1L
-        mediaSlot.captured.isLiked shouldBeEqualTo false
-        coVerify(exactly = 1) { mediaUseCase.save(any()) }
-    }
-
-    @Test
-    fun `toggleLike should return true and save as true when current is false`() = runTest {
+    fun `toggleLike should return the new liked status from the use case`() = runTest {
         // arrange
         val media = createMediaMock().copy(id = 1L, isLiked = false)
-        val mediaSlot = slot<Media>()
-        coEvery { mediaUseCase.save(capture(mediaSlot)) } returns Unit
+        coEvery { favoriteUseCase(media) } returns UseCaseState.Success(true)
 
         // act
         val result = sut.toggleLike(media)
 
         // assert
-        result shouldBeEqualTo true
-        mediaSlot.captured.id shouldBeEqualTo 1L
-        mediaSlot.captured.isLiked shouldBeEqualTo true
-        coVerify(exactly = 1) { mediaUseCase.save(any()) }
+        result shouldBeEqualTo UseCaseState.Success(true)
+        coVerify(exactly = 1) { favoriteUseCase(media) }
+    }
+
+    @Test
+    fun `toggleLike should return the failure from the use case`() = runTest {
+        // arrange
+        val media = createMediaMock()
+        val failure = UseCaseState.Failure(FailType.Unauthorized)
+        coEvery { favoriteUseCase(media) } returns failure
+
+        // act
+        val result = sut.toggleLike(media)
+
+        // assert
+        result shouldBeEqualTo failure
     }
 
     @Test

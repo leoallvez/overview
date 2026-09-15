@@ -22,7 +22,7 @@ import br.dev.singular.overview.data.model.SuggestionDataModel
         SuggestionDataModel::class,
         MediaTypeGenreDataModel::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {

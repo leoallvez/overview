@@ -37,3 +37,18 @@ class AppleDetailSnapshotTest : UiSnapshotTest(snapshotPackage = "screens/apple"
 - **Verification:**
     - To **record** new snapshots: Run `./gradlew :presentation:recordPaparazziDebug`.
     - To **verify** changes: Run `./gradlew :presentation:verifyPaparazziDebug`.
+
+## Screens with a snackbar
+
+A static `snapshot` is captured before the snackbar appears, so a screen state that shows a snackbar MUST be tested with `gif` and a preview wrapped in `UiSnackbarPreview`:
+
+```kotlin
+@Test
+fun favoriteAdded() = gif(
+    duration = 2_000L
+) {
+    MovieDetailsScreenFavoriteAddedPreview()
+}
+```
+
+Follow the step by step in the [Snackbar Snapshot Test Guide](../../snackbar-notifier/references/SNAPSHOT-TEST-GUIDE.md).
