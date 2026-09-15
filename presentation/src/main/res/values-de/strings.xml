@@ -86,4 +86,17 @@
     <string name="videos">Videos</string>
     <string name="catalogs">Kataloge</string>
     <string name="catalog_only_message">Diese App dient ausschließlich der Abfrage von Katalogen. Die Wiedergabe von Inhalten muss auf offiziellen Plattformen erfolgen.</string>
+    <string name="login">Login</string>
+    <string name="login_info_message">Melde dich an, um deine Lieblingsfilme und -serien zu speichern, deine Liste auf jedem Gerät zu synchronisieren und nichts zu verpassen.</string>
+    <string name="sign_in_with_google">Über Google anmelden</string>
+    <string name="login_error_title">Anmeldefehler</string>
+    <string name="login_error_message">Bei der Anmeldung ist ein Fehler aufgetreten. Bitte versuche es erneut.</string>
+    <string name="profile">Profil</string>
+    <string name="sign_out">Abmelden</string>
+    <string name="sign_out_confirm_title">Abmelden?</string>
+    <string name="sign_out_confirm_message">Du musst dich erneut anmelden, um deine Favoriten zu sehen.</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="login_required_title">Anmeldung erforderlich</string>
+    <string name="login_required_message">Melde dich an, um diesen Titel in deinen Favoriten zu speichern.</string>
+    <string name="favorite_added_title">Zu Favoriten hinzugefügt</string>
 </resources>

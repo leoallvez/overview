@@ -17,7 +17,7 @@ class UseCaseWorkerTest {
 
     @Test
     fun `doWork should return Success when runWork returns Success`() = runTest {
-        val sut = object : UseCaseWorker(context, params) {
+        val sut = object : UseCaseWorker<Unit>(context, params) {
             override suspend fun runWork() = UseCaseState.Success(Unit)
         }
 
@@ -28,7 +28,7 @@ class UseCaseWorkerTest {
 
     @Test
     fun `doWork should return Failure when runWork returns Failure`() = runTest {
-        val sut = object : UseCaseWorker(context, params) {
+        val sut = object : UseCaseWorker<Unit>(context, params) {
             override suspend fun runWork() = UseCaseState.Failure(FailType.Invalid)
         }
 

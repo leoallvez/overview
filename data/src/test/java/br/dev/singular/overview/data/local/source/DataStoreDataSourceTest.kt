@@ -33,6 +33,20 @@ class DataStoreDataSourceTest {
     }
 
     @Test
+    fun `removeValue should call edit on datastore`() = runTest {
+        // arrange
+        val key = booleanPreferencesKey("test_key")
+        // edit calls updateData under the hood
+        coEvery { dataStore.updateData(any()) } returns mockk()
+
+        // act
+        sut.removeValue(key)
+
+        // assert
+        coVerify { dataStore.updateData(any()) }
+    }
+
+    @Test
     fun `getValue should return flow with value from datastore`() = runTest {
         // arrange
         val key = booleanPreferencesKey("test_key")

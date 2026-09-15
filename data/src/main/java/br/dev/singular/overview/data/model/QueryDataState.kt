@@ -13,8 +13,6 @@ data class QueryDataState(
     val genre: GenreDataModel? = null,
     @SerialName("catalog")
     val catalog: CatalogDataModel? = null,
-    @SerialName("is_liked")
-    val isLiked: Boolean = false,
     @SerialName("query")
     val query: String = "",
     @SerialName("page")

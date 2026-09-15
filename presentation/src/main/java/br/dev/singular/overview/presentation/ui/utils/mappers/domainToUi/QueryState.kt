@@ -6,7 +6,6 @@ import br.dev.singular.overview.presentation.model.QueryUiState
 internal fun QueryState.toUi() = QueryUiState(
     key = key,
     type = type.toUi(),
-    isLiked = isLiked,
     catalog = catalog?.toUi(),
     genre = genre?.toUi(),
     query = query,

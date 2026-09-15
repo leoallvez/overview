@@ -86,4 +86,17 @@
     <string name="videos">비디오</string>
     <string name="catalogs">카탈로그</string>
     <string name="catalog_only_message">이 앱은 카탈로그 조회 전용입니다. 콘텐츠 재생은 공식 플랫폼에서 수행되어야 합니다.</string>
+    <string name="login">로그인</string>
+    <string name="login_info_message">로그인하여 좋아하는 영화와 TV 프로그램을 저장하고, 모든 기기에서 목록을 동기화하여 보고 싶은 콘텐츠를 놓치지 마세요.</string>
+    <string name="sign_in_with_google">Google 계정으로 로그인</string>
+    <string name="login_error_title">로그인 오류</string>
+    <string name="login_error_message">로그인 중 오류가 발생했습니다. 다시 시도해 주세요.</string>
+    <string name="profile">프로필</string>
+    <string name="sign_out">로그아웃</string>
+    <string name="sign_out_confirm_title">로그아웃하시겠습니까?</string>
+    <string name="sign_out_confirm_message">즐겨찾기를 보려면 다시 로그인해야 합니다.</string>
+    <string name="cancel">취소</string>
+    <string name="login_required_title">로그인이 필요합니다</string>
+    <string name="login_required_message">이 작품을 즐겨찾기에 저장하려면 로그인하세요.</string>
+    <string name="favorite_added_title">즐겨찾기에 추가됨</string>
 </resources>

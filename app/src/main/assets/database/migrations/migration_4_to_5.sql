@@ -3,11 +3,6 @@ CREATE TABLE IF NOT EXISTS `genre` (
     `name` TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `media_type` (
-    `type` TEXT NOT NULL,
-    PRIMARY KEY(`type`)
-);
-
 CREATE TABLE IF NOT EXISTS `media_type_genre` (
     `type` TEXT NOT NULL,
     `genre_id` INTEGER NOT NULL,
@@ -20,5 +15,6 @@ CREATE INDEX IF NOT EXISTS `index_media_type_genre_genre_id` ON `media_type_genr
 DROP TABLE IF EXISTS media_type_cross_ref;
 DROP TABLE IF EXISTS media_types;
 DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS media;
 
 ALTER TABLE `streaming` RENAME TO `catalog`;

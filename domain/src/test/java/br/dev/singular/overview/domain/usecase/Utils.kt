@@ -8,6 +8,7 @@ import br.dev.singular.overview.domain.model.MovieDetails
 import br.dev.singular.overview.domain.model.PersonDetails
 import br.dev.singular.overview.domain.model.Suggestion
 import br.dev.singular.overview.domain.model.TvShowDetails
+import br.dev.singular.overview.domain.model.User
 import java.util.Date
 
 fun createCatalogMock(lastUpdate: Date = Date()): Catalog {
@@ -98,5 +99,14 @@ fun createMovieDetailsMock(): MovieDetails {
         videos = listOf(),
         catalogs = listOf(),
         similar = listOf()
+    )
+}
+
+fun createUserMock(): User {
+    return User(
+        id = "uid",
+        name = "Celeste Beaumont",
+        email = "celeste@example.com",
+        photoUrl = "https://example.com/photo.jpg"
     )
 }

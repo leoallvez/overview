@@ -1,11 +1,17 @@
 package br.dev.singular.overview.presentation.ui.screens.media
 
 import br.dev.singular.overview.domain.model.Media
+import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.model.QueryState
 import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
-import br.dev.singular.overview.domain.usecase.media.IMediaPersistenceUseCase
+import br.dev.singular.overview.domain.usecase.UseCaseState
+import br.dev.singular.overview.domain.usecase.media.IObserveFavoritesUseCase
+import br.dev.singular.overview.domain.usecase.media.IToggleFavoriteUseCase
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.ui.utils.mappers.uiToDomain.toDomain
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -14,20 +20,22 @@ import javax.inject.Inject
  */
 interface IMediaDetailsDelegate {
     /**
-     * Checks if a media item is liked by its ID.
+     * Observes whether a media item is liked, following the favorites and the session changes.
      *
      * @param id The ID of the media item.
-     * @return True if the media is liked, false otherwise.
+     * @param type The type of the media item, as movies and TV shows share the same IDs.
+     * @return A flow that emits true while the media is liked, false otherwise.
      */
-    suspend fun getIsLiked(id: Long): Boolean
+    fun observeIsLiked(id: Long, type: MediaType): Flow<Boolean>
 
     /**
      * Toggles the "liked" status of the given [media] and persists the change.
      *
      * @param media The media item to toggle.
-     * @return The new liked status after the change.
+     * @return The new liked status after the change, or a failure when it could not be
+     * changed (e.g. the user is not signed in).
      */
-    suspend fun toggleLike(media: Media): Boolean
+    suspend fun toggleLike(media: Media): UseCaseState<Boolean>
 
     /**
      * Updates the current query state with the selected [catalog].
@@ -38,19 +46,18 @@ interface IMediaDetailsDelegate {
 }
 
 class MediaDetailsDelegate @Inject constructor(
-    private val mediaUseCase: IMediaPersistenceUseCase,
+    private val favoritesUseCase: IObserveFavoritesUseCase,
     private val queryUseCase: ICatalogQueryStateUseCase,
+    private val favoriteUseCase: IToggleFavoriteUseCase,
 ) : IMediaDetailsDelegate {
 
-    override suspend fun getIsLiked(id: Long): Boolean {
-        return mediaUseCase.getById(id)?.isLiked ?: false
+    override fun observeIsLiked(id: Long, type: MediaType): Flow<Boolean> {
+        return favoritesUseCase()
+            .map { favorites -> favorites.any { it.id == id && it.type == type } }
+            .distinctUntilChanged()
     }
 
-    override suspend fun toggleLike(media: Media): Boolean {
-        val newLikedStatus = !media.isLiked
-        mediaUseCase.save(media.copy(isLiked = newLikedStatus))
-        return newLikedStatus
-    }
+    override suspend fun toggleLike(media: Media) = favoriteUseCase(media)
 
     override suspend fun selectCatalog(catalog: CatalogUiModel) {
         val currentQuery = queryUseCase.get() ?: QueryState()

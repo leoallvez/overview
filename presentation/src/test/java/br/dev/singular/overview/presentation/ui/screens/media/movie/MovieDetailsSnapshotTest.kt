@@ -11,6 +11,13 @@ class MovieDetailsSnapshotTest : UiScreenSnapshotTest(snapshotPackage = "screens
     }
 
     @Test
+    fun favoriteAdded() = gif(
+        duration = 2_000L
+    ) {
+        MovieDetailsScreenFavoriteAddedPreview()
+    }
+
+    @Test
     fun loading() = snapshot {
         MovieDetailsScreenLoadingPreview()
     }

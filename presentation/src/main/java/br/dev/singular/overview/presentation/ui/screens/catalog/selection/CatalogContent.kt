@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.CatalogUiModel
@@ -45,7 +46,8 @@ internal fun CatalogContent(
         bottomBar = bottomBar,
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding)
+            modifier = Modifier.padding(padding),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             tooltip()
             UiStateResult(

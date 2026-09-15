@@ -102,6 +102,7 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.livedata)
+    implementation(libs.lifecycle.process)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -121,6 +122,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.logging.interceptor)
     implementation(libs.converter.serialization)
+    implementation(libs.googleid)
 
     // Modules
     implementation(project(":data"))

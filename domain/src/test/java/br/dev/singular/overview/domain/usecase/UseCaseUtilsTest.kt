@@ -5,6 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.Calendar
+import kotlin.coroutines.cancellation.CancellationException
 
 class UseCaseUtilsTest {
 
@@ -26,6 +27,15 @@ class UseCaseUtilsTest {
             exception,
             ((result as UseCaseState.Failure).type as FailType.Exception).throwable
         )
+    }
+
+    @Test
+    fun `runSafely should rethrow when action is cancelled`() = runTest {
+        val exception = CancellationException("Cancelled")
+
+        val result = runCatching { runSafely { throw exception } }
+
+        assertEquals(exception, result.exceptionOrNull())
     }
 
     @Test

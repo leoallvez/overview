@@ -1,19 +1,28 @@
 package br.dev.singular.overview.presentation.ui.screens.media.movie
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
 import br.dev.singular.overview.presentation.ui.screens.media.MediaDetailsBody
 import br.dev.singular.overview.presentation.ui.screens.media.MediaDetailsToolBar
+import br.dev.singular.overview.presentation.ui.screens.media.MediaLoginAlert
 import br.dev.singular.overview.presentation.ui.screens.media.MediaUiStateResult
 import br.dev.singular.overview.presentation.ui.screens.media.components.UiMediaInfoItem
 import br.dev.singular.overview.presentation.ui.screens.media.movie.interaction.MovieDetailsActions
 import br.dev.singular.overview.presentation.ui.screens.media.movie.interaction.rememberMovieDetailsActions
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
+import br.dev.singular.overview.presentation.ui.utils.UiSnackbarPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMovieDetails
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * The entry point for the Movie Details screen.
@@ -22,6 +31,8 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMovieDetails
  * @param movieId The unique identifier of the movie.
  * @param uiState The current state of the UI, providing the [MediaDetailsUiModel.Movie] on success.
  * @param showAds Whether to show ads in this screen.
+ * @param loginRequired Whether to alert the user that liking a media requires signing in.
+ * @param favoriteAdded Whether to notify the user that the media was added to the favorites.
  * @param actions The actions and intents that can be performed on this screen.
  */
 @Composable
@@ -29,6 +40,8 @@ fun MovieDetailsScreen(
     movieId: Long,
     uiState: UiState<MediaDetailsUiModel.Movie?>,
     showAds: Boolean = false,
+    loginRequired: Boolean = false,
+    favoriteAdded: Boolean = false,
     actions: MovieDetailsActions,
 ) {
     MediaUiStateResult(
@@ -41,7 +54,7 @@ fun MovieDetailsScreen(
             showAds = showAds,
             model = movie,
             actions = actions,
-            onSelectCatalog = actions::onSelectCatalog,
+            favoriteAdded = favoriteAdded,
             header = {
                 MediaDetailsToolBar(
                     model = movie.metadata,
@@ -65,6 +78,12 @@ fun MovieDetailsScreen(
             }
         )
     }
+    if (loginRequired) {
+        MediaLoginAlert(
+            onConfirm = actions::onLoginConfirm,
+            onDismiss = actions::onLoginDismiss
+        )
+    }
 }
 
 @UiScreenPreview
@@ -76,6 +95,35 @@ internal fun MovieDetailsScreenPreview() {
         uiState = UiState.Success(data = fakeMovieDetails()),
         actions = rememberMovieDetailsActions()
     )
+}
+
+@UiScreenPreview
+@Composable
+internal fun MovieDetailsScreenFavoriteAddedPreview() {
+    val movie = fakeMovieDetails()
+
+    // Active Interactive mode to see the snackbar
+    var favoriteAdded by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            favoriteAdded = true
+            delay(5_000.milliseconds)
+            favoriteAdded = false
+            delay(1_000.milliseconds)
+        }
+    }
+
+    UiSnackbarPreview { hostState ->
+        MovieDetailsScreen(
+            movieId = 1L,
+            uiState = UiState.Success(
+                data = movie.copy(metadata = movie.metadata.copy(isLiked = true))
+            ),
+            favoriteAdded = favoriteAdded,
+            actions = rememberMovieDetailsActions(onShowSnackbar = hostState::show)
+        )
+    }
 }
 
 @UiScreenPreview

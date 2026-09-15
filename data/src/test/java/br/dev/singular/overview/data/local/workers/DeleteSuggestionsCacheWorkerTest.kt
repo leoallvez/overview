@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import br.dev.singular.overview.domain.usecase.FailType
-import br.dev.singular.overview.domain.usecase.IDeleteUseCase
 import br.dev.singular.overview.domain.usecase.UseCaseState
+import br.dev.singular.overview.domain.usecase.suggestion.IDeleteSuggestionsUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -16,7 +16,7 @@ class DeleteSuggestionsCacheWorkerTest {
 
     private val context: Context = mockk(relaxed = true)
     private val params: WorkerParameters = mockk(relaxed = true)
-    private val useCase: IDeleteUseCase = mockk()
+    private val useCase: IDeleteSuggestionsUseCase = mockk()
 
     @Test
     fun `doWork should return Success when useCase returns Success`() = runTest {

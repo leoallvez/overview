@@ -8,7 +8,6 @@ internal fun QueryState.toData(
 ) = QueryDataState(
     path = path,
     type = type.toData(),
-    isLiked = isLiked,
     query = query,
     catalog = catalog?.toData(),
     genre = genre?.toData(),
@@ -18,7 +17,6 @@ internal fun QueryState.toData(
 internal fun QueryState.toData() = QueryDataState(
     path = key,
     type = type.toData(),
-    isLiked = isLiked,
     catalog = catalog?.toData(),
     genre = genre?.toData(),
     query = query,

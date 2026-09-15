@@ -24,7 +24,6 @@ class QueryStateTest {
         // assert
         assertEquals(domain.key, ui.key)
         assertEquals(MediaUiType.MOVIE, ui.type)
-        assertEquals(domain.isLiked, ui.isLiked)
         assertEquals(domain.query, ui.query)
         assertEquals(domain.page, ui.page)
         assertNotNull(ui.genre)

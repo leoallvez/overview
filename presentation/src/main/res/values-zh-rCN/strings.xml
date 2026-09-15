@@ -86,4 +86,17 @@
     <string name="videos">视频</string>
     <string name="catalogs">目录</string>
     <string name="catalog_only_message">本应用仅用于咨询目录。内容播放必须在官方平台上进行。</string>
+    <string name="login">登录</string>
+    <string name="login_info_message">登录以保存您喜爱的电影和电视剧，在任何设备上同步您的列表，不错过任何想看的内容。</string>
+    <string name="sign_in_with_google">使用 Google 帐号登录</string>
+    <string name="login_error_title">登录错误</string>
+    <string name="login_error_message">登录时出错，请重试。</string>
+    <string name="profile">个人资料</string>
+    <string name="sign_out">退出登录</string>
+    <string name="sign_out_confirm_title">要退出登录吗？</string>
+    <string name="sign_out_confirm_message">您需要重新登录才能查看收藏。</string>
+    <string name="cancel">取消</string>
+    <string name="login_required_title">需要登录</string>
+    <string name="login_required_message">登录后即可将此作品保存到收藏。</string>
+    <string name="favorite_added_title">已添加到收藏</string>
 </resources>

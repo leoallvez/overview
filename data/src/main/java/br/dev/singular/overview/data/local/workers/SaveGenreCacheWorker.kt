@@ -12,7 +12,7 @@ class SaveGenreCacheWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val useCase: ISaveGenreUseCase
-) : UseCaseWorker(context, params) {
+) : UseCaseWorker<Unit>(context, params) {
 
     override suspend fun runWork() = useCase()
 }

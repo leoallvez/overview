@@ -10,8 +10,8 @@ import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.CatalogUiState
-import br.dev.singular.overview.presentation.ui.components.UiInfoTooltip
 import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.tooltip.UiTooltip
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionActions
 import br.dev.singular.overview.presentation.ui.screens.catalog.selection.interaction.CatalogSelectionIntent
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
@@ -38,7 +38,7 @@ fun SelectCatalogScreen(
         onSelected = { actions.onSelect(it, clearGenre = true) },
         toolbar = { UiTopAppBar(title = stringResource(R.string.select_catalog)) },
         tooltip = {
-            UiInfoTooltip(
+            UiTooltip(
                 visible = showTooltip,
                 modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_3x)),
                 message = stringResource(R.string.catalog_only_message),

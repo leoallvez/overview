@@ -41,7 +41,7 @@ class MyFeatureCacheWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val useCase: IMyFeatureUseCase
-) : UseCaseWorker(context, params) {
+) : UseCaseWorker<Unit>(context, params) {
 
     override suspend fun runWork() = useCase()
 }

@@ -8,14 +8,13 @@ import androidx.work.WorkManager
 class WorkManagerFacade(
     private val _context: Context
 ) {
+    private val workManager get() = WorkManager.getInstance(_context)
+
     fun init() {
-        scheduleDeleteMediasCacheTask()
         scheduleDeleteSuggestionsCacheTask()
         scheduleDeleteCatalogCacheTask()
         scheduleSaveGenreCacheTask()
     }
-
-    private fun scheduleDeleteMediasCacheTask() = makeOneTime<DeleteMediasCacheWorker>()
 
     private fun scheduleDeleteSuggestionsCacheTask() = makeOneTime<DeleteSuggestionsCacheWorker>()
 
@@ -25,6 +24,6 @@ class WorkManagerFacade(
 
     private inline fun <reified T : CoroutineWorker> makeOneTime() {
         val workerRequest = OneTimeWorkRequestBuilder<T>().build()
-        WorkManager.getInstance(_context).enqueue(workerRequest)
+        workManager.enqueue(workerRequest)
     }
 }

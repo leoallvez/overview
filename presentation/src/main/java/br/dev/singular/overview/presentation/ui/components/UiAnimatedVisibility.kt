@@ -31,21 +31,22 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 @Composable
 internal fun UiAnimatedVisibility(
     visible: Boolean,
+    slideFromBottom: Boolean = false,
     content: @Composable () -> Unit
 ) {
     AnimatedVisibility(
         visible = visible,
         enter = slideInVertically(
-            initialOffsetY = { -it }
+            initialOffsetY = { if (slideFromBottom) it else -it }
         ) + expandVertically(
-            expandFrom = Alignment.Top
+            expandFrom = if (slideFromBottom) Alignment.Bottom else Alignment.Top
         ) + fadeIn(
             animationSpec = tween(200)
         ),
         exit = slideOutVertically(
-            targetOffsetY = { -it }
+            targetOffsetY = { if (slideFromBottom) it else -it }
         ) + shrinkVertically(
-            shrinkTowards = Alignment.Top
+            shrinkTowards = if (slideFromBottom) Alignment.Bottom else Alignment.Top
         ) + fadeOut(
             targetAlpha = 0.1f,
             animationSpec = tween(200)
