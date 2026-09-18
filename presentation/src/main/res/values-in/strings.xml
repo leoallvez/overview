@@ -86,4 +86,6 @@
     <string name="videos">Video</string>
     <string name="catalogs">Katalog</string>
     <string name="catalog_only_message">Aplikasi ini ditujukan secara eksklusif untuk melihat katalog. Pemutaran konten harus dilakukan di platform resmi.</string>
+    <string name="login">Login</string>
+    <string name="sign_in_with_google">Login dengan Google</string>
 </resources>

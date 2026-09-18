@@ -7,6 +7,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Settings2
@@ -19,7 +20,9 @@ internal fun UiConfirmButton(
 ) {
     UiActionButton(
         text = stringResource(R.string.confirm),
-        icon = UiIconSource.vector(Lucide.Settings2),
+        icon = UiIconStyle(
+            source = UiIconSource.vector(Lucide.Settings2)
+        ),
         enabled = enabled,
         modifier = modifier,
         onClick = onClick,

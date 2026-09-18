@@ -86,4 +86,6 @@
     <string name="videos">Vidéos</string>
     <string name="catalogs">Catalogues</string>
     <string name="catalog_only_message">Cette application est destinée exclusivement à la consultation de catalogues. La lecture des contenus doit être effectuée sur les plateformes officielles.</string>
+    <string name="login">Connexion</string>
+    <string name="sign_in_with_google">Se connecter avec Google</string>
 </resources>

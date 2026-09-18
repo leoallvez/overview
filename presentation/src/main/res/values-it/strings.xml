@@ -86,4 +86,6 @@
     <string name="videos">Video</string>
     <string name="catalogs">Cataloghi</string>
     <string name="catalog_only_message">Questa app è destinata esclusivamente alla consultazione di cataloghi. La riproduzione dei contenuti deve essere eseguita sulle piattaforme ufficiali.</string>
+    <string name="login">Accedi</string>
+    <string name="sign_in_with_google">Accedi con Google</string>
 </resources>
