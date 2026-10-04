@@ -39,7 +39,7 @@ class MediaRemoteDataSourceTest {
         // arrange
         val queryState = QueryDataState(path = "movie/popular", page = 1)
         val page = MediaDataPage(page = 1, items = emptyList())
-        val successResponse = mockk<NetworkResponse.Success<MediaDataPage>>()
+        val successResponse = mockk<NetworkResponse.Success<MediaDataPage, ErrorResponse>>()
         every { successResponse.body } returns page
 
         coEvery {
@@ -68,7 +68,7 @@ class MediaRemoteDataSourceTest {
         val queryState = QueryDataState(path = "movie/popular")
         coEvery {
             api.fetchMediaPage(any(), any(), any(), any())
-        } returns mockk<NetworkResponse.UnknownError>()
+        } returns mockk<NetworkResponse.UnknownError<MediaDataPage, ErrorResponse>>()
 
         // act
         val result = sut.getByQuery(queryState, emptyMap())
@@ -81,7 +81,7 @@ class MediaRemoteDataSourceTest {
     fun `getMovieById should return Success when API returns success`() = runTest {
         // arrange
         val id = 123L
-        val successResponse = mockk<NetworkResponse.Success<MovieDetailsDataModel>>()
+        val successResponse = mockk<NetworkResponse.Success<MovieDetailsDataModel, ErrorResponse>>()
         every { successResponse.body } returns fakeMovieDetailsDataModel
 
         coEvery { api.getMovieDetailsById(id = id) } returns successResponse
@@ -99,7 +99,7 @@ class MediaRemoteDataSourceTest {
     fun `getMovieById should return Error when API returns error`() = runTest {
         // arrange
         val id = 123L
-        coEvery { api.getMovieDetailsById(id = id) } returns mockk<NetworkResponse.ServerError<ErrorResponse>>()
+        coEvery { api.getMovieDetailsById(id = id) } returns mockk<NetworkResponse.ServerError<MovieDetailsDataModel, ErrorResponse>>()
 
         // act
         val result = sut.getMovieById(id)
@@ -112,7 +112,7 @@ class MediaRemoteDataSourceTest {
     fun `getTvShowById should return Success when API returns success`() = runTest {
         // arrange
         val id = 456L
-        val successResponse = mockk<NetworkResponse.Success<TvShowDetailsDataModel>>()
+        val successResponse = mockk<NetworkResponse.Success<TvShowDetailsDataModel, ErrorResponse>>()
         every { successResponse.body } returns fakeTvShowDetailsDataModel
 
         coEvery { api.getTvShowDetailsById(id = id) } returns successResponse
@@ -130,7 +130,7 @@ class MediaRemoteDataSourceTest {
     fun `getTvShowById should return Error when API returns error`() = runTest {
         // arrange
         val id = 456L
-        coEvery { api.getTvShowDetailsById(id = id) } returns mockk<NetworkResponse.NetworkError>()
+        coEvery { api.getTvShowDetailsById(id = id) } returns mockk<NetworkResponse.NetworkError<TvShowDetailsDataModel, ErrorResponse>>()
 
         // act
         val result = sut.getTvShowById(id)
