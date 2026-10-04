@@ -25,7 +25,7 @@ class GenreRemoteDataSourceTest {
         val response = mockk<GenreListResponse> {
             coEvery { this@mockk.genres } returns genres
         }
-        coEvery { api.getGenres(any()) } returns NetworkResponse.Success(response, mockk(), 200)
+        coEvery { api.getGenres(any()) } returns NetworkResponse.Success(response, mockk())
 
         // act
         val result = sut.getByMediaType(MediaDataType.MOVIE)

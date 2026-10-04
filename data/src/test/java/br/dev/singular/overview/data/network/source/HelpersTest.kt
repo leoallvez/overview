@@ -10,7 +10,7 @@ class HelpersTest {
 
     @Test
     fun `responseToResult should return Success when NetworkResponse is Success`() {
-        val response = mockk<NetworkResponse.Success<String>>()
+        val response = mockk<NetworkResponse.Success<String, ErrorResponse>>()
         io.mockk.every { response.body } returns "Data"
         val result = responseToResult(response)
         result shouldBeInstanceOf DataResult.Success::class
@@ -18,21 +18,21 @@ class HelpersTest {
 
     @Test
     fun `responseToResult should return Error when NetworkResponse is ServerError`() {
-        val response = mockk<NetworkResponse.ServerError<ErrorResponse>>()
+        val response = mockk<NetworkResponse.ServerError<String, ErrorResponse>>()
         val result = responseToResult(response)
         result shouldBeInstanceOf DataResult.Error::class
     }
 
     @Test
     fun `responseToResult should return Error when NetworkResponse is NetworkError`() {
-        val response = mockk<NetworkResponse.NetworkError>()
+        val response = mockk<NetworkResponse.NetworkError<String, ErrorResponse>>()
         val result = responseToResult(response)
         result shouldBeInstanceOf DataResult.Error::class
     }
 
     @Test
     fun `responseToResult should return Error when NetworkResponse is UnknownError`() {
-        val response = mockk<NetworkResponse.UnknownError>()
+        val response = mockk<NetworkResponse.UnknownError<String, ErrorResponse>>()
         val result = responseToResult(response)
         result shouldBeInstanceOf DataResult.Error::class
     }

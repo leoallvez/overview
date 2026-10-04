@@ -62,8 +62,7 @@ class CatalogRemoteDataSourceTest {
         coEvery { provider.getString(any()) } returns ""
         coEvery { api.getCatalog(region = "BR") } returns NetworkResponse.Success(
             response,
-            mockk(),
-            200
+            mockk()
         )
 
         // act
@@ -99,7 +98,7 @@ class CatalogRemoteDataSourceTest {
         val response = mockk<ListResponse<CatalogDataModel>> {
             every { results } returns catalogs
         }
-        coEvery { api.getCatalog(any()) } returns NetworkResponse.Success(response, mockk(), 200)
+        coEvery { api.getCatalog(any()) } returns NetworkResponse.Success(response, mockk())
 
         // act
         val result = sut.getAll()
@@ -120,7 +119,7 @@ class CatalogRemoteDataSourceTest {
         val response = mockk<ListResponse<CatalogDataModel>> {
             every { results } returns catalogs
         }
-        coEvery { api.getCatalog(any()) } returns NetworkResponse.Success(response, mockk(), 200)
+        coEvery { api.getCatalog(any()) } returns NetworkResponse.Success(response, mockk())
 
         // act
         val result = sut.getAll()
@@ -166,7 +165,7 @@ class CatalogRemoteDataSourceTest {
                     type.key,
                     id
                 )
-            } returns NetworkResponse.Success(response, mockk(), 200)
+            } returns NetworkResponse.Success(response, mockk())
 
             // act
             val result = sut.getCatalogsByMedia(id, type)
@@ -192,7 +191,7 @@ class CatalogRemoteDataSourceTest {
                     any(),
                     any()
                 )
-            } returns NetworkResponse.Success(response, mockk(), 200)
+            } returns NetworkResponse.Success(response, mockk())
 
             // act
             val result = sut.getCatalogsByMedia(id, MediaDataType.MOVIE)
@@ -207,7 +206,7 @@ class CatalogRemoteDataSourceTest {
         every { locale.region } returns "BR"
         coEvery { api.getWatchProviders(any(), any()) } returns NetworkResponse.UnknownError(
             Throwable(),
-            mockk()
+            null
         )
 
         // act

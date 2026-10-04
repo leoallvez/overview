@@ -21,8 +21,7 @@ class PersonDetailsRemoteDataSourceTest {
         val person = fakePersonDetailsDataModel
         coEvery { api.getPersonDetailsById(any()) } returns NetworkResponse.Success(
             person,
-            mockk(),
-            200
+            mockk()
         )
 
         // act
@@ -38,7 +37,7 @@ class PersonDetailsRemoteDataSourceTest {
         // arrange
         coEvery { api.getPersonDetailsById(any()) } returns NetworkResponse.UnknownError(
             Exception(),
-            mockk()
+            null
         )
 
         // act

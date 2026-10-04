@@ -90,6 +90,7 @@ dependencies {
     api(libs.androidx.material3)
     api(libs.androidx.compose.material.icons.extended)
     api(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     api(libs.hilt.navigation.compose)
     implementation(libs.material)
     api(libs.kotlinx.collections.immutable)
