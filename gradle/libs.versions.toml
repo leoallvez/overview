@@ -1,11 +1,8 @@
 [versions]
-# Global Settings
-app-id = "br.dev.singular.overview"
+# Android SDK
 sdk-compile = "37"
 sdk-min = "24"
 sdk-target = "36"
-version-code = "15"
-version-name = "3.3.1"
 
 # Kotlin
 kotlin = "2.4.20"
@@ -69,6 +66,9 @@ ktlint = "14.2.0"
 pitest = "1.19.0"
 
 [libraries]
+# Build Logic
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+
 # AndroidX Core
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }

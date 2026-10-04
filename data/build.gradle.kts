@@ -2,7 +2,7 @@ import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.VariantDimension
 
 plugins {
-    alias(libs.plugins.android.library)
+    id("overview.android.library")
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.ksp)
@@ -10,15 +10,7 @@ plugins {
 }
 
 extensions.configure<LibraryExtension> {
-    val sdkCompile = libs.versions.sdk.compile.get().toInt()
-    val sdkMin = libs.versions.sdk.min.get().toInt()
-
-    namespace = "${libs.versions.app.id.get()}.data"
-    compileSdk = sdkCompile
-
     defaultConfig {
-        minSdk = sdkMin
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         stringField("API_URL", "https://api.themoviedb.org/3/")
         stringField("API_KEY", System.getenv("OVER_API_KEY") ?: "")
@@ -41,11 +33,6 @@ extensions.configure<LibraryExtension> {
         debug {
             buildConfigField("long", "REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", "0")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

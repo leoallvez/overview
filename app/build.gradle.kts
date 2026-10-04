@@ -2,7 +2,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.ApplicationProductFlavor
 
 plugins {
-    alias(libs.plugins.android.application)
+    id("overview.android.application")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
@@ -15,23 +15,7 @@ plugins {
 }
 
 extensions.configure<ApplicationExtension> {
-    val sdkCompile = libs.versions.sdk.compile.get().toInt()
-    val sdkMin = libs.versions.sdk.min.get().toInt()
-    val sdkTarget = libs.versions.sdk.target.get().toInt()
-    val vCode = libs.versions.version.code.get().toInt()
-    val vName = libs.versions.version.name.get()
-
-    namespace = libs.versions.app.id.get()
-    compileSdk = sdkCompile
-
     defaultConfig {
-        applicationId = libs.versions.app.id.get()
-        minSdk = sdkMin
-        targetSdk = sdkTarget
-        versionCode = vCode
-        versionName = vName
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -91,11 +75,6 @@ extensions.configure<ApplicationExtension> {
                 signingConfig = signingConfigs.getByName("prd")
             }
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
