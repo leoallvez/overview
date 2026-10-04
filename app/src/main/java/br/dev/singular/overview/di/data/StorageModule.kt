@@ -33,7 +33,8 @@ class StorageModule {
             Migration(from = 1, to = 2, context),
             Migration(from = 2, to = 3, context),
             Migration(from = 3, to = 4, context),
-            Migration(from = 4, to = 5, context)
+            Migration(from = 4, to = 5, context),
+            Migration(from = 5, to = 6, context)
         ).build()
 
     @Provides

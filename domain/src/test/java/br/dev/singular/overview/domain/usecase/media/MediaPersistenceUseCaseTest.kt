@@ -1,7 +1,9 @@
 package br.dev.singular.overview.domain.usecase.media
 
 import br.dev.singular.overview.domain.model.Media
-import br.dev.singular.overview.domain.repository.GetById
+import br.dev.singular.overview.domain.model.MediaKey
+import br.dev.singular.overview.domain.model.MediaType
+import br.dev.singular.overview.domain.repository.GetByParam
 import br.dev.singular.overview.domain.repository.Update
 import br.dev.singular.overview.domain.usecase.createMediaMock
 import io.mockk.coEvery
@@ -17,7 +19,7 @@ class MediaPersistenceUseCaseTest {
 
     private lateinit var sut: IMediaPersistenceUseCase
 
-    private lateinit var getter: GetById<Media>
+    private lateinit var getter: GetByParam<Media?, MediaKey>
     private lateinit var updater: Update<Media>
 
     @Before
@@ -31,26 +33,26 @@ class MediaPersistenceUseCaseTest {
     fun `getById should return media from getter`() = runTest {
         // arrange
         val media = createMediaMock()
-        coEvery { getter.getById(1L) } returns media
+        coEvery { getter.getByParam(MediaKey(1L, MediaType.MOVIE)) } returns media
 
         // act
-        val result = sut.getById(1L)
+        val result = sut.getById(1L, MediaType.MOVIE)
 
         // assert
-        coVerify(exactly = 1) { getter.getById(1L) }
+        coVerify(exactly = 1) { getter.getByParam(MediaKey(1L, MediaType.MOVIE)) }
         assertEquals(media, result)
     }
 
     @Test
     fun `getById should return null when getter returns null`() = runTest {
         // arrange
-        coEvery { getter.getById(1L) } returns null
+        coEvery { getter.getByParam(MediaKey(1L, MediaType.MOVIE)) } returns null
 
         // act
-        val result = sut.getById(1L)
+        val result = sut.getById(1L, MediaType.MOVIE)
 
         // assert
-        coVerify(exactly = 1) { getter.getById(1L) }
+        coVerify(exactly = 1) { getter.getByParam(MediaKey(1L, MediaType.MOVIE)) }
         assertNull(result)
     }
 

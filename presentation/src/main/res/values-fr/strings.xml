@@ -86,4 +86,17 @@
     <string name="videos">Vidéos</string>
     <string name="catalogs">Catalogues</string>
     <string name="catalog_only_message">Cette application est destinée exclusivement à la consultation de catalogues. La lecture des contenus doit être effectuée sur les plateformes officielles.</string>
+    <string name="login">Connexion</string>
+    <string name="login_info_message">Connectez-vous pour enregistrer vos films et séries préférés, synchroniser votre liste sur tous vos appareils et ne rien manquer.</string>
+    <string name="sign_in_with_google">Se connecter avec Google</string>
+    <string name="login_error_title">Erreur de connexion</string>
+    <string name="login_error_message">Une erreur s\'est produite lors de la connexion. Veuillez réessayer.</string>
+    <string name="profile">Profil</string>
+    <string name="sign_out">Se déconnecter</string>
+    <string name="sign_out_confirm_title">Se déconnecter ?</string>
+    <string name="sign_out_confirm_message">Vous devrez vous reconnecter pour voir vos favoris.</string>
+    <string name="cancel">Annuler</string>
+    <string name="login_required_title">Connexion requise</string>
+    <string name="login_required_message">Connectez-vous pour enregistrer ce titre dans vos favoris.</string>
+    <string name="favorite_added_title">Ajouté aux favoris</string>
 </resources>

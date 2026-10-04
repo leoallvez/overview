@@ -103,6 +103,13 @@ dependencies {
 
     api(platform(libs.firebase.bom))
     api(libs.firebase.config)
+    api(libs.firebase.auth)
+    api(libs.firebase.firestore)
+    implementation(libs.kotlinx.coroutines.play.services)
+
+    // Credential Manager
+    api(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
     api(libs.timber)
 
     implementation(project(":domain"))

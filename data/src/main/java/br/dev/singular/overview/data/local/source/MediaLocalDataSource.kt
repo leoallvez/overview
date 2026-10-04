@@ -17,7 +17,9 @@ interface IMediaLocalDataSource {
 
     suspend fun getAll(): List<MediaDataModel>
 
-    suspend fun getById(id: Long): MediaDataModel?
+    suspend fun clearLiked()
+
+    suspend fun getById(id: Long, type: MediaDataType): MediaDataModel?
 
     suspend fun getPage(
         page: Int = 1,
@@ -42,8 +44,10 @@ class MediaLocalDataSource @Inject constructor(
 
     override suspend fun getAll() = dao.getAll()
 
-    override suspend fun getById(id: Long) =
-        dao.getPage(id = id).firstOrNull()
+    override suspend fun clearLiked() = dao.clearLiked()
+
+    override suspend fun getById(id: Long, type: MediaDataType) =
+        dao.getPage(id = id, type = type).firstOrNull()
 
     override suspend fun getPage(
         page: Int,

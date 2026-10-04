@@ -78,6 +78,9 @@
     <string name="liked_movie_not_found">Your favorite movies will appear here :)</string>
     <string name="liked_tv_show_not_found">Your favorite TV shows will appear here :)</string>
     <string name="home">Home</string>
+    <string name="login">Login</string>
+    <string name="login_info_message">Sign in to save your favorite movies and TV shows, sync your list across any device, and never miss what you want to watch.</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
     <string name="favorites">Favorites</string>
     <string name="search">Search</string>
     <string name="select_catalog">Select Catalog</string>
@@ -86,4 +89,14 @@
     <string name="videos">Videos</string>
     <string name="catalogs">Catalogs</string>
     <string name="catalog_only_message">This app is intended exclusively for consulting catalogs. Content playback must be performed on official platforms.</string>
+    <string name="login_error_title">Login Error</string>
+    <string name="login_error_message">An error occurred during login.</string>
+    <string name="profile">Profile</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_out_confirm_title">Sign out?</string>
+    <string name="sign_out_confirm_message">You will need to sign in again to see your favorites.</string>
+    <string name="cancel">Cancel</string>
+    <string name="login_required_title">Sign in required</string>
+    <string name="login_required_message">Sign in to save this title to your favorites.</string>
+    <string name="favorite_added_title">Added to favorites</string>
 </resources>

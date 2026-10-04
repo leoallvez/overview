@@ -86,4 +86,17 @@
     <string name="videos">ビデオ</string>
     <string name="catalogs">カタログ</string>
     <string name="catalog_only_message">このアプリはカタログの参照専用です。コンテンツの再生は公式プラットフォームで行う必要があります。</string>
+    <string name="login">ログイン</string>
+    <string name="login_info_message">ログインして、お気に入りの映画や TV 番組を保存し、どの端末からでもリストを同期して、観たい作品を見逃さないようにしましょう。</string>
+    <string name="sign_in_with_google">Google でログイン</string>
+    <string name="login_error_title">ログインエラー</string>
+    <string name="login_error_message">ログイン中にエラーが発生しました。もう一度お試しください。</string>
+    <string name="profile">プロフィール</string>
+    <string name="sign_out">ログアウト</string>
+    <string name="sign_out_confirm_title">ログアウトしますか？</string>
+    <string name="sign_out_confirm_message">お気に入りを表示するには、もう一度ログインする必要があります。</string>
+    <string name="cancel">キャンセル</string>
+    <string name="login_required_title">ログインが必要です</string>
+    <string name="login_required_message">このタイトルをお気に入りに保存するにはログインしてください。</string>
+    <string name="favorite_added_title">お気に入りに追加しました</string>
 </resources>

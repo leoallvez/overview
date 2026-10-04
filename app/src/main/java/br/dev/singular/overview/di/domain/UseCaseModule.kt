@@ -10,10 +10,13 @@ import br.dev.singular.overview.data.repository.catalog.CatalogQueryLocalReposit
 import br.dev.singular.overview.data.repository.catalog.CatalogRepository
 import br.dev.singular.overview.data.repository.genre.GenreLocalRepository
 import br.dev.singular.overview.data.repository.genre.GenreRemoteRepository
+import br.dev.singular.overview.data.repository.media.MediaFavoriteLocalRepository
+import br.dev.singular.overview.data.repository.media.MediaFavoriteRepository
 import br.dev.singular.overview.data.repository.media.MediaLocalRepository
 import br.dev.singular.overview.data.repository.media.MediaRemoteRepository
 import br.dev.singular.overview.data.repository.media.MovieDetailsRemoteRepository
 import br.dev.singular.overview.data.repository.media.TvShowDetailsRemoteRepository
+import br.dev.singular.overview.data.repository.user.UserRepository
 import br.dev.singular.overview.di.data.CatalogTooltip
 import br.dev.singular.overview.domain.usecase.CatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.CatalogTooltipDismissedUseCase
@@ -39,11 +42,17 @@ import br.dev.singular.overview.domain.usecase.media.IGetMovieDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetRemoteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.IGetTvShowDetailsByIdUseCase
 import br.dev.singular.overview.domain.usecase.media.IMediaPersistenceUseCase
+import br.dev.singular.overview.domain.usecase.media.ISyncFavoritesUseCase
+import br.dev.singular.overview.domain.usecase.media.IToggleFavoriteUseCase
 import br.dev.singular.overview.domain.usecase.media.MediaPersistenceUseCase
 import br.dev.singular.overview.domain.usecase.media.SearchRemoteMediasUseCase
+import br.dev.singular.overview.domain.usecase.media.SyncFavoritesUseCase
+import br.dev.singular.overview.domain.usecase.media.ToggleFavoriteUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.IGetAllSuggestionsUseCase
+import br.dev.singular.overview.domain.usecase.user.IUserSessionUseCase
+import br.dev.singular.overview.domain.usecase.user.UserSessionUseCase
 import br.dev.singular.overview.presentation.di.domain.DiscoverMediaUseCase
 import br.dev.singular.overview.presentation.di.domain.SearchMediaUseCase
 import dagger.Module
@@ -192,5 +201,37 @@ class UseCaseModule {
         repo: CatalogQueryLocalRepository
     ): ICatalogQueryStateUseCase {
         return CatalogQueryStateUseCase(getter = repo, updater = repo, observer = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserSessionUseCase(
+        repo: UserRepository
+    ): IUserSessionUseCase {
+        return UserSessionUseCase(observer = repo, authenticator = repo, cleaner = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideToggleFavoriteUseCase(
+        userRepo: UserRepository,
+        favoriteRepo: MediaFavoriteRepository
+    ): IToggleFavoriteUseCase {
+        return ToggleFavoriteUseCase(session = userRepo, updater = favoriteRepo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSyncFavoritesUseCase(
+        userRepo: UserRepository,
+        remoteRepo: MediaFavoriteRepository,
+        localRepo: MediaFavoriteLocalRepository
+    ): ISyncFavoritesUseCase {
+        return SyncFavoritesUseCase(
+            session = userRepo,
+            remote = remoteRepo,
+            local = localRepo,
+            saver = localRepo
+        )
     }
 }

@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.screens.media.movie
 
+import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.media.IGetMovieDetailsByIdUseCase
@@ -40,7 +41,7 @@ class MovieDetailsViewModelTest {
         // arrange
         val id = 1L
         val movie = createMovieDetailsMock().copy(id = id)
-        coEvery { delegate.getIsLiked(id) } returns true
+        coEvery { delegate.getIsLiked(id, MediaType.MOVIE) } returns true
         coEvery { useCase(id) } returns UseCaseState.Success(movie)
 
         // act
@@ -50,7 +51,7 @@ class MovieDetailsViewModelTest {
         sut.uiState.value shouldBeInstanceOf UiState.Success::class
         val successData = (sut.uiState.value as UiState.Success).data
         successData shouldBeEqualTo movie.toUi(isLiked = true)
-        coVerify(exactly = 1) { delegate.getIsLiked(id) }
+        coVerify(exactly = 1) { delegate.getIsLiked(id, MediaType.MOVIE) }
         coVerify(exactly = 1) { useCase(id) }
     }
 
@@ -58,7 +59,7 @@ class MovieDetailsViewModelTest {
     fun `Load intent should update uiState to Error when useCase returns failure`() = runTest {
         // arrange
         val id = 1L
-        coEvery { delegate.getIsLiked(id) } returns false
+        coEvery { delegate.getIsLiked(id, MediaType.MOVIE) } returns false
         coEvery { useCase(id) } returns UseCaseState.Failure(FailType.NothingFound)
 
         // act
@@ -73,12 +74,12 @@ class MovieDetailsViewModelTest {
         // arrange
         val id = 1L
         val movie = createMovieDetailsMock().copy(id = id)
-        coEvery { delegate.getIsLiked(id) } returns false
+        coEvery { delegate.getIsLiked(id, MediaType.MOVIE) } returns false
         coEvery { useCase(id) } returns UseCaseState.Success(movie)
         sut.handleIntent(MovieDetailsIntent.Load(id))
 
         val uiMovie = (sut.uiState.value as UiState.Success).data!!
-        coEvery { delegate.toggleLike(any()) } returns true
+        coEvery { delegate.toggleLike(any()) } returns UseCaseState.Success(true)
 
         // act
         sut.handleIntent(MovieDetailsIntent.Like(uiMovie))
@@ -86,20 +87,23 @@ class MovieDetailsViewModelTest {
         // assert
         val updatedState = sut.uiState.value as UiState.Success
         updatedState.data?.metadata?.isLiked shouldBeEqualTo true
+        sut.favoriteAdded.value shouldBeEqualTo true
         coVerify(exactly = 1) { delegate.toggleLike(any()) }
     }
 
     @Test
-    fun `Like intent should rollback state when toggleLike throws exception`() = runTest {
+    fun `Like intent should keep state when toggleLike fails`() = runTest {
         // arrange
         val id = 1L
         val movie = createMovieDetailsMock().copy(id = id)
-        coEvery { delegate.getIsLiked(id) } returns false
+        coEvery { delegate.getIsLiked(id, MediaType.MOVIE) } returns false
         coEvery { useCase(id) } returns UseCaseState.Success(movie)
         sut.handleIntent(MovieDetailsIntent.Load(id))
 
         val uiMovie = (sut.uiState.value as UiState.Success).data!!
-        coEvery { delegate.toggleLike(any()) } throws RuntimeException()
+        coEvery {
+            delegate.toggleLike(any())
+        } returns UseCaseState.Failure(FailType.Exception(RuntimeException()))
 
         // act
         sut.handleIntent(MovieDetailsIntent.Like(uiMovie))
@@ -107,6 +111,71 @@ class MovieDetailsViewModelTest {
         // assert
         val state = sut.uiState.value as UiState.Success
         state.data?.metadata?.isLiked shouldBeEqualTo false
+        sut.loginRequired.value shouldBeEqualTo false
+        sut.favoriteAdded.value shouldBeEqualTo false
+    }
+
+    @Test
+    fun `Like intent should require login when the user is not signed in`() = runTest {
+        // arrange
+        val id = 1L
+        val media = createMovieDetailsMock().copy(id = id)
+        coEvery { delegate.getIsLiked(id, MediaType.MOVIE) } returns false
+        coEvery { useCase(id) } returns UseCaseState.Success(media)
+        sut.handleIntent(MovieDetailsIntent.Load(id))
+
+        val uiMedia = (sut.uiState.value as UiState.Success).data!!
+        coEvery {
+            delegate.toggleLike(any())
+        } returns UseCaseState.Failure(FailType.Unauthorized)
+
+        // act
+        sut.handleIntent(MovieDetailsIntent.Like(uiMedia))
+
+        // assert
+        sut.loginRequired.value shouldBeEqualTo true
+        val state = sut.uiState.value as UiState.Success
+        state.data?.metadata?.isLiked shouldBeEqualTo false
+    }
+
+    @Test
+    fun `Like intent should not notify favorite added when the media is unliked`() = runTest {
+        // arrange
+        coEvery { delegate.toggleLike(any()) } returns UseCaseState.Success(false)
+
+        // act
+        sut.handleIntent(MovieDetailsIntent.Like(createMovieDetailsMock().toUi(isLiked = true)))
+
+        // assert
+        sut.favoriteAdded.value shouldBeEqualTo false
+    }
+
+    @Test
+    fun `DismissFavoriteAdded intent should reset favoriteAdded`() = runTest {
+        // arrange
+        coEvery { delegate.toggleLike(any()) } returns UseCaseState.Success(true)
+        sut.handleIntent(MovieDetailsIntent.Like(createMovieDetailsMock().toUi(isLiked = false)))
+
+        // act
+        sut.handleIntent(MovieDetailsIntent.DismissFavoriteAdded)
+
+        // assert
+        sut.favoriteAdded.value shouldBeEqualTo false
+    }
+
+    @Test
+    fun `DismissLoginAlert intent should reset loginRequired`() = runTest {
+        // arrange
+        coEvery {
+            delegate.toggleLike(any())
+        } returns UseCaseState.Failure(FailType.Unauthorized)
+        sut.handleIntent(MovieDetailsIntent.Like(createMovieDetailsMock().toUi(isLiked = false)))
+
+        // act
+        sut.handleIntent(MovieDetailsIntent.DismissLoginAlert)
+
+        // assert
+        sut.loginRequired.value shouldBeEqualTo false
     }
 
     @Test

@@ -39,6 +39,12 @@ class MediaLocalDataSourceTest {
     }
 
     @Test
+    fun `clearLiked should call dao clearLiked`() = runTest {
+        sut.clearLiked()
+        coVerify { dao.clearLiked() }
+    }
+
+    @Test
     fun `getAll should return list from dao`() = runTest {
         val expected = listOf(fakeMediaDataModel)
         coEvery { dao.getAll() } returns expected
@@ -49,8 +55,9 @@ class MediaLocalDataSourceTest {
     @Test
     fun `getById should return model from dao when found`() = runTest {
         val id = 1L
-        coEvery { dao.getPage(id = id) } returns listOf(fakeMediaDataModel)
-        val result = sut.getById(id)
+        val type = MediaDataType.MOVIE
+        coEvery { dao.getPage(id = id, type = type) } returns listOf(fakeMediaDataModel)
+        val result = sut.getById(id, type)
         assertEquals(fakeMediaDataModel, result)
     }
 

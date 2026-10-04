@@ -88,4 +88,17 @@
     <string name="catalog_only_message">
         Este aplicativo destina-se exclusivamente à consulta de catálogos. A reprodução dos conteúdos deve ser realizada nas plataformas.
     </string>
+    <string name="login">Login</string>
+    <string name="login_info_message">Faça login para salvar os seus filmes e séries favoritos, sincronizar a sua lista em qualquer dispositivo e não perder nada do que quer assistir.</string>
+    <string name="sign_in_with_google">Fazer login com o Google</string>
+    <string name="login_error_title">Erro no login</string>
+    <string name="login_error_message">Ocorreu um erro durante o login. Tente novamente.</string>
+    <string name="profile">Perfil</string>
+    <string name="sign_out">Sair</string>
+    <string name="sign_out_confirm_title">Sair da conta?</string>
+    <string name="sign_out_confirm_message">Você precisará entrar novamente para ver seus favoritos.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="login_required_title">Login necessário</string>
+    <string name="login_required_message">Faça login para salvar este título nos seus favoritos.</string>
+    <string name="favorite_added_title">Adicionado aos favoritos</string>
 </resources>

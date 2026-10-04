@@ -10,4 +10,8 @@ sealed class TvShowDetailsIntent {
     data class Like(val media: MediaDetailsUiModel.TvShow) : TvShowDetailsIntent()
 
     data class SelectCatalog(val catalog: CatalogUiModel) : TvShowDetailsIntent()
+
+    data object DismissLoginAlert : TvShowDetailsIntent()
+
+    data object DismissFavoriteAdded : TvShowDetailsIntent()
 }

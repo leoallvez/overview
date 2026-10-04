@@ -12,7 +12,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
+import br.dev.singular.overview.auth.rememberGoogleIdTokenRequest
+import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaUiType
+import br.dev.singular.overview.presentation.model.UserUiModel
+import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarHostState
 import br.dev.singular.overview.presentation.ui.navigation.AnimationDurations
 import br.dev.singular.overview.presentation.ui.navigation.Destination
 import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
@@ -48,6 +52,11 @@ import br.dev.singular.overview.presentation.ui.screens.search.SearchScreen
 import br.dev.singular.overview.presentation.ui.screens.search.SearchViewModel
 import br.dev.singular.overview.presentation.ui.screens.search.interaction.SearchActions
 import br.dev.singular.overview.presentation.ui.screens.splash.SplashScreen
+import br.dev.singular.overview.presentation.ui.screens.user.UserViewModel
+import br.dev.singular.overview.presentation.ui.screens.user.login.LoginScreen
+import br.dev.singular.overview.presentation.ui.screens.user.login.interaction.LoginActions
+import br.dev.singular.overview.presentation.ui.screens.user.profile.ProfileScreen
+import br.dev.singular.overview.presentation.ui.screens.user.profile.interaction.ProfileActions
 import br.dev.singular.overview.presentation.ui.screens.video.YouTubePlayerFullscreen
 import br.dev.singular.overview.presentation.ui.screens.video.interaction.YouTubePlayerActions
 import br.dev.singular.overview.presentation.ui.theme.Background
@@ -56,6 +65,7 @@ import br.dev.singular.overview.presentation.ui.theme.Background
 fun AppNavHost(
     navController: NavHostController,
     showAds: Boolean,
+    snackbarHostState: UiSnackbarHostState,
     modifier: Modifier,
     setEdgeToEdge: (Boolean) -> Unit,
 ) {
@@ -173,10 +183,13 @@ fun AppNavHost(
                     MovieDetailsScreen(
                         movieId = id,
                         showAds = showAds,
+                        loginRequired = viewModel.loginRequired.collectAsState().value,
+                        favoriteAdded = viewModel.favoriteAdded.collectAsState().value,
                         uiState = viewModel.uiState.collectAsState().value,
                         actions = rememberMovieDetailsActions(
                             navigation = navi,
-                            handleIntent = viewModel::handleIntent
+                            handleIntent = viewModel::handleIntent,
+                            onShowSnackbar = snackbarHostState::show
                         )
                     )
                 }
@@ -186,10 +199,13 @@ fun AppNavHost(
                     TvShowDetailsScreen(
                         tvShowId = id,
                         showAds = showAds,
+                        loginRequired = viewModel.loginRequired.collectAsState().value,
+                        favoriteAdded = viewModel.favoriteAdded.collectAsState().value,
                         uiState = viewModel.uiState.collectAsState().value,
                         actions = rememberTvShowDetailsActions(
                             navigation = navi,
-                            handleIntent = viewModel::handleIntent
+                            handleIntent = viewModel::handleIntent,
+                            onShowSnackbar = snackbarHostState::show
                         )
                     )
                 }
@@ -227,18 +243,72 @@ fun AppNavHost(
         }
         composable(route = Destination.Favorites.route) {
 
-            val viewModel = hiltViewModel<FavoritesViewModel>()
+            val userViewModel = hiltViewModel<UserViewModel>()
 
-            FavoritesScreen(
-                queryState = viewModel.queryState.collectAsState().value,
-                uiPages = viewModel.medias.collectAsLazyPagingItems(),
-                scrollState = viewModel.scrollState.collectAsState().value,
-                onSetScrollState = { viewModel.onSetScrollState(it) },
-                actions = FavoritesActions(
+            when (val userState = userViewModel.uiState.collectAsState().value) {
+                // Nothing is displayed while the session is being restored.
+                is UiState.Loading -> Unit
+
+                is UiState.Success -> when (val user = userState.data) {
+                    null -> LoginRoute(userViewModel, snackbarHostState)
+                    else -> FavoritesRoute(user, navi)
+                }
+
+                is UiState.Error -> LoginRoute(userViewModel, snackbarHostState)
+            }
+        }
+        composable(
+            route = Destination.Profile.route,
+            exitTransition = { rightExitTransition(duration = AnimationDurations.SMALL) }
+        ) {
+
+            val viewModel = hiltViewModel<UserViewModel>()
+
+            ProfileScreen(
+                uiState = viewModel.uiState.collectAsState().value,
+                actionState = viewModel.actionState.collectAsState().value,
+                actions = ProfileActions(
                     navigation = navi,
-                    onSetType = viewModel::onSetType
+                    handleIntent = viewModel::handleIntent
                 )
             )
         }
     }
+}
+
+@Composable
+private fun FavoritesRoute(
+    user: UserUiModel,
+    navigation: INavigationWrapper
+) {
+    val viewModel = hiltViewModel<FavoritesViewModel>()
+
+    FavoritesScreen(
+        queryState = viewModel.queryState.collectAsState().value,
+        uiPages = viewModel.medias.collectAsLazyPagingItems(),
+        scrollState = viewModel.scrollState.collectAsState().value,
+        user = user,
+        onSetScrollState = { viewModel.onSetScrollState(it) },
+        actions = FavoritesActions(
+            navigation = navigation,
+            onSetType = viewModel::onSetType
+        )
+    )
+}
+
+@Composable
+private fun LoginRoute(
+    viewModel: UserViewModel,
+    snackbarHostState: UiSnackbarHostState
+) {
+    LoginScreen(
+        actionState = viewModel.actionState.collectAsState().value,
+        actions = LoginActions(
+            handleIntent = viewModel::handleIntent,
+            onRequestIdToken = rememberGoogleIdTokenRequest(
+                onResult = viewModel::handleIntent
+            ),
+            onShowSnackbar = snackbarHostState::show
+        )
+    )
 }
