@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Über Google anmelden</string>
     <string name="login_error_title">Anmeldefehler</string>
     <string name="login_error_message">Bei der Anmeldung ist ein Fehler aufgetreten. Bitte versuche es erneut.</string>
+    <string name="connection_lost_title">Keine Verbindung</string>
+    <string name="connection_lost_message">Überprüfe deine Internetverbindung.</string>
     <string name="profile">Profil</string>
     <string name="sign_out">Abmelden</string>
     <string name="sign_out_confirm_title">Abmelden?</string>

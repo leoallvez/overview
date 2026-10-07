@@ -93,6 +93,8 @@
     <string name="sign_in_with_google">Fazer login com o Google</string>
     <string name="login_error_title">Erro no login</string>
     <string name="login_error_message">Ocorreu um erro durante o login. Tente novamente.</string>
+    <string name="connection_lost_title">Sem conexão</string>
+    <string name="connection_lost_message">Verifique sua conexão com a internet.</string>
     <string name="profile">Perfil</string>
     <string name="sign_out">Sair</string>
     <string name="sign_out_confirm_title">Sair da conta?</string>

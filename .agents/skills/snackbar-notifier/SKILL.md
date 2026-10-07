@@ -45,10 +45,10 @@ The app has a single snackbar host. Features only describe **what** to show.
 
 | Option | Values | Default |
 | :--- | :--- | :--- |
-| Variant | `UiSnackbarVisuals.Close` (close button) or `UiSnackbarVisuals.Action` (text button, requires `actionText` and `onAction`) | - |
+| Variant | `UiSnackbarVisuals.Close` (close button), `UiSnackbarVisuals.Action` (text button, requires `actionText` and `onAction`) or `UiSnackbarVisuals.Persistent` (no button, stays until `UiSnackbarHostState.dismiss(visuals)` is called, e.g. the "no connection" snackbar) | - |
 | `style` | `UiSnackbarStyle.Success` (green) or `UiSnackbarStyle.Error` (red) | `Success` |
 | `icon` | Any `UiIconSource`, e.g. `UiIconSource.vector(Lucide.Heart)`. It is tinted with the style accent color. | `style.defaultIcon` |
-| `durationMillis` | Time on screen before the automatic dismissal | `4000L` |
+| `durationMillis` | Time on screen before the automatic dismissal. Not available in `Persistent`, which never expires on its own. | `4000L` |
 
 Up to 3 snackbars are stacked; the oldest one is removed when a fourth is shown.
 

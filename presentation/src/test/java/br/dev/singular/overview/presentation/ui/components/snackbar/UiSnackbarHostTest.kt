@@ -51,6 +51,37 @@ class UiSnackbarHostTest {
         assertEquals(listOf(first.id), hostState.snackbarList.map { it.id })
     }
 
+    @Test
+    fun `UiSnackbarHost should keep an indefinite snackbar until it is dismissed`() {
+        rule.mainClock.autoAdvance = false
+        rule.setContent { UiSnackbarHost(hostState = hostState) }
+        val visuals = UiSnackbarVisuals.Persistent(title = "Title", message = "Indefinite")
+
+        rule.runOnUiThread { hostState.show(visuals) }
+        rule.waitForIdle()
+        rule.mainClock.advanceTimeBy(60_000)
+
+        rule.onNodeWithText("Indefinite").assertIsDisplayed()
+
+        rule.runOnUiThread { hostState.dismiss(visuals) }
+        rule.waitForIdle()
+        rule.mainClock.advanceTimeBy(1_000)
+
+        rule.onNodeWithText("Indefinite").assertDoesNotExist()
+        assertTrue(hostState.snackbarList.isEmpty())
+    }
+
+    @Test
+    fun `UiSnackbarHostState should not request the dismissal of other visuals`() {
+        hostState.show(createVisuals(message = "First"))
+        hostState.show(createVisuals(message = "Second"))
+        val (first, second) = hostState.snackbarList
+
+        hostState.dismiss(second.visuals)
+
+        assertEquals(listOf(false, true), listOf(first.dismissRequested, second.dismissRequested))
+    }
+
     private fun showSnackbar(message: String) {
         rule.runOnUiThread { hostState.show(createVisuals(message)) }
         rule.waitForIdle()

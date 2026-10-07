@@ -101,7 +101,6 @@ dependencies {
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.process)
 
     // Navigation

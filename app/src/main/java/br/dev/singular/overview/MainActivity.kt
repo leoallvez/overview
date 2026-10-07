@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -18,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import br.dev.singular.overview.data.remote.config.RemoteConfig
+import br.dev.singular.overview.data.util.IConnectivityMonitor
 import br.dev.singular.overview.navigation.AppNavHost
 import br.dev.singular.overview.navigation.NavigationWrapper
 import br.dev.singular.overview.presentation.R
@@ -27,6 +29,7 @@ import br.dev.singular.overview.presentation.ui.components.navigation.bottom.rem
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarHost
 import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarHostState
+import br.dev.singular.overview.presentation.ui.screens.common.ConnectionLostEffect
 import br.dev.singular.overview.presentation.ui.theme.AppTheme
 import br.dev.singular.overview.presentation.ui.theme.Background
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +44,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var snackbarHostState: UiSnackbarHostState
+
+    @Inject
+    lateinit var connectivityMonitor: IConnectivityMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -61,6 +67,14 @@ class MainActivity : ComponentActivity() {
                 val setEdgeToEdge: (Boolean) -> Unit = { enabled ->
                     edgeToEdge = enabled
                 }
+
+                val isOnline by connectivityMonitor.isOnline.collectAsState(initial = true)
+
+                ConnectionLostEffect(
+                    isOnline = isOnline,
+                    onShow = snackbarHostState::show,
+                    onDismiss = snackbarHostState::dismiss
+                )
 
                 Scaffold(
                     containerColor = Background,

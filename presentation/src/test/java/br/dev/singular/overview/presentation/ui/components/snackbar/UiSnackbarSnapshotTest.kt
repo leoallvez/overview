@@ -16,6 +16,11 @@ class UiSnackbarSnapshotTest : UiSnapshotTest(snapshotPackage = "components/snac
     }
 
     @Test
+    fun persistent() = snapshot {
+        UiSnackbarPersistentPreview()
+    }
+
+    @Test
     fun customIcon() = snapshot {
         UiSnackbarCustomIconPreview()
     }

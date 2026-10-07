@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Google でログイン</string>
     <string name="login_error_title">ログインエラー</string>
     <string name="login_error_message">ログイン中にエラーが発生しました。もう一度お試しください。</string>
+    <string name="connection_lost_title">接続がありません</string>
+    <string name="connection_lost_message">インターネット接続を確認してください。</string>
     <string name="profile">プロフィール</string>
     <string name="sign_out">ログアウト</string>
     <string name="sign_out_confirm_title">ログアウトしますか？</string>

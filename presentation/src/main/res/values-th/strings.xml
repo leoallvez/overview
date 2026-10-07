@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">ลงชื่อเข้าใช้ด้วย Google</string>
     <string name="login_error_title">ข้อผิดพลาดในการเข้าสู่ระบบ</string>
     <string name="login_error_message">เกิดข้อผิดพลาดระหว่างการเข้าสู่ระบบ โปรดลองอีกครั้ง</string>
+    <string name="connection_lost_title">ไม่มีการเชื่อมต่อ</string>
+    <string name="connection_lost_message">โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ</string>
     <string name="profile">โปรไฟล์</string>
     <string name="sign_out">ออกจากระบบ</string>
     <string name="sign_out_confirm_title">ออกจากระบบใช่ไหม</string>

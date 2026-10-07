@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Accedi con Google</string>
     <string name="login_error_title">Errore di accesso</string>
     <string name="login_error_message">Si è verificato un errore durante l\'accesso. Riprova.</string>
+    <string name="connection_lost_title">Nessuna connessione</string>
+    <string name="connection_lost_message">Controlla la tua connessione a Internet.</string>
     <string name="profile">Profilo</string>
     <string name="sign_out">Esci</string>
     <string name="sign_out_confirm_title">Uscire dall\'account?</string>

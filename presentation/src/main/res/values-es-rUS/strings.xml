@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Acceder con Google</string>
     <string name="login_error_title">Error de inicio de sesión</string>
     <string name="login_error_message">Se produjo un error al iniciar sesión. Inténtalo de nuevo.</string>
+    <string name="connection_lost_title">Sin conexión</string>
+    <string name="connection_lost_message">Revisa tu conexión a internet.</string>
     <string name="profile">Perfil</string>
     <string name="sign_out">Cerrar sesión</string>
     <string name="sign_out_confirm_title">¿Cerrar sesión?</string>

@@ -1,6 +1,9 @@
 package br.dev.singular.overview.presentation.ui.components.snackbar
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,12 +14,15 @@ import javax.inject.Singleton
  * A snackbar being displayed by [UiSnackbarHost].
  *
  * The [id] is unique per call to [UiSnackbarHostState.show], so equal [visuals] shown more than
- * once remain distinct entries.
+ * once remain distinct entries. When [dismissRequested] is set, the host animates the snackbar out
+ * and removes it.
  */
 internal class UiSnackbarEntry(
     val id: Long,
     val visuals: UiSnackbarVisuals
-)
+) {
+    var dismissRequested by mutableStateOf(false)
+}
 
 /**
  * Global state holder for managing snackbar notifications across the application.
@@ -61,6 +67,30 @@ class UiSnackbarHostState @Inject constructor() {
                 addSnackbar(visuals)
             }
         }
+    }
+
+    /**
+     * Requests the dismissal of every active snackbar showing the given [visuals], e.g. one shown
+     * with [UiSnackbarVisuals.INDEFINITE_DURATION_MILLIS] whose cause no longer applies.
+     *
+     * Ensures thread-safe execution on the main thread.
+     *
+     * @param visuals The [UiSnackbarVisuals] previously passed to [show].
+     */
+    fun dismiss(visuals: UiSnackbarVisuals) {
+        if (android.os.Looper.myLooper() == android.os.Looper.getMainLooper()) {
+            requestDismiss(visuals)
+        } else {
+            CoroutineScope(Dispatchers.Main).launch {
+                requestDismiss(visuals)
+            }
+        }
+    }
+
+    private fun requestDismiss(visuals: UiSnackbarVisuals) {
+        snackbarList
+            .filter { it.visuals == visuals }
+            .forEach { it.dismissRequested = true }
     }
 
     /**

@@ -91,6 +91,8 @@
     <string name="catalog_only_message">This app is intended exclusively for consulting catalogs. Content playback must be performed on official platforms.</string>
     <string name="login_error_title">Login Error</string>
     <string name="login_error_message">An error occurred during login.</string>
+    <string name="connection_lost_title">No connection</string>
+    <string name="connection_lost_message">Check your internet connection.</string>
     <string name="profile">Profile</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_out_confirm_title">Sign out?</string>

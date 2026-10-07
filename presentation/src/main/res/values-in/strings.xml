@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Login dengan Google</string>
     <string name="login_error_title">Kesalahan login</string>
     <string name="login_error_message">Terjadi kesalahan saat login. Silakan coba lagi.</string>
+    <string name="connection_lost_title">Tidak ada koneksi</string>
+    <string name="connection_lost_message">Periksa koneksi internet Anda.</string>
     <string name="profile">Profil</string>
     <string name="sign_out">Keluar</string>
     <string name="sign_out_confirm_title">Keluar dari akun?</string>

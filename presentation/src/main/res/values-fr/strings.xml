@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Se connecter avec Google</string>
     <string name="login_error_title">Erreur de connexion</string>
     <string name="login_error_message">Une erreur s\'est produite lors de la connexion. Veuillez réessayer.</string>
+    <string name="connection_lost_title">Aucune connexion</string>
+    <string name="connection_lost_message">Vérifiez votre connexion Internet.</string>
     <string name="profile">Profil</string>
     <string name="sign_out">Se déconnecter</string>
     <string name="sign_out_confirm_title">Se déconnecter ?</string>

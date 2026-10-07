@@ -158,6 +158,8 @@ internal fun UiSnackbar(
                             )
                         )
                     }
+
+                    is UiSnackbarVisuals.Persistent -> Unit
                 }
             }
         }
@@ -203,6 +205,26 @@ private fun UiSnackbarBasePreview(
                 onAction = {}
             )
         )
+    }
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiSnackbarPersistentPreview() {
+    Column(
+        modifier = Modifier
+            .padding(dimensionResource(R.dimen.spacing_4x)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2x))
+    ) {
+        UiSnackbarStyle.entries.forEach { style ->
+            UiSnackbar(
+                visuals = UiSnackbarVisuals.Persistent(
+                    title = stringResource(R.string.lorem_ipsum_short),
+                    message = stringResource(R.string.lorem_ipsum_long),
+                    style = style
+                )
+            )
+        }
     }
 }
 

@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Google 계정으로 로그인</string>
     <string name="login_error_title">로그인 오류</string>
     <string name="login_error_message">로그인 중 오류가 발생했습니다. 다시 시도해 주세요.</string>
+    <string name="connection_lost_title">연결 없음</string>
+    <string name="connection_lost_message">인터넷 연결을 확인해 주세요.</string>
     <string name="profile">프로필</string>
     <string name="sign_out">로그아웃</string>
     <string name="sign_out_confirm_title">로그아웃하시겠습니까?</string>

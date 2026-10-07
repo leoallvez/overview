@@ -51,6 +51,20 @@ class UiSnackbarTest {
     }
 
     @Test
+    fun `UiSnackBar should not render any button when it is persistent`() {
+        rule.setContent {
+            UiSnackbar(
+                visuals = UiSnackbarVisuals.Persistent(
+                    title = "Title",
+                    message = "Test Message",
+                )
+            )
+        }
+        rule.onNodeWithText("Test Message").assertExists()
+        rule.onNode(hasClickAction()).assertDoesNotExist()
+    }
+
+    @Test
     fun `UiSnackBar should call onClose when close button is clicked`() {
         val onClose: () -> Unit = mockk(relaxed = true)
         rule.setContent {

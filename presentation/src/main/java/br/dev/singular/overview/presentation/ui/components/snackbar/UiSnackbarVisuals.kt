@@ -28,4 +28,17 @@ sealed interface UiSnackbarVisuals {
         override val icon: UiIconSource = style.defaultIcon,
         val onAction: () -> Unit
     ) : UiSnackbarVisuals
+
+    data class Persistent(
+        override val title: String,
+        override val message: String,
+        override val style: UiSnackbarStyle = UiSnackbarStyle.Success,
+        override val icon: UiIconSource = style.defaultIcon
+    ) : UiSnackbarVisuals {
+        override val durationMillis: Long = INDEFINITE_DURATION_MILLIS
+    }
+
+    companion object {
+        const val INDEFINITE_DURATION_MILLIS = Long.MAX_VALUE
+    }
 }

@@ -48,6 +48,7 @@ fun UiSnackbarHost(
                 key(entry.id) {
                     StackedSnackbarItem(
                         visuals = entry.visuals,
+                        dismissRequested = entry.dismissRequested,
                         onDismiss = { hostState.dismiss(entry) }
                     )
                 }
@@ -59,6 +60,7 @@ fun UiSnackbarHost(
 @Composable
 private fun StackedSnackbarItem(
     visuals: UiSnackbarVisuals,
+    dismissRequested: Boolean,
     onDismiss: () -> Unit
 ) {
     var visible by remember { mutableStateOf(false) }
@@ -76,6 +78,12 @@ private fun StackedSnackbarItem(
         visible = true
         delay(duration = visuals.durationMillis.milliseconds)
         startDismissFlow()
+    }
+
+    LaunchedEffect(dismissRequested) {
+        if (dismissRequested) {
+            startDismissFlow()
+        }
     }
 
     UiSnackbar(

@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">使用 Google 帐号登录</string>
     <string name="login_error_title">登录错误</string>
     <string name="login_error_message">登录时出错，请重试。</string>
+    <string name="connection_lost_title">无网络连接</string>
+    <string name="connection_lost_message">请检查您的网络连接。</string>
     <string name="profile">个人资料</string>
     <string name="sign_out">退出登录</string>
     <string name="sign_out_confirm_title">要退出登录吗？</string>

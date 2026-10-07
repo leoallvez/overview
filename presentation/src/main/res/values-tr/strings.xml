@@ -91,6 +91,8 @@
     <string name="sign_in_with_google">Google ile oturum açın</string>
     <string name="login_error_title">Giriş hatası</string>
     <string name="login_error_message">Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.</string>
+    <string name="connection_lost_title">Bağlantı yok</string>
+    <string name="connection_lost_message">İnternet bağlantınızı kontrol edin.</string>
     <string name="profile">Profil</string>
     <string name="sign_out">Çıkış yap</string>
     <string name="sign_out_confirm_title">Çıkış yapılsın mı?</string>
