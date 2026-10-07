@@ -8,7 +8,6 @@ serialization = "1.11.0"
 # Android Core
 agp = "9.4.1"
 core-ktx = "1.19.1"
-material = "1.14.0"
 
 # Compose
 compose-bom = "2026.09.00"
@@ -129,7 +128,6 @@ network-response-adapter = { module = "com.github.haroldadmin:NetworkResponseAda
 # UI Libraries
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 lucide-icons = { module = "com.composables:icons-lucide-cmp", version.ref = "lucide" }
 
 # Testing Libraries

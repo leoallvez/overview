@@ -71,6 +71,7 @@ extensions.configure<ApplicationExtension> {
             "en", "de", "es", "es-rUS", "fr", "in", "it", "ja", "ko", "pt-rBR", "th", "tr", "zh-rCN"
         )
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
