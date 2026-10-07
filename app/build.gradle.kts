@@ -1,17 +1,13 @@
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.ApplicationProductFlavor
 
 plugins {
     id("overview.android.application")
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android.plugin)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kover)
-    alias(libs.plugins.paparazzi)
 }
 
 extensions.configure<ApplicationExtension> {
@@ -19,7 +15,6 @@ extensions.configure<ApplicationExtension> {
         vectorDrawables {
             useSupportLibrary = true
         }
-        intField("PAGE_SIZE", 20)
     }
 
     buildTypes {
@@ -34,21 +29,8 @@ extensions.configure<ApplicationExtension> {
     }
 
     if (isActiveSigning()) {
-        signingConfigs {
-            val home = System.getProperty("user.home")
-            create("prd") {
-                storeFile = rootProject.file("$home${System.getenv("OVER_PRD_KEYSTORE")}")
-                storePassword = System.getenv("OVER_PRD_PASSWORD")
-                keyAlias = System.getenv("OVER_PRD_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_PRD_PASSWORD")
-            }
-            create("hmg") {
-                storeFile = rootProject.file("$home${System.getenv("OVER_HMG_KEYSTORE")}")
-                storePassword = System.getenv("OVER_HMG_PASSWORD")
-                keyAlias = System.getenv("OVER_HMG_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_HMG_PASSWORD")
-            }
-        }
+        envSigningConfig("prd")
+        envSigningConfig("hmg")
     }
 
     flavorDimensions.add("version")
@@ -83,6 +65,13 @@ extensions.configure<ApplicationExtension> {
         resValues = true
     }
 
+    @Suppress("UnstableApiUsage")
+    androidResources {
+        localeFilters += listOf(
+            "en", "de", "es", "es-rUS", "fr", "in", "it", "ja", "ko", "pt-rBR", "th", "tr", "zh-rCN"
+        )
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -96,12 +85,6 @@ hilt {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-
-    // Lifecycle
-    implementation(libs.lifecycle.runtime)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.lifecycle.process)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -132,18 +115,4 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kluent)
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }
-
-private fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue("string", "app_name", appName)
-}
-
-private fun isActiveSigning() = System.getenv("OVER_ACTIVE_SIGNING") == "true"
