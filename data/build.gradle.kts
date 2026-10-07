@@ -64,7 +64,6 @@ ksp {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     api(libs.retrofit)
@@ -72,7 +71,6 @@ dependencies {
     // Room
     api(libs.room.runtime)
     api(libs.room.ktx)
-    api(libs.room.paging)
     ksp(libs.room.compiler)
 
     // DataStore
@@ -104,6 +102,4 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kluent)
     testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

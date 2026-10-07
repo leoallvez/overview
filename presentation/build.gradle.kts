@@ -60,8 +60,6 @@ kover {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -102,6 +100,5 @@ dependencies {
     testImplementation(libs.androidx.ui.test.junit4)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.androidx.ui.test.manifest)
-    androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)
 }
