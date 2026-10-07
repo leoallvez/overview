@@ -10,7 +10,6 @@ plugins {
 
 extensions.configure<LibraryExtension> {
     defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
         intField("PAGE_SIZE", 20)
         stringField("IMG_URL", "https://image.tmdb.org/t/p/w780")
         stringField("POSTER_URL", "https://image.tmdb.org/t/p/w154")
@@ -20,11 +19,6 @@ extensions.configure<LibraryExtension> {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
             stringField("DEBUG_BANNER_ID", "")
         }
         debug {

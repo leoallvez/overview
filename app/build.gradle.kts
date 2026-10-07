@@ -1,5 +1,4 @@
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.ApplicationProductFlavor
 
 plugins {
     id("overview.android.application")
@@ -16,7 +15,6 @@ extensions.configure<ApplicationExtension> {
         vectorDrawables {
             useSupportLibrary = true
         }
-        intField("PAGE_SIZE", 20)
     }
 
     buildTypes {
@@ -31,21 +29,8 @@ extensions.configure<ApplicationExtension> {
     }
 
     if (isActiveSigning()) {
-        signingConfigs {
-            val home = System.getProperty("user.home")
-            create("prd") {
-                storeFile = rootProject.file("$home${System.getenv("OVER_PRD_KEYSTORE")}")
-                storePassword = System.getenv("OVER_PRD_PASSWORD")
-                keyAlias = System.getenv("OVER_PRD_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_PRD_PASSWORD")
-            }
-            create("hmg") {
-                storeFile = rootProject.file("$home${System.getenv("OVER_HMG_KEYSTORE")}")
-                storePassword = System.getenv("OVER_HMG_PASSWORD")
-                keyAlias = System.getenv("OVER_HMG_KEY_ALIAS")
-                keyPassword = System.getenv("OVER_HMG_PASSWORD")
-            }
-        }
+        envSigningConfig("prd")
+        envSigningConfig("hmg")
     }
 
     flavorDimensions.add("version")
@@ -130,9 +115,3 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kluent)
 }
-
-private fun ApplicationProductFlavor.setAppName(appName: String) {
-    resValue("string", "app_name", appName)
-}
-
-private fun isActiveSigning() = System.getenv("OVER_ACTIVE_SIGNING") == "true"
