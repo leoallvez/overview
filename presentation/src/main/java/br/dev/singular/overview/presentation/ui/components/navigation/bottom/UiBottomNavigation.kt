@@ -10,6 +10,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
@@ -18,10 +19,9 @@ import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.theme.Background
-import br.dev.singular.overview.presentation.ui.theme.HighlightColor
-import br.dev.singular.overview.presentation.ui.theme.LowlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.UiPlaceholder
+import br.dev.singular.overview.presentation.ui.utils.animateActionColor
 
 @Composable
 fun UiBottomNavigation(
@@ -42,19 +42,34 @@ fun UiBottomNavigation(
         ) {
             state.navItems.forEach { item ->
                 val selected = state.currentRoute == item.destination.route
-                val color = if (selected) HighlightColor else LowlightColor
+                val color = animateActionColor(isActive = selected)
+                val scaleState = UiBottomNavigationDefaults.animateNavScales(selected = selected)
                 NavigationBarItem(
                     icon = {
                         UiIcon(
                             source = UiIconSource.vector(item.icon),
                             color = color,
-                            modifier = Modifier.size(dimensionResource(R.dimen.spacing_6x))
+                            modifier = Modifier
+                                .size(dimensionResource(R.dimen.spacing_6x))
+                                .graphicsLayer {
+                                    scaleX = scaleState.iconScale.value
+                                    scaleY = scaleState.iconScale.value
+                                }
                         )
                     },
                     colors = NavigationBarItemDefaults.colors(
                         indicatorColor = Background
                     ),
-                    label = { UiText(stringResource(item.title), color = color) },
+                    label = {
+                        UiText(
+                            text = stringResource(item.title),
+                            color = color,
+                            modifier = Modifier.graphicsLayer {
+                                scaleX = scaleState.labelScale.value
+                                scaleY = scaleState.labelScale.value
+                            }
+                        )
+                    },
                     selected = selected,
                     onClick = { state.onSelectItem(item) }
                 )

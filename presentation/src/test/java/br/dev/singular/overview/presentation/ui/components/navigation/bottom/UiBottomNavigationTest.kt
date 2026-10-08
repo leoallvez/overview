@@ -3,6 +3,8 @@ package br.dev.singular.overview.presentation.ui.components.navigation.bottom
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -119,5 +121,18 @@ class UiBottomNavigationTest {
         rule.onNodeWithText("Home").performClick()
 
         assert(!navMock.wasNavigateCalled)
+    }
+
+    @Test
+    fun `when inactive item is clicked should move selection to it`() {
+
+        rule.setContent {
+            UiBottomNavigation(state = UiBottomNavigationState())
+        }
+
+        rule.onNodeWithText("Search").performClick()
+
+        rule.onNodeWithText("Search").assertIsSelected()
+        rule.onNodeWithText("Home").assertIsNotSelected()
     }
 }
