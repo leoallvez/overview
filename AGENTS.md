@@ -80,6 +80,8 @@ This module is the **pure entry point** of the project. It acts as the "glue" us
 dependencies across modules and manages navigation.
 
 > **Important:** This module contains **no UI logic or business implementations**.
+> Its composables are limited to wiring: navigation routes that connect ViewModels to Screens
+> from `:presentation`, and platform integrations such as the Google sign-in request in `auth/`.
 > Refer to the [`feature-integrator`](.agents/skills/feature-integrator/SKILL.md) and [
 `hilt-integrator`](.agents/skills/hilt-integrator/SKILL.md) skills for integration details.
 
@@ -142,6 +144,7 @@ For detailed examples, patterns, and testing strategies, always refer to the cor
 - **Background Tasks:** [`worker-builder`](.agents/skills/worker-builder/SKILL.md)
 - **Analytics:** [`analytics-tagger`](.agents/skills/analytics-tagger/SKILL.md)
 - **Snackbar Feedback:** [`snackbar-notifier`](.agents/skills/snackbar-notifier/SKILL.md)
+- **R8 & Keep Rules:** [`r8-analyzer`](.agents/skills/r8-analyzer/SKILL.md)
 - **Git Standards:** [`git-standardizer`](.agents/skills/git-standardizer/SKILL.md)
 
 ## Examples of Success
