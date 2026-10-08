@@ -42,9 +42,9 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import br.dev.singular.overview.presentation.ui.utils.fakeQueryState
+import br.dev.singular.overview.presentation.ui.utils.getStringByName
 import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
 import br.dev.singular.overview.presentation.ui.utils.rememberLazyGridScrollState
-import br.dev.singular.overview.presentation.util.getStringByName
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
