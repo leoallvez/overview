@@ -112,7 +112,8 @@ class MediaRemoteDataSourceTest {
     fun `getTvShowById should return Success when API returns success`() = runTest {
         // arrange
         val id = 456L
-        val successResponse = mockk<NetworkResponse.Success<TvShowDetailsDataModel, ErrorResponse>>()
+        val successResponse =
+            mockk<NetworkResponse.Success<TvShowDetailsDataModel, ErrorResponse>>()
         every { successResponse.body } returns fakeTvShowDetailsDataModel
 
         coEvery { api.getTvShowDetailsById(id = id) } returns successResponse

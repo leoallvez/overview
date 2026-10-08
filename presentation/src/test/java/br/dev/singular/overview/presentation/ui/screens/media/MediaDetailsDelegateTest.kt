@@ -55,17 +55,18 @@ class MediaDetailsDelegateTest {
     }
 
     @Test
-    fun `observeIsLiked should emit false when only the other media type is a favorite`() = runTest {
-        // arrange
-        val media = createMediaMock().copy(id = 1L, type = MediaType.TV)
-        every { favoritesUseCase() } returns flowOf(listOf(media))
+    fun `observeIsLiked should emit false when only the other media type is a favorite`() =
+        runTest {
+            // arrange
+            val media = createMediaMock().copy(id = 1L, type = MediaType.TV)
+            every { favoritesUseCase() } returns flowOf(listOf(media))
 
-        // act
-        val result = sut.observeIsLiked(1L, MediaType.MOVIE).toList()
+            // act
+            val result = sut.observeIsLiked(1L, MediaType.MOVIE).toList()
 
-        // assert
-        result shouldBeEqualTo listOf(false)
-    }
+            // assert
+            result shouldBeEqualTo listOf(false)
+        }
 
     @Test
     fun `observeIsLiked should emit only when the liked status changes`() = runTest {
@@ -73,7 +74,7 @@ class MediaDetailsDelegateTest {
         val media = createMediaMock().copy(id = 1L, type = MediaType.MOVIE)
         val other = createMediaMock().copy(id = 2L, type = MediaType.MOVIE)
         every { favoritesUseCase() } returns
-            flowOf(emptyList(), listOf(other), listOf(other, media), listOf(media), emptyList())
+                flowOf(emptyList(), listOf(other), listOf(other, media), listOf(media), emptyList())
 
         // act
         val result = sut.observeIsLiked(1L, MediaType.MOVIE).toList()

@@ -1,10 +1,12 @@
 # Data Source Unit Test Guide
 
-This reference provides the standard pattern for creating unit tests for Data Sources in the **Overview** project using **MockK**, **Kluent**, and **Kotlin Coroutines Test**.
+This reference provides the standard pattern for creating unit tests for Data Sources in the
+**Overview** project using **MockK**, **Kluent**, and **Kotlin Coroutines Test**.
 
 ## Testing Overview
 
-Data Source unit tests verify that the raw data retrieval calls are correctly mapped to results (especially `DataResult` for remote) and that local interactions (DAOs) are correctly executed.
+Data Source unit tests verify that the raw data retrieval calls are correctly mapped to results
+(especially `DataResult` for remote) and that local interactions (DAOs) are correctly executed.
 
 ### Example: `AppleRemoteDataSourceTest.kt`
 
@@ -69,9 +71,12 @@ class AppleLocalDataSourceTest {
 
 ### Key Requirements:
 
-- **Mocking API:** For Remote Data Sources, use `mockk<NetworkResponse.Success<T>>()` to simulate Retrofit's `NetworkResponse`.
+- **Mocking API:** For Remote Data Sources, use `mockk<NetworkResponse.Success<T>>()` to simulate
+  Retrofit's `NetworkResponse`.
 - **SUT Naming:** Use `sut` (System Under Test) and type it with the interface.
 - **Coroutines:** Always use `runTest`.
-- **Remote Results:** Assert that the result is an instance of `DataResult.Success` or `DataResult.Error`.
-- **DAO Verification:** Use `coVerify` to ensure DAO methods were called with the expected parameters.
+- **Remote Results:** Assert that the result is an instance of `DataResult.Success` or
+  `DataResult.Error`.
+- **DAO Verification:** Use `coVerify` to ensure DAO methods were called with the expected
+  parameters.
 - **Location:** Place tests in `:data/src/test/java/...` mirroring the package structure.

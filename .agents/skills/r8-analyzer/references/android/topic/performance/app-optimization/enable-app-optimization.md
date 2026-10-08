@@ -1,7 +1,6 @@
-For the best user experience, you should optimize your app to make it as small
-and fast as possible. Our app optimizer, called R8, streamlines your app by
-removing unused code and resources, rewriting code to optimize runtime
-performance, and more. To your users, this means:
+For the best user experience, you should optimize your app to make it as small and fast as possible.
+Our app optimizer, called R8, streamlines your app by removing unused code and resources, rewriting
+code to optimize runtime performance, and more. To your users, this means:
 
 - Faster startup time
 - Reduced memory usage
@@ -23,45 +22,42 @@ see [Optimization for library authors](https://developer.android.com/topic/perfo
 
 ## R8 optimization overview
 
-R8 uses a multi-phase process to optimize your app for size and speed. Key
-operations include the following:
+R8 uses a multi-phase process to optimize your app for size and speed. Key operations include the
+following:
 
-- **Code shrinking (also known as tree shaking)** : R8 identifies and removes
-  unreachable code from your application and its library dependencies. By
-  analyzing the entry points of your app (such as `Activities` or `Services`
-  defined in the manifest), R8 builds a graph of referenced code and removes
-  anything that remains unreferenced.
+- **Code shrinking (also known as tree shaking)** : R8 identifies and removes unreachable code from
+  your application and its library dependencies. By analyzing the entry points of your app (such as
+  `Activities` or `Services`
+  defined in the manifest), R8 builds a graph of referenced code and removes anything that remains
+  unreferenced.
 
-- **Logical optimizations**: R8 rewrites your code to improve execution
-  efficiency and reduce overhead. Key techniques include:
+- **Logical optimizations**: R8 rewrites your code to improve execution efficiency and reduce
+  overhead. Key techniques include:
 
-    - **Method inlining**: R8 replaces a method call site with the actual body
-      of the called method. This eliminates the overhead of a function call
-      and lets R8 conduct further optimizations.
+    - **Method inlining**: R8 replaces a method call site with the actual body of the called method.
+      This eliminates the overhead of a function call and lets R8 conduct further optimizations.
 
-    - **Class merging**: R8 combines sets of classes and interfaces into a
-      single class. This reduces the number of classes in the app, lowering
-      memory pressure and improving startup speed.
+    - **Class merging**: R8 combines sets of classes and interfaces into a single class. This
+      reduces the number of classes in the app, lowering memory pressure and improving startup
+      speed.
 
-- **Obfuscation (also known as minification)** : To reduce the size of the DEX
-  file, R8 shortens the names of classes, fields, and methods (for example,
+- **Obfuscation (also known as minification)** : To reduce the size of the DEX file, R8 shortens the
+  names of classes, fields, and methods (for example,
   `com.example.MyActivity` could become `a.b.a`).
 
-Since 8.12.0 version of Android Gradle Plugin (AGP), R8 also optimizes resources
-as part of its optimization phases. For more information, see [Optimized
-resource shrinking](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization#optimize-resource-shrinking).
+Since 8.12.0 version of Android Gradle Plugin (AGP), R8 also optimizes resources as part of its
+optimization phases. For more information,
+see [Optimized resource shrinking](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization#optimize-resource-shrinking).
 
 ## Enable optimization
 
 To enable app optimization, set `isMinifyEnabled = true` (for code optimization)
-and `isShrinkResources = true` (for resource optimization) in your [release
-build's](https://developer.android.com/studio/publish/preparing#turn-off-debugging) app-level build
-script as shown in the following code. We recommend
-that you always enable both settings. We also recommend enabling app
-optimization only in the final version of your app that you test before
-publishing---usually your release build---because the optimizations increase the
-build time of your project and can make debugging harder due to the way it
-modifies code.
+and `isShrinkResources = true` (for resource optimization) in
+your [release build's](https://developer.android.com/studio/publish/preparing#turn-off-debugging)
+app-level build script as shown in the following code. We recommend that you always enable both
+settings. We also recommend enabling app optimization only in the final version of your app that you
+test before publishing---usually your release build---because the optimizations increase the build
+time of your project and can make debugging harder due to the way it modifies code.
 
 ### Kotlin
 
@@ -108,59 +104,51 @@ android {
 
 ## Optimize resource shrinking for even smaller apps
 
-The 8.12.0 version of Android Gradle Plugin (AGP) introduces optimized resource
-shrinking, which aims to integrate resource and code optimization to create even
-smaller and faster apps.
+The 8.12.0 version of Android Gradle Plugin (AGP) introduces optimized resource shrinking, which
+aims to integrate resource and code optimization to create even smaller and faster apps.
 
 Before optimized resource shrinking, Android Asset Packaging Tool (AAPT2)
-generated keep rules that effectively treating resource shrinking separately
-from code, often retaining inaccessible code or resources that referenced each
-other.
+generated keep rules that effectively treating resource shrinking separately from code, often
+retaining inaccessible code or resources that referenced each other.
 
-With optimized resource shrinking, resources are considered like a part of
-program code, forming the reference graph. When a collection of code or
-resources is not referenced, it is not protected by a keep rule, and can be
-removed.
+With optimized resource shrinking, resources are considered like a part of program code, forming the
+reference graph. When a collection of code or resources is not referenced, it is not protected by a
+keep rule, and can be removed.
 
 ### Enable optimized resource shrinking
 
-To enable the new optimized resource shrinking pipeline for AGP 8.12 or 8.13,
-add the following to your project's `gradle.properties` file:
+To enable the new optimized resource shrinking pipeline for AGP 8.12 or 8.13, add the following to
+your project's `gradle.properties` file:
 
     android.r8.optimizedResourceShrinking=true
 
 If you are using AGP 9.0.0 or a newer version, you don't need to set
-`android.r8.optimizedResourceShrinking=true`. Optimized resource shrinking is
-automatically applied when `isShrinkResources = true` is enabled in your build
-configuration.
+`android.r8.optimizedResourceShrinking=true`. Optimized resource shrinking is automatically applied
+when `isShrinkResources = true` is enabled in your build configuration.
 
 ## Verify and configure R8 optimization settings
 
 To enable R8 to use
 its [full optimization capabilities](https://developer.android.com/topic/performance/app-optimization/full-mode),
-remove the
-following line from your project's `gradle.properties` file, if it exists:
+remove the following line from your project's `gradle.properties` file, if it exists:
 
     android.enableR8.fullMode=false # Remove this line from your codebase.
 
-Note that enabling app optimization makes stack traces difficult to understand,
-especially if R8 renames class or method names. To get stack traces that
-correctly correspond to your source code, see [Recover the original stack
-trace](https://developer.android.com/topic/performance/app-optimization/test-and-troubleshoot-the-optimization#recover-original-stack-trace).
+Note that enabling app optimization makes stack traces difficult to understand, especially if R8
+renames class or method names. To get stack traces that correctly correspond to your source code,
+see [Recover the original stack trace](https://developer.android.com/topic/performance/app-optimization/test-and-troubleshoot-the-optimization#recover-original-stack-trace).
 
 If R8 is enabled, you should
 also [create Startup Profiles](https://developer.android.com/topic/performance/baselineprofiles/dex-layout-optimizations)
-for even better
-startup performance.
+for even better startup performance.
 
-If you enable app optimization and it causes errors, here are some strategies to
-fix them:
+If you enable app optimization and it causes errors, here are some strategies to fix them:
 
 - [Add keep rules](https://developer.android.com/topic/performance/app-optimization/add-keep-rules)
   to keep some code untouched.
 - [Adopt optimizations incrementally](https://developer.android.com/topic/performance/app-optimization/adopt-optimizations-incrementally).
-- Update your code to [use libraries that are better suited for
-  optimization](https://developer.android.com/topic/performance/app-optimization/choose-libraries-wisely).
+- Update your code
+  to [use libraries that are better suited for optimization](https://developer.android.com/topic/performance/app-optimization/choose-libraries-wisely).
 
 > [!CAUTION]
 > **Caution:** Tools that replace or modify R8's output can negatively impact runtime performance.
@@ -170,14 +158,14 @@ in [DEX layout](https://developer.android.com/topic/performance/baselineprofiles
 > and in correctly producing Baseline Profiles - other tools producing or modifying DEX files can
 > break these optimizations, or otherwise regress performance.
 
-If you are interested in optimizing your build speed, see [Configure how R8
-runs](https://developer.android.com/build/r8-execution-profiles) for information on how to configure
-R8 based on your environment.
+If you are interested in optimizing your build speed,
+see [Configure how R8 runs](https://developer.android.com/build/r8-execution-profiles) for
+information on how to configure R8 based on your environment.
 
 ## AGP and R8 version behavior changes
 
-The following table outlines the key features introduced in various versions of
-the Android Gradle Plugin (AGP) and the R8 compiler.
+The following table outlines the key features introduced in various versions of the Android Gradle
+Plugin (AGP) and the R8 compiler.
 
 | AGP version | Features introduced                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

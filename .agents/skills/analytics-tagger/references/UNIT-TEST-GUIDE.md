@@ -1,10 +1,12 @@
 # Analytics Unit Test Guide
 
-This reference provides the standard pattern for creating unit tests for Analytics in the **Overview** project using **MockK**.
+This reference provides the standard pattern for creating unit tests for Analytics in the
+**Overview** project using **MockK**.
 
 ## Testing Overview
 
-Analytics unit tests verify that the `TagManager` is called with the correct event names, paths, and parameters when specific actions occur.
+Analytics unit tests verify that the `TagManager` is called with the correct event names, paths, and
+parameters when specific actions occur.
 
 ### Example: `AppleActionsTest.kt`
 
@@ -41,7 +43,11 @@ class AppleActionsTest {
 
 ### Key Requirements:
 
-- **Mocking Singleton:** Use `mockkObject(TagManager)` in `@Before` and `unmockkObject(TagManager)` in `@After` to intercept calls to the object.
-- **Verification:** Use `verify` to check that `logClick`, `logScreenView`, or `logInteraction` was called with the exact expected strings.
-- **Integration with Actions:** Most interaction analytics should be tested by triggering a function in the `Actions` class and verifying the corresponding `TagManager` call.
-- **Status Mapping:** For screen views, test that different `UiState` values result in the correct `TagStatus` being logged.
+- **Mocking Singleton:** Use `mockkObject(TagManager)` in `@Before` and `unmockkObject(TagManager)`
+  in `@After` to intercept calls to the object.
+- **Verification:** Use `verify` to check that `logClick`, `logScreenView`, or `logInteraction` was
+  called with the exact expected strings.
+- **Integration with Actions:** Most interaction analytics should be tested by triggering a function
+  in the `Actions` class and verifying the corresponding `TagManager` call.
+- **Status Mapping:** For screen views, test that different `UiState` values result in the correct
+  `TagStatus` being logged.

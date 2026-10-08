@@ -52,7 +52,7 @@ class MediaFavoriteRepositoryTest {
                 match { models ->
                     val model = models.single()
                     model == media.toData().copy(lastUpdate = model.lastUpdate) &&
-                        model.lastUpdate > Date(0)
+                            model.lastUpdate > Date(0)
                 }
             )
         }

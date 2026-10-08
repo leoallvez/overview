@@ -1,10 +1,12 @@
 # Compose Component Unit Test Guide
 
-This reference provides examples for creating unit tests for UI components, including skeleton variants, in the **Overview** project.
+This reference provides examples for creating unit tests for UI components, including skeleton
+variants, in the **Overview** project.
 
 ## UI Component Unit Test
 
-Component unit tests verify the rendering and interaction logic of Composables using `ComposeTestRule` and Robolectric.
+Component unit tests verify the rendering and interaction logic of Composables using
+`ComposeTestRule` and Robolectric.
 
 ### Example: `UiAppleCardTest.kt`
 
@@ -63,8 +65,11 @@ class UiAppleCardTest {
 ```
 
 ### Key Requirements:
+
 - **Rule:** Use `createComposeRule()`.
-- **Finding Nodes:** Use `onNodeWithText()` for content validation and `onNodeWithTag()` for structural validation.
-- **Skeleton Testing:** Verify the skeleton appears (via `testTag`) and that specific content from the real component is absent.
+- **Finding Nodes:** Use `onNodeWithText()` for content validation and `onNodeWithTag()` for
+  structural validation.
+- **Skeleton Testing:** Verify the skeleton appears (via `testTag`) and that specific content from
+  the real component is absent.
 - **Assertions:** Use `assertIsDisplayed()`, `assertDoesNotExist()`, or `assertTextEquals()`.
 - **Interactions:** Use `performClick()` to simulate user actions.

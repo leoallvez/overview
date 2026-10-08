@@ -1,10 +1,12 @@
 # UI Component Build Guide
 
-This reference demonstrates the standard pattern for creating a UI component and its loading state (skeleton) in the **Overview** project.
+This reference demonstrates the standard pattern for creating a UI component and its loading state
+(skeleton) in the **Overview** project.
 
 ### 1. UI Component Structure
 
-A standard component should be stateless (where possible), use the `Ui` prefix, and include a custom preview.
+A standard component should be stateless (where possible), use the `Ui` prefix, and include a custom
+preview.
 
 ```kotlin
 /**
@@ -36,7 +38,8 @@ fun UiAppleCard(
 
 ### 2. Skeleton Component
 
-Complex components should provide a skeleton variant to be used during loading states. Use `UiShimmerBox` to mimic the component's layout.
+Complex components should provide a skeleton variant to be used during loading states. Use
+`UiShimmerBox` to mimic the component's layout.
 
 ```kotlin
 /**
@@ -85,7 +88,11 @@ internal fun UiAppleCardSkeletonPreview() {
 ```
 
 ### Key Requirements:
-1.  **Prefix:** Use the `Ui` prefix for both the Composable and its Skeleton (e.g., `UiAppleCard`, `UiAppleCardSkeleton`).
-2.  **Design System:** Use project-specific components like `UiText`, `UiShimmerBox`, and dimension resources.
-3.  **Skeleton Layout:** The skeleton should have the same dimensions and basic structure as the original component.
-4.  **Statelessness:** Hoist state to callers or ViewModels.
+
+1. **Prefix:** Use the `Ui` prefix for both the Composable and its Skeleton (e.g., `UiAppleCard`,
+   `UiAppleCardSkeleton`).
+2. **Design System:** Use project-specific components like `UiText`, `UiShimmerBox`, and dimension
+   resources.
+3. **Skeleton Layout:** The skeleton should have the same dimensions and basic structure as the
+   original component.
+4. **Statelessness:** Hoist state to callers or ViewModels.

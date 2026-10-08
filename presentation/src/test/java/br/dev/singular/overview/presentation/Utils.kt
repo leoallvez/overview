@@ -165,6 +165,7 @@ class NavigationWrapperMock : INavigationWrapper {
     override fun popBackStack() {
         wasPopBackStackCalled = true
     }
+
     override fun toMediaDetails(media: MediaUiModel) {}
 
     @Composable

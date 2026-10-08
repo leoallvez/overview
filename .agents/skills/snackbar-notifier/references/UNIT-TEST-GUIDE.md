@@ -1,6 +1,7 @@
 # Snackbar Unit Test Guide
 
-This reference provides examples for testing a snackbar flow in the **Overview** project. Each layer has its own test: the ViewModel flag, the `Actions` method and the effect Composable.
+This reference provides examples for testing a snackbar flow in the **Overview** project. Each layer
+has its own test: the ViewModel flag, the `Actions` method and the effect Composable.
 
 ## ViewModel: flag transitions
 
@@ -78,7 +79,8 @@ fun `onFavoriteAdded should log interaction, show the snackbar and dismiss the n
 
 ## Effect Composable: visuals content
 
-Use `ComposeTestRule` with Robolectric and assert the `UiSnackbarVisuals` received by the callback. Read the expected texts from the resources, never from literals.
+Use `ComposeTestRule` with Robolectric and assert the `UiSnackbarVisuals` received by the callback.
+Read the expected texts from the resources, never from literals.
 
 ### Example: `MediaFavoriteAddedEffectTest.kt`
 
@@ -129,8 +131,12 @@ class MediaFavoriteAddedEffectTest {
 ```
 
 ### Key Requirements:
-- **Three Layers:** Test the ViewModel flag, the `Actions` method and the effect Composable separately.
-- **Negative Cases:** Always test that the snackbar is **not** shown when the trigger does not apply (failure, opposite action, flag `false`).
+
+- **Three Layers:** Test the ViewModel flag, the `Actions` method and the effect Composable
+  separately.
+- **Negative Cases:** Always test that the snackbar is **not** shown when the trigger does not apply
+  (failure, opposite action, flag `false`).
 - **Reset:** Always assert that the reset intent is sent after showing.
-- **Idle:** Call `rule.waitForIdle()` before asserting, since the visuals are emitted from a `LaunchedEffect`.
+- **Idle:** Call `rule.waitForIdle()` before asserting, since the visuals are emitted from a
+  `LaunchedEffect`.
 - **Run:** `./gradlew :presentation:testDebugUnitTest`.

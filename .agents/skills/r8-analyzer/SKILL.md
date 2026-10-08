@@ -30,8 +30,8 @@ metadata:
       rules targeting libraries - Google, AndroidX, Kotlin, Kotlinx, Room, Gson, Retrofit, inform
       the user that these are not required and suggest removal of these rules. b. **Impact analysis
       ** : For the remaining keep rules, assess them based on the impact hierarchy defined
-      in [references/KEEP-RULES-IMPACT-HIERARCHY.md](references/KEEP-RULES-IMPACT-HIERARCHY.md). (
-      Note: Do NOT assess the impact of keep rules already covered in the libraries check step).
+      in [references/KEEP-RULES-IMPACT-HIERARCHY.md](references/KEEP-RULES-IMPACT-HIERARCHY.md).
+      (Note: Do NOT assess the impact of keep rules already covered in the libraries check step).
 - \[ \] Step 5: Identify subsuming keep rules in the remaining keep rules based on the hierarchy
   defined in [references/KEEP-RULES-IMPACT-HIERARCHY.md](references/KEEP-RULES-IMPACT-HIERARCHY.md)
   and suggest removing the broader keep rules.

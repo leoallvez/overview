@@ -1,12 +1,15 @@
 # Screen Build Guide
 
-This reference demonstrates the standard pattern for creating a new screen in the **Overview** project, focusing on the stateless UI and Interaction Layer.
+This reference demonstrates the standard pattern for creating a new screen in the **Overview**
+project, focusing on the stateless UI and Interaction Layer.
 
 ### 1. Interaction Layer Contract
 
-Define the UI event model and the actions the screen can perform. This separates "what the user did" (Intent) from "how it's handled" (Actions).
+Define the UI event model and the actions the screen can perform. This separates "what the user did"
+(Intent) from "how it's handled" (Actions).
 
 **Intent:**
+
 ```kotlin
 sealed class AppleDetailIntent {
     class Load : AppleDetailIntent()
@@ -15,6 +18,7 @@ sealed class AppleDetailIntent {
 ```
 
 **Actions:**
+
 ```kotlin
 @Immutable
 data class AppleDetailActions(
@@ -123,7 +127,12 @@ internal fun AppleDetailScreenErrorPreview() {
 ```
 
 ### Key Requirements:
-1.  **Statelessness:** The screen Composable accepts state and emits events. It does not manage business state.
-2.  **Scaffold Usage:** Always use `UiScaffold` to maintain consistency with system bars and the app's overall structure.
-3.  **Interaction Decoupling:** Use the `Actions` pattern to keep the Composable's signature clean and facilitate testing/previews.
-4.  **Internal Content:** Extract the main content area into an `internal` function to improve readability and allow targeted previews/tests.
+
+1. **Statelessness:** The screen Composable accepts state and emits events. It does not manage
+   business state.
+2. **Scaffold Usage:** Always use `UiScaffold` to maintain consistency with system bars and the
+   app's overall structure.
+3. **Interaction Decoupling:** Use the `Actions` pattern to keep the Composable's signature clean
+   and facilitate testing/previews.
+4. **Internal Content:** Extract the main content area into an `internal` function to improve
+   readability and allow targeted previews/tests.

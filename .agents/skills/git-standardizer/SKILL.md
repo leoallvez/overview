@@ -19,12 +19,17 @@ metadata:
     - `feat`: A new feature (e.g., a new screen or use case).
     - `fix`: A bug fix.
     - `docs`: Documentation only changes (e.g., AGENTS.md, skill files).
-    - `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc).
+    - `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing
+      semi-colons, etc).
     - `refactor`: A code change that neither fixes a bug nor adds a feature.
     - `test`: Adding missing tests or correcting existing tests.
-    - `chore`: Changes to the build process or auxiliary tools and libraries (e.g., dependency updates, version bumps).
-- [ ] Step 3: Determine if a scope is needed (optional but recommended for multi-module projects). Common scopes in this project: `(data)`, `(presentation)`, `(app)`, `(domain)`, `(all)`, `(gradle)`.
-- [ ] Step 4: Write a concise description in lowercase, starting with a verb in the imperative or present tense (e.g., "add", "update", "fix").
+    - `chore`: Changes to the build process or auxiliary tools and libraries (e.g., dependency
+      updates, version bumps).
+- [ ] Step 3: Determine if a scope is needed (optional but recommended for multi-module projects).
+  Common scopes in this project: `(data)`, `(presentation)`, `(app)`, `(domain)`, `(all)`,
+  `(gradle)`.
+- [ ] Step 4: Write a concise description in lowercase, starting with a verb in the imperative or
+  present tense (e.g., "add", "update", "fix").
 - [ ] Step 5: Format the message as `<type>(<scope>): <description>` or `<type>: <description>`.
 - [ ] Step 6: Present the proposed commit message to the user for approval.
 
@@ -48,5 +53,6 @@ metadata:
 
 - **Conventional Format:** You MUST use the `<type>(<scope>): <description>` pattern.
 - **Lowercase:** The entire message (type, scope, description) SHOULD be in lowercase.
-- **Approval:** You MUST ask for user approval before committing if you have a tool for it, or just propose the message in the chat.
+- **Approval:** You MUST ask for user approval before committing if you have a tool for it, or just
+  propose the message in the chat.
 - **No Punctuation:** Do not end the subject line with a period.

@@ -1,12 +1,15 @@
 # Hilt Qualifiers Guide
 
-This guide explains how to use qualifiers in the **Overview** project to resolve dependency ambiguity.
+This guide explains how to use qualifiers in the **Overview** project to resolve dependency
+ambiguity.
 
 ## When to Use Qualifiers
 
 Use qualifiers when you have:
-1.  Multiple implementations of the same interface.
-2.  The same interface used in different contexts (e.g., `IGetRemoteMediasUseCase` for discover and search).
+
+1. Multiple implementations of the same interface.
+2. The same interface used in different contexts (e.g., `IGetRemoteMediasUseCase` for discover and
+   search).
 
 > Prefer a named interface in `:domain` when each implementation has its own meaning
 > (e.g., `IDeleteMediasUseCase : IDeleteUseCase`). Reserve qualifiers for cases where the
@@ -14,7 +17,8 @@ Use qualifiers when you have:
 
 ## 1. Define the Qualifier
 
-Qualifiers are annotations located in the `di` package of the corresponding module (app, data, or presentation).
+Qualifiers are annotations located in the `di` package of the corresponding module (app, data, or
+presentation).
 
 ```kotlin
 @Qualifier
@@ -50,4 +54,5 @@ class AppleViewModel @Inject constructor(
 ## Existing Qualifiers in the Project
 
 Check this file for examples:
+
 - `br.dev.singular.overview.presentation.di.domain.MediaUseCaseQualifiers.kt`

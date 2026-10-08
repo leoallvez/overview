@@ -1,10 +1,12 @@
 # Repository Unit Test Guide
 
-This reference provides the standard pattern for creating unit tests for Repositories in the **Overview** project using **MockK**, **Kluent**, and **Kotlin Coroutines Test**.
+This reference provides the standard pattern for creating unit tests for Repositories in the
+**Overview** project using **MockK**, **Kluent**, and **Kotlin Coroutines Test**.
 
 ## Testing Overview
 
-Repository unit tests verify the coordination between data sources, correct error handling, and proper mapping between data and domain models.
+Repository unit tests verify the coordination between data sources, correct error handling, and
+proper mapping between data and domain models.
 
 ### Example: `AppleRepositoryTest.kt`
 
@@ -63,10 +65,15 @@ class AppleRepositoryTest {
 ### Key Requirements:
 
 - **Library Usage:** Use **Kluent** for assertions (e.g., `shouldBeEqualTo`, `shouldBeNull`).
-- **Mocking:** Use `@MockK(relaxed = true)` for data sources to avoid boilerplate for non-relevant calls.
-- **SUT Naming:** Use `sut` (System Under Test) and type it with the interface (e.g., `GetById<Apple>`).
+- **Mocking:** Use `@MockK(relaxed = true)` for data sources to avoid boilerplate for non-relevant
+  calls.
+- **SUT Naming:** Use `sut` (System Under Test) and type it with the interface (e.g.,
+  `GetById<Apple>`).
 - **Coroutines:** Use `runTest` to wrap the test execution.
 - **Mapping Verification:** Ensure that the result matches the mapped domain model.
-- **Coordination Check:** Use `coVerify` to ensure data sources are called in the expected order and frequency.
-- **Failures:** Always test how the repository behaves when a data source returns an error or empty result.
-- **Location:** Place tests in `:data/src/test/java/...` mirroring the package structure of the implementation.
+- **Coordination Check:** Use `coVerify` to ensure data sources are called in the expected order and
+  frequency.
+- **Failures:** Always test how the repository behaves when a data source returns an error or empty
+  result.
+- **Location:** Place tests in `:data/src/test/java/...` mirroring the package structure of the
+  implementation.

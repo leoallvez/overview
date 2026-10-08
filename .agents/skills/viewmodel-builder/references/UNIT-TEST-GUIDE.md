@@ -1,10 +1,12 @@
 # ViewModel Unit Test Guide
 
-This reference provides the standard pattern for creating unit tests for ViewModels in the **Overview** project using **MockK** and **Kotlin Coroutines Test**.
+This reference provides the standard pattern for creating unit tests for ViewModels in the
+**Overview** project using **MockK** and **Kotlin Coroutines Test**.
 
 ## Testing Overview
 
-ViewModel unit tests verify state transitions, interaction with UseCases, and correct dispatcher usage.
+ViewModel unit tests verify state transitions, interaction with UseCases, and correct dispatcher
+usage.
 
 ### Example: `AppleDetailsViewModelTest.kt`
 

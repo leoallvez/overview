@@ -121,29 +121,31 @@ project's architecture, patterns, and quality standards.
 
 When interacting with an AI agent in this project, you can trigger specific workflows by referencing
 the skill name. The agent will then:
-1.  **Identify** the relevant skill.
-2.  **Plan** the implementation and present it for approval.
-3.  **Execute** the task following the project's strict architectural rules.
-4.  **Verify** the result by running tests.
+
+1. **Identify** the relevant skill.
+2. **Plan** the implementation and present it for approval.
+3. **Execute** the task following the project's strict architectural rules.
+4. **Verify** the result by running tests.
 
 ### Available Skills
 
-| **Skill**              | **Purpose**                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| `component-builder`    | Builds reusable stateless Compose components with Skeletons and Previews.   |
-| `screen-builder`       | Builds full Compose screens following the UDF pattern and Actions/Intents.  |
-| `viewmodel-builder`    | Implements ViewModels with UiState management and UseCase integration.      |
-| `feature-integrator`   | Glues Screens and ViewModels together in the `AppNavHost`.                  |
-| `usecase-builder`      | Implements business logic rules in the `:domain` module.                   |
-| `repository-builder`   | Coordinates data sources and implements domain repository contracts.        |
-| `datasource-builder`   | Implements low-level data retrieval (Remote/Retrofit or Local/Room).        |
-| `hilt-integrator`      | Configures Dependency Injection modules for all layers.                     |
-| `mapper-builder`       | Creates data transformation mappers between layers (Data, Domain, UI).      |
-| `worker-builder`       | Implements background tasks using WorkManager.                              |
-| `analytics-tagger`     | Implements Firebase tracking for screens and user interactions.             |
-| `git-standardizer`     | Standardizes commit messages according to project history.                  |
+| **Skill**            | **Purpose**                                                                |
+|----------------------|----------------------------------------------------------------------------|
+| `component-builder`  | Builds reusable stateless Compose components with Skeletons and Previews.  |
+| `screen-builder`     | Builds full Compose screens following the UDF pattern and Actions/Intents. |
+| `viewmodel-builder`  | Implements ViewModels with UiState management and UseCase integration.     |
+| `feature-integrator` | Glues Screens and ViewModels together in the `AppNavHost`.                 |
+| `usecase-builder`    | Implements business logic rules in the `:domain` module.                   |
+| `repository-builder` | Coordinates data sources and implements domain repository contracts.       |
+| `datasource-builder` | Implements low-level data retrieval (Remote/Retrofit or Local/Room).       |
+| `hilt-integrator`    | Configures Dependency Injection modules for all layers.                    |
+| `mapper-builder`     | Creates data transformation mappers between layers (Data, Domain, UI).     |
+| `worker-builder`     | Implements background tasks using WorkManager.                             |
+| `analytics-tagger`   | Implements Firebase tracking for screens and user interactions.            |
+| `git-standardizer`   | Standardizes commit messages according to project history.                 |
 
-For more details on each skill, refer to the [AGENTS.md](AGENTS.md) guide and the `.agents/skills/` directory.
+For more details on each skill, refer to the [AGENTS.md](AGENTS.md) guide and the `.agents/skills/`
+directory.
 
 ## Setup
 
@@ -168,9 +170,9 @@ environments.
 ### Script
 
 You can create a script to configure all environment variables in your operating system. Using
-scripts offers significant advantages in terms of automation and reproducibility.
-In the following sections, we will demonstrate how to create such scripts for both Windows and Linux
-operating systems.
+scripts offers significant advantages in terms of automation and reproducibility. In the following
+sections, we will demonstrate how to create such scripts for both Windows and Linux operating
+systems.
 
 #### Script Windows
 
