@@ -1,7 +1,7 @@
 package br.dev.singular.overview.di.data
 
-import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
-import br.dev.singular.overview.data.remote.config.RemoteConfigWrapper
+import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
+import br.dev.singular.overview.data.remoteconfig.RemoteConfigWrapper
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.remoteConfig
 import dagger.Module

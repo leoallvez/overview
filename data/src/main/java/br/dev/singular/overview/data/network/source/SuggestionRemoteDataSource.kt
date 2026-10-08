@@ -1,8 +1,8 @@
 package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.SuggestionDataModel
-import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
-import br.dev.singular.overview.data.remote.config.RemoteConfigKey
+import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
+import br.dev.singular.overview.data.remoteconfig.RemoteConfigKey
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 

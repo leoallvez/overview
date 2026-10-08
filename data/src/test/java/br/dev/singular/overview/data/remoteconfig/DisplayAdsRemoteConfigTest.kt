@@ -1,6 +1,6 @@
-package br.dev.singular.overview.data.remote.config
+package br.dev.singular.overview.data.remoteconfig
 
-import br.dev.singular.overview.data.remote.config.RemoteConfigKey.DISPLAY_ADS_KEY
+import br.dev.singular.overview.data.remoteconfig.RemoteConfigKey.DISPLAY_ADS_KEY
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertFalse

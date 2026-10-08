@@ -18,7 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import br.dev.singular.overview.data.remote.config.RemoteConfig
+import br.dev.singular.overview.data.remoteconfig.RemoteConfig
 import br.dev.singular.overview.data.util.IConnectivityMonitor
 import br.dev.singular.overview.navigation.AppNavHost
 import br.dev.singular.overview.navigation.NavigationWrapper

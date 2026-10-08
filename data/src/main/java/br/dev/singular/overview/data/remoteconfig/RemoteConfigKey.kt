@@ -1,4 +1,4 @@
-package br.dev.singular.overview.data.remote.config
+package br.dev.singular.overview.data.remoteconfig
 
 enum class RemoteConfigKey(val value: String) {
     SUGGESTIONS_KEY("suggestions_v1"),

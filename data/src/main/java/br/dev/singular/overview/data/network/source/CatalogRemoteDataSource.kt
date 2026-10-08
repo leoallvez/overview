@@ -5,8 +5,8 @@ import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.model.WatchProvidersDataModel
 import br.dev.singular.overview.data.network.ApiService
 import br.dev.singular.overview.data.network.ILocaleProvider
-import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
-import br.dev.singular.overview.data.remote.config.RemoteConfigKey
+import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
+import br.dev.singular.overview.data.remoteconfig.RemoteConfigKey
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

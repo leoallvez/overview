@@ -1,9 +1,9 @@
 package br.dev.singular.overview.di.data
 
 import br.dev.singular.overview.BuildConfig
-import br.dev.singular.overview.data.remote.config.DisplayAdsRemoteConfig
-import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
-import br.dev.singular.overview.data.remote.config.RemoteConfig
+import br.dev.singular.overview.data.remoteconfig.DisplayAdsRemoteConfig
+import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
+import br.dev.singular.overview.data.remoteconfig.RemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

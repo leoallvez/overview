@@ -7,8 +7,8 @@ import br.dev.singular.overview.data.network.ApiService
 import br.dev.singular.overview.data.network.ILocaleProvider
 import br.dev.singular.overview.data.network.response.ListResponse
 import br.dev.singular.overview.data.network.response.MapResponse
-import br.dev.singular.overview.data.remote.config.IRemoteConfigProvider
-import br.dev.singular.overview.data.remote.config.RemoteConfigKey
+import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
+import br.dev.singular.overview.data.remoteconfig.RemoteConfigKey
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.mockk.coEvery
 import io.mockk.coVerify

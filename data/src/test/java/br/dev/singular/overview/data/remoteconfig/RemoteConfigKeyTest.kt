@@ -1,4 +1,4 @@
-package br.dev.singular.overview.data.remote.config
+package br.dev.singular.overview.data.remoteconfig
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test

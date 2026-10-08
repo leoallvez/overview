@@ -1,7 +1,7 @@
-package br.dev.singular.overview.data.remote.config
+package br.dev.singular.overview.data.remoteconfig
 
 import br.dev.singular.overview.data.BuildConfig.REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS
-import br.dev.singular.overview.data.remote.config.RemoteConfigKey.FIREBASE_ENVIRONMENT_KEY
+import br.dev.singular.overview.data.remoteconfig.RemoteConfigKey.FIREBASE_ENVIRONMENT_KEY
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import kotlinx.coroutines.tasks.await

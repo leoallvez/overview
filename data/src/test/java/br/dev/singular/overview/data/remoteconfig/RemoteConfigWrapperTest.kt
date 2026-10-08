@@ -1,4 +1,4 @@
-package br.dev.singular.overview.data.remote.config
+package br.dev.singular.overview.data.remoteconfig
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
