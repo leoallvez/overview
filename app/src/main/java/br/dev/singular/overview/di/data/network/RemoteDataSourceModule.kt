@@ -10,10 +10,12 @@ import br.dev.singular.overview.data.network.source.IFavoriteRemoteDataSource
 import br.dev.singular.overview.data.network.source.IGenreRemoteDataSource
 import br.dev.singular.overview.data.network.source.IMediaRemoteDataSource
 import br.dev.singular.overview.data.network.source.IPersonDetailsRemoteDataSource
+import br.dev.singular.overview.data.network.source.IPredictionRemoteDataSource
 import br.dev.singular.overview.data.network.source.ISuggestionRemoteDataSource
 import br.dev.singular.overview.data.network.source.IVideoRemoteDataSource
 import br.dev.singular.overview.data.network.source.MediaRemoteDataSource
 import br.dev.singular.overview.data.network.source.PersonDetailsRemoteDataSource
+import br.dev.singular.overview.data.network.source.PredictionRemoteDataSource
 import br.dev.singular.overview.data.network.source.SuggestionRemoteDataSource
 import br.dev.singular.overview.data.network.source.VideoRemoteDataSource
 import dagger.Binds
@@ -64,4 +66,9 @@ abstract class RemoteDataSourceModule {
     abstract fun bindFavoriteRemoteDataSource(
         source: FavoriteRemoteDataSource
     ): IFavoriteRemoteDataSource
+
+    @Binds
+    abstract fun bindPredictionRemoteDataSource(
+        source: PredictionRemoteDataSource
+    ): IPredictionRemoteDataSource
 }

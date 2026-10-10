@@ -6,7 +6,8 @@ import kotlinx.collections.immutable.toImmutableList
 
 internal fun Genre.toUi() = GenreUiModel(
     id = id,
-    name = name
+    name = name,
+    originalName = originalName,
 )
 
 internal fun List<Genre>.toUi() = map { it.toUi() }.toImmutableList()

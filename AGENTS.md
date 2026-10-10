@@ -84,6 +84,8 @@ dependencies across modules and manages navigation.
 > from `:presentation`, and platform integrations such as the Google sign-in request in `auth/`.
 > Refer to the [`feature-integrator`](.agents/skills/feature-integrator/SKILL.md) and [
 `hilt-integrator`](.agents/skills/hilt-integrator/SKILL.md) skills for integration details.
+> Remote Config feature flags reach the screens through `FeatureFlags`; refer to the [
+`feature-flag-builder`](.agents/skills/feature-flag-builder/SKILL.md) skill.
 
 ## Domain module
 
@@ -154,6 +156,7 @@ For detailed examples, patterns, and testing strategies, always refer to the cor
 - **Background Tasks:** [`worker-builder`](.agents/skills/worker-builder/SKILL.md)
 - **Analytics:** [`analytics-tagger`](.agents/skills/analytics-tagger/SKILL.md)
 - **Snackbar Feedback:** [`snackbar-notifier`](.agents/skills/snackbar-notifier/SKILL.md)
+- **Feature Flags:** [`feature-flag-builder`](.agents/skills/feature-flag-builder/SKILL.md)
 - **R8 & Keep Rules:** [`r8-analyzer`](.agents/skills/r8-analyzer/SKILL.md)
 - **Git Standards:** [`git-standardizer`](.agents/skills/git-standardizer/SKILL.md)
 

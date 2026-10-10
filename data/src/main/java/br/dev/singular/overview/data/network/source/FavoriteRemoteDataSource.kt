@@ -68,7 +68,9 @@ class FavoriteRemoteDataSource @Inject constructor(
         TYPE to type.key,
         TITLE to betterTitle,
         POSTER_PATH to posterPath,
-        LAST_UPDATE to lastUpdate
+        LAST_UPDATE to lastUpdate,
+        ORIGINAL_TITLE to originalTitle,
+        GENRES to genres
     )
 
     private fun DocumentSnapshot.toData(): MediaDataModel {
@@ -80,7 +82,9 @@ class FavoriteRemoteDataSource @Inject constructor(
             posterPath = getString(POSTER_PATH).orEmpty(),
             type = MediaDataType.fromKey(getString(TYPE).orEmpty()),
             isLiked = true,
-            lastUpdate = getDate(LAST_UPDATE) ?: Date()
+            lastUpdate = getDate(LAST_UPDATE) ?: Date(),
+            originalTitle = getString(ORIGINAL_TITLE).orEmpty(),
+            genres = (get(GENRES) as? List<*>).orEmpty().filterIsInstance<String>()
         )
     }
 
@@ -92,6 +96,8 @@ class FavoriteRemoteDataSource @Inject constructor(
         const val TITLE = "title"
         const val POSTER_PATH = "poster_path"
         const val LAST_UPDATE = "last_update"
+        const val ORIGINAL_TITLE = "original_title"
+        const val GENRES = "genres"
         const val MAX_BATCH_SIZE = 500
     }
 }

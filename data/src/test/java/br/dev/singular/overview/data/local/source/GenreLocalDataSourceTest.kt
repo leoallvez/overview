@@ -53,4 +53,22 @@ class GenreLocalDataSourceTest {
         assertEquals(expected, result)
         coVerify { dao.getByMediaType(MediaDataType.MOVIE) }
     }
+
+    @Test
+    fun `getByIds should return list from dao`() = runTest {
+        // arrange
+        val ids = listOf(1L, 2L)
+        val expected = listOf(
+            GenreDataModel(id = 1L, name = "Ação", originalName = "Action"),
+            GenreDataModel(id = 2L, name = "Comédia", originalName = "Comedy")
+        )
+        coEvery { dao.getByIds(ids) } returns expected
+
+        // act
+        val result = sut.getByIds(ids)
+
+        // assert
+        assertEquals(expected, result)
+        coVerify { dao.getByIds(ids) }
+    }
 }

@@ -105,4 +105,15 @@
     <string name="login_required_title">需要登录</string>
     <string name="login_required_message">登录后即可将此作品保存到收藏。</string>
     <string name="favorite_added_title">已添加到收藏</string>
+    <string name="taste_prediction_title">AI 分析</string>
+    <string name="taste_prediction_no_data">暂无数据</string>
+    <string name="taste_prediction_high">根据您的收藏夹，我们发现您与这部作品的契合度很高。您很可能会喜欢它！</string>
+    <string name="taste_prediction_medium">这部作品与您的收藏夹契合度中等。也许会是一个不错的惊喜！</string>
+    <string name="taste_prediction_low">根据您的收藏夹，我们发现您与这部作品的契合度较低。</string>
+    <string name="taste_prediction_unavailable">将电影和电视节目添加到收藏夹，AI 即可识别您偏好的类型，并估算您与这部作品的契合度。</string>
+    <string name="taste_prediction_idle">看看这部作品与您的收藏夹有多契合。</string>
+    <string name="taste_prediction_action">查看结果</string>
+    <string name="taste_prediction_error_title">分析失败</string>
+    <string name="taste_prediction_error_description">无法生成预测，请重试。</string>
+    <string name="taste_prediction_login_description">登录后，AI 即可分析您的收藏夹，并估算您与这部作品的契合度。</string>
 </resources>

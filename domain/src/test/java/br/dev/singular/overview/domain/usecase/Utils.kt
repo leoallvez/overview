@@ -68,6 +68,7 @@ fun createTvShowDetailsMock(): TvShowDetails {
     return TvShowDetails(
         id = 1L,
         name = "TV Show Name",
+        originalName = "Original Name",
         numberOfSeasons = 5,
         numberOfEpisodes = 50,
         episodeRuntime = listOf(45),
@@ -88,6 +89,7 @@ fun createMovieDetailsMock(): MovieDetails {
     return MovieDetails(
         id = 1L,
         title = "Movie Title",
+        originalTitle = "Original Title",
         releaseDate = "2020-01-01",
         runtime = 120,
         posterPath = "/poster.jpg",

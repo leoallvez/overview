@@ -13,6 +13,8 @@ interface IGenreLocalDataSource {
     suspend fun insertMediaTypeGenres(models: List<MediaTypeGenreDataModel>)
 
     suspend fun getByMediaType(type: MediaDataType): List<GenreDataModel>
+
+    suspend fun getByIds(ids: List<Long>): List<GenreDataModel>
 }
 
 class GenreLocalDataSource @Inject constructor(
@@ -28,4 +30,7 @@ class GenreLocalDataSource @Inject constructor(
 
     override suspend fun getByMediaType(type: MediaDataType) =
         dao.getByMediaType(type)
+
+    override suspend fun getByIds(ids: List<Long>) =
+        dao.getByIds(ids)
 }

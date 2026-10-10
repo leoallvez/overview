@@ -7,5 +7,6 @@ import java.util.UUID
 data class GenreUiModel(
     val id: Long = 0,
     val name: String,
+    val originalName: String = "",
     val uiId: String = UUID.randomUUID().toString(),
 )

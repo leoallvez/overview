@@ -5,7 +5,8 @@ import br.dev.singular.overview.domain.model.Genre
 
 internal fun GenreDataModel.toDomain() = Genre(
     id = id,
-    name = name
+    name = name,
+    originalName = originalName,
 )
 
 internal fun List<GenreDataModel>.toDomain() = map { it.toDomain() }
