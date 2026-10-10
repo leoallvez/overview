@@ -82,6 +82,8 @@ interface ApiService {
     @GET(value = "genre/{media_type}/list")
     suspend fun getGenres(
         @Path(value = "media_type", encoded = true)
-        mediaType: String
+        mediaType: String,
+        @Query("language")
+        language: String? = null
     ): ApiResp<GenreListResponse>
 }

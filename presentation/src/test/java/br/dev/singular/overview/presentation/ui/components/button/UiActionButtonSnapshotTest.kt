@@ -24,4 +24,14 @@ class UiActionButtonSnapshotTest : UiSnapshotTest(snapshotPackage = "components/
     fun disabledWithoutIcon() = snapshot {
         UiActionButtonDisabledWithoutIconPreview()
     }
+
+    @Test
+    fun filledEnabled() = snapshot {
+        UiActionButtonFilledEnabledPreview()
+    }
+
+    @Test
+    fun filledDisabled() = snapshot {
+        UiActionButtonFilledDisabledPreview()
+    }
 }

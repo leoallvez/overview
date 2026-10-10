@@ -105,4 +105,15 @@
     <string name="login_required_title">Giriş gerekli</string>
     <string name="login_required_message">Bu yapımı favorilerinize kaydetmek için giriş yapın.</string>
     <string name="favorite_added_title">Favorilere eklendi</string>
+    <string name="taste_prediction_title">Yapay Zekâ Analizi</string>
+    <string name="taste_prediction_no_data">Henüz veri yok</string>
+    <string name="taste_prediction_high">Favorilerinize göre bu yapımla yüksek bir uyum tespit ettik. Beğenme olasılığınız çok yüksek!</string>
+    <string name="taste_prediction_medium">Bu yapımın Favorilerinizle orta düzeyde bir uyumu var. Hoş bir sürpriz olabilir!</string>
+    <string name="taste_prediction_low">Favorilerinize göre bu yapımla düşük bir uyum tespit ettik.</string>
+    <string name="taste_prediction_unavailable">Yapay zekânın tercih ettiğiniz türleri belirleyip bu yapımla uyumunuzu tahmin edebilmesi için Favorilerinize film ve dizi ekleyin.</string>
+    <string name="taste_prediction_idle">Bu yapımın Favorilerinizle ne kadar uyumlu olduğunu öğrenin.</string>
+    <string name="taste_prediction_action">Sonucu gör</string>
+    <string name="taste_prediction_error_title">Analiz başarısız oldu</string>
+    <string name="taste_prediction_error_description">Tahmin oluşturulamadı. Tekrar deneyin.</string>
+    <string name="taste_prediction_login_description">Yapay zekânın Favorilerinizi analiz edip bu yapımla uyumunuzu tahmin edebilmesi için giriş yapın.</string>
 </resources>

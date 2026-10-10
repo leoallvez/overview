@@ -5,12 +5,12 @@ metadata:
   author: Singular
   version: "1.2"
   keywords:
-  - integration
-  - screen
-  - viewmodel
-  - navigation
-  - hilt
-  - stateflow
+    - integration
+    - screen
+    - viewmodel
+    - navigation
+    - hilt
+    - stateflow
 ---
 
 ## Core Workflow
@@ -103,4 +103,4 @@ NavHost(...) {
 - **Stateless Screens:** NEVER pass the `ViewModel` directly to the Screen Composable. Pass only
   `UiState` (and other states like `ScrollUiState`) and `Actions`.
 - **Plan Approval:** You MUST NOT modify files until the user approves the integration plan in Step
-  2.
+    2.

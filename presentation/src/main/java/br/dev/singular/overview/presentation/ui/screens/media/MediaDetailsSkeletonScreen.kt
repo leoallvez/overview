@@ -25,6 +25,7 @@ import br.dev.singular.overview.presentation.tagging.params.TagStatus
 import br.dev.singular.overview.presentation.ui.components.genre.UiGenreListSkeleton
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaListSkeleton
 import br.dev.singular.overview.presentation.ui.components.person.UiPersonListSkeleton
+import br.dev.singular.overview.presentation.ui.components.prediction.UiAiPredictionCardSkeleton
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
 import br.dev.singular.overview.presentation.ui.components.text.UiTextSkeleton
@@ -120,6 +121,15 @@ internal fun MediaDetailsSkeletonScreen(
                 UiTextSkeleton(modifier = Modifier.fillMaxWidth(0.85f))
                 UiTextSkeleton(modifier = Modifier.fillMaxWidth(0.7f))
             }
+        }
+
+        item {
+            UiAiPredictionCardSkeleton(
+                modifier = Modifier.padding(
+                    horizontal = horizontalPadding,
+                    vertical = dimensionResource(R.dimen.spacing_1x)
+                )
+            )
         }
 
         item {

@@ -9,7 +9,7 @@ class GenreTest {
     @Test
     fun `GenreDataModel toDomain should map all fields correctly`() {
         // arrange
-        val dataModel = GenreDataModel(id = 1L, name = "Action")
+        val dataModel = GenreDataModel(id = 1L, name = "Ação", originalName = "Action")
 
         // act
         val domainModel = dataModel.toDomain()
@@ -17,5 +17,6 @@ class GenreTest {
         // assert
         assertEquals(dataModel.id, domainModel.id)
         assertEquals(dataModel.name, domainModel.name)
+        assertEquals(dataModel.originalName, domainModel.originalName)
     }
 }

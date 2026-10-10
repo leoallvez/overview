@@ -33,7 +33,8 @@ fun createCatalogMock() = Catalog(
 
 fun createGenreMock() = Genre(
     id = 1L,
-    name = "Action"
+    name = "Action",
+    originalName = "Action"
 )
 
 fun createPersonDetailsMock() = PersonDetails(
@@ -61,7 +62,8 @@ fun createCatalogUiModelMock() = CatalogUiModel(
 
 fun createGenreUiModelMock() = GenreUiModel(
     id = 1L,
-    name = "Action"
+    name = "Action",
+    originalName = "Action"
 )
 
 fun createQueryUiStateMock() = QueryUiState(
