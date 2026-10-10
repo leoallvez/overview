@@ -3,7 +3,7 @@ package br.dev.singular.overview.data.network.source
 import br.dev.singular.overview.data.model.CatalogDataModel
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.model.WatchProvidersDataModel
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.ILocaleProvider
 import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
 import br.dev.singular.overview.data.remoteconfig.RemoteConfigKey
@@ -22,7 +22,7 @@ interface ICatalogRemoteDataSource {
 
 class CatalogRemoteDataSource @Inject constructor(
     private val json: Json,
-    private val api: ApiService,
+    private val api: TmdbApiService,
     private val locale: ILocaleProvider,
     private val provider: IRemoteConfigProvider
 ) : ICatalogRemoteDataSource {

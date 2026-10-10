@@ -12,6 +12,7 @@ import androidx.compose.ui.res.dimensionResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.button.style.UiActionButtonStyle
 import br.dev.singular.overview.presentation.ui.components.button.style.UiButtonStyle
+import br.dev.singular.overview.presentation.ui.components.button.style.UiFilledButtonStyle
 import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
@@ -109,6 +110,29 @@ internal fun UiActionButtonDisabledWithoutIconPreview() {
     UiActionButton(
         text = "Filter",
         modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x)),
+        enabled = false,
+        onClick = {}
+    )
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiActionButtonFilledEnabledPreview() {
+    UiActionButton(
+        text = "Filter",
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x)),
+        style = UiFilledButtonStyle(),
+        onClick = {}
+    )
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiActionButtonFilledDisabledPreview() {
+    UiActionButton(
+        text = "Filter",
+        modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2x)),
+        style = UiFilledButtonStyle(),
         enabled = false,
         onClick = {}
     )

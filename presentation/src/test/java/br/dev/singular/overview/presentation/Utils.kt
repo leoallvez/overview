@@ -33,7 +33,8 @@ fun createCatalogMock() = Catalog(
 
 fun createGenreMock() = Genre(
     id = 1L,
-    name = "Action"
+    name = "Action",
+    originalName = "Action"
 )
 
 fun createPersonDetailsMock() = PersonDetails(
@@ -61,7 +62,8 @@ fun createCatalogUiModelMock() = CatalogUiModel(
 
 fun createGenreUiModelMock() = GenreUiModel(
     id = 1L,
-    name = "Action"
+    name = "Action",
+    originalName = "Action"
 )
 
 fun createQueryUiStateMock() = QueryUiState(
@@ -89,6 +91,7 @@ fun createVideoMock() = Video(
 fun createMovieDetailsMock() = MovieDetails(
     id = 1L,
     title = "Movie Title",
+    originalTitle = "Original Title",
     releaseDate = "2020-01-01",
     runtime = 120,
     posterPath = "/poster.jpg",
@@ -105,6 +108,7 @@ fun createMovieDetailsMock() = MovieDetails(
 fun createTvShowDetailsMock() = TvShowDetails(
     id = 1L,
     name = "TV Show Name",
+    originalName = "Original Name",
     numberOfSeasons = 5,
     numberOfEpisodes = 50,
     episodeRuntime = listOf(45),

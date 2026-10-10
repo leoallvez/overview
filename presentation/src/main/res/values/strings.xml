@@ -105,4 +105,15 @@
     <string name="login_required_title">Sign in required</string>
     <string name="login_required_message">Sign in to save this title to your favorites.</string>
     <string name="favorite_added_title">Added to favorites</string>
+    <string name="taste_prediction_title">AI analysis</string>
+    <string name="taste_prediction_no_data">No data yet</string>
+    <string name="taste_prediction_high">Based on your Favorites, we found a high affinity with this title. You are very likely to enjoy it!</string>
+    <string name="taste_prediction_medium">This title has a moderate affinity with your Favorites. It could be a nice surprise!</string>
+    <string name="taste_prediction_low">Based on your Favorites, we found a low affinity with this title.</string>
+    <string name="taste_prediction_unavailable">Add movies and TV shows to your Favorites so the AI can identify your preferred genres and estimate your affinity with this title.</string>
+    <string name="taste_prediction_idle">Find out how well this title matches your Favorites.</string>
+    <string name="taste_prediction_action">See result</string>
+    <string name="taste_prediction_error_title">Analysis failed</string>
+    <string name="taste_prediction_error_description">We couldn\'t generate your prediction.</string>
+    <string name="taste_prediction_login_description">Sign in so the AI can analyze your Favorites and estimate your affinity with this title.</string>
 </resources>

@@ -26,4 +26,7 @@ interface GenreDao {
     """
     )
     suspend fun getByMediaType(type: MediaDataType): List<GenreDataModel>
+
+    @Query("SELECT * FROM genre WHERE id IN (:ids)")
+    suspend fun getByIds(ids: List<Long>): List<GenreDataModel>
 }

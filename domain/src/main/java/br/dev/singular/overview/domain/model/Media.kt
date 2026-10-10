@@ -8,5 +8,7 @@ data class Media(
     val title: String,
     var isLiked: Boolean,
     val posterPath: String,
-    val lastUpdate: Date
+    val lastUpdate: Date,
+    val originalTitle: String = "",
+    val genres: List<String> = emptyList()
 )

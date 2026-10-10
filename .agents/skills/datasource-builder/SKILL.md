@@ -15,7 +15,7 @@ metadata:
 
 ## Core Workflow
 
-- [ ] Step 1: Identify the type of Data Source (Remote or Local) and its dependencies (ApiService or
+- [ ] Step 1: Identify the type of Data Source (Remote or Local) and its dependencies (TmdbApiService or
   Dao). Ask the user for these details.
 - [ ] Step 2: Create a plan detailing the interface and implementation. Present it for approval
   before moving to the next steps.
@@ -26,7 +26,7 @@ metadata:
 - [ ] Step 4: Implement the Data Source class in the same package.
 - [ ] Step 5: Use `@Inject constructor` for dependencies.
 - [ ] Step 6: For **Remote** Data Sources:
-    - Use `ApiService` methods.
+    - Use `TmdbApiService` methods.
     - Wrap responses using `responseToResult(response)` to return `DataResult<T>`.
 - [ ] Step 7: For **Local** Data Sources:
     - Use `Dao` methods.
@@ -56,7 +56,7 @@ Data Sources are the lowest level of the data layer, responsible for raw data re
 
 ```kotlin
 class AppleRemoteDataSource @Inject constructor(
-    private val api: ApiService
+    private val api: TmdbApiService
 ) : IAppleRemoteDataSource {
     override suspend fun getById(id: Long) = responseToResult(api.getAppleById(id))
 }

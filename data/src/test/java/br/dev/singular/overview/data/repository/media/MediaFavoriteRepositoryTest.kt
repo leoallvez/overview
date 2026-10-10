@@ -1,6 +1,7 @@
 package br.dev.singular.overview.data.repository.media
 
 import br.dev.singular.overview.data.local.source.IPendingFavoriteLocalDataSource
+import br.dev.singular.overview.data.local.source.IPredictionLocalDataSource
 import br.dev.singular.overview.data.network.source.IAuthRemoteDataSource
 import br.dev.singular.overview.data.network.source.IFavoriteRemoteDataSource
 import br.dev.singular.overview.data.util.fakeMediaDataModel
@@ -35,13 +36,21 @@ class MediaFavoriteRepositoryTest {
     @MockK(relaxed = true)
     private lateinit var pendingDataSource: IPendingFavoriteLocalDataSource
 
+    @MockK(relaxed = true)
+    private lateinit var predictionDataSource: IPredictionLocalDataSource
+
     private lateinit var sut: MediaFavoriteRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         every { authDataSource.currentUser() } returns fakeUserDataModel
-        sut = MediaFavoriteRepository(authDataSource, remoteDataSource, pendingDataSource)
+        sut = MediaFavoriteRepository(
+            authDataSource,
+            remoteDataSource,
+            pendingDataSource,
+            predictionDataSource
+        )
     }
 
     @Test
@@ -64,6 +73,7 @@ class MediaFavoriteRepositoryTest {
             )
         }
         verify(exactly = 0) { remoteDataSource.delete(any(), any()) }
+        coVerify(exactly = 1) { predictionDataSource.clear() }
     }
 
     @Test
@@ -77,6 +87,7 @@ class MediaFavoriteRepositoryTest {
         // Assert
         verify(exactly = 1) { remoteDataSource.delete("uid", media.toData()) }
         verify(exactly = 0) { remoteDataSource.save(any(), any()) }
+        coVerify(exactly = 1) { predictionDataSource.clear() }
     }
 
     @Test
@@ -90,6 +101,7 @@ class MediaFavoriteRepositoryTest {
         }
         verify(exactly = 0) { remoteDataSource.save(any(), any()) }
         verify(exactly = 0) { remoteDataSource.delete(any(), any()) }
+        coVerify(exactly = 0) { predictionDataSource.clear() }
     }
 
     @Test

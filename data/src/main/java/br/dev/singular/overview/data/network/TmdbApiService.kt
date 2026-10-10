@@ -19,7 +19,7 @@ import retrofit2.http.QueryMap
 
 private typealias ApiResp <T> = NetworkResponse<T, ErrorResponse>
 
-interface ApiService {
+interface TmdbApiService {
 
     @GET(value = "{path}")
     suspend fun fetchMediaPage(
@@ -82,6 +82,8 @@ interface ApiService {
     @GET(value = "genre/{media_type}/list")
     suspend fun getGenres(
         @Path(value = "media_type", encoded = true)
-        mediaType: String
+        mediaType: String,
+        @Query("language")
+        language: String? = null
     ): ApiResp<GenreListResponse>
 }

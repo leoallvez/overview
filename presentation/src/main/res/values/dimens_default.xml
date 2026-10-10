@@ -6,4 +6,7 @@
 
     <dimen name="button_height">56dp</dimen>
     <dimen name="button_corner_radius">12dp</dimen>
+
+    <dimen name="prediction_indicator_stroke">8dp</dimen>
+    <dimen name="prediction_outline_stroke">2dp</dimen>
 </resources>

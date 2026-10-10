@@ -2,7 +2,7 @@ package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.model.VideoDataModel
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.response.ErrorResponse
 import br.dev.singular.overview.data.network.response.ListResponse
 import br.dev.singular.overview.data.util.createFakeVideoDataModelList
@@ -22,7 +22,7 @@ import org.junit.Test
 class VideoRemoteDataSourceTest {
 
     @MockK
-    private lateinit var api: ApiService
+    private lateinit var api: TmdbApiService
 
     private lateinit var sut: IVideoRemoteDataSource
 
