@@ -7,6 +7,7 @@ import br.dev.singular.overview.domain.model.TvShowDetails
 internal fun TvShowDetailsDataModel.toDomain() = TvShowDetails(
     id = id,
     name = betterName,
+    originalName = originalName,
     numberOfSeasons = numberOfSeasons,
     numberOfEpisodes = numberOfEpisodes,
     episodeRuntime = episodeRuntime,

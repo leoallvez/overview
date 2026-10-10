@@ -25,7 +25,7 @@ import br.dev.singular.overview.presentation.ui.theme.Background
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    showAds: Boolean,
+    flags: FeatureFlags,
     snackbarHostState: UiSnackbarHostState,
     modifier: Modifier,
     setEdgeToEdge: (Boolean) -> Unit,
@@ -45,9 +45,9 @@ fun AppNavHost(
         selectGenreRoute(navi)
         catalogDetailsRoute(navi)
         searchRoute(navi)
-        mediaDetailsRoute(navi, showAds, snackbarHostState)
+        mediaDetailsRoute(navi, flags, snackbarHostState)
         youTubePlayerRoute(navi, setEdgeToEdge)
-        personDetailsRoute(navi, showAds)
+        personDetailsRoute(navi, flags.showAds)
         favoritesRoute(navi, snackbarHostState)
         profileRoute(navi)
     }

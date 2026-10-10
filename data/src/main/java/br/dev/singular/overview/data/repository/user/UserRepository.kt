@@ -1,5 +1,6 @@
 package br.dev.singular.overview.data.repository.user
 
+import br.dev.singular.overview.data.local.source.IPredictionLocalDataSource
 import br.dev.singular.overview.data.network.source.IAuthRemoteDataSource
 import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
 import br.dev.singular.overview.domain.model.User
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    private val dataSource: IAuthRemoteDataSource
+    private val dataSource: IAuthRemoteDataSource,
+    private val predictionDataSource: IPredictionLocalDataSource
 ) : GetByParam<User, String>, Get<User?>, Observe<User?>, Execute {
 
     override fun observe(): Flow<User?> = dataSource.observe().map { it?.toDomain() }
@@ -21,5 +23,8 @@ class UserRepository @Inject constructor(
 
     override suspend fun getByParam(param: String): User = dataSource.signIn(param).toDomain()
 
-    override suspend fun execute() = dataSource.signOut()
+    override suspend fun execute() {
+        dataSource.signOut()
+        predictionDataSource.clear()
+    }
 }

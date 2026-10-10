@@ -3,6 +3,7 @@ package br.dev.singular.overview.domain.model
 data class MovieDetails(
     val id: Long,
     val title: String,
+    val originalTitle: String,
     val releaseDate: String,
     val runtime: Int,
     val posterPath: String,

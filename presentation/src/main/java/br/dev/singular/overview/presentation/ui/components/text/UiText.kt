@@ -31,6 +31,8 @@ import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
  * @param color The color of the text.
  * @param textAlign The alignment of the text.
  * @param isBold Whether the text should be bold.
+ * @param maxLines The maximum number of lines for the text.
+ * @param fontWeight An explicit font weight that takes precedence over [isBold] when provided.
  */
 @Composable
 internal fun UiText(
@@ -40,7 +42,8 @@ internal fun UiText(
     color: Color = DefaultTextColor,
     textAlign: TextAlign = TextAlign.Center,
     isBold: Boolean = false,
-    maxLines: Int = 3
+    maxLines: Int = 3,
+    fontWeight: FontWeight? = null
 ) {
     Text(
         color = color,
@@ -49,7 +52,7 @@ internal fun UiText(
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,
         textAlign = textAlign,
-        fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
+        fontWeight = fontWeight ?: if (isBold) FontWeight.Bold else FontWeight.Normal,
         style = style
     )
 }

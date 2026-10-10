@@ -105,4 +105,15 @@
     <string name="login_required_title">로그인이 필요합니다</string>
     <string name="login_required_message">이 작품을 즐겨찾기에 저장하려면 로그인하세요.</string>
     <string name="favorite_added_title">즐겨찾기에 추가됨</string>
+    <string name="taste_prediction_title">AI 분석</string>
+    <string name="taste_prediction_no_data">아직 데이터가 없습니다</string>
+    <string name="taste_prediction_high">즐겨찾기를 바탕으로 분석한 결과, 이 작품과의 친밀도가 높습니다. 마음에 드실 가능성이 큽니다!</string>
+    <string name="taste_prediction_medium">이 작품은 즐겨찾기와의 친밀도가 보통입니다. 뜻밖의 즐거움이 될 수도 있습니다!</string>
+    <string name="taste_prediction_low">즐겨찾기를 바탕으로 분석한 결과, 이 작품과의 친밀도가 낮습니다.</string>
+    <string name="taste_prediction_unavailable">영화와 TV 프로그램을 즐겨찾기에 추가하면 AI가 선호 장르를 파악하고 이 작품과의 친밀도를 추정합니다.</string>
+    <string name="taste_prediction_idle">이 작품이 즐겨찾기와 얼마나 잘 맞는지 확인해 보세요.</string>
+    <string name="taste_prediction_action">결과 보기</string>
+    <string name="taste_prediction_error_title">분석에 실패했습니다</string>
+    <string name="taste_prediction_error_description">예측을 생성할 수 없습니다. 다시 시도해 주세요.</string>
+    <string name="taste_prediction_login_description">로그인하면 AI가 즐겨찾기를 분석하고 이 작품과의 친밀도를 추정합니다.</string>
 </resources>
