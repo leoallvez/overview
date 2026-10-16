@@ -20,9 +20,9 @@ import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.components.user.UiUserAvatar
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
-import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.X
 
 /**
  * A custom toolbar composable that displays a title.
@@ -106,7 +106,7 @@ internal fun UiTopAppBar(
         )
 
         if (backPosition == TRAILING) {
-            UiTitleBarAction(icon = Lucide.ChevronDown, onClick = onBack)
+            UiTitleBarAction(icon = Lucide.X, onClick = onBack)
         }
     }
 }
@@ -121,7 +121,7 @@ private fun UiTitleBarAction(
         modifier = modifier,
         iconStyle = UiIconStyle(
             source = UiIconSource.vector(icon),
-            sizeRes = R.dimen.spacing_8x,
+            sizeRes = R.dimen.spacing_6x,
         ),
         onClick = onClick
     )
