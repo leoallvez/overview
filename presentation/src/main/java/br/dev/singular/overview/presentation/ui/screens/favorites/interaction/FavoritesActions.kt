@@ -12,12 +12,22 @@ import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
 data class FavoritesActions(
     private val navigation: INavigationWrapper? = null,
     val onSetType: (MediaUiType) -> Unit = {},
+    val onSetQuery: (String) -> Unit = {},
 ) {
     val tagPath: String = "/favorites"
 
     fun onSelectType(type: MediaUiType) {
         TagMediaManager.logTypeClick(tagPath, type)
         onSetType(type)
+    }
+
+    fun onSearch(query: String) {
+        TagManager.logInteraction(customPath = tagPath, detail = "search-field")
+        onSetQuery(query)
+    }
+
+    fun onClear() {
+        TagManager.logClick(customPath = tagPath, detail = "clean-search-field")
     }
 
     fun onToMediaDetails(media: MediaUiModel) {

@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.screens.genre
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,18 +13,20 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.GenreUiState
+import br.dev.singular.overview.presentation.ui.components.UiAnimatedVisibility
 import br.dev.singular.overview.presentation.ui.components.UiList
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.UiSearchField
 import br.dev.singular.overview.presentation.ui.components.button.UiConfirmButton
 import br.dev.singular.overview.presentation.ui.components.genre.UiGenreItem
 import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
 import br.dev.singular.overview.presentation.ui.screens.common.ItemListSkeletonScreen
+import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
 import br.dev.singular.overview.presentation.ui.screens.genre.interaction.GenreSelectionActions
 import br.dev.singular.overview.presentation.ui.screens.genre.interaction.GenreSelectionIntent
 import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeGenres
-import kotlinx.collections.immutable.toImmutableList
 
 /**
  * A screen that allows the user to select a genre.
@@ -65,13 +68,51 @@ fun SelectGenreScreen(
             modifier = Modifier.padding(padding),
             loadingContent = { ItemListSkeletonScreen(tagPath = actions.tagPath) },
         ) { data ->
+            GenreList(
+                data = data,
+                actions = actions
+            )
+        }
+    }
+}
+
+/**
+ * The list of genres, with the search field displayed when there are many genres.
+ *
+ * @param data The [GenreUiState] with the genres, the selected genre and the search query.
+ * @param actions The actions to be performed on the screen.
+ */
+@Composable
+private fun GenreList(
+    data: GenreUiState,
+    actions: GenreSelectionActions
+) {
+    Column {
+        UiAnimatedVisibility(visible = data.isSearchVisible) {
+            UiSearchField(
+                query = data.query,
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_2x)),
+                placeholder = stringResource(R.string.search_in_genres),
+                onQueryChange = actions::onSearch,
+                onClear = actions::onClear
+            )
+        }
+        if (data.isSearching && data.filteredOptions.isEmpty()) {
+            StateScreen(
+                title = stringResource(R.string.not_found),
+                tagPath = actions.tagPath,
+                tagStatus = "nothing_found"
+            )
+        } else {
             UiList(
-                items = data.options.toImmutableList(),
+                items = data.filteredOptions,
                 firstItem = {
-                    AllGenreOption(
-                        selected = data.selected?.id == null,
-                        onClick = { actions.onUpdate(genre = null) }
-                    )
+                    if (!data.isSearching) {
+                        AllGenreOption(
+                            selected = data.selected?.id == null,
+                            onClick = { actions.onUpdate(genre = null) }
+                        )
+                    }
                 }
             ) { genre ->
                 UiGenreItem(
@@ -116,6 +157,30 @@ internal fun SelectGenreScreenSuccessPreview() {
             handleIntent = { intent ->
                 if (intent is GenreSelectionIntent.Select) {
                     selectedId.value = intent.genre?.id
+                }
+            }
+        )
+    )
+}
+
+@UiScreenPreview
+@Composable
+internal fun SelectGenreScreenSearchPreview() {
+    val query = remember { mutableStateOf("an") }
+    val genres = fakeGenres()
+    SelectGenreScreen(
+        uiState = UiState.Success(
+            data = GenreUiState(
+                selected = genres.first(),
+                initial = genres.first(),
+                options = genres,
+                query = query.value
+            )
+        ),
+        actions = GenreSelectionActions(
+            handleIntent = { intent ->
+                if (intent is GenreSelectionIntent.Search) {
+                    query.value = intent.query
                 }
             }
         )

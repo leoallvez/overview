@@ -9,5 +9,6 @@ sealed class CatalogDetailIntent {
     data class SelectType(val type: MediaUiType) : CatalogDetailIntent()
     data class SelectGenre(val genre: GenreUiModel) : CatalogDetailIntent()
     data class SelectCatalog(val catalog: CatalogUiModel) : CatalogDetailIntent()
+    data class Search(val query: String) : CatalogDetailIntent()
     data class ChangeScrollState(val scrollState: ScrollUiState) : CatalogDetailIntent()
 }

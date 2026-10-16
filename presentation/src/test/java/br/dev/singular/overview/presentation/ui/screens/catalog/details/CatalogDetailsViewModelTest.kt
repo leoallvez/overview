@@ -142,4 +142,48 @@ class CatalogDetailsViewModelTest {
         // assert
         assertEquals(scrollState, sut.scrollState.value)
     }
+
+    @Test
+    fun `Search intent should update query and save state`() = runTest {
+        // arrange
+        val query = "batman"
+
+        // act
+        sut.handleIntent(CatalogDetailIntent.Search(query))
+        advanceUntilIdle()
+
+        // assert
+        assertEquals(query, sut.queryState.value.query)
+        coVerify { queryStateUseCase.save(match { it.query == query }) }
+    }
+
+    @Test
+    fun `First observed query state should restore the saved search query`() = runTest {
+        // arrange
+        val queryState = QueryState(type = MediaType.TV, query = "batman")
+
+        // act
+        queryObserveFlow.emit(queryState)
+        advanceUntilIdle()
+
+        // assert
+        assertEquals("batman", sut.queryState.value.query)
+        assertEquals(MediaUiType.TV, sut.queryState.value.type)
+    }
+
+    @Test
+    fun `Later observed query states should keep the typed search query`() = runTest {
+        // arrange
+        queryObserveFlow.emit(QueryState(query = "bat"))
+        advanceUntilIdle()
+        sut.handleIntent(CatalogDetailIntent.Search("batman"))
+
+        // act
+        queryObserveFlow.emit(QueryState(type = MediaType.TV, query = "bat"))
+        advanceUntilIdle()
+
+        // assert
+        assertEquals("batman", sut.queryState.value.query)
+        assertEquals(MediaUiType.TV, sut.queryState.value.type)
+    }
 }

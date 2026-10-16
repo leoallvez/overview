@@ -12,6 +12,15 @@ sealed class UiState<T> {
 }
 
 /**
+ * Transforms the data of a [UiState.Success], keeping any other state unchanged.
+ *
+ * @param transform The function applied to the current data.
+ * @return A new [UiState.Success] with the transformed data, or this state if it is not a success.
+ */
+inline fun <T> UiState<T>.mapSuccess(transform: (T) -> T): UiState<T> =
+    if (this is UiState.Success) copy(data = transform(data)) else this
+
+/**
 
  * Represents the current state of the UI, which can be [Loading], [Success],
  * or [Error].

@@ -52,10 +52,12 @@ private fun Favorites(
         uiPages = viewModel.medias.collectAsLazyPagingItems(),
         queryState = viewModel.queryState.collectAsState().value,
         scrollState = viewModel.scrollState.collectAsState().value,
+        showSearch = viewModel.isSearchVisible.collectAsState().value,
         onSetScrollState = { viewModel.onSetScrollState(it) },
         actions = FavoritesActions(
             navigation = navigation,
-            onSetType = viewModel::onSetType
+            onSetType = viewModel::onSetType,
+            onSetQuery = viewModel::onSearch
         )
     )
 }

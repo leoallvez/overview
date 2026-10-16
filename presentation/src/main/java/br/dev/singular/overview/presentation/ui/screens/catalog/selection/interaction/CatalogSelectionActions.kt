@@ -25,6 +25,15 @@ data class CatalogSelectionActions(
         handleIntent(CatalogSelectionIntent.Update(catalog))
     }
 
+    fun onSearch(query: String) {
+        TagManager.logInteraction(customPath = tagPath, detail = "search-field")
+        handleIntent(CatalogSelectionIntent.Search(query))
+    }
+
+    fun onClear() {
+        TagManager.logClick(customPath = tagPath, detail = "clean-search-field")
+    }
+
     fun onDismissTooltip() {
         TagManager.logClick(customPath = tagPath, detail = "dismiss-tooltip")
         handleIntent(CatalogSelectionIntent.DismissTooltip)

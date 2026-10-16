@@ -20,6 +20,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -32,6 +34,8 @@ class FavoritesViewModelTest {
 
     private val movie = createMediaMock().copy(id = 1L, type = MediaType.MOVIE)
     private val tvShow = createMediaMock().copy(id = 2L, type = MediaType.TV)
+    private val batmanMovie = movie.copy(id = 3L, title = "The Batman")
+    private val batmanTvShow = tvShow.copy(id = 4L, title = "Batman: The Animated Series")
 
     @Before
     fun setup() {
@@ -141,4 +145,86 @@ class FavoritesViewModelTest {
         val expected = Page<Media>(emptyList(), currentPage = 1, isLastPage = true)
         assertEquals(UseCaseState.Success(expected), result)
     }
+
+    @Test
+    fun `onSearch should update queryState with new query`() = runTest {
+        // arrange
+        val sut = createSut()
+
+        // act
+        sut.onSearch("batman")
+
+        // assert
+        assertEquals("batman", sut.queryState.value.query)
+    }
+
+    @Test
+    fun `onFetching should return only the favorites matching the query ignoring case`() = runTest {
+        // arrange
+        val sut = createSut()
+        favorites.emit(listOf(movie, batmanMovie, batmanTvShow))
+
+        // act
+        val result = sut.onFetching(QueryUiState(page = 1, query = " BATMAN "))
+
+        // assert
+        val expected = Page(listOf(batmanMovie, batmanTvShow), currentPage = 1, isLastPage = true)
+        assertEquals(UseCaseState.Success(expected), result)
+    }
+
+    @Test
+    fun `onFetching should combine the query with the selected type`() = runTest {
+        // arrange
+        val sut = createSut()
+        favorites.emit(listOf(movie, batmanMovie, batmanTvShow))
+
+        // act
+        val result = sut.onFetching(
+            QueryUiState(page = 1, type = MediaUiType.TV, query = "batman")
+        )
+
+        // assert
+        val expected = Page(listOf(batmanTvShow), currentPage = 1, isLastPage = true)
+        assertEquals(UseCaseState.Success(expected), result)
+    }
+
+    @Test
+    fun `isSearchVisible should be false below the minimum of favorites`() = runTest {
+        // arrange
+        val sut = createSut()
+
+        // act
+        favorites.emit(createFavorites(11))
+
+        // assert
+        assertFalse(sut.isSearchVisible.value)
+    }
+
+    @Test
+    fun `isSearchVisible should be true from the minimum of favorites`() = runTest {
+        // arrange
+        val sut = createSut()
+
+        // act
+        favorites.emit(createFavorites(12))
+
+        // assert
+        assertTrue(sut.isSearchVisible.value)
+    }
+
+    @Test
+    fun `isSearchVisible should stay true below the minimum while searching`() = runTest {
+        // arrange
+        val sut = createSut()
+        favorites.emit(createFavorites(12))
+        sut.onSearch("batman")
+
+        // act
+        favorites.emit(createFavorites(11))
+
+        // assert
+        assertTrue(sut.isSearchVisible.value)
+    }
+
+    private fun createFavorites(size: Int) = List(size) { movie.copy(id = it.toLong()) }
 }

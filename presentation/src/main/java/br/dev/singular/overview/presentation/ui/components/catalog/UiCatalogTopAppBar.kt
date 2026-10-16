@@ -24,6 +24,9 @@ import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.ui.components.UiImage
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
+import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconStyle
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
@@ -34,6 +37,8 @@ import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeCatalogs
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
 import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Search
 
 /**
  * A top app bar component tailored for displaying information about a catalog.
@@ -42,12 +47,14 @@ import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConn
  * @param catalog The [CatalogUiModel] containing the catalog's data.
  * @param modifier The [Modifier] to be applied to this component.
  * @param isCollapsed Whether the top app bar is in its collapsed state.
+ * @param trailingContent The content to be displayed at the end of the top app bar.
  */
 @Composable
 internal fun UiCatalogTopAppBar(
     catalog: CatalogUiModel?,
     modifier: Modifier = Modifier,
     isCollapsed: Boolean,
+    trailingContent: @Composable () -> Unit = {},
 ) {
     val logoSize by animateDpAsState(
         targetValue = dimensionResource(
@@ -80,6 +87,8 @@ internal fun UiCatalogTopAppBar(
             name = catalog?.name,
             modifier = Modifier.weight(1f)
         )
+
+        trailingContent()
     }
 }
 
@@ -158,6 +167,26 @@ internal fun UiCatalogTopAppBarCollapsedPreview() {
         modifier = Modifier
             .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
         isCollapsed = true
+    )
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiCatalogTopAppBarTrailingPreview() {
+    UiCatalogTopAppBar(
+        catalog = fakeCatalogs(),
+        modifier = Modifier
+            .padding(horizontal = dimensionResource(R.dimen.spacing_4x)),
+        isCollapsed = false,
+        trailingContent = {
+            UiIconButton(
+                iconStyle = UiIconStyle(
+                    source = UiIconSource.vector(Lucide.Search),
+                    sizeRes = R.dimen.spacing_5x,
+                    descriptionRes = R.string.search_icon
+                )
+            )
+        }
     )
 }
 

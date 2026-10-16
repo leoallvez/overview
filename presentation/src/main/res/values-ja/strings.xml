@@ -67,6 +67,10 @@
     <string name="empty_list_providers">ストリーミングでは利用できません</string>
     <string name="not_yet_released">まだ出てない</string>
     <string name="search_in_all_places">どこでも検索</string>
+    <string name="search_in_favorites">お気に入りを検索</string>
+    <string name="search_in_catalog">カタログを検索</string>
+    <string name="search_in_catalogs">カタログ一覧を検索</string>
+    <string name="search_in_genres">ジャンルを検索</string>
     <string name="genre">ジャンル</string>
     <string name="filter_by_genre">ジャンルでフィルタリング</string>
     <string name="filters">フィルター</string>

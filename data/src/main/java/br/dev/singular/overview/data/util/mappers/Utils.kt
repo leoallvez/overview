@@ -7,5 +7,6 @@ internal fun QueryDataState.toParams(extraParams: Map<String, String>): Map<Stri
         putAll(extraParams)
         genre?.apply { put("with_genres", id.toString()) }
         catalog?.apply { put("with_watch_providers", id.toString()) }
+        query.trim().takeIf { it.isNotEmpty() }?.let { put("with_text_query", it) }
     }
 }

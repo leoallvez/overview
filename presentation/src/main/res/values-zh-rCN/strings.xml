@@ -67,6 +67,10 @@
     <string name="empty_list_providers">不可用于流式传输</string>
     <string name="not_yet_released">尚未公布</string>
     <string name="search_in_all_places">到处搜索</string>
+    <string name="search_in_favorites">搜索收藏</string>
+    <string name="search_in_catalog">搜索目录</string>
+    <string name="search_in_catalogs">搜索目录列表</string>
+    <string name="search_in_genres">搜索类型</string>
     <string name="genre">类型</string>
     <string name="filter_by_genre">按类型筛选</string>
     <string name="filters">过滤器</string>

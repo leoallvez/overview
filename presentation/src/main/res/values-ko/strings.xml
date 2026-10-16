@@ -67,6 +67,10 @@
     <string name="empty_list_providers">스트리밍에는 사용할 수 없습니다.</string>
     <string name="not_yet_released">아직 출시되지 않음</string>
     <string name="search_in_all_places">어디서나 검색</string>
+    <string name="search_in_favorites">즐겨찾기에서 검색</string>
+    <string name="search_in_catalog">카탈로그에서 검색</string>
+    <string name="search_in_catalogs">카탈로그 목록 검색</string>
+    <string name="search_in_genres">장르 검색</string>
     <string name="genre">장르</string>
     <string name="filter_by_genre">장르 필터링</string>
     <string name="filters">필터</string>

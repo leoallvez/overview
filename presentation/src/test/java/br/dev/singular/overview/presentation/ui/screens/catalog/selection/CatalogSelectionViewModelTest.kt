@@ -173,4 +173,44 @@ class CatalogSelectionViewModelTest {
         coVerify { catalogTooltipDismissedUseCase.dismiss() }
         assertEquals(true, sut.tooltipDismissed.value)
     }
+
+    @Test
+    fun `Search intent should update query and filtered options keeping the selection`() = runTest {
+        // arrange
+        val netflix = createCatalogMock()
+        val disney = createCatalogMock().copy(id = 2L, name = "Disney Plus")
+        coEvery { queryStateUseCase.get() } returns QueryState(catalog = netflix)
+        coEvery { getAllUseCase() } returns listOf(netflix, disney)
+        coEvery { catalogTooltipDismissedUseCase.isDismissed() } returns true
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.uiState.collect()
+        }
+
+        sut.handleIntent(CatalogSelectionIntent.Load)
+        advanceUntilIdle()
+
+        // act
+        sut.handleIntent(CatalogSelectionIntent.Search("DISNEY"))
+        advanceUntilIdle()
+
+        // assert
+        val currentState = sut.uiState.value
+        assertTrue(currentState is UiState.Success)
+        val successData = (currentState as UiState.Success).data
+        assertEquals("DISNEY", successData.query)
+        assertEquals(listOf(disney.id), successData.filteredOptions.map { it.id })
+        assertEquals(2, successData.options.size)
+        assertEquals(netflix.id, successData.selected?.id)
+    }
+
+    @Test
+    fun `Search intent should be ignored when state is not Success`() = runTest {
+        // act
+        sut.handleIntent(CatalogSelectionIntent.Search("netflix"))
+        advanceUntilIdle()
+
+        // assert
+        assertTrue(sut.uiState.value is UiState.Loading)
+    }
 }

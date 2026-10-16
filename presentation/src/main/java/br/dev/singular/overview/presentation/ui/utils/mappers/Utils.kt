@@ -8,7 +8,7 @@ internal fun buildPosterURL(path: String) = "${BuildConfig.POSTER_URL}$path"
 
 internal fun extractPath(url: String): String {
     if (url.isBlank()) return ""
-    return url.substringAfter(BuildConfig.POSTER_URL, url)
+    return url.substringAfterLast(BuildConfig.IMG_URL, url)
 }
 
 internal fun buildThumbnailUrl(key: String) =

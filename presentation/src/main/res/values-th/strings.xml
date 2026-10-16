@@ -67,6 +67,10 @@
     <string name="empty_list_providers">ไม่สามารถใช้ได้กับสตรีมมิ่ง</string>
     <string name="not_yet_released">ยังไม่ปล่อย</string>
     <string name="search_in_all_places">ค้นหาทุกที่</string>
+    <string name="search_in_favorites">ค้นหาในรายการโปรด</string>
+    <string name="search_in_catalog">ค้นหาในแคตตาล็อก</string>
+    <string name="search_in_catalogs">ค้นหาแคตตาล็อก</string>
+    <string name="search_in_genres">ค้นหาประเภท</string>
     <string name="genre">แนวเพลง</string>
     <string name="filter_by_genre">กรองโดยแนวเพลง</string>
     <string name="filters">ตัวกรอง</string>

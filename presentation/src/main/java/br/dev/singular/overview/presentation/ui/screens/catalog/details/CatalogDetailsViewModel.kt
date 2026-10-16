@@ -14,6 +14,7 @@ import br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi.toUi
 import br.dev.singular.overview.presentation.ui.utils.mappers.uiToDomain.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.withIndex
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,17 +28,22 @@ class CatalogDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(dispatcher) {
-            queryStateUseCase.observe().collect { savedQuery ->
+            queryStateUseCase.observe().withIndex().collect { (index, savedQuery) ->
                 savedQuery?.toUi()?.let {
-                    syncQueryState(it)
+                    syncQueryState(it, isRestoring = index == 0)
                 }
             }
         }
     }
 
-    private fun syncQueryState(savedQuery: QueryUiState) {
-        if (savedQuery != queryState.value) {
-            onQueryChanged(savedQuery)
+    private fun syncQueryState(savedQuery: QueryUiState, isRestoring: Boolean) {
+        val query = if (isRestoring) {
+            savedQuery
+        } else {
+            savedQuery.copy(query = queryState.value.query)
+        }
+        if (query != queryState.value) {
+            onQueryChanged(query)
         }
     }
 
@@ -46,6 +52,7 @@ class CatalogDetailsViewModel @Inject constructor(
             is CatalogDetailIntent.SelectType -> onSelectType(type)
             is CatalogDetailIntent.SelectGenre -> onSelectGenre(genre)
             is CatalogDetailIntent.SelectCatalog -> onSelectCatalog(catalog)
+            is CatalogDetailIntent.Search -> onSearch(query)
             is CatalogDetailIntent.ChangeScrollState -> onSetScrollState(scrollState)
         }
     }
@@ -61,6 +68,9 @@ class CatalogDetailsViewModel @Inject constructor(
 
     private fun onSelectCatalog(catalog: CatalogUiModel) =
         onUpdateQuery(query = queryState.value.copy(catalog = catalog))
+
+    private fun onSearch(query: String) =
+        onUpdateQuery(query = queryState.value.copy(query = query))
 
     private fun onUpdateQuery(query: QueryUiState) {
         onQueryChanged(query)

@@ -45,4 +45,28 @@ class MappersUtilsTest {
         // assert
         result shouldBeEqualTo extraParams
     }
+
+    @Test
+    fun `toParams should add the trimmed query as with_text_query`() {
+        // arrange
+        val queryDataState = QueryDataState(path = "discover/movie", query = " batman ")
+
+        // act
+        val result = queryDataState.toParams(emptyMap())
+
+        // assert
+        result["with_text_query"] shouldBeEqualTo "batman"
+    }
+
+    @Test
+    fun `toParams should not add with_text_query when query is blank`() {
+        // arrange
+        val queryDataState = QueryDataState(path = "discover/movie", query = "  ")
+
+        // act
+        val result = queryDataState.toParams(emptyMap())
+
+        // assert
+        result.containsKey("with_text_query") shouldBeEqualTo false
+    }
 }

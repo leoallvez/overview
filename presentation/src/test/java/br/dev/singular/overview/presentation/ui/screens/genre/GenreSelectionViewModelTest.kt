@@ -152,4 +152,45 @@ class GenreSelectionViewModelTest {
         assertEquals(genres.first().id, successData.initial?.id)
         assertTrue(successData.hasChanged)
     }
+
+    @Test
+    fun `Search intent should update query and filtered options keeping the selection`() = runTest {
+        // arrange
+        val action = createGenreMock()
+        val drama = createGenreMock().copy(id = 2L, name = "Drama")
+        val queryState = createQueryStateMock().copy(genre = action)
+
+        coEvery { queryStateUseCase.get() } returns queryState
+        coEvery { fetchGenresUseCase(any()) } returns listOf(action, drama)
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.uiState.collect()
+        }
+
+        sut.handleIntent(GenreSelectionIntent.Load)
+        advanceUntilIdle()
+
+        // act
+        sut.handleIntent(GenreSelectionIntent.Search("DRAMA"))
+        advanceUntilIdle()
+
+        // assert
+        val currentState = sut.uiState.value
+        assertTrue(currentState is UiState.Success)
+        val successData = (currentState as UiState.Success).data
+        assertEquals("DRAMA", successData.query)
+        assertEquals(listOf(drama.id), successData.filteredOptions.map { it.id })
+        assertEquals(2, successData.options.size)
+        assertEquals(action.id, successData.selected?.id)
+    }
+
+    @Test
+    fun `Search intent should be ignored when state is not Success`() = runTest {
+        // act
+        sut.handleIntent(GenreSelectionIntent.Search("drama"))
+        advanceUntilIdle()
+
+        // assert
+        assertTrue(sut.uiState.value is UiState.Loading)
+    }
 }

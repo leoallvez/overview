@@ -6,6 +6,7 @@ import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.genre.IFetchGenresByTypeUseCase
 import br.dev.singular.overview.presentation.UiState
+import br.dev.singular.overview.presentation.mapSuccess
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.GenreUiState
 import br.dev.singular.overview.presentation.model.QueryUiState
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -53,6 +55,7 @@ class GenreSelectionViewModel @Inject constructor(
             is GenreSelectionIntent.Load -> _loadTrigger.tryEmit(Unit)
             is GenreSelectionIntent.Select -> onSelect(intent.genre)
             is GenreSelectionIntent.Update -> onUpdate(intent.genre)
+            is GenreSelectionIntent.Search -> onSearch(intent.query)
         }
     }
 
@@ -85,12 +88,9 @@ class GenreSelectionViewModel @Inject constructor(
         queryStateUseCase.save(currentQuery?.copy(genre = genre)?.toDomain())
     }
 
-    private fun onUpdate(genre: GenreUiModel?) {
-        val currentState = _uiState.value
-        if (currentState is UiState.Success) {
-            _uiState.value = currentState.copy(
-                data = currentState.data.copy(selected = genre)
-            )
-        }
-    }
+    private fun onUpdate(genre: GenreUiModel?) =
+        _uiState.update { state -> state.mapSuccess { it.copy(selected = genre) } }
+
+    private fun onSearch(query: String) =
+        _uiState.update { state -> state.mapSuccess { it.copy(query = query) } }
 }
