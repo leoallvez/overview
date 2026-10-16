@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import br.dev.singular.overview.presentation.model.MediaUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.ScrollUiState
+import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.tagging.TagMediaManager
 import br.dev.singular.overview.presentation.ui.navigation.Destination
 import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
@@ -27,6 +28,21 @@ data class CatalogDetailActions(
     fun onSetType(type: MediaUiType) {
         TagMediaManager.logTypeClick(tagPath, type = type)
         handleIntent(CatalogDetailIntent.SelectType(type))
+    }
+
+    fun onSearch(query: String) {
+        TagManager.logInteraction(customPath = tagPath, detail = "search-field")
+        handleIntent(CatalogDetailIntent.Search(query))
+    }
+
+    fun onClear() {
+        TagManager.logClick(customPath = tagPath, detail = "clean-search-field")
+    }
+
+    fun onToggleSearch(isOpen: Boolean) {
+        val detail = if (isOpen) "open-search" else "close-search"
+        TagManager.logClick(customPath = tagPath, detail = detail)
+        if (!isOpen) handleIntent(CatalogDetailIntent.Search(query = ""))
     }
 
     fun onSetScrollState(state: ScrollUiState) =

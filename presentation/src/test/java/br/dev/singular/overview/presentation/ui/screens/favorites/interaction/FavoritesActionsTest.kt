@@ -7,6 +7,7 @@ import io.mockk.mockkObject
 import io.mockk.unmockkObject
 import io.mockk.verify
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -20,6 +21,7 @@ class FavoritesActionsTest {
     fun setup() {
         mockkObject(TagManager)
         justRun { TagManager.logClick(any(), any(), any()) }
+        justRun { TagManager.logInteraction(any(), any()) }
     }
 
     @After
@@ -35,5 +37,28 @@ class FavoritesActionsTest {
         // Then
         verify(exactly = 1) { TagManager.logClick(sut.tagPath, "profile") }
         assertTrue(navigation.wasNavigateCalled)
+    }
+
+    @Test
+    fun `onSearch should log interaction and forward the query`() {
+        // arrange
+        var query = ""
+        val sut = FavoritesActions(onSetQuery = { query = it })
+
+        // act
+        sut.onSearch("batman")
+
+        // assert
+        verify(exactly = 1) { TagManager.logInteraction(sut.tagPath, "search-field") }
+        assertEquals("batman", query)
+    }
+
+    @Test
+    fun `onClear should log click`() {
+        // act
+        sut.onClear()
+
+        // assert
+        verify(exactly = 1) { TagManager.logClick(sut.tagPath, "clean-search-field") }
     }
 }

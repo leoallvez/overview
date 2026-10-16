@@ -12,6 +12,11 @@ class ChangeCatalogSnapshotTest :
     }
 
     @Test
+    fun search() = snapshot {
+        ChangeCatalogScreenSearchPreview()
+    }
+
+    @Test
     fun loading() = snapshot {
         ChangeCatalogScreenLoadingPreview()
     }

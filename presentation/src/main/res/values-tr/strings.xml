@@ -67,6 +67,10 @@
     <string name="empty_list_providers">Platformda mevcut değil</string>
     <string name="not_yet_released">Henüz yayınlanmadı</string>
     <string name="search_in_all_places">Her yerde ara</string>
+    <string name="search_in_favorites">Favorilerde ara</string>
+    <string name="search_in_catalog">Katalogda ara</string>
+    <string name="search_in_catalogs">Katalog ara</string>
+    <string name="search_in_genres">Tür ara</string>
     <string name="genre">Tür</string>
     <string name="filter_by_genre">Türe göre filtrele</string>
     <string name="filters">Filtreler</string>

@@ -67,6 +67,10 @@
     <string name="empty_list_providers">Tidak tersedia untuk streaming</string>
     <string name="not_yet_released">Belum dirilis</string>
     <string name="search_in_all_places">Cari di mana-mana</string>
+    <string name="search_in_favorites">Cari di favorit</string>
+    <string name="search_in_catalog">Cari di katalog</string>
+    <string name="search_in_catalogs">Cari katalog</string>
+    <string name="search_in_genres">Cari genre</string>
     <string name="genre">Genre</string>
     <string name="filter_by_genre">Filter berdasarkan genre</string>
     <string name="filters">Filter</string>

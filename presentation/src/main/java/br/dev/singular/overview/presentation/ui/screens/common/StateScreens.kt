@@ -3,6 +3,8 @@ package br.dev.singular.overview.presentation.ui.screens.common
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,8 @@ import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSour
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGridSkeleton
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaListSkeleton
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiItemSkeleton
+import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
+import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
@@ -221,6 +225,15 @@ internal fun ItemListSkeletonScreen(
         verticalArrangement = Arrangement
             .spacedBy(dimensionResource(R.dimen.spacing_2x)),
     ) {
+        item {
+            UiShimmerBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(R.dimen.spacing_2x))
+                    .height(dimensionResource(R.dimen.spacing_9x)),
+                shape = UiBorderStyle().shape
+            )
+        }
         items(30) {
             UiItemSkeleton()
         }

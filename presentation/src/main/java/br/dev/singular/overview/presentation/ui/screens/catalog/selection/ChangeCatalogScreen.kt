@@ -3,6 +3,7 @@ package br.dev.singular.overview.presentation.ui.screens.catalog.selection
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -32,6 +33,8 @@ fun ChangeCatalogScreen(
         selectionEnabled = true,
         uiState = uiState,
         onLoad = { actions.onLoad() },
+        onSearch = actions::onSearch,
+        onClear = actions::onClear,
         onSelected = {
             actions.onUpdate(it)
         },
@@ -78,6 +81,34 @@ internal fun ChangeCatalogsScreenSuccessPreview() {
                 when (intent) {
                     is CatalogSelectionIntent.Select -> selectedId.longValue = intent.catalog.id
                     is CatalogSelectionIntent.Update -> selectedId.longValue = intent.catalog.id
+                    else -> {}
+                }
+            }
+        )
+    )
+}
+
+@UiScreenPreview
+@Composable
+internal fun ChangeCatalogScreenSearchPreview() {
+    val selectedId = remember { mutableLongStateOf(value = 0L) }
+    val query = remember { mutableStateOf("Lorem") }
+    val catalogs = fakeCatalogs(30)
+    val uiState = UiState.Success(
+        CatalogUiState(
+            initial = catalogs.first(),
+            selected = catalogs.find { it.id == selectedId.longValue },
+            options = catalogs,
+            query = query.value
+        )
+    )
+    ChangeCatalogScreen(
+        uiState = uiState,
+        actions = CatalogSelectionActions(
+            handleIntent = { intent ->
+                when (intent) {
+                    is CatalogSelectionIntent.Update -> selectedId.longValue = intent.catalog.id
+                    is CatalogSelectionIntent.Search -> query.value = intent.query
                     else -> {}
                 }
             }

@@ -11,5 +11,7 @@ sealed class CatalogSelectionIntent {
 
     data class Update(val catalog: CatalogUiModel) : CatalogSelectionIntent()
 
+    data class Search(val query: String) : CatalogSelectionIntent()
+
     data object DismissTooltip : CatalogSelectionIntent()
 }

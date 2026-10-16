@@ -25,6 +25,15 @@ data class GenreSelectionActions(
         handleIntent(GenreSelectionIntent.Update(genre))
     }
 
+    fun onSearch(query: String) {
+        TagManager.logInteraction(customPath = tagPath, detail = "search-field")
+        handleIntent(GenreSelectionIntent.Search(query))
+    }
+
+    fun onClear() {
+        TagManager.logClick(customPath = tagPath, detail = "clean-search-field")
+    }
+
     fun onBack() {
         TagManager.logClick(customPath = tagPath, detail = "close")
         navigation?.popBackStack()

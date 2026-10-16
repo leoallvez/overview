@@ -67,6 +67,10 @@
     <string name="empty_list_providers">No disponible para transmisión</string>
     <string name="not_yet_released">Aún no publicado</string>
     <string name="search_in_all_places">Buscar en todas partes</string>
+    <string name="search_in_favorites">Buscar en favoritos</string>
+    <string name="search_in_catalog">Buscar en el catálogo</string>
+    <string name="search_in_catalogs">Buscar catálogos</string>
+    <string name="search_in_genres">Buscar géneros</string>
     <string name="genre">Género</string>
     <string name="filter_by_genre">Filtrar por un género</string>
     <string name="filters">Filtros</string>

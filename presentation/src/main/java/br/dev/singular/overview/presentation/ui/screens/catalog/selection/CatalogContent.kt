@@ -6,15 +6,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.CatalogUiState
+import br.dev.singular.overview.presentation.ui.components.UiAnimatedVisibility
 import br.dev.singular.overview.presentation.ui.components.UiList
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.UiSearchField
 import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogItem
 import br.dev.singular.overview.presentation.ui.screens.common.ItemListSkeletonScreen
+import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
 import br.dev.singular.overview.presentation.ui.screens.common.UiStateResult
-import kotlinx.collections.immutable.toImmutableList
 
 /**
  * A composable that displays a catalog of catalog.
@@ -26,6 +31,9 @@ import kotlinx.collections.immutable.toImmutableList
  * @param onLoad Callback to be invoked to load the catalog data.
  * @param tooltip An optional composable to be displayed as a tooltip.
  * @param toolbar A composable to be displayed as the top toolbar.
+ * @param bottomBar A composable to be displayed as the bottom bar.
+ * @param onSearch Callback to be invoked when the search query changes.
+ * @param onClear Callback to be invoked when the search field is cleared.
  * @param onSelected Callback to be invoked when a catalog is selected.
  */
 @Composable
@@ -37,6 +45,8 @@ internal fun CatalogContent(
     tooltip: @Composable () -> Unit = {},
     toolbar: @Composable () -> Unit,
     bottomBar: @Composable () -> Unit = {},
+    onSearch: (String) -> Unit = {},
+    onClear: () -> Unit = {},
     onSelected: (CatalogUiModel) -> Unit
 ) {
 
@@ -58,15 +68,61 @@ internal fun CatalogContent(
                     ItemListSkeletonScreen(tagPath)
                 },
             ) { data ->
-                UiList(
-                    items = data.options.toImmutableList()
+                CatalogList(
+                    tagPath = tagPath,
+                    selectionEnabled = selectionEnabled,
+                    data = data,
+                    onSearch = onSearch,
+                    onClear = onClear,
+                    onSelected = onSelected
+                )
+            }
+        }
+    }
+}
+
+/**
+ * The list of catalogs, with the search field displayed when there are many catalogs.
+ *
+ * @param tagPath The path for analytics tagging.
+ * @param selectionEnabled If true, radio buttons are shown for single selection.
+ * @param data The [CatalogUiState] with the catalogs, the selected catalog and the search query.
+ * @param onSearch Callback to be invoked when the search query changes.
+ * @param onClear Callback to be invoked when the search field is cleared.
+ * @param onSelected Callback to be invoked when a catalog is selected.
+ */
+@Composable
+private fun CatalogList(
+    tagPath: String,
+    selectionEnabled: Boolean,
+    data: CatalogUiState,
+    onSearch: (String) -> Unit,
+    onClear: () -> Unit,
+    onSelected: (CatalogUiModel) -> Unit
+) {
+    Column {
+        UiAnimatedVisibility(visible = data.isSearchVisible) {
+            UiSearchField(
+                query = data.query,
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_2x)),
+                placeholder = stringResource(R.string.search_in_catalogs),
+                onQueryChange = onSearch,
+                onClear = onClear
+            )
+        }
+        if (data.filteredOptions.isEmpty()) {
+            StateScreen(
+                title = stringResource(R.string.not_found),
+                tagPath = tagPath,
+                tagStatus = "nothing_found"
+            )
+        } else {
+            UiList(items = data.filteredOptions) {
+                UiCatalogItem(
+                    model = it,
+                    selected = if (selectionEnabled) it.id == data.selected?.id else null
                 ) {
-                    UiCatalogItem(
-                        model = it,
-                        selected = if (selectionEnabled) it.id == data.selected?.id else null
-                    ) {
-                        onSelected(it)
-                    }
+                    onSelected(it)
                 }
             }
         }

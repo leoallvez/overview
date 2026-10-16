@@ -19,4 +19,28 @@ class MappersUtilsTest {
         val expected = "${BuildConfig.POSTER_URL}$path"
         assertEquals(expected, buildPosterURL(path))
     }
+
+    @Test
+    fun `extractPath should return the path used to build the image URL`() {
+        val path = "/logo.jpg"
+        assertEquals(path, extractPath(buildImageFullURL(path)))
+    }
+
+    @Test
+    fun `extractPath should return the path when the base URL is repeated`() {
+        val path = "/logo.jpg"
+        val url = buildImageFullURL(buildImageFullURL(path))
+        assertEquals(path, extractPath(url))
+    }
+
+    @Test
+    fun `extractPath should return the URL when it has no base URL`() {
+        val url = "https://example.com/logo.png"
+        assertEquals(url, extractPath(url))
+    }
+
+    @Test
+    fun `extractPath should return empty when the URL is blank`() {
+        assertEquals("", extractPath(" "))
+    }
 }

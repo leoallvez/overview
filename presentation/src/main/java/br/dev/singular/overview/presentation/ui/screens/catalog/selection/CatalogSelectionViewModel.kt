@@ -6,6 +6,7 @@ import br.dev.singular.overview.domain.usecase.ICatalogQueryStateUseCase
 import br.dev.singular.overview.domain.usecase.ICatalogTooltipDismissedUseCase
 import br.dev.singular.overview.domain.usecase.catalog.IGetAllCatalogUseCase
 import br.dev.singular.overview.presentation.UiState
+import br.dev.singular.overview.presentation.mapSuccess
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.CatalogUiState
 import br.dev.singular.overview.presentation.model.QueryUiState
@@ -20,6 +21,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -55,6 +57,7 @@ class CatalogSelectionViewModel @Inject constructor(
             is CatalogSelectionIntent.Load -> _loadTrigger.tryEmit(Unit)
             is CatalogSelectionIntent.Select -> onSelect(intent.catalog, intent.clearGenre)
             is CatalogSelectionIntent.Update -> onUpdate(intent.catalog)
+            is CatalogSelectionIntent.Search -> onSearch(intent.query)
             is CatalogSelectionIntent.DismissTooltip -> onDismissTooltip()
         }
     }
@@ -93,14 +96,11 @@ class CatalogSelectionViewModel @Inject constructor(
         }
     }
 
-    private fun onUpdate(catalog: CatalogUiModel) {
-        val currentState = _uiState.value
-        if (currentState is UiState.Success) {
-            _uiState.value = currentState.copy(
-                data = currentState.data.copy(selected = catalog)
-            )
-        }
-    }
+    private fun onUpdate(catalog: CatalogUiModel) =
+        _uiState.update { state -> state.mapSuccess { it.copy(selected = catalog) } }
+
+    private fun onSearch(query: String) =
+        _uiState.update { state -> state.mapSuccess { it.copy(query = query) } }
 
     private fun onSelect(
         catalog: CatalogUiModel,

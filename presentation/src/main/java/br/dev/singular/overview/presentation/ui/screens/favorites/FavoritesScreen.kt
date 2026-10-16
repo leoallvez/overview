@@ -1,5 +1,6 @@
 package br.dev.singular.overview.presentation.ui.screens.favorites
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import br.dev.singular.overview.presentation.model.ScrollUiState
 import br.dev.singular.overview.presentation.model.UserUiModel
 import br.dev.singular.overview.presentation.ui.components.UiDivider
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
+import br.dev.singular.overview.presentation.ui.components.UiSearchField
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
 import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
@@ -43,6 +45,7 @@ import br.dev.singular.overview.presentation.ui.utils.rememberLazyGridScrollStat
  * @param queryState The state of the query (filters).
  * @param scrollState The state of the scroll position.
  * @param uiPages The paginated list of favorite media items.
+ * @param showSearch Whether the search field is displayed below the toolbar.
  * @param onSetScrollState Callback to update the scroll state.
  * @param actions The actions to be performed on the screen.
  */
@@ -52,6 +55,7 @@ fun FavoritesScreen(
     queryState: QueryUiState,
     scrollState: ScrollUiState,
     uiPages: LazyPagingItems<MediaUiModel>,
+    showSearch: Boolean = false,
     onSetScrollState: (ScrollUiState) -> Unit = {},
     actions: FavoritesActions = FavoritesActions(),
 ) {
@@ -62,12 +66,13 @@ fun FavoritesScreen(
         actions = actions,
         queryState = queryState,
         user = user,
+        showSearch = showSearch,
     ) {
         UiPagedMediaGrid(
             tagPath = actions.tagPath,
             items = uiPages,
             gridState = gridState,
-            errorScreen = { EmptyFavoritesScreen(actions.tagPath, queryState.type) },
+            errorScreen = { EmptyFavoritesScreen(actions.tagPath, queryState) },
             onClickItem = { media ->
                 actions.onToMediaDetails(media)
             }
@@ -80,6 +85,7 @@ private fun FavoritesContent(
     actions: FavoritesActions,
     queryState: QueryUiState,
     user: UserUiModel,
+    showSearch: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val isPreview = LocalInspectionMode.current
@@ -92,7 +98,12 @@ private fun FavoritesContent(
     UiScaffold(
         modifier = Modifier.nestedScroll(nestedScrollConnection),
         topBar = {
-            FavoritesTopAppBar(user = user, onToProfile = actions::onToProfile)
+            FavoritesTopAppBar(
+                user = user,
+                query = queryState.query,
+                showSearch = showSearch,
+                actions = actions
+            )
         }
     ) { padding ->
         Column(
@@ -120,27 +131,41 @@ private fun FavoritesContent(
 @Composable
 private fun FavoritesTopAppBar(
     user: UserUiModel,
-    onToProfile: () -> Unit
+    query: String,
+    showSearch: Boolean,
+    actions: FavoritesActions
 ) {
-    UiTopAppBar(
-        title = stringResource(id = R.string.favorites),
-        trailingContent = {
-            UiUserAvatar(
-                url = user.photoURL,
-                previewDrawableRes = user.previewDrawableRes,
-                onClick = onToProfile
+    Column {
+        UiTopAppBar(
+            title = stringResource(id = R.string.favorites),
+            trailingContent = {
+                UiUserAvatar(
+                    url = user.photoURL,
+                    previewDrawableRes = user.previewDrawableRes,
+                    onClick = actions::onToProfile
+                )
+            }
+        )
+        AnimatedVisibility(visible = showSearch) {
+            UiSearchField(
+                query = query,
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x)),
+                placeholder = stringResource(R.string.search_in_favorites),
+                onQueryChange = actions::onSearch,
+                onClear = actions::onClear
             )
         }
-    )
+    }
 }
 
 @Composable
-private fun EmptyFavoritesScreen(tagPath: String, type: MediaUiType) {
+private fun EmptyFavoritesScreen(tagPath: String, queryState: QueryUiState) {
     StateScreen(
         title = stringResource(
-            when (type) {
-                MediaUiType.MOVIE -> R.string.liked_movie_not_found
-                MediaUiType.TV -> R.string.liked_tv_show_not_found
+            when {
+                queryState.query.isNotBlank() -> R.string.not_found
+                queryState.type == MediaUiType.MOVIE -> R.string.liked_movie_not_found
+                queryState.type == MediaUiType.TV -> R.string.liked_tv_show_not_found
                 else -> R.string.liked_not_found
             }
         ),
@@ -176,6 +201,29 @@ internal fun FavoritesScreenSignedInPreview() {
         queryState = fakeQueryState(),
         actions = FavoritesActions(),
         user = fakeUser()
+    ) {
+        UiMediaGrid(items = fakeMedias(90))
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun FavoritesScreenSearchPreview() {
+
+    val queryState = remember { mutableStateOf(fakeQueryState()) }
+
+    FavoritesContent(
+        user = fakeUser(),
+        queryState = queryState.value,
+        showSearch = true,
+        actions = FavoritesActions(
+            onSetType = {
+                queryState.value = queryState.value.copy(type = it)
+            },
+            onSetQuery = {
+                queryState.value = queryState.value.copy(query = it)
+            }
+        )
     ) {
         UiMediaGrid(items = fakeMedias(90))
     }

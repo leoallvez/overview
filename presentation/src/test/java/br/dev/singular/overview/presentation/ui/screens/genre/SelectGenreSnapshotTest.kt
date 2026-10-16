@@ -11,6 +11,11 @@ class SelectGenreSnapshotTest : UiScreenSnapshotTest(snapshotPackage = "screens/
     }
 
     @Test
+    fun search() = snapshot {
+        SelectGenreScreenSearchPreview()
+    }
+
+    @Test
     fun loading() = snapshot {
         SelectGenreScreenLoadingPreview()
     }

@@ -35,6 +35,8 @@ fun SelectCatalogScreen(
         selectionEnabled = false,
         uiState = uiState,
         onLoad = { actions.onLoad() },
+        onSearch = actions::onSearch,
+        onClear = actions::onClear,
         onSelected = { actions.onSelect(it, clearGenre = true) },
         toolbar = { UiTopAppBar(title = stringResource(R.string.select_catalog)) },
         tooltip = {
@@ -66,6 +68,30 @@ internal fun SelectCatalogsScreenSuccessPreview() {
             handleIntent = { intent ->
                 if (intent is CatalogSelectionIntent.DismissTooltip) {
                     showTooltip.value = false
+                }
+            }
+        )
+    )
+}
+
+@UiScreenPreview
+@Composable
+internal fun SelectCatalogScreenSearchPreview() {
+    val query = remember { mutableStateOf("Lorem") }
+    val catalogs = fakeCatalogs(30)
+    SelectCatalogScreen(
+        uiState = UiState.Success(
+            data = CatalogUiState(
+                initial = catalogs.first(),
+                selected = catalogs.first(),
+                options = catalogs,
+                query = query.value
+            )
+        ),
+        actions = CatalogSelectionActions(
+            handleIntent = { intent ->
+                if (intent is CatalogSelectionIntent.Search) {
+                    query.value = intent.query
                 }
             }
         )

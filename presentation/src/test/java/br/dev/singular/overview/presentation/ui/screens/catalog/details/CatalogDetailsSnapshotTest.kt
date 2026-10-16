@@ -10,4 +10,9 @@ class CatalogDetailsSnapshotTest :
     fun default() = snapshot {
         CatalogDetailsContentPreview()
     }
+
+    @Test
+    fun search() = snapshot {
+        CatalogDetailsContentSearchPreview()
+    }
 }

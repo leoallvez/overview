@@ -14,4 +14,9 @@ class FavoritesSnapshotTest : UiScreenSnapshotTest(snapshotPackage = "screens/fa
     fun signedIn() = snapshot {
         FavoritesScreenSignedInPreview()
     }
+
+    @Test
+    fun search() = snapshot {
+        FavoritesScreenSearchPreview()
+    }
 }
