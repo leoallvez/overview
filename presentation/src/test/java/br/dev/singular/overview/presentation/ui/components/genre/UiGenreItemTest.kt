@@ -90,7 +90,7 @@ class UiGenreItemTest {
             color = genre.getColor()
         }
 
-        val expected = Color(0xFFFF7043)
+        val expected = Color(0xFFFFAB91)
         assertEquals(expected, color)
     }
 

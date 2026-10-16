@@ -35,11 +35,11 @@ internal interface UiButtonStyle {
 @Immutable
 internal data class UiActionButtonColors(
     val activeBackgroundColor: Color = Color.Transparent,
-    val inactiveBackgroundColor: Color = LowlightColor.copy(alpha = 0.12f),
+    val inactiveBackgroundColor: Color = LowlightColor.copy(alpha = 0.2f),
     val activeBorderColor: Color = HighlightColor,
-    val inactiveBorderColor: Color = LowlightColor.copy(alpha = 0.3f),
+    val inactiveBorderColor: Color = LowlightColor.copy(alpha = 0.7f),
     val activeTextColor: Color = HighlightColor,
-    val inactiveTextColor: Color = LowlightColor.copy(alpha = 0.3f),
+    val inactiveTextColor: Color = LowlightColor.copy(alpha = 0.85f),
 ) : UiButtonColors {
 
     @Composable
