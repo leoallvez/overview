@@ -4,6 +4,7 @@ import br.dev.singular.overview.data.repository.DataStoreRepository
 import br.dev.singular.overview.data.repository.PersonDetailsRepository
 import br.dev.singular.overview.data.repository.SuggestionRepository
 import br.dev.singular.overview.data.repository.catalog.CatalogQueryLocalRepository
+import br.dev.singular.overview.data.repository.catalog.CatalogRemoteRepository
 import br.dev.singular.overview.data.repository.catalog.CatalogRepository
 import br.dev.singular.overview.data.repository.genre.GenreLocalRepository
 import br.dev.singular.overview.data.repository.genre.GenreRemoteRepository
@@ -23,6 +24,8 @@ import br.dev.singular.overview.domain.usecase.catalog.DeleteCatalogUseCase
 import br.dev.singular.overview.domain.usecase.catalog.GetAllCatalogUseCase
 import br.dev.singular.overview.domain.usecase.catalog.IDeleteCatalogUseCase
 import br.dev.singular.overview.domain.usecase.catalog.IGetAllCatalogUseCase
+import br.dev.singular.overview.domain.usecase.catalog.IRefreshCatalogUseCase
+import br.dev.singular.overview.domain.usecase.catalog.RefreshCatalogUseCase
 import br.dev.singular.overview.domain.usecase.genre.FetchGenresByTypeUseCase
 import br.dev.singular.overview.domain.usecase.genre.IFetchGenresByTypeUseCase
 import br.dev.singular.overview.domain.usecase.genre.ISaveGenreUseCase
@@ -149,6 +152,19 @@ class UseCaseModule {
         repo: CatalogRepository
     ): IDeleteCatalogUseCase {
         return DeleteCatalogUseCase(getter = repo, deleter = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRefreshCatalogUseCase(
+        repoLocal: CatalogRepository,
+        repoRemote: CatalogRemoteRepository
+    ): IRefreshCatalogUseCase {
+        return RefreshCatalogUseCase(
+            localGetter = repoLocal,
+            remoteGetter = repoRemote,
+            updater = repoLocal
+        )
     }
 
     @Singleton

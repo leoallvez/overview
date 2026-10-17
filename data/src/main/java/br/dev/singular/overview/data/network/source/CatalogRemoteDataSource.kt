@@ -16,6 +16,7 @@ import javax.inject.Inject
 
 interface ICatalogRemoteDataSource {
     suspend fun getAll(): List<CatalogDataModel>
+    suspend fun getAllFromApi(): List<CatalogDataModel>
     suspend fun getCatalogsByMedia(id: Long, type: MediaDataType): List<CatalogDataModel>
 }
 
@@ -30,6 +31,8 @@ class CatalogRemoteDataSource @Inject constructor(
         provider.waitAndActivate()
         fetchFromConfig(region).ifEmpty { fetchFromApi(region) }
     }
+
+    override suspend fun getAllFromApi() = fetchFromApi(locale.region)
 
     private suspend fun fetchFromConfig(region: String): List<CatalogDataModel> {
         return try {

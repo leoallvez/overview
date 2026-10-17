@@ -7,13 +7,14 @@ import br.dev.singular.overview.data.util.mappers.domainToData.toData
 import br.dev.singular.overview.domain.model.Catalog
 import br.dev.singular.overview.domain.repository.Delete
 import br.dev.singular.overview.domain.repository.GetAll
+import br.dev.singular.overview.domain.repository.Update
 import timber.log.Timber
 import javax.inject.Inject
 
 class CatalogRepository @Inject constructor(
     private val localSource: ICatalogLocalDataSource,
     private val remoteSource: ICatalogRemoteDataSource
-) : GetAll<Catalog>, Delete<Catalog> {
+) : GetAll<Catalog>, Update<List<Catalog>>, Delete<Catalog> {
 
     override suspend fun getAll(): List<Catalog> {
         return localSource.getAll().ifEmpty {
@@ -24,6 +25,10 @@ class CatalogRepository @Inject constructor(
                 emptyList()
             }
         }.map { it.toDomain() }
+    }
+
+    override suspend fun update(item: List<Catalog>) {
+        localSource.insert(item.map { it.toData() })
     }
 
     override suspend fun delete(vararg items: Catalog) {

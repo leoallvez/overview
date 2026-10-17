@@ -64,6 +64,27 @@ class CatalogRepositoryTest {
     }
 
     @Test
+    fun `update should insert mapped catalogs into local source`() = runTest {
+        // Arrange
+        val catalog = Catalog(
+            id = 1,
+            name = "Netflix",
+            priority = 1,
+            logoPath = "",
+            display = true,
+            lastUpdate = Date()
+        )
+
+        // Act
+        sut.update(listOf(catalog))
+
+        // Assert
+        coVerify {
+            localSource.insert(match { it.size == 1 && it.first().id == 1L && it.first().name == "Netflix" })
+        }
+    }
+
+    @Test
     fun `delete should call local source delete`() = runTest {
         // Arrange
         val catalog = Catalog(
