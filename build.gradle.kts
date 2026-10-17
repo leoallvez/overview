@@ -55,6 +55,11 @@ kover {
         total {
             xml { onCheck = true }
             html { title = "Overview Project Coverage" }
+            verify {
+                rule {
+                    minBound(80)
+                }
+            }
         }
     }
 }
