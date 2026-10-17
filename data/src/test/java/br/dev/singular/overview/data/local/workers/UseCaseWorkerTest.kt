@@ -5,10 +5,12 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import br.dev.singular.overview.domain.usecase.FailType
 import br.dev.singular.overview.domain.usecase.UseCaseState
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.io.IOException
 
 class UseCaseWorkerTest {
 
@@ -35,5 +37,38 @@ class UseCaseWorkerTest {
         val result = sut.doWork()
 
         assertEquals(ListenableWorker.Result.failure(), result)
+    }
+
+    @Test
+    fun `doWork should return Retry when runWork fails with IOException below max attempts`() = runTest {
+        every { params.runAttemptCount } returns 4
+        val sut = workerFailingWith(IOException())
+
+        val result = sut.doWork()
+
+        assertEquals(ListenableWorker.Result.retry(), result)
+    }
+
+    @Test
+    fun `doWork should return Failure when runWork fails with IOException at max attempts`() = runTest {
+        every { params.runAttemptCount } returns 5
+        val sut = workerFailingWith(IOException())
+
+        val result = sut.doWork()
+
+        assertEquals(ListenableWorker.Result.failure(), result)
+    }
+
+    @Test
+    fun `doWork should return Failure when runWork fails with non IO exception`() = runTest {
+        val sut = workerFailingWith(IllegalStateException())
+
+        val result = sut.doWork()
+
+        assertEquals(ListenableWorker.Result.failure(), result)
+    }
+
+    private fun workerFailingWith(throwable: Throwable) = object : UseCaseWorker<Unit>(context, params) {
+        override suspend fun runWork() = UseCaseState.Failure(FailType.Exception(throwable))
     }
 }

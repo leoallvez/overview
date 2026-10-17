@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import androidx.work.WorkManager
 import br.dev.singular.overview.data.local.database.AppDatabase
 import br.dev.singular.overview.data.local.database.Migration
 import dagger.Module
@@ -47,6 +48,12 @@ class StorageModule {
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.dataStore
+
+    @Singleton
+    @Provides
+    fun provideWorkManager(
+        @ApplicationContext context: Context
+    ): WorkManager = WorkManager.getInstance(context)
 
     companion object {
         private val Context.dataStore by preferencesDataStore("app_setting")

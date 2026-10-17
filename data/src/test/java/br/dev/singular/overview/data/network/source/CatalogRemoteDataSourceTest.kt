@@ -228,4 +228,37 @@ class CatalogRemoteDataSourceTest {
         // assert
         result.shouldBeEmpty()
     }
+
+    @Test
+    fun `getAllFromApi should return from API without reading config`() = runTest {
+        // arrange
+        val catalogs = listOf(CatalogDataModel(id = 1, name = "Netflix"))
+        val response = mockk<ListResponse<CatalogDataModel>> {
+            every { results } returns catalogs
+        }
+        every { locale.region } returns "BR"
+        coEvery { api.getCatalog(any()) } returns NetworkResponse.Success(response, mockk())
+
+        // act
+        val result = sut.getAllFromApi()
+
+        // assert
+        result shouldHaveSize 1
+        result.first().id shouldBeEqualTo 1L
+        coVerify(exactly = 1) { api.getCatalog("BR") }
+        coVerify(exactly = 0) { provider.getString(any()) }
+    }
+
+    @Test
+    fun `getAllFromApi should return empty list when API fails`() = runTest {
+        // arrange
+        every { locale.region } returns "BR"
+        coEvery { api.getCatalog(any()) } returns NetworkResponse.NetworkError(java.io.IOException())
+
+        // act
+        val result = sut.getAllFromApi()
+
+        // assert
+        result.shouldBeEmpty()
+    }
 }
