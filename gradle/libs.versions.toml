@@ -28,7 +28,7 @@ room = "2.8.5"
 paging-runtime-ktx = "3.5.2"
 
 # Firebase
-firebase-bom = "35.0.0"
+firebase-bom = "35.0.2"
 
 # Auth
 credentials = "1.6.0"
