@@ -25,7 +25,7 @@ hilt-navigation-compose = "1.4.0"
 
 # Room
 room = "2.8.5"
-paging-runtime-ktx = "3.5.2"
+paging-runtime-ktx = "3.5.3"
 
 # Firebase
 firebase-bom = "35.0.0"
