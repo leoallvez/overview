@@ -1,5 +1,6 @@
 package br.dev.singular.overview.data.repository.media
 
+import br.dev.singular.overview.data.local.source.IPendingFavoriteLocalDataSource
 import br.dev.singular.overview.data.network.source.IAuthRemoteDataSource
 import br.dev.singular.overview.data.network.source.IFavoriteRemoteDataSource
 import br.dev.singular.overview.data.util.fakeMediaDataModel
@@ -7,6 +8,9 @@ import br.dev.singular.overview.data.util.fakeUserDataModel
 import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
 import br.dev.singular.overview.data.util.mappers.domainToData.toData
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -28,13 +32,16 @@ class MediaFavoriteRepositoryTest {
     @MockK(relaxed = true)
     private lateinit var remoteDataSource: IFavoriteRemoteDataSource
 
+    @MockK(relaxed = true)
+    private lateinit var pendingDataSource: IPendingFavoriteLocalDataSource
+
     private lateinit var sut: MediaFavoriteRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         every { authDataSource.currentUser() } returns fakeUserDataModel
-        sut = MediaFavoriteRepository(authDataSource, remoteDataSource)
+        sut = MediaFavoriteRepository(authDataSource, remoteDataSource, pendingDataSource)
     }
 
     @Test
@@ -152,5 +159,68 @@ class MediaFavoriteRepositoryTest {
 
         // Assert
         assertEquals(listOf(emptyList<Any>()), result)
+    }
+
+    @Test
+    fun `observe should upload and clear the pending favorites of the signed in user`() = runTest {
+        // arrange
+        val pending = listOf(fakeMediaDataModel.copy(isLiked = true))
+        coEvery { pendingDataSource.getAll() } returns pending
+        every { authDataSource.observe() } returns flowOf(fakeUserDataModel)
+        every { remoteDataSource.observe("uid") } returns flowOf(emptyList())
+
+        // act
+        sut.observe().toList()
+
+        // assert
+        coVerifyOrder {
+            remoteDataSource.saveAll("uid", pending)
+            pendingDataSource.clear()
+        }
+    }
+
+    @Test
+    fun `observe should not upload anything when there are no pending favorites`() = runTest {
+        // arrange
+        coEvery { pendingDataSource.getAll() } returns emptyList()
+        every { authDataSource.observe() } returns flowOf(fakeUserDataModel)
+        every { remoteDataSource.observe("uid") } returns flowOf(emptyList())
+
+        // act
+        sut.observe().toList()
+
+        // assert
+        coVerify(exactly = 0) { remoteDataSource.saveAll(any(), any()) }
+        coVerify(exactly = 0) { pendingDataSource.clear() }
+    }
+
+    @Test
+    fun `observe should keep the pending favorites and still emit when the upload fails`() =
+        runTest {
+            // arrange
+            val favorites = listOf(fakeMediaDataModel.copy(isLiked = true))
+            coEvery { pendingDataSource.getAll() } returns favorites
+            coEvery { remoteDataSource.saveAll(any(), any()) } throws IllegalStateException()
+            every { authDataSource.observe() } returns flowOf(fakeUserDataModel)
+            every { remoteDataSource.observe("uid") } returns flowOf(favorites)
+
+            // act
+            val result = sut.observe().toList()
+
+            // assert
+            assertEquals(listOf(favorites.map { it.toDomain() }), result)
+            coVerify(exactly = 0) { pendingDataSource.clear() }
+        }
+
+    @Test
+    fun `observe should not read the pending favorites when there is no session`() = runTest {
+        // arrange
+        every { authDataSource.observe() } returns flowOf(null)
+
+        // act
+        sut.observe().toList()
+
+        // assert
+        coVerify(exactly = 0) { pendingDataSource.getAll() }
     }
 }

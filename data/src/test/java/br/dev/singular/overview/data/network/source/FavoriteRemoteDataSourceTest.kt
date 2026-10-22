@@ -2,6 +2,7 @@ package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.util.fakeMediaDataModel
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -80,6 +81,30 @@ class FavoriteRemoteDataSourceTest {
 
         // assert
         verify(exactly = 2) { batch.commit() }
+    }
+
+    @Test
+    fun `saveAll should commit the models in batches of 500 and wait for each commit`() = runTest {
+        // arrange
+        every { batch.commit() } returns Tasks.forResult(null)
+
+        // act
+        sut.saveAll("uid", List(501) { fakeMediaDataModel.copy(id = it.toLong()) })
+
+        // assert
+        verify(exactly = 501) { batch.set(document, any<Map<String, Any>>()) }
+        verify(exactly = 2) { batch.commit() }
+    }
+
+    @Test
+    fun `saveAll should throw when the commit fails`() {
+        // arrange
+        every { batch.commit() } returns Tasks.forException(IllegalStateException("offline"))
+
+        // act & assert
+        assertThrows(IllegalStateException::class.java) {
+            runTest { sut.saveAll("uid", listOf(fakeMediaDataModel)) }
+        }
     }
 
     @Test

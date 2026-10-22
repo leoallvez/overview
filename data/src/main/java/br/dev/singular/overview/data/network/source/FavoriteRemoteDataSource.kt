@@ -8,12 +8,14 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
 interface IFavoriteRemoteDataSource {
     fun save(userId: String, models: List<MediaDataModel>)
+    suspend fun saveAll(userId: String, models: List<MediaDataModel>)
     fun delete(userId: String, model: MediaDataModel)
     fun observe(userId: String): Flow<List<MediaDataModel>>
 }
@@ -27,6 +29,14 @@ class FavoriteRemoteDataSource @Inject constructor(
             val batch = firestore.batch()
             chunk.forEach { batch.set(document(userId, it), it.toDocument()) }
             batch.commit().addOnFailureListener { Timber.e(it) }
+        }
+    }
+
+    override suspend fun saveAll(userId: String, models: List<MediaDataModel>) {
+        models.chunked(MAX_BATCH_SIZE).forEach { chunk ->
+            val batch = firestore.batch()
+            chunk.forEach { batch.set(document(userId, it), it.toDocument()) }
+            batch.commit().await()
         }
     }
 
