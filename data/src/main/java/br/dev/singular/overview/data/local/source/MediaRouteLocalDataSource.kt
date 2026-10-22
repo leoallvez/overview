@@ -19,7 +19,10 @@ class MediaRouteLocalDataSource @Inject constructor(
     private fun loadRoutes(): List<MediaRouteDataModel> {
         return routes.ifEmpty {
             val jsonString = readerProvider.read(filePath = MEDIA_ROUTES_FILE_NAME)
-            json.decodeFromString<List<MediaRouteDataModel>>(jsonString).also { routes = it }
+            if (jsonString.isBlank()) return emptyList()
+            runCatching {
+                json.decodeFromString<List<MediaRouteDataModel>>(jsonString)
+            }.getOrDefault(emptyList()).also { routes = it }
         }
     }
 

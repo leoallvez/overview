@@ -1,24 +1,19 @@
-import com.android.build.api.dsl.VariantDimension
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.android.build.api.dsl.LibraryExtension
 
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id("overview.android.library")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.paparazzi)
 }
 
-android {
-    namespace = "${libs.versions.app.id.get()}.presentation"
-    compileSdk = libs.versions.sdk.compile.get().toInt()
-
+extensions.configure<LibraryExtension> {
     defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("int", "PAGE_SIZE", "20")
+        intField("PAGE_SIZE", 20)
         stringField("IMG_URL", "https://image.tmdb.org/t/p/w780")
-        stringField("POSTER_URL","https://image.tmdb.org/t/p/w154")
+        stringField("POSTER_URL", "https://image.tmdb.org/t/p/w154")
         stringField("THUMBNAIL_BASE_URL", "https://img.youtube.com/vi")
         stringField("THUMBNAIL_QUALITY", "hqdefault.jpg")
     }
@@ -37,27 +32,36 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    reports.html.required.set(false)
+    jvmArgs("-Dnet.bytebuddy.experimental=true", "-XX:+EnableDynamicAgentLoading")
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("*Preview*")
+            }
+        }
     }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -72,11 +76,13 @@ dependencies {
     api(libs.androidx.material3)
     api(libs.androidx.compose.material.icons.extended)
     api(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     api(libs.hilt.navigation.compose)
     implementation(libs.material)
     api(libs.kotlinx.collections.immutable)
-    implementation(libs.progress.indicator)
+    api(libs.lucide.icons)
     implementation(libs.youtube.player)
+    implementation(libs.timber)
 
     // Google Ads
     api(libs.play.services.ads)
@@ -89,11 +95,13 @@ dependencies {
     api(libs.paging.compose)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kluent)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)
-}
-
-private fun VariantDimension.stringField(name: String, value: String) {
-    buildConfigField("String", name, "\"$value\"")
 }

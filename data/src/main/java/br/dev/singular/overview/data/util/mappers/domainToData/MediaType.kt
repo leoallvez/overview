@@ -6,7 +6,7 @@ import br.dev.singular.overview.domain.model.MediaType.ALL
 import br.dev.singular.overview.domain.model.MediaType.MOVIE
 import br.dev.singular.overview.domain.model.MediaType.TV
 
-internal fun MediaType.toData() = when(this) {
+internal fun MediaType.toData() = when (this) {
     MOVIE -> MediaDataType.MOVIE
     TV -> MediaDataType.TV
     ALL -> MediaDataType.ALL

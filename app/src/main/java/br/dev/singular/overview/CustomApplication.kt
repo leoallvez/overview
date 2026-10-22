@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Configuration.Provider
-import br.dev.singular.overview.core.crashlytics.CrashlyticsSource
-import br.dev.singular.overview.core.remote.IRemoteConfigProvider
-import br.dev.singular.overview.data.source.workers.WorkManagerFacade
+import br.dev.singular.overview.data.local.workers.CacheWorkScheduler
+import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
+import br.dev.singular.overview.monitoring.CrashlyticsSource
 import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.util.CrashlyticsReportingTree
 import com.google.android.gms.ads.MobileAds
@@ -27,16 +27,15 @@ class CustomApplication : Application(), Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    private val workerFacade: WorkManagerFacade by lazy {
-        WorkManagerFacade(_context = applicationContext)
-    }
+    @Inject
+    lateinit var cacheWorkScheduler: CacheWorkScheduler
 
     override fun onCreate() {
         super.onCreate()
         remoteConfig.start()
         MobileAds.initialize(this)
         TagManager.init(instance = FirebaseAnalytics.getInstance(this))
-        workerFacade.init()
+        cacheWorkScheduler.schedule()
         initTimber()
     }
 
@@ -45,9 +44,11 @@ class CustomApplication : Application(), Provider {
             .setWorkerFactory(workerFactory)
             .build()
 
-    private fun initTimber() = if (BuildConfig.DEBUG) {
-        Timber.plant(Timber.DebugTree())
-    } else {
-        Timber.plant(CrashlyticsReportingTree(crashlytics))
-    }
+    private fun initTimber() = Timber.plant(
+        tree = if (BuildConfig.DEBUG) {
+            Timber.DebugTree()
+        } else {
+            CrashlyticsReportingTree(crashlyticsSource = crashlytics)
+        }
+    )
 }

@@ -30,7 +30,8 @@ class ApiModule {
     fun provideApiService(
         apiKeyInterceptor: ApiKeyInterceptor,
         localeInterceptor: LocaleInterceptor
-    ): ApiService = buildService(apiKeyInterceptor, localeInterceptor).create(ApiService::class.java)
+    ): ApiService =
+        buildService(apiKeyInterceptor, localeInterceptor).create(ApiService::class.java)
 
     @Singleton
     @Provides

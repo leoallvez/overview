@@ -1,95 +1,230 @@
 package br.dev.singular.overview.presentation.ui.screens.favorites
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.MediaUiModel
-import br.dev.singular.overview.presentation.model.MediaUiParam
 import br.dev.singular.overview.presentation.model.MediaUiType
-import br.dev.singular.overview.presentation.tagging.TagMediaManager
-import br.dev.singular.overview.presentation.tagging.params.TagFavorites
-import br.dev.singular.overview.presentation.tagging.params.TagStatus
+import br.dev.singular.overview.presentation.model.QueryUiState
+import br.dev.singular.overview.presentation.model.ScrollUiState
+import br.dev.singular.overview.presentation.model.UserUiModel
+import br.dev.singular.overview.presentation.ui.components.UiDivider
 import br.dev.singular.overview.presentation.ui.components.UiScaffold
-import br.dev.singular.overview.presentation.ui.components.UiToolbar
+import br.dev.singular.overview.presentation.ui.components.UiSearchField
+import br.dev.singular.overview.presentation.ui.components.media.UiMediaGrid
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaTypeSelector
-import br.dev.singular.overview.presentation.ui.screens.common.MediaGridSkeletonScreen
+import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBar
+import br.dev.singular.overview.presentation.ui.components.user.UiUserAvatar
 import br.dev.singular.overview.presentation.ui.screens.common.StateScreen
-import br.dev.singular.overview.presentation.ui.screens.common.UiLifecycle
-import br.dev.singular.overview.presentation.ui.screens.common.UiMediaContentStateView
-import br.dev.singular.overview.presentation.ui.utils.collectAsFakeLazyPagingItems
+import br.dev.singular.overview.presentation.ui.screens.common.UiPagedMediaGrid
+import br.dev.singular.overview.presentation.ui.screens.favorites.interaction.FavoritesActions
+import br.dev.singular.overview.presentation.ui.utils.UiScreenPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeMedias
+import br.dev.singular.overview.presentation.ui.utils.fakeQueryState
+import br.dev.singular.overview.presentation.ui.utils.fakeUser
+import br.dev.singular.overview.presentation.ui.utils.rememberCollapseScrollConnection
+import br.dev.singular.overview.presentation.ui.utils.rememberLazyGridScrollState
 
 /**
  * A composable that displays the user's favorite media.
- *
- * @param tagPath The path for analytics tagging.
- * @param uiParam The UI parameters for the screen, such as the selected media type.
+ * @param user The signed-in user displayed in the toolbar.
+ * @param queryState The state of the query (filters).
+ * @param scrollState The state of the scroll position.
  * @param uiPages The paginated list of favorite media items.
- * @param onReload Callback to reload the data.
- * @param onSetType Callback to set the media type filter.
- * @param onToMediaDetails Callback to navigate to the details of a media item.
+ * @param showSearch Whether the search field is displayed below the toolbar.
+ * @param onSetScrollState Callback to update the scroll state.
+ * @param actions The actions to be performed on the screen.
  */
 @Composable
 fun FavoritesScreen(
-    tagPath: String = TagFavorites.PATH,
-    uiParam: MediaUiParam,
+    user: UserUiModel,
+    queryState: QueryUiState,
+    scrollState: ScrollUiState,
     uiPages: LazyPagingItems<MediaUiModel>,
-    onReload: () -> Unit = {},
-    onSetType: (MediaUiType) -> Unit = {},
-    onToMediaDetails: (MediaUiModel) -> Unit = {},
+    showSearch: Boolean = false,
+    onSetScrollState: (ScrollUiState) -> Unit = {},
+    actions: FavoritesActions = FavoritesActions(),
 ) {
+
+    val gridState = rememberLazyGridScrollState(scrollState, onSetScrollState)
+
+    FavoritesContent(
+        actions = actions,
+        queryState = queryState,
+        user = user,
+        showSearch = showSearch,
+    ) {
+        UiPagedMediaGrid(
+            tagPath = actions.tagPath,
+            items = uiPages,
+            gridState = gridState,
+            errorScreen = { EmptyFavoritesScreen(actions.tagPath, queryState) },
+            onClickItem = { media ->
+                actions.onToMediaDetails(media)
+            }
+        )
+    }
+}
+
+@Composable
+private fun FavoritesContent(
+    actions: FavoritesActions,
+    queryState: QueryUiState,
+    user: UserUiModel,
+    showSearch: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val isPreview = LocalInspectionMode.current
+    var isCollapsed by rememberSaveable { mutableStateOf(false) }
+
+    val nestedScrollConnection = rememberCollapseScrollConnection {
+        isCollapsed = it
+    }
+
     UiScaffold(
-        topBar = { UiToolbar(title = stringResource(id = R.string.favorites)) }
+        modifier = Modifier.nestedScroll(nestedScrollConnection),
+        topBar = {
+            FavoritesTopAppBar(
+                user = user,
+                query = queryState.query,
+                showSearch = showSearch,
+                actions = actions
+            )
+        }
     ) { padding ->
-        UiLifecycle(onResume = { onReload() })
-        Column(Modifier.padding(top = padding.calculateTopPadding())) {
+        Column(
+            modifier = Modifier
+                .then(
+                    if (isPreview) Modifier
+                    else Modifier.animateContentSize()
+                )
+                .padding(top = padding.calculateTopPadding())
+        )
+        {
             UiMediaTypeSelector(
-                type = uiParam.type,
+                visible = !isCollapsed,
+                type = queryState.type,
                 modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x))
             ) { type ->
-                TagMediaManager.logTypeClick(tagPath, type)
-                onSetType(type)
+                actions.onSelectType(type)
             }
-            UiMediaContentStateView(
-                tagPath = tagPath,
-                pagedMedias = uiPages,
-                loadingScreen = { MediaGridSkeletonScreen(tagPath) },
-                errorScreen = { EmptyFavoritesScreen(tagPath, uiParam.type) },
-                onClickItem = { media ->
-                    TagMediaManager.logMediaClick(tagPath, media.id)
-                    onToMediaDetails(media)
-                }
+            UiDivider(visible = isCollapsed)
+            content()
+        }
+    }
+}
+
+@Composable
+private fun FavoritesTopAppBar(
+    user: UserUiModel,
+    query: String,
+    showSearch: Boolean,
+    actions: FavoritesActions
+) {
+    Column {
+        UiTopAppBar(
+            title = stringResource(id = R.string.favorites),
+            trailingContent = {
+                UiUserAvatar(
+                    url = user.photoURL,
+                    previewDrawableRes = user.previewDrawableRes,
+                    onClick = actions::onToProfile
+                )
+            }
+        )
+        AnimatedVisibility(visible = showSearch) {
+            UiSearchField(
+                query = query,
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_4x)),
+                placeholder = stringResource(R.string.search_in_favorites),
+                onQueryChange = actions::onSearch,
+                onClear = actions::onClear
             )
         }
     }
 }
 
 @Composable
-private fun EmptyFavoritesScreen(tagPath: String, type: MediaUiType) {
+private fun EmptyFavoritesScreen(tagPath: String, queryState: QueryUiState) {
     StateScreen(
         title = stringResource(
-            when (type) {
-                MediaUiType.MOVIE -> R.string.liked_movie_not_found
-                MediaUiType.TV -> R.string.liked_tv_show_not_found
+            when {
+                queryState.query.isNotBlank() -> R.string.not_found
+                queryState.type == MediaUiType.MOVIE -> R.string.liked_movie_not_found
+                queryState.type == MediaUiType.TV -> R.string.liked_tv_show_not_found
                 else -> R.string.liked_not_found
             }
         ),
         tagPath = tagPath,
-        tagStatus = TagStatus.NOTHING_FOUND
+        tagStatus = "nothing_found"
     )
 }
 
-@Preview(showBackground = true)
+@UiScreenPreview
 @Composable
-fun FavoritesScreenPreview() {
-    FavoritesScreen(
-        uiParam = MediaUiParam(type = MediaUiType.ALL),
-        uiPages = fakeMedias(90).collectAsFakeLazyPagingItems(),
-    )
+internal fun FavoritesScreenPreview() {
+
+    val queryState = remember { mutableStateOf(fakeQueryState()) }
+
+    FavoritesContent(
+        user = fakeUser(),
+        queryState = queryState.value,
+        actions = FavoritesActions(
+            onSetType = {
+                queryState.value = queryState.value.copy(type = it)
+            }
+        )
+    ) {
+        UiMediaGrid(items = fakeMedias(90))
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun FavoritesScreenSignedInPreview() {
+
+    FavoritesContent(
+        queryState = fakeQueryState(),
+        actions = FavoritesActions(),
+        user = fakeUser()
+    ) {
+        UiMediaGrid(items = fakeMedias(90))
+    }
+}
+
+@UiScreenPreview
+@Composable
+internal fun FavoritesScreenSearchPreview() {
+
+    val queryState = remember { mutableStateOf(fakeQueryState()) }
+
+    FavoritesContent(
+        user = fakeUser(),
+        queryState = queryState.value,
+        showSearch = true,
+        actions = FavoritesActions(
+            onSetType = {
+                queryState.value = queryState.value.copy(type = it)
+            },
+            onSetQuery = {
+                queryState.value = queryState.value.copy(query = it)
+            }
+        )
+    ) {
+        UiMediaGrid(items = fakeMedias(90))
+    }
 }

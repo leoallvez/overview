@@ -1,0 +1,65 @@
+package br.dev.singular.overview.di.data
+
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.room.Room
+import androidx.work.WorkManager
+import br.dev.singular.overview.data.local.database.AppDatabase
+import br.dev.singular.overview.data.local.database.Migration
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+class StorageModule {
+
+    @Singleton
+    @Provides
+    fun provideDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java,
+        DATABASE_NAME
+    )
+        .addMigrations(
+            Migration(from = 1, to = 2, context),
+            Migration(from = 2, to = 3, context),
+            Migration(from = 3, to = 4, context),
+            Migration(from = 4, to = 5, context)
+        ).build()
+
+    @Provides
+    fun provideCatalogDao(db: AppDatabase) = db.catalogDao()
+
+    @Provides
+    fun provideGenreDao(db: AppDatabase) = db.genreDao()
+
+    @Provides
+    fun provideSuggestionDao(db: AppDatabase) = db.suggestionDao()
+
+    @Provides
+    fun providePendingFavoriteDao(db: AppDatabase) = db.pendingFavoriteDao()
+
+    @Provides
+    fun provideDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> = context.dataStore
+
+    @Singleton
+    @Provides
+    fun provideWorkManager(
+        @ApplicationContext context: Context
+    ): WorkManager = WorkManager.getInstance(context)
+
+    companion object {
+        private val Context.dataStore by preferencesDataStore("app_setting")
+        private const val DATABASE_NAME = "database_overview"
+    }
+}

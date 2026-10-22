@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import br.dev.singular.overview.presentation.ui.components.text.UiText
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.theme.Background
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 
 /**
  * A composable that fills the maximum size available and centers its children both vertically and
@@ -25,7 +25,10 @@ import br.dev.singular.overview.presentation.ui.theme.HighlightColor
  * @param content The content to be displayed inside the [Column].
  */
 @Composable
-fun UiCenteredColumn(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+internal fun UiCenteredColumn(
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Column(
         modifier = modifier
             .background(Background)
@@ -37,11 +40,11 @@ fun UiCenteredColumn(modifier: Modifier = Modifier, content: @Composable ColumnS
     }
 }
 
-@Preview
+@UiComponentPreview
 @Composable
 internal fun UiCenteredColumnPreview() {
     UiCenteredColumn {
-        UiTitle(text = "Wanning!", color = HighlightColor)
+        UiTitle(text = "Warning!", color = HighlightColor)
         UiText("This is a centralized content.")
     }
 }

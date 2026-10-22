@@ -31,6 +31,7 @@ class MediaPagingLoader(
         return when (result) {
             is UseCaseState.Success ->
                 result.data.toLoadResult(currentPage)
+
             is UseCaseState.Failure ->
                 LoadResult.Error(IOException())
         }
