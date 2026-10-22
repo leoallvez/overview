@@ -1,5 +1,6 @@
 package br.dev.singular.overview.data.repository.media
 
+import br.dev.singular.overview.data.local.source.IPendingFavoriteLocalDataSource
 import br.dev.singular.overview.data.network.source.IAuthRemoteDataSource
 import br.dev.singular.overview.data.network.source.IFavoriteRemoteDataSource
 import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
@@ -14,13 +15,15 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
 class MediaFavoriteRepository @Inject constructor(
     private val authDataSource: IAuthRemoteDataSource,
-    private val remoteDataSource: IFavoriteRemoteDataSource
+    private val remoteDataSource: IFavoriteRemoteDataSource,
+    private val pendingDataSource: IPendingFavoriteLocalDataSource
 ) : Update<Media>, Observe<List<Media>> {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -51,6 +54,17 @@ class MediaFavoriteRepository @Inject constructor(
                 Timber.e(it)
                 emit(emptyList())
             }
+            .onStart { syncPending(userId) }
+    }
+
+    private suspend fun syncPending(userId: String) {
+        runCatching {
+            val pending = pendingDataSource.getAll()
+            if (pending.isNotEmpty()) {
+                remoteDataSource.saveAll(userId, pending)
+                pendingDataSource.clear()
+            }
+        }.onFailure { Timber.e(it) }
     }
 
     private fun currentUserId(): String {

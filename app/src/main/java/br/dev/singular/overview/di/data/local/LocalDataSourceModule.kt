@@ -6,7 +6,9 @@ import br.dev.singular.overview.data.local.source.ICatalogLocalDataSource
 import br.dev.singular.overview.data.local.source.IGenreLocalDataSource
 import br.dev.singular.overview.data.local.source.IMediaRouteLocalDataSource
 import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
+import br.dev.singular.overview.data.local.source.IPendingFavoriteLocalDataSource
 import br.dev.singular.overview.data.local.source.MediaRouteLocalDataSource
+import br.dev.singular.overview.data.local.source.PendingFavoriteLocalDataSource
 import br.dev.singular.overview.data.local.source.SuggestionLocalDataSource
 import dagger.Binds
 import dagger.Module
@@ -36,4 +38,9 @@ abstract class LocalDataSourceModule {
     abstract fun bindGenreLocalDataSource(
         source: GenreLocalDataSource
     ): IGenreLocalDataSource
+
+    @Binds
+    abstract fun bindPendingFavoriteLocalDataSource(
+        source: PendingFavoriteLocalDataSource
+    ): IPendingFavoriteLocalDataSource
 }

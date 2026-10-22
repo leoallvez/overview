@@ -128,6 +128,16 @@ This module contains the UI layer built entirely with **Jetpack Compose** (Mater
 `analytics-tagger`](.agents/skills/analytics-tagger/SKILL.md) and [
 `snackbar-notifier`](.agents/skills/snackbar-notifier/SKILL.md) skills.
 
+## Temporary Code
+
+Code that exists only to support a transition and must be removed in a later release. Do not
+extend it, and follow its guide when removing it.
+
+- **Pending favorites (v4.0.0):** preserves v3.x local favorites until they sync to Firestore.
+  Remove in a later release following
+  [pending-favorites.md](docs/migrations/pending-favorites.md). Tracked in
+  [#876](https://github.com/leoallvez/overview/issues/876).
+
 ## Skills & Reference Guides
 
 For detailed examples, patterns, and testing strategies, always refer to the corresponding skill:
