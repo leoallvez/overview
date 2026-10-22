@@ -12,6 +12,7 @@ import br.dev.singular.overview.data.repository.media.MediaFavoriteRepository
 import br.dev.singular.overview.data.repository.media.MediaRemoteRepository
 import br.dev.singular.overview.data.repository.media.MovieDetailsRemoteRepository
 import br.dev.singular.overview.data.repository.media.TvShowDetailsRemoteRepository
+import br.dev.singular.overview.data.repository.prediction.PredictionRemoteRepository
 import br.dev.singular.overview.data.repository.user.UserRepository
 import br.dev.singular.overview.di.data.CatalogTooltip
 import br.dev.singular.overview.domain.usecase.CatalogQueryStateUseCase
@@ -41,6 +42,8 @@ import br.dev.singular.overview.domain.usecase.media.IToggleFavoriteUseCase
 import br.dev.singular.overview.domain.usecase.media.ObserveFavoritesUseCase
 import br.dev.singular.overview.domain.usecase.media.SearchRemoteMediasUseCase
 import br.dev.singular.overview.domain.usecase.media.ToggleFavoriteUseCase
+import br.dev.singular.overview.domain.usecase.prediction.GetPredictionUseCase
+import br.dev.singular.overview.domain.usecase.prediction.IGetPredictionUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.DeleteSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.GetAllSuggestionsUseCase
 import br.dev.singular.overview.domain.usecase.suggestion.IDeleteSuggestionsUseCase
@@ -206,5 +209,13 @@ class UseCaseModule {
         repo: MediaFavoriteRepository
     ): IObserveFavoritesUseCase {
         return ObserveFavoritesUseCase(observer = repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetPredictionUseCase(
+        repo: PredictionRemoteRepository
+    ): IGetPredictionUseCase {
+        return GetPredictionUseCase(getter = repo)
     }
 }

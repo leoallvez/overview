@@ -3,6 +3,7 @@ package br.dev.singular.overview.data.remoteconfig
 enum class RemoteConfigKey(val value: String) {
     SUGGESTIONS_KEY("suggestions_v1"),
     DISPLAY_ADS_KEY("display_ads"),
+    DISPLAY_AI_PREDICTION_KEY("display_ai_prediction"),
     STREAM_BR("stream_BR"),
     STREAM_US("stream_US"),
     STREAM_ES("stream_ES"),

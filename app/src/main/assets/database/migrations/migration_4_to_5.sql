@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `genre` (
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `name` TEXT NOT NULL
+    `name` TEXT NOT NULL,
+    `original_name` TEXT NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS `media_type_genre` (

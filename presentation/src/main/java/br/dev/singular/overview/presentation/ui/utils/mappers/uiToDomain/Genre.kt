@@ -5,5 +5,6 @@ import br.dev.singular.overview.presentation.model.GenreUiModel
 
 internal fun GenreUiModel.toDomain() = Genre(
     id = id,
-    name = name
+    name = name,
+    originalName = originalName,
 )

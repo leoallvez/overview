@@ -105,4 +105,15 @@
     <string name="login_required_title">ログインが必要です</string>
     <string name="login_required_message">このタイトルをお気に入りに保存するにはログインしてください。</string>
     <string name="favorite_added_title">お気に入りに追加しました</string>
+    <string name="taste_prediction_title">AIによる分析</string>
+    <string name="taste_prediction_no_data">まだデータがありません</string>
+    <string name="taste_prediction_high">お気に入りをもとに分析した結果、この作品との相性は高いと判断しました。気に入る可能性が高いです！</string>
+    <string name="taste_prediction_medium">この作品はお気に入りとの相性が中程度です。うれしい発見になるかもしれません！</string>
+    <string name="taste_prediction_low">お気に入りをもとに分析した結果、この作品との相性は低いと判断しました。</string>
+    <string name="taste_prediction_unavailable">映画やテレビ番組をお気に入りに追加すると、AIが好みのジャンルを把握し、この作品との相性を推定します。</string>
+    <string name="taste_prediction_idle">この作品がお気に入りとどのくらい相性が良いか確認しましょう。</string>
+    <string name="taste_prediction_action">結果を見る</string>
+    <string name="taste_prediction_error_title">分析に失敗しました</string>
+    <string name="taste_prediction_error_description">予測を生成できませんでした。もう一度お試しください。</string>
+    <string name="taste_prediction_login_description">ログインすると、AIがお気に入りを分析し、この作品との相性を推定します。</string>
 </resources>
