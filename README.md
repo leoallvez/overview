@@ -158,6 +158,7 @@ environments.
 | Environment Variables | Description                                                                 |
 |-----------------------|-----------------------------------------------------------------------------|
 | `OVER_API_KEY`        | API key for [**TMDB API**][50]                                              |
+| `OVER_JEV_API_KEY`    | API key for [**Jev API**][51], used by the AI prediction                    |
 | `OVER_ACTIVE_SIGNING` | Boolean Flag to activate or not App Signing, value is **true** or **false** |
 | `OVER_HMG_KEYSTORE`   | **Homologation** keystore file path                                         |
 | `OVER_HMG_PASSWORD`   | Password for **homologation** keystore                                      |
@@ -167,6 +168,8 @@ environments.
 | `OVER_PRD_KEY_ALIAS`  | Key alias for **production** keystore                                       |
 
 [50]: https://developers.themoviedb.org/3/getting-started/introduction
+
+[51]: https://docs.typesafe.ai
 
 ### Script
 
@@ -180,6 +183,7 @@ systems.
 ```bat
 
 setx OVER_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
+setx OVER_JEV_API_KEY "set_here_your_jev_api_key"
 setx OVER_ACTIVE_SIGNING true
 
 setx OVER_PRD_KEYSTORE "C:\\keystores\\overview\\prd\\prd_keystore.jks"
@@ -200,6 +204,7 @@ setx OVER_HMG_KEY_ALIAS "alias"
 #!/bin/bash
 
 export OVER_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
+export OVER_JEV_API_KEY="set_here_your_jev_api_key"
 export OVER_ACTIVE_SIGNING=true
 
 export OVER_PRD_KEYSTORE="~/keystores/overview/prd/prd_keystore.jks"
@@ -225,6 +230,8 @@ publishing a new version of the app.
 | `display_ai_prediction` | AI prediction card in movie/TV show details | Hidden (`false`)        |
 
 Create each key as a **Boolean** parameter in the Firebase console.
+
+For how the AI prediction works, see [docs/ai-prediction.md](docs/ai-prediction.md).
 
 #### Local override
 

@@ -13,6 +13,8 @@ internal fun MediaDataModel.toDomain(typeOverride: MediaType? = null) = Media(
     isLiked = isLiked,
     posterPath = posterPath,
     lastUpdate = lastUpdate,
+    originalTitle = originalTitle,
+    genres = genres
 )
 
 internal fun MediaDataPage.toDomain(): Page<Media> = Page(

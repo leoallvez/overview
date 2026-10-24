@@ -214,8 +214,9 @@ class UseCaseModule {
     @Singleton
     @Provides
     fun provideGetPredictionUseCase(
-        repo: PredictionRepository
+        repo: PredictionRepository,
+        favoriteRepo: MediaFavoriteRepository
     ): IGetPredictionUseCase {
-        return GetPredictionUseCase(getter = repo)
+        return GetPredictionUseCase(getter = repo, favorites = favoriteRepo)
     }
 }

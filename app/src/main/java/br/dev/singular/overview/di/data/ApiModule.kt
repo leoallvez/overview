@@ -2,7 +2,9 @@ package br.dev.singular.overview.di.data
 
 import br.dev.singular.overview.data.BuildConfig
 import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.JevApiService
 import br.dev.singular.overview.data.network.interceptor.ApiKeyInterceptor
+import br.dev.singular.overview.data.network.interceptor.JevAuthInterceptor
 import br.dev.singular.overview.data.network.interceptor.LocaleInterceptor
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -32,6 +34,24 @@ class ApiModule {
         localeInterceptor: LocaleInterceptor
     ): ApiService =
         buildService(apiKeyInterceptor, localeInterceptor).create(ApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideJevApiService(
+        jevAuthInterceptor: JevAuthInterceptor
+    ): JevApiService {
+        val client = OkHttpClient.Builder().apply {
+            addInterceptor(buildHttpLoggingInterceptor())
+            addInterceptor(jevAuthInterceptor)
+        }.build()
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.JEV_API_URL)
+            .addConverterFactory(buildConverterFactory())
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
+            .client(client)
+            .build()
+            .create(JevApiService::class.java)
+    }
 
     @Singleton
     @Provides
@@ -72,6 +92,7 @@ class ApiModule {
     private fun buildHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
+        interceptor.redactHeader("Authorization")
         return interceptor
     }
 }

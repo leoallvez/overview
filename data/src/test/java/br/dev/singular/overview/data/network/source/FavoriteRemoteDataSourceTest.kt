@@ -53,7 +53,10 @@ class FavoriteRemoteDataSourceTest {
         every { batch.set(document, capture(data)) } returns batch
 
         // act
-        sut.save("uid", listOf(fakeMediaDataModel))
+        sut.save(
+            "uid",
+            listOf(fakeMediaDataModel.copy(originalTitle = "Original", genres = listOf("Drama")))
+        )
 
         // assert
         verify(exactly = 1) { favorites.document("movie_1") }
@@ -63,6 +66,8 @@ class FavoriteRemoteDataSourceTest {
         assertEquals("Test Name", data.captured["title"])
         assertEquals("/test.jpg", data.captured["poster_path"])
         assertEquals(fakeMediaDataModel.lastUpdate, data.captured["last_update"])
+        assertEquals("Original", data.captured["original_title"])
+        assertEquals(listOf("Drama"), data.captured["genres"])
     }
 
     @Test
@@ -127,6 +132,8 @@ class FavoriteRemoteDataSourceTest {
             every { getString("title") } returns "Dark"
             every { getString("poster_path") } returns "/dark.jpg"
             every { getDate("last_update") } returns date
+            every { getString("original_title") } returns "Dark Original"
+            every { this@mockk.get("genres") } returns listOf("Drama", "Mystery")
         }
         val snapshot = mockk<QuerySnapshot> { every { documents } returns listOf(document) }
         mockSnapshotListener { it.onEvent(snapshot, null) }
@@ -141,7 +148,32 @@ class FavoriteRemoteDataSourceTest {
         assertEquals("/dark.jpg", result.posterPath)
         assertEquals(true, result.isLiked)
         assertEquals(date, result.lastUpdate)
+        assertEquals("Dark Original", result.originalTitle)
+        assertEquals(listOf("Drama", "Mystery"), result.genres)
         verify(exactly = 1) { favorites.orderBy("last_update", Query.Direction.DESCENDING) }
+    }
+
+    @Test
+    fun `observe should leave original title and genres empty for older documents`() = runTest {
+        // arrange
+        val document = mockk<DocumentSnapshot> {
+            every { getLong("id") } returns 7L
+            every { getString("type") } returns "tv"
+            every { getString("title") } returns "Dark"
+            every { getString("poster_path") } returns "/dark.jpg"
+            every { getDate("last_update") } returns Date(1000)
+            every { getString("original_title") } returns null
+            every { this@mockk.get("genres") } returns null
+        }
+        val snapshot = mockk<QuerySnapshot> { every { documents } returns listOf(document) }
+        mockSnapshotListener { it.onEvent(snapshot, null) }
+
+        // act
+        val result = sut.observe("uid").first().single()
+
+        // assert
+        assertEquals("", result.originalTitle)
+        assertEquals(emptyList<String>(), result.genres)
     }
 
     @Test

@@ -13,7 +13,9 @@ internal fun MediaDetailsUiModel.toMediaDomain(): Media {
             title = title,
             isLiked = isLiked,
             posterPath = posterPath,
-            lastUpdate = Date()
+            lastUpdate = Date(),
+            originalTitle = originalTitle,
+            genres = originalGenres()
         )
     }
 }
@@ -22,5 +24,9 @@ internal fun MediaDetailsUiModel.toDomain() = PredictionInput(
     id = metadata.id,
     type = type.toDomain(),
     title = metadata.originalTitle.ifEmpty { metadata.title },
-    genres = extras.genres.map { it.originalName.ifEmpty { it.name } }
+    genres = originalGenres()
 )
+
+private fun MediaDetailsUiModel.originalGenres() = extras.genres.map {
+    it.originalName.ifEmpty { it.name }
+}

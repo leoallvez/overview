@@ -27,6 +27,24 @@ class MediaDetailsTest {
     }
 
     @Test
+    fun `MediaDetailsUiModel toMediaDomain should map the original title and genres`() {
+        // arrange
+        val movie = createMovieDetailsMock().copy(
+            genres = listOf(
+                Genre(id = 1L, name = "Ação", originalName = "Action"),
+                Genre(id = 2L, name = "Comédia", originalName = "")
+            )
+        )
+
+        // act
+        val domain = movie.toUi(isLiked = true).toMediaDomain()
+
+        // assert
+        assertEquals(movie.originalTitle, domain.originalTitle)
+        assertEquals(listOf("Action", "Comédia"), domain.genres)
+    }
+
+    @Test
     fun `MediaDetailsUiModel toDomain should map a movie to prediction input`() {
         // arrange
         val movie = createMovieDetailsMock().copy(
