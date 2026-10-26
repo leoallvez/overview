@@ -157,7 +157,7 @@ environments.
 
 | Environment Variables | Description                                                                 |
 |-----------------------|-----------------------------------------------------------------------------|
-| `OVER_API_KEY`        | API key for [**TMDB API**][50]                                              |
+| `OVER_TMDB_API_KEY`   | API key for [**TMDB API**][50]                                              |
 | `OVER_JEV_API_KEY`    | API key for [**Jev API**][51], used by the AI prediction                    |
 | `OVER_ACTIVE_SIGNING` | Boolean Flag to activate or not App Signing, value is **true** or **false** |
 | `OVER_HMG_KEYSTORE`   | **Homologation** keystore file path                                         |
@@ -182,7 +182,7 @@ systems.
 
 ```bat
 
-setx OVER_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
+setx OVER_TMDB_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
 setx OVER_JEV_API_KEY "set_here_your_jev_api_key"
 setx OVER_ACTIVE_SIGNING true
 
@@ -203,7 +203,7 @@ setx OVER_HMG_KEY_ALIAS "alias"
 ```bash
 #!/bin/bash
 
-export OVER_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
+export OVER_TMDB_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
 export OVER_JEV_API_KEY="set_here_your_jev_api_key"
 export OVER_ACTIVE_SIGNING=true
 

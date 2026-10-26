@@ -4,7 +4,7 @@ import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MovieDetailsDataModel
 import br.dev.singular.overview.data.model.QueryDataState
 import br.dev.singular.overview.data.model.TvShowDetailsDataModel
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.response.ErrorResponse
 import br.dev.singular.overview.data.util.fakeMovieDetailsDataModel
 import br.dev.singular.overview.data.util.fakeTvShowDetailsDataModel
@@ -24,7 +24,7 @@ import org.junit.Test
 class MediaRemoteDataSourceTest {
 
     @MockK
-    private lateinit var api: ApiService
+    private lateinit var api: TmdbApiService
 
     private lateinit var sut: IMediaRemoteDataSource
 

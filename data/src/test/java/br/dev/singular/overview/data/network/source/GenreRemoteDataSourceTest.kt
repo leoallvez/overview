@@ -2,7 +2,7 @@ package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.GenreDataModel
 import br.dev.singular.overview.data.model.MediaDataType
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.response.ErrorResponse
 import br.dev.singular.overview.data.network.response.GenreListResponse
 import com.haroldadmin.cnradapter.NetworkResponse
@@ -17,7 +17,7 @@ import java.io.IOException
 
 class GenreRemoteDataSourceTest {
 
-    private val api: ApiService = mockk()
+    private val api: TmdbApiService = mockk()
     private val sut = GenreRemoteDataSource(api)
 
     @Test

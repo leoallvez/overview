@@ -19,7 +19,7 @@ import retrofit2.http.QueryMap
 
 private typealias ApiResp <T> = NetworkResponse<T, ErrorResponse>
 
-interface ApiService {
+interface TmdbApiService {
 
     @GET(value = "{path}")
     suspend fun fetchMediaPage(

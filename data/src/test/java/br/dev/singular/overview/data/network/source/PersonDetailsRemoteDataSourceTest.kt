@@ -1,6 +1,6 @@
 package br.dev.singular.overview.data.network.source
 
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.util.fakePersonDetailsDataModel
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.mockk.coEvery
@@ -12,7 +12,7 @@ import org.junit.Test
 
 class PersonDetailsRemoteDataSourceTest {
 
-    private val api: ApiService = mockk()
+    private val api: TmdbApiService = mockk()
     private val sut = PersonDetailsRemoteDataSource(api)
 
     @Test

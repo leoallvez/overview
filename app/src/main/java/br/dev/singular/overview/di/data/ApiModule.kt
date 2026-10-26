@@ -1,9 +1,9 @@
 package br.dev.singular.overview.di.data
 
 import br.dev.singular.overview.data.BuildConfig
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.JevApiService
-import br.dev.singular.overview.data.network.interceptor.ApiKeyInterceptor
+import br.dev.singular.overview.data.network.interceptor.TmdbApiKeyInterceptor
 import br.dev.singular.overview.data.network.interceptor.JevAuthInterceptor
 import br.dev.singular.overview.data.network.interceptor.LocaleInterceptor
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
@@ -21,6 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter.Factory
 import retrofit2.Retrofit
 import javax.inject.Singleton
+import kotlin.jvm.java
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,11 +30,15 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideApiService(
-        apiKeyInterceptor: ApiKeyInterceptor,
+    fun provideTmdbApiService(
+        apiKeyInterceptor: TmdbApiKeyInterceptor,
         localeInterceptor: LocaleInterceptor
-    ): ApiService =
-        buildService(apiKeyInterceptor, localeInterceptor).create(ApiService::class.java)
+    ): TmdbApiService {
+        return builder(BuildConfig.TMDB_API_URL)
+            .client(buildOkHttpClient(apiKeyInterceptor, localeInterceptor))
+            .build()
+            .create(TmdbApiService::class.java)
+    }
 
     @Singleton
     @Provides
@@ -44,13 +49,17 @@ class ApiModule {
             addInterceptor(buildHttpLoggingInterceptor())
             addInterceptor(jevAuthInterceptor)
         }.build()
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.JEV_API_URL)
-            .addConverterFactory(buildConverterFactory())
-            .addCallAdapterFactory(NetworkResponseAdapterFactory())
+        return builder(BuildConfig.JEV_API_URL)
             .client(client)
             .build()
             .create(JevApiService::class.java)
+    }
+
+    private fun builder(baseUrl: String): Retrofit.Builder {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(buildConverterFactory())
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
     }
 
     @Singleton
@@ -62,24 +71,12 @@ class ApiModule {
         namingStrategy = JsonNamingStrategy.SnakeCase
     }
 
-    private fun buildService(
-        apiKeyInterceptor: ApiKeyInterceptor,
-        localeInterceptor: LocaleInterceptor
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.API_URL)
-            .addConverterFactory(buildConverterFactory())
-            .addCallAdapterFactory(NetworkResponseAdapterFactory())
-            .client(buildOkHttpClient(apiKeyInterceptor, localeInterceptor))
-            .build()
-    }
-
     private fun buildConverterFactory(): Factory {
         return provideJson().asConverterFactory("application/json".toMediaType())
     }
 
     private fun buildOkHttpClient(
-        apiKeyInterceptor: ApiKeyInterceptor,
+        apiKeyInterceptor: TmdbApiKeyInterceptor,
         localeInterceptor: LocaleInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder().apply {

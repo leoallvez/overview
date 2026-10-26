@@ -2,7 +2,7 @@ package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.GenreDataModel
 import br.dev.singular.overview.data.model.MediaDataType
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -14,7 +14,7 @@ interface IGenreRemoteDataSource {
 }
 
 class GenreRemoteDataSource @Inject constructor(
-    private val api: ApiService
+    private val api: TmdbApiService
 ) : IGenreRemoteDataSource {
 
     /**
