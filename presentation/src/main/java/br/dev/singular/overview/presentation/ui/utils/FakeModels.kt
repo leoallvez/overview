@@ -166,6 +166,7 @@ fun fakePersonDetails(): PersonDetailsUiModel {
 internal fun fakeMediaMetadata() = MediaMetadataUiModel(
     id = 1,
     title = stringResource(R.string.lorem_ipsum_short),
+    originalTitle = stringResource(R.string.lorem_ipsum_short),
     isLiked = true,
     synopsis = stringResource(R.string.lorem_ipsum_long),
     isReleased = true,

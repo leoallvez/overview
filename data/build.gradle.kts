@@ -11,8 +11,11 @@ plugins {
 extensions.configure<LibraryExtension> {
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")
-        stringField("API_URL", "https://api.themoviedb.org/3/")
-        stringField("API_KEY", System.getenv("OVER_API_KEY") ?: "")
+        stringField("TMDB_API_URL", "https://api.themoviedb.org/3/")
+        stringField("TMDB_API_KEY", System.getenv("OVER_TMDB_API_KEY") ?: "")
+        stringField("JEV_API_URL", "https://api.typesafe.ai/")
+        stringField("JEV_API_KEY", System.getenv("OVER_JEV_API_KEY") ?: "")
+        stringField("JEV_MODEL", "jev-1.13.0")
         intField("PAGE_SIZE", 20)
     }
 

@@ -1,11 +1,13 @@
 package br.dev.singular.overview.data.repository.user
 
+import br.dev.singular.overview.data.local.source.IPredictionLocalDataSource
 import br.dev.singular.overview.data.network.source.IAuthRemoteDataSource
 import br.dev.singular.overview.data.util.fakeUserDataModel
 import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
@@ -22,12 +24,15 @@ class UserRepositoryTest {
     @MockK(relaxed = true)
     private lateinit var dataSource: IAuthRemoteDataSource
 
+    @MockK(relaxed = true)
+    private lateinit var predictionDataSource: IPredictionLocalDataSource
+
     private lateinit var sut: UserRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        sut = UserRepository(dataSource)
+        sut = UserRepository(dataSource, predictionDataSource)
     }
 
     @Test
@@ -88,11 +93,14 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun `execute should sign out`() = runTest {
+    fun `execute should sign out and clear the cached predictions`() = runTest {
         // Act
         sut.execute()
 
         // Assert
-        coVerify(exactly = 1) { dataSource.signOut() }
+        coVerifyOrder {
+            dataSource.signOut()
+            predictionDataSource.clear()
+        }
     }
 }

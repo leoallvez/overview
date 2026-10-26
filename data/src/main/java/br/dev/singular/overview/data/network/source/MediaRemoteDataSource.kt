@@ -4,7 +4,7 @@ import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.data.model.MovieDetailsDataModel
 import br.dev.singular.overview.data.model.QueryDataState
 import br.dev.singular.overview.data.model.TvShowDetailsDataModel
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.util.mappers.toParams
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ interface IMediaRemoteDataSource {
 }
 
 class MediaRemoteDataSource @Inject constructor(
-    private val api: ApiService
+    private val api: TmdbApiService
 ) : IMediaRemoteDataSource {
 
     override suspend fun getByQuery(

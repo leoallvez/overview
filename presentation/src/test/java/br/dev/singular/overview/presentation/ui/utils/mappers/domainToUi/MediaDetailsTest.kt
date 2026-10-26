@@ -19,6 +19,7 @@ class MediaDetailsTest {
         // assert
         assertEquals(domain.id, ui.metadata.id)
         assertEquals(domain.title, ui.metadata.title)
+        assertEquals(domain.originalTitle, ui.metadata.originalTitle)
         assertEquals(true, ui.metadata.isLiked)
         assertEquals(domain.overview, ui.metadata.synopsis)
         assertEquals("01/01/2020", ui.metadata.releaseDate)
@@ -52,6 +53,7 @@ class MediaDetailsTest {
         // assert
         assertEquals(domain.id, ui.metadata.id)
         assertEquals(domain.name, ui.metadata.title)
+        assertEquals(domain.originalName, ui.metadata.originalTitle)
         assertEquals(false, ui.metadata.isLiked)
         assertEquals(domain.overview, ui.metadata.synopsis)
         assertEquals("01/01/2020", ui.metadata.releaseDate)

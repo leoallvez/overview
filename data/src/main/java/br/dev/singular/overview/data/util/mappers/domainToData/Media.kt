@@ -10,5 +10,7 @@ internal fun Media.toData() = MediaDataModel(
     name = title,
     isLiked = isLiked,
     posterPath = posterPath,
-    lastUpdate = lastUpdate
+    lastUpdate = lastUpdate,
+    originalTitle = originalTitle,
+    genres = genres
 )

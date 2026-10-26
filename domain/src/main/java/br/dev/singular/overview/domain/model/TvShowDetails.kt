@@ -3,6 +3,7 @@ package br.dev.singular.overview.domain.model
 data class TvShowDetails(
     val id: Long,
     val name: String,
+    val originalName: String,
     val numberOfSeasons: Int,
     val numberOfEpisodes: Int,
     val episodeRuntime: List<Int>,

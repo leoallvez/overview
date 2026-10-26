@@ -5,6 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import br.dev.singular.overview.navigation.FeatureFlags
 import br.dev.singular.overview.navigation.NavArg
 import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarHostState
@@ -22,7 +23,7 @@ import br.dev.singular.overview.presentation.ui.screens.media.tvshow.interaction
 
 fun NavGraphBuilder.mediaDetailsRoute(
     navigation: INavigationWrapper,
-    showAds: Boolean,
+    flags: FeatureFlags,
     snackbarHostState: UiSnackbarHostState
 ) {
     composable(
@@ -33,8 +34,8 @@ fun NavGraphBuilder.mediaDetailsRoute(
         val (id: Long, typeKey: String) = navBackStackEntry.getParams()
 
         when (MediaUiType.getByName(typeKey)) {
-            MediaUiType.MOVIE -> MovieDetails(id, showAds, navigation, snackbarHostState)
-            else -> TvShowDetails(id, showAds, navigation, snackbarHostState)
+            MediaUiType.MOVIE -> MovieDetails(id, flags, navigation, snackbarHostState)
+            else -> TvShowDetails(id, flags, navigation, snackbarHostState)
         }
     }
 }
@@ -42,7 +43,7 @@ fun NavGraphBuilder.mediaDetailsRoute(
 @Composable
 private fun MovieDetails(
     movieId: Long,
-    showAds: Boolean,
+    flags: FeatureFlags,
     navigation: INavigationWrapper,
     snackbarHostState: UiSnackbarHostState
 ) {
@@ -50,7 +51,8 @@ private fun MovieDetails(
 
     MovieDetailsScreen(
         movieId = movieId,
-        showAds = showAds,
+        showAds = flags.showAds,
+        showAiPrediction = flags.showAiPrediction,
         loginRequired = viewModel.loginRequired.collectAsState().value,
         favoriteAdded = viewModel.favoriteAdded.collectAsState().value,
         uiState = viewModel.uiState.collectAsState().value,
@@ -65,7 +67,7 @@ private fun MovieDetails(
 @Composable
 private fun TvShowDetails(
     tvShowId: Long,
-    showAds: Boolean,
+    flags: FeatureFlags,
     navigation: INavigationWrapper,
     snackbarHostState: UiSnackbarHostState
 ) {
@@ -73,7 +75,8 @@ private fun TvShowDetails(
 
     TvShowDetailsScreen(
         tvShowId = tvShowId,
-        showAds = showAds,
+        showAds = flags.showAds,
+        showAiPrediction = flags.showAiPrediction,
         loginRequired = viewModel.loginRequired.collectAsState().value,
         favoriteAdded = viewModel.favoriteAdded.collectAsState().value,
         uiState = viewModel.uiState.collectAsState().value,

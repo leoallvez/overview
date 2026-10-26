@@ -105,4 +105,15 @@
     <string name="login_required_title">ต้องเข้าสู่ระบบ</string>
     <string name="login_required_message">เข้าสู่ระบบเพื่อบันทึกเรื่องนี้ไว้ในรายการโปรดของคุณ</string>
     <string name="favorite_added_title">เพิ่มในรายการโปรดแล้ว</string>
+    <string name="taste_prediction_title">การวิเคราะห์โดย AI</string>
+    <string name="taste_prediction_no_data">ยังไม่มีข้อมูล</string>
+    <string name="taste_prediction_high">จากรายการโปรดของคุณ เราพบว่าเรื่องนี้เข้ากับรสนิยมของคุณสูง มีโอกาสสูงที่คุณจะชอบ!</string>
+    <string name="taste_prediction_medium">เรื่องนี้เข้ากับรายการโปรดของคุณในระดับปานกลาง อาจเป็นเซอร์ไพรส์ที่ดีก็ได้!</string>
+    <string name="taste_prediction_low">จากรายการโปรดของคุณ เราพบว่าเรื่องนี้เข้ากับรสนิยมของคุณต่ำ</string>
+    <string name="taste_prediction_unavailable">เพิ่มภาพยนตร์และซีรีส์ลงในรายการโปรดของคุณ เพื่อให้ AI ระบุแนวที่คุณชื่นชอบและประเมินว่าเรื่องนี้เข้ากับรสนิยมของคุณเพียงใด</string>
+    <string name="taste_prediction_idle">ดูว่าเรื่องนี้เข้ากับรายการโปรดของคุณมากแค่ไหน</string>
+    <string name="taste_prediction_action">ดูผลลัพธ์</string>
+    <string name="taste_prediction_error_title">การวิเคราะห์ล้มเหลว</string>
+    <string name="taste_prediction_error_description">ไม่สามารถสร้างการคาดการณ์ได้ โปรดลองอีกครั้ง</string>
+    <string name="taste_prediction_login_description">เข้าสู่ระบบเพื่อให้ AI วิเคราะห์รายการโปรดของคุณและประเมินว่าเรื่องนี้เข้ากับรสนิยมของคุณเพียงใด</string>
 </resources>

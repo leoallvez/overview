@@ -30,6 +30,15 @@ extensions.configure<ApplicationExtension> {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            optionalBooleanField("LOCAL_DISPLAY_ADS", null)
+            optionalBooleanField("LOCAL_DISPLAY_AI_PREDICTION", null)
+        }
+        debug {
+            optionalBooleanField("LOCAL_DISPLAY_ADS", localFlag("flags.display_ads"))
+            optionalBooleanField(
+                "LOCAL_DISPLAY_AI_PREDICTION",
+                localFlag("flags.display_ai_prediction")
+            )
         }
     }
 

@@ -19,7 +19,9 @@ class MediaTest {
             title = "Movie Title",
             posterPath = "/path.jpg",
             isLiked = true,
-            lastUpdate = date
+            lastUpdate = date,
+            originalTitle = "Original Title",
+            genres = listOf("Drama")
         )
 
         // act
@@ -33,5 +35,7 @@ class MediaTest {
         assertEquals(domainModel.posterPath, dataModel.posterPath)
         assertEquals(domainModel.isLiked, dataModel.isLiked)
         assertEquals(domainModel.lastUpdate, dataModel.lastUpdate)
+        assertEquals(domainModel.originalTitle, dataModel.originalTitle)
+        assertEquals(domainModel.genres, dataModel.genres)
     }
 }

@@ -129,20 +129,21 @@ the skill name. The agent will then:
 
 ### Available Skills
 
-| **Skill**            | **Purpose**                                                                |
-|----------------------|----------------------------------------------------------------------------|
-| `component-builder`  | Builds reusable stateless Compose components with Skeletons and Previews.  |
-| `screen-builder`     | Builds full Compose screens following the UDF pattern and Actions/Intents. |
-| `viewmodel-builder`  | Implements ViewModels with UiState management and UseCase integration.     |
-| `feature-integrator` | Glues Screens and ViewModels together in the `AppNavHost`.                 |
-| `usecase-builder`    | Implements business logic rules in the `:domain` module.                   |
-| `repository-builder` | Coordinates data sources and implements domain repository contracts.       |
-| `datasource-builder` | Implements low-level data retrieval (Remote/Retrofit or Local/Room).       |
-| `hilt-integrator`    | Configures Dependency Injection modules for all layers.                    |
-| `mapper-builder`     | Creates data transformation mappers between layers (Data, Domain, UI).     |
-| `worker-builder`     | Implements background tasks using WorkManager.                             |
-| `analytics-tagger`   | Implements Firebase tracking for screens and user interactions.            |
-| `git-standardizer`   | Standardizes commit messages according to project history.                 |
+| **Skill**              | **Purpose**                                                                |
+|------------------------|----------------------------------------------------------------------------|
+| `component-builder`    | Builds reusable stateless Compose components with Skeletons and Previews.  |
+| `screen-builder`       | Builds full Compose screens following the UDF pattern and Actions/Intents. |
+| `viewmodel-builder`    | Implements ViewModels with UiState management and UseCase integration.     |
+| `feature-integrator`   | Glues Screens and ViewModels together in the `AppNavHost`.                 |
+| `usecase-builder`      | Implements business logic rules in the `:domain` module.                   |
+| `repository-builder`   | Coordinates data sources and implements domain repository contracts.       |
+| `datasource-builder`   | Implements low-level data retrieval (Remote/Retrofit or Local/Room).       |
+| `hilt-integrator`      | Configures Dependency Injection modules for all layers.                    |
+| `mapper-builder`       | Creates data transformation mappers between layers (Data, Domain, UI).     |
+| `worker-builder`       | Implements background tasks using WorkManager.                             |
+| `analytics-tagger`     | Implements Firebase tracking for screens and user interactions.            |
+| `feature-flag-builder` | Creates boolean feature flags controlled by Firebase Remote Config.        |
+| `git-standardizer`     | Standardizes commit messages according to project history.                 |
 
 For more details on each skill, refer to the [AGENTS.md](AGENTS.md) guide and the `.agents/skills/`
 directory.
@@ -156,7 +157,8 @@ environments.
 
 | Environment Variables | Description                                                                 |
 |-----------------------|-----------------------------------------------------------------------------|
-| `OVER_API_KEY`        | API key for [**TMDB API**][50]                                              |
+| `OVER_TMDB_API_KEY`   | API key for [**TMDB API**][50]                                              |
+| `OVER_JEV_API_KEY`    | API key for [**Jev API**][51], used by the AI prediction                    |
 | `OVER_ACTIVE_SIGNING` | Boolean Flag to activate or not App Signing, value is **true** or **false** |
 | `OVER_HMG_KEYSTORE`   | **Homologation** keystore file path                                         |
 | `OVER_HMG_PASSWORD`   | Password for **homologation** keystore                                      |
@@ -166,6 +168,8 @@ environments.
 | `OVER_PRD_KEY_ALIAS`  | Key alias for **production** keystore                                       |
 
 [50]: https://developers.themoviedb.org/3/getting-started/introduction
+
+[51]: https://docs.typesafe.ai
 
 ### Script
 
@@ -178,7 +182,8 @@ systems.
 
 ```bat
 
-setx OVER_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
+setx OVER_TMDB_API_KEY "f0d4ff18152fd5ff09fb0b86f20f5d4f"
+setx OVER_JEV_API_KEY "set_here_your_jev_api_key"
 setx OVER_ACTIVE_SIGNING true
 
 setx OVER_PRD_KEYSTORE "C:\\keystores\\overview\\prd\\prd_keystore.jks"
@@ -198,7 +203,8 @@ setx OVER_HMG_KEY_ALIAS "alias"
 ```bash
 #!/bin/bash
 
-export OVER_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
+export OVER_TMDB_API_KEY="f0d4ff18152fd5ff09fb0b86f20f5d4f"
+export OVER_JEV_API_KEY="set_here_your_jev_api_key"
 export OVER_ACTIVE_SIGNING=true
 
 export OVER_PRD_KEYSTORE="~/keystores/overview/prd/prd_keystore.jks"
@@ -212,6 +218,47 @@ export OVER_HMG_KEY_ALIAS="alias"
 ```
 
 > Linux `.bash` script to set environment variables.
+
+### Feature Flags (Remote Config)
+
+Some features are shown or hidden by boolean keys in [Firebase Remote Config][17], without
+publishing a new version of the app.
+
+| Key                     | Controls                                    | When the key is missing |
+|-------------------------|---------------------------------------------|-------------------------|
+| `display_ads`           | Ads banners in the app                      | Hidden (`false`)        |
+| `display_ai_prediction` | AI prediction card in movie/TV show details | Hidden (`false`)        |
+
+Create each key as a **Boolean** parameter in the Firebase console.
+
+For how the AI prediction works, see [docs/ai-prediction.md](docs/ai-prediction.md).
+
+#### Local override
+
+In **debug** builds, any flag can be forced in `local.properties` (not versioned). Sync Gradle and
+rebuild after changing it.
+
+```properties
+flags.display_ads=on
+flags.display_ai_prediction=off
+```
+
+| Value   | Result                          |
+|---------|---------------------------------|
+| `on`    | Always shown                    |
+| `off`   | Always hidden                   |
+| No line | Follows the Remote Config value |
+
+**Release** builds ignore `local.properties` and always follow Remote Config.
+
+#### When a change reaches the app
+
+- Remote Config is fetched in the background when the app starts.
+- The minimum interval between fetches is **0 seconds in debug** and **1 hour in release**.
+- Flags are read when the main screen is created, so a new value appears the next time the app is
+  opened after a successful fetch.
+
+To add a new flag, use the `feature-flag-builder` skill.
 
 ## Contributing
 

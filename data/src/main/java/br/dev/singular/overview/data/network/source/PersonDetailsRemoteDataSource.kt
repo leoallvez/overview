@@ -1,7 +1,7 @@
 package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.PersonDetailsDataModel
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import javax.inject.Inject
 
 interface IPersonDetailsRemoteDataSource {
@@ -9,7 +9,7 @@ interface IPersonDetailsRemoteDataSource {
 }
 
 class PersonDetailsRemoteDataSource @Inject constructor(
-    private val api: ApiService
+    private val api: TmdbApiService
 ) : IPersonDetailsRemoteDataSource {
 
     override suspend fun getById(id: Long): DataResult<PersonDetailsDataModel> {

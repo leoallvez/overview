@@ -1,7 +1,12 @@
 package br.dev.singular.overview.presentation.ui.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.HtmlReportWriter
 import app.cash.paparazzi.Paparazzi
@@ -19,10 +24,15 @@ abstract class UiSnapshotTest(snapshotPackage: String) {
         snapshotHandler = determineHandler(snapshotPackage)
     )
 
+    private val viewModelStoreOwner = object : ViewModelStoreOwner {
+        override val viewModelStore = ViewModelStore()
+    }
+
     fun snapshot(
         name: String? = null,
         locale: String? = null,
         deviceConfig: DeviceConfig? = null,
+        inspectionMode: Boolean = true,
         sut: @Composable () -> Unit
     ) {
         val baseConfig = deviceConfig ?: DeviceConfig.PIXEL_5
@@ -31,8 +41,13 @@ abstract class UiSnapshotTest(snapshotPackage: String) {
         paparazzi.unsafeUpdateConfig(deviceConfig = finalConfig)
 
         paparazzi.snapshot(name = name) {
-            AppTheme {
-                sut()
+            CompositionLocalProvider(
+                LocalViewModelStoreOwner provides viewModelStoreOwner,
+                LocalInspectionMode provides inspectionMode
+            ) {
+                AppTheme {
+                    sut()
+                }
             }
         }
     }
@@ -41,6 +56,7 @@ abstract class UiSnapshotTest(snapshotPackage: String) {
         name: String? = null,
         deviceConfig: DeviceConfig = DeviceConfig.PIXEL_5,
         duration: Long = 4000L,
+        inspectionMode: Boolean = true,
         sut: @Composable () -> Unit
     ) {
         paparazzi.unsafeUpdateConfig(
@@ -49,7 +65,12 @@ abstract class UiSnapshotTest(snapshotPackage: String) {
         paparazzi.gif(
             view = ComposeView(paparazzi.context).apply {
                 setContent {
-                    sut()
+                    CompositionLocalProvider(
+                        LocalViewModelStoreOwner provides viewModelStoreOwner,
+                        LocalInspectionMode provides inspectionMode
+                    ) {
+                        sut()
+                    }
                 }
             },
             name = name,
@@ -93,11 +114,15 @@ abstract class UiScreenSnapshotTest(
         )
     }
 
-    fun snapshot(sut: @Composable () -> Unit) {
+    fun snapshot(
+        inspectionMode: Boolean = true,
+        sut: @Composable () -> Unit
+    ) {
         screenConfigs.forEach { (configName, config) ->
             snapshot(
                 name = configName,
                 deviceConfig = config,
+                inspectionMode = inspectionMode,
                 sut = sut
             )
         }
@@ -105,6 +130,7 @@ abstract class UiScreenSnapshotTest(
 
     fun gif(
         duration: Long = 4000L,
+        inspectionMode: Boolean = true,
         sut: @Composable () -> Unit
     ) {
         screenConfigs.forEach { (configName, config) ->
@@ -112,6 +138,7 @@ abstract class UiScreenSnapshotTest(
                 name = configName,
                 duration = duration,
                 deviceConfig = config,
+                inspectionMode = inspectionMode,
                 sut = sut
             )
         }
