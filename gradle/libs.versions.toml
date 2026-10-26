@@ -36,7 +36,7 @@ googleid = "1.2.1"
 
 # Network
 retrofit = "3.0.0"
-logging-interceptor = "5.5.0"
+logging-interceptor = "5.5.1"
 converter-serialization = "1.0.0"
 network-response-adapter = "5.0.0"
 
