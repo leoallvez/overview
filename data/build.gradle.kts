@@ -10,10 +10,8 @@ plugins {
 
 extensions.configure<LibraryExtension> {
     defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
         stringField("API_URL", "https://api.themoviedb.org/3/")
         stringField("API_KEY", System.getenv("OVER_API_KEY") ?: "")
-        intField("PAGE_SIZE", 20)
     }
 
     buildFeatures {
@@ -22,11 +20,6 @@ extensions.configure<LibraryExtension> {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
             longField("REMOTE_CONFIG_FETCH_INTERVAL_IN_SECONDS", 3600)
         }
         debug {
@@ -64,7 +57,6 @@ ksp {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     api(libs.retrofit)
@@ -72,7 +64,6 @@ dependencies {
     // Room
     api(libs.room.runtime)
     api(libs.room.ktx)
-    api(libs.room.paging)
     ksp(libs.room.compiler)
 
     // DataStore
@@ -104,6 +95,4 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kluent)
     testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
