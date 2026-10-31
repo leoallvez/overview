@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -44,6 +45,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMovieDetails
  * @param modifier The modifier to be applied to the layout.
  * @param header A composable slot for the screen header (usually including the backdrop).
  * @param infoSlot A composable slot for media-specific information (e.g., duration, seasons).
+ * @param extraSlot A slot for media-specific items placed before the ads (e.g., episodes).
  */
 @Composable
 internal fun MediaDetailsBody(
@@ -55,6 +57,7 @@ internal fun MediaDetailsBody(
     modifier: Modifier = Modifier,
     header: @Composable () -> Unit,
     infoSlot: @Composable ColumnScope.() -> Unit,
+    extraSlot: LazyListScope.() -> Unit = {},
 ) {
     val horizontalPadding = dimensionResource(R.dimen.spacing_4x)
 
@@ -122,6 +125,8 @@ internal fun MediaDetailsBody(
                 )
             }
         }
+
+        extraSlot()
 
         if (showAds) {
             item {

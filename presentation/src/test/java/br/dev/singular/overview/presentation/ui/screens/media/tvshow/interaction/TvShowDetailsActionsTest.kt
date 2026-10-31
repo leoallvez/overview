@@ -53,6 +53,17 @@ class TvShowDetailsActionsTest {
     }
 
     @Test
+    fun `onToEpisodes should log click with the tv show id and navigate to the episodes`() {
+        // When
+        sut.onToEpisodes(id = 42L)
+
+        // Then
+        verify(exactly = 1) { TagManager.logClick(sut.tagPath, "episodes", 42L) }
+        assertEquals(Destination.Episodes.editRoute(42L), navigation.activeRoute)
+        assertEquals(emptyList<TvShowDetailsIntent>(), intents)
+    }
+
+    @Test
     fun `onAiPrediction should log click with the media id without navigating`() {
         // When
         sut.onAiPrediction(id = 42L)

@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">Analysis failed</string>
     <string name="taste_prediction_error_description">We couldn\'t generate your prediction.</string>
     <string name="taste_prediction_login_description">Sign in so the AI can analyze your Favorites and estimate your affinity with this title.</string>
+    <string name="episodes_title">Episodes</string>
+    <string name="episodes_sign_in_hint">Sign in to track progress</string>
+    <string name="episodes_premieres">Premieres %s</string>
 </resources>

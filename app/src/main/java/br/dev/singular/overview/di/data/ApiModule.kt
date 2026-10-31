@@ -1,11 +1,11 @@
 package br.dev.singular.overview.di.data
 
 import br.dev.singular.overview.data.BuildConfig
-import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.JevApiService
-import br.dev.singular.overview.data.network.interceptor.TmdbApiKeyInterceptor
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.interceptor.JevAuthInterceptor
 import br.dev.singular.overview.data.network.interceptor.LocaleInterceptor
+import br.dev.singular.overview.data.network.interceptor.TmdbApiKeyInterceptor
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -21,7 +21,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter.Factory
 import retrofit2.Retrofit
 import javax.inject.Singleton
-import kotlin.jvm.java
 
 @Module
 @InstallIn(SingletonComponent::class)

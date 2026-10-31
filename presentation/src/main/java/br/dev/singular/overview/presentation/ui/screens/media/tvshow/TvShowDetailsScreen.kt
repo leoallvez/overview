@@ -1,16 +1,19 @@
 package br.dev.singular.overview.presentation.ui.screens.media.tvshow
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
+import br.dev.singular.overview.presentation.ui.components.episodes.UiEpisodesCardHost
 import br.dev.singular.overview.presentation.ui.screens.media.MediaDetailsBody
 import br.dev.singular.overview.presentation.ui.screens.media.MediaDetailsToolBar
 import br.dev.singular.overview.presentation.ui.screens.media.MediaLoginAlert
@@ -71,18 +74,6 @@ fun TvShowDetailsScreen(
                     label = stringResource(R.string.release_date),
                     value = tvShow.metadata.releaseDate
                 )
-                UiMediaInfoItem(
-                    label = pluralStringResource(
-                        R.plurals.seasons,
-                        tvShow.numberOfSeasons,
-                        tvShow.numberOfSeasons
-                    ),
-                    value = pluralStringResource(
-                        R.plurals.episodes,
-                        tvShow.numberOfEpisodes,
-                        tvShow.numberOfEpisodes
-                    )
-                )
                 if (tvShow.runtimePerEpisode.isNotEmpty()) {
                     UiMediaInfoItem(
                         value = stringResource(
@@ -96,6 +87,17 @@ fun TvShowDetailsScreen(
                     value = tvShow.creators.joinToString(),
                     color = HighlightColor
                 )
+            },
+            extraSlot = {
+                item {
+                    UiEpisodesCardHost(
+                        model = tvShow.episodesSummary,
+                        onClick = { actions.onToEpisodes(tvShow.metadata.id) },
+                        modifier = Modifier.padding(
+                            horizontal = dimensionResource(R.dimen.spacing_4x)
+                        )
+                    )
+                }
             }
         )
     }

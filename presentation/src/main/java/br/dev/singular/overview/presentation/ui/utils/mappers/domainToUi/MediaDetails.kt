@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi
 
 import br.dev.singular.overview.domain.model.MovieDetails
 import br.dev.singular.overview.domain.model.TvShowDetails
+import br.dev.singular.overview.presentation.model.EpisodesSummaryUiModel
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
 import br.dev.singular.overview.presentation.model.MediaExtrasUiModel
 import br.dev.singular.overview.presentation.model.MediaMetadataUiModel
@@ -30,9 +31,15 @@ internal fun TvShowDetails.toUi(isLiked: Boolean) = MediaDetailsUiModel.TvShow(
     metadata = toMetadata(isLiked),
     credits = credits.toUi(),
     extras = toExtras(),
+    episodesSummary = toEpisodesSummary(),
+    runtimePerEpisode = formatRuntime(episodeRuntime.average().toInt()),
+)
+
+private fun TvShowDetails.toEpisodesSummary() = EpisodesSummaryUiModel(
     numberOfSeasons = numberOfSeasons,
     numberOfEpisodes = numberOfEpisodes,
-    runtimePerEpisode = formatRuntime(episodeRuntime.average().toInt()),
+    isReleased = !DateHelper(firstAirDate).isFutureDate(),
+    releaseDate = DateHelper(firstAirDate).formattedDate(),
 )
 
 private fun TvShowDetails.toExtras() = MediaExtrasUiModel(
