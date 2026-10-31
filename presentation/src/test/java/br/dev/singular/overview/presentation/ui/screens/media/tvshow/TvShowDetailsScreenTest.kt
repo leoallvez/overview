@@ -10,10 +10,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import br.dev.singular.overview.presentation.NavigationWrapperMock
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.tagging.TagManager
-import br.dev.singular.overview.presentation.ui.components.prediction.mockAiPredictionViewModelFactory
+import br.dev.singular.overview.presentation.ui.components.mockHiltViewModelFactory
+import br.dev.singular.overview.presentation.ui.navigation.Destination
 import br.dev.singular.overview.presentation.ui.screens.media.tvshow.interaction.rememberTvShowDetailsActions
 import br.dev.singular.overview.presentation.ui.utils.fakeTvShowDetails
 import io.mockk.justRun
@@ -21,6 +23,7 @@ import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -38,10 +41,11 @@ class TvShowDetailsScreenTest {
     private val predictionTitle = string(R.string.taste_prediction_title)
     private val predictionAction = string(R.string.taste_prediction_action)
     private val synopsisTitle = string(R.string.synopsis)
+    private val episodesTitle = string(R.string.episodes_title)
 
     @Before
     fun setup() {
-        mockAiPredictionViewModelFactory()
+        mockHiltViewModelFactory()
     }
 
     @Test
@@ -130,6 +134,47 @@ class TvShowDetailsScreenTest {
 
         // assert
         verify(exactly = 1) { TagManager.logClick(tagPath, "ai-prediction", mediaId) }
+    }
+
+    @Test
+    fun `TvShowDetailsScreen should display the episodes card`() {
+        // arrange
+        rule.setContent {
+            TvShowDetailsScreen(
+                tvShowId = 1L,
+                uiState = UiState.Success(data = fakeTvShowDetails()),
+                actions = rememberTvShowDetailsActions()
+            )
+        }
+
+        // act
+        scrollTo(episodesTitle)
+
+        // assert
+        rule.onNodeWithText(episodesTitle).assertIsDisplayed()
+    }
+
+    @Test
+    fun `TvShowDetailsScreen should navigate to the episodes when the episodes card is clicked`() {
+        // arrange
+        val navigation = NavigationWrapperMock()
+        var tvShowId = 0L
+        rule.setContent {
+            val model = fakeTvShowDetails()
+            tvShowId = model.metadata.id
+            TvShowDetailsScreen(
+                tvShowId = tvShowId,
+                uiState = UiState.Success(data = model),
+                actions = rememberTvShowDetailsActions(navigation = navigation)
+            )
+        }
+        scrollTo(episodesTitle)
+
+        // act
+        rule.onNodeWithText(episodesTitle).performClick()
+
+        // assert
+        assertEquals(Destination.Episodes.editRoute(tvShowId), navigation.activeRoute)
     }
 
     @After

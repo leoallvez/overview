@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">Analyse fehlgeschlagen</string>
     <string name="taste_prediction_error_description">Die Vorhersage konnte nicht erstellt werden. Versuche es erneut.</string>
     <string name="taste_prediction_login_description">Melde dich an, damit die KI deine Favoriten analysieren und deine Affinität zu diesem Titel einschätzen kann.</string>
+    <string name="episodes_title">Episoden</string>
+    <string name="episodes_sign_in_hint">Melde dich an, um deinen Fortschritt zu verfolgen</string>
+    <string name="episodes_premieres">Premiere am %s</string>
 </resources>

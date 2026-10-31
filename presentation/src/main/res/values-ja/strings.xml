@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">分析に失敗しました</string>
     <string name="taste_prediction_error_description">予測を生成できませんでした。もう一度お試しください。</string>
     <string name="taste_prediction_login_description">ログインすると、AIがお気に入りを分析し、この作品との相性を推定します。</string>
+    <string name="episodes_title">エピソード</string>
+    <string name="episodes_sign_in_hint">ログインして視聴状況を記録</string>
+    <string name="episodes_premieres">%s 配信開始</string>
 </resources>

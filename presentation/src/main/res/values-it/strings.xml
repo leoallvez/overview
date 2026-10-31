@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">Analisi non riuscita</string>
     <string name="taste_prediction_error_description">Impossibile generare la previsione. Riprova.</string>
     <string name="taste_prediction_login_description">Accedi affinché l\'IA analizzi i tuoi Preferiti e stimi la tua affinità con questo titolo.</string>
+    <string name="episodes_title">Episodi</string>
+    <string name="episodes_sign_in_hint">Accedi per tenere traccia dei progressi</string>
+    <string name="episodes_premieres">In onda dal %s</string>
 </resources>

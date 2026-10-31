@@ -2,6 +2,7 @@ package br.dev.singular.overview.presentation.ui.utils.mappers.domainToUi
 
 import br.dev.singular.overview.presentation.createMovieDetailsMock
 import br.dev.singular.overview.presentation.createTvShowDetailsMock
+import br.dev.singular.overview.presentation.model.EpisodesSummaryUiModel
 import br.dev.singular.overview.presentation.model.MediaUiType
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -58,11 +59,31 @@ class MediaDetailsTest {
         assertEquals(domain.overview, ui.metadata.synopsis)
         assertEquals("01/01/2020", ui.metadata.releaseDate)
         assertEquals("https://image.tmdb.org/t/p/w780/backdrop.jpg", ui.metadata.backdropURL)
-        assertEquals(5, ui.numberOfSeasons)
-        assertEquals(50, ui.numberOfEpisodes)
+        assertEquals(
+            EpisodesSummaryUiModel(
+                numberOfSeasons = 5,
+                numberOfEpisodes = 50,
+                isReleased = true,
+                releaseDate = "01/01/2020"
+            ),
+            ui.episodesSummary
+        )
         assertEquals("45min", ui.runtimePerEpisode)
         assertEquals("", ui.creators.joinToString())
         assertEquals(MediaUiType.TV, ui.type)
+    }
+
+    @Test
+    fun `TvShowDetails toUi with future first air date should map summary as not released`() {
+        // arrange
+        val domain = createTvShowDetailsMock().copy(firstAirDate = "2999-01-01")
+
+        // act
+        val ui = domain.toUi(isLiked = false)
+
+        // assert
+        assertEquals(false, ui.episodesSummary.isReleased)
+        assertEquals("01/01/2999", ui.episodesSummary.releaseDate)
     }
 
     @Test

@@ -118,4 +118,7 @@
     <string name="taste_prediction_error_title">Falha na análise</string>
     <string name="taste_prediction_error_description">Não foi possível gerar a previsão. Tente novamente.</string>
     <string name="taste_prediction_login_description">Faça login para que a IA analise seus Favoritos e estime sua afinidade com este título.</string>
+    <string name="episodes_title">Episódios</string>
+    <string name="episodes_sign_in_hint">Faça login para acompanhar seu progresso</string>
+    <string name="episodes_premieres">Estreia em %s</string>
 </resources>

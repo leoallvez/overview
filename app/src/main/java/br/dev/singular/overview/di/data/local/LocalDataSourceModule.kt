@@ -5,9 +5,9 @@ import br.dev.singular.overview.data.local.source.GenreLocalDataSource
 import br.dev.singular.overview.data.local.source.ICatalogLocalDataSource
 import br.dev.singular.overview.data.local.source.IGenreLocalDataSource
 import br.dev.singular.overview.data.local.source.IMediaRouteLocalDataSource
-import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
 import br.dev.singular.overview.data.local.source.IPendingFavoriteLocalDataSource
 import br.dev.singular.overview.data.local.source.IPredictionLocalDataSource
+import br.dev.singular.overview.data.local.source.ISuggestionLocalDataSource
 import br.dev.singular.overview.data.local.source.MediaRouteLocalDataSource
 import br.dev.singular.overview.data.local.source.PendingFavoriteLocalDataSource
 import br.dev.singular.overview.data.local.source.PredictionLocalDataSource

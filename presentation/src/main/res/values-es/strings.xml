@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">Error en el análisis</string>
     <string name="taste_prediction_error_description">No se pudo generar la predicción. Inténtalo de nuevo.</string>
     <string name="taste_prediction_login_description">Inicia sesión para que la IA analice tus Favoritos y estime tu afinidad con este título.</string>
+    <string name="episodes_title">Episodios</string>
+    <string name="episodes_sign_in_hint">Inicia sesión para seguir tu progreso</string>
+    <string name="episodes_premieres">Se estrena el %s</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.CreditsUiModel
+import br.dev.singular.overview.presentation.model.EpisodesSummaryUiModel
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
 import br.dev.singular.overview.presentation.model.MediaExtrasUiModel
@@ -193,6 +194,13 @@ internal fun fakeMovieDetails() = MediaDetailsUiModel.Movie(
     directors = listOf("Director 1", "Director 2").toImmutableList()
 )
 
+internal fun fakeEpisodesSummary() = EpisodesSummaryUiModel(
+    numberOfSeasons = 5,
+    numberOfEpisodes = 62,
+    isReleased = true,
+    releaseDate = "12/12/2014"
+)
+
 @Composable
 internal fun fakeTvShowDetails() = MediaDetailsUiModel.TvShow(
     metadata = fakeMediaMetadata(),
@@ -206,8 +214,7 @@ internal fun fakeTvShowDetails() = MediaDetailsUiModel.TvShow(
         similar = fakeMedias(),
         catalogs = fakeCatalogs(20)
     ),
-    numberOfSeasons = 5,
-    numberOfEpisodes = 62,
+    episodesSummary = fakeEpisodesSummary(),
     creators = listOf("Creator 1", "Creator 2").toImmutableList(),
     runtimePerEpisode = "49min"
 )
