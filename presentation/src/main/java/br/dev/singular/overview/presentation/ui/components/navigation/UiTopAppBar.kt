@@ -1,15 +1,22 @@
 package br.dev.singular.overview.presentation.ui.components.navigation
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.icon.UiIconButton
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
@@ -19,6 +26,7 @@ import br.dev.singular.overview.presentation.ui.components.navigation.UiTopAppBa
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.components.user.UiUserAvatar
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
+import br.dev.singular.overview.presentation.ui.theme.SubtitleTextColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
@@ -111,6 +119,58 @@ internal fun UiTopAppBar(
     }
 }
 
+/**
+ * A custom toolbar composable that displays a back button, a title, and a subtitle.
+ *
+ * @param title The title to be displayed in the toolbar.
+ * @param subtitle The subtitle to be displayed below the title.
+ * @param onBack The lambda to be executed when the back button is clicked.
+ * @param modifier The [Modifier] to be applied to the toolbar.
+ */
+@Composable
+internal fun UiTopAppBar(
+    title: String,
+    subtitle: String,
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(dimensionResource(R.dimen.spacing_14x)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        UiTitleBarAction(
+            icon = Lucide.ChevronLeft,
+            modifier = Modifier.padding(
+                end = dimensionResource(R.dimen.spacing_2x)
+            ),
+            onClick = onBack
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(0.dp)
+        ) {
+            Text(
+                text = title,
+                color = HighlightColor,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = subtitle,
+                color = SubtitleTextColor,
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Normal,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
 @Composable
 private fun UiTitleBarAction(
     icon: ImageVector,
@@ -169,4 +229,15 @@ internal fun UiToolbarTrailingContentPreview() {
         },
         modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_4x))
     )
+}
+
+@UiComponentPreview
+@Composable
+internal fun UiToolbarWithSubtitlePreview() {
+    UiTopAppBar(
+        title = "Title",
+        subtitle = "Lorem ipsum dolor",
+        modifier = Modifier
+            .padding(horizontal = dimensionResource(R.dimen.spacing_4x))
+    ) {}
 }

@@ -56,8 +56,7 @@ sealed interface MediaDetailsUiModel {
         override val metadata: MediaMetadataUiModel,
         override val credits: CreditsUiModel,
         override val extras: MediaExtrasUiModel,
-        val numberOfSeasons: Int,
-        val numberOfEpisodes: Int,
+        val episodesSummary: EpisodesSummaryUiModel,
         val creators: ImmutableList<String>,
         val runtimePerEpisode: String,
         override val type: MediaUiType = MediaUiType.TV

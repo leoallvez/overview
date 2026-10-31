@@ -53,6 +53,17 @@ class TvShowDetailsActionsTest {
     }
 
     @Test
+    fun `onToSeasons should log click with the tv show id and navigate to the seasons`() {
+        // When
+        sut.onToSeasons(id = 42L)
+
+        // Then
+        verify(exactly = 1) { TagManager.logClick(sut.tagPath, "seasons", 42L) }
+        assertEquals(Destination.Seasons.editRoute(42L), navigation.activeRoute)
+        assertEquals(emptyList<TvShowDetailsIntent>(), intents)
+    }
+
+    @Test
     fun `onAiPrediction should log click with the media id without navigating`() {
         // When
         sut.onAiPrediction(id = 42L)

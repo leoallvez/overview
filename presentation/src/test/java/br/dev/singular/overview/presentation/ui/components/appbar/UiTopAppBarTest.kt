@@ -55,6 +55,24 @@ class UiTopAppBarTest {
         rule.onNodeWithText("Trailing").assertIsDisplayed()
     }
 
+    @Test
+    fun `UiTopAppBar with subtitle should display title and subtitle and respond to click`() {
+        val title = "Episodes"
+        val subtitle = "Lorem ipsum dolor"
+        val onBack: () -> Unit = mockk(relaxed = true)
+        rule.setContent {
+            UiTopAppBar(
+                title = title,
+                subtitle = subtitle,
+                onBack = onBack
+            )
+        }
+        rule.onNodeWithText(title).assertIsDisplayed()
+        rule.onNodeWithText(subtitle).assertIsDisplayed()
+        rule.onNode(hasClickAction()).performClick()
+        verify { onBack() }
+    }
+
     private fun assertBackBehavior(
         position: UiTopAppBarBackPosition
     ) {

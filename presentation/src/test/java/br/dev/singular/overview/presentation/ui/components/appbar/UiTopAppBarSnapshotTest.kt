@@ -5,6 +5,7 @@ import br.dev.singular.overview.presentation.ui.components.navigation.UiToolbarD
 import br.dev.singular.overview.presentation.ui.components.navigation.UiToolbarLeadingPreview
 import br.dev.singular.overview.presentation.ui.components.navigation.UiToolbarTrailingContentPreview
 import br.dev.singular.overview.presentation.ui.components.navigation.UiToolbarTrailingPreview
+import br.dev.singular.overview.presentation.ui.components.navigation.UiToolbarWithSubtitlePreview
 import org.junit.Test
 
 class UiTopAppBarSnapshotTest : UiSnapshotTest(snapshotPackage = "components/appbar") {
@@ -27,5 +28,10 @@ class UiTopAppBarSnapshotTest : UiSnapshotTest(snapshotPackage = "components/app
     @Test
     fun trailingContent() = snapshot {
         UiToolbarTrailingContentPreview()
+    }
+
+    @Test
+    fun withSubtitle() = snapshot {
+        UiToolbarWithSubtitlePreview()
     }
 }
