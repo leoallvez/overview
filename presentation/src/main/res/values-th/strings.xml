@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">การวิเคราะห์ล้มเหลว</string>
     <string name="taste_prediction_error_description">ไม่สามารถสร้างการคาดการณ์ได้ โปรดลองอีกครั้ง</string>
     <string name="taste_prediction_login_description">เข้าสู่ระบบเพื่อให้ AI วิเคราะห์รายการโปรดของคุณและประเมินว่าเรื่องนี้เข้ากับรสนิยมของคุณเพียงใด</string>
+    <string name="episodes_title">ตอน</string>
+    <string name="episodes_sign_in_hint">เข้าสู่ระบบเพื่อติดตามความคืบหน้า</string>
+    <string name="episodes_premieres">ฉายตอนแรก %s</string>
 </resources>

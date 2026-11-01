@@ -13,7 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.tagging.TagManager
-import br.dev.singular.overview.presentation.ui.components.prediction.mockAiPredictionViewModelFactory
+import br.dev.singular.overview.presentation.ui.components.mockHiltViewModelFactory
 import br.dev.singular.overview.presentation.ui.screens.media.movie.interaction.rememberMovieDetailsActions
 import br.dev.singular.overview.presentation.ui.utils.fakeMovieDetails
 import io.mockk.justRun
@@ -41,7 +41,7 @@ class MovieDetailsScreenTest {
 
     @Before
     fun setup() {
-        mockAiPredictionViewModelFactory()
+        mockHiltViewModelFactory()
     }
 
     @Test

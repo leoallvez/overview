@@ -5,7 +5,9 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
+import br.dev.singular.overview.presentation.tagging.TagManager
 import br.dev.singular.overview.presentation.ui.components.snackbar.UiSnackbarVisuals
+import br.dev.singular.overview.presentation.ui.navigation.Destination
 import br.dev.singular.overview.presentation.ui.navigation.INavigationWrapper
 import br.dev.singular.overview.presentation.ui.screens.media.interaction.MediaDetailsActions
 
@@ -21,6 +23,11 @@ class TvShowDetailsActions(
 
     fun onLike(tvShow: MediaDetailsUiModel.TvShow) =
         handleIntent(TvShowDetailsIntent.Like(tvShow))
+
+    fun onToEpisodes(id: Long) {
+        TagManager.logClick(customPath = tagPath, detail = "episodes", id = id)
+        navigation?.navigate(route = Destination.Episodes.editRoute(id))
+    }
 
     override fun onFavoriteAdded(visuals: UiSnackbarVisuals) {
         onShowFavoriteAdded(visuals)

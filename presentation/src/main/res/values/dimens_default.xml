@@ -9,4 +9,6 @@
 
     <dimen name="prediction_indicator_stroke">8dp</dimen>
     <dimen name="prediction_outline_stroke">2dp</dimen>
+
+    <dimen name="progress_bar_height">3dp</dimen>
 </resources>

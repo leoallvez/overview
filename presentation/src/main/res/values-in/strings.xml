@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">Analisis gagal</string>
     <string name="taste_prediction_error_description">Tidak dapat membuat prediksi. Coba lagi.</string>
     <string name="taste_prediction_login_description">Masuk agar AI dapat menganalisis Favorit Anda dan memperkirakan afinitas Anda dengan judul ini.</string>
+    <string name="episodes_title">Episode</string>
+    <string name="episodes_sign_in_hint">Login untuk melacak progres</string>
+    <string name="episodes_premieres">Tayang perdana %s</string>
 </resources>

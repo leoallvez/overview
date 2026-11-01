@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">分析失败</string>
     <string name="taste_prediction_error_description">无法生成预测，请重试。</string>
     <string name="taste_prediction_login_description">登录后，AI 即可分析您的收藏夹，并估算您与这部作品的契合度。</string>
+    <string name="episodes_title">剧集</string>
+    <string name="episodes_sign_in_hint">登录以记录观看进度</string>
+    <string name="episodes_premieres">%s 首播</string>
 </resources>

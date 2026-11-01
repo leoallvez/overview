@@ -116,4 +116,7 @@
     <string name="taste_prediction_error_title">Analiz başarısız oldu</string>
     <string name="taste_prediction_error_description">Tahmin oluşturulamadı. Tekrar deneyin.</string>
     <string name="taste_prediction_login_description">Yapay zekânın Favorilerinizi analiz edip bu yapımla uyumunuzu tahmin edebilmesi için giriş yapın.</string>
+    <string name="episodes_title">Bölümler</string>
+    <string name="episodes_sign_in_hint">İlerlemeni takip etmek için giriş yap</string>
+    <string name="episodes_premieres">Prömiyer: %s</string>
 </resources>
