@@ -8,6 +8,7 @@ import kotlinx.collections.immutable.ImmutableList
 data class MediaMetadataUiModel(
     val id: Long,
     val title: String,
+    val originalTitle: String,
     val isLiked: Boolean,
     val synopsis: String,
     val isReleased: Boolean,

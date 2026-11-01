@@ -105,4 +105,15 @@
     <string name="login_required_title">Perlu masuk</string>
     <string name="login_required_message">Masuk untuk menyimpan judul ini ke favorit Anda.</string>
     <string name="favorite_added_title">Ditambahkan ke favorit</string>
+    <string name="taste_prediction_title">Analisis AI</string>
+    <string name="taste_prediction_no_data">Belum ada data</string>
+    <string name="taste_prediction_high">Berdasarkan Favorit Anda, kami menemukan afinitas yang tinggi dengan judul ini. Kemungkinan besar Anda akan menyukainya!</string>
+    <string name="taste_prediction_medium">Judul ini memiliki afinitas sedang dengan Favorit Anda. Bisa jadi kejutan yang menyenangkan!</string>
+    <string name="taste_prediction_low">Berdasarkan Favorit Anda, kami menemukan afinitas yang rendah dengan judul ini.</string>
+    <string name="taste_prediction_unavailable">Tambahkan film dan serial ke Favorit Anda agar AI dapat mengenali genre pilihan Anda dan memperkirakan afinitas Anda dengan judul ini.</string>
+    <string name="taste_prediction_idle">Cari tahu seberapa cocok judul ini dengan Favorit Anda.</string>
+    <string name="taste_prediction_action">Lihat hasil</string>
+    <string name="taste_prediction_error_title">Analisis gagal</string>
+    <string name="taste_prediction_error_description">Tidak dapat membuat prediksi. Coba lagi.</string>
+    <string name="taste_prediction_login_description">Masuk agar AI dapat menganalisis Favorit Anda dan memperkirakan afinitas Anda dengan judul ini.</string>
 </resources>

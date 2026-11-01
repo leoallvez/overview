@@ -2,7 +2,7 @@ package br.dev.singular.overview.data.network.source
 
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.model.VideoDataModel
-import br.dev.singular.overview.data.network.ApiService
+import br.dev.singular.overview.data.network.TmdbApiService
 import br.dev.singular.overview.data.network.response.ListResponse
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ interface IVideoRemoteDataSource {
 }
 
 class VideoRemoteDataSource @Inject constructor(
-    private val api: ApiService
+    private val api: TmdbApiService
 ) : IVideoRemoteDataSource {
 
     override suspend fun getVideos(

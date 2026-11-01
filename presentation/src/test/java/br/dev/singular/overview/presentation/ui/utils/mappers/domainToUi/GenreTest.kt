@@ -17,6 +17,7 @@ class GenreTest {
         // assert
         assertEquals(domain.id, ui.id)
         assertEquals(domain.name, ui.name)
+        assertEquals(domain.originalName, ui.originalName)
     }
 
     @Test

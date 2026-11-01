@@ -37,4 +37,31 @@ class LocaleInterceptorTest {
         capturedRequest.url.queryParameter("region") shouldBeEqualTo "BR"
         capturedRequest.url.queryParameter("watch_region") shouldBeEqualTo "BR"
     }
+
+    @Test
+    fun `intercept should keep the language requested by the call`() {
+        // arrange
+        val localeProvider = mockk<ILocaleProvider>()
+        every { localeProvider.language } returns "pt-BR"
+        every { localeProvider.region } returns "BR"
+
+        val interceptor = LocaleInterceptor(localeProvider)
+        val chain = mockk<Interceptor.Chain>()
+        val request = Request.Builder()
+            .url("https://api.test.com/?language=en-US")
+            .build()
+        val requestSlot = slot<Request>()
+
+        every { chain.request() } returns request
+        every { chain.proceed(capture(requestSlot)) } returns mockk()
+
+        // act
+        interceptor.intercept(chain)
+
+        // assert
+        val capturedRequest = requestSlot.captured
+        capturedRequest.url.queryParameter("language") shouldBeEqualTo "en-US"
+        capturedRequest.url.queryParameter("region") shouldBeEqualTo "BR"
+        capturedRequest.url.queryParameter("watch_region") shouldBeEqualTo "BR"
+    }
 }

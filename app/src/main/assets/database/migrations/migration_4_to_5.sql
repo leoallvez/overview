@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `genre` (
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `name` TEXT NOT NULL
+    `name` TEXT NOT NULL,
+    `original_name` TEXT NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS `media_type_genre` (
@@ -18,6 +19,13 @@ CREATE TABLE IF NOT EXISTS `pending_favorite` (
     `title` TEXT NOT NULL,
     `poster_path` TEXT NOT NULL,
     `last_update` INTEGER NOT NULL,
+    PRIMARY KEY(`type`, `id`)
+);
+
+CREATE TABLE IF NOT EXISTS `prediction` (
+    `id` INTEGER NOT NULL,
+    `type` TEXT NOT NULL,
+    `affinity_percentage` INTEGER,
     PRIMARY KEY(`type`, `id`)
 );
 

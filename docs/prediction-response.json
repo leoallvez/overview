@@ -1,0 +1,28 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "affinity": {
+      "type": "score",
+      "score": 3.36,
+      "confidence": 0.61,
+      "legend": {
+        "0": "The user would not enjoy it at all",
+        "1": "The user would probably not enjoy it",
+        "2": "The user might enjoy it",
+        "3": "The user would probably enjoy it",
+        "4": "The user would certainly enjoy it"
+      },
+      "probabilities": {
+        "0": 0.01,
+        "1": 0.03,
+        "2": 0.08,
+        "3": 0.35,
+        "4": 0.53
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 214,
+    "output_tokens": 6
+  }
+}

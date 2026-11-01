@@ -10,6 +10,11 @@ fun VariantDimension.intField(name: String, value: Int) {
     buildConfigField("int", name, value.toString())
 }
 
+/** Declares a nullable `Boolean` constant in the generated `BuildConfig`. */
+fun VariantDimension.optionalBooleanField(name: String, value: Boolean?) {
+    buildConfigField("Boolean", name, value?.toString() ?: "null")
+}
+
 /** Declares a `long` constant in the generated `BuildConfig`. */
 fun VariantDimension.longField(name: String, value: Long) {
     buildConfigField("long", name, "${value}L")

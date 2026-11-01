@@ -48,6 +48,9 @@ class StorageModule {
     fun providePendingFavoriteDao(db: AppDatabase) = db.pendingFavoriteDao()
 
     @Provides
+    fun providePredictionDao(db: AppDatabase) = db.predictionDao()
+
+    @Provides
     fun provideDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.dataStore

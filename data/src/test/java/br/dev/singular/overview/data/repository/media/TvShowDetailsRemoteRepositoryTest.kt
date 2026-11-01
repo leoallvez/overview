@@ -1,5 +1,7 @@
 package br.dev.singular.overview.data.repository.media
 
+import br.dev.singular.overview.data.local.source.IGenreLocalDataSource
+import br.dev.singular.overview.data.model.GenreDataModel
 import br.dev.singular.overview.data.model.MediaDataType
 import br.dev.singular.overview.data.network.response.ListResponse
 import br.dev.singular.overview.data.network.source.DataResult
@@ -10,6 +12,7 @@ import br.dev.singular.overview.data.util.createFakeCatalogDataModelList
 import br.dev.singular.overview.data.util.createFakeVideoDataModelList
 import br.dev.singular.overview.data.util.fakeTvShowDetailsDataModel
 import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
+import br.dev.singular.overview.domain.model.Genre
 import br.dev.singular.overview.domain.model.TvShowDetails
 import br.dev.singular.overview.domain.repository.GetById
 import io.mockk.MockKAnnotations
@@ -36,6 +39,9 @@ class TvShowDetailsRemoteRepositoryTest {
     @MockK(relaxed = true)
     private lateinit var catalogDataSource: ICatalogRemoteDataSource
 
+    @MockK(relaxed = true)
+    private lateinit var genreDataSource: IGenreLocalDataSource
+
     private lateinit var sut: GetById<TvShowDetails>
 
     @Before
@@ -43,8 +49,7 @@ class TvShowDetailsRemoteRepositoryTest {
         MockKAnnotations.init(this)
         sut = TvShowDetailsRemoteRepository(
             mediaDataSource,
-            videoDataSource,
-            catalogDataSource,
+            MediaDetailsExtrasRepository(videoDataSource, catalogDataSource, genreDataSource),
         )
     }
 
@@ -145,5 +150,52 @@ class TvShowDetailsRemoteRepositoryTest {
         result.shouldNotBeNull()
         result.videos.shouldBeEmpty()
         coVerify(exactly = 1) { videoDataSource.getVideos(id, MediaDataType.TV) }
+    }
+
+    @Test
+    fun `should fill the genres original names from the local cache`() = runTest {
+        // Arrange
+        val id = 1L
+        val genres = listOf(
+            GenreDataModel(id = 1L, name = "Ação"),
+            GenreDataModel(id = 2L, name = "Comédia")
+        )
+        coEvery {
+            mediaDataSource.getTvShowById(id)
+        } returns DataResult.Success(fakeTvShowDetailsDataModel.copy(genres = genres))
+
+        coEvery {
+            genreDataSource.getByIds(listOf(1L, 2L))
+        } returns listOf(GenreDataModel(id = 1L, name = "Ação", originalName = "Action"))
+
+        // Act
+        val result = sut.getById(id)
+
+        // Assert
+        result.shouldNotBeNull()
+        result.genres shouldBeEqualTo listOf(
+            Genre(id = 1L, name = "Ação", originalName = "Action"),
+            Genre(id = 2L, name = "Comédia", originalName = "")
+        )
+        coVerify(exactly = 1) { genreDataSource.getByIds(listOf(1L, 2L)) }
+    }
+
+    @Test
+    fun `should keep the genres without original names when the local cache fails`() = runTest {
+        // Arrange
+        val id = 1L
+        val genres = listOf(GenreDataModel(id = 1L, name = "Ação"))
+        coEvery {
+            mediaDataSource.getTvShowById(id)
+        } returns DataResult.Success(fakeTvShowDetailsDataModel.copy(genres = genres))
+
+        coEvery { genreDataSource.getByIds(any()) } throws Exception()
+
+        // Act
+        val result = sut.getById(id)
+
+        // Assert
+        result.shouldNotBeNull()
+        result.genres shouldBeEqualTo listOf(Genre(id = 1L, name = "Ação", originalName = ""))
     }
 }

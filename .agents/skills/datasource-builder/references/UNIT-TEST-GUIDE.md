@@ -14,7 +14,7 @@ Data Source unit tests verify that the raw data retrieval calls are correctly ma
 class AppleRemoteDataSourceTest {
 
     @MockK
-    private lateinit var api: ApiService
+    private lateinit var api: TmdbApiService
 
     private lateinit var sut: IAppleRemoteDataSource
 

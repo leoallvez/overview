@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +21,7 @@ import br.dev.singular.overview.presentation.ui.components.text.UiText
  *
  * This internal component handles the surface shape, colors, borders, and height based on the
  * provided [UiButtonStyle]. It also manages a [Row] with a content slot (typically an icon)
- * followed by a bold [UiText].
+ * followed by a [UiText] styled with [UiButtonStyle.textStyle].
  *
  * @param text The text to be displayed on the button.
  * @param modifier The [Modifier] to be applied to the button.
@@ -65,7 +66,8 @@ internal fun UiButtonBase(
             UiText(
                 text = text,
                 color = style.colors.textColor(enabled),
-                isBold = true
+                style = LocalTextStyle.current.merge(style.textStyle),
+                fontWeight = style.textStyle.fontWeight
             )
         }
     }

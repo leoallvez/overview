@@ -31,6 +31,7 @@ import kotlin.time.Duration.Companion.milliseconds
  * @param movieId The unique identifier of the movie.
  * @param uiState The current state of the UI, providing the [MediaDetailsUiModel.Movie] on success.
  * @param showAds Whether to show ads in this screen.
+ * @param showAiPrediction Whether to show the AI taste prediction card in this screen.
  * @param loginRequired Whether to alert the user that liking a media requires signing in.
  * @param favoriteAdded Whether to notify the user that the media was added to the favorites.
  * @param actions The actions and intents that can be performed on this screen.
@@ -40,6 +41,7 @@ fun MovieDetailsScreen(
     movieId: Long,
     uiState: UiState<MediaDetailsUiModel.Movie?>,
     showAds: Boolean = false,
+    showAiPrediction: Boolean = true,
     loginRequired: Boolean = false,
     favoriteAdded: Boolean = false,
     actions: MovieDetailsActions,
@@ -52,6 +54,7 @@ fun MovieDetailsScreen(
     ) { movie ->
         MediaDetailsBody(
             showAds = showAds,
+            showAiPrediction = showAiPrediction,
             model = movie,
             actions = actions,
             favoriteAdded = favoriteAdded,
@@ -92,6 +95,7 @@ internal fun MovieDetailsScreenPreview() {
     MovieDetailsScreen(
         movieId = 1L,
         showAds = true,
+        showAiPrediction = true,
         uiState = UiState.Success(data = fakeMovieDetails()),
         actions = rememberMovieDetailsActions()
     )
@@ -120,6 +124,7 @@ internal fun MovieDetailsScreenFavoriteAddedPreview() {
             uiState = UiState.Success(
                 data = movie.copy(metadata = movie.metadata.copy(isLiked = true))
             ),
+            showAiPrediction = true,
             favoriteAdded = favoriteAdded,
             actions = rememberMovieDetailsActions(onShowSnackbar = hostState::show)
         )

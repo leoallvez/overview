@@ -105,4 +105,15 @@
     <string name="login_required_title">Accesso richiesto</string>
     <string name="login_required_message">Accedi per salvare questo titolo tra i tuoi preferiti.</string>
     <string name="favorite_added_title">Aggiunto ai preferiti</string>
+    <string name="taste_prediction_title">Analisi dell\'IA</string>
+    <string name="taste_prediction_no_data">Ancora nessun dato</string>
+    <string name="taste_prediction_high">In base ai tuoi Preferiti, abbiamo rilevato un\'alta affinità con questo titolo. È molto probabile che ti piaccia!</string>
+    <string name="taste_prediction_medium">Questo titolo ha un\'affinità moderata con i tuoi Preferiti. Potrebbe essere una bella sorpresa!</string>
+    <string name="taste_prediction_low">In base ai tuoi Preferiti, abbiamo rilevato una bassa affinità con questo titolo.</string>
+    <string name="taste_prediction_unavailable">Aggiungi film e serie ai tuoi Preferiti affinché l\'IA individui i tuoi generi preferiti e stimi la tua affinità con questo titolo.</string>
+    <string name="taste_prediction_idle">Scopri quanto questo titolo è in linea con i tuoi Preferiti.</string>
+    <string name="taste_prediction_action">Vedi risultato</string>
+    <string name="taste_prediction_error_title">Analisi non riuscita</string>
+    <string name="taste_prediction_error_description">Impossibile generare la previsione. Riprova.</string>
+    <string name="taste_prediction_login_description">Accedi affinché l\'IA analizzi i tuoi Preferiti e stimi la tua affinità con questo titolo.</string>
 </resources>

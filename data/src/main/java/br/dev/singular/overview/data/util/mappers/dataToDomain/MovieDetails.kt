@@ -7,6 +7,7 @@ import br.dev.singular.overview.domain.model.MovieDetails
 internal fun MovieDetailsDataModel.toDomain() = MovieDetails(
     id = id,
     title = betterTitle,
+    originalTitle = originalTitle,
     releaseDate = releaseDate,
     runtime = runtime,
     posterPath = posterPath,

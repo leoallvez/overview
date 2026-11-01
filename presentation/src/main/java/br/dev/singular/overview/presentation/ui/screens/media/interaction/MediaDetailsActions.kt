@@ -40,8 +40,18 @@ abstract class MediaDetailsActions(
         navigation?.navigate(route = Destination.YouTubePlayer.editRoute(videoKey))
     }
 
-    protected fun onToLogin() {
-        TagManager.logClick(customPath = tagPath, detail = "login-required-confirm")
+    fun onAiPrediction(id: Long, isTryAgain: Boolean = false) {
+        val detail = buildString {
+            append("ai-prediction")
+            if (isTryAgain) append("-try-again")
+        }
+        TagManager.logClick(customPath = tagPath, detail = detail, id = id)
+    }
+
+    fun onAiPredictionLogin() = onToLogin(detail = "ai-prediction-login")
+
+    protected fun onToLogin(detail: String = "login-required-confirm") {
+        TagManager.logClick(customPath = tagPath, detail = detail)
         navigation?.navigate(route = Destination.Favorites.route)
     }
 

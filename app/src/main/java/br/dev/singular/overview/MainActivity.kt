@@ -18,9 +18,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import br.dev.singular.overview.data.remoteconfig.RemoteConfig
 import br.dev.singular.overview.data.util.IConnectivityMonitor
 import br.dev.singular.overview.navigation.AppNavHost
+import br.dev.singular.overview.navigation.FeatureFlags
 import br.dev.singular.overview.navigation.NavigationWrapper
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.UiAdsBanner
@@ -39,8 +39,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var adsManager: RemoteConfig<Boolean>
-    private val showAds: Boolean by lazy { adsManager.execute() }
+    lateinit var flags: FeatureFlags
 
     @Inject
     lateinit var snackbarHostState: UiSnackbarHostState
@@ -90,7 +89,7 @@ class MainActivity : ComponentActivity() {
                             topSlot = {
                                 UiAdsBanner(
                                     prodBannerId = R.string.bottom_navigation,
-                                    isVisible = showAds
+                                    isVisible = flags.showAds
                                 )
                             }
                         )
@@ -105,7 +104,7 @@ class MainActivity : ComponentActivity() {
                             snackbarHostState = snackbarHostState,
                             modifier = Modifier.padding(innerPadding),
                             setEdgeToEdge = setEdgeToEdge,
-                            showAds = showAds
+                            flags = flags
                         )
                     }
                 }
