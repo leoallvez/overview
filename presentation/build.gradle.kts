@@ -10,7 +10,6 @@ plugins {
 
 extensions.configure<LibraryExtension> {
     defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
         intField("PAGE_SIZE", 20)
         stringField("IMG_URL", "https://image.tmdb.org/t/p/w780")
         stringField("POSTER_URL", "https://image.tmdb.org/t/p/w154")
@@ -19,14 +18,9 @@ extensions.configure<LibraryExtension> {
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            stringField("DEBUG_BANNER_ID", "")
-        }
+            release {
+                stringField("DEBUG_BANNER_ID", "")
+            }
         debug {
             stringField("DEBUG_BANNER_ID", "ca-app-pub-3940256099942544/6300978111")
         }
@@ -60,8 +54,6 @@ kover {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -78,7 +70,6 @@ dependencies {
     api(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     api(libs.hilt.navigation.compose)
-    implementation(libs.material)
     api(libs.kotlinx.collections.immutable)
     api(libs.lucide.icons)
     implementation(libs.youtube.player)
@@ -102,6 +93,5 @@ dependencies {
     testImplementation(libs.androidx.ui.test.junit4)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.androidx.ui.test.manifest)
-    androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.tooling)
 }
