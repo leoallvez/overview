@@ -7,10 +7,13 @@ import kotlinx.serialization.Serializable
 enum class MediaDataType(val key: String) {
     @SerialName("movie")
     MOVIE("movie"),
+
     @SerialName("tv")
     TV("tv"),
+
     @SerialName("all")
     ALL("all"),
+
     @SerialName("unknown")
     UNKNOWN("unknown");
 

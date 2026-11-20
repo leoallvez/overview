@@ -12,8 +12,6 @@ updates:
     open-pull-requests-limit: 15
     commit-message:
       prefix: "chore(gradle): "
-    # Raise pull requests for version updates
-    # to pip against the `develop` branch
     target-branch: "chore/update-dependencies"
     # Labels on pull requests for version updates only
     labels:
@@ -22,3 +20,13 @@ updates:
     ignore:
       # Ignore some updates to the packages
       - dependency-name: "NetworkResponseAdapter"
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "chore(ci): "
+    target-branch: "chore/update-dependencies"
+    labels:
+      - "chore"
+      - "dependencies"

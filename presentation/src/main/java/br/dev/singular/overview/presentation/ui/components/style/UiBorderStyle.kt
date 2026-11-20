@@ -18,7 +18,7 @@ import br.dev.singular.overview.presentation.ui.theme.BorderColor
  * @property shape The shape of the border.
  */
 @Immutable
-data class UiBorderStyle(
+internal data class UiBorderStyle(
     val visible: Boolean = true,
     val color: Color = BorderColor,
     @param:DimenRes val width: Int = R.dimen.border_width,

@@ -1,0 +1,24 @@
+package br.dev.singular.overview.data.util.mappers.domainToData
+
+import br.dev.singular.overview.data.model.QueryDataState
+import br.dev.singular.overview.domain.model.QueryState
+
+internal fun QueryState.toData(
+    path: String,
+) = QueryDataState(
+    path = path,
+    type = type.toData(),
+    query = query,
+    catalog = catalog?.toData(),
+    genre = genre?.toData(),
+    page = page
+)
+
+internal fun QueryState.toData() = QueryDataState(
+    path = key,
+    type = type.toData(),
+    catalog = catalog?.toData(),
+    genre = genre?.toData(),
+    query = query,
+    page = page
+)

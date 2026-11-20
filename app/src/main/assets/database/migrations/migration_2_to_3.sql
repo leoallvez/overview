@@ -1,0 +1,1 @@
+ALTER TABLE suggestion ADD COLUMN `last_update` INTEGER NOT NULL DEFAULT 0;

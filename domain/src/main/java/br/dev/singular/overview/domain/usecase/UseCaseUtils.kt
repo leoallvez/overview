@@ -2,6 +2,7 @@ package br.dev.singular.overview.domain.usecase
 
 import java.util.Calendar
 import java.util.Date
+import kotlin.coroutines.cancellation.CancellationException
 
 sealed class UseCaseState<out T> {
     data class Success<out T>(val data: T) : UseCaseState<T>()
@@ -11,6 +12,7 @@ sealed class UseCaseState<out T> {
 sealed class FailType {
     object Invalid : FailType()
     object NothingFound : FailType()
+    object Unauthorized : FailType()
     data class Exception(val throwable: Throwable) : FailType()
 }
 
@@ -19,7 +21,10 @@ suspend fun <T> runSafely(action: suspend () -> T): UseCaseState<T> {
         action()
     }.fold(
         onSuccess = { UseCaseState.Success(it) },
-        onFailure = { UseCaseState.Failure(FailType.Exception(it)) }
+        onFailure = {
+            if (it is CancellationException) throw it
+            UseCaseState.Failure(FailType.Exception(it))
+        }
     )
 }
 

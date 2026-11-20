@@ -1,12 +1,14 @@
 package br.dev.singular.overview.presentation.ui.screens.video
 
-import br.dev.singular.overview.presentation.tagging.TagManager
-import br.dev.singular.overview.presentation.tagging.params.TagPlayer
+import br.dev.singular.overview.presentation.ui.screens.video.interaction.YouTubePlayerActions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
-class YouTubePlayerListener(private val videoKey: String) : AbstractYouTubePlayerListener() {
+class YouTubePlayerListener(
+    private val videoKey: String,
+    private val actions: YouTubePlayerActions
+) : AbstractYouTubePlayerListener() {
 
     override fun onReady(youTubePlayer: YouTubePlayer) {
         super.onReady(youTubePlayer)
@@ -17,11 +19,6 @@ class YouTubePlayerListener(private val videoKey: String) : AbstractYouTubePlaye
         youTubePlayer: YouTubePlayer,
         state: PlayerConstants.PlayerState
     ) {
-        TagManager.logInteraction(
-            customPath = TagPlayer.PATH, makeDetail(state.name.lowercase())
-        )
+        actions.onPlayerStateChange(state.name.lowercase())
     }
-
-    private fun makeDetail(state: String) = "${TagPlayer.Detail.PLAYER_STATUS}$state"
-
 }

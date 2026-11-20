@@ -1,0 +1,35 @@
+package br.dev.singular.overview.di.data
+
+import br.dev.singular.overview.BuildConfig
+import br.dev.singular.overview.data.remoteconfig.DisplayAdsRemoteConfig
+import br.dev.singular.overview.data.remoteconfig.IRemoteConfigProvider
+import br.dev.singular.overview.data.remoteconfig.RemoteConfig
+import br.dev.singular.overview.data.remoteconfig.RemoteConfigWrapper
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.remoteConfig
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+class RemoteConfigModule {
+
+    @Singleton
+    @Provides
+    fun provideRemoteConfigProvider(): IRemoteConfigProvider {
+        return RemoteConfigWrapper(Firebase.remoteConfig)
+    }
+
+    @Provides
+    fun providerDisplayAdsRemote(
+        remoteSource: IRemoteConfigProvider
+    ): RemoteConfig<Boolean> {
+        return DisplayAdsRemoteConfig(
+            _localPermission = BuildConfig.DEBUG,
+            _remoteSource = remoteSource
+        )
+    }
+}

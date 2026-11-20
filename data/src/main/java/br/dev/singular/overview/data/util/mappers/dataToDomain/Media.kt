@@ -3,15 +3,16 @@ package br.dev.singular.overview.data.util.mappers.dataToDomain
 import br.dev.singular.overview.data.model.MediaDataModel
 import br.dev.singular.overview.data.model.MediaDataPage
 import br.dev.singular.overview.domain.model.Media
+import br.dev.singular.overview.domain.model.MediaType
 import br.dev.singular.overview.domain.repository.Page
 
-internal fun MediaDataModel.toDomain() = Media(
+internal fun MediaDataModel.toDomain(typeOverride: MediaType? = null) = Media(
     id = id,
-    type = type.toDomain(),
+    type = typeOverride ?: type.toDomain(),
     title = betterTitle,
     isLiked = isLiked,
     posterPath = posterPath,
-    lastUpdate = lastUpdate
+    lastUpdate = lastUpdate,
 )
 
 internal fun MediaDataPage.toDomain(): Page<Media> = Page(

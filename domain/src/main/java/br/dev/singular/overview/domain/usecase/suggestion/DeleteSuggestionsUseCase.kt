@@ -8,11 +8,13 @@ import br.dev.singular.overview.domain.usecase.adjustDate
 import br.dev.singular.overview.domain.usecase.runSafely
 import java.util.Date
 
+interface IDeleteSuggestionsUseCase : IDeleteUseCase
+
 class DeleteSuggestionsUseCase(
     private val getter: GetAll<Suggestion>,
     private val deleter: Delete<Suggestion>,
     private val maxCacheDate: Date = Date().adjustDate(days = -1)
-) : IDeleteUseCase {
+) : IDeleteSuggestionsUseCase {
 
     override suspend fun invoke() = runSafely {
         val toDelete = getter.getAll().filter { it.lastUpdate < maxCacheDate }

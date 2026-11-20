@@ -18,4 +18,6 @@
     <dimen name="spacing_16x">64dp</dimen>
     <dimen name="spacing_17x">68dp</dimen>
     <dimen name="spacing_18x">72dp</dimen>
+    <dimen name="spacing_19x">76dp</dimen>
+    <dimen name="spacing_20x">80dp</dimen>
 </resources>
