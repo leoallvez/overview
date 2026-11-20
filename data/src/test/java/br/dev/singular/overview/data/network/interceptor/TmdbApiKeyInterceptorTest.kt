@@ -9,12 +9,12 @@ import okhttp3.Request
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 
-class ApiKeyInterceptorTest {
+class TmdbApiKeyInterceptorTest {
 
     @Test
     fun `intercept should add api_key query parameter`() {
         // arrange
-        val interceptor = ApiKeyInterceptor()
+        val interceptor = TmdbApiKeyInterceptor()
         val chain = mockk<Interceptor.Chain>()
         val request = Request.Builder()
             .url("https://api.test.com/")
@@ -29,6 +29,6 @@ class ApiKeyInterceptorTest {
 
         // assert
         val capturedRequest = requestSlot.captured
-        capturedRequest.url.queryParameter("api_key") shouldBeEqualTo BuildConfig.API_KEY
+        capturedRequest.url.queryParameter("api_key") shouldBeEqualTo BuildConfig.TMDB_API_KEY
     }
 }

@@ -107,4 +107,15 @@
     <string name="login_required_title">Login necessário</string>
     <string name="login_required_message">Faça login para salvar este título nos seus favoritos.</string>
     <string name="favorite_added_title">Adicionado aos favoritos</string>
+    <string name="taste_prediction_title">Análise da IA</string>
+    <string name="taste_prediction_no_data">Sem dados ainda</string>
+    <string name="taste_prediction_high">Com base nos seus Favoritos, identificamos uma alta afinidade com este título. As chances de você gostar são grandes!</string>
+    <string name="taste_prediction_medium">Este título tem uma afinidade moderada com seus Favoritos. Pode ser uma boa surpresa!</string>
+    <string name="taste_prediction_low">Com base nos seus Favoritos, identificamos uma baixa afinidade com este título.</string>
+    <string name="taste_prediction_unavailable">Adicione filmes e séries aos seus Favoritos para que a IA identifique seus gêneros preferidos e estime sua afinidade com este título.</string>
+    <string name="taste_prediction_idle">Descubra o quanto este título combina com os seus Favoritos.</string>
+    <string name="taste_prediction_action">Ver resultado</string>
+    <string name="taste_prediction_error_title">Falha na análise</string>
+    <string name="taste_prediction_error_description">Não foi possível gerar a previsão. Tente novamente.</string>
+    <string name="taste_prediction_login_description">Faça login para que a IA analise seus Favoritos e estime sua afinidade com este título.</string>
 </resources>

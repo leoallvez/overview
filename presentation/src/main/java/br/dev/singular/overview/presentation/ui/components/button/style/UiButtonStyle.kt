@@ -5,6 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.ui.components.style.UiBorderStyle
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
@@ -30,6 +33,7 @@ internal interface UiButtonStyle {
     val horizontalPadding: Int
     val cornerRadius: Int
     val colors: UiButtonColors
+    val textStyle: TextStyle
 }
 
 @Immutable
@@ -76,7 +80,8 @@ internal data class UiActionButtonStyle(
     @param:DimenRes override val height: Int = R.dimen.button_height,
     @param:DimenRes override val cornerRadius: Int = R.dimen.button_corner_radius,
     override val colors: UiButtonColors = UiActionButtonColors(),
-    override val horizontalPadding: Int = R.dimen.spacing_1x
+    override val horizontalPadding: Int = R.dimen.spacing_1x,
+    override val textStyle: TextStyle = TextStyle(fontWeight = FontWeight.Bold)
 ) : UiButtonStyle
 
 @Immutable
@@ -88,5 +93,21 @@ internal class UiGoogleButtonStyle : UiButtonStyle by UiActionButtonStyle() {
         inactiveBorderColor = Color(0xFF1F1F1F),
         activeTextColor = Color(0xFF1F1F1F),
         inactiveTextColor = Color(0xFF1F1F1F)
+    )
+}
+
+@Immutable
+internal class UiFilledButtonStyle : UiButtonStyle by UiActionButtonStyle() {
+    override val height = R.dimen.spacing_11x
+    override val cornerRadius = R.dimen.corner_width
+    override val horizontalPadding = R.dimen.spacing_5x
+    override val colors = UiActionButtonColors(
+        activeBackgroundColor = HighlightColor,
+        activeTextColor = Color(0xFF00363D)
+    )
+    override val textStyle = TextStyle(
+        fontSize = 15.sp,
+        fontWeight = FontWeight.SemiBold,
+        letterSpacing = 0.5.sp
     )
 }

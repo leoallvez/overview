@@ -105,4 +105,15 @@
     <string name="login_required_title">Anmeldung erforderlich</string>
     <string name="login_required_message">Melde dich an, um diesen Titel in deinen Favoriten zu speichern.</string>
     <string name="favorite_added_title">Zu Favoriten hinzugefügt</string>
+    <string name="taste_prediction_title">KI-Analyse</string>
+    <string name="taste_prediction_no_data">Noch keine Daten</string>
+    <string name="taste_prediction_high">Basierend auf deinen Favoriten haben wir eine hohe Affinität zu diesem Titel festgestellt. Die Chancen stehen gut, dass er dir gefällt!</string>
+    <string name="taste_prediction_medium">Dieser Titel hat eine mittlere Affinität zu deinen Favoriten. Er könnte eine schöne Überraschung sein!</string>
+    <string name="taste_prediction_low">Basierend auf deinen Favoriten haben wir eine geringe Affinität zu diesem Titel festgestellt.</string>
+    <string name="taste_prediction_unavailable">Füge Filme und Serien zu deinen Favoriten hinzu, damit die KI deine bevorzugten Genres erkennen und deine Affinität zu diesem Titel einschätzen kann.</string>
+    <string name="taste_prediction_idle">Finde heraus, wie gut dieser Titel zu deinen Favoriten passt.</string>
+    <string name="taste_prediction_action">Ergebnis anzeigen</string>
+    <string name="taste_prediction_error_title">Analyse fehlgeschlagen</string>
+    <string name="taste_prediction_error_description">Die Vorhersage konnte nicht erstellt werden. Versuche es erneut.</string>
+    <string name="taste_prediction_login_description">Melde dich an, damit die KI deine Favoriten analysieren und deine Affinität zu diesem Titel einschätzen kann.</string>
 </resources>

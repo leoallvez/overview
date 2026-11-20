@@ -21,6 +21,7 @@ import br.dev.singular.overview.presentation.ui.components.catalog.UiCatalogList
 import br.dev.singular.overview.presentation.ui.components.genre.UiGenreList
 import br.dev.singular.overview.presentation.ui.components.media.UiMediaList
 import br.dev.singular.overview.presentation.ui.components.person.UiPersonList
+import br.dev.singular.overview.presentation.ui.components.prediction.UiAiPredictionCardHost
 import br.dev.singular.overview.presentation.ui.components.text.UiParagraph
 import br.dev.singular.overview.presentation.ui.components.text.UiTitle
 import br.dev.singular.overview.presentation.ui.components.video.UiVideoList
@@ -36,6 +37,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMovieDetails
  * It organizes common sections like synopsis, cast, crew, similar media, and videos.
  *
  * @param showAds Whether to show ads in the body.
+ * @param showAiPrediction Whether to show the AI taste prediction card in the body.
  * @param model The data model containing media details.
  * @param actions The actions and intents for interaction.
  * @param favoriteAdded Whether to notify the user that the media was added to the favorites.
@@ -46,6 +48,7 @@ import br.dev.singular.overview.presentation.ui.utils.fakeMovieDetails
 @Composable
 internal fun MediaDetailsBody(
     showAds: Boolean,
+    showAiPrediction: Boolean,
     model: MediaDetailsUiModel,
     actions: MediaDetailsActions,
     favoriteAdded: Boolean,
@@ -101,6 +104,21 @@ internal fun MediaDetailsBody(
                 Synopsis(
                     modifier = Modifier.padding(horizontal = horizontalPadding),
                     synopsis = model.metadata.synopsis
+                )
+            }
+        }
+
+        if (showAiPrediction) {
+            item {
+                UiAiPredictionCardHost(
+                    media = model,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = horizontalPadding
+                        )
+                        .padding(bottom = dimensionResource(R.dimen.spacing_1x)),
+                    onPredict = { actions.onAiPrediction(model.metadata.id, isTryAgain = it) },
+                    onLogin = actions::onAiPredictionLogin
                 )
             }
         }
@@ -178,6 +196,7 @@ private fun Synopsis(
 private fun MediaDetailsBodyPreview() {
     MediaDetailsBody(
         showAds = true,
+        showAiPrediction = true,
         model = fakeMovieDetails(),
         actions = rememberMovieDetailsActions(),
         favoriteAdded = false,

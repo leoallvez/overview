@@ -1,6 +1,7 @@
 package br.dev.singular.overview.data.repository.media
 
 import br.dev.singular.overview.data.local.source.IPendingFavoriteLocalDataSource
+import br.dev.singular.overview.data.local.source.IPredictionLocalDataSource
 import br.dev.singular.overview.data.network.source.IAuthRemoteDataSource
 import br.dev.singular.overview.data.network.source.IFavoriteRemoteDataSource
 import br.dev.singular.overview.data.util.mappers.dataToDomain.toDomain
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class MediaFavoriteRepository @Inject constructor(
     private val authDataSource: IAuthRemoteDataSource,
     private val remoteDataSource: IFavoriteRemoteDataSource,
-    private val pendingDataSource: IPendingFavoriteLocalDataSource
+    private val pendingDataSource: IPendingFavoriteLocalDataSource,
+    private val predictionDataSource: IPredictionLocalDataSource
 ) : Update<Media>, Observe<List<Media>> {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -45,6 +47,7 @@ class MediaFavoriteRepository @Inject constructor(
         } else {
             remoteDataSource.delete(userId, model)
         }
+        predictionDataSource.clear()
     }
 
     private fun observeFavorites(userId: String): Flow<List<Media>> {

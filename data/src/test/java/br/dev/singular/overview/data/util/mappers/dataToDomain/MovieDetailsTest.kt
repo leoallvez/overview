@@ -45,6 +45,7 @@ class MovieDetailsTest {
         // assert
         assertEquals(dataModel.id, domainModel.id)
         assertEquals(dataModel.betterTitle, domainModel.title)
+        assertEquals(dataModel.originalTitle, domainModel.originalTitle)
         assertEquals(dataModel.releaseDate, domainModel.releaseDate)
         assertEquals(dataModel.runtime, domainModel.runtime)
         assertEquals(dataModel.posterPath, domainModel.posterPath)

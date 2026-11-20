@@ -10,11 +10,12 @@ plugins {
 
 extensions.configure<LibraryExtension> {
     defaultConfig {
-        stringField(name = "API_URL", value = "https://api.themoviedb.org/3/")
-        stringField(
-            name = "API_KEY",
-            value = System.getenv("OVER_API_KEY") ?: System.getenv("OVER_TMDB_API_KEY")
-        )
+        consumerProguardFiles("consumer-rules.pro")
+        stringField("TMDB_API_URL", "https://api.themoviedb.org/3/")
+        stringField("TMDB_API_KEY", System.getenv("OVER_TMDB_API_KEY") ?: "")
+        stringField("JEV_API_URL", "https://api.typesafe.ai/")
+        stringField("JEV_API_KEY", System.getenv("OVER_JEV_API_KEY") ?: "")
+        stringField("JEV_MODEL", "jev-1.13.0")
     }
 
     buildFeatures {

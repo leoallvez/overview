@@ -17,7 +17,11 @@ data class MediaDataModel(
     @Transient
     var isLiked: Boolean = false,
     @Transient
-    var lastUpdate: Date = Date()
+    var lastUpdate: Date = Date(),
+    @Transient
+    val originalTitle: String = "",
+    @Transient
+    val genres: List<String> = emptyList()
 ) {
     val betterTitle: String
         get() = name.ifEmpty { title }

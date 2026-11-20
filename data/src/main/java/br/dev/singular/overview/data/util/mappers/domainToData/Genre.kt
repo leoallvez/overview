@@ -5,5 +5,6 @@ import br.dev.singular.overview.domain.model.Genre
 
 internal fun Genre.toData() = GenreDataModel(
     id = id,
-    name = name
+    name = name,
+    originalName = originalName,
 )

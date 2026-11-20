@@ -38,6 +38,7 @@ class TvShowDetailsTest {
         // assert
         assertEquals(dataModel.id, domainModel.id)
         assertEquals(dataModel.betterName, domainModel.name)
+        assertEquals(dataModel.originalName, domainModel.originalName)
         assertEquals(dataModel.numberOfSeasons, domainModel.numberOfSeasons)
         assertEquals(dataModel.numberOfEpisodes, domainModel.numberOfEpisodes)
         assertEquals(dataModel.episodeRuntime, domainModel.episodeRuntime)
