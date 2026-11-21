@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components.episodes
+package br.dev.singular.overview.presentation.ui.components.episodes.host
 
 import br.dev.singular.overview.presentation.ui.components.UiSnapshotTest
 import org.junit.Test
@@ -6,7 +6,7 @@ import org.junit.Test
 private const val STATES_LOOP_DURATION_MILLIS = 10_000L
 
 class UiEpisodesCardHostSnapshotTest :
-    UiSnapshotTest(snapshotPackage = "components/episodes") {
+    UiSnapshotTest(snapshotPackage = "components/episodes/host") {
 
     @Test
     fun animation() = gif(duration = STATES_LOOP_DURATION_MILLIS) {

@@ -119,4 +119,6 @@
     <string name="episodes_title">에피소드</string>
     <string name="episodes_sign_in_hint">로그인하고 시청 기록을 관리하세요</string>
     <string name="episodes_premieres">%s 첫 방송</string>
+    <string name="episodes_watched">시청함</string>
+    <string name="episodes_mark">표시</string>
 </resources>

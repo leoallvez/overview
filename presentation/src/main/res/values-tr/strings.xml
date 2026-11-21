@@ -119,4 +119,6 @@
     <string name="episodes_title">Bölümler</string>
     <string name="episodes_sign_in_hint">İlerlemeni takip etmek için giriş yap</string>
     <string name="episodes_premieres">Prömiyer: %s</string>
+    <string name="episodes_watched">İzlendi</string>
+    <string name="episodes_mark">İşaretle</string>
 </resources>

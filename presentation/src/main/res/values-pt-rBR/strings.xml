@@ -121,4 +121,6 @@
     <string name="episodes_title">Episódios</string>
     <string name="episodes_sign_in_hint">Faça login para acompanhar seu progresso</string>
     <string name="episodes_premieres">Estreia em %s</string>
+    <string name="episodes_watched">Assistido</string>
+    <string name="episodes_mark">Marcar</string>
 </resources>

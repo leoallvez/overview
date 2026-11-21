@@ -8,7 +8,7 @@ import br.dev.singular.overview.domain.usecase.UseCaseState
 import br.dev.singular.overview.domain.usecase.prediction.IGetPredictionUseCase
 import br.dev.singular.overview.domain.usecase.user.IUserSessionUseCase
 import br.dev.singular.overview.presentation.createUserMock
-import br.dev.singular.overview.presentation.ui.components.episodes.EpisodesProgressViewModel
+import br.dev.singular.overview.presentation.ui.components.episodes.host.EpisodesProgressViewModel
 import br.dev.singular.overview.presentation.ui.components.prediction.AiPredictionViewModel
 import io.mockk.coEvery
 import io.mockk.every

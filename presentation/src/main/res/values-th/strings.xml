@@ -119,4 +119,6 @@
     <string name="episodes_title">ตอน</string>
     <string name="episodes_sign_in_hint">เข้าสู่ระบบเพื่อติดตามความคืบหน้า</string>
     <string name="episodes_premieres">ฉายตอนแรก %s</string>
+    <string name="episodes_watched">ดูแล้ว</string>
+    <string name="episodes_mark">ทำเครื่องหมาย</string>
 </resources>

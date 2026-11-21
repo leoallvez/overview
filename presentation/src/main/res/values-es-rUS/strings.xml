@@ -119,4 +119,6 @@
     <string name="episodes_title">Episodios</string>
     <string name="episodes_sign_in_hint">Inicia sesión para seguir tu progreso</string>
     <string name="episodes_premieres">Se estrena el %s</string>
+    <string name="episodes_watched">Visto</string>
+    <string name="episodes_mark">Marcar</string>
 </resources>

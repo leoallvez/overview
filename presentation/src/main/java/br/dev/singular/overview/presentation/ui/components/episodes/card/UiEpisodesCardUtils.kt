@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components.episodes
+package br.dev.singular.overview.presentation.ui.components.episodes.card
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -9,6 +9,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.EpisodesProgressUiModel
 import br.dev.singular.overview.presentation.model.EpisodesSummaryUiModel
+import br.dev.singular.overview.presentation.ui.components.episodes.host.EpisodesProgressViewModel
+import br.dev.singular.overview.presentation.ui.components.episodes.host.IEpisodesProgressViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

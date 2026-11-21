@@ -1,9 +1,9 @@
-package br.dev.singular.overview.presentation.ui.components.episodes
+package br.dev.singular.overview.presentation.ui.components.episodes.card
 
 import br.dev.singular.overview.presentation.ui.components.UiSnapshotTest
 import org.junit.Test
 
-class UiEpisodesCardSnapshotTest : UiSnapshotTest(snapshotPackage = "components/episodes") {
+class UiEpisodesCardSnapshotTest : UiSnapshotTest(snapshotPackage = "components/episodes/card") {
 
     @Test
     fun default() = snapshot {

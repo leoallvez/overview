@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components.episodes
+package br.dev.singular.overview.presentation.ui.components.episodes.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

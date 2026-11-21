@@ -119,4 +119,6 @@
     <string name="episodes_title">エピソード</string>
     <string name="episodes_sign_in_hint">ログインして視聴状況を記録</string>
     <string name="episodes_premieres">%s 配信開始</string>
+    <string name="episodes_watched">視聴済み</string>
+    <string name="episodes_mark">マーク</string>
 </resources>

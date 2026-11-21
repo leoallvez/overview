@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components.episodes
+package br.dev.singular.overview.presentation.ui.components.episodes.host
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -17,6 +17,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.EpisodesSummaryUiModel
+import br.dev.singular.overview.presentation.ui.components.episodes.card.PreviewEpisodesProgressViewModel
+import br.dev.singular.overview.presentation.ui.components.episodes.card.UiEpisodesCard
+import br.dev.singular.overview.presentation.ui.components.episodes.card.previewProgressStates
+import br.dev.singular.overview.presentation.ui.components.episodes.card.rememberEpisodesProgressViewModel
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.fakeEpisodesSummary
 import kotlinx.coroutines.delay

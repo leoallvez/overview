@@ -119,4 +119,6 @@
     <string name="episodes_title">Episodi</string>
     <string name="episodes_sign_in_hint">Accedi per tenere traccia dei progressi</string>
     <string name="episodes_premieres">In onda dal %s</string>
+    <string name="episodes_watched">Visto</string>
+    <string name="episodes_mark">Segna</string>
 </resources>

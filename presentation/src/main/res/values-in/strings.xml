@@ -119,4 +119,6 @@
     <string name="episodes_title">Episode</string>
     <string name="episodes_sign_in_hint">Login untuk melacak progres</string>
     <string name="episodes_premieres">Tayang perdana %s</string>
+    <string name="episodes_watched">Ditonton</string>
+    <string name="episodes_mark">Tandai</string>
 </resources>

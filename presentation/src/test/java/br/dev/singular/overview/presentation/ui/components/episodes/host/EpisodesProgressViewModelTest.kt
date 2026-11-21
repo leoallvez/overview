@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components.episodes
+package br.dev.singular.overview.presentation.ui.components.episodes.host
 
 import br.dev.singular.overview.domain.model.User
 import br.dev.singular.overview.domain.usecase.user.IUserSessionUseCase

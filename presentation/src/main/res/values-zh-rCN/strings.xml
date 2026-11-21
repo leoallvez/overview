@@ -119,4 +119,6 @@
     <string name="episodes_title">剧集</string>
     <string name="episodes_sign_in_hint">登录以记录观看进度</string>
     <string name="episodes_premieres">%s 首播</string>
+    <string name="episodes_watched">已观看</string>
+    <string name="episodes_mark">标记</string>
 </resources>

@@ -1,4 +1,4 @@
-package br.dev.singular.overview.presentation.ui.components.episodes
+package br.dev.singular.overview.presentation.ui.components.episodes.host
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.UiState
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
-import br.dev.singular.overview.presentation.ui.components.episodes.UiEpisodesCardHost
+import br.dev.singular.overview.presentation.ui.components.episodes.host.UiEpisodesCardHost
 import br.dev.singular.overview.presentation.ui.screens.media.MediaDetailsBody
 import br.dev.singular.overview.presentation.ui.screens.media.MediaDetailsToolBar
 import br.dev.singular.overview.presentation.ui.screens.media.MediaLoginAlert

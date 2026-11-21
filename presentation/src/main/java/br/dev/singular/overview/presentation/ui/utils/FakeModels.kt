@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.CreditsUiModel
+import br.dev.singular.overview.presentation.model.EpisodeUiModel
 import br.dev.singular.overview.presentation.model.EpisodesSummaryUiModel
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
@@ -283,4 +284,13 @@ internal fun fakeUser() = UserUiModel(
     email = "celeste@example.com",
     photoURL = "https://imagens.com/user.jpg",
     previewDrawableRes = R.drawable.sample_profile
+)
+
+internal fun fakeEpisode() = EpisodeUiModel(
+    episodeNumber = "E1",
+    title = "Lorem ipsum dolor",
+    previewDrawableRes = R.drawable.sample_episode,
+    duration = "52min",
+    imageURL = "https://imagens.com/episode.jpg",
+    isWatched = true
 )
