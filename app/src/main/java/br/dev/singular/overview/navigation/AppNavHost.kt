@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import br.dev.singular.overview.navigation.routes.catalogDetailsRoute
 import br.dev.singular.overview.navigation.routes.changeCatalogRoute
+import br.dev.singular.overview.navigation.routes.episodesRoute
 import br.dev.singular.overview.navigation.routes.favoritesRoute
 import br.dev.singular.overview.navigation.routes.mediaDetailsRoute
 import br.dev.singular.overview.navigation.routes.personDetailsRoute
@@ -48,6 +49,7 @@ fun AppNavHost(
         mediaDetailsRoute(navi, flags, snackbarHostState)
         youTubePlayerRoute(navi, setEdgeToEdge)
         personDetailsRoute(navi, flags.showAds)
+        episodesRoute(navi)
         favoritesRoute(navi, snackbarHostState)
         profileRoute(navi)
     }

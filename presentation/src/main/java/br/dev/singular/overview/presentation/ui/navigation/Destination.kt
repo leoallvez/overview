@@ -29,6 +29,12 @@ sealed class Destination(val route: String) {
         fun editRoute(id: Long) = "person-details/$id"
     }
 
+    object Episodes : Destination(
+        route = "episodes/{$ID_PARAM}"
+    ) {
+        fun editRoute(id: Long) = "episodes/$id"
+    }
+
     object ChangeCatalog : Destination(
         route = "change-catalog",
     )
