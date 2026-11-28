@@ -13,6 +13,7 @@ import br.dev.singular.overview.navigation.routes.mediaDetailsRoute
 import br.dev.singular.overview.navigation.routes.personDetailsRoute
 import br.dev.singular.overview.navigation.routes.profileRoute
 import br.dev.singular.overview.navigation.routes.searchRoute
+import br.dev.singular.overview.navigation.routes.seasonsRoute
 import br.dev.singular.overview.navigation.routes.selectCatalogRoute
 import br.dev.singular.overview.navigation.routes.selectGenreRoute
 import br.dev.singular.overview.navigation.routes.splashRoute
@@ -48,6 +49,7 @@ fun AppNavHost(
         mediaDetailsRoute(navi, flags, snackbarHostState)
         youTubePlayerRoute(navi, setEdgeToEdge)
         personDetailsRoute(navi, flags.showAds)
+        seasonsRoute(navi)
         favoritesRoute(navi, snackbarHostState)
         profileRoute(navi)
     }

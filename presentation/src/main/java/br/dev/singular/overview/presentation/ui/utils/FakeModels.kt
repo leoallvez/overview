@@ -5,6 +5,8 @@ import androidx.compose.ui.res.stringResource
 import br.dev.singular.overview.presentation.R
 import br.dev.singular.overview.presentation.model.CatalogUiModel
 import br.dev.singular.overview.presentation.model.CreditsUiModel
+import br.dev.singular.overview.presentation.model.EpisodeUiModel
+import br.dev.singular.overview.presentation.model.EpisodesSummaryUiModel
 import br.dev.singular.overview.presentation.model.GenreUiModel
 import br.dev.singular.overview.presentation.model.MediaDetailsUiModel
 import br.dev.singular.overview.presentation.model.MediaExtrasUiModel
@@ -14,6 +16,7 @@ import br.dev.singular.overview.presentation.model.MediaUiType
 import br.dev.singular.overview.presentation.model.PersonDetailsUiModel
 import br.dev.singular.overview.presentation.model.PersonUiModel
 import br.dev.singular.overview.presentation.model.QueryUiState
+import br.dev.singular.overview.presentation.model.SeasonUiModel
 import br.dev.singular.overview.presentation.model.UserUiModel
 import br.dev.singular.overview.presentation.model.VideoUiModel
 import kotlinx.collections.immutable.ImmutableList
@@ -193,6 +196,13 @@ internal fun fakeMovieDetails() = MediaDetailsUiModel.Movie(
     directors = listOf("Director 1", "Director 2").toImmutableList()
 )
 
+internal fun fakeEpisodesSummary() = EpisodesSummaryUiModel(
+    numberOfSeasons = 5,
+    numberOfEpisodes = 62,
+    isReleased = true,
+    releaseDate = "12/12/2014"
+)
+
 @Composable
 internal fun fakeTvShowDetails() = MediaDetailsUiModel.TvShow(
     metadata = fakeMediaMetadata(),
@@ -206,8 +216,7 @@ internal fun fakeTvShowDetails() = MediaDetailsUiModel.TvShow(
         similar = fakeMedias(),
         catalogs = fakeCatalogs(20)
     ),
-    numberOfSeasons = 5,
-    numberOfEpisodes = 62,
+    episodesSummary = fakeEpisodesSummary(),
     creators = listOf("Creator 1", "Creator 2").toImmutableList(),
     runtimePerEpisode = "49min"
 )
@@ -276,4 +285,40 @@ internal fun fakeUser() = UserUiModel(
     email = "celeste@example.com",
     photoURL = "https://imagens.com/user.jpg",
     previewDrawableRes = R.drawable.sample_profile
+)
+
+internal fun fakeEpisode() = EpisodeUiModel(
+    episodeNumber = 1,
+    title = "Lorem ipsum dolor",
+    previewDrawableRes = R.drawable.sample_episode,
+    duration = "52min",
+    imageURL = "https://imagens.com/episode.jpg",
+)
+
+@Composable
+internal fun fakeEpisodes(count: Int = 10): ImmutableList<EpisodeUiModel> {
+    val base = fakeEpisode()
+    return buildList {
+        repeat(count) { index ->
+            add(
+                base.copy(
+                    episodeNumber = index + 1,
+                    title = stringResource(R.string.lorem_ipsum_short),
+                    duration = "${45 + index}min"
+                )
+            )
+        }
+    }.toImmutableList()
+}
+
+@Composable
+fun fakeSeasonsScreenUiModel(isEpisodesLoading: Boolean = false) = SeasonUiModel(
+    tvShowTitle = stringResource(R.string.lorem_ipsum_short),
+    numberOfSeasons = 7,
+    selectedSeason = 1,
+    episodes = fakeEpisodes(50),
+    watchedEpisodes = listOf(1, 2, 3, 4, 5).toImmutableList(),
+    progressText = "5 of 10 watched",
+    progressPercentage = 0.5f,
+    isEpisodesLoading = isEpisodesLoading
 )

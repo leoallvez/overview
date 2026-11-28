@@ -18,7 +18,6 @@ import br.dev.singular.overview.presentation.ui.components.icon.UiIcon
 import br.dev.singular.overview.presentation.ui.components.icon.style.UiIconSource
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerBox
 import br.dev.singular.overview.presentation.ui.components.shimmer.UiShimmerProvider
-import br.dev.singular.overview.presentation.ui.theme.DisabledHighlightColor
 import br.dev.singular.overview.presentation.ui.theme.HighlightColor
 import br.dev.singular.overview.presentation.ui.utils.UiComponentPreview
 import br.dev.singular.overview.presentation.ui.utils.defaultBackground

@@ -14,3 +14,4 @@ val AttentionColor = Color(0xFFFFC107)
 val DisabledHighlightColor = Color(0xFF4DD0E1)
 
 val BorderColor = Color(0xFF222222)
+val ProgressTrackColor = Color(0xFF2A2A2A)
